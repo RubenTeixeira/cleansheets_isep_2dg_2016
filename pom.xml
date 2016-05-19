@@ -8,7 +8,7 @@
     <artifactId>csheets</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>lapr4-2016-2dg</name>
+    <name>CleanSheets</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -58,15 +58,15 @@
                         <format>xml</format>
                     </formats>
                 </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>cobertura</report>
-            </reports>
-          </reportSet>
-        </reportSets>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>cobertura</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
-
+                        
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -91,8 +91,8 @@
                             <packages>csheets.ext*</packages>
                         </group>
                         <group>
-                            <title>User Stories</title>
-                            <packages>csheets.userstories*</packages>
+                            <title>Work Log</title>
+                            <packages>csheets.worklog*</packages>
                         </group>
                     </groups>
                 </configuration>
@@ -126,6 +126,47 @@
         <defaultGoal>install</defaultGoal>
 
         <plugins>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.1</version>
+
+                <configuration>
+                    <groups>
+                        <group>
+                            <title>Application Core</title>
+                            <packages>csheets:csheets.core*:csheets.io*</packages>
+                        </group>
+                        <group>
+                            <title>User Interface</title>
+                            <packages>csheets.ui*</packages>
+                        </group>
+                        <group>
+                            <title>Extension Mechanism</title>
+                            <packages>csheets.ext:csheets.ui.ext*</packages>
+                        </group>
+                        <group>
+                            <title>Extensions</title>
+                            <packages>csheets.ext*</packages>
+                        </group>
+                        <group>
+                            <title>Work Log</title>
+                            <packages>csheets.worklog*</packages>
+                        </group>
+                    </groups>
+                </configuration>
+
+                <executions>
+                    <execution>
+                         <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+            </plugin>
+
 
             <!--
             Para a cobertura jacoco
@@ -137,25 +178,25 @@
             </plugin>
             -->
             
-<plugin>
-    <groupId>org.jacoco</groupId>
-    <artifactId>jacoco-maven-plugin</artifactId>
-    <version>0.7.6.201602180812</version>
-    <executions>
-        <execution>
-            <goals>
-                <goal>prepare-agent</goal>
-            </goals>
-        </execution>
-        <execution>
-            <id>report</id>
-            <phase>prepare-package</phase>
-            <goals>
-                <goal>report</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.6.201602180812</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             
             <!--
             Para o plantuml

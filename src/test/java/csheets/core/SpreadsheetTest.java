@@ -15,6 +15,6 @@ public class SpreadsheetTest {
 		
 		s.setTitle("title");
 		
-		assertTrue("title".compareTo(s.getTitle())==0);		
+		assertTrue("title".compareTo(s.getTitle())==0);	
 	}	
 }

@@ -1,15 +1,35 @@
 /**
- * Technical documentation regarding the user story core02_01: comments on cells. 
+ * Technical documentation regarding the work of the team member (9954321) John Doe during week1. 
  * 
+ * <p>
+ * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
+ * <p>
+ * <b>Scrum Master: -(yes/no)- yes</b>
  * 
- * <h2>1. Requirement</h2>
+ * <p>
+ * <b>Area Leader: -(yes/no)- yes</b>
+ * 
+ * <h2>1. Notes</h2>
+ * 
+ * -Notes about the week's work.-
+ * <p>
+ * -In this section you should register important notes regarding your work during the week.
+ * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
+ *
+ * <h2>2. Use Case/Feature: Core02.1</h2>
+ * 
+ * Issue in Jira: -place here a link to the jira issue-
+ * <p>
+ * -Include the identification and description of the feature-
+ * 
+ * <h2>3. Requirement</h2>
  * Setup extension for comments on cells. The user should be able to activate and deactivate comments on cells. When activated, a sidebar for the comments should appear. The sidebar should be composed of a simple textbox to display and edit a comment. At the moment it is not required to save comments to disk.
  * 
  * <p>
  * <b>Use Case "Enter Comment on Cell":</b> The user selects the cell where he/she wants to enter a comment. The system displays the current comment of that cell. The user enter the text of the comment (or alters the existing one). The system saves the comment of the cell.
  * 
  *  
- * <h2>2. Analysis</h2>
+ * <h2>4. Analysis</h2>
  * Since comments on cells will be supported in a new extension to cleansheets we need to study how extensions are loaded by cleansheets and how they work.
  * The first sequence diagram in the section <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application Startup</a> tells us that extensions must be subclasses of the Extension abstract class and need to be registered in special files.
  * The Extension class has a method called getUIExtension that should be implemented and return an instance of a class that is a subclass of UIExtension.
@@ -57,14 +77,17 @@
  * </pre>
  * As we can see from the code, if we are requesting a extension that is not already present in the cell, it is applied at the moment and then returned. The extension class (that implements the <code>Extension</code> interface) what will do is to create a new instance of its cell extension class (this will be the <b>delegator</b> in the pattern). The constructor receives the instance of the cell to extend (the <b>delegate</b> in the pattern). For instance, <code>StylableCell</code> (the delegator) will delegate to <code>CellImpl</code> all the method invocations regarding methods of the <code>Cell</code> interface. Obviously, methods specific to <code>StylableCell</code> must be implemented by it.
  * Therefore, to implement a cell that can have a associated comment we need to implement a class similar to <code>StylableCell</code>.
- * <h2>3. Tests</h2>
+ * 
+ * <h2>5. Design</h2>
+ *
+ * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to add an attribute to cells to be used to store a comment/text. We need to be able to set and get its value.
  * Following this approach we can start by coding a unit test that uses a subclass of <code>CellExtension</code> with a new attribute for user comments with the corresponding method accessors (set and get). A simple test can be to set this attribute with a simple string and to verify if the get method returns the same string.
  * As usual, in a test driven development approach tests normally fail in the beginning. The idea is that the tests will pass in the end. 
  * <p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
- * 
- * <h2>4. Design</h2>
+ *
+ * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We will also need to create a subclass of UIExtension. For the sidebar we need to implement a JPanel. In the code of the extension <code>csheets.ext.style</code> we can find examples that illustrate how to implement these technical requirements.
  * The following diagrams illustrate core aspects of the design of the solution for this use case.
  * <p>
@@ -86,20 +109,91 @@
  * <p>
  * <img src="doc-files/core02_01_design3.png" alt="image">
  * 
- * <h2>5. Coding</h2>
+ * <h3>5.3. Classes</h3>
+ * 
+ * -Document the implementation with class diagrams illustrating the new and the modified classes-
+ * 
+ * <h3>5.4. Design Patterns and Best Practices</h3>
+ * 
+ * -Describe new or existing design patterns used in the issue-
+ * <p>
+ * -You can also add other artifacts to document the design, for instance, database models or updates to the domain model-
+ * 
+ * <h2>6. Implementation</h2>
+ * 
+ * -Reference the code elements that where updated or added-
+ * <p>
+ * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
+ * <p>
  * see:<p>
  * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
  * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
  * 
- * <h2>6. Final Remarks</h2>
- * As an extra this use case also implements a small cell visual decorator if the cell has a comment. This "feature" is not documented in this page.
- * <p>
+ * <h2>7. Integration/Demonstration</h2>
  * 
+ * -In this section document your contribution and efforts to the integration of your work with the work of the other elements of the team and also your work regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * 
+ * <h2>8. Final Remarks</h2>
+ * 
+ * -In this section present your views regarding alternatives, extra work and future work on the issue.-
+ * <p>
+ * As an extra this use case also implements a small cell visual decorator if the cell has a comment. This "feature" is not documented in this page.
+ * 
+ * 
+ * <h2>9. Work Log</h2> 
+ * 
+ * -Insert here a log of you daily work. This is in essence the log of your daily standup meetings.-
+ * <p>
+ * Example
+ * <p>
+ * <b>Monday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of the...
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. ...
+ * <p>
+ * Today
+ * <p>
+ * 1. ...
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. ...
+ * 
+ * <h2>10. Self Assessment</h2> 
+ * 
+ * -Insert here your self-assessment of the work during this sprint.-
+ * 
+ * <h3>10.1. Design and Implementation:3</h3>
+ * 
+ * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
+ * <p>
+ * <b>Evidences:</b>
+ * <p>
+ * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
+ * 
+ * <h3>10.2. Teamwork: ...</h3>
+ * 
+ * <h3>10.3. Technical Documentation: ...</h3>
  * 
  * @author alexandrebraganca
  */
 
-package csheets.userstories.core02_01.comments;
+package csheets.worklog.n9954321.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
