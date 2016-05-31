@@ -19,6 +19,7 @@
  * <h2>2. Use Case/Feature: IPC01.1</h2>
  * 
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
+ * <p>
  * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
  * <p>
  * -Include the identification and description of the feature-
@@ -39,9 +40,14 @@
  * 
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
- *<h5>4. Send Cell proposal analysis</h5>
+ * <h4>Send Cells proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_image.png" alt="image"> 
+ * <img src="doc-files/share_cell_send_image.png" alt="image"> 
+ * <p>
+ * 
+ * <h4>Receive Cells proposal analysis</h4>
+ * <p>
+ * <img src="doc-files/share_cell_receive_image.png" alt="image"> 
  * <p>
  * 
  * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
@@ -101,10 +107,10 @@
  * <img src="doc-files/ipc01_01_design.png" alt="image">
  * 
  *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell. The idea is that when this happens the extension must display in the sidebar the comment of that cell (if it exists).
+ * <h3>Application display shared cells</h3>
+ * The following diagram illustrates what happens when a instance of cleansheet receive shared cells.
  * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
+ * <img src="doc-files/ipc01_01_design.png" alt="image">
  * 
  * <h3>User Updates the Comment of a Cell</h3>
  * The following diagram illustrates what happens when the user updates the text of the comment of the current cell. To be noticed that this diagram does not depict the actual selection of a cell (that is illustrated in the previous diagram).
@@ -192,7 +198,7 @@
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
- * @author 
+ * @author CarlosSantos
  */
 
 package csheets.worklog.n1140611.sprint1;
@@ -200,7 +206,7 @@ package csheets.worklog.n1140611.sprint1;
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
  * 
- * @author 
+ * @author CarlosSantos
  */
 class _Dummy_ {}
 
