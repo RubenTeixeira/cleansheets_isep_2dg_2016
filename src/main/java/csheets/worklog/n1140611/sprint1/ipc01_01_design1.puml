@@ -3,6 +3,7 @@
 actor User 
 participant "ShareCellUI" as ShareCellUI
 participant "ShareCellController" as ShareCellController
+participant "<interface>\nCell" as Cell
 participant "Volt.UdpClient" as UdpClient
 participant "Volt.UdpServer" as UdpServer
 participant "UI" as UI

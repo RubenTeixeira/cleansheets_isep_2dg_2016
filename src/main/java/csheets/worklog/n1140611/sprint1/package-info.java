@@ -31,11 +31,20 @@
  * 
  *  
  * <h2>4. Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application Startup</a> tells us that extensions must be subclasses of the Extension abstract class and need to be registered in special files.
- * The Extension class has a method called getUIExtension that should be implemented and return an instance of a class that is a subclass of UIExtension.
- * In this subclass of UIExtension there is a method (getSideBar) that returns the sidebar for the extension. A sidebar is a JPanel.
+ * <h3>Send Cells</h3>
+ * The user selects "Send Cells" option in the "Share Cells" menu.
+ * The system gets the other available instances in the local network, and presents them in a sidebar window.
+ * The user selects which instance to send the cells to, and activates the sending.
+ * The system gets the selected cells, and sends them to the targeted instance.
+ * The system notifies the user that the cells were sent.
  * 
+ * <h3>Receive Cells</h3>
+ * The user selects "Receive Cells" option in the "Share Cells" menu.
+ * The system waits for the cells being sent in the local network.
+ * After receiving the cells, the system checks if checks if the received cells are located on an address that already has existing cells.
+ * If so, then the system asks the user for permission to change the original cells with the new ones.
+ * Otherwise, the system just changes them.
+ * The system notifies the user that the cells were changed.
  * 
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
@@ -108,7 +117,7 @@
  * <h3>Application display shared cells</h3>
  * The following diagram illustrates what happens when a instance of cleansheet receive shared cells.
  * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
+ * <img src="doc-files/ipc01_01_design1.png" alt="image">
  * 
  * <h3>User Updates the Comment of a Cell</h3>
  * The following diagram illustrates what happens when the user updates the text of the comment of the current cell. To be noticed that this diagram does not depict the actual selection of a cell (that is illustrated in the previous diagram).

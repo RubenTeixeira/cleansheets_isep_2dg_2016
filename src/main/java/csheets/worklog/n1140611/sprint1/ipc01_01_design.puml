@@ -32,14 +32,14 @@ User->UI: Send Cell
 
 activate UI
 UI->UI: List<Cell> cells = getSelectedCells()
-loop for cells
-UI->Cell: getAddress()
-UI->Cell: getValue()
-end
 UI->Controller: sendCells(target, cells)
 activate Controller
+loop cells
+Controller->Cell: getAddress()
+Controller->Cell: getValue()
+Controller->Controller:msg=prepareMessage(Address ad,Value val)
+end
 deactivate UI
-note right of Controller: String msg = "";\nfor(Cell cell : cells){\n  msg+=cell.address+"|"+cell.value+"|";\n}
 Controller->UdpClient: send(":address|:value", target, msg)
 deactivate Controller
 UI->User: Cell has been shared
