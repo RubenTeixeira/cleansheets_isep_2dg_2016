@@ -252,7 +252,7 @@
  * <p>
  * Today
  * <p>
- * 1. Understand the problem/analysis to begin the implementation.
+ * 1. Understand the problem/analysis to begin the implementation. 2. UI study.
  * <p>
  * Blocking:
  * <p>
