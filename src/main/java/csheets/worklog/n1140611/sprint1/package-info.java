@@ -105,12 +105,7 @@
  * The following diagram illustrates what happens when a instance of cleansheet receive shared cells.
  * <p>
  * <img src="doc-files/ipc01_01_design1.png" alt="image">
- * 
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text of the comment of the current cell. To be noticed that this diagram does not depict the actual selection of a cell (that is illustrated in the previous diagram).
- * <p>
- * <img src="doc-files/ipc01_01_design2.png" alt="image">
- * 
+ *  
  * <h3>5.3. Classes</h3>
  * 
  * -Document the implementation with class diagrams illustrating the new and the modified classes-
