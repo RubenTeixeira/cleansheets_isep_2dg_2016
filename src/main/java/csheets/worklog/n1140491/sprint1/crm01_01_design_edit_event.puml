@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/crm01_01_design_edit_event.png
 User -> EditEventUI : edit event
 EditEventUI --> User : disply data of the user (fisrt name, last name, photography)
 User -> EditEventUI : inserts new data

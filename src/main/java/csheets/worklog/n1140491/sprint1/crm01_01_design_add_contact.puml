@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/crm01_01_design_add_contact.png
 User -> CreateContactUI : create contact
 CreateContactUI --> User : asks necessary data (fisrt name, last name, photography)
 User -> CreateContactUI : inserts data

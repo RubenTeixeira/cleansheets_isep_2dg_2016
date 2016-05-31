@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/crm01_01_design_remove_contact.png
 User -> RemoveContactUI : remove contact
 RemoveContactUI -> RemoveContactController : removeContact(Contact : selectedContact) : void
 RemoveContactController -> Persistence : repositoryFactory = repositories()

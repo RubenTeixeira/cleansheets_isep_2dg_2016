@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/crm01_01_design_remove_event.png
 User -> RemoveEventUI : remove event
 RemoveEventUI -> RemoveEventController : removeEvent(Event : selectedEvent) : void
 RemoveEventController -> Persistence : repositoryFactory = repositories()

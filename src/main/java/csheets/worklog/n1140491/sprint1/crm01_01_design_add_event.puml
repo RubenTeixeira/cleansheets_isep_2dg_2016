@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/crm01_01_design_add_event.png
 User -> CreateEventUI : create Event
 CreateEventUI --> User : asks necessary data(dueDate, description)
 User -> CreateEventUI : inserts data

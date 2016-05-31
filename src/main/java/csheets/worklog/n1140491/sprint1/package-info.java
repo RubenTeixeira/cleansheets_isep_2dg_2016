@@ -1,4 +1,3 @@
-
 /**
  * Technical documentation regarding the work of the team member (1140491) Rui
  * Bastos during week1.
@@ -300,7 +299,6 @@
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
- * package csheets.worklog.n1140491.sprint1;
  *
  * /**
  * This class is only here so that javadoc includes the documentation about this
@@ -308,5 +306,7 @@
  *
  * @author Rui Bastos
  */
+package csheets.worklog.n1140491.sprint1;
+
 class _Dummy_ {
 }
