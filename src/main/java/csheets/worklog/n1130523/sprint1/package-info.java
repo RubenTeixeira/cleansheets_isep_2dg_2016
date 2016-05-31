@@ -1,12 +1,17 @@
 /**
- * Technical documentation regarding the work of the team member (1140780) Rúben
- * Teixeira during week1.
+ * Technical documentation regarding the work of the team member (1130523) Ruben
+ * Santos during week1.
  *
  * <p>
- * <b>Scrum Master: no</b>
+ * <b>-Note: this is a template/example of the individual documentation that
+ * each team member must produce each week/sprint. Suggestions on how to build
+ * this documentation will appear between '-' like this one. You should remove
+ * these suggestions in your own technical documentation-</b>
+ * <p>
+ * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
- * <b>Area Leader: no</b>
+ * <b>Area Leader: -(yes/no)- no</b>
  *
  * <h2>1. Notes</h2>
  *
@@ -16,26 +21,28 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Core02.1</h2>
+ * <h2>2. Use Case/Feature: IPC01.1</h2>
  *
- * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-101
+ * Issue in Jira:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
  * <p>
- * LPFOURDG-27 Lang01.1- Block of Instructions
+ * Sub-Task in Jira:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
+ * <p>
+ * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
- * Add the possibility of writing blocks (or sequences) of instructions. A block
- * must be delimited by curly braces and its instructions must be separated by
- * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block.
+ * It should be possible to establish a connection with other instance of
+ * Cleansheets in the local network.
  *
  * <p>
- * <b> ###TODO### Use Case "Enter Comment on Cell":</b> The user selects the
- * cell where he/she wants to enter a comment. The system displays the current
- * comment of that cell. The user enter the text of the comment (or alters the
- * existing one). The system saves the comment of the cell.
+ * <b>Use Case "Start Sharing":</b> It should be possible to send the contents
+ * of a range of cells to another instance of Cleansheets. The other instance
+ * should display the received contents in the same cell address as the original
+ * cells.
  *
  *
- * <h2>4. ###TODO### Analysis</h2>
+ * <h2>4. Analysis</h2>
  * Since comments on cells will be supported in a new extension to cleansheets
  * we need to study how extensions are loaded by cleansheets and how they work.
  * The first sequence diagram in the section
@@ -48,7 +55,7 @@
  * sidebar for the extension. A sidebar is a JPanel.
  *
  *
- * <h3> ###TODO### First "analysis" sequence diagram</h3>
+ * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the
  * previously described use case. We call this diagram an "analysis" use case
  * realization because it functions like a draft that we can do during analysis
@@ -57,8 +64,14 @@
  * that states that the element is not a design element and, therefore, does not
  * exists as such in the code of the application (at least at the moment that
  * this diagram was created).
+ * <h4>Send Cells proposal analysis</h4>
  * <p>
- * <img src="doc-files/comments_extension_uc_realization1.png" alt="image">
+ * <img src="doc-files/share_cell_send_image.png" alt="image">
+ * <p>
+ *
+ * <h4>Receive Cells proposal analysis</h4>
+ * <p>
+ * <img src="doc-files/share_cell_receive_image.png" alt="image">
  * <p>
  *
  * From the previous diagram we see that we need to add a new "attribute" to a
@@ -125,7 +138,7 @@
  * a cell that can have a associated comment we need to implement a class
  * similar to <code>StylableCell</code>.
  *
- * <h2>5. ###TODO### Design</h2>
+ * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
@@ -141,7 +154,7 @@
  * <p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
- * <h3>5.2. ###TODO### UC Realization</h3>
+ * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
@@ -153,19 +166,18 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
+ * <h3>User Share selected Cells</h3>
+ * The following diagram shows the setup of the local connection when
+ * cleansheets's user select share.
  * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
+ * <img src="doc-files/ipc01_01_design.png" alt="image">
  *
  *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
+ * <h3>Application display shared cells</h3>
+ * The following diagram illustrates what happens when a instance of cleansheet
+ * receive shared cells.
  * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
+ * <img src="doc-files/ipc01_01_design.png" alt="image">
  *
  * <h3>User Updates the Comment of a Cell</h3>
  * The following diagram illustrates what happens when the user updates the text
@@ -226,29 +238,30 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. nothing
+ * 1. -nothing-
  * <p>
  * Today
  * <p>
- * 1. Cloning of the project, its compilation and first analysis.
+ * 1. Read javadoc
  * <p>
  * Blocking:
  * <p>
- * 1. nothing
+ * 1. -nothing-
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Cloning of the project, its compilation and first analysis.
+ * 1. Configure the IDE to start working 2. Read javadoc
  * <p>
  * Today
  * <p>
- * 1. Started my own worklog. Started analysis of Lang Functional Area.
+ * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
+ * Instructions
  * <p>
  * Blocking:
  * <p>
- * 1. nothing
+ * 1. -nothing-
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -270,15 +283,15 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author alexandrebraganca
+ * @author ruben
  */
-package csheets.worklog.n1140780.sprint1;
+package csheets.worklog.n1130523.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author ruben
  */
 class _Dummy_ {
 }

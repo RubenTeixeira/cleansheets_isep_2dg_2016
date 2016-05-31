@@ -17,7 +17,6 @@
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
  * <h2>2. Use Case/Feature: IPC01.1</h2>
- * 
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
  * <p>
  * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
@@ -43,7 +42,6 @@
  * <h4>Send Cells proposal analysis</h4>
  * <p>
  * <img src="doc-files/share_cell_send_image.png" alt="image"> 
- * <p>
  * 
  * <h4>Receive Cells proposal analysis</h4>
  * <p>

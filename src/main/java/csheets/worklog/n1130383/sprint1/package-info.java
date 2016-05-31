@@ -1,6 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1140780) Rúben
- * Teixeira during week1.
+ * Technical documentation regarding the work of the team member (1130383) Pedro
+ * Gomes during week1.
  *
  * <p>
  * <b>Scrum Master: no</b>
@@ -18,7 +18,7 @@
  *
  * <h2>2. Use Case/Feature: Core02.1</h2>
  *
- * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-101
+ * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-102
  * <p>
  * LPFOURDG-27 Lang01.1- Block of Instructions
  *
@@ -230,7 +230,8 @@
  * <p>
  * Today
  * <p>
- * 1. Cloning of the project, its compilation and first analysis.
+ * 1. Cloning of the project, its compilation, first analysis and reading
+ * Javadoc.
  * <p>
  * Blocking:
  * <p>
@@ -240,7 +241,8 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Cloning of the project, its compilation and first analysis.
+ * 1. Cloning of the project, its compilation and first analysis and reading
+ * Javadoc.
  * <p>
  * Today
  * <p>
@@ -272,7 +274,7 @@
  *
  * @author alexandrebraganca
  */
-package csheets.worklog.n1140780.sprint1;
+package csheets.worklog.n1130383.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
