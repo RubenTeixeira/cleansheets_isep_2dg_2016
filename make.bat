@@ -3,6 +3,7 @@ cd scripts
 if "%1" == "build" goto build
 if "%1" == "run" goto run
 if "%1" == "console" goto console
+if "%1" == "antlr" goto antlr
 call build
 call run
 goto end
@@ -14,5 +15,8 @@ call run
 goto end
 :console
 call console
+goto end
+:antlr
+call antlr
 :end
 cd ..

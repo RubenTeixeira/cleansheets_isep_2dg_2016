@@ -9,3 +9,6 @@ run:
 
 console:
 	@./scripts/console.sh
+
+antlr:
+	@./scripts/antlr.sh
