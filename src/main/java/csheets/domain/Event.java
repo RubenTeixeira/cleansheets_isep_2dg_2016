@@ -5,10 +5,21 @@
  */
 package csheets.domain;
 
+import java.util.Calendar;
+
 /**
  *
  * @author nervousDev
  */
 public class Event {
-    
+
+	private String description;
+	private Calendar date;
+
+	public Event(String description, Calendar date) {
+		this.description = description;
+		this.date = date;
+		throw new IllegalArgumentException();
+	}
+
 }
