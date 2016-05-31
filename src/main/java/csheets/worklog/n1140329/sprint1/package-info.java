@@ -19,9 +19,22 @@
  * <h2>2. Use Case/Feature: IPC01.1</h2>
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
  * <p>
- * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
+ * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-104">LPFOURDG-104</a>
  * <p>
- * -Include the identification and description of the feature-
+ * 
+ * LPFOURDG-51
+ * 
+ * It should be possible to establish a connection with other instance of
+ * Cleansheets in the local network. It should be possible to send the contents
+ * of a range of cells to another instance of Cleansheets. The other instance
+ * should display the received contents in the same cell address as the original
+ * cells. It should be possible to configure the port to be used for network
+ * connections. It should be possible to find other instances of Cleansheets
+ * available in e local network. These instances should be listed in a new
+ * window (sidebar window). The user should be able to select one of the
+ * discovered instances to connect to when establishing the connection to send
+ * the contents of the range of cells. At the moment it is only required to send
+ * the value of the cells.
  * 
  * <h2>3. Requirement</h2>
  * It should be possible to establish a connection with other instance of Cleansheets in the local network.
@@ -31,14 +44,14 @@
  * 
  *  
  * <h2>4. Analysis</h2>
- * -Send Cells
+ * <h3>Send Cells</h3>
  * The user selects "Send Cells" option in the "Share Cells" menu.
  * The system gets the other available instances in the local network, and presents them in a sidebar window.
  * The user selects which instance to send the cells to, and activates the sending.
  * The system gets the selected cells, and sends them to the targeted instance.
  * The system notifies the user that the cells were sent.
  * 
- * -Receive Cells
+ * <h3>Receive Cells</h3>
  * The user selects "Receive Cells" option in the "Share Cells" menu.
  * The system waits for the cells being sent in the local network.
  * After receiving the cells, the system checks if checks if the received cells are located on an address that already has existing cells.
@@ -193,7 +206,9 @@
  * <p>
  * 1. Working on analysis of IPC01.1
  * <p>
- * 2. Helping designing of IPC01.1
+ * 2. Help designing IPC01.1
+ * <p>
+ * 3. Help implementing IPC01.1
  * <p>
  * Blocking:
  * <p>
@@ -215,7 +230,7 @@
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
- * @author CarlosSantos
+ * @author Rafael Rocha
  */
 
 package csheets.worklog.n1140329.sprint1;
