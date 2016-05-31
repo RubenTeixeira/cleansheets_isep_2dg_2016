@@ -236,11 +236,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. -nothing-
+ * 1. Cloning of the project, its compilation and first analysis.
  * <p>
  * Today
  * <p>
- * 1. Analysis of the...
+ * 1. Started my own worklog. Started analysis of Lang Functional Area.
  * <p>
  * Blocking:
  * <p>
