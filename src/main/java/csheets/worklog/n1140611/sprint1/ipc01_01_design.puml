@@ -1,0 +1,15 @@
+@startuml doc-files/ipc01_01_design.png
+
+User->ShareCellUI: starts operation
+ShareCellUI->ShareCellController: new ()
+activate ShareCellController
+
+ShareCellUI->User: Shows other available instances
+
+User->ShareCellUI: Selects instance
+
+User->ShareCellUI: Send Cell
+
+ShareCellUI->User: Cell has been shared
+
+@enduml
