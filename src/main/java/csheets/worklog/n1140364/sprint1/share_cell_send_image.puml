@@ -1,4 +1,10 @@
- @startuml doc-files/share_cell_image.png
+@startuml doc-files/share_cell_send_image.png
+
+actor User 
+participant "<<analysis>>\nShareCellUI" as ShareCellUI
+participant "<<analysis>>\nShareCellController" as ShareCellController
+participant "<<analysis>>\nVolt.UdpClient" as Volt.UdpClient
+participant "<<analysis>>\nVolt.UdpServer" as Volt.UdpServer
 
 User->ShareCellUI: starts operation
 ShareCellUI->ShareCellController: new ()
