@@ -5,7 +5,7 @@ participant "ShareCellUI" as UI
 participant "ShareCellController" as Controller
 participant "Volt.UdpClient" as UdpClient
 participant "Volt.UdpServer" as UdpServer
-participant "Cell" as Cell
+participant "<interface>\nCell" as Cell
 
 User->UI: starts operation
 UI->Controller: new ()
