@@ -1,10 +1,10 @@
 /**
- * Technical documentation regarding the work of the team member (9954321) John Doe during week1. 
+ * Technical documentation regarding the work of the team member (1140423) Renato Machado during week1. 
  * 
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
  * <p>
- * <b>Scrum Master: -(yes/no)- yes</b>
+ * <b>Scrum Master: -(yes/no)- no</b>
  * 
  * <p>
  * <b>Area Leader: -(yes/no)- yes</b>
@@ -16,17 +16,31 @@
  * -In this section you should register important notes regarding your work during the week.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Core02.1</h2>
+ * <h2>2. Use Case/Feature: IPC01.1</h2>
  * 
- * Issue in Jira: -place here a link to the jira issue-
+ * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
  * <p>
- * -Include the identification and description of the feature-
+ * LPFOURDG-51
+ * 
+ * It should be possible to establish a connection with other instance of
+ * Cleansheets in the local network. It should be possible to send the contents
+ * of a range of cells to another instance of Cleansheets. The other instance
+ * should display the received contents in the same cell address as the original
+ * cells. It should be possible to configure the port to be used for network
+ * connections. It should be possible to find other instances of Cleansheets
+ * available in e local network. These instances should be listed in a new
+ * window (sidebar window). The user should be able to select one of the
+ * discovered instances to connect to when establishing the connection to send
+ * the contents of the range of cells. At the moment it is only required to send
+ * the value of the cells.
  * 
  * <h2>3. Requirement</h2>
- * Setup extension for comments on cells. The user should be able to activate and deactivate comments on cells. When activated, a sidebar for the comments should appear. The sidebar should be composed of a simple textbox to display and edit a comment. At the moment it is not required to save comments to disk.
+ *
+ * It should be possible to establish a connection with other Clensheets instances in the local network, and share the values of the selected cells.
+ * The connection should be configurable.
  * 
  * <p>
- * <b>Use Case "Enter Comment on Cell":</b> The user selects the cell where he/she wants to enter a comment. The system displays the current comment of that cell. The user enter the text of the comment (or alters the existing one). The system saves the comment of the cell.
+ * <b>Use Case "Start Sharing":</b> The user .
  * 
  *  
  * <h2>4. Analysis</h2>
@@ -142,37 +156,30 @@
  * 
  * <h2>9. Work Log</h2> 
  * 
- * -Insert here a log of you daily work. This is in essence the log of your daily standup meetings.-
  * <p>
- * Example
- * <p>
- * <b>Monday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Analysis of the...
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
+ * 31/05/2016
+ * </p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on: 
+ * Yesterday:
+ * </p>
  * <p>
- * 1. ...
+ * I defined the subtasks for the IPC01.1.
+ * </p>
  * <p>
  * Today
+ * </p>
  * <p>
- * 1. ...
+ * Started working on the feature. Helped colleagues to understand the problem and recommended a solution.
+ * Explained how Volt, a package developed in RCOMP that eases the development of UDP and TCP protocols, works.
+ * Implemented Volt in the repository.
+ * </p>
  * <p>
- * Blocking:
+ * Blocking
+ * </p>
  * <p>
- * 1. ...
+ * Nothing.
+ * </p>
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -190,7 +197,7 @@
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
- * @author alexandrebraganca
+ * @author Renato Machado
  */
 
 package csheets.worklog.n1140423.sprint1;
