@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1140611) Carlos Santos during week1.
+ * Technical documentation regarding the work of the team member (1140280) Antonio Bernardo during week1.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -10,7 +10,7 @@
  * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
- * <b>Area Leader: -(yes/no)- no</b>
+ * <b>Area Leader: -(yes/no)- yes</b>
  *
  * <h2>1. Notes</h2>
  *
@@ -283,15 +283,15 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author Eduardo Marques
+ * @author Antonio Bernardo
  */
-package csheets.worklog.n1141330.sprint1;
+package csheets.worklog.n1140280.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author CarlosSantos
+ * @author Antonio Bernardo
  */
 class _Dummy_ {
 }
