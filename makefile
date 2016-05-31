@@ -6,3 +6,6 @@ build:
 
 run:
 	@./scripts/run.sh
+
+console:
+	@./scripts/console.sh
