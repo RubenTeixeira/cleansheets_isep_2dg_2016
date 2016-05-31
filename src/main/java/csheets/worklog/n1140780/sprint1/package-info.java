@@ -4,7 +4,6 @@
  *
  * <p>
  * <b>Scrum Master: no</b>
- * <p>
  *
  * <p>
  * <b>Area Leader: no</b>
@@ -13,39 +12,30 @@
  *
  * -Notes about the week's work.-
  * <p>
+ * -In this section you should register important notes regarding your work
+ * during the week. For instance, if you spend significant time helping a
+ * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Lang01.1</h2>
+ * <h2>2. Use Case/Feature: Core02.1</h2>
  *
  * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-101
- * LPFOURDG-27 Lang01.1- Block of Instructions
- *
  * <p>
+ * LPFOURDG-27 Lang01.1- Block of Instructions
  *
  * <h2>3. Requirement</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block. For example, the
- * formula "= {1+2; sum (A1:A10), B3 + 4 }" must result in the sequential
- * execution of all expressions and the result is the value of the expression
- * "B3 + 4". Add the assign operator (its symbol is ":="). This operator assigns
- * to its left the result of the right expression. At the moment the left of the
- * assign operator can only be a cell reference. The FOR loop should also be
- * implemented based on instruction blocks. For example, the formula "= FOR {A1:
- * = 1 ; A1<10; A2: = A2 + A1; A1: = A1 + 1 }" executes a for loop in which: the
- * first expression is the initialization, the second term is the boundary
- * condition, all other expressions are performed for each iteration of the
- * loop.
+ * "result" is the result of the last statement of the block.
  *
  * <p>
- * <b>Use Case "Enter Comment on Cell":
- * </b> The user selects the cell where he/she wants to enter a comment. The
- * system displays the current comment of that cell. The user enter the text of
- * the comment (or alters the existing one). The system saves the comment of the
- * cell.
+ * <b> ###TODO### Use Case "Enter Comment on Cell":</b> The user selects the
+ * cell where he/she wants to enter a comment. The system displays the current
+ * comment of that cell. The user enter the text of the comment (or alters the
+ * existing one). The system saves the comment of the cell.
  *
  *
- * <h2>4. Analysis ####TODO!####</h2>
+ * <h2>4. ###TODO### Analysis</h2>
  * Since comments on cells will be supported in a new extension to cleansheets
  * we need to study how extensions are loaded by cleansheets and how they work.
  * The first sequence diagram in the section
@@ -58,7 +48,7 @@
  * sidebar for the extension. A sidebar is a JPanel.
  *
  *
- * <h3>First "analysis" sequence diagram ####TODO!####</h3>
+ * <h3> ###TODO### First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the
  * previously described use case. We call this diagram an "analysis" use case
  * realization because it functions like a draft that we can do during analysis
@@ -135,7 +125,7 @@
  * a cell that can have a associated comment we need to implement a class
  * similar to <code>StylableCell</code>.
  *
- * <h2>5. Design</h2>
+ * <h2>5. ###TODO### Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
@@ -151,7 +141,7 @@
  * <p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
- * <h3>5.2. UC Realization ####TODO!####</h3>
+ * <h3>5.2. ###TODO### UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
@@ -236,6 +226,20 @@
  * <p>
  * Yesterday I worked on:
  * <p>
+ * 1. nothing
+ * <p>
+ * Today
+ * <p>
+ * 1. Cloning of the project, its compilation and first analysis.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
  * 1. Cloning of the project, its compilation and first analysis.
  * <p>
  * Today
@@ -244,21 +248,7 @@
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. ...
- * <p>
- * Today
- * <p>
- * 1. ...
- * <p>
- * Blocking:
- * <p>
- * 1. ...
+ * 1. nothing
  *
  * <h2>10. Self Assessment</h2>
  *
