@@ -172,7 +172,7 @@
  * <p>
  * Started working on the feature. Helped colleagues to understand the problem and recommended a solution.
  * Explained how Volt, a package developed in RCOMP that eases the development of UDP and TCP protocols, works.
- * Implemented Volt in the repository.
+ * Implemented Volt in the repository, and the Support package (with the TaskManager, ThreadManager).
  * </p>
  * <p>
  * Blocking
