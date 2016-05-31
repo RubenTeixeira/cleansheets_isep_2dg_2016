@@ -9,7 +9,7 @@ import java.util.Calendar;
 
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
 public class Event {
 

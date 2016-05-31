@@ -52,6 +52,15 @@ public class ShareCellsController {
      * @param cells Array of Cells
      */
     public void sendCells(String target, Cell[][] cells) {
-        
+        String message="";
+        int linhas=cells.length;
+        int colunas=cells[0].length;
+        for (int i = 0; i < linhas; i++) {
+            for (int j = 0; j < colunas; j++) {
+                Cell cell = cells[i][j];
+                message+=""+cell; //prototipo TODO MESSAGE TO SEND
+            }
+        }
+        //TODO SEND MESSAGE BY UDP OR TCP...??
     }
 }

@@ -11,8 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- *
- * @author nervousDev
+ * This class is an AggregateRoot. Represents an domain entity Contact.
+ * @author Rui Freitas
  */
 @Entity
 public class Contact implements Serializable {
@@ -20,6 +20,8 @@ public class Contact implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
+    
+    private Agenda agenda;
     
     private String firstName;
     private String lastName;

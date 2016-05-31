@@ -12,7 +12,7 @@ import csheets.persistence.ContactRepository;
 
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
 public class JpaContactRepository extends JpaRepository<Contact, Long> implements ContactRepository{
 

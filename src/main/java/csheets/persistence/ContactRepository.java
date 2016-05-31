@@ -10,7 +10,7 @@ import csheets.framework.persistence.repositories.Repository;
 
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
 public interface ContactRepository extends Repository<Contact, Long>{
     

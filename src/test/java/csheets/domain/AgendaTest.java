@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
 public class AgendaTest {
     

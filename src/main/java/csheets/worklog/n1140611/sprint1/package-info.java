@@ -68,26 +68,13 @@
  * <p>
  * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation design pattern</a> is used in the cell extension mechanism of cleansheets. The following class diagram depicts the relations between classes in the "Cell" hierarchy.
  * <p>
- * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image"> 
+ * <img src="doc-files/" alt="image"> 
  * 
  * <p>
  * One important aspect is how extensions are dynamically created and returned. The <code>Extensible</code> interface has only one method, <code>getExtension</code>. Any class, to be extensible, must return a specific extension by its name. The default (and base) implementation for the <code>Cell</code> interface, the class <code>CellImpl</code>, implements the method in the following manner:
  * <pre>
  * {@code 
- * 	public Cell getExtension(String name) {
- *		// Looks for an existing cell extension
- *		CellExtension extension = extensions.get(name);
- *		if (extension == null) {
- *			// Creates a new cell extension
- *			Extension x = ExtensionManager.getInstance().getExtension(name);
- *			if (x != null) {
- *				extension = x.extend(this);
- *				if (extension != null)
- *					extensions.put(name, extension);
- *			}
- *		}
- *		return extension;
- *	}
+ * 	empty //Insert code if necessary
  * }
  * </pre>
  * As we can see from the code, if we are requesting a extension that is not already present in the cell, it is applied at the moment and then returned. The extension class (that implements the <code>Extension</code> interface) what will do is to create a new instance of its cell extension class (this will be the <b>delegator</b> in the pattern). The constructor receives the instance of the cell to extend (the <b>delegate</b> in the pattern). For instance, <code>StylableCell</code> (the delegator) will delegate to <code>CellImpl</code> all the method invocations regarding methods of the <code>Cell</code> interface. Obviously, methods specific to <code>StylableCell</code> must be implemented by it.
@@ -100,7 +87,7 @@
  * Following this approach we can start by coding a unit test that uses a subclass of <code>CellExtension</code> with a new attribute for user comments with the corresponding method accessors (set and get). A simple test can be to set this attribute with a simple string and to verify if the get method returns the same string.
  * As usual, in a test driven development approach tests normally fail in the beginning. The idea is that the tests will pass in the end. 
  * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ * see: <code>csheets.core.SpreadsheetTest</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We will also need to create a subclass of UIExtension. For the sidebar we need to implement a JPanel. In the code of the extension <code>csheets.ext.style</code> we can find examples that illustrate how to implement these technical requirements.
@@ -118,12 +105,7 @@
  * The following diagram illustrates what happens when a instance of cleansheet receive shared cells.
  * <p>
  * <img src="doc-files/ipc01_01_design1.png" alt="image">
- * 
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text of the comment of the current cell. To be noticed that this diagram does not depict the actual selection of a cell (that is illustrated in the previous diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
- * 
+ *  
  * <h3>5.3. Classes</h3>
  * 
  * -Document the implementation with class diagrams illustrating the new and the modified classes-
@@ -141,7 +123,7 @@
  * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
  * <p>
  * see:<p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
  * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
  * 
  * <h2>7. Integration/Demonstration</h2>
@@ -188,6 +170,20 @@
  * Blocking:
  * <p>
  * 1. Depend on first analysis
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1.
+ * <p>
+ * Today
+ * <p>
+ * 1.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. 
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -205,7 +201,7 @@
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
- * @author CarlosSantos
+ * @author Carlos Santos
  */
 
 package csheets.worklog.n1140611.sprint1;
@@ -213,7 +209,7 @@ package csheets.worklog.n1140611.sprint1;
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
  * 
- * @author CarlosSantos
+ * @author Carlos Santos
  */
 class _Dummy_ {}
 

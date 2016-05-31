@@ -5,10 +5,18 @@
  */
 package csheets.domain;
 
+import java.io.Serializable;
+import javax.persistence.Embeddable;
+
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
-public class Agenda {
+@Embeddable
+public class Agenda implements Serializable {
     
+    protected Agenda()
+    {
+        
+    }
 }

@@ -13,7 +13,7 @@ import org.junit.Test;
 
 /**
  *
- * @author nervousDev
+ * @author Rui Freitas
  */
 public class ContactTest {
 
