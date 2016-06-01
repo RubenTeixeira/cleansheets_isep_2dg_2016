@@ -42,6 +42,8 @@ public class Event implements Serializable {
 				 boolean alert) {
 		if (contact == null || description == null || date == null) {
 			throw new IllegalArgumentException();
+		} else if (description.isEmpty()) {
+			throw new IllegalArgumentException();
 		}
 		this.contact = contact;
 		this.description = description;
