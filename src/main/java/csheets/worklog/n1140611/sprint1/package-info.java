@@ -124,7 +124,7 @@
  * <p>
  * see:<p>
  * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a>
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 
