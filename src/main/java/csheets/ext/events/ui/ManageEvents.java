@@ -5,9 +5,7 @@
  */
 package csheets.ext.events.ui;
 
-import csheets.domain.Contact;
 import csheets.ext.events.EventsController;
-import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.support.DateTime;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -107,8 +105,18 @@ public class ManageEvents extends javax.swing.JPanel {
         jLabel2.setText("Date:");
 
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbYear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbYearActionPerformed(evt);
+            }
+        });
 
         cmbMonth.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbMonth.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMonthActionPerformed(evt);
+            }
+        });
 
         cmbDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -228,6 +236,7 @@ public class ManageEvents extends javax.swing.JPanel {
 		Calendar calendar = Calendar.getInstance();
 		cmbDay.removeAllItems();
 		calendar.set(Calendar.MONTH, cmbMonth.getSelectedIndex());
+		calendar.set(Calendar.YEAR, cmbYear.getSelectedIndex());
 		int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		for (int dayCount = 1; dayCount <= lastDay; dayCount++) {
@@ -258,6 +267,14 @@ public class ManageEvents extends javax.swing.JPanel {
 		// TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxContactsActionPerformed
 
+    private void cmbMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthActionPerformed
+		initDays();
+    }//GEN-LAST:event_cmbMonthActionPerformed
+
+    private void cmbYearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbYearActionPerformed
+		initDays();
+    }//GEN-LAST:event_cmbYearActionPerformed
+
 	public void createEvent() {
 		Calendar calendar = DateTime.newCalendar((Integer) (this.cmbYear.
 			getSelectedItem()), cmbMonth.getSelectedIndex() + 1, (Integer) (this.cmbDay.
@@ -272,7 +289,7 @@ public class ManageEvents extends javax.swing.JPanel {
 //		try {
 //
 //			this.controller.
-//				createEvent(new Contact("User test", ""), this.jTextFieldEventName.
+//				createEvent(new Contact("User test", "", new byte[10]), this.jTextFieldEventName.
 //							getText(), calendar);
 //		} catch (DataIntegrityViolationException ex) {
 //			System.out.println("Evento já existe");
