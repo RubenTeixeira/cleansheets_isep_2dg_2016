@@ -1,4 +1,4 @@
-package csheets.support.volt.protocols.udp;
+package csheets.framework.volt.protocols.udp;
 
 public class UdpClient {
 
@@ -9,7 +9,7 @@ public class UdpClient {
     public UdpClient(int port)
     {
         this.port = port;
-        this.client = new UdpServer().client(port);
+        this.client = new UdpServer().client();
     }
     
     public void send(String route, String target, String message)

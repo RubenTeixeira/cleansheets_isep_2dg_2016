@@ -1,62 +1,54 @@
 /**
  * Technical documentation regarding the work of the team member (1140280) Antonio Bernardo during week1.
  *
- * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
+ * <p></p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
- * <p>
+ * <p></p>
  * <b>Area Leader: -(yes/no)- yes</b>
  *
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * <p></p>
+ * First day of worked used mainly for app studying
  *
- * <h2>2. Use Case/Feature: IPC01.1</h2>
+ * <h2>2. Use Case/Feature: CORE01.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-1">LPFOURDG-51</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-1">LPFOURDG-1</a>
  * <p>
- * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
- * It should be possible to establish a connection with other instance of
- * Cleansheets in the local network.
+ * It should exist a new window that allows to enable and disable extensions of Cleansheets. A disabled
+ * extension means that all its functionalities are disabled.
  *
- * <p>
- * <b>Use Case "Start Sharing":</b> It should be possible to send the contents
- * of a range of cells to another instance of Cleansheets. The other instance
- * should display the received contents in the same cell address as the original
- * cells.
+ * <p></p>
+ * <b>Use Case "Enable and Disable Extensions":</b> It should exist a new window that allows to enable 
+ * and disable extensions of Cleansheets. A disabled
+ * extension means that all its functionalities are disabled.
  *
  *
  * <h2>4. Analysis</h2>
  *
-
  *
  * <h2>5. Design</h2>
+ *	Diagram of the core functionality of the feature 
+ * <p></p>
+ * <img src="doc-files/core01_01_design1.png" alt="image"> 
+ * <p></p>
  *
- * 
- * 
  * <h3>5.3. Classes</h3>
  *
  * <h2>9. Work Log</h2>
  *
  * -Insert here a log of you daily work. This is in essence the log of your
  * daily standup meetings.-
- * <p>
+ * <p></p>
  * Example
- * <p>
+ * <p></p>
  * <b>Monday</b>
- * <p>
+ * <p></p>
  * Yesterday I worked on:
  * <p>
  * 1. -nothing-

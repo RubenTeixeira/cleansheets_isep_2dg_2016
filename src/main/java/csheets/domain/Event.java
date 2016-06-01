@@ -5,21 +5,35 @@
  */
 package csheets.domain;
 
+import java.io.Serializable;
 import java.util.Calendar;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  *
  * @author Rui Freitas
  */
-public class Event {
+@Entity
+public class Event implements Serializable {
+    
+    @Id
+    @GeneratedValue
+    private Long id;
+    
+    private Agenda agenda;
 
-	private String description;
-	private Calendar date;
+    private String description;
+    private Calendar date;
 
-	public Event(String description, Calendar date) {
-		this.description = description;
-		this.date = date;
-		throw new IllegalArgumentException();
-	}
+    protected Event() {
+    }
+
+    public Event(String description, Calendar date) {
+        this.description = description;
+        this.date = date;
+        throw new IllegalArgumentException();
+    }
 
 }

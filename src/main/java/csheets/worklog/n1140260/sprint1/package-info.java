@@ -1,6 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1140491) Rui
- * Bastos during week1.
+ * Technical documentation regarding the work of the team member (1140260) Diogo
+ * Leite during week1.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -24,7 +24,7 @@
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-75">LPFOURDG-75</a>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-97">LPFOURDG-96</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-99">LPFOURDG-99</a>
  *
  * <h2>3. Requirement</h2>
  * -The responsibility that was assignedto me, was to create the design of this
@@ -72,21 +72,22 @@
  *
  * <p>
  *
+ * <h3>Domain Model</h3>
+ * <p>
+ * <img src="doc-files/crm01_01_domain_model.png" alt="image">
+ * <p>
+ *
+ *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
+ *
+ * We create this unit tests so we can apply sucessufly the business ideas.
+ * Following this approach we start by coding a unit test that checks if the
+ * elements in constructor aren´t null or empty.
  * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ * see: <code>csheets.domain.ContactTest</code> see:
+ * <code>csheets.domain.EventTest</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
@@ -205,9 +206,9 @@
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author Rui Bastos
+ * @author Diogo Leite
  */
-package csheets.worklog.n1140491.sprint1;
+package csheets.worklog.n1140260.sprint1;
 
 class _Dummy_ {
 }

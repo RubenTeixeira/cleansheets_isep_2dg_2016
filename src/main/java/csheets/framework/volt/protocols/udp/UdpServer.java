@@ -1,5 +1,6 @@
-package csheets.support.volt.protocols.udp;
+package csheets.framework.volt.protocols.udp;
 
+import csheets.framework.volt.Action;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.CRC32;
-import csheets.support.volt.Server;
+import csheets.framework.volt.Server;
 
 public class UdpServer extends Server {
 
@@ -321,7 +322,7 @@ public class UdpServer extends Server {
      * @param port Service port.
      * @return self
      */
-    public UdpServer client(int port)
+    public UdpServer client()
     {
         this.isClient = true;
         return this;
@@ -387,7 +388,7 @@ public class UdpServer extends Server {
     /**
      * Sets a action for a expected route.
      * 
-     * @param request Expected route.
+     * @param route Expected route.
      * @param action Action to be executed.
      */
     public void expect(String route, Action action) {

@@ -124,7 +124,7 @@
  * <p>
  * see:<p>
  * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a>
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 
@@ -165,7 +165,7 @@
  * <p>
  * Today
  * <p>
- * 1. Design of IPC01.1 Start Sharing
+ * 1. Design of IPC01.1 Start Sharing and help on first analysis
  * <p>
  * Blocking:
  * <p>
@@ -175,15 +175,15 @@
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1.
+ * 1. Design of IPC01.1 Start Sharing
  * <p>
  * Today
  * <p>
- * 1.
+ * 1. Study the architecture of application
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. -nothing to report at moment-
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -191,11 +191,11 @@
  * 
  * <h3>10.1. Design and Implementation:3</h3>
  * 
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
+ * 3- good: the design is implemented in same way of architecture of application and extensions
  * <p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
+ * - url of commit: <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b80d9575f17f21a548b497f92a1f33bad9c216c5">commit b80d957</a>- description: this commit is related to the design of feature start sharing.-
  * 
  * <h3>10.2. Teamwork: ...</h3>
  * 

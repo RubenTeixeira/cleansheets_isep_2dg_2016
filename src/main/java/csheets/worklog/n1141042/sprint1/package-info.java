@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1140611) Carlos Santos during week1. 
+ * Technical documentation regarding the work of the team member (1141042) Hicham Abahri week1. 
  * 
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
@@ -16,13 +16,12 @@
  * -In this section you should register important notes regarding your work during the week.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: IPC01.1</h2>
+ * <h2>2. Use Case/Feature: CORE01.1.1</h2>
  * 
- * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
+ * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-1">LPFOURDG-51</a>
  * <p>
- * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
+ * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-108">LPFOURDG-105</a>
  * <p>
- * -Include the identification and description of the feature-
  * 
  * <h2>3. Requirement</h2>
  * It should be possible to establish a connection with other instance of Cleansheets in the local network.
@@ -42,13 +41,11 @@
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
  * <h4>Send Cells proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_send_image.png" alt="image"> 
+ * <h4>SSD</h4>
+ * <img src="doc-files\CORE/analyse_core_01_1.png" alt="image"> 
  * <p>
  * 
- * <h4>Receive Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_receive_image.png" alt="image"> 
- * <p>
+ * 
  * 
  * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
  * Therefore, at this point, we need to study how to add this new attribute to the class/interface "cell". This is the core technical problem regarding this issue.
