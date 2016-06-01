@@ -68,7 +68,7 @@ public class UdpServer extends Server {
             this.server = new DatagramSocket(port);
             this.server.setSoTimeout(1000);
         } catch (SocketException ex) {
-            Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalArgumentException("Could not initiate the UDP service because the given port was already in use.");
         }
 
         this.active = true;
@@ -509,9 +509,9 @@ public class UdpServer extends Server {
                 this.server().send(packet);
                 this.server().setBroadcast(false);
             } catch (UnknownHostException | UnsupportedEncodingException | SocketException ex) {
-                Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
-                Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -519,7 +519,7 @@ public class UdpServer extends Server {
     /**
      * Shuts the server down.
      */
-    protected void shutdown()
+    public void shutdown()
     {
         this.server().close();
     }
