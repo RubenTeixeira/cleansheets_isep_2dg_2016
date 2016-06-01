@@ -1,4 +1,3 @@
-
 /**
  * Technical documentation regarding the work of the team member (1140491) Rui
  * Bastos during week1.
@@ -18,9 +17,7 @@
  *
  * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * This week work time was mostly spent on how the base application works.
  *
  * <h2>2. Use Case/Feature: CRM01.1</h2>
  *
@@ -30,11 +27,8 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-97">LPFOURDG-96</a>
  *
  * <h2>3. Requirement</h2>
- * Setup extension for comments on cells. The user should be able to activate
- * and deactivate comments on cells. When activated, a sidebar for the comments
- * should appear. The sidebar should be composed of a simple textbox to display
- * and edit a comment. At the moment it is not required to save comments to
- * disk.
+ * -The responsibility that was assignedto me, was to create the design of this
+ * feature.-
  *
  * <p>
  * <b>Use Case "Editing Contact":</b> A sidebar window that provides
@@ -53,98 +47,21 @@
  *
  *
  * <h2>4. Analysis</h2>
- * Since contacts on cells will be supported in a new extension to cleansheets
- * we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section
+ * Since contacts will be supported in a new extension to cleansheets we need to
+ * study how extensions are loaded by cleansheets and how they work. The first
+ * sequence diagram in the section
  * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
+ * Startup</a> tells us that extensions must be a subclass of the Extension
  * abstract class and need to be registered in special files. The Extension
  * class has a method called getUIExtension that should be implemented and
  * return an instance of a class that is a subclass of UIExtension. In this
  * subclass of UIExtension there is a method (getSideBar) that returns the
  * sidebar for the extension. A sidebar is a JPanel.
  *
- *
- * <h3>First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
  * <p>
- * <img src="doc-files/comments_extension_uc_realization1.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
- * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application
- * <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the
- * interface of the cells. We also see that there is a class CellImpl that must
- * implement the Cell interface. If we open the {@link csheets.core.Cell} code
- * we see that the interface is defined as:
- * <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>.
- * Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see
- * that it has a subclass {@link csheets.ext.CellExtension} which has a subclass
- * {@link csheets.ext.style.StylableCell}.
- * {@link csheets.ext.style.StylableCell} seems to be an example of how to
- * extend cells. Therefore, we will assume that it is possible to extend cells
- * and start to implement tests for this use case.
- * <p>
- * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation
- * design pattern</a> is used in the cell extension mechanism of cleansheets.
- * The following class diagram depicts the relations between classes in the
- * "Cell" hierarchy.
- * <p>
- * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image">
- *
- * <p>
- * One important aspect is how extensions are dynamically created and returned.
- * The <code>Extensible</code> interface has only one method,
- * <code>getExtension</code>. Any class, to be extensible, must return a
- * specific extension by its name. The default (and base) implementation for the
- * <code>Cell</code> interface, the class <code>CellImpl</code>, implements the
- * method in the following manner:
- * <pre>
- * {@code
- * 	public Cell getExtension(String name) {
- *		// Looks for an existing cell extension
- *		CellExtension extension = extensions.get(name);
- *		if (extension == null) {
- *			// Creates a new cell extension
- *			Extension x = ExtensionManager.getInstance().getExtension(name);
- *			if (x != null) {
- *				extension = x.extend(this);
- *				if (extension != null)
- *					extensions.put(name, extension);
- *			}
- *		}
- *		return extension;
- *	}
- * }
- * </pre> As we can see from the code, if we are requesting a extension that is
- * not already present in the cell, it is applied at the moment and then
- * returned. The extension class (that implements the <code>Extension</code>
- * interface) what will do is to create a new instance of its cell extension
- * class (this will be the <b>delegator</b> in the pattern). The constructor
- * receives the instance of the cell to extend (the <b>delegate</b> in the
- * pattern). For instance, <code>StylableCell</code> (the delegator) will
- * delegate to <code>CellImpl</code> all the method invocations regarding
- * methods of the <code>Cell</code> interface. Obviously, methods specific to
- * <code>StylableCell</code> must be implemented by it. Therefore, to implement
- * a cell that can have a associated comment we need to implement a class
- * similar to <code>StylableCell</code>.
- * <p>
- * After understanding how extensions are created, we proceded to the our use
- * case analysis. We decided that our sidebar will cover all the possible
- * features for the user (create/edit/remove contacts and events).
+ * After understanding how extensions are created, we proceded to our use case
+ * analysis. We decided that our sidebar will cover all the possible features
+ * for the user (create/edit/remove contacts and events).
  *
  * We control the use case flow by enable or disable sidebar's components and
  * updating other components.
@@ -153,6 +70,7 @@
  * achieve this functionality we use the same framework used in UC EAPLI,
  * allowing the abstraction of persistence layer.
  *
+ * <p>
  *
  * <h2>5. Design</h2>
  *
@@ -208,8 +126,10 @@
  * <p>
  * <h3>5.3. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * <h3>Class Diagram of the feature</h3>
+ * <p>
+ * <img src="doc-files/crm01_01_design_class_diagram.png" alt="image">
+ * <p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -220,7 +140,9 @@
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
+ * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
+ * <code>csheets.domain.Event</code>
+ *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
@@ -228,58 +150,36 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a><p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * We are in the first week where the workflow of the project is a little bit
+ * different from the rest of the weeks. Our functional area is very independent
+ * from the others. The only that we had to talk with our work collegues was
+ * related to the extensions part (Core functional area).
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
- *
  * <h2>9. Work Log</h2>
  *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
- * <p>
- * Example
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Analysis of the UC, Testing, Desing and start of implementation
+ * 1. Meeting with our supervisor and decided who were the Aea Leaders as well
+ * who was going to be Scrum Master.
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
+ * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1. ...
- * <p>
- * Today
- * <p>
- * 1. ...
+ * 1. Analysis of the UC, testing, designing and start the implementation
  * <p>
  * Blocking:
  * <p>
- * 1. ...
+ * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -300,7 +200,6 @@
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
- * package csheets.worklog.n1140491.sprint1;
  *
  * /**
  * This class is only here so that javadoc includes the documentation about this
@@ -308,5 +207,7 @@
  *
  * @author Rui Bastos
  */
+package csheets.worklog.n1140491.sprint1;
+
 class _Dummy_ {
 }

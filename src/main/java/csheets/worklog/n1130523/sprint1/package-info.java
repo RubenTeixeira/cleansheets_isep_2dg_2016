@@ -21,122 +21,43 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: IPC01.1</h2>
+ * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-51</a>
  * <p>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-98">LPFOURDG-105</a>
  * <p>
  * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
- * It should be possible to establish a connection with other instance of
- * Cleansheets in the local network.
+ * Add the possibility of writing blocks (or sequences) of instructions. A block
+ * must be delimited by curly braces and its instructions must be separated by
+ * ";". The instructions of a block are executed sequentially and the block
+ * "result" is the result of the last statement of the block. For example, the
+ * formula "= {1+2; sum (A1:A10), B3 + 4 }" must result in the sequential
+ * execution of all expressions and the result is the value of the expression
+ * "B3 + 4". Add the assign operator (its symbol is ":="). This operator assigns
+ * to its left the result of the right expression. At the moment the left of the
+ * assign operator can only be a cell reference. The FOR loop should also be
+ * implemented based on instruction blocks.
  *
  * <p>
- * <b>Use Case "Start Sharing":</b> It should be possible to send the contents
- * of a range of cells to another instance of Cleansheets. The other instance
- * should display the received contents in the same cell address as the original
- * cells.
- *
+ * <b>Use Case "Instructions Block":</b>
+ * Extend the formulas of Cleansheets.
  *
  * <h2>4. Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets
- * we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
- * abstract class and need to be registered in special files. The Extension
- * class has a method called getUIExtension that should be implemented and
- * return an instance of a class that is a subclass of UIExtension. In this
- * subclass of UIExtension there is a method (getSideBar) that returns the
- * sidebar for the extension. A sidebar is a JPanel.
  *
+ * For the development of use case "Lang01.1 - Instructions Block", it´s
+ * necessary analyze all classes of the project of packages formula. We conlude
+ * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
+ * of grammatics for recognize intructions block and function for. We conclude
+ * that is necessary create some extra classes. We have to crate Class "For",
+ * and "Atrribuation" are functions. Also we have create a new Operation to
+ * resolve n expressions and validates in function "convert" of class
+ * "ExcelExpressionCompiler".
  *
- * <h3>First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
- * <h4>Send Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_send_image.png" alt="image">
- * <p>
- *
- * <h4>Receive Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_receive_image.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
- * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application
- * <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the
- * interface of the cells. We also see that there is a class CellImpl that must
- * implement the Cell interface. If we open the {@link csheets.core.Cell} code
- * we see that the interface is defined as:
- * <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>.
- * Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see
- * that it has a subclass {@link csheets.ext.CellExtension} which has a subclass
- * {@link csheets.ext.style.StylableCell}.
- * {@link csheets.ext.style.StylableCell} seems to be an example of how to
- * extend cells. Therefore, we will assume that it is possible to extend cells
- * and start to implement tests for this use case.
- * <p>
- * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation
- * design pattern</a> is used in the cell extension mechanism of cleansheets.
- * The following class diagram depicts the relations between classes in the
- * "Cell" hierarchy.
- * <p>
- * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image">
- *
- * <p>
- * One important aspect is how extensions are dynamically created and returned.
- * The <code>Extensible</code> interface has only one method,
- * <code>getExtension</code>. Any class, to be extensible, must return a
- * specific extension by its name. The default (and base) implementation for the
- * <code>Cell</code> interface, the class <code>CellImpl</code>, implements the
- * method in the following manner:
- * <pre>
- * {@code
- * 	public Cell getExtension(String name) {
- *		// Looks for an existing cell extension
- *		CellExtension extension = extensions.get(name);
- *		if (extension == null) {
- *			// Creates a new cell extension
- *			Extension x = ExtensionManager.getInstance().getExtension(name);
- *			if (x != null) {
- *				extension = x.extend(this);
- *				if (extension != null)
- *					extensions.put(name, extension);
- *			}
- *		}
- *		return extension;
- *	}
- * }
- * </pre> As we can see from the code, if we are requesting a extension that is
- * not already present in the cell, it is applied at the moment and then
- * returned. The extension class (that implements the <code>Extension</code>
- * interface) what will do is to create a new instance of its cell extension
- * class (this will be the <b>delegator</b> in the pattern). The constructor
- * receives the instance of the cell to extend (the <b>delegate</b> in the
- * pattern). For instance, <code>StylableCell</code> (the delegator) will
- * delegate to <code>CellImpl</code> all the method invocations regarding
- * methods of the <code>Cell</code> interface. Obviously, methods specific to
- * <code>StylableCell</code> must be implemented by it. Therefore, to implement
- * a cell that can have a associated comment we need to implement a class
- * similar to <code>StylableCell</code>.
  *
  * <h2>5. Design</h2>
  *

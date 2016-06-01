@@ -34,7 +34,7 @@ ShareCellUI->ShareCellUI: List<Cell> cells = getSelectedCells()
 ShareCellUI->ShareCellController: sendCells(target, cells)
 activate ShareCellController
 deactivate ShareCellUI
-note right of ShareCellController: String msg = "";\nfor(Cell cell : cells){\n  msg+=cell.address+"|"+cell.value+"@";\n}
+note right of ShareCellController: String msg = "";\nfor(Cell cell : cells){\n  msg+=cell.address+"|"+cell.value+"|";\n}
 ShareCellController->Volt.UdpClient: send(":address|:value", target, msg)
 deactivate ShareCellController
 ShareCellUI->User: Cell has been shared
