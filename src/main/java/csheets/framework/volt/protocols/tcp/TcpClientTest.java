@@ -15,7 +15,7 @@ public class TcpClientTest {
     {
         TcpClient client = new TcpClient(0);
         
-        client.send(":hi", "192.168.56.1:8000", "WASUP asjkdlaksjdlasjdlasjdlkjasdl asldkjasldja sldkjasldkask d"
+        client.send(":hi", "25.65.227.79:8000", "WASUP asjkdlaksjdlasjdlasjdlkjasdl asldkjasldja sldkjasldkask d"
                 + "alkd;aslkd;askld;lskad;lskad;lksad;ksa;dlk");
     }
     
