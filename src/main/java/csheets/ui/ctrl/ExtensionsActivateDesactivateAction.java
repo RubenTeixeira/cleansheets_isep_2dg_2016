@@ -13,6 +13,7 @@ import javax.swing.KeyStroke;
 
 import csheets.CleanSheets;
 import csheets.ui.ExtensionsActivateDeactivateUI;
+import csheets.ui.ExtenstionsActDeactUI;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,7 +45,7 @@ public class ExtensionsActivateDesactivateAction extends FocusOwnerAction {
         if (focusOwner == null) {
             return;
         }
-        ExtensionsActivateDeactivateUI ui = new ExtensionsActivateDeactivateUI(uiController);
+        ExtenstionsActDeactUI ui = new ExtenstionsActDeactUI(uiController);
     }
 
 }

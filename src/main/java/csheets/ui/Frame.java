@@ -46,6 +46,7 @@ import csheets.ui.ctrl.CloseAllAction;
 import csheets.ui.ctrl.CopyAction;
 import csheets.ui.ctrl.CutAction;
 import csheets.ui.ctrl.ExitAction;
+import csheets.ui.ctrl.ExtensionsActivateDesactivateAction;
 import csheets.ui.ctrl.HelpAction;
 import csheets.ui.ctrl.InsertColumnAction;
 import csheets.ui.ctrl.InsertRowAction;
@@ -124,7 +125,7 @@ public class Frame extends JFrame implements SelectionListener {
 		actionManager.registerAction("sort", new SortAction());
 		actionManager.registerAction("search", new SearchAction());
 		actionManager.registerAction("prefs", new PreferencesAction());
-
+                
 		// Registers spreadsheet actions
 		actionManager.registerAction("addsheet", new AddSpreadsheetAction(uiController));
 		actionManager.registerAction("removesheet", new RemoveSpreadsheetAction(uiController));
@@ -134,6 +135,9 @@ public class Frame extends JFrame implements SelectionListener {
 		actionManager.registerAction("insertrow", new InsertRowAction());
 		actionManager.registerAction("removerow", new RemoveRowAction());
 
+                // Registers spreadsheet actions
+                actionManager.registerAction("extensiosactivatedeactivate", new ExtensionsActivateDesactivateAction(uiController));
+                
 		// Registers help actions
 		actionManager.registerAction("help", new HelpAction());
 		actionManager.registerAction("license", new LicenseAction());
