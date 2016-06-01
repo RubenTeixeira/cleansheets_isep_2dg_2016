@@ -50,13 +50,18 @@
  * <h2>4. Analysis</h2>
  *
  * For the development of use case "Lang01.1 - Instructions Block", it´s
- * necessary analyze all classes of the project of packages formula. We conlude
+ * necessary analyze all classes of the project of packages formula. We conluded
  * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
- * of grammatics for recognize intructions block and function for. We conclude
- * that is necessary create some extra classes. We have to crate Class "For",
- * and "Atrribuation" are functions. Also we have create a new Operation to
+ * of grammatics for recognize intructions block and function for. It is
+ * necessary create some extra classes. We have to create Class "For"
+ * (function), and "Atribution" (operator). In cycle "For", the first expression
+ * is the initialization, the second term is the boundary condition, and the
+ * third is based on instruction blocks. Also we have create a new Operation to
  * resolve n expressions and validates in function "convert" of class
  * "ExcelExpressionCompiler".
+ *
+ * <p>
+ * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png">
  *
  *
  * <h2>5. Design</h2>
@@ -183,6 +188,23 @@
  * Blocking:
  * <p>
  * 1. -nothing-
+ *
+ *
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
+ * Instructions
+ * <p>
+ * Today
+ * <p>
+ * 1. Design Lang01.1- Block of Instructions
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ *
  *
  * <h2>10. Self Assessment</h2>
  *

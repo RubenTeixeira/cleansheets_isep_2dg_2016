@@ -3,7 +3,6 @@
  *
  * <p>
  * <b>Scrum Master: no</b>
- * <p>
  *
  * <p>
  * <b>Area Leader: no</b>
@@ -11,7 +10,6 @@
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p>
  *
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
@@ -21,8 +19,6 @@
  * Sub-Task in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-103">LPFOURDG-103</a>
  * 
- *
- * <p>
  *
  * <h2>3. Requirement</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
@@ -157,7 +153,7 @@
  * <p>
  * Today
  * <p>
- * 1. Analysis of the...
+ * 1. ........
  * <p>
  * Blocking:
  * <p>
@@ -174,6 +170,20 @@
  * 1. Understand the problem/analysis to begin the implementation.
  * <p>
  * Blocking:
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Configure the IDE to start working (done). Cloning of the projec(done). Read javadoc. Understand the project.
+ * <p>
+ * Today
+ * <p>
+ * 1. Help Design and decide analysis. Development.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. Possible modifications analysis / design.
  * <p>
  * 1. Design and analysis.
  *

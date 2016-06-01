@@ -26,50 +26,64 @@ public class ContactCardPanel extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        photo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setBorder(new javax.swing.border.LineBorder(javax.swing.UIManager.getDefaults().getColor("winclassic_tab_sel_gradient"), 1, true));
-        setMaximumSize(new java.awt.Dimension(300, 120));
-        setMinimumSize(new java.awt.Dimension(300, 120));
-        setPreferredSize(new java.awt.Dimension(300, 120));
+        setMaximumSize(new java.awt.Dimension(200, 120));
+        setMinimumSize(new java.awt.Dimension(200, 120));
+        setPreferredSize(new java.awt.Dimension(200, 120));
+        setLayout(new java.awt.BorderLayout());
 
-        photo.setBackground(new java.awt.Color(219, 32, 32));
-        photo.setForeground(new java.awt.Color(57, 49, 49));
-        photo.setBorder(new javax.swing.border.LineBorder(javax.swing.UIManager.getDefaults().getColor("winclassic_tab_sel_gradient"), 1, true));
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+        );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(photo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(photo, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        add(jPanel1, java.awt.BorderLayout.LINE_START);
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setText("jLabel1");
+        jPanel2.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+
+        jLabel2.setText("jLabel2");
+        jPanel2.add(jLabel2, java.awt.BorderLayout.PAGE_END);
+
+        add(jPanel2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     public void setFirstName(String name)
     {
         this.jLabel1.setText(name);
     }
+    
+    public void setLastName(String name)
+    {
+        this.jLabel2.setText(name);
+    }
+    
+    public void setPhoto()
+    {
+        
+    }
             
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel photo;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
