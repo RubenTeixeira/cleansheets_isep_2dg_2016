@@ -68,10 +68,10 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
      *
      * @param uiController a ui controller
      */
-    public SharePanel(UIController uiController) {
+    public SharePanel(UIController uiController, ShareCellsController controller) {
         super(new BorderLayout());
         this.uiController = uiController;
-        this.controller = new ShareCellsController(uiController, this, 8000);
+        
 
         setName(ShareExtension.NAME);
 
@@ -87,6 +87,10 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
         instancesList.setModel(instanceListModel);
         receiveList.setModel(receiveListModel);
+        
+        this.controller = controller;
+        this.controller.startUdpService(this, 8000, 3);
+        this.controller.startTcpService(this, 8000);
     }
 
     /**

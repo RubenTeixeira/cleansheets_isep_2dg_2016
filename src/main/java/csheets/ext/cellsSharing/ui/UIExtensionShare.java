@@ -26,67 +26,78 @@ import javax.swing.JToolBar;
  */
 public class UIExtensionShare extends UIExtension {
 
-	/**
-	 * The icon to display with the extension's name
-	 */
-	private Icon icon;
+    /**
+     * The icon to display with the extension's name
+     */
+    private Icon icon;
 
-	/**
-	 * A side bar that provides editing of comments
-	 */
-	private JComponent sideBar;
+    /**
+     * A side bar that provides editing of comments
+     */
+    private JComponent sideBar;
 
-	/**
-	 * The menu of the extension
-	 */
-	private ShareMenu menu;
+    /**
+     * The menu of the extension
+     */
+    private ShareMenu menu;
 
-	/**
-	 * The menu of the extension
-	 *
-	 * @param extension extension
-	 * @param uiController ui controller
-	 */
-	public UIExtensionShare(Extension extension, UIController uiController) {
-		super(extension, uiController);
-	}
+    /**
+     * Controller.
+     */
+    private ShareCellsController shareController;
 
-	/**
-	 * Returns an icon to display with the extension's name.
-	 *
-	 * @return an icon with style
-	 */
-	public Icon getIcon() {
+    /**
+     * The menu of the extension
+     *
+     * @param extension extension
+     * @param uiController ui controller
+     */
+    public UIExtensionShare(Extension extension, UIController uiController) {
+        super(extension, uiController);
+    }
+
+    /**
+     * Returns an icon to display with the extension's name.
+     *
+     * @return an icon with style
+     */
+    public Icon getIcon() {
 //		if (icon == null) {
 //			icon = new ImageIcon(ShareExtension.class.getResource("res/img/share.png"));
 //		}
 //		return icon;
-		return null;
-	}
+        return null;
+    }
 
-	/**
-	 * Returns an instance of a class that implements JMenu.
-	 *
-	 * @see ShareMenu
-	 * @return a JMenu component
-	 */
-	public JMenu getMenu() {
-		if (menu == null) {
-			menu = new ShareMenu(uiController);
-		}
-		return menu;
-	}
+    /**
+     * Returns an instance of a class that implements JMenu.
+     *
+     * @see ShareMenu
+     * @return a JMenu component
+     */
+    public JMenu getMenu() {
+        if (menu == null) {
+            if (shareController == null) {
+                shareController = new ShareCellsController();
+            }
+            menu = new ShareMenu(uiController, shareController);
+        }
+        return menu;
+    }
 
-	/**
-	 * Returns a side bar that gives access to extension-specific functionality.
-	 *
-	 * @return a component, or null if the extension does not provide one
-	 */
-	public JComponent getSideBar() {
-		if (sideBar == null) {
-			sideBar = new SharePanel(uiController);
-		}
-		return sideBar;
-	}
+    /**
+     * Returns a side bar that gives access to extension-specific functionality.
+     *
+     * @return a component, or null if the extension does not provide one
+     */
+    public JComponent getSideBar() {
+        if (sideBar == null) {
+            if (shareController == null) {
+                shareController = new ShareCellsController();
+            }
+            sideBar = new SharePanel(uiController, shareController);
+        }
+        return sideBar;
+    }
 
 }
