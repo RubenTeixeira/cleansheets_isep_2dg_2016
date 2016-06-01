@@ -5,18 +5,23 @@
  */
 package csheets.ext.events.ui;
 
+import csheets.domain.Contact;
+import csheets.domain.Event;
 import csheets.ext.events.EventsController;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.support.DateTime;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Rui Bastos
  */
-public class ManageEvents extends javax.swing.JPanel {
+public class ManageEvents extends javax.swing.JPanel implements Observer {
 
 	private final EventsController controller;
+	private Event event;
 
 	private final String[] nameMonth = {"Invalid", "January", "Febraury",
 		"March", "April", "May", "June",
@@ -26,10 +31,20 @@ public class ManageEvents extends javax.swing.JPanel {
 	/**
 	 * Creates new form NewJPanel
 	 */
-	public ManageEvents(EventsController controller) {
+	public ManageEvents(EventsController controller, Event event) {
 		this.controller = controller;
+		this.event = event;
 		initComponents();
 		initDate();
+		initContact();
+		this.update(null, null);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (this.event != null) {
+
+		}
 	}
 
 	/**
@@ -47,7 +62,7 @@ public class ManageEvents extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldEventName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jComboBoxContacts = new javax.swing.JComboBox<String>();
+        jComboBoxContacts = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         cmbYear = new javax.swing.JComboBox();
@@ -64,7 +79,6 @@ public class ManageEvents extends javax.swing.JPanel {
 
         jLabel3.setText("Contact:");
 
-        jComboBoxContacts.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBoxContacts.setFocusCycleRoot(true);
         jComboBoxContacts.setFocusTraversalPolicyProvider(true);
         jComboBoxContacts.addActionListener(new java.awt.event.ActionListener() {
@@ -204,6 +218,12 @@ public class ManageEvents extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+	private void initContact() {
+		for (Contact contact : this.controller.allContacts()) {
+			this.jComboBoxContacts.addItem(contact);
+		}
+	}
+
 	private void initDate() {
 		initYear();
 		initMonth();
@@ -282,18 +302,21 @@ public class ManageEvents extends javax.swing.JPanel {
 												 getSelectedItem()),
 												 (Integer) (this.cmbMinute.
 												 getSelectedItem()), 0);
-
-		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
-		System.out.println(format1.format(calendar.getTime()));
-
-//		try {
-//
-//			this.controller.
-//				createEvent(new Contact("User test", "", new byte[10]), this.jTextFieldEventName.
-//							getText(), calendar);
-//		} catch (DataIntegrityViolationException ex) {
-//			System.out.println("Evento já existe");
-//		}
+		if (this.event == null) {
+			try {
+				this.controller.
+					createEvent((Contact) this.jComboBoxContacts.
+						getSelectedItem(), this.jTextFieldEventName.
+								getText(), calendar, true);
+			} catch (DataIntegrityViolationException ex) {
+				System.out.println("Evento já existe");
+			}
+		} else {
+			this.event.
+				defineEvent(this.event.contact(), this.jTextFieldEventName.
+							getText(), calendar, this.event.alert());
+			this.controller.editEvent(this.event);
+		}
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -303,7 +326,7 @@ public class ManageEvents extends javax.swing.JPanel {
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox<String> jComboBoxContacts;
+    private javax.swing.JComboBox<Contact> jComboBoxContacts;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
