@@ -44,7 +44,15 @@ public class ExtenstionsActDeactUI extends JFrame {
     
     private void createUIObjects() {
         this.panel = new Panel();
-        this.modelTableExtensions = new DefaultTableModel(0, tablesNames.length);
+        this.modelTableExtensions = new DefaultTableModel(0, tablesNames.length) {
+            public Class<?> getColumnClass(int column) {
+                switch(column) {
+                    case 0: return String.class;
+                    case 1: return Boolean.class;
+                    default: return String.class;
+                }
+            }
+        };
         this.tableExtensions = new JTable(this.modelTableExtensions);
         this.btnApply = new JButton();
         this.btnCancel = new JButton();
@@ -66,10 +74,12 @@ public class ExtenstionsActDeactUI extends JFrame {
     
     private void confFrame() {
         Dimension defaultSize = new Dimension(400, 420);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setEnabled(true);
-        setVisible(true);
         setPreferredSize(defaultSize);
         setSize(defaultSize);
+        setTitle(TITLE);
+        setVisible(true);
     }
     
     private void confTable() {
