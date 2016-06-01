@@ -30,6 +30,9 @@ import csheets.ui.ext.UIExtension;
  * @author Einar Pehrson
  */
 public abstract class Extension implements Comparable<Extension> {
+    
+        /** The state of the extension*/
+        private final boolean enable;
 
 	/** The name of the extension */
 	private final String name;
@@ -41,7 +44,7 @@ public abstract class Extension implements Comparable<Extension> {
 	 * Creates a new extension.
 	 * @param name the name of the extension
 	 */
-	public Extension(String name) {
+	public Extension(String name ) {
 		this.name = name;
 
 		// Builds UI extension base property key
@@ -49,6 +52,24 @@ public abstract class Extension implements Comparable<Extension> {
 		for (String token : name.toLowerCase().split(" "))
 			basePropKey += token;
 		this.basePropKey = basePropKey + ".ui.";
+                this.enable=true;
+                
+	}
+        
+         /**
+	 * Creates a new extension with the state.
+	 * @param name the name of the extension
+         * @param state
+	 */
+	public Extension(String name,boolean state ) {
+		this.name = name;
+
+		// Builds UI extension base property key
+		String basePropKey = "";
+		for (String token : name.toLowerCase().split(" "))
+			basePropKey += token;
+		this.basePropKey = basePropKey + ".ui.";
+                this.enable=state;       
 	}
 
 	/**
@@ -58,6 +79,13 @@ public abstract class Extension implements Comparable<Extension> {
 	public final String getName() {
 		return name;
 	}
+        /**
+         * returns the state of the extension
+         * @return  boolean state
+         */
+        public final boolean isEnabled(){
+            return enable;
+        }
 
 	/**
 	 * Returns the base key to use for properties of the UI extension.
