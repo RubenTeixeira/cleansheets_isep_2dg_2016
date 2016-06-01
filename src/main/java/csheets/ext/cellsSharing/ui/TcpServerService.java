@@ -8,7 +8,9 @@ package csheets.ext.cellsSharing.ui;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
+import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +33,10 @@ public class TcpServerService extends Notifier {
                         List<String> address = (List<String>) args.get("address");
                         List<String> value = (List<String>) args.get("value");
 
-                        List<String> cellsInformation = new ArrayList<>();
+                        Map<String,String> cellsInformation = new HashMap<>();
 
                         for (int i = 0; i < address.size(); i++) {
-                            cellsInformation.add(address.get(i) + ":" + value.get(i));
+                            cellsInformation.put(address.get(i), value.get(i));
                         }
                         notifyChange(cellsInformation);
                     }

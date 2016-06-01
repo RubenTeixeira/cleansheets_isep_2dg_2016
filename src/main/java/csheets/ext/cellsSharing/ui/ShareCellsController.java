@@ -44,7 +44,7 @@ public class ShareCellsController {
             for (int j = 0; j < colunas; j++) {
                 Cell cell = cells[i][j];
 
-                message += cell.getAddress().getColumn() + ";" + cell.getAddress().getRow() + "|" + cell.getValue().getType() + ";" + cell.getValue() + ";"; //prototipo TODO MESSAGE TO SEND
+                message += cell.getAddress().getColumn() + ";" + cell.getAddress().getRow() + ";" + cell.getValue().getType() + ";" + cell.getValue() + ";";
             }
         }
         TcpClientService tcpService = new TcpClientService(target, message);
