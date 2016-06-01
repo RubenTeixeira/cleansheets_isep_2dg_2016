@@ -1,30 +1,28 @@
 package csheets.support;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  *
  * @author Renato Machado
  */
-public class ThreadManager {
+public final class ThreadManager {
     
     /**
      * Thread to key association.
      */
-    private Map<String, Thread> threads;
+    private static Map<String, Thread> threads = new HashMap<>();
     
     /**
      * Creates a new association with a key and a thread, without running the thread.
      * 
      * @param key Key to identify thread.
      * @param thread Thread.
-     * @return self
      */
-    public ThreadManager create(String key, Thread thread)
+    public static void create(String key, Thread thread)
     {
-        this.threads.put(key, thread);
-        
-        return this;
+        threads.put(key, thread);
     }
     
     /**
@@ -32,11 +30,33 @@ public class ThreadManager {
      * 
      * @param key Thread key.
      */
-    public void run(String key)
+    public static void run(String key)
     {
-        if (this.threads.containsKey(key)) {
-            this.threads.get(key).start();
+        if (threads.containsKey(key)) {
+            threads.get(key).start();
         }
+    }
+    
+    /**
+     * Gets the thread of a given key.
+     * 
+     * @param key Thread key.
+     * @return Thread if the key exists, null otherwise.
+     */
+    public static Thread get(String key)
+    {
+        return threads.get(key);
+    }
+    
+    /**
+     * Checks if a thread key exists.
+     * 
+     * @param key Thread key.
+     * @return True if it exists, false otherwise.
+     */
+    public static boolean has(String key)
+    {
+        return threads.containsKey(key);
     }
     
     /**
@@ -50,19 +70,28 @@ public class ThreadManager {
      * 
      * @param key Thread key.
      */
-    public void destroy(String key)
+    public static void destroy(String key)
     {
         if (!key.contains("*")) {
-            this.threads.get(key).interrupt();
+            if (threads.get(key).isAlive()) {
+                threads.get(key).interrupt();
+            }
+            
+            threads.remove(key);
+            return;
         }
         
         String group = key.split("\\*")[0];
         
-        this.threads.entrySet().stream()
+        threads.entrySet().stream()
             .filter((entry) -> (entry.getKey().startsWith(group)))
             .forEach((entry) -> {
-                entry.getValue().interrupt();
+                if (threads.get(entry.getKey()).isAlive()) {
+                    entry.getValue().interrupt();
+                }
         });
+        
+        threads.remove(key);
     }
     
 }

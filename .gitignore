@@ -168,3 +168,4 @@ csheets.xml
 # Special files of the project
 !/tools/**
 
+/nbproject/
