@@ -198,6 +198,14 @@ public final class DateTime {
 		return date.get(Calendar.YEAR);
 	}
 
+	public static int hour(Calendar date) {
+		return date.get(Calendar.HOUR);
+	}
+
+	public static int min(Calendar date) {
+		return date.get(Calendar.MINUTE);
+	}
+
 	public static boolean overlappingDates(Calendar start1, Calendar end1,
 										   Calendar start2, Calendar end2) {
 		return (DateTime.isSameDate(start1, end2) || DateTime.

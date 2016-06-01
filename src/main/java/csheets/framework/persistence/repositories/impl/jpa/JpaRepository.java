@@ -111,8 +111,16 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 */
 	@Override
 	public void delete(T entity) {
+		if (entity == null) {
+			throw new IllegalArgumentException();
+		}
+		final EntityManager em = entityManager();
+		final EntityTransaction tx = em.getTransaction();
+		tx.begin();
 		entity = entityManager().merge(entity);
 		entityManager().remove(entity);
+		tx.commit();
+		em.close();
 	}
 
 	/**
