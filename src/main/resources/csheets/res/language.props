@@ -39,6 +39,12 @@ Factorial
 If
 Do
 
+# Loop-Functions
+For
+
+#Miscellaneous
+InstructionBlock
+
 # # # Numeric functions reflected from java.lang.Math
 #
 # # Trigonometry

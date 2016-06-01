@@ -7,34 +7,35 @@ package csheets.ext.contacts.ui;
 
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsExtension;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
+import javax.swing.SwingWorker;
 
 /**
  *
  * @author Rui Freitas <1130303>
  */
-public class ContactsPanel extends JPanel {
+public class ContactsPanel extends JPanel implements Observer {
 
-    private ContactsController theController = new ContactsController();
+    private final ContactsController theController = new ContactsController();
 
     /**
      * Creates new form ContactsPanel
+     *
+     * @param controller
      */
     public ContactsPanel(UIController controller) {
         setName(ContactsExtension.NAME);
+        Notification.contactCardInformer().addObserver(this);
+        Notification.contactInformer().addObserver(this);
+        
         initComponents();
     }
 
@@ -49,8 +50,6 @@ public class ContactsPanel extends JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         addBtn = new javax.swing.JButton();
-        editBtn = new javax.swing.JButton();
-        removeBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         contactsPanel = new javax.swing.JPanel();
 
@@ -66,29 +65,13 @@ public class ContactsPanel extends JPanel {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        addBtn.setText("+");
+        addBtn.setText("Add");
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(addBtn, java.awt.BorderLayout.WEST);
-
-        editBtn.setText("Edit");
-        editBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(editBtn, java.awt.BorderLayout.CENTER);
-
-        removeBtn.setText("-");
-        removeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(removeBtn, java.awt.BorderLayout.EAST);
+        jPanel1.add(addBtn, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
@@ -101,61 +84,64 @@ public class ContactsPanel extends JPanel {
         add(jScrollPane2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
+    /* 
+    * Add button action: opens a new dialog where the user can insert a new contact data.
+     */
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        new AddContactDialog(null, theController).setVisible(true);
-        refreshContactCards();
+        new AddEditContactDialog(null, theController, null).setVisible(true);
     }//GEN-LAST:event_addBtnActionPerformed
 
-    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editBtnActionPerformed
-
-    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_removeBtnActionPerformed
-
+    /* 
+    * Panel selected action: everytime the sidebar is in focus, data is updated.
+     */
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        if (this.contactsPanel.getComponentCount() == 0) {
-            refreshContactCards();
-        }
+        Notification.contactInformer().notifyChange();
     }//GEN-LAST:event_formComponentShown
 
+    @Override
+    public void update(Observable o, Object arg) {
+        refreshContactCards();
+        contactsPanel.revalidate();
+        contactsPanel.repaint();
+    }
+
+    /*
+    * Refreshes contact list: deletes all information and gets the new data
+     */
+    protected void refreshContactCards() {
+        clearContactList();
+        new ListContactsWorker().execute();
+    }
+
+    /* 
+    * Deletes all information from contact list.
+     */
     private void clearContactList() {
         this.contactsPanel.removeAll();
         defaultGridRow();
-        refreshUI();
     }
 
-    private void refreshContactCards() {
-        ContactCardPanel card;
-        clearContactList();
-
-        for (Contact ct : this.theController.allContacts()) {
-            card = new ContactCardPanel();
-            card.setFirstName(ct.firstName());
-            card.setLastName(ct.lastName());
-            try {
-                card.setPhoto(this.theController.contactPhoto(ct));
-            } catch (IOException ex) {
-                System.out.println("erro");
-            }
-            addContactCard(card);
-        }
-        refreshUI();
-    }
-
+    /*
+    * Adds a single ContactCard to the panel.
+     */
     private void addContactCard(JComponent comp) {
         this.contactsPanel.add(comp);
         addGridRow();
 
     }
 
+    /*
+    * Layout specific: set's the default number of rows (5)
+     */
     private void defaultGridRow() {
         ((GridLayout) this.contactsPanel.getLayout()).setRows(5);
     }
 
+    /*
+    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+     */
     private void addGridRow() {
         GridLayout layout = (GridLayout) this.contactsPanel.getLayout();
 
@@ -163,17 +149,44 @@ public class ContactsPanel extends JPanel {
 
     }
 
-    private void refreshUI() {
-        contactsPanel.revalidate();
-        contactsPanel.repaint();
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
     private javax.swing.JPanel contactsPanel;
-    private javax.swing.JButton editBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton removeBtn;
     // End of variables declaration//GEN-END:variables
+
+    /*
+    * SwingWorker task to get all contacts from the persistence. 
+    * A ContactCard is added step by step and at the end of the task the panel is refreshed.
+     */
+    class ListContactsWorker extends SwingWorker<Integer, ContactCardPanel> {
+
+        @Override
+        protected Integer doInBackground() throws Exception {
+
+            ContactCardPanel card;
+
+            for (Contact ct : theController.allContacts()) {
+                card = new ContactCardPanel();
+                card.setFirstName(ct.firstName());
+                card.setLastName(ct.lastName());
+                try {
+                    card.setPhoto(theController.contactPhoto(ct));
+                } catch (IOException ex) {
+                    System.out.println("erro");
+                }
+                publish(card);
+            }
+            return 1;
+        }
+
+        @Override
+        protected void process(List<ContactCardPanel> chunks) {
+            for (ContactCardPanel panel : chunks) {
+                addContactCard(panel);
+            }
+        }
+    }
+
 }

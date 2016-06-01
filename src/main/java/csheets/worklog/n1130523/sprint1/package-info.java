@@ -24,10 +24,10 @@
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-51</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27</a>
  * <p>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-98">LPFOURDG-105</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-98">LPFOURDG-98</a>
  * <p>
  * -Include the identification and description of the feature-
  *
@@ -199,7 +199,8 @@
  * <p>
  * Today
  * <p>
- * 1. Design Lang01.1- Block of Instructions
+ * 1. Part of Design Lang01.1- Block of Instructions, 2. Analysis update and
+ * pair programming
  * <p>
  * Blocking:
  * <p>

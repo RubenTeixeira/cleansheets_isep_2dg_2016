@@ -5,16 +5,11 @@
  */
 package csheets.ext.events.ui;
 
-import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.ext.events.EventsController;
 import csheets.ext.events.EventsExtension;
-import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
-import csheets.persistence.PersistenceContext;
-import csheets.support.DateTime;
 import csheets.ui.ctrl.UIController;
-import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -26,7 +21,8 @@ import javax.swing.JOptionPane;
  */
 public class EventsPanel extends javax.swing.JPanel implements Observer {
 
-	private DefaultListModel jModelListEvents;
+	private DefaultListModel jModelListEvents = new DefaultListModel();
+	;
 	private EventsController controller;
 
 	/**
@@ -36,32 +32,23 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 	 */
 	public EventsPanel(UIController uiController) {
 		this.setName(EventsExtension.NAME);
-		this.jModelListEvents = new DefaultListModel();
-
-		this.creation();
-		Notification.eventInformer().addObserver(this);
-		this.controller = new EventsController(uiController, this);
 		this.initComponents();
+		this.controller = new EventsController(uiController, this);
+		Notification.eventInformer().addObserver(this);
 		this.update(null, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-
-	}
-
-	public void creation() {
-		this.jModelListEvents.removeAllElements();
-//		Contact contact = new Contact("João", "Pessoal");
-//		Calendar calendar = DateTime.
-//			newCalendar(2016, 05, 31, 8, 22, 0);
-//		Event event = new Event(contact, "Lapr4", calendar);
-//		try {
-//			PersistenceContext.repositories().events().add(event);
-//		} catch (DataIntegrityViolationException ex) {
-//			System.out.println("Erro");
-//		}
-//		this.jModelListEvents.addElement(event);
+		if (arg instanceof Event) {
+			Event event = (Event) arg;
+			JOptionPane.showMessageDialog(this, event);
+		} else {
+			this.jModelListEvents.removeAllElements();
+			for (Event event : this.controller.allEvents()) {
+				this.jModelListEvents.addElement(event);
+			}
+		}
 	}
 
 	/**
@@ -135,11 +122,9 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEventActionPerformed
-		ManageEvents event = new ManageEvents(this.controller);
-
+		ManageEvents event = new ManageEvents(this.controller, null);
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, event, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
 		if (eventOption == JOptionPane.OK_OPTION) {
 			event.createEvent();
 		}
@@ -147,20 +132,29 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_jButtonAddEventActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		ManageEvent event = new ManageEvent(this.controller);
-		event.setVisible(true);
-		event.setLocationRelativeTo(this);
-		event.setTitle("Edit Event");
+		if (this.jListEvents.getSelectedIndex() != -1) {
+			ManageEvents event = new ManageEvents(this.controller, this.jListEvents.
+												  getSelectedValue());
+			int eventOption = JOptionPane.
+				showConfirmDialog(null, event, "Edit Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+			if (eventOption == JOptionPane.OK_OPTION) {
+				event.createEvent();
+			}
+		}
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     private void jButtonRemoveEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveEventActionPerformed
+		if (this.jListEvents.getSelectedIndex() != -1) {
+			Event event = this.jListEvents.getSelectedValue();
+			this.controller.removeEvent(event);
+		}
     }//GEN-LAST:event_jButtonRemoveEventActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddEvent;
     private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonRemoveEvent;
-    private javax.swing.JList<String> jListEvents;
+    private javax.swing.JList<Event> jListEvents;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables

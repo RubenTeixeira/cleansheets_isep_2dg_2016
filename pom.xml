@@ -86,7 +86,7 @@
                     </reportSet>
                 </reportSets>
             </plugin>
-                        
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -146,7 +146,7 @@
         <defaultGoal>install</defaultGoal>
 
         <plugins>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -197,7 +197,7 @@
                 <version>0.7.6.201602180812</version>
             </plugin>
             -->
-            
+
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -217,7 +217,7 @@
                     </execution>
                 </executions>
             </plugin>
-            
+
             <!--
             Para o plantuml
             -->
@@ -323,38 +323,43 @@
                     </descriptorRefs>
                     <!--
 
-                      Specify that we want the resulting jar to be executable
-                      via java -jar, which we do by modifying the manifest
-                      of course.
-                    -->
-                    <archive>
+					  Specify that we want the resulting jar to be executable
+					  via java -jar, which we do by modifying the manifest
+					  of course.
+					-->
+					<archive>
 
-                        <manifest>
-                            <mainClass>csheets.CleanSheets</mainClass>
-                        </manifest>
-                    </archive>
+						<manifest>
+							<mainClass>csheets.CleanSheets</mainClass>
+						</manifest>
+					</archive>
 
-                </configuration>
+				</configuration>
 
-                <!--
-                  We don't want to have to specifically ask for the uber jar, so we attach the
-                  running of this plugin to the execution of the package life-cycle
-                  phase.
-                -->
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>attached</goal>
-                        </goals>
-                    </execution>
-                </executions>
+				<!--
+				  We don't want to have to specifically ask for the uber jar, so we attach the
+				  running of this plugin to the execution of the package life-cycle
+				  phase.
+				-->
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attached</goal>
+						</goals>
+					</execution>
+				</executions>
 
-            </plugin>
+			</plugin>
 
-        </plugins>
-    </build>
-
-
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>unknown-jars-temp-repo</id>
+			<name>A temporary repository created by NetBeans for libraries and jars it could not identify. Please replace the dependencies in this repository with correct ones and delete this repository.</name>
+			<url>file:${project.basedir}/lib</url>
+		</repository>
+	</repositories>
 </project>

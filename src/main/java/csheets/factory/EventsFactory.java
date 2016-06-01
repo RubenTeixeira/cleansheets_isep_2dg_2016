@@ -22,4 +22,9 @@ final public class EventsFactory {
 									Calendar date) {
 		return new Event(contact, description, date);
 	}
+
+	static public Event createEvent(Contact contact, String description,
+									Calendar date, boolean alert) {
+		return new Event(contact, description, date, alert);
+	}
 }

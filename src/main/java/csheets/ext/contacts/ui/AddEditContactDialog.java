@@ -5,27 +5,42 @@
  */
 package csheets.ext.contacts.ui;
 
+import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import csheets.support.Converter;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 /**
  *
  * @author Rui Freitas <1130303>
  */
-public class AddContactDialog extends javax.swing.JDialog {
+public class AddEditContactDialog extends javax.swing.JDialog {
 
     private File photoFile;
     private ContactsController theController;
+    private ContactsPanel parentPanel;
+    private Contact theContact;
+
     /**
      * Creates new form AddContactDialog
      */
-    public AddContactDialog(JFrame parent, ContactsController theController) {
+    public AddEditContactDialog(JFrame parent, ContactsController theController, Contact contact) {
         super(parent);
         this.theController = theController;
+        this.parentPanel = parentPanel;
+        this.theContact = contact;
         initComponents();
     }
 
@@ -52,10 +67,10 @@ public class AddContactDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Last Name:");
 
-        jButton1.setText("Add");
+        jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtnAction(evt);
+                addEditBtnAction(evt);
             }
         });
 
@@ -119,35 +134,29 @@ public class AddContactDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnAction
-        // TODO add your handling code here:
-        String firstName = firstNameTf.getText();
-        String lastName = lastNameTf.getText();
+    private void addEditBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEditBtnAction
         
-        if(!firstName.isEmpty() && !lastName.isEmpty())
-        {
-            try {
-                theController.newContact(firstName, lastName, photoFile);
-            } catch (DataIntegrityViolationException ex) {
-                JOptionPane.showMessageDialog(this, "Contact already exists!", "Contact edition", JOptionPane.ERROR_MESSAGE);
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Error opening file!", "Contact edition", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-        this.dispose();
-    }//GEN-LAST:event_addBtnAction
+        if(this.theContact == null)
+            new AddContactWorker().execute();
+        else
+            new EditContactWorker().execute();
+    }//GEN-LAST:event_addEditBtnAction
 
     private void photoAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoAction
         // TODO add your handling code here:
         final JFileChooser fc = new JFileChooser();
-        
+
         int returnVal = fc.showOpenDialog(fc);
-        
+
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             photoFile = fc.getSelectedFile();
-            
-        } else {
-            JOptionPane.showMessageDialog(this, "Error opening file!", "Contact photo", JOptionPane.ERROR_MESSAGE);
+            try {
+                BufferedImage img = ImageIO.read(photoFile);
+                this.jLabel3.setIcon(new ImageIcon(img.getScaledInstance(100, 100,
+        Image.SCALE_SMOOTH)));
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error opening file!", "Contact photo", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_photoAction
 
@@ -165,4 +174,48 @@ public class AddContactDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField lastNameTf;
     // End of variables declaration//GEN-END:variables
+
+    class AddContactWorker extends SwingWorker<Integer, Contact> {
+
+        @Override
+        protected Integer doInBackground() throws Exception {
+
+            String firstName = firstNameTf.getText();
+            String lastName = lastNameTf.getText();
+
+            if (!firstName.isEmpty() && !lastName.isEmpty()) {
+                try {
+                    theController.newContact(firstName, lastName, photoFile);
+                } catch (DataIntegrityViolationException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Contact already exists!", "Contact edition", JOptionPane.ERROR_MESSAGE);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "Error opening file!", "Contact edition", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+            return 1;
+        }
+
+        @Override
+        protected void done() {
+            parentPanel.refreshContactCards();
+            dispose();
+        }
+    }
+    
+    class EditContactWorker extends SwingWorker<Integer, Contact> {
+
+        @Override
+        protected Integer doInBackground() throws Exception {
+
+          //TODO
+            return 1;
+        }
+
+        @Override
+        protected void done() {
+            //TODO
+            dispose();
+        }
+    }
+
 }

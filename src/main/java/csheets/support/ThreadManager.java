@@ -73,6 +73,10 @@ public final class ThreadManager {
     public static void destroy(String key)
     {
         if (!key.contains("*")) {
+            if (! threads.containsKey(key)) {
+                return;
+            }
+            
             if (threads.get(key).isAlive()) {
                 threads.get(key).interrupt();
             }

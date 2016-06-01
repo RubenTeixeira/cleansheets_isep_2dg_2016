@@ -10,17 +10,24 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import csheets.ext.cellsSharing.ShareExtension;
+import csheets.ext.comments.ui.CommentPanel;
 import csheets.ui.DefaulListModel;
+import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.sheet.SpreadsheetTable;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -29,7 +36,7 @@ import javax.swing.JOptionPane;
  *
  * @author José Barros
  */
-public class SharePanel extends javax.swing.JPanel implements SelectionListener, Observer{
+public class SharePanel extends javax.swing.JPanel implements SelectionListener, Observer {
 
 	private final UIController uiController;
 
@@ -37,11 +44,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 * The assertion controller
 	 */
 	private ShareCellsController controller;
-
-	/**
-	 * Cell selected check
-	 */
-	private boolean cellSelected;
 
 	/**
 	 * Default instance list
@@ -63,27 +65,34 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 */
 	private Cell cell;
 
+	private boolean hostSelected;
+
 	/**
 	 * Creates new form SharePanel
 	 *
 	 * @param uiController a ui controller
 	 */
-	public SharePanel(UIController uiController) {
-		super(new BorderLayout());
+	public SharePanel(UIController uiController, ShareCellsController controller) {
 		this.uiController = uiController;
 
 		setName(ShareExtension.NAME);
 
 		// Create default lists
 		instanceListModel = new DefaultListModel();
+		instanceListModel.addElement("test");
 		receiveListModel = new DefaulListModel();
-		receiveListModel.addElement("teste");
 		//TODO
 
 		initComponents();
 
+		uiController.addSelectionListener(this);
+
 		instancesList.setModel(instanceListModel);
 		receiveList.setModel(receiveListModel);
+
+		this.controller = controller;
+		this.controller.startUdpService(this, 8000, 3);
+		this.controller.startTcpService(this, 8000);
 	}
 
 	/**
@@ -95,19 +104,16 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        sendPanel = new javax.swing.JPanel();
-        instancesLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         instancesList = new javax.swing.JList<>();
         sendButton = new javax.swing.JButton();
-        receivePanel = new javax.swing.JPanel();
-        hostsLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         receiveList = new javax.swing.JList<>();
         receiveButton = new javax.swing.JButton();
 
-        instancesLabel.setText("Available Instances in local network:");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instances", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
         instancesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -124,92 +130,71 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
             }
         });
 
-        javax.swing.GroupLayout sendPanelLayout = new javax.swing.GroupLayout(sendPanel);
-        sendPanel.setLayout(sendPanelLayout);
-        sendPanelLayout.setHorizontalGroup(
-            sendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sendPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(sendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, sendPanelLayout.createSequentialGroup()
-                        .addComponent(instancesLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(sendPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(sendButton)))
-                .addContainerGap())
-        );
-        sendPanelLayout.setVerticalGroup(
-            sendPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sendPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(instancesLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(sendButton)
                 .addContainerGap())
         );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sendButton)
+                .addGap(7, 7, 7))
+        );
 
-        jTabbedPane1.addTab("Send Cells", sendPanel);
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cells Received", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
-        hostsLabel.setText("Hosts Received:");
-
-        receiveList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                receiveListValueChanged(evt);
-            }
-        });
         jScrollPane2.setViewportView(receiveList);
 
         receiveButton.setText("RECEIVE");
-        receiveButton.setEnabled(false);
         receiveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 receiveButtonActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout receivePanelLayout = new javax.swing.GroupLayout(receivePanel);
-        receivePanel.setLayout(receivePanelLayout);
-        receivePanelLayout.setHorizontalGroup(
-            receivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(receivePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(receivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(receivePanelLayout.createSequentialGroup()
-                        .addComponent(hostsLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, receivePanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(receiveButton)))
-                .addContainerGap())
-        );
-        receivePanelLayout.setVerticalGroup(
-            receivePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(receivePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(hostsLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(87, Short.MAX_VALUE)
                 .addComponent(receiveButton)
                 .addContainerGap())
         );
-
-        jTabbedPane1.addTab("Receive Cells", receivePanel);
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(receiveButton)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -228,25 +213,34 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void instancesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesListValueChanged
-
-		host = instancesList.getSelectedValue();
-
-		if (cellSelected) {
-			sendButton.setEnabled(true);
+		if (evt.getValueIsAdjusting() == false) {
+			if (instancesList.getSelectedIndex() == -1) {
+				//No selection.
+				sendButton.setEnabled(false);
+			} else {
+				//Selection.
+				sendButton.setEnabled(true);
+				host = instancesList.getSelectedValue();
+			}
 		}
     }//GEN-LAST:event_instancesListValueChanged
 
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
-                    instanceListModel.addElement(address);
-                }
-                
-                instancesList.setModel(instanceListModel);
-                repaint();
+			instanceListModel.addElement(address);
+		}
+
+		instancesList.setModel(instanceListModel);
+		repaint();
 	}
 
-	public void updateReceiveList() {
-		//TODO
+	public void updateReceiveList(Map<String, String> cells) {
+		for (Map.Entry<String, String> entry : cells.entrySet()) {
+			String cell = entry.getKey() + "=" + entry.getValue();
+			instanceListModel.addElement(cell);
+		}
+		receiveList.setModel(receiveListModel);
+		repaint();
 	}
 
     private void receiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiveButtonActionPerformed
@@ -261,39 +255,35 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		}
     }//GEN-LAST:event_receiveButtonActionPerformed
 
-    private void receiveListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_receiveListValueChanged
-
-		receiveButton.setEnabled(true);
-		//TODO
-    }//GEN-LAST:event_receiveListValueChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel hostsLabel;
-    private javax.swing.JLabel instancesLabel;
     private javax.swing.JList<String> instancesList;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton receiveButton;
     private javax.swing.JList<String> receiveList;
-    private javax.swing.JPanel receivePanel;
     private javax.swing.JButton sendButton;
-    private javax.swing.JPanel sendPanel;
     // End of variables declaration//GEN-END:variables
 
 	@Override
 	public void selectionChanged(SelectionEvent event) {
 		try {
 			cell = event.getCell();
-			cellSelected = true;
 
 		} catch (Exception e) {
 		}
 	}
 
-    @Override
-    public void update(Observable o, Object list) {
-        List<String> addresses = (List<String>) list;
-        updateInstanceList(addresses);
-    }
+	@Override
+	public void update(Observable o, Object object) {
+		if (object instanceof Map) {
+			Map<String, String> mapCells = (Map<String, String>) object;
+			updateReceiveList(mapCells);
+		}
+		if (object instanceof List) {
+			List<String> addresses = (List<String>) object;
+			updateInstanceList(addresses);
+		}
+	}
 }

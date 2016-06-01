@@ -29,10 +29,26 @@ public class Event implements Serializable {
 	private Contact contact;
 
 	private String description;
+
 	@Temporal(javax.persistence.TemporalType.DATE)
 	private Calendar date;
 
+	private boolean alert;
+
 	protected Event() {
+	}
+
+	public Event(Contact contact, String description, Calendar date,
+				 boolean alert) {
+		if (contact == null || description == null || date == null) {
+			throw new IllegalArgumentException();
+		} else if (description.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		this.contact = contact;
+		this.description = description;
+		this.date = date;
+		this.alert = alert;
 	}
 
 	public Event(Contact contact, String description, Calendar date) {
@@ -42,11 +58,40 @@ public class Event implements Serializable {
 		this.contact = contact;
 		this.description = description;
 		this.date = date;
+		this.alert = true;
+	}
+
+	public Contact contact() {
+		return contact;
+	}
+
+	public Calendar date() {
+		return date;
+	}
+
+	public String description() {
+		return description;
+	}
+
+	public boolean alert() {
+		return alert;
+	}
+
+	public void defineAlert(boolean alert) {
+		this.alert = alert;
+	}
+
+	public void defineEvent(Contact contact, String description, Calendar date,
+							boolean alert) {
+		this.contact = contact;
+		this.description = description;
+		this.date = date;
+		this.alert = alert;
 	}
 
 	@Override
 	public String toString() {
-		return this.contact + " - \n" + this.description + " - " + DateTime.
+		return this.contact + " - " + this.description + " - " + DateTime.
 			format(date);
 	}
 }

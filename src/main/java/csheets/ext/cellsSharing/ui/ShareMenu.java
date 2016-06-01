@@ -11,18 +11,19 @@ import csheets.ui.ctrl.UIController;
  */
 public class ShareMenu extends JMenu {
 
-	/**
-	 * Creates a new share menu. This constructor creates and adds the menu
-	 * options. A menu option is an action (in this case
-	 *
-	 *
-	 * @param uiController the user interface controller
-	 */
-	public ShareMenu(UIController uiController) {
-		super("Share");
-		setMnemonic(KeyEvent.VK_E);
+    /**
+     * Creates a new share menu. This constructor creates and adds the menu
+     * options. A menu option is an action (in this case
+     *
+     *
+     * @param uiController the user interface controller
+     * @param shareController The share cells controller.
+     */
+    public ShareMenu(UIController uiController, ShareCellsController shareController) {
+        super("Share");
+        setMnemonic(KeyEvent.VK_E);
 
-		// Adds font actions
-		add(new OptionsAction(uiController));
-	}
+        // Adds font actions
+        add(new OptionsAction(uiController, shareController));
+    }
 }

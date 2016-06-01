@@ -37,7 +37,13 @@ public class TcpServer extends Server {
         super();
         this.routes = new HashMap<>();
     }
-
+    
+    public ServerSocket server() {
+        synchronized (this.server) {
+            return this.server;
+        }
+    }
+    
     /**
      * Boots the server.
      *
@@ -74,7 +80,7 @@ public class TcpServer extends Server {
     /**
      * Closes all open connections from the server.
      */
-    protected void shutdown() {
+    public void shutdown() {
         synchronized (this.server) {
             try {
                 if (this.server != null) {
@@ -106,7 +112,7 @@ public class TcpServer extends Server {
             this.bootServer(port);
 
             while (this.isActive()) {
-                Socket socket = this.server.accept();
+                Socket socket = this.server().accept();
 
                 isr = new InputStreamReader(socket.getInputStream());
                 BufferedReader input = new BufferedReader(isr);
@@ -143,33 +149,30 @@ public class TcpServer extends Server {
 
         while (this.isActive()) {
             try {
-                synchronized (this.server) {
+                Socket socket = this.server.accept();
 
-                    Socket socket = this.server.accept();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        InputStreamReader isr = null;
 
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            InputStreamReader isr = null;
+                        try {
+                            isr = new InputStreamReader(socket.getInputStream());
+                            BufferedReader input = new BufferedReader(isr);
+                            PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
 
+                            protocol(socket, input, output);
+                        } catch (IOException ex) {
+                            Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally {
                             try {
-                                isr = new InputStreamReader(socket.getInputStream());
-                                BufferedReader input = new BufferedReader(isr);
-                                PrintWriter output = new PrintWriter(socket.getOutputStream(), true);
-                                
-                                protocol(socket, input, output);
+                                socket.close();
                             } catch (IOException ex) {
                                 Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
-                            } finally {
-                                try {
-                                    socket.close();
-                                } catch (IOException ex) {
-                                    Logger.getLogger(TcpServer.class.getName()).log(Level.SEVERE, null, ex);
-                                }
                             }
                         }
-                    }.start();
-                }
+                    }
+                }.start();
             } catch (IOException ex) {
                 // Don't do anything.
             }
