@@ -6,8 +6,8 @@
 package csheets.ext.cellsSharing.ui;
 
 import csheets.core.Cell;
-import csheets.support.volt.protocols.udp.UdpClient;
-import csheets.support.volt.protocols.udp.UdpServer;
+import csheets.framework.volt.protocols.udp.UdpClient;
+import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.ui.ctrl.UIController;
 import java.util.List;
 
