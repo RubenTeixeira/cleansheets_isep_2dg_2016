@@ -319,7 +319,6 @@ public class UdpServer extends Server {
     /**
      * Defines a new server for client usage.
      * 
-     * @param port Service port.
      * @return self
      */
     public UdpServer client()

@@ -185,6 +185,20 @@
  * Blocking:
  * <p>
  * 1. Depend on first analysis
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Understand the problem/analysis to begin the implementation. UI study.
+ * <p>
+ * Today
+ * <p>
+ * 1. UI implementation. Tests.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. UDP and TCP implementation
  *
  * <h2>10. Self Assessment</h2>
  *

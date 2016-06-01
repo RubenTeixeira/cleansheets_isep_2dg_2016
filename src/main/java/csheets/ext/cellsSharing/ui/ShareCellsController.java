@@ -27,24 +27,26 @@ public class ShareCellsController {
 
 		this.uiController = uiController;
 		this.uiPanel = uiPanel;
+                
+                HostAddressContainer addresses = new HostAddressContainer();
 
 		Thread udpServer = new Thread() {
 			@Override
 			public void run() {
-				new UdpServer();
+				new UdpClientService();
 			}
 		};
 
 		Thread udpClient = new Thread() {
 			@Override
 			public void run() {
-				new UdpClient(8000);
+				new UdpServerService(addresses);
 			}
 		};
 
 		Thread tcpServer = new Thread() {
 			public void run() {
-
+                            
 			}
 		};
 

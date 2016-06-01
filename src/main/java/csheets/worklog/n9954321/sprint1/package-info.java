@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (9954321) John Doe during week1. 
+ * Technical documentation regarding the work of the team member (9954321) Jonh Doe during week1. 
  * 
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>

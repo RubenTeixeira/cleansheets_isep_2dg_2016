@@ -43,7 +43,7 @@ public class EventTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testDescriptionNotAcceptNull() {
 		Calendar date = Calendar.getInstance();
-		Event newEvent = new Event(null, date);
+		Event newEvent = new Event(null, null, date);
 
 	}
 
@@ -52,7 +52,7 @@ public class EventTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testDateNotAcceptNull() {
-		Event newEvent = new Event("Event about JAVA skills", null);
+		Event newEvent = new Event(null, "Event about JAVA skills", null);
 
 	}
 
@@ -62,7 +62,7 @@ public class EventTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testDescriptionNotAcceptEmpty() {
 		Calendar date = Calendar.getInstance();
-		Event newEvent = new Event("", date);
+		Event newEvent = new Event(null, "", date);
 
 	}
 

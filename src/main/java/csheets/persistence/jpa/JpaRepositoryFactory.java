@@ -1,6 +1,7 @@
 package csheets.persistence.jpa;
 
 import csheets.persistence.ContactRepository;
+import csheets.persistence.EventRepository;
 import csheets.persistence.RepositoryFactory;
 
 /**
@@ -9,10 +10,13 @@ import csheets.persistence.RepositoryFactory;
  */
 public class JpaRepositoryFactory implements RepositoryFactory {
 
-    @Override
-    public ContactRepository contacts() {
-        return new JpaContactRepository();
-    }
+	@Override
+	public ContactRepository contacts() {
+		return new JpaContactRepository();
+	}
 
-	
+	@Override
+	public EventRepository events() {
+		return new JpaEventRepository();
+	}
 }
