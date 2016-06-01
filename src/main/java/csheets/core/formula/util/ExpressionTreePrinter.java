@@ -22,26 +22,33 @@ package csheets.core.formula.util;
 
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
 
 /**
  * A class for printing expressions on multiple lines with indentation.
+ *
  * @author Einar Pehrson
  */
 public class ExpressionTreePrinter extends AbstractExpressionVisitor {
 
-	/** The number of spaces to use for each indentation unit */
+	/**
+	 * The number of spaces to use for each indentation unit
+	 */
 	public static final int INDENT_DISTANCE = 3;
 
-	/** The current indentation count */
+	/**
+	 * The current indentation count
+	 */
 	private int indentCount = 0;
 
 	/**
 	 * Creates a new expression printer.
 	 */
-	public ExpressionTreePrinter() {}
+	public ExpressionTreePrinter() {
+	}
 
 	public Object visitLiteral(Literal literal) {
 		print(literal);
@@ -77,10 +84,22 @@ public class ExpressionTreePrinter extends AbstractExpressionVisitor {
 		return call;
 	}
 
+	@Override
+	public Object visitInstructionBlock(InstructionBlock block) {
+		print(block);
+		indentCount++;
+		super.visitInstructionBlock(block);
+		indentCount--;
+		return block;
+
+	}
+
 	private void print(Object o) {
 		String indentation = "";
-		for (int i = 0; i < indentCount * INDENT_DISTANCE; i++)
+		for (int i = 0; i < indentCount * INDENT_DISTANCE; i++) {
 			indentation += " ";
+		}
 		System.out.println(indentation + o);
 	}
+
 }

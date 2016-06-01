@@ -20,28 +20,34 @@
  */
 package csheets.core.formula.util;
 
+import csheets.core.formula.Expression;
+import csheets.core.formula.InstructionBlock;
+import csheets.core.formula.Reference;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import csheets.core.formula.Expression;
-import csheets.core.formula.Reference;
-
 /**
  * An expression visitor that collects the references from an expression.
+ *
  * @author Einar Pehrson
  */
 public class ReferenceFetcher extends AbstractExpressionVisitor {
 
-	/** The references that have been fetched */
+	/**
+	 * The references that have been fetched
+	 */
 	private SortedSet<Reference> references;
 
 	/**
 	 * Creates a new reference fetcher.
 	 */
-	public ReferenceFetcher() {}
+	public ReferenceFetcher() {
+	}
 
 	/**
-	 * Traverses the given expression and returns the references that were found.
+	 * Traverses the given expression and returns the references that were
+	 * found.
+	 *
 	 * @param expression the expression from which to fetch references
 	 * @return the references that have been fetched
 	 */
@@ -53,10 +59,16 @@ public class ReferenceFetcher extends AbstractExpressionVisitor {
 
 	/**
 	 * Adds the reference to the set.
+	 *
 	 * @param reference the reference to visit
 	 */
 	public Object visitReference(Reference reference) {
 		references.add(reference);
 		return reference;
+	}
+
+	@Override
+	public Object visitInstructionBlock(InstructionBlock block) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }

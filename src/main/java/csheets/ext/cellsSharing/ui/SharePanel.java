@@ -10,6 +10,7 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import csheets.ext.cellsSharing.ShareExtension;
+import csheets.ext.comments.ui.CommentPanel;
 import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
@@ -29,7 +30,7 @@ import javax.swing.JOptionPane;
  *
  * @author José Barros
  */
-public class SharePanel extends javax.swing.JPanel implements SelectionListener, Observer{
+public class SharePanel extends javax.swing.JPanel implements SelectionListener, Observer {
 
 	private final UIController uiController;
 
@@ -37,11 +38,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 * The assertion controller
 	 */
 	private ShareCellsController controller;
-
-	/**
-	 * Cell selected check
-	 */
-	private boolean cellSelected;
 
 	/**
 	 * Default instance list
@@ -63,6 +59,8 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 */
 	private Cell cell;
 
+	private boolean hostSelected;
+
 	/**
 	 * Creates new form SharePanel
 	 *
@@ -71,16 +69,19 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	public SharePanel(UIController uiController) {
 		super(new BorderLayout());
 		this.uiController = uiController;
+                this.controller = new ShareCellsController(uiController, this, 8000);
 
 		setName(ShareExtension.NAME);
 
 		// Create default lists
 		instanceListModel = new DefaultListModel();
+		instanceListModel.addElement("test");
 		receiveListModel = new DefaulListModel();
-		receiveListModel.addElement("teste");
 		//TODO
 
 		initComponents();
+
+		uiController.addSelectionListener(this);
 
 		instancesList.setModel(instanceListModel);
 		receiveList.setModel(receiveListModel);
@@ -156,15 +157,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
         hostsLabel.setText("Hosts Received:");
 
-        receiveList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                receiveListValueChanged(evt);
-            }
-        });
         jScrollPane2.setViewportView(receiveList);
 
         receiveButton.setText("RECEIVE");
-        receiveButton.setEnabled(false);
         receiveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 receiveButtonActionPerformed(evt);
@@ -228,21 +223,25 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void instancesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesListValueChanged
-
-		host = instancesList.getSelectedValue();
-
-		if (cellSelected) {
-			sendButton.setEnabled(true);
+		if (evt.getValueIsAdjusting() == false) {
+			if (instancesList.getSelectedIndex() == -1) {
+				//No selection.
+				sendButton.setEnabled(false);
+			} else {
+				//Selection.
+				sendButton.setEnabled(true);
+				host = instancesList.getSelectedValue();
+			}
 		}
     }//GEN-LAST:event_instancesListValueChanged
 
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
-                    instanceListModel.addElement(address);
-                }
-                
-                instancesList.setModel(instanceListModel);
-                repaint();
+			instanceListModel.addElement(address);
+		}
+
+		instancesList.setModel(instanceListModel);
+		repaint();
 	}
 
 	public void updateReceiveList() {
@@ -260,12 +259,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 			// option 2
 		}
     }//GEN-LAST:event_receiveButtonActionPerformed
-
-    private void receiveListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_receiveListValueChanged
-
-		receiveButton.setEnabled(true);
-		//TODO
-    }//GEN-LAST:event_receiveListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel hostsLabel;
@@ -285,15 +278,14 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	public void selectionChanged(SelectionEvent event) {
 		try {
 			cell = event.getCell();
-			cellSelected = true;
 
 		} catch (Exception e) {
 		}
 	}
 
-    @Override
-    public void update(Observable o, Object list) {
-        List<String> addresses = (List<String>) list;
-        updateInstanceList(addresses);
-    }
+	@Override
+	public void update(Observable o, Object list) {
+		List<String> addresses = (List<String>) list;
+		updateInstanceList(addresses);
+	}
 }
