@@ -33,7 +33,7 @@ public class TcpServer extends Server {
      */
     protected Map<String, Action> routes;
 
-    protected TcpServer() {
+    public TcpServer() {
         super();
         this.routes = new HashMap<>();
     }
