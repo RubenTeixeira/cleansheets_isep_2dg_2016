@@ -113,11 +113,41 @@
  * <p>
  * <img src="doc-files/ipc01_01_design1.png" alt="image">
  *
+ * <h3>Extension Setup</h3>
+ * The following diagram shows the setup of the "share" extension when
+ * cleansheets is run.
+ * <p>
+ * <img src="doc-files/ipc01_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
+ * <p>
+ * <b>Class Diagram</b>
+ * <p>
+ * <img src="doc-files/ipc_extension_image1.png" alt="image">
+ * <p>
+ * <b>Sequence Diagrams</b> illustrating the setup of the extension
+ * <p>
+ * The following sequence diagram illustrates the creation of the share
+ * extension. All the extensions are loaded dynamically by the ExtensionManager
+ * at application startup.
+ * <img src="doc-files/ipc_extension_image2.png" alt="image">
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * <p>
+ * The following sequence diagram illustrates the creation of the user interface
+ * extension. All the UI extensions are loaded by the UIController at
+ * application startup.
+ * <img src="doc-files/ipc_extension_image3.png" alt="image">
+ *
+ * <p>
+ * The following sequence diagram illustrates the creation of the menu
+ * extension. All the menu extensions are loaded by the MenuBar at application
+ * startup.
+ * <img src="doc-files/ipc_extension_image4.png" alt="image">
+ *
+ * <p>
+ * <b>Sequence Diagrams</b> illustrating use cases of the extension
+ * <p>
+ * <img src="doc-files/ipc_extension_image5.png" alt="image">
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
