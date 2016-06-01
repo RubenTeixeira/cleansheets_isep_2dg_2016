@@ -5,31 +5,43 @@
  */
 package csheets.core.formula.lang;
 
+import csheets.core.IllegalValueTypeException;
+import csheets.core.Value;
+import csheets.core.formula.BinaryOperator;
+import csheets.core.formula.Expression;
+
 /**
  * A Function where the Left Operand will be assigned the Value of the Right
  * Operand.
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Ruben Teixeira 1140780@isep.ipp.pt
  */
-public class Assign /*implements Function*/ {
+public class Assign implements BinaryOperator {
 
-//	@Override
-//	public String getIdentifier() {
-//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//	}
-//
-//	@Override
-//	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
-//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//	}
-//
-//	@Override
-//	public FunctionParameter[] getParameters() {
-//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//	}
-//
-//	@Override
-//	public boolean isVarArg() {
-//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//	}
+	/**
+	 * Creates a new Assign
+	 */
+	public Assign() {
+	}
+
+	@Override
+	public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
+		return rightOperand.evaluate();
+	}
+
+	@Override
+	public String getIdentifier() {
+		return ":=";
+	}
+
+	@Override
+	public Value.Type getOperandValueType() {
+		return Value.Type.NUMERIC;
+	}
+
+	@Override
+	public String toString() {
+		return getIdentifier();
+	}
+
 }
