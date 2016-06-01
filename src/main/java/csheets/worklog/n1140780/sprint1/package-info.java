@@ -22,30 +22,31 @@
  * <p>
  * LPFOURDG-27 Lang01.1- Block of Instructions
  *
- * <h2>3. Requirement</h2>
+ * <h2>3.1 Requirement for OperationsBlock support</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
  * "result" is the result of the last statement of the block.
  *
+ * <h2>3.2 Requirement for AssignmentOperation support</h2>
+ * Add the possibility for assigning a value to a different cell than the one in
+ * which the content is being edited.
+ *
  * <p>
- * <b> ###TODO### Use Case "Enter Comment on Cell":</b> The user selects the
- * cell where he/she wants to enter a comment. The system displays the current
- * comment of that cell. The user enter the text of the comment (or alters the
- * existing one). The system saves the comment of the cell.
+ * <b>Use Case "Assign a refrenced cell with a value":</b> The user selects the
+ * cell where he/she wants to type an assignment operation, and then types it.
+ * The system updates the referenced cell with the resulting value.
  *
- *
- * <h2>4. ###TODO### Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets
- * we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
- * abstract class and need to be registered in special files. The Extension
- * class has a method called getUIExtension that should be implemented and
- * return an instance of a class that is a subclass of UIExtension. In this
- * subclass of UIExtension there is a method (getSideBar) that returns the
- * sidebar for the extension. A sidebar is a JPanel.
+ * <h2>4.2 Analysis for AssignmentOperation support</h2>
+ * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
+ * ) aswell as from a UnaryOperation(Operator, operand), a new Operation must
+ * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
+ * ensure the architecture will be ready for new assignment operations as such:
+ * '*= += /= ...' The following class diagram shows how we intend to implement
+ * this:
+ * <p>
+ * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
+ * <p>
  *
  *
  * <h3> ###TODO### First "analysis" sequence diagram</h3>

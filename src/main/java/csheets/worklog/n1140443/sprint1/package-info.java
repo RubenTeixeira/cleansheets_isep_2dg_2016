@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (9954321) Jonh Doe during week1. 
+ * Technical documentation regarding the work of the team member (1140443) Diogo Azevedo during week1. 
  * 
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
@@ -16,40 +16,30 @@
  * -In this section you should register important notes regarding your work during the week.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Core02.1</h2>
+ * <h2>2. Use Case/Feature: Core01.1</h2>
  * 
- * Issue in Jira: -place here a link to the jira issue-
+ * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-113
  * <p>
- * -Include the identification and description of the feature-
+ * LPFOURDG-113 Core01.1: Enable and Disable Extensions
  * 
  * <h2>3. Requirement</h2>
- * Setup extension for comments on cells. The user should be able to activate and deactivate comments on cells. When activated, a sidebar for the comments should appear. The sidebar should be composed of a simple textbox to display and edit a comment. At the moment it is not required to save comments to disk.
+ * Enabling or disabling extensions of the Cleansheets. When disabling the extension, all of its features must be disable too.
  * 
  * <p>
- * <b>Use Case "Enter Comment on Cell":</b> The user selects the cell where he/she wants to enter a comment. The system displays the current comment of that cell. The user enter the text of the comment (or alters the existing one). The system saves the comment of the cell.
+ * <b>Use Case "Enable or disable extensions":</b> The User initiates the enable or disable extensions use case. The system shows all the extensions of the cleansheet in a list each one with a "check box" attached to it. The user checks the extensions that he/she wants to enable, and unchecks the ones that wants to disable. The System saves all the information and display the correct extensions. 
  * 
  *  
  * <h2>4. Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application Startup</a> tells us that extensions must be subclasses of the Extension abstract class and need to be registered in special files.
- * The Extension class has a method called getUIExtension that should be implemented and return an instance of a class that is a subclass of UIExtension.
- * In this subclass of UIExtension there is a method (getSideBar) that returns the sidebar for the extension. A sidebar is a JPanel.
  * 
  * 
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
  * <p>
- * <img src="doc-files/comments_extension_uc_realization1.png" alt="image"> 
+ * //////////SSD diagram//////////
  * <p>
  * 
- * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
- * Therefore, at this point, we need to study how to add this new attribute to the class/interface "cell". This is the core technical problem regarding this issue.
  * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the interface of the cells. We also see that there is a class CellImpl that must implement the Cell interface.
- * If we open the {@link csheets.core.Cell} code we see that the interface is defined as: <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>. Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see that it has a subclass {@link csheets.ext.CellExtension} which has a subclass {@link csheets.ext.style.StylableCell}. {@link csheets.ext.style.StylableCell} seems to be an example of how to extend cells.
- * Therefore, we will assume that it is possible to extend cells and start to implement tests for this use case. 
+ * 
  * <p>
  * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation design pattern</a> is used in the cell extension mechanism of cleansheets. The following class diagram depicts the relations between classes in the "Cell" hierarchy.
  * <p>
@@ -193,7 +183,7 @@
  * @author alexandrebraganca
  */
 
-package csheets.worklog.n9954321.sprint1;
+package csheets.worklog.n1140443.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!

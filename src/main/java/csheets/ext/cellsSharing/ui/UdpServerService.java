@@ -7,11 +7,13 @@ package csheets.ext.cellsSharing.ui;
 
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.udp.UdpServer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class UdpServerService {
     
-    public UdpServerService () {
+    public UdpServerService (HostAddressContainer hostAddresses) {
         UdpServer server = new UdpServer();
         
         server.expect(":broadcast", new Action() {
@@ -26,6 +28,22 @@ public class UdpServerService {
                 String destination = ((String) args.get("from")).split(":")[0] + ":" + ((String) args.get("from")).split(":")[1];
                 
                 server.send(":ip|:port", destination, server.server().getInetAddress().getHostAddress() + "|" + 8000);
+            }
+        });
+        
+        server.expect(":ip|:port", new Action() {
+            @Override
+            public void run(Map<String, Object> args) {
+                List<String> ips = (List<String>) args.get("ip");
+                List<String> ports = (List<String>) args.get("port");
+                
+                List<String> addresses = new ArrayList<>();
+                
+                for (int i = 0; i < ips.size(); i++) {
+                    addresses.add(ips.get(i) + ":" + ports.get(i));
+                }
+                
+                hostAddresses.setHostAddresses(addresses);
             }
         });
     }
