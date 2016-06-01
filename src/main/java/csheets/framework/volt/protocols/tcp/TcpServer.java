@@ -79,6 +79,7 @@ public class TcpServer extends Server {
             try {
                 if (this.server != null) {
                     this.server.close();
+                    this.server = null;
                 }
 
                 super.active = false;
