@@ -42,6 +42,11 @@ public class UIExtensionShare extends UIExtension {
 
 	/**
 	 * The menu of the extension
+	 */
+	private ShareMenu menu;
+
+	/**
+	 * The menu of the extension
 	 *
 	 * @param extension extension
 	 * @param uiController ui controller
@@ -70,7 +75,10 @@ public class UIExtensionShare extends UIExtension {
 	 * @return a JMenu component
 	 */
 	public JMenu getMenu() {
-		return null;
+		if (menu == null) {
+			menu = new ShareMenu(uiController);
+		}
+		return menu;
 	}
 
 	/**
