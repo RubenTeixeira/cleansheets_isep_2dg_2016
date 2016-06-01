@@ -1,174 +1,162 @@
 grammar Formula;
 
 options {
-	language=Java;
-	output=AST;
-}	
-    
-   
+language=Java;
+output=AST;
+}
+
+
 @parser::header {
 package csheets.core.formula.compiler;
 }
- 
+
 @lexer::header {
 package csheets.core.formula.compiler;
 }
 
-// Alter code generation so catch-clauses get replace with 
+// Alter code generation so catch-clauses get replace with
 // this action.
 @rulecatch {
-	catch (RecognitionException e) {
-		reportError(e);
-		throw e; 
-	}
+catch (RecognitionException e) {
+reportError(e);
+throw e;
+}
 }
 
 @members {
-	protected void mismatch(IntStream input, int ttype, BitSet follow)
-		throws RecognitionException 
-	{
-    	throw new MismatchedTokenException(ttype, input);
-	}
-
-	public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow)
-		throws RecognitionException 
-	{
-		throw e; 
-	}
-	
-	@Override
-  	protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow) throws RecognitionException {
-    	throw new MismatchedTokenException(ttype, input);
- 	}
+protected void mismatch(IntStream input, int ttype, BitSet follow)
+throws RecognitionException
+{
+throw new MismatchedTokenException(ttype, input);
 }
-	         
+
+public Object recoverFromMismatchedSet(IntStream input, RecognitionException e, BitSet follow)
+throws RecognitionException
+{
+throw e;
+}
+
+@Override
+protected Object recoverFromMismatchedToken(IntStream input, int ttype, BitSet follow) throws RecognitionException {
+throw new MismatchedTokenException(ttype, input);
+}
+}
+
 expression
-	: EQ! comparison EOF! 
-	;
-	
+: 	EQ! comparison EOF!
+;
+
 comparison
-	: concatenation
-		( ( EQ^ | NEQ^ | GT^ | LT^ | LTEQ^ | GTEQ^ ) concatenation )?
-	;
+: 	concatenation ( ( EQ^ | NEQ^ | GT^ | LT^ | LTEQ^ | GTEQ^ ) concatenation )?
+;
 
 concatenation
-	: arithmetic_lowest
-		( AMP^ arithmetic_lowest )*
-	;
+:	arithmetic_lowest ( AMP^ arithmetic_lowest )*
+;
 
 arithmetic_lowest
-	:	arithmetic_low
-		( ( PLUS^ | MINUS^ ) arithmetic_low )*
-	;
+:	arithmetic_low ( ( PLUS^ | MINUS^ ) arithmetic_low )*
+;
 
 arithmetic_low
-	:	arithmetic_medium
-		( ( MULTI^ | DIV^ ) arithmetic_medium )*
-	;
+:	arithmetic_medium ( ( MULTI^ | DIV^ ) arithmetic_medium )*
+;
 
 arithmetic_medium
-	:	arithmetic_high
-		( POWER^ arithmetic_high )?
-	;
+:	arithmetic_high ( POWER^ arithmetic_high )?
+;
 
 arithmetic_high
-	:	arithmetic_highest ( PERCENT^ )?
-	;
+:	arithmetic_highest ( PERCENT^ )?
+;
 
 arithmetic_highest
-	:	( MINUS^ )? atom
-	;
+:	( MINUS^ )? atom
+;
 
 atom
-	:	function_call
-	|	reference
-	|	literal
-	|	LPAR! comparison RPAR!
-	;
+:	function_call
+|	assignment
+|	reference
+|	literal
+|	block
+|	LPAR! comparison RPAR!
+;
 
 function_call
-	:	FUNCTION^ LPAR! 
-		( comparison ( SEMI! comparison )* )?
-		RPAR!
-	;
+:	FUNCTION^ LPAR! ( comparison ( SEMI! comparison )* )? RPAR!
+;
+
+block
+:	LBRA! ( comparison ( SEMI! comparison )* )? RBRA!
+;
 
 reference
-	:	CELL_REF
-		( ( COLON^ ) CELL_REF )?
-	;
+:	CELL_REF ( ( COLON^ ) CELL_REF )?
+;
+
+assignment
+:	CELL_REF ( ASSIGN^ ) atom
+;
 
 literal
-	:	NUMBER
-	|	STRING
-	;
-	
-
-fragment LETTER: ('a'..'z'|'A'..'Z') ;
-  
-FUNCTION : 
-	  ( LETTER )+ 
-	;	
-	 
- 
-CELL_REF
-	:
-		( ABS )? LETTER ( LETTER )?
-		( ABS )? ( DIGIT )+
-	;
+:	NUMBER
+|	STRING
+;
 
 /* String literals, i.e. anything inside the delimiters */
+FUNCTION : ( LETTER )+ ;
+CELL_REF : ( ABS )? LETTER ( LETTER )? ( ABS )? ( DIGIT )+ ;
 
-STRING	:	QUOT 
-		(options {greedy=false;}:.)*
-		QUOT  { setText(getText().substring(1, getText().length()-1)); }
-	;  	
-
-QUOT: '"' 
-	;
+/* String literals, i.e. anything inside the delimiters */
+fragment LETTER : ('a'..'z'|'A'..'Z') ;
+STRING	: QUOT (options {greedy=false;}:.)* QUOT  { setText(getText().substring(1, getText().length()-1)); } ;
 
 /* Numeric literals */
-NUMBER: ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
-
-fragment 
-DIGIT : '0'..'9' ;
+fragment DIGIT : '0'..'9' ;
+NUMBER : ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
 
 /* Comparison operators */
-EQ		: '=' ;
-NEQ		: '<>' ;
+EQ	: '=' ;
+NEQ	: '<>' ;
 LTEQ	: '<=' ;
 GTEQ	: '>=' ;
-GT		: '>' ;
-LT		: '<' ;
+GT	: '>' ;
+LT	: '<' ;
 
 /* Text operators */
-AMP		: '&' ;
+AMP	: '&' ;
+QUOT 	: '"' ;
 
 /* Arithmetic operators */
 PLUS	: '+' ;
 MINUS	: '-' ;
 MULTI	: '*' ;
-DIV		: '/' ;
+DIV	: '/' ;
 POWER	: '^' ;
 PERCENT : '%' ;
 
 /* Reference operators */
 fragment ABS : '$' ;
-fragment EXCL:  '!'  ;
-COLON	: ':' ;
- 
+fragment EXCL : '!' ;
+COLON	: ':mar' ;
+
 /* Miscellaneous operators */
 COMMA	: ',' ;
 SEMI	: ';' ;
 LPAR	: '(' ;
-RPAR	: ')' ; 
+RPAR	: ')' ;
+LBRA    : '{' ;
+RBRA    : '}' ;
+
+/* Assign operator */
+ASSIGN : ':=' ;
 
 /* White-space (ignored) */
-WS: ( ' '
-	| '\r' '\n'
-	| '\n'
-	| '\t'
-	) {$channel=HIDDEN;}
-	;
-	
-	
- 
+WS:
+( ' '
+| '\r' '\n'
+| '\n'
+| '\t'
+) {$channel=HIDDEN;}
+;
