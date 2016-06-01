@@ -22,7 +22,7 @@ public class TcpClient {
      */
     public TcpClient(int port) {
         this.port = port;
-        this.client = new TcpServer().client();
+        this.client = new TcpServer();
     }
     
     /**
