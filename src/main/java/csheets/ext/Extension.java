@@ -32,7 +32,7 @@ import csheets.ui.ext.UIExtension;
 public abstract class Extension implements Comparable<Extension> {
     
         /** The state of the extension*/
-        private final boolean enable;
+        private boolean enable;
 
 	/** The name of the extension */
 	private final String name;
@@ -131,4 +131,12 @@ public abstract class Extension implements Comparable<Extension> {
 	public UIExtension getUIExtension(UIController uiController) {
 		return null;
 	}
+        
+        public void enable(){
+            this.enable=true;
+        }
+        
+        public void disable(){
+            this.enable=false;
+        }
 }
