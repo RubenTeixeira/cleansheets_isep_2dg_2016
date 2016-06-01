@@ -10,22 +10,30 @@ import csheets.support.Task;
 import csheets.support.TaskManager;
 
 public class UdpClientService {
-    
-    public UdpClientService() {
-        UdpClient client = new UdpClient(8000);
 
-        Task broadcast = new Task() {
+    public UdpClientService() {
+
+        Thread thread = new Thread() {
             @Override
-            public void fire() {
-                client.send(":broadcast", "255.255.255.255:8000" , "check");
+            public void run() {
+                UdpClient client = new UdpClient(0);
+                
+                Task broadcast = new Task() {
+                    @Override
+                    public void fire() {
+                        client.send(":broadcast", "all:30600", "check");
+                    }
+                };
+
+                TaskManager manager = new TaskManager();
+
+                // We're giving a 30 second interval per broadcast message,
+                // although this time could be changed to a smaller time
+                // frame so that the information would be more reliable.
+                manager.after(3).every(1).fire(broadcast);
             }
         };
-
-        TaskManager manager = new TaskManager();
         
-        // We're giving a 30 second interval per broadcast message,
-        // although this time could be changed to a smaller time
-        // frame so that the information would be more reliable.
-        manager.after(1).every(30).fire(broadcast);
+        thread.start();
     }
 }

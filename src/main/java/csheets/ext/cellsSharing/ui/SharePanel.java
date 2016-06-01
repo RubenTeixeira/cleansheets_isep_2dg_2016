@@ -71,6 +71,7 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	public SharePanel(UIController uiController) {
 		super(new BorderLayout());
 		this.uiController = uiController;
+                this.controller = new ShareCellsController(uiController, this, 8000);
 
 		setName(ShareExtension.NAME);
 

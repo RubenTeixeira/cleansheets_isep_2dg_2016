@@ -20,8 +20,9 @@ public class ShareCellsController {
         this.uiController = uiController;
         this.uiPanel = uiPanel;
         
+        UdpServerService udpServerService = new UdpServerService(port);
         UdpClientService udpClientService = new UdpClientService();
-        UdpServerService udpServerService = new UdpServerService();
+
         TcpServerService tcpServerService = new TcpServerService();
         
         udpServerService.addObserver(uiPanel);
