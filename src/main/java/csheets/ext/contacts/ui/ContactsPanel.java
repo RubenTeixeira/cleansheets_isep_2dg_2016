@@ -5,15 +5,12 @@
  */
 package csheets.ext.contacts.ui;
 
-import csheets.core.SpreadsheetImpl;
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
-import csheets.ui.sheet.SpreadsheetTable;
 import java.awt.GridLayout;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -105,7 +102,6 @@ public class ContactsPanel extends JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("Yeah!");
         refreshContactCards();
         contactsPanel.revalidate();
         contactsPanel.repaint();
