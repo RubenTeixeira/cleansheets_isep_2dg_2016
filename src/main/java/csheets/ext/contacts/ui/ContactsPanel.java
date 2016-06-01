@@ -5,6 +5,7 @@
  */
 package csheets.ext.contacts.ui;
 
+import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsExtension;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
@@ -13,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -23,21 +25,18 @@ import javax.swing.JScrollBar;
  */
 public class ContactsPanel extends JPanel {
 
-    private JPanel mainPanel;
-    private JButton addBtn;
-    private JButton editBtn;
-    private JButton removeBtn;
+    private ContactsController theController = new ContactsController();
 
     /**
      * Creates new form ContactsPanel
      */
     public ContactsPanel(UIController controller) {
 //        super(new BorderLayout());
+        System.out.println("carreguei");
         setName(ContactsExtension.NAME);
         initComponents();
     }
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -46,61 +45,120 @@ public class ContactsPanel extends JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        addBtn = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
+        removeBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
+        contactsPanel = new javax.swing.JPanel();
 
-        setLayout(new java.awt.BorderLayout(10, 10));
-
-        jPanel1.setLayout(new java.awt.GridLayout(3, 1, 20, 5));
-
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        setMaximumSize(new java.awt.Dimension(100, 50));
+        setMinimumSize(new java.awt.Dimension(100, 50));
+        setPreferredSize(new java.awt.Dimension(100, 50));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
             }
         });
-        jPanel1.add(jButton1);
+        setLayout(new java.awt.BorderLayout(10, 10));
 
-        jButton2.setText("Edit");
-        jPanel1.add(jButton2);
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jButton3.setText("Remove");
-        jPanel1.add(jButton3);
+        addBtn.setText("+");
+        addBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(addBtn, java.awt.BorderLayout.WEST);
+
+        editBtn.setText("Edit");
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(editBtn, java.awt.BorderLayout.CENTER);
+
+        removeBtn.setText("-");
+        removeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeBtnActionPerformed(evt);
+            }
+        });
+        jPanel1.add(removeBtn, java.awt.BorderLayout.EAST);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_END);
 
         jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jPanel2.setLayout(new java.awt.GridLayout(0, 1, 5, 0));
-        jScrollPane2.setViewportView(jPanel2);
+        contactsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        contactsPanel.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane2.setViewportView(contactsPanel);
 
         add(jScrollPane2, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        System.out.println("Teste botao!");
-        ContactCardPanel cd = new ContactCardPanel();
-        cd.setFirstName("Teste user");
         
-        this.jPanel2.add(cd);
-        jPanel2.revalidate();
-        jPanel2.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_addBtnActionPerformed
 
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void removeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_removeBtnActionPerformed
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        if (this.contactsPanel.getComponentCount() == 0) {
+            buildContactCards();
+        }
+    }//GEN-LAST:event_formComponentShown
+
+    private void buildContactCards() {
+        ContactCardPanel card;
+
+        for (Contact ct : this.theController.allContacts()) {
+            System.out.println("Encontrei");
+            card = new ContactCardPanel();
+            card.setFirstName(ct.firstName());
+            card.setLastName(ct.lastName());
+            //TODO
+            card.setPhoto();
+            addContactCard(card);
+        }
+        refreshUI();
+    }
+
+    private void addContactCard(JComponent comp) {
+        this.contactsPanel.add(comp);
+        addGridRow();
+        
+    }
+
+    private void addGridRow() {
+        GridLayout layout = (GridLayout) this.contactsPanel.getLayout();
+
+        layout.setRows(layout.getRows() + 1);
+
+    }
+
+    private void refreshUI() {
+        contactsPanel.revalidate();
+        contactsPanel.repaint();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton addBtn;
+    private javax.swing.JPanel contactsPanel;
+    private javax.swing.JButton editBtn;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton removeBtn;
     // End of variables declaration//GEN-END:variables
 }
