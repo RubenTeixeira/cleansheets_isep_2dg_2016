@@ -31,20 +31,20 @@ public class ShareCellsController {
 		Thread udpServer = new Thread() {
 			@Override
 			public void run() {
-				new UdpServer();
+				new UdpClientService();
 			}
 		};
 
 		Thread udpClient = new Thread() {
 			@Override
 			public void run() {
-				new UdpClient(8000);
+				new UdpServerService();
 			}
 		};
 
 		Thread tcpServer = new Thread() {
 			public void run() {
-
+                            
 			}
 		};
 
