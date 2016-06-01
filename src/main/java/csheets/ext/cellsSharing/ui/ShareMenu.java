@@ -14,7 +14,7 @@ public class ShareMenu extends JMenu {
 	/**
 	 * Creates a new share menu. This constructor creates and adds the menu
 	 * options. A menu option is an action (in this case
-	 * {@link csheets.ext.share.ui.ShareAction})
+	 * 
 	 *
 	 * @param uiController the user interface controller
 	 */
