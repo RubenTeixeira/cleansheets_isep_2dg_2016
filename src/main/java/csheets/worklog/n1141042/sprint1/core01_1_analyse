@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/core01_1_analyse.png
 System-> User : Loads the active extensions.
 User -> System: Select the extensions that want to disable it
 System-> User : Disables the extensions on the menu.
