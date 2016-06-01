@@ -35,7 +35,7 @@ public class ThreadManager {
     public void run(String key)
     {
         if (this.threads.containsKey(key)) {
-            this.threads.get(key).run();
+            this.threads.get(key).start();
         }
     }
     
@@ -48,7 +48,7 @@ public class ThreadManager {
      * 
      * It will destroy every thread that starts with group.
      * 
-     * @param key 
+     * @param key Thread key.
      */
     public void destroy(String key)
     {

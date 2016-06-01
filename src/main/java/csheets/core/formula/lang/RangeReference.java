@@ -29,24 +29,29 @@ import csheets.core.formula.Reference;
 
 /**
  * A reference to a range of cells in a spreadsheet.
+ *
  * @author Einar Pehrson
  */
 public class RangeReference implements BinaryOperator {
 
-	/** The unique version identifier used for serialization */
+	/**
+	 * The unique version identifier used for serialization
+	 */
 	private static final long serialVersionUID = 8527083457981256682L;
 
 	/**
 	 * Creates a new range reference operator.
 	 */
-	public RangeReference() {}
+	public RangeReference() {
+	}
 
 	public Value applyTo(Expression leftOperand, Expression rightOperand) {
 		// Casts operands
-		if (!(leftOperand instanceof CellReference && rightOperand instanceof CellReference))
+		if (!(leftOperand instanceof CellReference && rightOperand instanceof CellReference)) {
 			return new Value(new IllegalArgumentException("#OPERAND!"));
-		CellReference ref1 = (CellReference)leftOperand;
-		CellReference ref2 = (CellReference)rightOperand;
+		}
+		CellReference ref1 = (CellReference) leftOperand;
+		CellReference ref2 = (CellReference) rightOperand;
 
 		// Fetches the cells
 		Cell[][] cells;
@@ -58,29 +63,34 @@ public class RangeReference implements BinaryOperator {
 
 		// Fetches the values
 		Value[][] values = new Value[cells.length][cells[0].length];
-		for (int row = 0; row < cells.length; row++)
-			for (int column = 0; column < cells[row].length; column++)
+		for (int row = 0; row < cells.length; row++) {
+			for (int column = 0; column < cells[row].length; column++) {
 				values[row][column] = cells[row][column].getValue();
+			}
+		}
 		return new Value(values);
 	}
 
 	/**
 	 * Returns the range of cells formed by the two cell references.
+	 *
 	 * @param reference1 the first reference
 	 * @param reference2 the other reference
 	 * @return an array of the cells that constitute the range
 	 */
 	public Cell[][] getCells(Reference reference1, Reference reference2) {
 		// Casts operands
-		if (!(reference1 instanceof CellReference && reference2 instanceof CellReference))
+		if (!(reference1 instanceof CellReference && reference2 instanceof CellReference)) {
 			throw new IllegalArgumentException("#OPERAND!");
-		CellReference ref1 = (CellReference)reference1;
-		CellReference ref2 = (CellReference)reference2;
+		}
+		CellReference ref1 = (CellReference) reference1;
+		CellReference ref2 = (CellReference) reference2;
 
 		// Checks that the references point to cells in the same spreadsheet
 		Spreadsheet spreadsheet = ref1.getCell().getSpreadsheet();
-		if (spreadsheet != ref2.getCell().getSpreadsheet())
+		if (spreadsheet != ref2.getCell().getSpreadsheet()) {
 			throw new IllegalArgumentException("#3DREF!");
+		}
 
 		// Fetches coordinates
 		int column1 = ref1.getCell().getAddress().getColumn();
@@ -93,18 +103,18 @@ public class RangeReference implements BinaryOperator {
 		int endRow = row1 <= row2 ? row2 : row1;
 
 		// Builds the matrix
-		Cell[][] matrix = new Cell
-			[endRow - startRow + 1]
-			[endColumn - startColumn + 1];
-		for (int row = 0; row < matrix.length; row++)
-			for (int column = 0; column < matrix[row].length; column++)
-				matrix[row][column] = spreadsheet.getCell
-					(column + startColumn, row + startRow);
+		Cell[][] matrix = new Cell[endRow - startRow + 1][endColumn - startColumn + 1];
+		for (int row = 0; row < matrix.length; row++) {
+			for (int column = 0; column < matrix[row].length; column++) {
+				matrix[row][column] = spreadsheet.
+					getCell(column + startColumn, row + startRow);
+			}
+		}
 		return matrix;
 	}
 
 	public String getIdentifier() {
-		return ":";
+		return ":mar";
 	}
 
 	public Value.Type getOperandValueType() {
