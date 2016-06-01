@@ -8,14 +8,12 @@ package csheets.ext.contacts.ui;
 import csheets.CleanSheets;
 import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.support.Converter;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Icon;
 
 /**
  *
@@ -47,7 +45,10 @@ public class ContactsController {
         }
 
         Contact ct = new Contact(firstName, lastName, thePhoto);
-        return PersistenceContext.repositories().contacts().add(ct);
+        
+        boolean flag = PersistenceContext.repositories().contacts().add(ct);
+        Notification.contactInformer().notifyChange();
+        return flag;
     }
 
 }

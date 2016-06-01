@@ -56,7 +56,6 @@ public class ContactCardPanel extends javax.swing.JPanel {
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 70, -1, 40));
         jPanel1.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 6, 120, 100));
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Utilizador\\Desktop\\lapr4-2016-2dg\\src\\main\\resources\\csheets\\res\\img\\delete.gif")); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
@@ -64,7 +63,6 @@ public class ContactCardPanel extends javax.swing.JPanel {
         });
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 20, 20, 10));
 
-        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Utilizador\\Desktop\\lapr4-2016-2dg\\src\\main\\resources\\csheets\\res\\img\\edit.png")); // NOI18N
         jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel4MouseClicked(evt);
