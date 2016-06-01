@@ -5,11 +5,14 @@
  */
 package csheets.domain;
 
+import csheets.support.DateTime;
 import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -17,23 +20,33 @@ import javax.persistence.Id;
  */
 @Entity
 public class Event implements Serializable {
-    
-    @Id
-    @GeneratedValue
-    private Long id;
-    
-    private Agenda agenda;
 
-    private String description;
-    private Calendar date;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    protected Event() {
-    }
+	@ManyToOne
+	private Contact contact;
 
-    public Event(String description, Calendar date) {
-        this.description = description;
-        this.date = date;
-        throw new IllegalArgumentException();
-    }
+	private String description;
+	@Temporal(javax.persistence.TemporalType.DATE)
+	private Calendar date;
 
+	protected Event() {
+	}
+
+	public Event(Contact contact, String description, Calendar date) {
+		if (contact == null || description == null || date == null) {
+			throw new IllegalArgumentException();
+		}
+		this.contact = contact;
+		this.description = description;
+		this.date = date;
+	}
+
+	@Override
+	public String toString() {
+		return this.contact + " - \n" + this.description + " - " + DateTime.
+			format(date);
+	}
 }

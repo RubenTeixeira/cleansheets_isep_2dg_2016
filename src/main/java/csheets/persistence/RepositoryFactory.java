@@ -5,6 +5,8 @@ package csheets.persistence;
  *
  */
 public interface RepositoryFactory {
-    
-    ContactRepository contacts();
+
+	ContactRepository contacts();
+
+	EventRepository events();
 }
