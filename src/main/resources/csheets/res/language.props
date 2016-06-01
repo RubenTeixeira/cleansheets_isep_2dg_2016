@@ -18,6 +18,7 @@ GreaterThan
 GreaterThanOrEqual
 
 # Miscellaneous binary operators
+Assign
 Concatenator
 RangeReference
 

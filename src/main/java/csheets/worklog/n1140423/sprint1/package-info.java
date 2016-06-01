@@ -2,23 +2,23 @@
  * Technical documentation regarding the work of the team member (1140423) Renato Machado during week1. 
  * 
  * <p>
- * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
- * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  * 
- * <p>
  * <b>Area Leader: -(yes/no)- yes</b>
+ * </p>
  * 
  * <h2>1. Notes</h2>
  * 
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work during the week.
- * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
- *
+ * Been setting up the network protocols for instances of Cleansheets to connect to each others.
+ * Helped my colleagues to understand the protocol structure and how things connect to each other.
+ * </p>
+ * 
  * <h2>2. Use Case/Feature: IPC01.1</h2>
  * 
+ * <p>
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
+ * </p>
  * <p>
  * LPFOURDG-51
  * 
@@ -33,6 +33,8 @@
  * discovered instances to connect to when establishing the connection to send
  * the contents of the range of cells. At the moment it is only required to send
  * the value of the cells.
+ * 
+ * </p>
  * 
  * <h2>3. Requirement</h2>
  *
@@ -156,30 +158,27 @@
  * 
  * <h2>9. Work Log</h2> 
  * 
- * <p>
- * 31/05/2016
- * </p>
+ * <p>31/05/2016</p>
  * <b>Tuesday</b>
- * <p>
- * Yesterday:
- * </p>
- * <p>
- * I defined the subtasks for the IPC01.1.
- * </p>
- * <p>
- * Today
- * </p>
- * <p>
- * Started working on the feature. Helped colleagues to understand the problem and recommended a solution.
+ * <p>Yesterday:</p>
+ * <p>I defined the subtasks for the IPC01.1.</p>
+ * <p>Today</p>
+ * <p>Started working on the feature. Helped colleagues to understand the problem and recommended a solution.
  * Explained how Volt, a package developed in RCOMP that eases the development of UDP and TCP protocols, works.
- * Implemented Volt in the repository, and the Support package (with the TaskManager, ThreadManager).
- * </p>
- * <p>
- * Blocking
- * </p>
- * <p>
- * Nothing.
- * </p>
+ * Implemented Volt in the repository, and the Support package (with the TaskManager, ThreadManager).</p>
+ * <p>Blocking</p>
+ * <p>Nothing.</p>
+ * 
+ * <p>01/06/2016</p>
+ * <b>Wednesday</b>
+ * <p>Yesterday:</p>
+ * <p>I've develop a few helper classes to handle some more difficult situations, such as timing events and
+ * thread management. I've also develop a super set protocol over TCP/IP to be able to develop my feature.</p>
+ * <p>Today</p>
+ * <p>Will work on Volt to make the whole process a bit more stable, testing, try to find bugs and fix them.
+ * Will help my colleagues if they have any difficulties.</p>
+ * <p>Blocking</p>
+ * <p>Nothing.</p>
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -190,8 +189,12 @@
  * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
+ * </p>
  * <p>
- * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e01bbf726b8a1ba29f3e920f53d8fb10b6c2ed57">Small updates on TcpServer</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2c14560581f15ead1be0471d8ac39f9e69ce697c">Fixed errors on TcpClient</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2b4ded30d0b4dfa006a4fa5e9377923bef28fcc7">Added Volt. Developed TaskManager and ThreadManager</a>
+ * </p>
  * 
  * <h3>10.2. Teamwork: ...</h3>
  * 

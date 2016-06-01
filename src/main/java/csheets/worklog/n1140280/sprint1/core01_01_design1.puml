@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/core01_01_design1.png
 actor Actor
   participant "ExtensionManagerAction" as ExtensionManagerAction
   participant "Check Box" as CheckB

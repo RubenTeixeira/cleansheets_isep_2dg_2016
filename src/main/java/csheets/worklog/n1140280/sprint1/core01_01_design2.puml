@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/core01_01_design2.png
 actor Actor
   participant "ExtensionManagerAction" as ExtensionManagerAction
   participant "uiController : UIController" as UIController
