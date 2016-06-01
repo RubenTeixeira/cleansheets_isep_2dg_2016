@@ -18,6 +18,9 @@ import csheets.ui.sheet.SpreadsheetTable;
 import java.awt.BorderLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -26,7 +29,7 @@ import javax.swing.JOptionPane;
  *
  * @author José Barros
  */
-public class SharePanel extends javax.swing.JPanel implements SelectionListener {
+public class SharePanel extends javax.swing.JPanel implements SelectionListener, Observer{
 
 	private final UIController uiController;
 
@@ -233,8 +236,13 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener 
 		}
     }//GEN-LAST:event_instancesListValueChanged
 
-	public void updateInstanceList() {
-		//TODO
+	public void updateInstanceList(List<String> addresses) {
+		for (String address : addresses) {
+                    instanceListModel.addElement(address);
+                }
+                
+                instancesList.setModel(instanceListModel);
+                repaint();
 	}
 
 	public void updateReceiveList() {
@@ -282,4 +290,10 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener 
 		} catch (Exception e) {
 		}
 	}
+
+    @Override
+    public void update(Observable o, Object list) {
+        List<String> addresses = (List<String>) list;
+        updateInstanceList(addresses);
+    }
 }

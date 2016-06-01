@@ -5,16 +5,8 @@
  */
 package csheets.ext.cellsSharing.ui;
 
-import csheets.core.Cell;
-import csheets.framework.volt.Action;
-import csheets.framework.volt.protocols.tcp.TcpClient;
-import csheets.framework.volt.protocols.tcp.TcpServer;
-import csheets.framework.volt.protocols.udp.UdpClient;
-import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.ui.ctrl.UIController;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ShareCellsController {
 
@@ -27,17 +19,13 @@ public class ShareCellsController {
      * User interface panel *
      */
     private final SharePanel uiPanel;
-
-    private TcpClient tcpClient;
-
-    private TcpServer tcpServer;
+    
+    private UdpServerService updServerService;
 
     public ShareCellsController(UIController uiController, SharePanel uiPanel, int port) {
 
         this.uiController = uiController;
         this.uiPanel = uiPanel;
-
-        HostAddressContainer addresses = new HostAddressContainer();
 
         Thread udpServer = new Thread() {
             @Override
@@ -49,7 +37,7 @@ public class ShareCellsController {
         Thread udpClient = new Thread() {
             @Override
             public void run() {
-                new UdpServerService(addresses);
+                updServerService = new UdpServerService();
             }
         };
         Thread tcpServer = new Thread() {
@@ -57,7 +45,7 @@ public class ShareCellsController {
                 new TcpServerService();
             }
         };
-        
+
         Thread tcpClient = new Thread() {
             public void run() {
                 new TcpClientService(port);
@@ -68,6 +56,15 @@ public class ShareCellsController {
         udpClient.start();
         tcpServer.start();
         tcpClient.start();
+    }
+
+    /**
+     *
+     * @param observer
+     * @param observable
+     */
+    public void addObserverToServer(SharePanel observer) {
+        this.updServerService.addObserver(observer);
     }
 
     /**

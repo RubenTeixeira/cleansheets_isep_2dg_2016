@@ -7,13 +7,14 @@ package csheets.ext.cellsSharing.ui;
 
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.udp.UdpServer;
+import csheets.notification.Notifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class UdpServerService {
+public class UdpServerService extends Notifier{
     
-    public UdpServerService (HostAddressContainer hostAddresses) {
+    public UdpServerService() {
         UdpServer server = new UdpServer();
         
         server.expect(":broadcast", new Action() {
@@ -43,7 +44,7 @@ public class UdpServerService {
                     addresses.add(ips.get(i) + ":" + ports.get(i));
                 }
                 
-                hostAddresses.setHostAddresses(addresses);
+                notifyChange(addresses);
             }
         });
     }
