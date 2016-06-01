@@ -1,16 +1,16 @@
 /**
  * Technical documentation regarding the work of the team member (1140280) Antonio Bernardo during week1.
  *
- * <p/>
+ * <p></p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
- * <p/>
+ * <p></p>
  * <b>Area Leader: -(yes/no)- yes</b>
  *
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p/>
+ * <p></p>
  * First day of worked used mainly for app studying
  *
  * <h2>2. Use Case/Feature: CORE01.1</h2>
@@ -23,7 +23,7 @@
  * It should exist a new window that allows to enable and disable extensions of Cleansheets. A disabled
  * extension means that all its functionalities are disabled.
  *
- * <p>
+ * <p></p>
  * <b>Use Case "Enable and Disable Extensions":</b> It should exist a new window that allows to enable 
  * and disable extensions of Cleansheets. A disabled
  * extension means that all its functionalities are disabled.
@@ -33,20 +33,22 @@
  *
  *
  * <h2>5. Design</h2>
+ *	Diagram of the core functionality of the feature 
+ * <p></p>
+ * <img src="doc-files/core01_01_design1.png" alt="image"> 
+ * <p></p>
  *
- * 
- * 
  * <h3>5.3. Classes</h3>
  *
  * <h2>9. Work Log</h2>
  *
  * -Insert here a log of you daily work. This is in essence the log of your
  * daily standup meetings.-
- * <p>
+ * <p></p>
  * Example
- * <p>
+ * <p></p>
  * <b>Monday</b>
- * <p>
+ * <p></p>
  * Yesterday I worked on:
  * <p>
  * 1. -nothing-
