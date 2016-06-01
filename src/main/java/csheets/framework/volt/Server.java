@@ -21,7 +21,7 @@ public abstract class Server {
      * Boots the server.
      *
      * @param port The port number.
-     * @throws IOException
+     * @throws IOException Should throw a IOException if any I/O operation fails.
      */
     protected abstract void bootServer(int port) throws IOException;
 
