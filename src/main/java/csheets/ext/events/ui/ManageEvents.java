@@ -269,14 +269,14 @@ public class ManageEvents extends javax.swing.JPanel {
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		System.out.println(format1.format(calendar.getTime()));
 
-		try {
-
-			this.controller.
-				createEvent(new Contact("User test", ""), this.jTextFieldEventName.
-							getText(), calendar);
-		} catch (DataIntegrityViolationException ex) {
-			System.out.println("Evento já existe");
-		}
+//		try {
+//
+//			this.controller.
+//				createEvent(new Contact("User test", ""), this.jTextFieldEventName.
+//							getText(), calendar);
+//		} catch (DataIntegrityViolationException ex) {
+//			System.out.println("Evento já existe");
+//		}
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -7,6 +7,7 @@ package csheets.ext.cellsSharing.ui;
 
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpServer;
+import csheets.notification.Notifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,18 @@ import java.util.Map;
  *
  * @author scarl
  */
-public class TcpServerService {
+public class TcpServerService extends Notifier {
 
-    public TcpServerService() {
+    public TcpServerService(int port) {
         Thread serverTcp = new Thread() {
-            TcpServer tcpServer = new TcpServer();
-            
+            @Override
             public void run() {
+                TcpServer tcpServer = new TcpServer();
                 tcpServer.expect(":address|:value", new Action() {
                     @Override
                     public void run(Map<String, Object> args) {
+//                      List<String> hosts = (List<String>) args.get("from");
+//                      notifyChange(hosts);
                         List<String> address = (List<String>) args.get("address");
                         List<String> value = (List<String>) args.get("value");
 
@@ -33,8 +36,10 @@ public class TcpServerService {
                         for (int i = 0; i < address.size(); i++) {
                             cellsInformation.add(address.get(i) + ":" + value.get(i));
                         }
+                        notifyChange(cellsInformation);
                     }
                 });
+                tcpServer.stream(port);
             }
         };
     }

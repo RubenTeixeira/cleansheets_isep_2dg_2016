@@ -52,16 +52,16 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	public void creation() {
 		this.jModelListEvents.removeAllElements();
-		Contact contact = new Contact("João", "Pessoal");
-		Calendar calendar = DateTime.
-			newCalendar(2016, 05, 31, 8, 22, 0);
-		Event event = new Event(contact, "Lapr4", calendar);
-		try {
-			PersistenceContext.repositories().events().add(event);
-		} catch (DataIntegrityViolationException ex) {
-			System.out.println("Erro");
-		}
-		this.jModelListEvents.addElement(event);
+//		Contact contact = new Contact("João", "Pessoal");
+//		Calendar calendar = DateTime.
+//			newCalendar(2016, 05, 31, 8, 22, 0);
+//		Event event = new Event(contact, "Lapr4", calendar);
+//		try {
+//			PersistenceContext.repositories().events().add(event);
+//		} catch (DataIntegrityViolationException ex) {
+//			System.out.println("Erro");
+//		}
+//		this.jModelListEvents.addElement(event);
 	}
 
 	/**

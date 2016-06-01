@@ -13,7 +13,7 @@ public class UdpClientTest {
 
     public static void main(String[] args) {
         UdpClient client = new UdpClient(0);
-        client.send(":oi", "25.58.255.35", "Enviar mensagem");
+        client.send(":oi", "25.58.255.35:30600", "Enviar mensagem");
     }
 
 }

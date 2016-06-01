@@ -41,7 +41,7 @@ public class ContactTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFirstNameNotAcceptNull() {
-		Contact newContact = new Contact(null, "Ramires");
+		Contact newContact = new Contact(null, "Ramires", null);
 
 	}
 
@@ -50,7 +50,7 @@ public class ContactTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testLastNameNotAcceptNull() {
-		Contact newContact = new Contact("Diogo", null);
+		Contact newContact = new Contact("Diogo", null, null);
 
 	}
 
@@ -59,7 +59,7 @@ public class ContactTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testFirstNameNotAcceptEmpty() {
-		Contact newContact = new Contact(null, "");
+		Contact newContact = new Contact(null, "", null);
 
 	}
 
@@ -68,7 +68,7 @@ public class ContactTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testLastNameNotAcceptEmpty() {
-		Contact newContact = new Contact("", null);
+		Contact newContact = new Contact("", null, null);
 
 	}
 }

@@ -7,6 +7,7 @@ package csheets.ext.cellsSharing.ui;
 
 import csheets.core.Cell;
 import csheets.framework.volt.protocols.tcp.TcpClient;
+import csheets.notification.Notifier;
 import csheets.support.Task;
 
 /**
@@ -15,13 +16,11 @@ import csheets.support.Task;
  */
 public class TcpClientService {
 
-    TcpClient tcpClient;
-
-    public TcpClientService(int port, String target, String data) {
+    public TcpClientService(String target, String data) {
         Thread clientTcp = new Thread() {
+            @Override
             public void run() {
-                tcpClient = new TcpClient(port);
-
+                TcpClient tcpClient = new TcpClient(0);
                 Task sendData = new Task() {
                     @Override
                     public void fire() {

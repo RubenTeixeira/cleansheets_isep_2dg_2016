@@ -6,6 +6,7 @@
 package csheets.domain;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,12 +29,13 @@ public class Contact implements Serializable {
     private String lastName;
     
     @Lob
+    @Column(name="photo")
     private byte[] photo;
 
     protected Contact() {
     }
 
-    public Contact(String firstName, String lastName) {
+    public Contact(String firstName, String lastName, byte[] photo) {
         if(firstName == null || lastName == null)
         {
             throw new IllegalArgumentException();
@@ -45,6 +47,7 @@ public class Contact implements Serializable {
 
         this.firstName = firstName;
         this.lastName = lastName;
+        this.photo = photo;
     }
     
     public String firstName()
@@ -66,4 +69,5 @@ public class Contact implements Serializable {
     {
         this.photo = photo;
     }
+   
 }
