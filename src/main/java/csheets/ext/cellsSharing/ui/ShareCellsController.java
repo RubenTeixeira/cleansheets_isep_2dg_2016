@@ -19,23 +19,24 @@ public class ShareCellsController {
 
         this.uiController = uiController;
         this.uiPanel = uiPanel;
-        
+
         UdpServerService udpServerService = new UdpServerService(port);
         UdpClientService udpClientService = new UdpClientService();
 
-        TcpServerService tcpServerService = new TcpServerService();
-        
+        TcpServerService tcpServerService = new TcpServerService(port);
+
         udpServerService.addObserver(uiPanel);
-        //tcpServerService.addObserver(uiPanel);
+        tcpServerService.addObserver(uiPanel);
     }
-         /**
+
+    /**
      * Sends a array of Cells to the targeted host.
      *
      * @param target Targeted Host (ip and port)
      * @param cells Array of Cells
      */
-    public void sendCells(int port,String target, Cell[][] cells) {
-       
+    public void sendCells(int port, String target, Cell[][] cells) {
+
         String message = "";
         int linhas = cells.length;
         int colunas = cells[0].length;
@@ -43,9 +44,9 @@ public class ShareCellsController {
             for (int j = 0; j < colunas; j++) {
                 Cell cell = cells[i][j];
 
-                message += cell.getAddress().getColumn() + "," + cell.getAddress().getRow() + "|" + cell.getValue().getType() + "," + cell.getValue() + "@"; //prototipo TODO MESSAGE TO SEND
+                message += cell.getAddress().getColumn() + ";" + cell.getAddress().getRow() + "|" + cell.getValue().getType() + ";" + cell.getValue() + ";"; //prototipo TODO MESSAGE TO SEND
             }
         }
-         TcpClientService tcpService= new TcpClientService(port,target,message);
+        TcpClientService tcpService = new TcpClientService(target, message);
     }
 }
