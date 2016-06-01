@@ -18,6 +18,7 @@ import java.util.Calendar;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -51,16 +52,16 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	public void creation() {
 		this.jModelListEvents.removeAllElements();
-		Contact contact = new Contact("João", "Pessoal");
-		Calendar calendar = DateTime.
-			newCalendar(2016, 05, 31, 8, 22, 0);
-		Event event = new Event(contact, "Lapr4", calendar);
-		try {
-			PersistenceContext.repositories().events().add(event);
-		} catch (DataIntegrityViolationException ex) {
-			System.out.println("Erro");
-		}
-		this.jModelListEvents.addElement(event);
+//		Contact contact = new Contact("João", "Pessoal");
+//		Calendar calendar = DateTime.
+//			newCalendar(2016, 05, 31, 8, 22, 0);
+//		Event event = new Event(contact, "Lapr4", calendar);
+//		try {
+//			PersistenceContext.repositories().events().add(event);
+//		} catch (DataIntegrityViolationException ex) {
+//			System.out.println("Erro");
+//		}
+//		this.jModelListEvents.addElement(event);
 	}
 
 	/**
@@ -134,10 +135,15 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEventActionPerformed
-		ManageEvent event = new ManageEvent(this.controller);
-		event.setVisible(true);
-		event.setLocationRelativeTo(this);
-		event.setTitle("Created Event");
+		ManageEvents event = new ManageEvents(this.controller);
+
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, event, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+		if (eventOption == JOptionPane.OK_OPTION) {
+			event.createEvent();
+		}
+
     }//GEN-LAST:event_jButtonAddEventActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed

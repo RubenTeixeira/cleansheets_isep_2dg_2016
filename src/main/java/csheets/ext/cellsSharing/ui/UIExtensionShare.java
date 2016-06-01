@@ -30,15 +30,16 @@ public class UIExtensionShare extends UIExtension {
 	 * The icon to display with the extension's name
 	 */
 	private Icon icon;
-	/**
-	 * A cell decorator that visualizes comments on cells
-	 */
-	private CellDecorator cellDecorator;
 
 	/**
 	 * A side bar that provides editing of comments
 	 */
 	private JComponent sideBar;
+
+	/**
+	 * The menu of the extension
+	 */
+	private ShareMenu menu;
 
 	/**
 	 * The menu of the extension
@@ -70,36 +71,10 @@ public class UIExtensionShare extends UIExtension {
 	 * @return a JMenu component
 	 */
 	public JMenu getMenu() {
-		return null;
-	}
-
-	/**
-	 * Returns a cell decorator that visualizes the data added by the extension.
-	 *
-	 * @return a cell decorator, or null if the extension does not provide one
-	 */
-	public CellDecorator getCellDecorator() {
-		return null;
-	}
-
-	/**
-	 * Returns a table decorator that visualizes the data added by the
-	 * extension.
-	 *
-	 * @return a table decorator, or null if the extension does not provide one
-	 */
-	public TableDecorator getTableDecorator() {
-		return null;
-	}
-
-	/**
-	 * Returns a toolbar that gives access to extension-specific functionality.
-	 *
-	 * @return a JToolBar component, or null if the extension does not provide
-	 * one
-	 */
-	public JToolBar getToolBar() {
-		return null;
+		if (menu == null) {
+			menu = new ShareMenu(uiController);
+		}
+		return menu;
 	}
 
 	/**

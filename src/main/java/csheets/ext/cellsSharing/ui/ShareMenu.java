@@ -14,7 +14,7 @@ public class ShareMenu extends JMenu {
 	/**
 	 * Creates a new share menu. This constructor creates and adds the menu
 	 * options. A menu option is an action (in this case
-	 * 
+	 *
 	 *
 	 * @param uiController the user interface controller
 	 */
@@ -23,5 +23,6 @@ public class ShareMenu extends JMenu {
 		setMnemonic(KeyEvent.VK_E);
 
 		// Adds font actions
+		add(new OptionsAction(uiController));
 	}
 }
