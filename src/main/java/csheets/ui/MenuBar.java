@@ -156,6 +156,7 @@ public class MenuBar extends JMenuBar {
 				extensionsMenu.add(extensionMenu);
 			}
 		}
+                extensionsMenu.add(actionManager.getAction("extensiosactivatedeactivate"));
 
 		// Creates the window menu
 		add(new WindowMenu(app, uiController));
