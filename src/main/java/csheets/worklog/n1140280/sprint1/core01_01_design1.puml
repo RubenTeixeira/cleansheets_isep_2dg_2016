@@ -1,0 +1,27 @@
+@startuml
+actor Actor
+  participant "ExtensionManagerAction" as ExtensionManagerAction
+  participant "Check Box" as CheckB
+  participant "JOptionPane" as JOption
+  participant "extMan : ExtensionManager" as ExtensionManager
+
+  Actor -> ExtensionManagerAction : starts use case
+  ExtensionManagerAction -> ExtensionManager : getInstance()
+  ExtensionManagerAction -> ExtensionManager : extentions= getExtentions()
+ loop extention : extentions
+  ExtensionManagerAction -> CheckB : cb = newCheckBox()
+  ExtensionManagerAction -> CheckB : cb.setText(extention.getName())
+      alt extension.isEnabled()
+           ExtensionManagerAction -> CheckB : cb.setSelected(True)
+      else else
+           ExtensionManagerAction -> CheckB : cb.setSelected(False)
+      end 
+           ExtensionManagerAction -> JOption : add(cb)
+  end
+  ExtensionManagerAction -> Actor : show list
+  Actor -> Actor : Change check box status
+  Actor -> ExtensionManagerAction : Confirm changes
+ loop CheckBox : JOptioPane.checkBoxList()
+    ExtensionManagerAction -> uiController : changeExtensionState(CheckBox.getText(),ext.isSelected())
+  end
+@enduml

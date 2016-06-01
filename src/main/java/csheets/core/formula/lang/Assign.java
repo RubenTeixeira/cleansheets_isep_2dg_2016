@@ -11,6 +11,25 @@ package csheets.core.formula.lang;
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-public class Assign {
+public class Assign /*implements Function*/ {
 
+//	@Override
+//	public String getIdentifier() {
+//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//	}
+//
+//	@Override
+//	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
+//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//	}
+//
+//	@Override
+//	public FunctionParameter[] getParameters() {
+//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//	}
+//
+//	@Override
+//	public boolean isVarArg() {
+//		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//	}
 }

@@ -1,28 +1,35 @@
 /**
- * Technical documentation regarding the work of the team member (1140263) Joao Martins during week1
+ * Technical documentation regarding the work of the team member (1130523) Ruben
+ * Santos during week1.
  *
  * <p>
- * <b>Scrum Master: no</b>
+ * <b>-Note: this is a template/example of the individual documentation that
+ * each team member must produce each week/sprint. Suggestions on how to build
+ * this documentation will appear between '-' like this one. You should remove
+ * these suggestions in your own technical documentation-</b>
  * <p>
+ * <b>Scrum Master: -(yes/no)- yes</b>
  *
  * <p>
- * <b>Area Leader: no</b>
+ * <b>Area Leader: -(yes/no)- yes</b>
  *
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
  * <p>
+ * -In this section you should register important notes regarding your work
+ * during the week. For instance, if you spend significant time helping a
+ * colleague or if you work in more than a feature.-
  *
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-51</a>
  * <p>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-103">LPFOURDG-103</a>
- * 
- *
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-105</a>
  * <p>
+ * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
@@ -40,9 +47,8 @@
  * <b>Use Case "Instructions Block":</b>
  * Extend the formulas of Cleansheets.
  *
- *
  * <h2>4. Analysis</h2>
- * 
+ *
  * For the development of use case "Lang01.1 - Instructions Block", it´s
  * necessary analyze all classes of the project of packages formula. We conlude
  * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
@@ -51,6 +57,7 @@
  * and "Atrribuation" are functions. Also we have create a new Operation to
  * resolve n expressions and validates in function "convert" of class
  * "ExcelExpressionCompiler".
+ *
  *
  * <h2>5. Design</h2>
  *
@@ -68,7 +75,7 @@
  * <p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
- * <h3>5.2. UC Realization ####TODO!####</h3>
+ * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
@@ -80,19 +87,18 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
+ * <h3>User Share selected Cells</h3>
+ * The following diagram shows the setup of the local connection when
+ * cleansheets's user select share.
  * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
+ * <img src="doc-files/ipc01_01_design.png" alt="image">
  *
  *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
+ * <h3>Application display shared cells</h3>
+ * The following diagram illustrates what happens when a instance of cleansheet
+ * receive shared cells.
  * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
+ * <img src="doc-files/ipc01_01_design.png" alt="image">
  *
  * <h3>User Updates the Comment of a Cell</h3>
  * The following diagram illustrates what happens when the user updates the text
@@ -153,11 +159,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working. Cloning of the projec. Read javadoc. Understand the project.
+ * 1. -nothing-
  * <p>
  * Today
  * <p>
- * 1. Analysis of the...
+ * 1. Read javadoc
  * <p>
  * Blocking:
  * <p>
@@ -167,15 +173,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working. Cloning of the projec. Read javadoc. Understand the project.
+ * 1. Configure the IDE to start working 2. Read javadoc
  * <p>
  * Today
  * <p>
- * 1. Understand the problem/analysis to begin the implementation.
+ * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
+ * Instructions
  * <p>
  * Blocking:
  * <p>
- * 1. Design and analysis.
+ * 1. -nothing-
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -197,15 +204,15 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author alexandrebraganca
+ * @author ruben
  */
-package csheets.worklog.n1140263.sprint1;
+package csheets.worklog.n1131399.sprint1;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author ruben
  */
 class _Dummy_ {
 }
