@@ -22,18 +22,21 @@ package csheets.core.formula.util;
 
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
 
 /**
  * An interface for using the Visitor pattern for traversing expressions.
+ *
  * @author Einar Pehrson
  */
 public interface ExpressionVisitor {
 
 	/**
 	 * Visits the given literal.
+	 *
 	 * @param literal the literal to visit
 	 * @return an arbitrary object
 	 */
@@ -41,6 +44,7 @@ public interface ExpressionVisitor {
 
 	/**
 	 * Visits the given unary expression.
+	 *
 	 * @param operation the operation to visit
 	 * @return an arbitrary object
 	 */
@@ -48,6 +52,7 @@ public interface ExpressionVisitor {
 
 	/**
 	 * Visits the given binary expression.
+	 *
 	 * @param operation the operation to visit
 	 * @return an arbitrary object
 	 */
@@ -55,6 +60,7 @@ public interface ExpressionVisitor {
 
 	/**
 	 * Visits the given cell reference.
+	 *
 	 * @param reference the reference to visit
 	 * @return an arbitrary object
 	 */
@@ -62,8 +68,18 @@ public interface ExpressionVisitor {
 
 	/**
 	 * Visits the given function call.
+	 *
 	 * @param call the function call to visit
 	 * @return an arbitrary object
 	 */
 	public Object visitFunctionCall(FunctionCall call);
+
+	/**
+	 * Visits the given block.
+	 *
+	 * @param block the InstructionBlock to visit
+	 * @return an arbitrary object
+	 */
+	public Object visitInstructionBlock(InstructionBlock block);
+
 }

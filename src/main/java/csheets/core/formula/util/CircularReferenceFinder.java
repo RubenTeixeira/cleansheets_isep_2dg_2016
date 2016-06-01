@@ -21,28 +21,36 @@
 package csheets.core.formula.util;
 
 import csheets.core.Cell;
+import csheets.core.formula.Expression;
 import csheets.core.formula.Formula;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Reference;
 
 /**
- * An expression visitor that looks for circular references in a formula, i.e.
- * a reference back to the cell in the formula of a cell that precedes it.
+ * An expression visitor that looks for circular references in a formula, i.e. a
+ * reference back to the cell in the formula of a cell that precedes it.
+ *
  * @author Einar Pehrson
  */
 public class CircularReferenceFinder extends AbstractExpressionVisitor {
 
-	/** The cell to search for circular references */
+	/**
+	 * The cell to search for circular references
+	 */
 	private Formula formula;
 
 	/**
 	 * Creates a new circular reference finder.
 	 */
-	public CircularReferenceFinder() {}
+	public CircularReferenceFinder() {
+	}
 
 	/**
 	 * Checks if the given formula has any circular references.
-         * @param formula formula
-	 * @throws CircularReferenceException if the formula contains any circular references
+	 *
+	 * @param formula formula
+	 * @throws CircularReferenceException if the formula contains any circular
+	 * references
 	 */
 	public void check(Formula formula) throws CircularReferenceException {
 		this.formula = formula;
@@ -54,26 +62,62 @@ public class CircularReferenceFinder extends AbstractExpressionVisitor {
 	 * @param formula the formula to check for circularities
 	 * @return true if the given formula has any circular references
 	 */
-/*	public boolean hasCircularReference(Formula formula) {} */
-
+	/*public boolean hasCircularReference(Formula formula) {} ;*/
 	/**
 	 * Checks if the given reference causes a circular reference.
+	 *
 	 * @param reference the reference to visit
-	 * @throws CircularReferenceException if the given reference causes a circular reference
+	 * @throws CircularReferenceException if the given reference causes a
+	 * circular reference
 	 */
 	public Object visitReference(Reference reference) throws CircularReferenceException, ExpressionVisitorException {
 		for (Cell precedent : reference.getCells()) {
 			// Checks for circularity
-			if (precedent.equals(formula.getCell()))
+			if (precedent.equals(formula.getCell())) {
 				throw new CircularReferenceException(formula);
+			}
 
 			// Looks further
 			Formula precedentFormula = precedent.getFormula();
-			if (precedentFormula != null)
+			if (precedentFormula != null) {
 				precedentFormula.accept(this);
+			}
 		}
 		return reference;
 	}
 
+	@Override
+	public Object visitInstructionBlock(InstructionBlock block) throws CircularReferenceException, ExpressionVisitorException {
 
+		int size = block.getExpressions().length;
+		/**
+		 * Array Containing new Expressions.
+		 */
+		Expression[] newExpression = new Expression[size];
+		/**
+		 * Array Containing new Formulas.
+		 */
+		Formula[] newFormulas = new Formula[size];
+		/**
+		 * Elements.
+		 */
+		Formula formula;
+		boolean flag;
+		int i = 0;
+		for (Expression e : block.getExpressions()) {
+			//Downcast - Relation
+			formula = (Formula) e;
+			if (!formula.hasCircularReference()) {
+				newFormulas[i++] = formula;
+			} else {
+				throw new CircularReferenceException(formula);
+			}
+//			}
+//			int p = 0;
+//			for (Formula f : newFormulas) {
+//				newExpression[i++] = (Expression) f.getExpression();
+//			}
+		}
+		return block;
+	}
 }

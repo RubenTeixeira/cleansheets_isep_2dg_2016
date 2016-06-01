@@ -23,13 +23,15 @@ package csheets.core.formula.util;
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.Expression;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
 
 /**
- * A default implementation of an expression visitor, that simply visits all
- * the nodes in the tree. All methods return the expression that was visited.
+ * A default implementation of an expression visitor, that simply visits all the
+ * nodes in the tree. All methods return the expression that was visited.
+ *
  * @author Einar Pehrson
  */
 public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
@@ -37,7 +39,8 @@ public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
 	/**
 	 * Creates a new expression visitor.
 	 */
-	public AbstractExpressionVisitor() {}
+	public AbstractExpressionVisitor() {
+	}
 
 	public Object visitLiteral(Literal literal) {
 		return literal;
@@ -59,8 +62,16 @@ public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
 	}
 
 	public Object visitFunctionCall(FunctionCall call) {
-		for (Expression argument : call.getArguments())
+		for (Expression argument : call.getArguments()) {
 			argument.accept(this);
+		}
 		return call;
+	}
+
+	public Object visitInstructionBlock(InstructionBlock block) {
+		for (Expression expression : block.getExpressions()) {
+			expression.accept(this);
+		}
+		return block;
 	}
 }
