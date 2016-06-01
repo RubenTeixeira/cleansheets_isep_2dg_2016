@@ -12,6 +12,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -31,8 +34,6 @@ public class ContactsPanel extends JPanel {
      * Creates new form ContactsPanel
      */
     public ContactsPanel(UIController controller) {
-//        super(new BorderLayout());
-        System.out.println("carreguei");
         setName(ContactsExtension.NAME);
         initComponents();
     }
@@ -102,7 +103,8 @@ public class ContactsPanel extends JPanel {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        
+        new AddContactDialog(null, theController).setVisible(true);
+        refreshContactCards();
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
@@ -116,20 +118,29 @@ public class ContactsPanel extends JPanel {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         if (this.contactsPanel.getComponentCount() == 0) {
-            buildContactCards();
+            refreshContactCards();
         }
     }//GEN-LAST:event_formComponentShown
 
-    private void buildContactCards() {
+    private void clearContactList() {
+        this.contactsPanel.removeAll();
+        defaultGridRow();
+        refreshUI();
+    }
+
+    private void refreshContactCards() {
         ContactCardPanel card;
+        clearContactList();
 
         for (Contact ct : this.theController.allContacts()) {
-            System.out.println("Encontrei");
             card = new ContactCardPanel();
             card.setFirstName(ct.firstName());
             card.setLastName(ct.lastName());
-            //TODO
-            card.setPhoto();
+            try {
+                card.setPhoto(this.theController.contactPhoto(ct));
+            } catch (IOException ex) {
+                System.out.println("erro");
+            }
             addContactCard(card);
         }
         refreshUI();
@@ -138,7 +149,11 @@ public class ContactsPanel extends JPanel {
     private void addContactCard(JComponent comp) {
         this.contactsPanel.add(comp);
         addGridRow();
-        
+
+    }
+
+    private void defaultGridRow() {
+        ((GridLayout) this.contactsPanel.getLayout()).setRows(5);
     }
 
     private void addGridRow() {
