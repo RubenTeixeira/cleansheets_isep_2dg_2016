@@ -50,6 +50,7 @@ public class AssignTest {
 		Value expectedResult = new Value(2);
 
 		assertEquals(result.toString(), expectedResult.toString());
+		
 		 */
 	}
 }
