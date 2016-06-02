@@ -5,11 +5,18 @@
  */
 package csheets.ext.events.ui;
 
+import com.sun.media.sound.JavaSoundAudioClip;
+import csheets.CleanSheets;
 import csheets.domain.Event;
 import csheets.ext.events.EventsController;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 
 /**
@@ -21,17 +28,25 @@ public class TimedPopupDialog extends javax.swing.JDialog {
     private static final int TIME_VISIBLE = 5000;
     private EventsController theController;
     private Event event;
-    private Timer taskTimer;
+    private final Timer taskTimer;
 
     /**
      * Creates new form TimedPopupDialog
+     * @param parent
+     * @param title
+     * @param controller
+     * @param event
      */
     public TimedPopupDialog(java.awt.Frame parent, String title, EventsController controller, Event event) {
         super(parent, true);
         this.theController = controller;
         this.event = event;
         setTitle(title);
-        Toolkit.getDefaultToolkit().beep();
+        try {
+            new JavaSoundAudioClip(new FileInputStream(new File(CleanSheets.class.getResource("res/sound/notification.wav").getFile()))).play();
+        } catch (IOException ex) {
+            Logger.getLogger(TimedPopupDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
         taskTimer = new Timer(TIME_VISIBLE, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -42,10 +57,12 @@ public class TimedPopupDialog extends javax.swing.JDialog {
 
         taskTimer.start();
 
-        pack();
-        setLocationRelativeTo(parent);
+        
+        setLocationRelativeTo(null);
         setModal(true);
         initComponents();
+        pack();
+        setVisible(true);
     }
 
     /**
