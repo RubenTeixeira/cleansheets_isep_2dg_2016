@@ -81,8 +81,10 @@
  * problem regarding this issue.
  *
  * <h3>Analysis of Core Technical Problem</h3>
- *
- *
+ * The core of communication is expected to communicate in udp and tcp protocols connections. 
+ * <p>
+ * <img src="doc-files/ipc01_classDiagram.png.png" alt="image"> 
+ * 
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
