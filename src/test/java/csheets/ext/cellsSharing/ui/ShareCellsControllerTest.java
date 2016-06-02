@@ -46,17 +46,17 @@ public class ShareCellsControllerTest {
 
 	@Before
 	public void setUp() {
-		cell = new Cell[1][1];
-		tcpservice = new TcpService();
-		tcpservice.client("255.255.255.255", message);
-
-		message = ";" + cell[0][0].getAddress().getColumn() + ";" + cell[0][0].
-			getAddress().getRow() + ";" + cell[0][0].getValue().getType() + ";" + cell[0][0].
-			getValue().toString();
-
-		newcell.put("1", message);
-		cleansheets = new CleanSheets();
-		ui = new UIController(cleansheets);
+//		cell = new Cell[1][1];
+//		tcpservice = new TcpService();
+//		tcpservice.client("255.255.255.255", message);
+//
+//		message = ";" + cell[0][0].getAddress().getColumn() + ";" + cell[0][0].
+//			getAddress().getRow() + ";" + cell[0][0].getValue().getType() + ";" + cell[0][0].
+//			getValue().toString();
+//
+//		newcell.put("1", message);
+//		cleansheets = new CleanSheets();
+//		ui = new UIController(cleansheets);
 
 	}
 
