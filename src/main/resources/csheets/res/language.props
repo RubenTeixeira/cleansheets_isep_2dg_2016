@@ -21,6 +21,7 @@ GreaterThanOrEqual
 Assign
 Concatenator
 RangeReference
+InstructionBlock
 
 # Logic functions
 True
@@ -38,12 +39,7 @@ Factorial
 # Pseudo-statements
 If
 Do
-
-# Loop-Functions
 For
-
-#Miscellaneous
-InstructionBlock
 
 # # # Numeric functions reflected from java.lang.Math
 #

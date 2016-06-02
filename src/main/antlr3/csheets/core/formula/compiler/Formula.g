@@ -84,7 +84,9 @@ atom
 ;
 
 function_call
-:	FUNCTION^ LPAR! ( comparison ( SEMI! comparison )* )? RPAR!
+:	'FOR'^ LBRA! ( comparison ) SEMI! ( comparison ) SEMI! ( comparison ) ( SEMI! comparison )* RBRA!
+|	'FOR'^ LPAR! ( comparison ) SEMI! ( comparison ) SEMI! ( comparison ) ( SEMI! comparison )* RPAR!
+|	FUNCTION^ LPAR! ( comparison ( SEMI! comparison )* )? RPAR!
 ;
 
 block

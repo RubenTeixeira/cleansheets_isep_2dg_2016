@@ -28,7 +28,9 @@ public class For implements Function {
 	 */
 	public For(Expression... args) {
 		this.args = args;
+	}
 
+	public For() {
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class For implements Function {
 	 */
 	@Override
 	public String getIdentifier() {
-		return "For";
+		return "FOR";
 	}
 
 	/**

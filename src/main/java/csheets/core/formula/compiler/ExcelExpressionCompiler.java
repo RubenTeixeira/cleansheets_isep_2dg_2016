@@ -123,7 +123,9 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 	 * exception
 	 */
 	protected Expression convert(Cell cell, Tree node) throws FormulaCompilationException {
-		// System.out.println("Converting node '" + node.getText() + "' of tree '" + node.toStringTree() + "' with " + node.getNumberOfChildren() + " children.");
+		System.out.
+			println("Converting node '" + node.getText() + "' of tree '" + node.
+				toStringTree() + "' with " + node.getChildCount() + " children.");
 		if (node.getChildCount() == 0) {
 			try {
 				switch (node.getType()) {
@@ -190,19 +192,15 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 						operator,
 						convert(cell, node.getChild(1))
 					).evaluate();
-					CellReference reference = new CellReference(Converter.
-						controller().getActiveSpreadsheet(), node.getChild(0).
-																getText());
-					reference.getCell().setContent(value.toString());
+					Cell cellDest = new CellReference(Converter.controller().
+						getActiveSpreadsheet(), node.getChild(0).getText()).
+						getCell();
+					cellDest.setContent(value.toString());
+					return null;
 				} catch (Exception ex) {
 					Logger.getLogger(ExcelExpressionCompiler.class.getName()).
 						log(Level.SEVERE, null, ex);
 				}
-				return new BinaryOperation(
-					convert(cell, node.getChild(0)),
-					operator,
-					convert(cell, node.getChild(1))
-				);
 			} else {
 				return new BinaryOperation(
 					convert(cell, node.getChild(0)),
@@ -210,8 +208,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					convert(cell, node.getChild(1))
 				);
 			}
-
-		} else if (node.getChildCount() >= 2) {
+		} else if (node.getChildCount() > 2) {
 			Expression[] expressions = new Expression[node.getChildCount()];
 //			if (node.getChild(0).getText().equalsIgnoreCase("FOR")) {
 //
