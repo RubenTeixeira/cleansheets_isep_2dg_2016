@@ -7,19 +7,15 @@ package csheets.ext.contacts.ui;
 
 import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
-import csheets.support.Converter;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 
 /**
@@ -30,7 +26,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 
     private File photoFile;
     private ContactsController theController;
-    private ContactsPanel parentPanel;
     private Contact theContact;
 
     /**
@@ -39,7 +34,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
     public AddEditContactDialog(JFrame parent, ContactsController theController, Contact contact) {
         super(parent);
         this.theController = theController;
-        this.parentPanel = parentPanel;
         this.theContact = contact;
         initComponents();
     }
@@ -143,7 +137,7 @@ public class AddEditContactDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_addEditBtnAction
 
     private void photoAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoAction
-        // TODO add your handling code here:
+
         final JFileChooser fc = new JFileChooser();
 
         int returnVal = fc.showOpenDialog(fc);
@@ -197,7 +191,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 
         @Override
         protected void done() {
-            parentPanel.refreshContactCards();
             dispose();
         }
     }
@@ -213,7 +206,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 
         @Override
         protected void done() {
-            //TODO
             dispose();
         }
     }

@@ -105,29 +105,23 @@
         <Component class="javax.swing.JLabel" name="photo">
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
-<<<<<<< HEAD
-=======
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/csheets/res/img/delete.gif"/>
             </Property>
           </Properties>
->>>>>>> master
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel3MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="removeAction"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
-<<<<<<< HEAD
-=======
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/csheets/res/img/edit.png"/>
             </Property>
           </Properties>
->>>>>>> master
           <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel4MouseClicked"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="editAction"/>
           </Events>
         </Component>
       </SubComponents>
