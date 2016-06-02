@@ -1,4 +1,4 @@
-/**git commit -m"Add 1141071 worklog of first week."
+/**
  * Technical documentation regarding the work of the team member (1141071) Rui Bento during week1.
  * 
  * <p>
@@ -71,7 +71,7 @@
  * <b>Tuesday:</b>
  * <p>
  * 1. Configure the IDE to start working
- * 2. Debbug the application, and analyze the generated javaDoc
+ * 2. Debug the application, and analyze the generated javaDoc
  * 3. Understanding the UC code at the moment
  * 4. Start the design
  * </p>
@@ -86,13 +86,9 @@
  * <p>
  * <b>Wednesday:</b>
  * <p>
- * 1. -nothing-
- * </p>
- * <p>
- * <u>Blocking:</u>
- * <p>
- * 1. -nothing-
- * </p>
+ * 1. Improved the UC diagrams
+ * 2. Implement the UC diagrams
+ * 3. Create UC UI
  * </p>
  * </p>
  * 
