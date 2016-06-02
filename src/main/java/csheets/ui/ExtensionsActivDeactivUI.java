@@ -11,6 +11,7 @@ import csheets.ui.ext.UIExtension;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -106,6 +107,7 @@ public class ExtensionsActivDeactivUI extends JFrame {
     }
 
     private void confLblTitle() {
+        lblTitle.setFont(new Font(lblTitle.getFont().getName(), Font.BOLD, 16));
         lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitle.setText(TITLE);
     }
@@ -116,6 +118,7 @@ public class ExtensionsActivDeactivUI extends JFrame {
     private void confTable() {
         modelTableExtensions.setColumnIdentifiers(tablesNames);
         tableExtensions.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        tableExtensions.setBackground(this.getBackground());
         tableExtensions.setDragEnabled(false);
     }
 
