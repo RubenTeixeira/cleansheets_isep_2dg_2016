@@ -33,7 +33,7 @@ import csheets.ui.sheet.SpreadsheetTable;
 public abstract class FocusOwnerAction extends BaseAction implements PropertyChangeListener {
 
 	/** The current focus owner */
-	protected SpreadsheetTable focusOwner;
+	public SpreadsheetTable focusOwner;
 
 	/**
 	 * Creates a new focus owner action.
