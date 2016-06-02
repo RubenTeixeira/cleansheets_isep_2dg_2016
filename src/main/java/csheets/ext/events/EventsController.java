@@ -7,6 +7,7 @@ import csheets.factory.EventsFactory;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
+import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
@@ -46,7 +47,7 @@ public class EventsController {
 		verify = new Task() {
 			public void fire() {
 				for (Event event : allEvents()) {
-					if (event.alert()) {
+					if (event.alert() && event.date().before(DateTime.now())) {
 						Notification.eventInformer().notifyChange(event);
 					}
 				}
