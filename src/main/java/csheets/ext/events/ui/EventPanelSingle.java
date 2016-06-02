@@ -17,8 +17,8 @@ public class EventPanelSingle extends javax.swing.JPanel {
     /**
      * Creates new form ContactPanel3
      *
-     * @param controller The events controller.
-     * @param event The event to show.
+     * @param controller
+     * @param event
      */
     public EventPanelSingle(EventsController controller, Event event) {
         this.controller = controller;
@@ -157,7 +157,15 @@ public class EventPanelSingle extends javax.swing.JPanel {
     }//GEN-LAST:event_labelNameMouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.controller.removeEvent(this.event);
+
+        int op = JOptionPane.
+                showConfirmDialog(this, "Do you want to remove " + this.labelDescription.
+                        getText() + " " + "?", "Remove Event", JOptionPane.OK_CANCEL_OPTION);
+
+        if (JOptionPane.OK_OPTION == op) {
+            this.controller.removeEvent(this.event);
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

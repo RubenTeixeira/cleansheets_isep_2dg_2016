@@ -35,7 +35,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Event) {
 			Event event = (Event) arg;
-                        new TimedPopupDialog(null, "Event: " + event.description(), controller, event).setVisible(true);
+                        new TimedPopupDialog(null, "Event: " + event.description(), controller, event);
 		} else {
 			clearEventList();
 			for (Event event : this.controller.allEvents()) {

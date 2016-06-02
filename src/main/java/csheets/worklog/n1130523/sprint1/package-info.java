@@ -67,90 +67,35 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
+ * Basically, for the development and after analysis, we test if the assign for
+ * a specidfic cell it works and a method to test if should recognize the
+ * Expression as a InstructionBlock and assign the result of the last Expression
+ * to result.
  * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ *
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
+ * To realize this user story we will need to create Class "For" (function), and
+ * "Atribution" (operator). It will be necessary to define a better grammar to
+ * accept new tokens, and a "for" loop with multiple operations blocks. Also we
+ * have create a new Operation to resolve n expressions and validates in
+ * function "convert" of class "ExcelExpressionCompiler".
  *
- * <h3>User Share selected Cells</h3>
- * The following diagram shows the setup of the local connection when
- * cleansheets's user select share.
- * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
- *
- *
- * <h3>Application display shared cells</h3>
- * The following diagram illustrates what happens when a instance of cleansheet
- * receive shared cells.
- * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
  *
  *
  * <h2>9. Work Log</h2>
@@ -205,6 +150,22 @@
  * Blocking:
  * <p>
  * 1. -nothing-
+ *
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Part of Design Lang01.1- Block of Instructions, 2. Analysis update and
+ * pair programming
+ * <p>
+ * Today
+ * <p>
+ * 1. Part of Design Lang01.1- Block of Instructions.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ *
  *
  *
  * <h2>10. Self Assessment</h2>
