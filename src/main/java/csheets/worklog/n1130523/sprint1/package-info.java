@@ -61,7 +61,7 @@
  * "ExcelExpressionCompiler".
  *
  * <p>
- * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png">
+ * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
  *
  *
  * <h2>5. Design</h2>

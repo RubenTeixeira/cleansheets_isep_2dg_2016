@@ -62,13 +62,14 @@
  * 
  * <p>
  * <b>Monday:</b>
+ * </p>
  * <p>
  * 1. Team organization and discussion about the project
- * </p>
  * </p>
  * 
  * <p>
  * <b>Tuesday:</b>
+ * </p>
  * <p>
  * 1. Configure the IDE to start working
  * 2. Debug the application, and analyze the generated javaDoc
@@ -77,19 +78,18 @@
  * </p>
  * <p>
  * <u>Blocking:</u>
+ * </p>
  * <p>
  * 1. -nothing-
- * </p>
- * </p>
  * </p>
  * 
  * <p>
  * <b>Wednesday:</b>
+ * </p>
  * <p>
  * 1. Improved the UC diagrams
  * 2. Implement the UC diagrams
  * 3. Create UC UI
- * </p>
  * </p>
  * 
  * <h2>10. Self Assessment</h2>
@@ -98,8 +98,6 @@
  *
  * <p>
  * <b>Evidences:</b>
- * <p>
- * </p>
  * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>

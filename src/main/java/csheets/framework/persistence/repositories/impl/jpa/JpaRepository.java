@@ -127,8 +127,6 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 * Removes the entity with the specified ID from the repository.
 	 *
 	 * @param entityId
-	 * @throws UnsuportedOperationException if the delete operation makes no
-	 * sense for this repository
 	 */
 	@Override
 	public void deleteById(K entityId) {
