@@ -1,14 +1,14 @@
 @startuml doc-files/ipc01_01_design1.png
 
-actor User 
+participant "UIController" as UIController
+participant "SpreadsheetTable" as SpreadsheetTable
+participant "<interface>\nCell" as Cell
 participant "ShareCellUI" as ShareCellUI
 participant "ShareCellController" as ShareCellController
-participant "<interface>\nCell" as Cell
 participant "Volt.UdpClient" as UdpClient
 participant "Volt.UdpServer" as UdpServer
-participant "UI" as UI
 
-User->ShareCellUI: activates "Receive Cells" option
+UIController->ShareCellUI: activates "Receive Cells" option
 ShareCellUI->ShareCellController: new ()
 
 activate ShareCellController
@@ -16,7 +16,7 @@ ShareCellController->UdpClient: new ()
 ShareCellController->UdpServer: new ()
 deactivate ShareCellController
 
-ShareCellUI->ShareCellController:  List<Cell> cells = receiveCells()
+ShareCellUI->ShareCellController: Cell[][] cells = receiveCells()
 
 activate ShareCellController
 ShareCellController->UdpClient: expect (":broadcast")
@@ -26,15 +26,15 @@ ShareCellController->UdpServer: expect (":address|:value")
 deactivate ShareCellController
 
 ShareCellUI->ShareCellUI: checkCells()
-note left of ShareCellUI: checks if the received cells\nare located on an address that\nalready has existing cells
+note right of ShareCellUI: checks if the received cells\nare located on an address that\nalready has existing cells
 
 alt if there are already existing cells
-    ShareCellUI->User: Do you wish to replace the current cells\n   with the received ones?
-    User->ShareCellUI: Yes
+    ShareCellUI->ShareCellUI: Do you wish to replace the current cells\n   with the received ones?
+    ShareCellUI->ShareCellUI: Yes
 end
 	
-ShareCellUI->UI: setCells(cells)
-ShareCellUI->User: Cells changed successfully
+ShareCellController->UIController: setCells(cells)
+ShareCellController->UIController: Cells changed successfully
 
 @enduml
 @enduml
