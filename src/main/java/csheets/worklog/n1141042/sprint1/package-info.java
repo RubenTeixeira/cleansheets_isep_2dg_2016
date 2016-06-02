@@ -27,7 +27,9 @@
  *  The <b>system</b> loads the active extensions, the <b>user</b> select the extensions that want to disable it, the <b>system</b> disables the extensions on the menu.
  * </p>
  *<h2>SSD</h2> 
- *  <p><img src="doc-files/core01_1_analyse.png"></p>
+ *  <p>
+ * <img src="doc-files/core01_01_analyse.png" alt="image">
+ * <p>
  * @author Hicham Abahri
  */
 
