@@ -70,7 +70,7 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * adds a new entity to the persistence store
 	 *
-	 * @param entity
+	 * @param entity Entity.
 	 * @return the newly created persistent object
 	 */
 	public T create(T entity) {
@@ -81,8 +81,8 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * reads an entity given its K
 	 *
-	 * @param id
-	 * @return
+	 * @param id Entity identification.
+	 * @return Entity.
 	 */
 	public T read(K id) {
 		return this.entityManager().find(this.entityClass, id);
@@ -91,14 +91,20 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * reads an entity given its K
 	 *
-	 * @param id
-	 * @return
+	 * @param id Entity identification.
+	 * @return Entity.
 	 */
 	@Override
 	public T findById(K id) {
 		return read(id);
 	}
-
+        
+        /**
+         * Updates an entity.
+         * 
+         * @param entity Entity.
+         * @return Entity.
+         */
 	public T update(T entity) {
 		return entityManager().merge(entity);
 	}
@@ -107,7 +113,7 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 * removes the object from the persistence storage. the object reference is
 	 * still valid but the persisted entity is/will be deleted
 	 *
-	 * @param entity
+	 * @param entity Entity.
 	 */
 	@Override
 	public void delete(T entity) {
@@ -126,9 +132,7 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * Removes the entity with the specified ID from the repository.
 	 *
-	 * @param entityId
-	 * @throws UnsuportedOperationException if the delete operation makes no
-	 * sense for this repository
+	 * @param entityId Entity identification.
 	 */
 	@Override
 	public void deleteById(K entityId) {
@@ -153,8 +157,8 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * checks for the existence of an entity with the provided K.
 	 *
-	 * @param key
-	 * @return
+	 * @param key Entity key.
+	 * @return True if it contains the entity, false otherwise.
 	 */
 	boolean containsEntity(K key) {
 		return findById(key) != null;
@@ -176,9 +180,9 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 * and expect the container to begin/commit transactions. they are: create()
 	 * update() delete()
 	 *
-	 * @param entity
+	 * @param entity Entity.
 	 * @return the newly created persistent object
-	 * @throws DataIntegrityViolationException
+	 * @throws DataIntegrityViolationException Data integrity was violated.
 	 */
 	@Override
 	public boolean add(T entity) throws DataIntegrityViolationException {
@@ -214,7 +218,7 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 * JPA implementation patterns</a> for a discussion on saveOrUpdate()
 	 * behavior and merge()
 	 *
-	 * @param entity
+	 * @param entity Entity.
 	 * @return the persisted entity - might be a different object than the
 	 * parameter
 	 */
@@ -261,8 +265,8 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * returns the first n entities according to its "natural" order
 	 *
-	 * @param n
-	 * @return
+	 * @param n Number of entities to retrieve.
+	 * @return List of the first number given of entities.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<T> first(int n) {
@@ -342,7 +346,7 @@ public abstract class JpaRepository<T, K extends Serializable>
 	/**
 	 * returns a paged iterator
 	 *
-	 * @return
+	 * @return Iterator of entities.
 	 */
 	@Override
 	public Iterator<T> iterator(int pagesize) {
@@ -364,8 +368,8 @@ public abstract class JpaRepository<T, K extends Serializable>
 	 * helper method. not to be exposed as public in any situation. the where
 	 * clause should use "e" as the query object
 	 *
-	 * @param where
-	 * @return
+	 * @param where Where clause.
+	 * @return List of entities matched.
 	 */
 	@SuppressWarnings("unchecked")
 	protected List<T> match(String where) {

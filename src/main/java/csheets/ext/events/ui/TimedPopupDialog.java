@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.events.ui;
 
 import com.sun.media.sound.JavaSoundAudioClip;
@@ -21,7 +16,7 @@ import javax.swing.Timer;
 
 /**
  *
- * @author Rui Freitas <1130303>
+ * @author Rui Freitas
  */
 public class TimedPopupDialog extends javax.swing.JDialog {
 
@@ -32,10 +27,11 @@ public class TimedPopupDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form TimedPopupDialog
-     * @param parent
-     * @param title
-     * @param controller
-     * @param event
+     *
+     * @param parent The parent frame.
+     * @param title The window title.
+     * @param controller The events controller.
+     * @param event The event to display.
      */
     public TimedPopupDialog(java.awt.Frame parent, String title, EventsController controller, Event event) {
         super(parent, true);

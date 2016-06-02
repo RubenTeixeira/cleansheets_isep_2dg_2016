@@ -63,21 +63,22 @@
  * achieve this functionality we use the same framework used in UC EAPLI,
  * allowing the abstraction of persistence layer.
  *
- * <p>
+ * </p>
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Tests</h3>
+ * <p>
  * Basically, from requirements and also analysis, we see that we have to make
  * sure that a contact object HAS to have a first name and a last name. So we
  * have created a test that represents this business rule.
- * <p>
+ * </p>
  * see: <code>csheets.domain.ContactTest</code>
  *
  * <p>
  * Agenda has no information at this point. From our view of the requirements
  * there is no business rule to apply on this concept.
- * <p>
+ * </p>
  *
  * Event MUST have a time and a description. So we have created a test that
  * represents this business rule.
@@ -85,52 +86,52 @@
  * <p>
  * see: <code>csheets.domain.ContactTest</code>
  *
- * <p>
+ * </p>
  *
  * <h3>5.2. UC Realization</h3>
+ * <p>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
  * <code>csheets.ext.style</code> we can find examples that illustrate how to
  * implement these technical requirements. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
- * <p>
+ * </p>
  *
  * <h3>Create Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Edit Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Remove Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Create Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>Edit Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>Remove Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>5.3. Classes</h3>
  *
  * TODO: class diagram!
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- *
+ * <p>
  * In this issue we used some design patterns: -Persistence layer as an
  * abstraction for the domain or application layer. -Entity, AggregateRoot and
  * value object DDD concepts.
- *
- * <p>
+ * </p>
  *
  * <h2>6. Implementation</h2>
  *
@@ -141,10 +142,9 @@
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
  * commits of your work-
- * <p>
+ * </p>
  * see:
- * <p>
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -159,19 +159,19 @@
  * 
  * <p>
  * <b>Monday</b>
- * <p>
+ * </p>
  * 1. Meeting with our supervisor and decided who were the Aea Leaders as well who was going to be Scrum Master.
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * </p>
  * 1. Analysis of the UC, testing, designing and start the implementation
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
@@ -186,7 +186,7 @@
  * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
- * <p>
+ * </p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
  *

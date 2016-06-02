@@ -59,26 +59,12 @@
  * 
  * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
  * Therefore, at this point, we need to study how to add this new attribute to the class/interface "cell". This is the core technical problem regarding this issue.
- * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the interface of the cells. We also see that there is a class CellImpl that must implement the Cell interface.
- * If we open the {@link csheets.core.Cell} code we see that the interface is defined as: <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>. Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see that it has a subclass {@link csheets.ext.CellExtension} which has a subclass {@link csheets.ext.style.StylableCell}. {@link csheets.ext.style.StylableCell} seems to be an example of how to extend cells.
- * Therefore, we will assume that it is possible to extend cells and start to implement tests for this use case. 
- * <p>
- * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation design pattern</a> is used in the cell extension mechanism of cleansheets. The following class diagram depicts the relations between classes in the "Cell" hierarchy.
- * <p>
- * <img src="doc-files/" alt="image"> 
  * 
+ * <h3>Analysis of Core Technical Problem</h3>
+ * The core of communication is expected to communicate in udp and tcp protocols connections. 
  * <p>
- * One important aspect is how extensions are dynamically created and returned. The <code>Extensible</code> interface has only one method, <code>getExtension</code>. Any class, to be extensible, must return a specific extension by its name. The default (and base) implementation for the <code>Cell</code> interface, the class <code>CellImpl</code>, implements the method in the following manner:
- * <pre>
- * {@code 
- * 	empty //Insert code if necessary
- * }
- * </pre>
- * As we can see from the code, if we are requesting a extension that is not already present in the cell, it is applied at the moment and then returned. The extension class (that implements the <code>Extension</code> interface) what will do is to create a new instance of its cell extension class (this will be the <b>delegator</b> in the pattern). The constructor receives the instance of the cell to extend (the <b>delegate</b> in the pattern). For instance, <code>StylableCell</code> (the delegator) will delegate to <code>CellImpl</code> all the method invocations regarding methods of the <code>Cell</code> interface. Obviously, methods specific to <code>StylableCell</code> must be implemented by it.
- * Therefore, to implement a cell that can have a associated comment we need to implement a class similar to <code>StylableCell</code>.
+ * <img src="doc-files/ipc_analysis.png" alt="image"> 
+ * 
  * 
  * <h2>5. Design</h2>
  *
@@ -115,6 +101,12 @@
  * <p>
  * <b>Class Diagram</b>
  * <p>
+ * Global Class Diagram
+ * <p>
+ * <img src="doc-files/ipc01_classDiagram.png" alt="image"> 
+ * <p>
+ * Extension Class Diagram
+ * <p>
  * <img src="doc-files/ipc_extension_image1.png" alt="image">
  * <p>
  * * <b>Sequence Diagrams</b> illustrating the setup of the extension
@@ -145,8 +137,8 @@
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * 
  * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance, database models or updates to the domain model-
+ * 
+ * Observer: This Pattern is used to notify SharePanel with new instances in local network and received cells.
  * 
  * <h2>6. Implementation</h2>
  * 
@@ -156,7 +148,8 @@
  * <p>
  * see:<p>
  * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a>
+ * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a><p>
+ * <a href="../../../../csheets/framework/volt/package-summary.html">csheets.framework.volt</a>
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 

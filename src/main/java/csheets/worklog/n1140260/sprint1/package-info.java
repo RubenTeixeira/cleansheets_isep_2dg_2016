@@ -2,20 +2,12 @@
  * Technical documentation regarding the work of the team member (1140260) Diogo
  * Leite during week1.
  *
- * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
- * <b>Scrum Master: -(yes/no)- no</b>
+ * <b>Scrum Master: no</b>
  *
  * <p>
- * <b>Area Leader: -(yes/no)- no</b>
+ * <b>Area Leader: no</b>
  *
  * <h2>1. Notes</h2>
- *
- * -Notes about the week's work.-
  * <p>
  * This week work time was mostly spent on how the base application works.
  *
@@ -23,15 +15,16 @@
  *
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-75">LPFOURDG-75</a>
- * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-99">LPFOURDG-99</a>
  *
  * <h2>3. Requirement</h2>
- * -The responsibility that was assignedto me, was to create the design of this
- * feature.-
+ * Implement a local db using JPA (ORM) so the application user could create
+ * <code>csheets.domain.Contact</code> and within each one be able to create
+ * <code>csheets.domain.Event</code> on his <code>csheets.domain.Agenda</code>.
+ * Besides the ability to create the above entities the user can remove or edit
+ * each one.
  *
  * <p>
- * <b>Use Case "Editing Contact":</b> A sidebar window that provides
+ * <b>Use Case "Contact Edition":</b> A sidebar window that provides
  * functionalities for creating, editing and removing contacts. Each contact
  * should have a first and last name and also a photograph. Each contact should
  * also have one agenda in which events related to the contact should be
@@ -70,24 +63,23 @@
  * achieve this functionality we use the same framework used in UC EAPLI,
  * allowing the abstraction of persistence layer.
  *
- * <p>
- *
- * <h3>Domain Model</h3>
- * <p>
- * <img src="doc-files/crm01_01_domain_model.png" alt="image">
- * <p>
- *
- *
  * <h2>5. Design</h2>
  *
- * <h3>5.1. Functional Tests</h3>
- *
- * We create this unit tests so we can apply sucessufly the business ideas.
- * Following this approach we start by coding a unit test that checks if the
- * elements in constructor aren´t null or empty.
+ * <h3>5.1. Tests</h3>
+ * Basically, from requirements and also analysis, we see that we have to make
+ * sure that a contact object HAS to have a first name and a last name. So we
+ * have created a test that represents this business rule.
  * <p>
- * see: <code>csheets.domain.ContactTest</code> see:
- * <code>csheets.domain.EventTest</code>
+ * see: <code>csheets.domain.ContactTest</code>
+ * <p>
+ * Agenda has no information at this point. From our view of the requirements
+ * there is no business rule to apply on this concept.
+ * <p>
+ * Event MUST have a time and a description. So we have created a test that
+ * represents this business rule.
+ *
+ * <p>
+ * see: <code>csheets.domain.ContactTest</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
@@ -96,48 +88,41 @@
  * <code>csheets.ext.style</code> we can find examples that illustrate how to
  * implement these technical requirements. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
  *
  * <h3>Create Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_contact.png" alt="image">
- * <p>
+ *
  * <h3>Edit Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_contact.png" alt="image">
- * <p>
+ *
  * <h3>Remove Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_contact.png" alt="image">
- * <p>
+ *
  * <h3>Create Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_event.png" alt="image">
- * <p>
+ *
  * <h3>Edit Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_event.png" alt="image">
- * <p>
+ *
  * <h3>Remove Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_event.png" alt="image">
- * <p>
- * <h3>5.3. Classes</h3>
  *
  * <h3>Class Diagram of the feature</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_class_diagram.png" alt="image">
- * <p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * In this issue we used some design patterns: -Persistence layer as an
+ * abstraction for the domain or application layer. -Entity, AggregateRoot and
+ * value object DDD concepts.
+ *
  *
  * <h2>6. Implementation</h2>
  *
@@ -151,7 +136,7 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -181,6 +166,22 @@
  * Blocking:
  * <p>
  * 1. Nothing.
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * 1. Implementation of the events
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * 1. Presentation to the client
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -203,8 +204,6 @@
  * <h3>10.3. Technical Documentation: ...</h3>
  *
  * /**
- * This class is only here so that javadoc includes the documentation about this
- * EMPTY package! Do not remove this class!
  *
  * @author Diogo Leite
  */

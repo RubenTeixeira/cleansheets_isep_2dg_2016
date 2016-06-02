@@ -36,7 +36,7 @@
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
  * <p>
  * //////////SSD diagram//////////
- * <p>
+ * </p>
  * 
  * <h3>Analysis of Core Technical Problem</h3>
  * 
@@ -71,10 +71,11 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
+ * <p>
  * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to add an attribute to cells to be used to store a comment/text. We need to be able to set and get its value.
  * Following this approach we can start by coding a unit test that uses a subclass of <code>CellExtension</code> with a new attribute for user comments with the corresponding method accessors (set and get). A simple test can be to set this attribute with a simple string and to verify if the get method returns the same string.
  * As usual, in a test driven development approach tests normally fail in the beginning. The idea is that the tests will pass in the end. 
- * <p>
+ * </p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. UC Realization</h3>
@@ -82,23 +83,23 @@
  * The following diagrams illustrate core aspects of the design of the solution for this use case.
  * <p>
  * <b>Note:</b> It is very important that in the final version of this technical documentation the elements depicted in these design diagrams exist in the code!
- * 
+ * </p>
  * <h3>Extension Setup</h3>
  * The following diagram shows the setup of the "comments" extension when cleansheets is run.
  * <p>
  * <img src="doc-files/core02_01_design.png" alt="image">
- * 
+ * </p>
  *
  * <h3>User Selects a Cell</h3>
  * The following diagram illustrates what happens when the user selects a cell. The idea is that when this happens the extension must display in the sidebar the comment of that cell (if it exists).
  * <p>
  * <img src="doc-files/core02_01_design2.png" alt="image">
- * 
+ * </p>
  * <h3>User Updates the Comment of a Cell</h3>
  * The following diagram illustrates what happens when the user updates the text of the comment of the current cell. To be noticed that this diagram does not depict the actual selection of a cell (that is illustrated in the previous diagram).
  * <p>
  * <img src="doc-files/core02_01_design3.png" alt="image">
- * 
+ * </p>
  * <h3>5.3. Classes</h3>
  * 
  * -Document the implementation with class diagrams illustrating the new and the modified classes-
@@ -108,17 +109,20 @@
  * -Describe new or existing design patterns used in the issue-
  * <p>
  * -You can also add other artifacts to document the design, for instance, database models or updates to the domain model-
- * 
+ * </p>
  * <h2>6. Implementation</h2>
  * 
  * -Reference the code elements that where updated or added-
  * <p>
  * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
+ * </p>
+ * see:
  * <p>
- * see:<p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a>
+ * </p>
+ * <p>
  * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
- * 
+ * </p>
  * <h2>7. Integration/Demonstration</h2>
  * 
  * -In this section document your contribution and efforts to the integration of your work with the work of the other elements of the team and also your work regarding the demonstration (i.e., tests, updating of scripts, etc.)-
@@ -128,41 +132,42 @@
  * -In this section present your views regarding alternatives, extra work and future work on the issue.-
  * <p>
  * As an extra this use case also implements a small cell visual decorator if the cell has a comment. This "feature" is not documented in this page.
- * 
+ * </p>
  * 
  * <h2>9. Work Log</h2> 
  * 
  * -Insert here a log of you daily work. This is in essence the log of your daily standup meetings.-
  * <p>
  * Example
- * <p>
+ * </p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
- * <p>
+ * </p>
  * 1. -nothing-
  * <p>
  * Today
- * <p>
+ * </p>
  * 1. Analysis of the...
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. -nothing-
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * </p>
  * Yesterday I worked on: 
  * <p>
  * 1. ...
- * <p>
+ * </p>
  * Today
  * <p>
  * 1. ...
- * <p>
+ * </p>
  * Blocking:
  * <p>
  * 1. ...
+ * </p>
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -173,14 +178,14 @@
  * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
- * <p>
+ * </p>
  * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
  * 
  * <h3>10.2. Teamwork: ...</h3>
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
- * @author alexandrebraganca
+ * @author Diogo Azevedo
  */
 
 package csheets.worklog.n1140443.sprint1;

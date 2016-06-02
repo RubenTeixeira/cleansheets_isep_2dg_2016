@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.core.formula.lang;
 
 import csheets.core.IllegalValueTypeException;
@@ -28,6 +23,8 @@ public class For implements Function {
 //	}
 	/**
 	 * Create For.
+	 *
+	 * @param args Variable number of expression arguments.
 	 */
 	public For(Expression... args) {
 		this.args = args;
@@ -45,9 +42,9 @@ public class For implements Function {
 
 	/**
 	 *
-	 * @param args
-	 * @return
-	 * @throws IllegalValueTypeException
+	 * @param args Array of expressions.
+	 * @return Returns the value of a cell.
+	 * @throws IllegalValueTypeException The value can be illegal.
 	 */
 	@Override
 	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
@@ -66,7 +63,7 @@ public class For implements Function {
 		//limiter validation
 		Value flag = limiter.evaluate();
 		if (flag.toBoolean() == false) {
-			throw new IllegalThreadStateException();
+			throw new IllegalValueTypeException(flag, flag.getType());
 		}
 		Value value = new Value();
 		while (args[1].evaluate().toBoolean()) {
@@ -78,7 +75,7 @@ public class For implements Function {
 	/**
 	 * TODO.
 	 *
-	 * @return
+	 * @return Gets the function parameters.
 	 */
 	@Override
 	public FunctionParameter[] getParameters() {

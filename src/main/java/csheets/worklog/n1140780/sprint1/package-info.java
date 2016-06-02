@@ -46,7 +46,7 @@
  * this:
  * <p>
  * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
- * <p>
+ * </p>
  *
  *
  * <h3> ###TODO### First "analysis" sequence diagram</h3>
@@ -60,7 +60,7 @@
  * this diagram was created).
  * <p>
  * <img src="doc-files/comments_extension_uc_realization1.png" alt="image">
- * <p>
+ * </p>
  *
  * From the previous diagram we see that we need to add a new "attribute" to a
  * cell: "comment". Therefore, at this point, we need to study how to add this
@@ -86,7 +86,7 @@
  * design pattern</a> is used in the cell extension mechanism of cleansheets.
  * The following class diagram depicts the relations between classes in the
  * "Cell" hierarchy.
- * <p>
+ * </p>
  * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image">
  *
  * <p>
@@ -96,6 +96,7 @@
  * specific extension by its name. The default (and base) implementation for the
  * <code>Cell</code> interface, the class <code>CellImpl</code>, implements the
  * method in the following manner:
+ * </p>
  * <pre>
  * {@code
  * 	public Cell getExtension(String name) {
@@ -129,6 +130,7 @@
  * <h2>5. ###TODO### Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
+ * <p>
  * Basically, from requirements and also analysis, we see that the core
  * functionality of this use case is to be able to add an attribute to cells to
  * be used to store a comment/text. We need to be able to set and get its value.
@@ -139,7 +141,7 @@
  * returns the same string. As usual, in a test driven development approach
  * tests normally fail in the beginning. The idea is that the tests will pass in
  * the end.
- * <p>
+ * </p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. ###TODO### UC Realization</h3>
@@ -159,7 +161,7 @@
  * cleansheets is run.
  * <p>
  * <img src="doc-files/core02_01_design.png" alt="image">
- *
+ * </p>
  *
  * <h3>User Selects a Cell</h3>
  * The following diagram illustrates what happens when the user selects a cell.
@@ -167,13 +169,14 @@
  * the comment of that cell (if it exists).
  * <p>
  * <img src="doc-files/core02_01_design2.png" alt="image">
- *
+ * </p>
  * <h3>User Updates the Comment of a Cell</h3>
+ * <p>
  * The following diagram illustrates what happens when the user updates the text
  * of the comment of the current cell. To be noticed that this diagram does not
  * depict the actual selection of a cell (that is illustrated in the previous
  * diagram).
- * <p>
+ * </p>
  * <img src="doc-files/core02_01_design3.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
@@ -187,7 +190,7 @@
  * <p>
  * -You can also add other artifacts to document the design, for instance,
  * database models or updates to the domain model-
- *
+ * </p>
  * <h2>6. Implementation</h2>
  *
  * -Reference the code elements that where updated or added-
@@ -195,12 +198,14 @@
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
  * commits of your work-
- * <p>
+ * </p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a>
+ * </p>
+ * <p>
  * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
- *
+ * </p>
  * <h2>7. Integration/Demonstration</h2>
  *
  * -In this section document your contribution and efforts to the integration of
@@ -214,7 +219,7 @@
  * <p>
  * As an extra this use case also implements a small cell visual decorator if
  * the cell has a comment. This "feature" is not documented in this page.
- *
+ * </p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -222,35 +227,36 @@
  * daily standup meetings.-
  * <p>
  * Example
- * <p>
+ * </p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
- * <p>
+ * </p>
  * 1. nothing
  * <p>
  * Today
- * <p>
+ * </p>
  * 1. Cloning of the project, its compilation and first analysis.
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. nothing
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * </p>
  * Yesterday I worked on:
  * <p>
  * 1. Cloning of the project, its compilation and first analysis.
- * <p>
+ * </p>
  * Today
  * <p>
  * 1. Started my own worklog. Started analysis of Lang Functional Area.
- * <p>
+ * </p>
  * Blocking:
  * <p>
  * 1. nothing
- *
+ * </p>
+ * 
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-
@@ -263,7 +269,7 @@
  * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
- * <p>
+ * </p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
  *
@@ -271,7 +277,7 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author alexandrebraganca
+ * @author Rúben Teixeira
  */
 package csheets.worklog.n1140780.sprint1;
 
