@@ -199,7 +199,7 @@ public final class DateTime {
 	}
 
 	public static int hour(Calendar date) {
-		return date.get(Calendar.HOUR);
+		return date.get(Calendar.HOUR_OF_DAY);
 	}
 
 	public static int min(Calendar date) {

@@ -7,7 +7,6 @@ import csheets.factory.EventsFactory;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
-import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
@@ -47,14 +46,7 @@ public class EventsController {
 		verify = new Task() {
 			public void fire() {
 				for (Event event : allEvents()) {
-					System.out.println(event.description());
-					if (event.alert() && DateTime.
-						isPreviousDate(event.date(), DateTime.now())) {
-						System.out.println("1");
-						Notification.eventInformer().notifyChange(event);
-					} else if (event.alert() && DateTime.
-						isPreviousDate(DateTime.now(), event.date())) {
-						System.out.println("2");
+					if (event.alert()) {
 						Notification.eventInformer().notifyChange(event);
 					}
 				}
@@ -62,7 +54,7 @@ public class EventsController {
 		};
 		ThreadManager.create("crm.events", new Thread() {
 							 public void run() {
-								 tm.every(60).fire(verify);
+								 tm.after(5).every(60).fire(verify);
 							 }
 						 });
 		ThreadManager.run("crm.events");
@@ -105,7 +97,9 @@ public class EventsController {
 	}
 
 	public void alert(Event event, boolean active) {
-		event.alert(active);
+		event.
+			defineEvent(event.contact(), event.description(), event.date(), active);
+//		editEvent(event);
 		PersistenceContext.repositories().events().save(event);
 		Notification.eventInformer().notifyChange();
 	}

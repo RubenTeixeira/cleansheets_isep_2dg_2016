@@ -50,6 +50,11 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 			this.jComboBoxContacts.setEnabled(false);
 			this.checkboxActive.setState(event.alert());
 			this.jTextFieldEventName.setText(this.event.description());
+			this.cmbYear.setSelectedItem(DateTime.year(this.event.date()));
+			this.cmbMonth.setSelectedItem(DateTime.month(this.event.date()));
+			this.cmbDay.setSelectedItem(DateTime.day(this.event.date()));
+			this.cmbHour.setSelectedItem(DateTime.hour(this.event.date()));
+			this.cmbMinute.setSelectedItem(DateTime.min(this.event.date()));
 		}
 	}
 
@@ -306,23 +311,27 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 												 (Integer) (this.cmbMinute.
 												 getSelectedItem()), 0);
 		if (DateTime.now().before(calendar)) {
-
 			if (this.event == null) {
 				try {
 					this.controller.
-						createEvent((Contact) this.jComboBoxContacts.
-							getSelectedItem(), this.jTextFieldEventName.
-									getText(), calendar, true);
+						createEvent((Contact) this.listContacts.
+							get(this.jComboBoxContacts.getSelectedIndex()), this.jTextFieldEventName.
+									getText(), calendar, this.checkboxActive.
+									getState());
 				} catch (DataIntegrityViolationException ex) {
-					System.out.println("Evento já existe");
+					JOptionPane.
+						showMessageDialog(null, "Event already exists!", "Event edition", JOptionPane.ERROR_MESSAGE);
+				} catch (IllegalArgumentException ex) {
+					JOptionPane.
+						showMessageDialog(null, "Illegal arguments!", "Event edition", JOptionPane.ERROR_MESSAGE);
 				}
 			} else {
 				this.event.
 					defineEvent(this.event.contact(), this.jTextFieldEventName.
-								getText(), calendar, this.event.alert());
+								getText(), calendar, this.checkboxActive.
+								getState());
 				this.controller.editEvent(this.event);
 			}
-
 		} else {
 			JOptionPane.
 				showMessageDialog(this, "Currente date is invalid", "Error", JOptionPane.WARNING_MESSAGE);
