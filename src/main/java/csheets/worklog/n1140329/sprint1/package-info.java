@@ -63,11 +63,11 @@
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
  * <h4>Send Cells proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_send_image.png" alt="image"> 
+ * <img src="doc-files/share_cell_send_analysis.png" alt="image"> 
  * 
  * <h4>Receive Cells proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_receive_image.png" alt="image"> 
+ * <img src="doc-files/share_cell_receive_analysis.png" alt="image"> 
  * <p>
  * 
  * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
