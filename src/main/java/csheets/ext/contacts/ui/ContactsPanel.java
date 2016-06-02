@@ -7,6 +7,7 @@ package csheets.ext.contacts.ui;
 
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsExtension;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
@@ -14,6 +15,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
@@ -36,6 +39,11 @@ public class ContactsPanel extends JPanel implements Observer {
         Notification.contactInformer().addObserver(this);
 
         initComponents();
+        
+        try {
+            /* Add system user */
+            theController.addSystemUser();
+        } catch (Exception ex) {}
     }
 
     /**

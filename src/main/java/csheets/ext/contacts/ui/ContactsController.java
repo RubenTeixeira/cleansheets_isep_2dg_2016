@@ -62,4 +62,23 @@ public class ContactsController {
         return theContact;
     }
 
+    public void addSystemUser() throws DataIntegrityViolationException, IOException {
+        String userName = System.getProperty("user.name");
+        
+        if(userName != null)
+        {
+            String[] splitArray = userName.split(" ");
+            String firstName, lastName;
+            Contact sysUser;
+            
+            if(splitArray.length >= 2)
+            {
+                newContact(splitArray[0], splitArray[1], null);
+            } else {
+                newContact(splitArray[0], splitArray[0], null);
+            }
+        }
+        
+    }
+
 }
