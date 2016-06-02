@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -67,7 +68,7 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
         jLabel1 = new javax.swing.JLabel();
         jTextFieldEventName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jComboBoxContacts = new javax.swing.JComboBox<>();
+        jComboBoxContacts = new javax.swing.JComboBox<String>();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         cmbYear = new javax.swing.JComboBox();
@@ -178,15 +179,15 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
                     .addComponent(cmbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbMinute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(7, 7, 7)
-                        .addComponent(checkboxActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(checkboxActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbMinute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(jLabel5)))
                 .addGap(10, 10, 10))
         );
 
@@ -304,22 +305,27 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 												 getSelectedItem()),
 												 (Integer) (this.cmbMinute.
 												 getSelectedItem()), 0);
-		if (this.event == null) {
-			try {
-				this.controller.
-					createEvent((Contact) this.listContacts.
-						get(this.jComboBoxContacts.getSelectedIndex()), this.jTextFieldEventName.
-								getText(), calendar, this.checkboxActive.
-								getState());
-			} catch (DataIntegrityViolationException ex) {
-				System.out.println("Evento já existe");
+		if (DateTime.now().before(calendar)) {
+
+			if (this.event == null) {
+				try {
+					this.controller.
+						createEvent((Contact) this.jComboBoxContacts.
+							getSelectedItem(), this.jTextFieldEventName.
+									getText(), calendar, true);
+				} catch (DataIntegrityViolationException ex) {
+					System.out.println("Evento já existe");
+				}
+			} else {
+				this.event.
+					defineEvent(this.event.contact(), this.jTextFieldEventName.
+								getText(), calendar, this.event.alert());
+				this.controller.editEvent(this.event);
 			}
+
 		} else {
-			this.event.
-				defineEvent(this.event.contact(), this.jTextFieldEventName.
-							getText(), calendar, this.checkboxActive.
-							getState());
-			this.controller.editEvent(this.event);
+			JOptionPane.
+				showMessageDialog(this, "Currente date is invalid", "Error", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
