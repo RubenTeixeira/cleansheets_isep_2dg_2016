@@ -38,20 +38,24 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		JOptionPane.showMessageDialog(this, null);
-		Object[] options = {"Ok", "Snooze"};
-		int n = JOptionPane.showOptionDialog(null,
-											 "Event: ",
-											 "ALERT",
-											 JOptionPane.YES_NO_CANCEL_OPTION,
-											 JOptionPane.DEFAULT_OPTION,
-											 null,
-											 options,
-											 options[1]);
 		if (arg instanceof Event) {
 			Event event = (Event) arg;
-			controller.snoozeEvent(event);
-			controller.alert(event, false);
+			JOptionPane.showMessageDialog(this, null);
+			Object[] options = {"Ok", "Snooze"};
+			int n = JOptionPane.showOptionDialog(this,
+												 "Event: " + event.description(),
+												 "ALERT",
+												 JOptionPane.YES_NO_CANCEL_OPTION,
+												 JOptionPane.DEFAULT_OPTION,
+												 null,
+												 options,
+												 options[1]
+			);
+			if (n == 1) {
+				controller.snoozeEvent(event);
+			} else {
+				controller.alert(event, false);
+			}
 		} else {
 			clearEventList();
 			for (Event event : this.controller.allEvents()) {
@@ -101,37 +105,19 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButtonEdit = new javax.swing.JButton();
-        jButtonRemoveEvent = new javax.swing.JButton();
         jButtonAddEvent = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanelEvents = new javax.swing.JPanel();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jButtonEdit.setText("edit");
-        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEditActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonEdit, java.awt.BorderLayout.CENTER);
-
-        jButtonRemoveEvent.setText("-");
-        jButtonRemoveEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonRemoveEventActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButtonRemoveEvent, java.awt.BorderLayout.EAST);
-
-        jButtonAddEvent.setText("+");
+        jButtonAddEvent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_event.png"))); // NOI18N
         jButtonAddEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAddEventActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonAddEvent, java.awt.BorderLayout.WEST);
+        jPanel1.add(jButtonAddEvent, java.awt.BorderLayout.EAST);
 
         jPanelEvents.setLayout(new java.awt.GridLayout(5, 1));
         jScrollPane1.setViewportView(jPanelEvents);
@@ -155,7 +141,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -169,22 +155,8 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 		}
     }//GEN-LAST:event_jButtonAddEventActionPerformed
 
-    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		ManageEvents event = new ManageEvents(this.controller, null);
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, event, "Edit Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			event.createEvent();
-		}
-    }//GEN-LAST:event_jButtonEditActionPerformed
-
-    private void jButtonRemoveEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveEventActionPerformed
-    }//GEN-LAST:event_jButtonRemoveEventActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddEvent;
-    private javax.swing.JButton jButtonEdit;
-    private javax.swing.JButton jButtonRemoveEvent;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelEvents;
     private javax.swing.JScrollPane jScrollPane1;

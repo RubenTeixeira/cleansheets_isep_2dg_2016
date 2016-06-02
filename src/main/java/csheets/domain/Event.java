@@ -42,6 +42,8 @@ public class Event implements Serializable {
 				 boolean alert) {
 		if (contact == null || description == null || date == null) {
 			throw new IllegalArgumentException();
+		} else if (description.isEmpty()) {
+			throw new IllegalArgumentException();
 		}
 		this.contact = contact;
 		this.description = description;
@@ -99,5 +101,28 @@ public class Event implements Serializable {
 
 	public void alert(boolean active) {
 		this.alert = alert;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Event)) {
+			return false;
+		}
+		Event instance = (Event) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 21;
+		hashcode += this.date.hashCode();
+		hashcode += this.description.hashCode();
+		return hashcode;
 	}
 }

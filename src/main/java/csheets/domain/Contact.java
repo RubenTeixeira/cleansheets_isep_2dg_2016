@@ -69,4 +69,27 @@ public class Contact implements Serializable {
 	public String toString() {
 		return this.firstName + " " + this.lastName;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Event)) {
+			return false;
+		}
+		Contact instance = (Contact) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 21;
+		hashcode += this.firstName.hashCode();
+		hashcode += this.lastName.hashCode();
+		return hashcode;
+	}
 }

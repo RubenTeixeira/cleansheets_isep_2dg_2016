@@ -47,8 +47,14 @@ public class EventsController {
 		verify = new Task() {
 			public void fire() {
 				for (Event event : allEvents()) {
+					System.out.println(event.description());
 					if (event.alert() && DateTime.
 						isPreviousDate(event.date(), DateTime.now())) {
+						System.out.println("1");
+						Notification.eventInformer().notifyChange(event);
+					} else if (event.alert() && DateTime.
+						isPreviousDate(DateTime.now(), event.date())) {
+						System.out.println("2");
 						Notification.eventInformer().notifyChange(event);
 					}
 				}

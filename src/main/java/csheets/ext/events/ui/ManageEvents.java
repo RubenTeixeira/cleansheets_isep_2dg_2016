@@ -11,6 +11,7 @@ import csheets.ext.events.EventsController;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.support.DateTime;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -22,6 +23,7 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 
 	private final EventsController controller;
 	private Event event;
+	private List<Contact> listContacts;
 
 	private final String[] nameMonth = {"Invalid", "January", "Febraury",
 		"March", "April", "May", "June",
@@ -37,13 +39,15 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 		initComponents();
 		initDate();
 		initContact();
-		this.update(null, null);
+		this.update(null, this.event);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if (this.event != null) {
 			this.jComboBoxContacts.setSelectedItem(this.event.contact());
+			this.jComboBoxContacts.setEnabled(false);
+			this.checkboxActive.setState(event.alert());
 			this.jTextFieldEventName.setText(this.event.description());
 		}
 	}
@@ -73,20 +77,13 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
         cmbHour = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         cmbMinute = new javax.swing.JComboBox();
+        checkboxActive = new java.awt.Checkbox();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setText("Event Name:");
 
         jLabel3.setText("Contact:");
-
-        jComboBoxContacts.setFocusCycleRoot(true);
-        jComboBoxContacts.setFocusTraversalPolicyProvider(true);
-        jComboBoxContacts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxContactsActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -97,20 +94,20 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(5, 5, 5)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBoxContacts, 0, 380, Short.MAX_VALUE)
-                    .addComponent(jTextFieldEventName))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextFieldEventName, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxContacts, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jComboBoxContacts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(16, 16, 16)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldEventName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -143,6 +140,8 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 
         cmbMinute.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        checkboxActive.setLabel("Alert");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -155,18 +154,20 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cmbHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbMinute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(cmbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                        .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cmbHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbMinute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(65, 65, 65)
+                        .addComponent(checkboxActive, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,8 +183,11 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
                     .addComponent(cmbHour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbMinute, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(checkboxActive, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -220,8 +224,9 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void initContact() {
-		for (Contact contact : this.controller.allContacts()) {
-			this.jComboBoxContacts.addItem(contact);
+		this.listContacts = (List<Contact>) this.controller.allContacts();
+		for (Contact contact : this.listContacts) {
+			this.jComboBoxContacts.addItem(contact.toString());
 		}
 	}
 
@@ -284,10 +289,6 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 		cmbMinute.setSelectedIndex(calendar.get(Calendar.MINUTE));
 	}
 
-    private void jComboBoxContactsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxContactsActionPerformed
-		// TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxContactsActionPerformed
-
     private void cmbMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthActionPerformed
 		initDays();
     }//GEN-LAST:event_cmbMonthActionPerformed
@@ -306,28 +307,31 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 		if (this.event == null) {
 			try {
 				this.controller.
-					createEvent((Contact) this.jComboBoxContacts.
-						getSelectedItem(), this.jTextFieldEventName.
-								getText(), calendar, true);
+					createEvent((Contact) this.listContacts.
+						get(this.jComboBoxContacts.getSelectedIndex()), this.jTextFieldEventName.
+								getText(), calendar, this.checkboxActive.
+								getState());
 			} catch (DataIntegrityViolationException ex) {
 				System.out.println("Evento já existe");
 			}
 		} else {
 			this.event.
 				defineEvent(this.event.contact(), this.jTextFieldEventName.
-							getText(), calendar, this.event.alert());
+							getText(), calendar, this.checkboxActive.
+							getState());
 			this.controller.editEvent(this.event);
 		}
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private java.awt.Checkbox checkboxActive;
     private javax.swing.JComboBox cmbDay;
     private javax.swing.JComboBox cmbHour;
     private javax.swing.JComboBox cmbMinute;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
     private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox<Contact> jComboBoxContacts;
+    private javax.swing.JComboBox<String> jComboBoxContacts;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
