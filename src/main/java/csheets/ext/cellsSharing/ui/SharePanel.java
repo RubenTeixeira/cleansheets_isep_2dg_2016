@@ -68,8 +68,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 */
 	private final TaskManager manager = new TaskManager();
 
-	private boolean hostSelected;
-
 	/**
 	 * Creates new form SharePanel
 	 *
@@ -375,7 +373,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
     private void receiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiveButtonActionPerformed
 
-		// if (!receiveListModel.isEmpty()) {
 		int reply = JOptionPane.showConfirmDialog(this, "::. Receive information .::\n"
 				+ "You want to receive these cells?");
 
@@ -388,10 +385,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		} else if (reply == JOptionPane.NO_OPTION) {
 			// nothing to do
 		}
-//		} else {
-//			JOptionPane.showMessageDialog(this, ".:: Alert ::.\n"
-//					+ "There are no available cells to receive.");
-//		}
     }//GEN-LAST:event_receiveButtonActionPerformed
 
     private void receiveListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_receiveListValueChanged
