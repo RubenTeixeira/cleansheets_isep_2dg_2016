@@ -29,6 +29,7 @@ import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
@@ -61,9 +62,6 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 	 * The character that signals that a cell's content is a formula ('=')
 	 */
 	public static final char FORMULA_STARTER = '=';
-//	public static final String INSTRUCTION_BLOCK_STARTER = "{";
-//	public static final String INSTRUCTION_BLOCK_FINISHER = "}";
-//	public static final String INSTRUCTION_BLOCK_SEPARATOR = ";";
 
 	/**
 	 * Creates the Excel expression compiler.
@@ -214,32 +212,11 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 			}
 
 		} else if (node.getChildCount() >= 2) {
-
 			Expression[] expressions = new Expression[node.getChildCount()];
-
 			for (int i = 0; i < node.getChildCount(); i++) {
 				expressions[i] = convert(cell, node.getChild(i));
 			}
-
-			//InstructionBlock block = new InstructionBlock(expressions);
-			return expressions[node.getChildCount() - 1];
-
-//			if (!node.getChild(node.getTokenStartIndex()).getText().
-//				equalsIgnoreCase(INSTRUCTION_BLOCK_STARTER)
-//				|| !node.getChild(node.getTokenStopIndex()).getText().
-//				equalsIgnoreCase(INSTRUCTION_BLOCK_FINISHER)) {
-//				throw new FormulaCompilationException();
-//			}
-//
-//			String str_block = new String();
-//
-//			for (int i = 1; i < node.getChildCount(); i++) {
-//				str_block += node.getChild(i).getText();
-//			}
-//
-//			String[] expressions = str_block.split(INSTRUCTION_BLOCK_SEPARATOR);
-//
-//			return new InstructionBlock(expressions);
+			return new InstructionBlock(expressions);
 		}
 		// Shouldn't happen
 		throw new FormulaCompilationException();

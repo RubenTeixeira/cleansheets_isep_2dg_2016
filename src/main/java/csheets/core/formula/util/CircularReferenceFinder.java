@@ -21,9 +21,7 @@
 package csheets.core.formula.util;
 
 import csheets.core.Cell;
-import csheets.core.formula.Expression;
 import csheets.core.formula.Formula;
-import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Reference;
 
 /**
@@ -86,38 +84,38 @@ public class CircularReferenceFinder extends AbstractExpressionVisitor {
 		return reference;
 	}
 
-	@Override
-	public Object visitInstructionBlock(InstructionBlock block) throws CircularReferenceException, ExpressionVisitorException {
-
-		int size = block.getExpressions().length;
-		/**
-		 * Array Containing new Expressions.
-		 */
-		Expression[] newExpression = new Expression[size];
-		/**
-		 * Array Containing new Formulas.
-		 */
-		Formula[] newFormulas = new Formula[size];
-		/**
-		 * Elements.
-		 */
-		Formula formula;
-		boolean flag;
-		int i = 0;
-		for (Expression e : block.getExpressions()) {
-			//Downcast - Relation
-			formula = (Formula) e;
-			if (!formula.hasCircularReference()) {
-				newFormulas[i++] = formula;
-			} else {
-				throw new CircularReferenceException(formula);
-			}
+//	@Override
+//	public Object visitInstructionBlock(InstructionBlock block) throws CircularReferenceException, ExpressionVisitorException {
+//
+//		int size = block.getExpressions().length;
+//		/**
+//		 * Array Containing new Expressions.
+//		 */
+//		Expression[] newExpression = new Expression[size];
+//		/**
+//		 * Array Containing new Formulas.
+//		 */
+//		Formula[] newFormulas = new Formula[size];
+//		/**
+//		 * Elements.
+//		 */
+//		Formula formula;
+//		boolean flag;
+//		int i = 0;
+//		for (Expression e : block.getExpressions()) {
+//			//Downcast - Relation
+//			formula = (Formula) e;
+//			if (!formula.hasCircularReference()) {
+//				newFormulas[i++] = formula;
+//			} else {
+//				throw new CircularReferenceException(formula);
 //			}
-//			int p = 0;
-//			for (Formula f : newFormulas) {
-//				newExpression[i++] = (Expression) f.getExpression();
-//			}
-		}
-		return block;
-	}
+////			}
+////			int p = 0;
+////			for (Formula f : newFormulas) {
+////				newExpression[i++] = (Expression) f.getExpression();
+////			}
+//		}
+//		return block;
+//	}
 }

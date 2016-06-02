@@ -21,7 +21,6 @@
 package csheets.core.formula.util;
 
 import csheets.core.formula.Expression;
-import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Reference;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -65,10 +64,5 @@ public class ReferenceFetcher extends AbstractExpressionVisitor {
 	public Object visitReference(Reference reference) {
 		references.add(reference);
 		return reference;
-	}
-
-	@Override
-	public Object visitInstructionBlock(InstructionBlock block) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 }
