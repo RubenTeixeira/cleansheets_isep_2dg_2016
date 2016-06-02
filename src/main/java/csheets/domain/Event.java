@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"DESCRIPTION", "DATE"})})
+	@UniqueConstraint(columnNames = {"DESCRIPTION"})})
 public class Event implements Serializable {
 
 	@Id
@@ -34,7 +34,7 @@ public class Event implements Serializable {
 
 	private String description;
 
-	@Temporal(javax.persistence.TemporalType.DATE)
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Calendar date;
 
 	private boolean alert;

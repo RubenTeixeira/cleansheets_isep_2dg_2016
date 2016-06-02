@@ -40,7 +40,6 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Event) {
 			Event event = (Event) arg;
-			JOptionPane.showMessageDialog(this, null);
 			Object[] options = {"Ok", "Snooze"};
 			int n = JOptionPane.showOptionDialog(this,
 												 "Event: " + event.description(),
