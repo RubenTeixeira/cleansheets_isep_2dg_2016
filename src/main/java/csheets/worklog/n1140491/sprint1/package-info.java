@@ -178,11 +178,11 @@
  * <b>Tuesday</b>
  * </p>
  * 1. Analysis of the UC, testing, designing and start the implementation
- * <b>
- * Wednesday
+ * <p>
+ * <b>Wednesday</b>
  * <p>
  * Implementation of contacts
- * </b>
+ * <p>
  * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
