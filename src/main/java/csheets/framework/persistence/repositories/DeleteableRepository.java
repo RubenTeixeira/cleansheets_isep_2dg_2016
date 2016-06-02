@@ -10,17 +10,14 @@ public interface DeleteableRepository<T, K> extends Repository<T, K> {
      * removes the specified entity from the repository.
      *
      * @param entity
-     * @throws UnsuportedOperationException if the delete operation makes no
-     * sense for this repository
      */
+    @Override
     void delete(T entity);
 
     /**
      * Removes the entity with the specified ID from the repository.
      *
-     * @param entity
-     * @throws UnsuportedOperationException if the delete operation makes no
-     * sense for this repository
+     * @param entityId Entity identification.
      */
     void deleteById(K entityId);
 }

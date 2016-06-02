@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.core.formula;
 
 import csheets.core.IllegalValueTypeException;
@@ -24,7 +19,7 @@ public class InstructionBlock implements Expression {
 	/**
 	 * Creates a new InstructionBlock.
 	 *
-	 * @param expressions
+	 * @param expressions Variable number of expression arguments.
 	 */
 	public InstructionBlock(Expression... expressions) {
 		this.expressions = expressions;
@@ -34,7 +29,7 @@ public class InstructionBlock implements Expression {
 	 * Evaluate Expressions.
 	 *
 	 * @return Value of the final Expression within the InstructionBlock.
-	 * @throws IllegalValueTypeException
+	 * @throws IllegalValueTypeException The value can be illegal.
 	 */
 	@Override
 	public Value evaluate() throws IllegalValueTypeException {
@@ -59,7 +54,7 @@ public class InstructionBlock implements Expression {
 	 * Accept
 	 *
 	 * @return visited
-	 * @param visitor
+	 * @param visitor The visitor.
 	 */
 	@Override
 	public Object accept(ExpressionVisitor visitor) {

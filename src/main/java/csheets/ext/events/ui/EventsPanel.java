@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.events.ui;
 
 import csheets.domain.Event;
@@ -26,7 +21,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 	/**
 	 * Creates new form EventsPanel
 	 *
-	 * @param uiController
+	 * @param uiController The user interface controller.
 	 */
 	public EventsPanel(UIController uiController) {
 		this.setName(EventsExtension.NAME);

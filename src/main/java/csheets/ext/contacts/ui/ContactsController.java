@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.contacts.ui;
 
 import csheets.CleanSheets;
@@ -17,7 +12,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Rui Freitas <1130303>
+ * @author Rui Freitas
  */
 public class ContactsController {
 

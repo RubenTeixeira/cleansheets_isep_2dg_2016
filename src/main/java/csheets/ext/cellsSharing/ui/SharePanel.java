@@ -66,7 +66,7 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     /**
      * Task Manager
      */
-    private TaskManager manager = new TaskManager();
+    private final TaskManager manager = new TaskManager();
     
     private boolean hostSelected;
 
@@ -74,6 +74,7 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
      * Creates new form SharePanel
      *
      * @param uiController a ui controller
+     * @param controller Share cells controller.
      */
     public SharePanel(UIController uiController, ShareCellsController controller) {
         this.uiController = uiController;

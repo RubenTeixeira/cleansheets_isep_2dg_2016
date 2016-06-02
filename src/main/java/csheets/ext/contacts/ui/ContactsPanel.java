@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.contacts.ui;
 
 import csheets.domain.Contact;
@@ -23,7 +18,7 @@ import javax.swing.SwingWorker;
 
 /**
  *
- * @author Rui Freitas <1130303>
+ * @author Rui Freitas
  */
 public class ContactsPanel extends JPanel implements Observer {
 
@@ -32,7 +27,7 @@ public class ContactsPanel extends JPanel implements Observer {
     /**
      * Creates new form ContactsPanel
      *
-     * @param controller
+     * @param controller The user interface controller.
      */
     public ContactsPanel(UIController controller) {
         setName(ContactsExtension.NAME);

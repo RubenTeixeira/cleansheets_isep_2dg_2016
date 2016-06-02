@@ -4,7 +4,7 @@ import csheets.domain.Contact;
 
 /**
  *
- * @author Rui Freitas <1130303>
+ * @author Rui Freitas
  */
 public class ContactFactory {
     
