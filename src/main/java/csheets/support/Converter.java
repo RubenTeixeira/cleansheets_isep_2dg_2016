@@ -24,7 +24,7 @@ public final class Converter {
 
 	static private UIController controller;
 
-	/*
+	
 	private Converter() {
 	}
 
@@ -36,22 +36,6 @@ public final class Converter {
 	}
 
 	static public byte[] setImage(File selectedFile) throws IOException {
-		ByteArrayOutputStream baos;
-		ImageIcon imagem = new ImageIcon(selectedFile.getAbsolutePath());
-		BufferedImage bfimg = ImageIO.read(selectedFile);
-		baos = new ByteArrayOutputStream();
-		ImageIO.write(bfimg, "png", baos);
-		return baos.toByteArray();
-	}
-	 */
-	public Image getImage(byte[] bytes) throws IOException {
-		InputStream in = new ByteArrayInputStream(bytes);
-		BufferedImage bImageFromConvert = ImageIO.read(in);
-		ImageIO.write(bImageFromConvert, "png", new File("photo.jpg"));
-		return bImageFromConvert;
-	}
-
-	public byte[] setImage(File selectedFile) throws IOException {
 		ByteArrayOutputStream baos;
 		ImageIcon imagem = new ImageIcon(selectedFile.getAbsolutePath());
 		BufferedImage bfimg = ImageIO.read(selectedFile);

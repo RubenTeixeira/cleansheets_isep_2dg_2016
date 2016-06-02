@@ -6,6 +6,7 @@
 package csheets.persistence.jpa;
 
 import csheets.domain.Contact;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
 
@@ -19,6 +20,12 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
     @Override
     protected String persistenceUnitName() {
         return PersistenceSettings.PERSISTENCE_UNIT_NAME;
+    }
+
+    @Override
+    public void updateContact(Contact theContact) throws DataIntegrityViolationException {
+        delete(theContact);
+        add(theContact);
     }
     
 }

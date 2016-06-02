@@ -5,6 +5,7 @@
  */
 package csheets.ext.contacts.ui;
 
+import csheets.domain.Contact;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -15,11 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class ContactCardPanel extends javax.swing.JPanel {
 
+    private final Contact theContact;
+    private final ContactsController theController;
+    
+
     /**
      * Creates new form ContactCardPanel
      */
-    public ContactCardPanel() {
+    public ContactCardPanel(Contact theContact, ContactsController theController) {
         initComponents();
+        this.theContact = theContact;
+        this.theController = theController;
     }
 
     /**
@@ -104,16 +111,17 @@ public class ContactCardPanel extends javax.swing.JPanel {
     private void removeAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeAction
         int op = JOptionPane.
                 showConfirmDialog(this, "Do you want to remove " + this.jLabel1.
-                        getText() + " " + this.jLabel2.getText() + "?", "Remove Contact", JOptionPane.QUESTION_MESSAGE);
+                        getText() + " " + this.jLabel2.getText() + "?", "Remove Contact", JOptionPane.OK_CANCEL_OPTION);
         
         if(JOptionPane.OK_OPTION == op)
         {
-            
+            this.theController.removeContact(theContact);
         }
     }//GEN-LAST:event_removeAction
 
     private void editAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editAction
 
+        new AddEditContactDialog(null, theController, this.theContact).setVisible(true);
     }//GEN-LAST:event_editAction
 
     public void setFirstName(String name) {

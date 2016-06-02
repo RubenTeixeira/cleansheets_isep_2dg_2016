@@ -6,6 +6,7 @@
 package csheets.persistence;
 
 import csheets.domain.Contact;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.framework.persistence.repositories.Repository;
 
 /**
@@ -13,5 +14,7 @@ import csheets.framework.persistence.repositories.Repository;
  * @author Rui Freitas
  */
 public interface ContactRepository extends Repository<Contact, Long>{
+    
+    public void updateContact(Contact theContact) throws DataIntegrityViolationException;
     
 }

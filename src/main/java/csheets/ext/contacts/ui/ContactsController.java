@@ -28,27 +28,38 @@ public class ContactsController {
     }
 
     public Image contactPhoto(Contact ct) throws IOException {
-        return new Converter().getImage(ct.photo());
+        return Converter.getImage(ct.photo());
     }
 
     public boolean newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
         byte[] thePhoto;
 
         if (photoPath == null) {
-            thePhoto = new Converter().setImage(new File(CleanSheets.class.getResource(DEFAULT_USER_PHOTO_FILE).getFile()));
+            thePhoto = Converter.setImage(new File(CleanSheets.class.getResource(DEFAULT_USER_PHOTO_FILE).getFile()));
         } else {
             try {
-                thePhoto = new Converter().setImage(photoPath);
+                thePhoto = Converter.setImage(photoPath);
             } catch (IOException ex) {
                 throw new IOException("Loading file error!");
             }
         }
 
         Contact ct = new Contact(firstName, lastName, thePhoto);
-        
+
         boolean flag = PersistenceContext.repositories().contacts().add(ct);
         Notification.contactInformer().notifyChange();
         return flag;
+    }
+
+    public void removeContact(Contact theContact) {
+        PersistenceContext.repositories().contacts().delete(theContact);
+        Notification.contactInformer().notifyChange();
+    }
+
+    public Contact editContact(Contact theContact) throws DataIntegrityViolationException {
+        PersistenceContext.repositories().contacts().updateContact(theContact);
+        Notification.contactInformer().notifyChange();
+        return theContact;
     }
 
 }
