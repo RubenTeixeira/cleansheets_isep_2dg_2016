@@ -297,16 +297,31 @@ public class UIController implements SpreadsheetAppListener {
         return extensions;
     }
 
+    /**
+     * Searches for the extention, verifies different state and changes its
+     * state by calling UIExtention disable/enable method(s)
+     *
+     * @param ext String with extention name
+     * @param action state suposed to be
+     */
     public void changeExtensionState(String ext, boolean action) {
         UIExtension uiExt = getExtension(ext);
-        if(action==uiExt.isEnabled()){
+        if (action == uiExt.isEnabled()) {
+            return;
+        }
+        if (action) {
             uiExt.enable();
-        }else{
+        } else {
             uiExt.disable();
         }
-
     }
 
+    /**
+     * Returns the UIExtention based on the extention name
+     *
+     * @param extension
+     * @return
+     */
     private UIExtension getExtension(String extension) {
         for (UIExtension ext : extensions) {
             if (extension.equalsIgnoreCase(ext.getExtension().getName())) {

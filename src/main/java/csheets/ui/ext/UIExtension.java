@@ -29,6 +29,7 @@ import javax.swing.JToolBar;
 
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
+import javax.swing.JPanel;
 
 /**
  * <p>
@@ -197,7 +198,7 @@ public abstract class UIExtension {
                 getTableDecorator().setEnabled(true);
             }
         }
-        
+
         if (getCellDecorator() != null) {
             for (int i = 0; i < getSideBar().getComponentCount(); i++) {
                 getCellDecorator().setEnabled(true);
@@ -207,15 +208,18 @@ public abstract class UIExtension {
         if (getSideBar() != null) {
             for (int i = 0; i < getSideBar().getComponentCount(); i++) {
                 getSideBar().getComponent(i).setVisible(true);
+                getSideBar().getComponent(i).setEnabled(true);
             }
         }
         if (getToolBar() != null) {
             for (int i = 0; i < getToolBar().getComponentCount(); i++) {
                 getToolBar().getComponentAtIndex(i).setEnabled(true);
+                getToolBar().getComponentAtIndex(i).setVisible(true);
             }
         }
         if (getMenu() != null) {
             getMenu().setEnabled(true);
+
         }
 
         extension.enable();
@@ -227,7 +231,7 @@ public abstract class UIExtension {
                 getTableDecorator().setEnabled(false);
             }
         }
-        
+
         if (getCellDecorator() != null) {
             for (int i = 0; i < getSideBar().getComponentCount(); i++) {
                 getCellDecorator().setEnabled(false);
@@ -237,6 +241,7 @@ public abstract class UIExtension {
         if (getSideBar() != null) {
             for (int i = 0; i < getSideBar().getComponentCount(); i++) {
                 getSideBar().getComponent(i).setVisible(false);
+                getSideBar().getComponent(i).setEnabled(false);
             }
         }
         if (getToolBar() != null) {
