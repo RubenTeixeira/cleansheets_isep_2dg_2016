@@ -22,7 +22,7 @@ public class InstructionBlock implements Expression {
 	private Expression[] expressions;
 
 	/**
-	 * Creates a new InstructionsBlock.
+	 * Creates a new InstructionBlock.
 	 *
 	 * @param expressions
 	 */
@@ -30,11 +30,8 @@ public class InstructionBlock implements Expression {
 		this.expressions = expressions;
 	}
 
-	public InstructionBlock(String[] expressions) {
-
-	}
-
 	/**
+	 * Evaluate Expressions.
 	 *
 	 * @return Value of the final Expression within the InstructionBlock.
 	 * @throws IllegalValueTypeException
@@ -44,7 +41,7 @@ public class InstructionBlock implements Expression {
 
 		Value value = null;
 
-		for (int i = 0; i < (this.expressions.length - 1); i++) {
+		for (int i = 0; i < (this.expressions.length); i++) {
 			value = this.expressions[i].evaluate();
 		}
 		return value;
@@ -59,9 +56,10 @@ public class InstructionBlock implements Expression {
 	}
 
 	/**
+	 * Accept
 	 *
+	 * @return visited
 	 * @param visitor
-	 * @return
 	 */
 	@Override
 	public Object accept(ExpressionVisitor visitor) {

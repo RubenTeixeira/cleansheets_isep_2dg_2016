@@ -194,6 +194,9 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e01bbf726b8a1ba29f3e920f53d8fb10b6c2ed57">Small updates on TcpServer</a>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2c14560581f15ead1be0471d8ac39f9e69ce697c">Fixed errors on TcpClient</a>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2b4ded30d0b4dfa006a4fa5e9377923bef28fcc7">Added Volt. Developed TaskManager and ThreadManager</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6d97401a8d12873a37b3184cfb26cb4cf928a616">Refactoring. Added server restart functionality.</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a52ec7a92450b9ace339067a8bf0776f34b4a57f">Hotfix on TcpServer.</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/c7e5c527ca163a1a12d973059cbb15b6b5ae4193">Updated ThreadManager, and added a unit test.</a>
  * </p>
  * 
  * <h3>10.2. Teamwork: ...</h3>

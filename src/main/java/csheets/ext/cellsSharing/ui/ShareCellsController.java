@@ -1,6 +1,13 @@
 package csheets.ext.cellsSharing.ui;
 
+import csheets.core.Address;
 import csheets.core.Cell;
+import csheets.core.CellImpl;
+import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ui.ctrl.UIController;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ShareCellsController {
     
@@ -119,21 +126,44 @@ public class ShareCellsController {
      * Sends a array of Cells to the targeted host.
      *
      * @param target Targeted Host (ip and port)
-     * @param cells Array of Cells
+     * @param cells Selected Cells
      */
-    public void sendCells(int port, String target, Cell[][] cells) {
-
+    public void sendCells(String target, Cell[][] cells) {
         String message = "";
-        int linhas = cells.length;
-        int colunas = cells[0].length;
-        for (int i = 0; i < linhas; i++) {
-            for (int j = 0; j < colunas; j++) {
+        
+        int lines = cells.length;
+        int columns = cells[0].length;
+        
+        for (int i = 0; i < lines; i++) {
+            for (int j = 0; j < columns; j++) {
                 Cell cell = cells[i][j];
-
-                message += cell.getAddress().getColumn() + ";" + cell.getAddress().getRow() + ";" + cell.getValue().getType() + ";" + cell.getValue() + ";";
+                message += ";" + cell.getAddress().getColumn() + ";" + cell.getAddress().getRow() + ";" + cell.getValue().getType() + ";" + cell.getValue().toString();
             }
         }
         
+        message = message.substring(1);
+        
         new TcpService().client(target, message);
+    }
+    
+    /**
+     * Updates the active spreadsheet with the received cells.
+     * 
+     * @param ui    The user interface controller.
+     * @param cells Received cells information.
+     */
+    public void updateCells(UIController ui, Map<String, String> cells) throws FormulaCompilationException
+    {
+        for (Map.Entry<String, String> entry : cells.entrySet()) {
+            String[] addressData = entry.getKey().split(":");
+            int column = Integer.parseInt(addressData[0]);
+            int row = Integer.parseInt(addressData[1]);
+            
+            try {
+                ui.getActiveSpreadsheet().getCell(column, row).setContent(entry.getValue().split(";")[1]);
+            } catch (FormulaCompilationException ex) {
+                throw new FormulaCompilationException();
+            }
+        }
     }
 }

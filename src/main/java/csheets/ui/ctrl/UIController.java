@@ -42,6 +42,7 @@ import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
 import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.CellTransferHandler;
+import java.awt.event.ActionEvent;
 
 /**
  * A controller for managing the current selection, i.e. the active workbook,
@@ -50,7 +51,7 @@ import csheets.ui.sheet.CellTransferHandler;
  *
  * @author Einar Pehrson
  */
-public class UIController implements SpreadsheetAppListener {
+public class UIController extends FocusOwnerAction implements SpreadsheetAppListener {
 
     /**
      * The active workbook
@@ -423,6 +424,16 @@ public class UIController implements SpreadsheetAppListener {
             listener.workbookModified(event);
         }
 
+    }
+
+    @Override
+    protected String getName() {
+        return "UIController";
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        
     }
 
     /**

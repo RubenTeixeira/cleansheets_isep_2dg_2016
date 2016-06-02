@@ -19,10 +19,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 package csheets.core.formula.util;
-	
+
 import csheets.core.Value;
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
@@ -31,6 +32,7 @@ import csheets.core.formula.UnaryOperation;
  * A base-class for customized formula interpreters. The interpretation relies
  * on the Visitor pattern, so a typical invocation would look like
  * <code>formula.accept(interpreter)</code>.
+ *
  * @author Einar Pehrson
  */
 public abstract class Interpreter implements ExpressionVisitor {
@@ -38,7 +40,8 @@ public abstract class Interpreter implements ExpressionVisitor {
 	/**
 	 * Creates a new interpreter.
 	 */
-	public Interpreter() {}
+	public Interpreter() {
+	}
 
 	public Value visitLiteral(Literal literal) {
 		return literal.evaluate();
@@ -53,4 +56,7 @@ public abstract class Interpreter implements ExpressionVisitor {
 	}
 
 	public abstract Value visitFunctionCall(FunctionCall call);
+
+	public abstract Value visitInstructionBlock(InstructionBlock block);
+
 }

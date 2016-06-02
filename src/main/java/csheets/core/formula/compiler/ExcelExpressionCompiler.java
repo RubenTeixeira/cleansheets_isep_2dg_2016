@@ -29,17 +29,22 @@ import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionCall;
+import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
+import csheets.core.formula.lang.Assign;
 import csheets.core.formula.lang.CellReference;
 import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.RangeReference;
 import csheets.core.formula.lang.ReferenceOperation;
 import csheets.core.formula.lang.UnknownElementException;
+import csheets.support.Converter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -57,9 +62,6 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 	 * The character that signals that a cell's content is a formula ('=')
 	 */
 	public static final char FORMULA_STARTER = '=';
-//	public static final String INSTRUCTION_BLOCK_STARTER = "{";
-//	public static final String INSTRUCTION_BLOCK_FINISHER = "}";
-//	public static final String INSTRUCTION_BLOCK_SEPARATOR = ";";
 
 	/**
 	 * Creates the Excel expression compiler.
@@ -135,7 +137,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 						return new CellReference(cell.getSpreadsheet(), node.
 												 getText());
 //					case FormulaParserTokenTypes.NAME:
-						/* return cell.getSpreadsheet().getWorkbook().
+					/* return cell.getSpreadsheet().getWorkbook().
 					 getRange(node.getText()) (Reference)*/
 				}
 			} catch (ParseException e) {
@@ -181,6 +183,26 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					(RangeReference) operator,
 					(Reference) convert(cell, node.getChild(1))
 				);
+			} else if (operator instanceof Assign) {
+				try {
+					Value value = new BinaryOperation(
+						convert(cell, node.getChild(0)),
+						operator,
+						convert(cell, node.getChild(1))
+					).evaluate();
+					CellReference reference = new CellReference(Converter.
+						controller().getActiveSpreadsheet(), node.getChild(0).
+																getText());
+					reference.getCell().setContent(value.toString());
+				} catch (Exception ex) {
+					Logger.getLogger(ExcelExpressionCompiler.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+				return new BinaryOperation(
+					convert(cell, node.getChild(0)),
+					operator,
+					convert(cell, node.getChild(1))
+				);
 			} else {
 				return new BinaryOperation(
 					convert(cell, node.getChild(0)),
@@ -190,32 +212,11 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 			}
 
 		} else if (node.getChildCount() >= 2) {
-
 			Expression[] expressions = new Expression[node.getChildCount()];
-
 			for (int i = 0; i < node.getChildCount(); i++) {
 				expressions[i] = convert(cell, node.getChild(i));
 			}
-
-			//InstructionBlock block = new InstructionBlock(expressions);
-			return expressions[node.getChildCount() - 1];
-
-//			if (!node.getChild(node.getTokenStartIndex()).getText().
-//				equalsIgnoreCase(INSTRUCTION_BLOCK_STARTER)
-//				|| !node.getChild(node.getTokenStopIndex()).getText().
-//				equalsIgnoreCase(INSTRUCTION_BLOCK_FINISHER)) {
-//				throw new FormulaCompilationException();
-//			}
-//
-//			String str_block = new String();
-//
-//			for (int i = 1; i < node.getChildCount(); i++) {
-//				str_block += node.getChild(i).getText();
-//			}
-//
-//			String[] expressions = str_block.split(INSTRUCTION_BLOCK_SEPARATOR);
-//
-//			return new InstructionBlock(expressions);
+			return new InstructionBlock(expressions);
 		}
 		// Shouldn't happen
 		throw new FormulaCompilationException();

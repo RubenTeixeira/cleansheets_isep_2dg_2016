@@ -114,7 +114,7 @@ public class RangeReference implements BinaryOperator {
 	}
 
 	public String getIdentifier() {
-		return ":mar";
+		return ":";
 	}
 
 	public Value.Type getOperandValueType() {

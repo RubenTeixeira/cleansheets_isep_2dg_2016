@@ -5,6 +5,7 @@
  */
 package csheets.support;
 
+import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,28 @@ import javax.swing.ImageIcon;
  */
 public final class Converter {
 
+	static private UIController controller;
+
+	/*
+	private Converter() {
+	}
+
+	static public Image getImage(byte[] bytes) throws IOException {
+		InputStream in = new ByteArrayInputStream(bytes);
+		BufferedImage bImageFromConvert = ImageIO.read(in);
+		ImageIO.write(bImageFromConvert, "png", new File("photo.jpg"));
+		return bImageFromConvert;
+	}
+
+	static public byte[] setImage(File selectedFile) throws IOException {
+		ByteArrayOutputStream baos;
+		ImageIcon imagem = new ImageIcon(selectedFile.getAbsolutePath());
+		BufferedImage bfimg = ImageIO.read(selectedFile);
+		baos = new ByteArrayOutputStream();
+		ImageIO.write(bfimg, "png", baos);
+		return baos.toByteArray();
+	}
+	 */
 	public Image getImage(byte[] bytes) throws IOException {
 		InputStream in = new ByteArrayInputStream(bytes);
 		BufferedImage bImageFromConvert = ImageIO.read(in);
@@ -35,6 +58,14 @@ public final class Converter {
 		baos = new ByteArrayOutputStream();
 		ImageIO.write(bfimg, "png", baos);
 		return baos.toByteArray();
+	}
+
+	public static UIController controller() {
+		return Converter.controller;
+	}
+
+	public static void controller(UIController controller) {
+		Converter.controller = controller;
 	}
 
 }

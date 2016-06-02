@@ -122,13 +122,14 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEventActionPerformed
-		ManageEvents event = new ManageEvents(this.controller, null);
+		//ManageEvents event = new ManageEvents(this.controller, null);
+		controller.mmb();/*
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, event, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (eventOption == JOptionPane.OK_OPTION) {
 			event.createEvent();
 		}
-
+		 */
     }//GEN-LAST:event_jButtonAddEventActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed

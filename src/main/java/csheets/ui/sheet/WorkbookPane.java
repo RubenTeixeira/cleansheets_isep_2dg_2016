@@ -54,52 +54,76 @@ import csheets.ui.ctrl.UIController;
 
 /**
  * A tabbed pane, used to display the spreadsheets in a workbook.
+ *
  * @author Einar Pehrson
  * @author Nobuo Tamemasa
  */
 @SuppressWarnings("serial")
 public class WorkbookPane extends JTabbedPane implements SelectionListener {
 
-	/** The command for navigating to the first tab in the pane */
+	/**
+	 * The command for navigating to the first tab in the pane
+	 */
 	public static final String FIRST_COMMAND = "First tab";
 
-	/** The command for navigating to the previous tab in the pane */
+	/**
+	 * The command for navigating to the previous tab in the pane
+	 */
 	public static final String PREV_COMMAND = "Previous tab";
 
-	/** The command for navigating to the next tab in the pane */
+	/**
+	 * The command for navigating to the next tab in the pane
+	 */
 	public static final String NEXT_COMMAND = "Next tab";
 
-	/** The command for navigating to the last tab in the pane */
+	/**
+	 * The command for navigating to the last tab in the pane
+	 */
 	public static final String LAST_COMMAND = "Last tab";
 
-	/** The user interface controller */
+	/**
+	 * The user interface controller
+	 */
 	private UIController uiController;
 
-	/** The navigation buttons */
-	private JButton[] buttons = new JButton[] {
+	/**
+	 * The navigation buttons
+	 */
+	private JButton[] buttons = new JButton[]{
 		new StopArrowButton(WEST, FIRST_COMMAND),
 		new BasicArrowButton(WEST),
 		new BasicArrowButton(EAST),
 		new StopArrowButton(EAST, LAST_COMMAND)
 	};
 
-	/** The preferred size of the navigation buttons */
-	private Dimension buttonSize = new Dimension(16,17);
+	/**
+	 * The preferred size of the navigation buttons
+	 */
+	private Dimension buttonSize = new Dimension(16, 17);
 
-	/** The number of visible tabs in the pane */
+	/**
+	 * The number of visible tabs in the pane
+	 */
 	private int visibleCount = 0;
 
-	/** The index of the fist visible tab in the pane */
+	/**
+	 * The index of the fist visible tab in the pane
+	 */
 	private int visibleStartIndex = 0;
 
-	/** The popup-menu */
+	/**
+	 * The popup-menu
+	 */
 	private JPopupMenu popupMenu = new JPopupMenu();
 
-	/** The workbook listener that manages spreadsheets in the pane */
+	/**
+	 * The workbook listener that manages spreadsheets in the pane
+	 */
 	private WorkbookListener synchronizer = new SpreadsheetSynchronizer();
 
 	/**
 	 * Creates a workbook pane.
+	 *
 	 * @param actionManager a manager for actions
 	 * @param uiController the user interface controller
 	 */
@@ -118,26 +142,30 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 
 		// Configures actions
 		InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_UP, KeyEvent.CTRL_MASK),
-			"Select previous spreadsheet");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_PAGE_DOWN, KeyEvent.CTRL_MASK),
-			"Select next spreadsheet");
-		getActionMap().put("Select previous spreadsheet", ui.new NavigateAction(SwingConstants.PREVIOUS));
-		getActionMap().put("Select next spreadsheet", ui.new NavigateAction(SwingConstants.NEXT));
+		inputMap.put(KeyStroke.
+			getKeyStroke(KeyEvent.VK_PAGE_UP, KeyEvent.CTRL_MASK),
+					 "Select previous spreadsheet");
+		inputMap.put(KeyStroke.
+			getKeyStroke(KeyEvent.VK_PAGE_DOWN, KeyEvent.CTRL_MASK),
+					 "Select next spreadsheet");
+		getActionMap().
+			put("Select previous spreadsheet", ui.new NavigateAction(SwingConstants.PREVIOUS));
+		getActionMap().
+			put("Select next spreadsheet", ui.new NavigateAction(SwingConstants.NEXT));
 
 		// Adds popup-menu
 		popupMenu.add(actionManager.getAction("addsheet"));
 		popupMenu.add(actionManager.getAction("removesheet"));
 		popupMenu.add(actionManager.getAction("renamesheet"));
-		addMouseListener(new PopupShower());		
+		addMouseListener(new PopupShower());
 	}
 
-/*
+	/*
  * SELECTION
- */
-
+	 */
 	/**
 	 * Updates the tabs in the pane when a new active workbook is selected.
+	 *
 	 * @param event the selection event that was fired
 	 */
 	public void selectionChanged(SelectionEvent event) {
@@ -150,17 +178,21 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 				for (Spreadsheet spreadsheet : workbook) {
 					SpreadsheetTable table = new SpreadsheetTable(spreadsheet, uiController);
 					add(spreadsheet.getTitle(), new JScrollPane(table));
-					setMnemonicAt(i++, KeyStroke.getKeyStroke(Integer.toString(i)).getKeyCode());
+					setMnemonicAt(i++, KeyStroke.getKeyStroke(Integer.
+								  toString(i)).getKeyCode());
 					table.selectionChanged(event);
 				}
-			} else
+			} else {
 				add(new JPanel());
+			}
 
 			// Adds listener
-			if (event.getPreviousWorkbook() != null)
+			if (event.getPreviousWorkbook() != null) {
 				event.getPreviousWorkbook().removeWorkbookListener(synchronizer);
-			if (event.getWorkbook() != null)
+			}
+			if (event.getWorkbook() != null) {
 				event.getWorkbook().addWorkbookListener(synchronizer);
+			}
 		}
 	}
 
@@ -181,11 +213,13 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 			// Updates selection
 			Component selected = getSelectedComponent();
 			if (selected != null && selected instanceof JScrollPane) {
-				Component c = ((JScrollPane)selected).getViewport().getView();
+				Component c = ((JScrollPane) selected).getViewport().getView();
 				if (c instanceof SpreadsheetTable) {
-					SpreadsheetTable table = (SpreadsheetTable)c;
-					int activeColumn = table.getColumnModel().getSelectionModel().getAnchorSelectionIndex();
-					int activeRow = table.getSelectionModel().getAnchorSelectionIndex();
+					SpreadsheetTable table = (SpreadsheetTable) c;
+					int activeColumn = table.getColumnModel().
+						getSelectionModel().getAnchorSelectionIndex();
+					int activeRow = table.getSelectionModel().
+						getAnchorSelectionIndex();
 					uiController.setActiveCell(table.getSpreadsheet()
 						.getCell(new Address(activeColumn, activeRow)));
 				}
@@ -193,10 +227,9 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 		}
 	}
 
-/*
+	/*
  * UPDATES
- */
-
+	 */
 	/**
 	 * A workbook listener that adds and removes spreadsheets in the pane.
 	 */
@@ -204,28 +237,33 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 
 		public void spreadsheetInserted(Spreadsheet spreadsheet, int index) {
 			insertTab(spreadsheet.getTitle(), null, new JScrollPane(
-				new SpreadsheetTable(spreadsheet, uiController)), null, index);
-			for (int i = 0; i < getTabCount(); i++)
-				setMnemonicAt(i, KeyStroke.getKeyStroke(Integer.toString(i)).getKeyCode());
+					  new SpreadsheetTable(spreadsheet, uiController)), null, index);
+			for (int i = 0; i < getTabCount(); i++) {
+				setMnemonicAt(i, KeyStroke.getKeyStroke(Integer.toString(i)).
+							  getKeyCode());
+			}
 		}
-	
+
 		public void spreadsheetRemoved(Spreadsheet spreadsheet) {
-			for (Component c : getComponents())
+			for (Component c : getComponents()) {
 				if (c instanceof JScrollPane) {
-					Component view = ((JScrollPane)c).getViewport().getView();
-					if (view instanceof SpreadsheetTable)
-						if (((SpreadsheetTable)view).getSpreadsheet() == spreadsheet)
+					Component view = ((JScrollPane) c).getViewport().getView();
+					if (view instanceof SpreadsheetTable) {
+						if (((SpreadsheetTable) view).getSpreadsheet() == spreadsheet) {
 							remove(c);
+						}
+					}
 				}
+			}
 		}
-	
-		public void spreadsheetRenamed(Spreadsheet spreadsheet) {}
+
+		public void spreadsheetRenamed(Spreadsheet spreadsheet) {
+		}
 	}
 
-/*
+	/*
  * POPUP MENU
- */
-
+	 */
 	/**
 	 * A mouse listener that shows a pop-up menu whenever appropriate.
 	 */
@@ -240,16 +278,16 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 		}
 
 		public void maybeShowPopup(MouseEvent e) {
-			if (e.isPopupTrigger())
+			if (e.isPopupTrigger()) {
 				popupMenu.show(e.getComponent(), e.getX(),
-					e.getY() - popupMenu.getPreferredSize().height);
+							   e.getY() - popupMenu.getPreferredSize().height);
+			}
 		}
 	}
 
-/*
+	/*
  * NAVIGATION
- */
-
+	 */
 	public Dimension getPreferredButtonSize() {
 		return buttonSize;
 	}
@@ -259,23 +297,24 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 	}
 
 	public void insertTab(String title, Icon icon, Component component,
-			String tip, int index) {
+						  String tip, int index) {
 		if (component instanceof BasicArrowButton) {
 			if (component != null) {
 				component.setVisible(true);
 				addImpl(component, null, -1);
 			}
-		} else
+		} else {
 			super.insertTab(title, icon, component, tip, index);
+		}
 	}
 
-
 	public boolean isVisibleTab(int index) {
-		if ((visibleStartIndex <= index) &&
-				(index < visibleStartIndex + visibleCount)) {
+		if ((visibleStartIndex <= index)
+			&& (index < visibleStartIndex + visibleCount)) {
 			return true;
-		} else
+		} else {
 			return false;
+		}
 	}
 
 	public int getVisibleCount() {
@@ -283,8 +322,9 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 	}
 
 	public void setVisibleCount(int visibleCount) {
-		if (visibleCount < 0)
+		if (visibleCount < 0) {
 			return;
+		}
 		this.visibleCount = visibleCount;
 	}
 
@@ -293,57 +333,61 @@ public class WorkbookPane extends JTabbedPane implements SelectionListener {
 	}
 
 	public void setVisibleStartIndex(int visibleStartIndex) {
-		if (visibleStartIndex < 0 || getTabCount() <= visibleStartIndex)
+		if (visibleStartIndex < 0 || getTabCount() <= visibleStartIndex) {
 			return;
+		}
 		this.visibleStartIndex = visibleStartIndex;
 	}
 
 	/**
-	 * An extension of a <code>BasicArrowButton</code> that adds a stop dash
-	 * to the button.
+	 * An extension of a <code>BasicArrowButton</code> that adds a stop dash to
+	 * the button.
+	 *
 	 * @author Nobuo Tamemasa
 	 * @author Einar Pehrson
 	 */
 	@SuppressWarnings("serial")
 	protected static class StopArrowButton extends BasicArrowButton {
-	
+
 		/**
 		 * Creates a new stop arrow button.
+		 *
 		 * @param direction the direction in which the button's arrow faces
-                 * @param command command
+		 * @param command command
 		 */
 		public StopArrowButton(int direction, String command) {
 			super(direction);
 			setActionCommand(command);
 		}
-	
-		public void paintTriangle(Graphics g, int x, int y, int size, 
-						int direction, boolean isEnabled) {
+
+		public void paintTriangle(Graphics g, int x, int y, int size,
+								  int direction, boolean isEnabled) {
 			super.paintTriangle(g, x, y, size, direction, isEnabled);
 			Color c = g.getColor();
-			if (isEnabled)
+			if (isEnabled) {
 				g.setColor(UIManager.getColor("controlDkShadow"));
-			else
+			} else {
 				g.setColor(UIManager.getColor("controlShadow"));
+			}
 			g.translate(x, y);
 			size = Math.max(size, 2);
 			int mid = size / 2;
-			int h = size-1;
+			int h = size - 1;
 			if (direction == WEST) {
-				g.drawLine(-1, mid-h, -1, mid+h);
+				g.drawLine(-1, mid - h, -1, mid + h);
 				if (!isEnabled) {
 					g.setColor(UIManager.getColor("controlLtHighlight"));
-					g.drawLine(0, mid-h+1, 0, mid-1);
-					g.drawLine(0, mid+2, 0, mid+h+1);
+					g.drawLine(0, mid - h + 1, 0, mid - 1);
+					g.drawLine(0, mid + 2, 0, mid + h + 1);
 				}
 			} else {
-				g.drawLine(size, mid-h, size, mid+h);
+				g.drawLine(size, mid - h, size, mid + h);
 				if (!isEnabled) {
 					g.setColor(UIManager.getColor("controlLtHighlight"));
-					g.drawLine(size+1, mid-h+1, size+1, mid+h+1);
+					g.drawLine(size + 1, mid - h + 1, size + 1, mid + h + 1);
 				}
-			}	
-			g.setColor(c);			
+			}
+			g.setColor(c);
 		}
 	}
 }

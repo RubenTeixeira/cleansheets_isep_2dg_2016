@@ -35,7 +35,7 @@ public class ContactsPanel extends JPanel implements Observer {
         setName(ContactsExtension.NAME);
         Notification.contactCardInformer().addObserver(this);
         Notification.contactInformer().addObserver(this);
-        
+
         initComponents();
     }
 
@@ -103,20 +103,18 @@ public class ContactsPanel extends JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         refreshContactCards();
-        contactsPanel.revalidate();
-        contactsPanel.repaint();
     }
 
-    /*
-    * Refreshes contact list: deletes all information and gets the new data
+    /**
+     * Refreshes contact list: deletes all information and gets the new data
      */
     protected void refreshContactCards() {
         clearContactList();
         new ListContactsWorker().execute();
     }
 
-    /* 
-    * Deletes all information from contact list.
+    /**
+     * Deletes all information from contact list.
      */
     private void clearContactList() {
         this.contactsPanel.removeAll();
@@ -147,6 +145,11 @@ public class ContactsPanel extends JPanel implements Observer {
 
         layout.setRows(layout.getRows() + 1);
 
+    }
+
+    private void refreshUI() {
+        contactsPanel.revalidate();
+        contactsPanel.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -186,6 +189,11 @@ public class ContactsPanel extends JPanel implements Observer {
             for (ContactCardPanel panel : chunks) {
                 addContactCard(panel);
             }
+        }
+
+        @Override
+        protected void done() {
+            refreshUI();
         }
     }
 

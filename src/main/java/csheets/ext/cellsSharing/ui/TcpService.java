@@ -4,10 +4,8 @@ import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
-import csheets.support.Task;
 import csheets.support.ThreadManager;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -32,20 +30,38 @@ public class TcpService extends Notifier {
             public void run() {
                 server = new TcpServer();
                 
-                server.expect(":address|:value", new Action() {
+                server.expect(":share-cells", new Action() {
                     @Override
                     public void run(Map<String, Object> args) {
-//                      List<String> hosts = (List<String>) args.get("from");
-//                      notifyChange(hosts);
-                        List<String> address = (List<String>) args.get("address");
-                        List<String> value = (List<String>) args.get("value");
-
-                        Map<String, String> cellsInformation = new HashMap<>();
-
-                        for (int i = 0; i < address.size(); i++) {
-                            cellsInformation.put(address.get(i), value.get(i));
+                        // Each cell has the following information:
+                        // Column;Line;Type;Value
+                        final int params = 4;
+                        
+                        Map<String, String> cells = new LinkedHashMap<>();
+                        String[] data = ((String) args.get("message")).split(";");
+                        
+                        for (int i = 0; i < data.length; i += params) {
+                            // Put in the map the address and the values.
+                            // Example:
+                            // 0:2 => TEXT;abc
+                            // Represents the A3 cell with the value of abc, which is of type TEXT.
+                            
+                            if (i + 3 < data.length) {
+                                cells.put(data[i] + ":" + data[i + 1], data[i + 2] + ";" + data[i + 3]);
+                                continue;
+                            }
+                            
+                            if (i + 2 < data.length) {
+                                cells.put(data[i] + ":" + data[i + 1], data[i + 2]);
+                                continue;
+                            }
+                            
+                            if (i + 1 < data.length) {
+                                cells.put(data[i] + ":" + data[i + 1], "");
+                            }
                         }
-                        notifyChange(cellsInformation);
+                        
+                        notifyChange(cells);
                     }
                 });
                 

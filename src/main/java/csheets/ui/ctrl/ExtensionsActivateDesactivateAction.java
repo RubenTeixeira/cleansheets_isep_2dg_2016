@@ -12,9 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
 import csheets.CleanSheets;
-import csheets.ui.ExtensionsActivateDeactivateUI;
-import csheets.ui.ExtenstionsActDeactUI;
-import javax.swing.JOptionPane;
+import csheets.ui.ExtensionsActivDeactivUI;
 
 /**
  *
@@ -45,7 +43,7 @@ public class ExtensionsActivateDesactivateAction extends FocusOwnerAction {
         if (focusOwner == null) {
             return;
         }
-        ExtenstionsActDeactUI ui = new ExtenstionsActDeactUI(uiController);
+        ExtensionsActivDeactivUI ui = new ExtensionsActivDeactivUI(uiController);
     }
 
 }
