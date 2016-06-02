@@ -43,7 +43,8 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (this.event != null) {
-
+			this.jComboBoxContacts.setSelectedItem(this.event.contact());
+			this.jTextFieldEventName.setText(this.event.description());
 		}
 	}
 

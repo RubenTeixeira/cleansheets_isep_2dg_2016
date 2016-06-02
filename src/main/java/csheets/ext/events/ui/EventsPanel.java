@@ -10,9 +10,9 @@ import csheets.ext.events.EventsController;
 import csheets.ext.events.EventsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,8 +21,6 @@ import javax.swing.JOptionPane;
  */
 public class EventsPanel extends javax.swing.JPanel implements Observer {
 
-	private DefaultListModel jModelListEvents = new DefaultListModel();
-	;
 	private EventsController controller;
 
 	/**
@@ -40,15 +38,57 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		JOptionPane.showMessageDialog(this, null);
+		Object[] options = {"Ok", "Snooze"};
+		int n = JOptionPane.showOptionDialog(null,
+											 "Event: ",
+											 "ALERT",
+											 JOptionPane.YES_NO_CANCEL_OPTION,
+											 JOptionPane.DEFAULT_OPTION,
+											 null,
+											 options,
+											 options[1]);
 		if (arg instanceof Event) {
 			Event event = (Event) arg;
-			JOptionPane.showMessageDialog(this, event);
+			controller.snoozeEvent(event);
+			controller.alert(event, false);
 		} else {
-			this.jModelListEvents.removeAllElements();
+			clearEventList();
 			for (Event event : this.controller.allEvents()) {
-				this.jModelListEvents.addElement(event);
+				EventPanelSingle panel = new EventPanelSingle(this.controller, event);
+				this.addEventPanel(panel);
 			}
+			this.jPanelEvents.revalidate();
+			this.jPanelEvents.repaint();
 		}
+	}
+
+	private void addEventPanel(EventPanelSingle panel) {
+		this.jPanelEvents.add(panel);
+		addGridRow();
+	}
+
+	/*
+    * Deletes all information from event list.
+	 */
+	private void clearEventList() {
+		this.jPanelEvents.removeAll();
+		defaultGridRow();
+	}
+
+	/*
+    * Layout specific: set's the default number of rows (5)
+	 */
+	private void defaultGridRow() {
+		((GridLayout) this.jPanelEvents.getLayout()).setRows(5);
+	}
+
+	/*
+    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+	 */
+	private void addGridRow() {
+		GridLayout layout = (GridLayout) this.jPanelEvents.getLayout();
+		layout.setRows(layout.getRows() + 1);
 	}
 
 	/**
@@ -60,16 +100,12 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListEvents = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
         jButtonEdit = new javax.swing.JButton();
         jButtonRemoveEvent = new javax.swing.JButton();
         jButtonAddEvent = new javax.swing.JButton();
-
-        jListEvents.setModel(this.jModelListEvents);
-        jListEvents.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(jListEvents);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanelEvents = new javax.swing.JPanel();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -97,6 +133,9 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
         });
         jPanel1.add(jButtonAddEvent, java.awt.BorderLayout.WEST);
 
+        jPanelEvents.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane1.setViewportView(jPanelEvents);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,10 +143,10 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -122,41 +161,32 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEventActionPerformed
-		//ManageEvents event = new ManageEvents(this.controller, null);
-		controller.mmb();/*
+		ManageEvents event = new ManageEvents(this.controller, null);
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, event, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (eventOption == JOptionPane.OK_OPTION) {
 			event.createEvent();
 		}
-		 */
     }//GEN-LAST:event_jButtonAddEventActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		if (this.jListEvents.getSelectedIndex() != -1) {
-			ManageEvents event = new ManageEvents(this.controller, this.jListEvents.
-												  getSelectedValue());
-			int eventOption = JOptionPane.
-				showConfirmDialog(null, event, "Edit Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-			if (eventOption == JOptionPane.OK_OPTION) {
-				event.createEvent();
-			}
+		ManageEvents event = new ManageEvents(this.controller, null);
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, event, "Edit Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+			event.createEvent();
 		}
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     private void jButtonRemoveEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveEventActionPerformed
-		if (this.jListEvents.getSelectedIndex() != -1) {
-			Event event = this.jListEvents.getSelectedValue();
-			this.controller.removeEvent(event);
-		}
     }//GEN-LAST:event_jButtonRemoveEventActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddEvent;
     private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonRemoveEvent;
-    private javax.swing.JList<Event> jListEvents;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelEvents;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

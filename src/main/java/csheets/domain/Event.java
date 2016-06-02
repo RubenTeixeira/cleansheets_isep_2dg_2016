@@ -12,17 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Rui Freitas
  */
 @Entity
-@Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"DATE", "DESCRIPTION"})})
 public class Event implements Serializable {
 
 	@Id
@@ -45,8 +41,6 @@ public class Event implements Serializable {
 	public Event(Contact contact, String description, Calendar date,
 				 boolean alert) {
 		if (contact == null || description == null || date == null) {
-			throw new IllegalArgumentException();
-		} else if (description.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.contact = contact;
@@ -97,5 +91,13 @@ public class Event implements Serializable {
 	public String toString() {
 		return this.contact + " - " + this.description + " - " + DateTime.
 			format(date);
+	}
+
+	public void add(int field, int amount) {
+		this.date.add(field, amount);
+	}
+
+	public void alert(boolean active) {
+		this.alert = alert;
 	}
 }
