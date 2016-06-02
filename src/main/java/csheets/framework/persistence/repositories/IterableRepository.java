@@ -13,6 +13,8 @@ import java.util.Iterator;
  * or not.
  *
  * @author Paulo Gandra Sousa
+ * @param <T> the class we want to manage in the repository
+ * @param <K> the class denoting the primary key of the entity
  */
 public interface IterableRepository<T, K> extends Repository<T, K>, Iterable<T> {
 

@@ -70,11 +70,12 @@
  * achieve this functionality we use the same framework used in UC EAPLI,
  * allowing the abstraction of persistence layer.
  *
- * <p>
+ * </p>
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
+ * <p>
  * Basically, from requirements and also analysis, we see that the core
  * functionality of this use case is to be able to add an attribute to cells to
  * be used to store a comment/text. We need to be able to set and get its value.
@@ -85,7 +86,7 @@
  * returns the same string. As usual, in a test driven development approach
  * tests normally fail in the beginning. The idea is that the tests will pass in
  * the end.
- * <p>
+ * </p>
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. UC Realization</h3>
@@ -99,37 +100,37 @@
  * <b>Note:</b> It is very important that in the final version of this technical
  * documentation the elements depicted in these design diagrams exist in the
  * code!
- *
+ * </p>
  * <h3>Create Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Edit Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Remove Contact</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_contact.png" alt="image">
- * <p>
+ * </p>
  * <h3>Create Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_add_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>Edit Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_edit_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>Remove Event</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_remove_event.png" alt="image">
- * <p>
+ * </p>
  * <h3>5.3. Classes</h3>
  *
  * <h3>Class Diagram of the feature</h3>
  * <p>
  * <img src="doc-files/crm01_01_design_class_diagram.png" alt="image">
- * <p>
+ * </p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -137,7 +138,7 @@
  * <p>
  * -You can also add other artifacts to document the design, for instance,
  * database models or updates to the domain model-
- *
+ * </p>
  * <h2>6. Implementation</h2>
  *
  * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
@@ -147,10 +148,11 @@
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
  * commits of your work-
- * <p>
+ * </p>
  * see:
  * <p>
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a><p>
+ * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
+ * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -165,20 +167,20 @@
  *
  * <p>
  * <b>Monday</b>
- * <p>
+ * </p>
  * 1. Meeting with our supervisor and decided who were the Aea Leaders as well
  * who was going to be Scrum Master.
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * </p>
  * 1. Analysis of the UC, testing, designing and start the implementation
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
@@ -193,7 +195,7 @@
  * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
- * <p>
+ * </p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
  *

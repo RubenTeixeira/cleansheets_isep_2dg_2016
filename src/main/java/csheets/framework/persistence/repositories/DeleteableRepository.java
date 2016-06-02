@@ -3,13 +3,15 @@ package csheets.framework.persistence.repositories;
 /**
  *
  * @author Paulo Gandra Sousa
+ * @param <T> the class we want to manage in the repository
+ * @param <K> the class denoting the primary key of the entity
  */
 public interface DeleteableRepository<T, K> extends Repository<T, K> {
 
     /**
      * removes the specified entity from the repository.
      *
-     * @param entity
+     * @param entity Entity.
      */
     @Override
     void delete(T entity);
