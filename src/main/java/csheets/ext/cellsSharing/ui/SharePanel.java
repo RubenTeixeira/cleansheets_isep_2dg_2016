@@ -63,6 +63,11 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
      */
     private Cell[][] cells;
 
+    /**
+     * Task Manager
+     */
+    private TaskManager manager = new TaskManager();
+    
     private boolean hostSelected;
 
     /**
@@ -96,21 +101,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
         this.controller = controller;
         this.controller.startUdpService(this, defaultPort, defaultSeconds);
         this.controller.startTcpService(this, defaultPort);
-
-        //TaskManager manager = new TaskManager();
-
-        Task cleaner = new Task() {
-            @Override
-            public void fire() {
-                instanceListModel.clear();
-                receiveListModel.clear();
-                instancesList.removeAll();
-                receiveList.removeAll();
-                receivedElements.clear();
-            }
-        };
-        
-        //manager.every(10).fire(cleaner);
     }
 
     /**
@@ -217,11 +207,30 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-
+        
+        String cell = "", value = "";
+        
+        int line = cells.length;
+        int column = cells[0].length;
+        
+        if ((line > 2 && column == 1) || (line == 1 && column > 2) || (line > 1 && column > 1)) {
+            cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
+            value = "[\"" + cells[0][0].getValue() + "\", ..., \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+        } else {
+            if ((line == 2 && column == 1) || (line == 1 && column == 2)) {
+                cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
+                value = "[\"" + cells[0][0].getValue() + "\", \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+            } else {
+                // The cells only have one value. A single cell.
+                cell = cells[0][0].getAddress().toString();
+                value = "[\"" + cells[0][0].getValue() + "\"]";
+            }
+        }
+        
         int reply = JOptionPane.showConfirmDialog(this, "::. Send information .::\n"
                 + "Host: " + host
-                + "\nCell: " + cells[0][0].getAddress()
-                + "\nValue: " + cells[0][0].getValue());
+                + "\nCell: " + cell
+                + "\nValue: " + value);
 
         if (reply == JOptionPane.YES_OPTION) {
             controller.sendCells(host, cells);
@@ -250,37 +259,114 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
     public void updateInstanceList(List<String> addresses) {
         for (String address : addresses) {
-            instanceListModel.addElement(address);
+            if (! instanceListModel.contains(address)) {
+                instanceListModel.addElement(address);
+                
+                manager.after(10).once(new Task() {
+                    public void fire() {
+                        instanceListModel.removeElement(address);
+                        instancesList.setModel(instanceListModel);
+                    }
+                });
+            }
         }
 
         instancesList.setModel(instanceListModel);
         repaint();
     }
 
+    private String getAddress(int column, int row)
+    {
+        String columnStr;
+        int tempColumn = column;
+        for (columnStr = ""; tempColumn >= 0; tempColumn = tempColumn
+                / ('Z' - 'A' + 1) - 1) {
+            columnStr = (char) ((char) (tempColumn % ('Z'
+                    - 'A' + 1)) + 'A') + columnStr;
+        }
+        
+        return columnStr + (row + 1);
+    }
+    
+    private String getValue(String data)
+    {
+        String[] keys = data.split(";");
+        
+        if (keys.length == 1) {
+            return "\"\"";
+        }
+        
+        return "\"" + keys[1] + "\"";
+    }
+    
     public void updateReceiveList(Map<String, String> cells) {
         int index = 0, size = cells.size() - 1;
         String firstAddress = "";
-        String firstValue = "[";
-        
+        String firstValue = ""; 
         String secondAddress = ":";
         String secondValue = ", ..., ";
         
-        for (Map.Entry<String, String> entry : cells.entrySet()) {
-            if (index == 0) {
-                firstAddress += entry.getKey();
-                firstValue += entry.getValue();
+        if (cells.size() == 1) {
+            for (Map.Entry<String, String> entry : cells.entrySet()) {
+                String[] key = entry.getKey().split(":");
+                firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+                firstValue += this.getValue(entry.getValue());
             }
             
-            if (index == size) {
-                secondAddress += entry.getKey();
-                secondValue += entry.getValue();
+            secondAddress = "";
+            secondValue = "";
+        } else {
+            if (cells.size() == 2) {
+                secondValue = ", ";
+                
+                for (Map.Entry<String, String> entry : cells.entrySet()) {
+                    String[] key = entry.getKey().split(":");
+                    
+                    if (index == 0) {
+                        firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+                        firstValue += this.getValue(entry.getValue());
+                    }
+                    
+                    if (index == 1) {
+                        secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+                        secondValue += this.getValue(entry.getValue());
+                    }
+                    
+                    index++;
+                }
+
+            } else {
+                // The number of cells received are above two.
+                for (Map.Entry<String, String> entry : cells.entrySet()) {
+                    if (index == 0) {
+                        String[] key = entry.getKey().split(":");
+                        firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+                        firstValue += this.getValue(entry.getValue());
+                    }
+
+                    if (index == size) {
+                        String[] key = entry.getKey().split(":");
+                        secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+                        secondValue += this.getValue(entry.getValue());
+                    }
+
+                    index++;
+                }
             }
-            
-            index++;
         }
         
-        receiveListModel.addElement(firstAddress + secondAddress + " => " + firstValue + secondValue + "]");
+        String element = firstAddress + secondAddress + " => [" + firstValue + secondValue + "]";
+        
+        receiveListModel.addElement(element);
         receivedElements.add(receiveListModel.size() - 1, cells);
+        
+        manager.after(10).once(new Task() {
+            public void fire() {
+                receiveListModel.removeElement(element);
+                receiveList.setModel(receiveListModel);
+                receivedElements.remove(cells);
+            }
+        });
         
         receiveList.setModel(receiveListModel);
         repaint();

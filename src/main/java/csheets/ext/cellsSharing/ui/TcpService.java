@@ -52,12 +52,12 @@ public class TcpService extends Notifier {
                             }
                             
                             if (i + 2 < data.length) {
-                                cells.put(data[i] + ":" + data[i + 1], data[i + 2]);
+                                cells.put(data[i] + ":" + data[i + 1], data[i + 2] + ";");
                                 continue;
                             }
                             
                             if (i + 1 < data.length) {
-                                cells.put(data[i] + ":" + data[i + 1], "");
+                                cells.put(data[i] + ":" + data[i + 1], ";");
                             }
                         }
                         

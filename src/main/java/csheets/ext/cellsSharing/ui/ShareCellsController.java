@@ -1,13 +1,9 @@
 package csheets.ext.cellsSharing.ui;
 
-import csheets.core.Address;
 import csheets.core.Cell;
-import csheets.core.CellImpl;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ShareCellsController {
     
@@ -151,6 +147,7 @@ public class ShareCellsController {
      * 
      * @param ui    The user interface controller.
      * @param cells Received cells information.
+     * @throws csheets.core.formula.compiler.FormulaCompilationException Cells can have the wrong value.
      */
     public void updateCells(UIController ui, Map<String, String> cells) throws FormulaCompilationException
     {
@@ -160,7 +157,16 @@ public class ShareCellsController {
             int row = Integer.parseInt(addressData[1]);
             
             try {
-                ui.getActiveSpreadsheet().getCell(column, row).setContent(entry.getValue().split(";")[1]);
+                String value = "";
+                String[] valueData = entry.getValue().split(";");
+                
+                if (valueData.length > 1) {
+                    value = valueData[1];
+                } else {
+                    value = "";
+                }
+                
+                ui.getActiveSpreadsheet().getCell(column, row).setContent(value);
             } catch (FormulaCompilationException ex) {
                 throw new FormulaCompilationException();
             }
