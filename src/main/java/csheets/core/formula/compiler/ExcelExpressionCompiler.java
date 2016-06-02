@@ -213,11 +213,21 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 
 		} else if (node.getChildCount() >= 2) {
 			Expression[] expressions = new Expression[node.getChildCount()];
+//			if (node.getChild(0).getText().equalsIgnoreCase("FOR")) {
+//
+//				for (int i = 0; i < node.getChildCount(); i++) {
+//					expressions[i] = convert(cell, node.getChild(i));
+//				}
+//
+//				return new For(expressions);
+//
+//			} else {
 			for (int i = 0; i < node.getChildCount(); i++) {
 				expressions[i] = convert(cell, node.getChild(i));
 			}
 			return new InstructionBlock(expressions);
 		}
+//		}
 		// Shouldn't happen
 		throw new FormulaCompilationException();
 	}

@@ -29,22 +29,15 @@ public class ForTest {
 //		Workbook testBook = new Workbook(2);
 //		Spreadsheet testSheet = testBook.getSpreadsheet(0);
 //		Cell targetCell = testSheet.getCell(0, 0);
-//		Cell originalCell = testSheet.getCell(1, 1);
-//
-//		originalCell.setContent("=FOR{A1:=1;A1<10;A1:=A1+1}");
-//		Value expectedResult = new Value(10);
 //
 //		/**
 //		 * Generating Formula with recognizable tokens.
 //		 */
 //		ExcelExpressionCompiler compiler = new ExcelExpressionCompiler();
 //
-//		Expression exp = compiler.compile(originalCell, originalCell.
-//										  getContent());
-//		/**
-//		 * Mentioned method should recognize the Expression as a For Loop and
-//		 * return the assign value of the targetCell.
-//		 */
+//		Expression exp = compiler.
+//			compile(targetCell, "=FOR{A1:=1;A1<10;A1:=A1+1}");
+//		Value expectedResult = new Value(10);
 //		Value result = exp.evaluate();
 //		assertEquals(result, expectedResult);
 //	}
