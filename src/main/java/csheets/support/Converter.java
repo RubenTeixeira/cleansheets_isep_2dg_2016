@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 /**
  *
@@ -22,34 +21,40 @@ import javax.swing.ImageIcon;
  */
 public final class Converter {
 
-	static private UIController controller;
+    static private UIController controller;
 
-	
-	private Converter() {
-	}
+    private Converter() {
+    }
 
-	static public Image getImage(byte[] bytes) throws IOException {
-		InputStream in = new ByteArrayInputStream(bytes);
-		BufferedImage bImageFromConvert = ImageIO.read(in);
-		ImageIO.write(bImageFromConvert, "png", new File("photo.jpg"));
-		return bImageFromConvert;
-	}
+    static public Image getImage(byte[] bytes) throws IOException {
 
-	static public byte[] setImage(File selectedFile) throws IOException {
-		ByteArrayOutputStream baos;
-		ImageIcon imagem = new ImageIcon(selectedFile.getAbsolutePath());
-		BufferedImage bfimg = ImageIO.read(selectedFile);
-		baos = new ByteArrayOutputStream();
-		ImageIO.write(bfimg, "png", baos);
-		return baos.toByteArray();
-	}
+        InputStream in = new ByteArrayInputStream(bytes);
+        BufferedImage bImageFromConvert = ImageIO.read(in);
 
-	public static UIController controller() {
-		return Converter.controller;
-	}
+        ImageIO.write(bImageFromConvert, "jpg", new File(
+                "photo.jpg"));
+        return bImageFromConvert;
+    }
 
-	public static void controller(UIController controller) {
-		Converter.controller = controller;
-	}
+    static public byte[] setImage(File selectedFile) throws IOException {
+        byte[] imageInByte;
+        BufferedImage originalImage = ImageIO.read(selectedFile);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(originalImage, "jpg", baos);
+        baos.flush();
+        imageInByte = baos.toByteArray();
+        baos.close();
+
+        return imageInByte;
+    }
+
+    public static UIController controller() {
+        return Converter.controller;
+    }
+
+    public static void controller(UIController controller) {
+        Converter.controller = controller;
+    }
 
 }

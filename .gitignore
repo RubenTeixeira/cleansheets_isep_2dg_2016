@@ -169,3 +169,7 @@ csheets.xml
 !/tools/**
 
 /nbproject/
+
+# Others
+
+*.jpg

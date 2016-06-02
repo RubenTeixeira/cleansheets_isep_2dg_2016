@@ -57,7 +57,7 @@ public class ContactsController {
     }
 
     public Contact editContact(Contact theContact) throws DataIntegrityViolationException {
-        PersistenceContext.repositories().contacts().updateContact(theContact);
+        PersistenceContext.repositories().contacts().save(theContact);
         Notification.contactInformer().notifyChange();
         return theContact;
     }

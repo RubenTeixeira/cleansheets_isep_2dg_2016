@@ -21,11 +21,5 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
     protected String persistenceUnitName() {
         return PersistenceSettings.PERSISTENCE_UNIT_NAME;
     }
-
-    @Override
-    public void updateContact(Contact theContact) throws DataIntegrityViolationException {
-        delete(theContact);
-        add(theContact);
-    }
     
 }

@@ -152,7 +152,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
         } else {
             new EditContactWorker().execute();
         }
-
     }//GEN-LAST:event_addEditBtnAction
 
     private void photoAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoAction
@@ -232,10 +231,11 @@ public class AddEditContactDialog extends javax.swing.JDialog {
             theContact.changeFirstName(firstNameTf.getText());
             theContact.changeLastName(lastNameTf.getText());
 
-            byte[] tmp = Converter.setImage(photoFile);
-            if (!Arrays.equals(tmp, theContact.photo())) {
-                theContact.changePhoto(tmp);
+            if(photoFile != null)
+            {
+                theContact.changePhoto(Converter.setImage(photoFile));
             }
+            
             theController.editContact(theContact);
             return 1;
         }

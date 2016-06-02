@@ -15,6 +15,5 @@ import csheets.framework.persistence.repositories.Repository;
  */
 public interface ContactRepository extends Repository<Contact, Long>{
     
-    public void updateContact(Contact theContact) throws DataIntegrityViolationException;
     
 }
