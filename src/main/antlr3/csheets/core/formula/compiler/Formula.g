@@ -96,7 +96,7 @@ reference
 ;
 
 assignment
-:	CELL_REF ( ASSIGN^ ) atom
+:	CELL_REF ( ASSIGN^ ) comparison
 ;
 
 literal
@@ -136,10 +136,13 @@ DIV	: '/' ;
 POWER	: '^' ;
 PERCENT : '%' ;
 
+/* Assign operator */
+ASSIGN : ':=' ;
+
 /* Reference operators */
 fragment ABS : '$' ;
 fragment EXCL : '!' ;
-COLON	: ':mar' ;
+COLON	: ':' ;
 
 /* Miscellaneous operators */
 COMMA	: ',' ;
@@ -148,9 +151,6 @@ LPAR	: '(' ;
 RPAR	: ')' ;
 LBRA    : '{' ;
 RBRA    : '}' ;
-
-/* Assign operator */
-ASSIGN : ':=' ;
 
 /* White-space (ignored) */
 WS:

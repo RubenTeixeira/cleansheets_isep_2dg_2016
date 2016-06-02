@@ -1,5 +1,6 @@
 package csheets.ext.events;
 
+import csheets.core.Cell;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.ext.events.ui.EventsPanel;
@@ -11,7 +12,11 @@ import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
+import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.sheet.SpreadsheetTable;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -96,5 +101,58 @@ public class EventsController {
 	public Iterable<Event> allEvents() {
 		return PersistenceContext.repositories().events().
 			all();
+	}
+
+	public void mmb() {
+		SpreadsheetTable table = new SpreadsheetTable(uiController.
+			getActiveSpreadsheet(), uiController);
+		Cell[][] cells = table.getSelectedCells();
+		System.out.println("INICIO!!! ");
+		if (cells != null) {
+			System.out.println("Cells " + cells);
+			if (cells.length > 0 && cells[0].length > 0) {
+				System.out.println(cells.length + " " + cells[0].length);
+				for (int i = 0; i < cells.length; i++) {
+					for (int j = 0; j < cells[0].length; j++) {
+						System.out.println("" + i + j + " " + cells[i][j].
+							getContent());
+					}
+				}
+			}
+		}
+		System.out.println("MEIO!!! ");
+		Algo al = new Algo();
+		for (String o : al.getSelectedCells()) {
+			System.out.println("ABC -> " + o);
+		}
+		System.out.println("FIM!!! ");
+	}
+
+	class Algo extends FocusOwnerAction {
+
+		UIController controller;
+
+		@Override
+		protected String getName() {
+			return "Algo";
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+		}
+
+		public List<String> getSelectedCells() {
+			this.controller.getActiveCell();
+			Cell[][] selected = this.focusOwner.getSelectedCells();
+			ArrayList<String> listSelected = new ArrayList<String>();
+
+			//creates arrayList with the contents from the first column of selected cells (easy to refactor for the next use case)
+			for (int i = 0; i < selected.length; i++) {
+				listSelected.add(selected[i][0].getContent());
+			}
+			return listSelected;
+		}
+
 	}
 }
