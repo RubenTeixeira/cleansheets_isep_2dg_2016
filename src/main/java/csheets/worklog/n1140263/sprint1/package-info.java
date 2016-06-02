@@ -80,24 +80,7 @@
  * The following diagram shows the setup of the "comments" extension when
  * cleansheets is run.
  * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
- *
- *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
- *
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="image">
  * <h3>5.3. Classes</h3>
  *
  * -Document the implementation with class diagrams illustrating the new and the
@@ -179,13 +162,13 @@
  * <p>
  * Today
  * <p>
- * 1. Help Design and decide analysis. Development.
+ * 1. Help Design and decide analysis. Design - Assign feature. Learn/read the class ExcelExpressionCompiler.java to add the assign functionality. 
+ * Assign a value to a cell. - Pair Programming (Marcelo). 
  * <p>
  * Blocking:
  * <p>
- * 1. Possible modifications analysis / design.
+ * 1. Deep modifications analysis / design.
  * <p>
- * 1. Design and analysis.
  *
  * <h2>10. Self Assessment</h2>
  *
