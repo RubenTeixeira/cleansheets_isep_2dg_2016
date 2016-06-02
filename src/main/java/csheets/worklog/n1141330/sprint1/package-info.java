@@ -98,7 +98,7 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author Antonio Bernardo
+ * @author Eduardo Marques
  */
 package csheets.worklog.n1141330.sprint1;
 
@@ -106,7 +106,7 @@ package csheets.worklog.n1141330.sprint1;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author CarlosSantos
+ * @author Eduardo Marques
  */
 class _Dummy_ {
 }
