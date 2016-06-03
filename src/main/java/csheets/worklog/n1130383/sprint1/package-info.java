@@ -70,7 +70,7 @@
  * <p>
  * Assign Analysis:
  * <p>
- * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="Analysis">
  *
  * <h2>5.Design</h2>
  *
