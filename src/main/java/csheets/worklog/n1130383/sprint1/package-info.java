@@ -61,8 +61,16 @@
  * first expression is the initialization, the second term is the boundary
  * condition, and the third is based on Instruction Blocks. The Class
  * ExcelExpressionCompiler was fundamental to the understanding of the behaviour
- * on how to proceed. We will need to implement code that will recognize the new
- * Tokens.</p>
+ * on how to proceed. We will implement specific code to recognize the new
+ * Tokens. This class implements methods that extract from the grammar a
+ * Parser(FormulaParser) and a Lexer(FormulaLexer). Both provide meaning for the
+ * tokens read from the input source (String). A Tree-shape formula (CommonTree)
+ * is created containing the tokens which will be used for obtaining the correct
+ * Cell final Value.</p>
+ * <p>
+ * Assign Analysis:
+ * <p>
+ * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
  *
  * <h2>5.Design</h2>
  *
@@ -87,7 +95,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * Low Coupling - High Cohesion.</p>
+ * Implemented Patterns promote Low Coupling - High Cohesion.</p>
  *
  *
  * <h2>6. Implementation</h2>
@@ -96,8 +104,7 @@
  * Ternary Operator.</p>
  * <p>
  * <b>Updated Classes/Files</b>: language.props, Formula.g,
- * ExcelExpressionCompiler.
- * </p>
+ * ExcelExpressionCompiler.</p>
  *
  * <h2>7. Integration/Demonstration</h2>
  * <p>
