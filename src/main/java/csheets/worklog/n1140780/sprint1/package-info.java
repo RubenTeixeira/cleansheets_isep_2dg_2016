@@ -16,11 +16,14 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Core02.1</h2>
+ * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
- * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-101
  * <p>
- * LPFOURDG-27 Lang01.1- Block of Instructions
+ * Issue in Jira:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27
+ * Lang01.1- Block of Instructions</a>
+ * My Sub-Task:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-101">LPFOURDG-101</a>
  *
  * <h2>3.1 Requirement for OperationsBlock support</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
@@ -256,10 +259,52 @@
  * <p>
  * 1. nothing
  * </p>
- * 
+ * <p>
+ * <b>Wednesday</b>
+ * </p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Started my own worklog. Started analysis of Lang Functional Area.
+ * </p>
+ * Today
+ * <p>
+ * 1. Implemented Assign class:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7b9e42e6c6d0c978d430a7b0aeb330c3a18bd5f4">Commit
+ * of Assign.class</a>
+ * 2. Helped Pedro Gomes on the implementation of InstructionBlock:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/72d863fee9327bcc8c6f124a273fdbd30f2461bf">Pedro's
+ * commit</a>
+ * </p>
+ * Blocking:
+ * <p>
+ * 1. nothing
+ * </p>
+ * <p>
+ * <b>Thursday</b>
+ * </p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Implemented Assign class:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7b9e42e6c6d0c978d430a7b0aeb330c3a18bd5f4">Commit
+ * of Assign.class</a>
+ * 2. Helped Pedro Gomes on the implementation of InstructionBlock:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/72d863fee9327bcc8c6f124a273fdbd30f2461bf">Pedro's
+ * commit</a>
+ * </p>
+ * Today
+ * <p>
+ * 1. Fixed an issue on For implementation:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e4145bf36be93daafc9e370f2f84429b4b2265c4">Commit</a>
+ * </p>
+ * Blocking:
+ * <p>
+ * 1. nothing
+ * </p>
+ *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * During this sprint, my work was mainly of analysis and study of the
+ * application architecture.
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
