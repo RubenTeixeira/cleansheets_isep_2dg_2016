@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1140611) Carlos Santos during week1. 
+ * Technical documentation regarding the work of the team member (1140611) Carlos Santos during week2. 
  * 
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that each team member must produce each week/sprint. Suggestions on how to build this documentation will appear between '-' like this one. You should remove these suggestions in your own technical documentation-</b>
@@ -16,25 +16,30 @@
  * -In this section you should register important notes regarding your work during the week.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: IPC01.1</h2>
+ * <h2>2. Use Case/Feature: IPC05.1</h2>
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-63">LPFOURDG-63</a>
  * <p>
  * -Include the identification and description of the feature-
  * 
  * <h2>3. Requirement</h2>
- * It should be possible to establish a connection with other instance of Cleansheets in the local network.
+ * Add an option that can be used to send text messages to another instance of Cleansheets. 
  * 
  * <p>
- * <b>Use Case "Start Sharing":</b> It should be possible to send the contents of a range of cells to another instance of Cleansheets. The other instance should display the received contents in the same cell address as the original cells.
+ * <b>Use Case " Chat Send Message ":</b> Add an option that can be used to send text messages to another instance of Cleansheets. 
+ * The message should be displayed in a popup window in the other instance of Cleansheets.
+ * The popup should disappear after some short period (for instance 5 seconds).
+ * Cleansheets should have have a new sidebar window to display all the messages. The sidebar should be based on a tree control that shows the messages grouped by thread of conversation (i.e., each reply will be a child of the parent message). 
+ * It should be possible to reply to a message by double clicking on it in the tree. 
  * 
  *  
  * <h2>4. Analysis</h2>
- * <h3>Send Cells</h3>
- * The user selects "Send Cells" option in the "Share Cells" menu.
+ * <h3>Send Message</h3>
+ * The user selects "Send Message" option in the "Chat Application" menu.
  * The system gets the other available instances in the local network, and presents them in a sidebar window.
- * The user selects which instance to send the cells to, and activates the sending.
- * The system gets the selected cells, and sends them to the targeted instance.
- * The system notifies the user that the cells were sent.
+ * The user selects which instance to send the message.
+ * The system gets message, and sends them to the targeted instance.
+ * The system notifies the other user with a popup with 5 seconds time.
+ * The system put message in a tree control and save the history of message by conversation
  * 
  * <h3>Receive Cells</h3>
  * The user selects "Receive Cells" option in the "Share Cells" menu.
