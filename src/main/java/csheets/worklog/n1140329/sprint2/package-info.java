@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1140329) Rafael Rocha during week1. 
+ * Technical documentation regarding the work of the team member (1140329) Rafael Rocha during week2. 
  * 
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
@@ -14,67 +14,53 @@
  * -In this section you should register important notes regarding your work during the week.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: IPC01.1</h2>
- * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
+ * <h2>2. Use Case/Feature: IPC01.2</h2>
+ * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-52">LPFOURDG-52: Sharing’s Automatic Update</a>
  * <p>
- * Sub-Task in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-104">LPFOURDG-104</a>
+ * Sub-Tasks in Jira:  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-152">LPFOURDG-152: Analysis</a>; 
+ *                     <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-153">LPFOURDG-153: Design</a>; 
+ *                     <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-154">LPFOURDG-154: Tests</a>; 
+ *                     <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-155">LPFOURDG-155: Implementation</a>
  * <p>
  * 
- * LPFOURDG-51
+ * LPFOURDG-52
  * 
- * It should be possible to establish a connection with other instance of
- * Cleansheets in the local network. It should be possible to send the contents
- * of a range of cells to another instance of Cleansheets. The other instance
- * should display the received contents in the same cell address as the original
- * cells. It should be possible to configure the port to be used for network
- * connections. It should be possible to find other instances of Cleansheets
- * available in e local network. These instances should be listed in a new
- * window (sidebar window). The user should be able to select one of the
- * discovered instances to connect to when establishing the connection to send
- * the contents of the range of cells. At the moment it is only required to send
- * the value of the cells.
+ * Once a connection is stablished between two instances of Cleansheets updates 
+ * made in one side must be automatically sent to the other side. 
+ * The data shared must include now also the style of the cells. 
+ * At the moment it is not necessary to support the sharing of cells with formulas.
  * 
  * <h2>3. Requirement</h2>
- * It should be possible to establish a connection with other instance of Cleansheets in the local network.
+ * Once a connection is stablished between two instances of Cleansheets, 
+ * it should be possible for updates made in one side to be automatically sent to the other side.
+ * The data shared must include now also the style of the cells.
  * 
  * <p>
- * <b>Use Case "Start Sharing":</b> It should be possible to send the contents of a range of cells to another instance of Cleansheets. The other instance should display the received contents in the same cell address as the original cells.
+ * <b>Use Case "Sharing's Automatic Update":</b> Once a connection is stablished
+ * between two instances of Cleansheets, it should be possible for updates made
+ * in one side to be automatically sent to the other side.
  * 
  *  
- * * <h2>4. Analysis</h2>
- * <h3>Send Cells</h3>
- * The user selects "Send Cells" option in the "Share Cells" menu.
+ * <h2>4. Analysis</h2>
+ * <h3>Automatic Cells Update</h3>
+ * The user selects "Automatic Cells Update Between Two Instances" option in the "Share Cells" menu.
  * The system gets the other available instances in the local network, and presents them in a sidebar window.
- * The user selects which instance to send the cells to, and activates the sending.
- * The system gets the selected cells, and sends them to the targeted instance.
- * The system notifies the user that the cells were sent.
- * 
- * <h3>Receive Cells</h3>
- * The user selects "Receive Cells" option in the "Share Cells" menu.
- * The system waits for the cells being sent in the local network.
- * After receiving the cells, the system checks if checks if the received cells are located on an address that already has existing cells.
- * If so, then the system asks the user for permission to change the original cells with the new ones.
- * Otherwise, the system just changes them.
- * The system notifies the user that the cells were changed.
+ * The user selects which instance to establish a connection to.
+ * Once a cell is edited by the user, the system sends it to the targeted instance 
+ * and updates the instance's spreadsheet.
  * 
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
- * <h4>Send Cells proposal analysis</h4>
+ * <h4>Automatic Cells Update proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_send_analysis.png" alt="image"> 
- * 
- * <h4>Receive Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_receive_analysis.png" alt="image"> 
+ * <img src="doc-files/automatic_cell_update_image.png" alt="image"> 
  * <p>
  * 
- * From the previous diagram we see that we need to add a new "attribute" to a cell: "comment".
- * Therefore, at this point, we need to study how to add this new attribute to the class/interface "cell". This is the core technical problem regarding this issue.
+ * From the previous diagram we see that we need to add a new functionality to the UI: listening to the active spreadsheet's cells.
+ * Therefore, at this point, we need to study how to add this new functionality to the UI. This is the core technical problem regarding this issue.
  * 
  * <h3>Analysis of Core Technical Problem</h3>
- * The core of communication is expected to communicate in udp and tcp protocols connections. 
- * <p>
- * <img src="doc-files/ipc_analysis.png" alt="image"> 
+ *
  * 
  * 
  * <h2>5. Design</h2>
@@ -269,7 +255,7 @@
  * @author Rafael Rocha
  */
 
-package csheets.worklog.n1140329.sprint1;
+package csheets.worklog.n1140329.sprint2;
 
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
