@@ -203,11 +203,15 @@
  * 
  * <h2>10. Self Assessment</h2> 
  * 
- * -Insert here your self-assessment of the work during this sprint.-
- * 
+ * Outcome 3 ("Design and Implementation") - 5
+ * Outcome 5 ("Teamwork") - 4
+ * Outcome 6 ("Technical Documentation") - 3
+ *
  * <h3>10.1. Design and Implementation:3</h3>
  * 
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
+ * The implementation uses Volt, a package developed during the RCOMP course of the current year (2015/2016), which aims to ease the development of
+ * communication protocols with a expressive syntax. It has some nice features such as Routing (Route cycling on UDP) and automatic management of multiple UDP packets.
+ * 
  * <p>
  * <b>Evidences:</b>
  * </p>
