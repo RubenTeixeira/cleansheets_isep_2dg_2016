@@ -2,23 +2,21 @@
 
 participant "UI" as UI
 participant "Controller" as Control
-participant "UDP" as UDP
-participant "UDPClient" as UDPcli
-participant "TCPClient" as TCPcli
-participant "TCPServer" as TCPserv
+participant "UDPService" as UDPService
+participant "TCPService" as TCPService
 
 UI -> Control : port, time
-Control -> TCPserv : port
-TCPserv -> TCPserv : expect(":message, Action)
-Control -> UDP : time
-UDP -> UDP : expect("broadcast", Action)
-Control -> UDPcli : send (":broadcast", "all:30600", "check")
+Control -> TCPService : port
+TCPService -> TCPService : expect(":message, Action)
+Control -> UDPService : time
+UDPService -> UDPService : expect("broadcast", Action)
+Control -> UDPService : send (":broadcast", "all:30600", "check")
 note right of Control : taskmanager.after(1).every(time).fire(broadcast)
-note left of UDP : <<Network>>
-UI <- UDP : update
-UI -> Control : sendCells
+note left of UDPService : <<Network>>
+UI <- UDPService : update
+UI -> Control : sendMessage
 note right of UI : data
-Control -> TCPcli : send(":message", "Hello", data)
-UI <- TCPserv: udpate
+Control -> TCPService : send(":message", "Hello", data)
+UI <- TCPService: udpate
 
 @enduml
