@@ -31,13 +31,18 @@
  *
  *
  * <h2>4. Analysis</h2>
+ * Display all avalible functions
+ * When selected display its atributes
+ * If requested display help usage
+ * When asked execute function and diplay results
+ * If some operation goes wrong a blocking pop shoud be diplayed
  * 
- *
- * <h2>SSD</h2>
  * 
- *
  * <h2>5. Design</h2>
  *
+ *  <p>Diagram of the core functionality of the feature </p>
+ *
+ * <img src="doc-files/lang04_01_design1.png" alt="image">
  * 
  * <h3>5.3. Classes</h3>
  *
@@ -48,6 +53,11 @@
  * Reading feature requirements and analysing formulas code in order to understand how
  * antlr and grammars are integratd in the project
  * 
+ * 
+ * <b>Saturday</b> 
+ * 
+ * Doing Use case design, first draft finished and ready to strat implementing, might require some
+ * changes later on
  * 
  * <b>Monday</b>
  *
