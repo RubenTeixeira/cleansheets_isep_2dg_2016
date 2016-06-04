@@ -3,66 +3,70 @@
  * Santos during week1.
  *
  * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
- * <b>Scrum Master: -(yes/no)- no</b>
+ * <b>Scrum Master: no</b>
  *
  * <p>
- * <b>Area Leader: -(yes/no)- no</b>
+ * <b>Area Leader: no</b>
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * On this sprint i spent most of the time analysing the project's architecture,
+ * operations and helping Marcelo Barroso implement TernaryOperation in order to
+ * be able to advance to FOR() function implementation.
+ *
+ * <h2>1. Notes</h2>
+ *
  *
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
+ * <p>
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27</a>
- * <p>
  * Sub-Task in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-98">LPFOURDG-98</a>
- * <p>
- * -Include the identification and description of the feature-
  *
- * <h2>3. Requirement</h2>
+ * <h2>3.1 Requirement for InstructionBlock support</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block. For example, the
- * formula "= {1+2; sum (A1:A10), B3 + 4 }" must result in the sequential
- * execution of all expressions and the result is the value of the expression
- * "B3 + 4". Add the assign operator (its symbol is ":="). This operator assigns
- * to its left the result of the right expression. At the moment the left of the
- * assign operator can only be a cell reference. The FOR loop should also be
- * implemented based on instruction blocks.
+ * "result" is the result of the last statement of the block.
+ *
+ * <h2>3.2 Requirement for AssignmentOperation support</h2>
+ * Add the possibility for assigning a value to a different cell than the one in
+ * which the content is being edited.
  *
  * <p>
- * <b>Use Case "Instructions Block":</b>
- * Extend the formulas of Cleansheets.
+ * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
+ * the cell where he/she wants to type an assignment operation, and then types
+ * it. The system updates the referenced cell with the resulting value.
  *
- * <h2>4. Analysis</h2>
+ * <p>
+ * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
+ * instructions separated by a semi-colon and surrounded with bracket. The
+ * system all the instructions returning the resulting value from the last
+ * instruction.
  *
- * For the development of use case "Lang01.1 - Instructions Block", it´s
- * necessary analyze all classes of the project of packages formula. We conluded
- * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
- * of grammatics for recognize intructions block and function for. It is
- * necessary create some extra classes. We have to create Class "For"
- * (function), and "Atribution" (operator). In cycle "For", the first expression
- * is the initialization, the second term is the boundary condition, and the
- * third is based on instruction blocks. Also we have create a new Operation to
- * resolve n expressions and validates in function "convert" of class
- * "ExcelExpressionCompiler".
+ * <h2>4.2 Analysis for AssignmentOperation support</h2>
+ * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
+ * ) aswell as from a UnaryOperation(Operator, operand), a new Operation must
+ * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
+ * ensure the architecture will be ready for new assignment operations as such:
+ * '*= += /= ...' The following class diagram shows how we intend to implement
+ * this:
+ * <p>
+ * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
+ * </p>
+ * This approach was then abandoned, as our team agreed with the Area Leader
+ * when he advised us not to extend the architecture yet, in favour of a more
+ * conservative approach. This would allow us to have a working solution in a
+ * more timely manner.
+ *
+ *
+ * <h3> First "analysis" sequence diagram UC1 - Instruction Block</h3>
  *
  * <p>
  * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
- *
  *
  * <h2>5. Design</h2>
  *
@@ -71,7 +75,6 @@
  * a specidfic cell it works and a method to test if should recognize the
  * Expression as a InstructionBlock and assign the result of the last Expression
  * to result.
- * <p>
  *
  *
  * <h3>5.2. UC Realization</h3>
@@ -81,22 +84,40 @@
  * have create a new Operation to resolve n expressions and validates in
  * function "convert" of class "ExcelExpressionCompiler".
  *
+ * <b>Assign Operation Sequence Diagram</b>:
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
  *
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- *
+ * <p>
+ * Implemented Patterns: Low Coupling - High Cohesion.
  *
  * <h2>6. Implementation</h2>
  *
+ * <p>
+ * <b>Created Classes</b>: For, Assign, Instruction Block, Ternary Operation,
+ * Ternary Operator.
+ *
+ * <p>
+ * <b>Updated Classes/Files</b>: language.props, Formula.g,
+ * ExcelExpressionCompiler.
  *
  * <h2>7. Integration/Demonstration</h2>
  *
+ * -In this section document your contribution and efforts to the integration of
+ * your work with the work of the other elements of the team and also your work
+ * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
  * <h2>8. Final Remarks</h2>
  *
- *
+ * -In this section present your views regarding alternatives, extra work and
+ * future work on the issue.-
+ * <p>
+ * As an extra this use case also implements a small cell visual decorator if
+ * the cell has a comment. This "feature" is not documented in this page.
+ * </p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -104,75 +125,93 @@
  * daily standup meetings.-
  * <p>
  * Example
- * <p>
+ * </p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
- * <p>
- * 1. -nothing-
+ * </p>
+ * 1. nothing
  * <p>
  * Today
- * <p>
- * 1. Read javadoc
+ * </p>
+ * 1. Cloning of the project, Read javadoc.
  * <p>
  * Blocking:
- * <p>
- * 1. -nothing-
+ * </p>
+ * 1. nothing
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * </p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working 2. Read javadoc
- * <p>
+ * 1. Cloning of the project, Read javadoc.
+ * </p>
  * Today
  * <p>
  * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
  * Instructions
- * <p>
+ * </p>
  * Blocking:
  * <p>
- * 1. -nothing-
- *
- *
+ * 1. nothing
+ * </p>
+ * <p>
  * <b>Wednesday</b>
- * <p>
+ * </p>
  * Yesterday I worked on:
  * <p>
  * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
  * Instructions
- * <p>
+ * </p>
  * Today
  * <p>
  * 1. Part of Design Lang01.1- Block of Instructions, 2. Analysis update and
  * pair programming
- * <p>
+ * </p>
  * Blocking:
  * <p>
- * 1. -nothing-
- *
- * <b>Thursday</b>
+ * 1. nothing
+ * </p>
  * <p>
+ * <b>Thursday</b>
+ * </p>
  * Yesterday I worked on:
  * <p>
  * 1. Part of Design Lang01.1- Block of Instructions, 2. Analysis update and
  * pair programming
- * <p>
+ * </p>
  * Today
  * <p>
- * 1. Part of Design Lang01.1- Block of Instructions.
+ * 1. Part of Design Lang01.1- Block of Instructions. 2. Sprint 1 apresnetation
+ * and attribution of Sprint 2. Blocking:
  * <p>
+ * 1. nothing
+ * </p>
+ *
+ * <p>
+ * <b>Friday</b>
+ * </p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Part of Design Lang01.1- Block of Instructions. 2. Sprint 1 apresentation
+ * and attribution of Sprint 2.
+ * </p>
+ * Today
+ * <p>
+ * 1. Worklog Update. Assigned my self tasks for the following sprints and
+ * started studying them.
+ * </p>
  * Blocking:
  * <p>
- * 1. -nothing-
- *
- *
+ * 1. nothing
+ * </p>
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * During this sprint, my work was mainly of analysis and study of the
+ * application architecture.
  *
- * <h3>10.1. Design and Implementation:3</h3>
+ * <h3>10.1. Design and Implementation:</h3>
  *
  * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
  * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
@@ -180,7 +219,7 @@
  * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
- * <p>
+ * </p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
  *
@@ -188,7 +227,7 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author ruben
+ * @author Ruben Santos
  */
 package csheets.worklog.n1130523.sprint1;
 

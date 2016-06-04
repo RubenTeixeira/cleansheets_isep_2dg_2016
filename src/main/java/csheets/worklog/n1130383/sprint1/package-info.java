@@ -3,276 +3,265 @@
  * Gomes during week1.
  *
  * <p>
- * <b>Scrum Master: no</b>
- *
+ * <b>Scrum Master:</b> no.
  * <p>
- * <b>Area Leader: no</b>
+ * <b>Area Leader:</b> no.
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
- *
- * <h2>2. Use Case/Feature: Core02.1</h2>
- *
- * Issue in Jira: http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-102
+ * This first week was intended to understand the Project behaviour as well as
+ * the mechanisms it uses to perform the already implemented functionality.
+ * Besides the required intensive comprehesion and analysis, the team was
+ * divided into groups to work on a Functional Increment. In ours team case, the
+ * first requirement was Lang01.1 - Instructions Block.</p>
  * <p>
- * LPFOURDG-27 Lang01.1- Block of Instructions
+ * The first step was to perform further analysis regarding gramatical behaviour
+ * and how the application could deal with the input data. Next the Design,
+ * where possible Test solutions were designed and third the implementation.
+ * We've mostly coded using pair programming where two or more members were
+ * working on the same terminal exchange ideas on how to implement the
+ * functional requirement. All features were implemented as expected:
+ * Instructions Block where shown Value should be the Value of the last
+ * operation in the block; Assign functionality by assigning a Value to a
+ * specific Cell and the For Function.</p>
+ *
+ * <h2>2. Use Case/Feature: Lang01.1</h2>
+ *
+ * Issue in Jira:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27</a>
+ * <p>
+ * Sub-Task in Jira:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-102">LPFOURDG-102</a>
+ *
  *
  * <h2>3. Requirement</h2>
+ * <p>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block.
+ * "result" is the result of the last statement of the block. For example, the
+ * formula "= {1+2; sum (A1:A10), B3 + 4 }" must result in the sequential
+ * execution of all expressions and the result is the value of the expression
+ * "B3 + 4". Add the assign operator (its symbol is ":="). This operator assigns
+ * to its left the result of the right expression. At the moment the left of the
+ * assign operator can only be a cell reference. The FOR loop should also be
+ * implemented based on instruction blocks, where the first Expression concerns
+ * the "starting point" of the For Loop and the second Expression the "limiter"
+ * where the For Loop should end.</p>
  *
  * <p>
- * <b> ###TODO### Use Case "Enter Comment on Cell":</b> The user selects the
- * cell where he/she wants to enter a comment. The system displays the current
- * comment of that cell. The user enter the text of the comment (or alters the
- * existing one). The system saves the comment of the cell.
- *
- *
- * <h2>4. ###TODO### Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets
- * we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
- * abstract class and need to be registered in special files. The Extension
- * class has a method called getUIExtension that should be implemented and
- * return an instance of a class that is a subclass of UIExtension. In this
- * subclass of UIExtension there is a method (getSideBar) that returns the
- * sidebar for the extension. A sidebar is a JPanel.
- *
- *
- * <h3> ###TODO### First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
- * <p>
- * <img src="doc-files/comments_extension_uc_realization1.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
- * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application
- * <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the
- * interface of the cells. We also see that there is a class CellImpl that must
- * implement the Cell interface. If we open the {@link csheets.core.Cell} code
- * we see that the interface is defined as:
- * <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>.
- * Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see
- * that it has a subclass {@link csheets.ext.CellExtension} which has a subclass
- * {@link csheets.ext.style.StylableCell}.
- * {@link csheets.ext.style.StylableCell} seems to be an example of how to
- * extend cells. Therefore, we will assume that it is possible to extend cells
- * and start to implement tests for this use case.
- * <p>
- * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation
- * design pattern</a> is used in the cell extension mechanism of cleansheets.
- * The following class diagram depicts the relations between classes in the
- * "Cell" hierarchy.
- * <p>
- * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image">
+ * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
+ * the cell where he/she wants to type an assignment operation, and then types
+ * it. The system updates the referenced cell with the resulting value.</p>
  *
  * <p>
- * One important aspect is how extensions are dynamically created and returned.
- * The <code>Extensible</code> interface has only one method,
- * <code>getExtension</code>. Any class, to be extensible, must return a
- * specific extension by its name. The default (and base) implementation for the
- * <code>Cell</code> interface, the class <code>CellImpl</code>, implements the
- * method in the following manner:
- * <pre>
- * {@code
- * 	public Cell getExtension(String name) {
- *		// Looks for an existing cell extension
- *		CellExtension extension = extensions.get(name);
- *		if (extension == null) {
- *			// Creates a new cell extension
- *			Extension x = ExtensionManager.getInstance().getExtension(name);
- *			if (x != null) {
- *				extension = x.extend(this);
- *				if (extension != null)
- *					extensions.put(name, extension);
- *			}
- *		}
- *		return extension;
- *	}
- * }
- * </pre> As we can see from the code, if we are requesting a extension that is
- * not already present in the cell, it is applied at the moment and then
- * returned. The extension class (that implements the <code>Extension</code>
- * interface) what will do is to create a new instance of its cell extension
- * class (this will be the <b>delegator</b> in the pattern). The constructor
- * receives the instance of the cell to extend (the <b>delegate</b> in the
- * pattern). For instance, <code>StylableCell</code> (the delegator) will
- * delegate to <code>CellImpl</code> all the method invocations regarding
- * methods of the <code>Cell</code> interface. Obviously, methods specific to
- * <code>StylableCell</code> must be implemented by it. Therefore, to implement
- * a cell that can have a associated comment we need to implement a class
- * similar to <code>StylableCell</code>.
+ * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
+ * instructions separated by a semi-colon and surrounded with bracket. The
+ * system all the instructions returning the resulting value from the last
+ * instruction.</p>
  *
- * <h2>5. ###TODO### Design</h2>
+ * <h2>4. Analysis</h2>
+ * <p>
+ * For the development of Use Case "Lang01.1 - Instructions Block" it's required
+ * to analyze all classes of the project of all Formula Packages. We conluded
+ * that is necessary to add new tokens "{", "}", ":=", "FOR" and define new
+ * grammatical rules to recognize these tokens and their specific behaviour. It
+ * is also necessary to create some extra classes such as class For (implements
+ * Function), and Assign (implements Operator). In For Loop, the first
+ * expression is the initialization, the second term is the boundary condition,
+ * and the third is based on Instruction Blocks. The Class
+ * ExcelExpressionCompiler was fundamental to the understanding of the behaviour
+ * on how to proceed. We will implement specific code to recognize the new
+ * Tokens. This class implements methods that extract from the grammar a
+ * Parser(FormulaParser) and a Lexer(FormulaLexer). Both provide meaning for the
+ * tokens read from the input source (String). A Tree-shape formula (CommonTree)
+ * is created containing the tokens which will be used for obtaining the correct
+ * Cell final Value.</p>
+ *
+ * <h3>Assign Analysis:</h3>
+ * <p>
+ * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
+ * ) as well as from a UnaryOperation(Operator, operand), a new Operation must
+ * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
+ * ensure the architecture will be ready for new assignment operations such as:
+ * '*= += /= ...' The following class diagram shows how we intend to implement
+ * this:</p>
+ * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
+ * <p>
+ * This approach was then abandoned as our team agreed with the Area Leader when
+ * he advised us not to extend the architecture yet, in favour of a more
+ * conservative approach. This would allow us to have a working solution in a
+ * more timely manner.</p>
+ *
+ * <h3>Instruction Block Analysis:</h3>
+ * <p>
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="Analysis"></p>
+ *
+ * <h2>5.Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
  * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ * For the development and after analysis, we test if the assign a value for a
+ * specific cell works properly and test the recognition of the
+ * InstructionsBlock as an Expression as well as the result of the last
+ * Expression.</p>
  *
- * <h3>5.2. ###TODO### UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
+ * <h3>5.2. UC Realization</h3>
  * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
+ * To complete this User Story we will create specific Classes to handle the new
+ * "Grammatical behaviour". The Class For (Function), and Assign (Operator) as
+ * well as the InstructionBlock (Expressions). It will be necessary to define a
+ * new grammar rules to accept new tokens, and a "for" loop with multiple
+ * Expressions (itself an Instructions Block).</p>
  *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
- *
- *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
+ * <b>Assign Operation Sequence Diagram</b>:
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
- *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * <p>
+ * Class Diagram.</p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- *
- * -Describe new or existing design patterns used in the issue-
  * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * Implemented Patterns that promote Low Coupling - High Cohesion.</p>
+ *
  *
  * <h2>6. Implementation</h2>
- *
- * -Reference the code elements that where updated or added-
  * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
+ * <b>Created Classes</b>: For, Assign, Instruction Block, Ternary Operation,
+ * Ternary Operator.</p>
  * <p>
- * see:
+ * <b>Updated Classes/Files</b>: language.props, Formula.g,
+ * ExcelExpressionCompiler.</p>
  * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/de7585f726fba1a7909a1c5db109f4880f12a6eb">Class
+ * Creation Commit</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e4e09359bc60855dac83cff747312d396003c3a0">Class
+ * Creation and IntructionBlock Implementation Commit as well as possible Test
+ * Solutions.</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7ecc655f858b81307defce06a350354542b73cb7">InstructionBlock
+ * Update Commit</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/72d863fee9327bcc8c6f124a273fdbd30f2461bf">InstructionBlock
+ * Update as well as implementation ExcelExpressionCompiler</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/44435553e11c99d77430d5fc02b9fb58035b3736">For
+ * Implementation Commit</a></p>
  *
  * <h2>7. Integration/Demonstration</h2>
- *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * <p>
+ * Analysis, Testing and Implementation.</p>
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
- *
  * <h2>9. Work Log</h2>
  *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
- * <p>
- * Example
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on:
+ * Today:
  * <p>
- * 1. nothing
- * <p>
- * Today
- * <p>
- * 1. Cloning of the project, its compilation, first analysis and reading
+ * - Cloning of the project, its compilation, first analysis and reading
  * Javadoc.
  * <p>
  * Blocking:
  * <p>
- * 1. nothing
+ * - nothing
+ *
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Cloning of the project, its compilation and first analysis and reading
+ * - Cloning of the project, its compilation and first analysis and reading
  * Javadoc.
  * <p>
- * Today
+ * Today:
  * <p>
- * 1. Started my own worklog. Started analysis of Lang Functional Area.
+ * - Started my own worklog. Started analysis of Lang Functional Area and Design
+ * on possible Test solutions.
  * <p>
  * Blocking:
  * <p>
- * 1. nothing
+ * - nothing
+ *
+ *
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * - Started my own worklog. Started analysis of Lang Functional Area and Design
+ * on possible Test solutions.</p>
+ * <p>
+ * Today:</p>
+ * <p>
+ * - Implementation of InstructionBlock Class and For Class as well as increased
+ * functionalitys on ExcelExpressionCompiler Class and Testing.
+ * </p>
+ * <p>
+ * Blocking:
+ * <p>
+ * - nothing
+ *
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * - Implementation of InstructionBlock Class and For Class as well as increased
+ * functionalitys on ExcelExpressionCompiler Class and Testing.</p>
+ * <p>
+ * Today:</p>
+ * <p>
+ * - Sprint Demonstration; Reunion with the Team to define (for the sprint nº2):
+ * further requirements that should and will be implemented, Scrum Master and
+ * Area Leader.</p>
+ * <p>
+ * Blocking:
+ * <p>
+ * - nothing
+ *
+ *
+ *
+ * <p>
+ * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on:</p>
+ * <p>
+ * - Sprint Demonstration; Reunion with the Team to define (for the sprint nº2):
+ * further requirements that should and will be implemented, Scrum Master and
+ * Area Leader.</p>
+ * <p>
+ * Today:</p>
+ * <p>
+ * - Reload Worklog; Prepare and Start the new Sprint, by creating it Tasks and
+ * Sub-Tasks.</p>
+ * <p>
+ * Blocking:
+ * <p>
+ * - nothing
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
- *
- * <h3>10.1. Design and Implementation:3</h3>
- *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
+ * <h3>10.1. Design and Implementation:</h3>
  * <p>
+ * 3- Good: The code implemented follow the already existing patterns promoting
+ * Low Couple High Cohesion.</p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * Links provided above.</p>
  *
- * <h3>10.2. Teamwork: ...</h3>
+ * <h3>10.2. Teamwork</h3>
+ * <p>
+ * 3- Good.</p>
  *
- * <h3>10.3. Technical Documentation: ...</h3>
+ * <h3>10.3. Technical Documentation</h3>
  *
- * @author alexandrebraganca
+ * @author Pedro Gomes 1130383@isep.ipp.pt
  */
 package csheets.worklog.n1130383.sprint1;
 
@@ -280,7 +269,7 @@ package csheets.worklog.n1130383.sprint1;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author Pedro Gomes 1130383@isep.ipp.pt
  */
 class _Dummy_ {
 }

@@ -1,137 +1,106 @@
 /**
- * Technical documentation regarding the work of the team member (1130523) Ruben
- * Santos during week1.
+ * Technical documentation regarding the work of the team member (1140780) Rúben
+ * Teixeira during week1.
  *
  * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
- * <b>Scrum Master: -(yes/no)- yes</b>
+ * <b>Scrum Master: yes</b>
  *
  * <p>
- * <b>Area Leader: -(yes/no)- yes</b>
+ * <b>Area Leader: yes</b>
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * On this sprint i spent most of the time analysing the project's architecture,
+ * then i implemented and tested Assign operations but spent wednesday afternoon
+ * helping my colleague Pedro Gomes implement InstructionBlock in order to be
+ * able to advance to FOR() function implementation.
  *
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
+ * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-51</a>
- * <p>
- * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-105</a>
- * <p>
- * -Include the identification and description of the feature-
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27
+ * Lang01.1- Block of Instructions</a>
+ * My Sub-Task: Unallocated to be responsible for the main task.
  *
- * <h2>3. Requirement</h2>
+ * <h2>3.1 Requirement for InstructionBlock support</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block. For example, the
- * formula "= {1+2; sum (A1:A10), B3 + 4 }" must result in the sequential
- * execution of all expressions and the result is the value of the expression
- * "B3 + 4". Add the assign operator (its symbol is ":="). This operator assigns
- * to its left the result of the right expression. At the moment the left of the
- * assign operator can only be a cell reference. The FOR loop should also be
- * implemented based on instruction blocks.
+ * "result" is the result of the last statement of the block.
+ *
+ * <h2>3.2 Requirement for AssignmentOperation support</h2>
+ * Add the possibility for assigning a value to a different cell than the one in
+ * which the content is being edited.
  *
  * <p>
- * <b>Use Case "Instructions Block":</b>
- * Extend the formulas of Cleansheets.
+ * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
+ * the cell where he/she wants to type an assignment operation, and then types
+ * it. The system updates the referenced cell with the resulting value.
  *
- * <h2>4. Analysis</h2>
+ * <p>
+ * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
+ * instructions separated by a semi-colon and surrounded with bracket. The
+ * system all the instructions returning the resulting value from the last
+ * instruction.
  *
- * For the development of use case "Lang01.1 - Instructions Block", it´s
- * necessary analyze all classes of the project of packages formula. We conlude
- * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
- * of grammatics for recognize intructions block and function for. We conclude
- * that is necessary create some extra classes. We have to crate Class "For",
- * and "Atrribuation" are functions. Also we have create a new Operation to
- * resolve n expressions and validates in function "convert" of class
- * "ExcelExpressionCompiler".
+ * <h2>4.2 Analysis for AssignmentOperation support</h2>
+ * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
+ * ) aswell as from a UnaryOperation(Operator, operand), a new Operation must
+ * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
+ * ensure the architecture will be ready for new assignment operations as such:
+ * '*= += /= ...' The following class diagram shows how we intend to implement
+ * this:
+ * <p>
+ * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
+ * </p>
+ * This approach was then abandoned, as our team agreed with the Area Leader
+ * when he advised us not to extend the architecture yet, in favour of a more
+ * conservative approach. This would allow us to have a working solution in a
+ * more timely manner.
  *
+ *
+ * <h3> First "analysis" sequence diagram UC1 - Instruction Block</h3>
+ *
+ * <p>
+ * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
- * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ * Basically, for the development and after analysis, we test if the assign for
+ * a specidfic cell it works and a method to test if should recognize the
+ * Expression as a InstructionBlock and assign the result of the last Expression
+ * to result.
+ *
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
+ * To realize this user story we will need to create Class "For" (function), and
+ * "Atribution" (operator). It will be necessary to define a better grammar to
+ * accept new tokens, and a "for" loop with multiple operations blocks. Also we
+ * have create a new Operation to resolve n expressions and validates in
+ * function "convert" of class "ExcelExpressionCompiler".
  *
- * <h3>User Share selected Cells</h3>
- * The following diagram shows the setup of the local connection when
- * cleansheets's user select share.
- * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
- *
- *
- * <h3>Application display shared cells</h3>
- * The following diagram illustrates what happens when a instance of cleansheet
- * receive shared cells.
- * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
+ * <b>Assign Operation Sequence Diagram</b>:
+ * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- *
- * -Describe new or existing design patterns used in the issue-
  * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * Implemented Patterns: Low Coupling - High Cohesion.
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
  * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
+ * <b>Created Classes</b>: For, Assign, Instruction Block, Ternary Operation,
+ * Ternary Operator.
+ *
  * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <b>Updated Classes/Files</b>: language.props, Formula.g,
+ * ExcelExpressionCompiler.
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -146,65 +115,59 @@
  * <p>
  * As an extra this use case also implements a small cell visual decorator if
  * the cell has a comment. This "feature" is not documented in this page.
- *
+ * </p>
  *
  * <h2>9. Work Log</h2>
  *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
- * <p>
- * Example
  * <p>
  * <b>Monday</b>
+ * </p>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Read javadoc
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
+ * Cloning of the project, its compilation and first analysis.
+ * </p>
  * <p>
  * <b>Tuesday</b>
+ * </p>
  * <p>
- * Yesterday I worked on:
+ * Development of scripts and thinking in design.
+ * </p>
  * <p>
- * 1. Configure the IDE to start working 2. Read javadoc
+ * <b>Wednesday</b>
+ * </p>
  * <p>
- * Today
+ * Integration of the notification system and adaptation of grammar.
+ * </p>
  * <p>
- * 1. Configure the IDE to start working 2. Analysis Lang01.1- Block of
- * Instructions
+ * <b>Thursday</b>
+ * </p>
  * <p>
- * Blocking:
+ * Fine corrections in the cycle is functional and presentation.
+ * </p>
  * <p>
- * 1. -nothing-
+ * <b>Friday</b>
+ * </p>
+ * <p>
+ * Reload Worklog, global planning and finalizing some other obligations of the
+ * ScrumMaster as review and finish sprint to start a new one.
+ * </p>
+ *
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * During this sprint, my work was mainly of analysis and study of the
+ * application architecture.
  *
- * <h3>10.1. Design and Implementation:3</h3>
+ * <h3>10.1. Design and Implementation:</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
  * <p>
- * <b>Evidences:</b>
- * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * <b>Evidences: ...</b>
+ * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author ruben
+ * @author Marcelo Barroso 1131399
  */
 package csheets.worklog.n1131399.sprint1;
 
@@ -212,7 +175,7 @@ package csheets.worklog.n1131399.sprint1;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author ruben
+ * @author alexandrebraganca
  */
 class _Dummy_ {
 }

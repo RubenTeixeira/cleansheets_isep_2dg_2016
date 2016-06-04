@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1130105) Carlos Meteus during week1.
+ * Technical documentation regarding the work of the team member (1130105) Carlos Mateus during week1.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -25,7 +25,7 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">LPFOURDG-51</a>
  * <p>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-107">LPFOURDG-107</a>
+ *  <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-105">LPFOURDG-105</a>
  * <p>
  * -Include the identification and description of the feature-
  *
@@ -81,12 +81,27 @@
  * problem regarding this issue.
  *
  * <h3>Analysis of Core Technical Problem</h3>
+ * The core of communication is expected to communicate in udp and tcp protocols
+ * connections.
+ * <p>
+ * <img src="doc-files/ipc_analysis.png" alt="image">
  *
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- *
+ * Basically, from requirements and also analysis, we see that the core
+ * functionality of this use case is to be able to add an attribute to cells to
+ * be used to store a comment/text. We need to be able to set and get its value.
+ * Following this approach we can start by coding a unit test that uses a
+ * subclass of <code>CellExtension</code> with a new attribute for user comments
+ * with the corresponding method accessors (set and get). A simple test can be
+ * to set this attribute with a simple string and to verify if the get method
+ * returns the same string. As usual, in a test driven development approach
+ * tests normally fail in the beginning. The idea is that the tests will pass in
+ * the end.
+ * <p>
+ * see: <code>csheets.core.SpreadsheetTest</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
@@ -113,8 +128,46 @@
  * <p>
  * <img src="doc-files/ipc01_01_design1.png" alt="image">
  *
+ * <h3>Extension Setup</h3>
+ * The following diagram shows the setup of the "share" extension when
+ * cleansheets is run.
+ * <p>
+ * <img src="doc-files/ipc01_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
+ * <p>
+ * <b>Class Diagram</b>
+ * <p>
+ * Global Class Diagram
+ * <p>
+ * <img src="doc-files/ipc01_classDiagram.png" alt="image">
+ * <p>
+ * Extension Class Diagram
+ * <p>
+ * <img src="doc-files/ipc_extension_image1.png" alt="image">
+ * <p>
+ * * <b>Sequence Diagrams</b> illustrating the setup of the extension
+ * <p>
+ * The following sequence diagram illustrates the creation of the share
+ * extension. All the extensions are loaded dynamically by the ExtensionManager
+ * at application startup.
+ * <img src="doc-files/ipc_extension_image2.png" alt="image">
+ *
+ * <p>
+ * The following sequence diagram illustrates the creation of the user interface
+ * extension. All the UI extensions are loaded by the UIController at
+ * application startup.
+ * <img src="doc-files/ipc_extension_image3.png" alt="image">
+ *
+ * <p>
+ * The following sequence diagram illustrates the creation of the menu
+ * extension. All the menu extensions are loaded by the MenuBar at application
+ * startup.
+ * <img src="doc-files/ipc_extension_image4.png" alt="image">
+ * <p>
+ * <b>Sequence Diagrams</b> illustrating use cases of the extension
+ * <p>
+ * <img src="doc-files/ipc_extension_image5.png" alt="image">
  *
  * -Document the implementation with class diagrams illustrating the new and the
  * modified classes-
@@ -122,9 +175,9 @@
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
  * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ *
+ * Observer: This Pattern is used to notify SharePanel with new instances in
+ * local network and received cells.
  *
  * <h2>6. Implementation</h2>
  *
@@ -133,6 +186,12 @@
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
  * commits of your work-
+ * <p>
+ * see:
+ * <p>
+ * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
+ * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a><p>
+ * <a href="../../../../csheets/framework/volt/package-summary.html">csheets.framework.volt</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -164,8 +223,7 @@
  * <p>
  * Today
  * <p>
- * 1. Configure the IDE to start working. Read javadoc. 3. Understand the
- * project.
+ * 1. Configure the IDE to start working
  * <p>
  * Blocking:
  * <p>
@@ -175,16 +233,29 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working. Read javadoc. 3. Understand the
- * project.
+ * 1. Configure the IDE to start working
  * <p>
  * Today
  * <p>
- * 1. Understand the problem/analysis to begin the implementation. UI study.
+ * 1. Functional tests.
+ * <p>
+ * 1. Blocking:
+ * <p>
+ * 1. Depend on first analysis
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Application tests.
+ * <p>
+ * Today
+ * <p>
+ * 1. Study the architecture of application
  * <p>
  * Blocking:
  * <p>
- * 1. Depend on first analysis
+ * 1. -nothing to report at moment-
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -192,15 +263,15 @@
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
+ * 3- good: the design is implemented in same way of architecture of application
+ * and extensions
  * <p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * - url of commit:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b80d9575f17f21a548b497f92a1f33bad9c216c5">commit
+ * b80d957</a>- description: this commit is related to the design of feature
+ * start sharing.-
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
