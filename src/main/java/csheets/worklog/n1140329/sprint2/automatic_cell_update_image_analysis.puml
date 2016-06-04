@@ -1,4 +1,4 @@
-@startuml doc-files/automatic_cell_update_image.png
+@startuml doc-files/automatic_cell_update_image_analysis.png
 
 actor User 
 participant "<<analysis>>\nUI" as UI
@@ -9,10 +9,10 @@ participant "<<analysis>>\nTcpClient" as TcpClient
 participant "<<analysis>>\nTcpServer" as TcpServer
 participant "<<analysis>>\nCell" as Cell
 
-User->UI: activates\n"Automatic Cells Update\nBetween Two Instances"\noption
+User->UI: activates operation
 UI->Controller: new ()
 
-note over Controller, UdpServer: same broadcast process as IPC01.1
+note over Controller, UdpServer: same broadcast process as IPC01.1\nthe user selects the instance he wants to connect to
 
 UdpServer->UI: update
 

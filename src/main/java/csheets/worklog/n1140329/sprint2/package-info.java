@@ -53,7 +53,7 @@
  * The following diagram depicts a proposal for the realization of the previously described use case. We call this diagram an "analysis" use case realization because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design. For that reason we mark the elements of the diagram with the stereotype "analysis" that states that the element is not a design element and, therefore, does not exists as such in the code of the application (at least at the moment that this diagram was created).
  * <h4>Automatic Cells Update proposal analysis</h4>
  * <p>
- * <img src="doc-files/automatic_cell_update_image.png" alt="image"> 
+ * <img src="doc-files/automatic_cell_update_image_analysis.png" alt="image"> 
  * <p>
  * 
  * From the previous diagram we see that we need to add a new functionality to the UI: listening to the active spreadsheet's cells.
@@ -111,7 +111,8 @@
  * The following sequence diagram illustrates the creation of the share
  * extension. All the extensions are loaded dynamically by the ExtensionManager
  * at application startup.
- * <img src="doc-files/ipc_extension_image2.png" alt="image">
+ * <img src="doc-files/ipc01_2_design_part1.png" alt="image">
+ * <img src="doc-files/ipc01_2_design_part2.png" alt="image">
  *
  * <p>
  * The following sequence diagram illustrates the creation of the user interface
