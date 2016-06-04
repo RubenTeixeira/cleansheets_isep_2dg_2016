@@ -28,6 +28,7 @@
  *
  * <h2>4. Analysis</h2>
  *
+ *
  * <h3>Conditional Formatting</h3>
  * The user selects "Conditional Formatting" option . The system asks the user
  * wich formatting options he want if formula turn out to be true or false The
@@ -36,7 +37,8 @@
  *
  *
  * <h2>SSD</h2>
- *
+ * <p>
+ * <img src="doc-files/class_analysis_lang03.1.png" alt="image">
  *
  * <h2>5. Design</h2>
  *
