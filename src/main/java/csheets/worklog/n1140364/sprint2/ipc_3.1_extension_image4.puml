@@ -3,7 +3,7 @@
   participant WorkbookSearchAction as EA
   participant WorkbookSearchUI as Option
   participant JOptionPane as JOption
-  participant "controller : SearchInstanceWorkbookController" as Control
+  participant "controller : DistributedWorkbookSearchController" as Control
   participant "this.uiController : UIController" as UIC
 
   User -> EA : actionPerformed(ActionEvent event)
