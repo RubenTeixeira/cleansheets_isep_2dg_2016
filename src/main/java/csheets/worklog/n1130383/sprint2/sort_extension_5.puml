@@ -1,0 +1,17 @@
+  @startuml doc-files/sort_extension_5.png
+title: Sequence Diagram
+  actor User
+  participant SortAction as SA
+  participant JPanel as JPanel
+  participant "uiController : UIController" as UIC
+  participant "ss : Spreadsheet" as SS
+  participant "sc : SortController" as SC
+
+  User -> SA : actionPerformed(ActionEvent event)
+  SA -> JPanel : column_index=selectColumn(int index1);
+  SA -> JPanel : order_index=selectOrder(int index2);
+
+    SA -> UIC : ss=getActiveSpreadsheet();
+	SA -> SS : column=getColumn(column_index);
+	SA -> SC : setColumnOrder(column, order_index);
+  @enduml

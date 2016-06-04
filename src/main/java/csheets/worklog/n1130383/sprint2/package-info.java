@@ -47,32 +47,55 @@
  *
  * <h2>4. Analysis</h2>
  * <p>
- * The Analysis of the previous sprint relative to this area - Core01.1 -
- * Enable/Disable Extensions - facilitates the understanding on how to implement
- * this new Extension. As seen, the ExtensionManager.Class should load this
- * Extension and provide it to the UiController. The ExtensionManager.Class is
- * in charge of managing the extensions and it's the link between them and the
- * Cleansheets application.</p>
- * <b>ExtensionManager.Class</b>
+ * The Analysis of the Example Extension facilitates the understanding on how to
+ * implement this new Extension. As seen, the ExtensionManager.Class should load
+ * this Extension and provide it to the UiController. The ExtensionManager.Class
+ * is in charge of managing the extensions and it's the link between them and
+ * the Cleansheets application.</p>
+ * <b>ExtensionManager.Class:</b>
  * <p>
  * Implements the Singleton pattern to guarantee that there is only one instance
  * running. The Class links itself to a File - extension.props - that contains
  * the name reference for all available extensions. All loaded Extensions are
  * saved into a TreeMap with the Extensions Itself associated with a name
  * reference (String).</p>
- * <b>SortExtension.Class</b>
+ * <p>
+ * CleanSheetps dynamically loads all Extensions that it finds declared in this
+ * files: res/extensions.props and entensions.props. Both this files must
+ * contain the name of the Extension - csheets.ext.sort.SortExtension</p>
+ * <b>SortExtension.Class:</b>
  * <p>
  * Therefore, an extension class should be implemented to support cell sorting.
- * The class will extend, as all already implemented extensions,
+ * The class will extend, as all already implemented extensions the:
  * <b>Extension.class</b></p>
- * <b>SortExtensionController.Class</b>
+ * <b>SortExtensionController.Class:</b>
  * <p>
- * This Class will be implemented to handle sorting.</p>
+ * This Class will be implemented to handle sorting. It will contain a method
+ * that by providing a specific column and a specific order it will sort the
+ * Column as required. sortColumnOrder(Cell[] Column, int Order);</p>
+ * <p>
+ * <b>SortAction.Class:</b>
+ * This Class will interact with the actual SpreadSheet.</p>
+ * <p>
+ * <b>SortExtensionMenu.Class:</b>
+ * Represents the User Interface Menu for Sorting.</p>
+ *
+ * <p>
+ * <b>UISortExtension.Class: </b>
+ * Extends UIExtension. User Interface Sort Extension.</p>
+ * <p>
+ * <b>UIController.Class: </b>
+ * Has an important Attribute -uiExtensions : UIExtension[]. It will contain all
+ * UIExtensions that extend UIExtension.Class.</p>
  *
  *
- * <h3>First Analysis sequence diagram</h3>
+ *
+ * <h3>Class Diagram Analysis</h3>
+ * <p>
+ * <img src="doc-files/sort_extension_1.png" alt="Class Diagram Analysis"></p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
+ *
  *
  * <h2>5. Design</h2>
  *
@@ -80,19 +103,27 @@
  *
  * <h3>5.2. UC Realization</h3>
  *
- * <h3>Extension Setup</h3>
+ * <p>
+ * <img src="doc-files/sort_extension_2.png" alt="Sequence Diagram Design"></p>
+ * <p>
+ * <img src="doc-files/sort_extension_3.png" alt="Sequence Diagram Design"></p>
+ * <p>
+ * <img src="doc-files/sort_extension_4.png" alt="Sequence Diagram Design"></p>
+ * <p>
+ * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
  *
- * <h3>5.3. Classes</h3>
+ * <h3>5.3. Extension Setup</h3>
+ *
+ * <h3>5.4. Classes</h3>
  *
  * -Document the implementation with class diagrams illustrating the new and the
  * modified classes-
  *
- * <h3>5.4. Design Patterns and Best Practices</h3>
- *
- * -Describe new or existing design patterns used in the issue-
+ * <h3>5.5. Design Patterns and Best Practices</h3>
  * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * Singleton Pattern implemented by ExtensionManager.</p>
+ * <p>
+ * Patterns promoting Low Cowpling - High Cohesion.</p>
  *
  * <h2>6. Implementation</h2>
  *
@@ -120,11 +151,9 @@
  * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Analysis.
  * <p>
- * Blocking:
- * <p>
- * 1.
+ * 2. Design.
  *
  *
  * <p>
