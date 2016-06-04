@@ -63,25 +63,24 @@
  * that states that the element is not a design element and, therefore, does not
  * exists as such in the code of the application (at least at the moment that
  * this diagram was created).
- * <h4>Send Cells proposal analysis</h4>
+ * <h4>Send Message proposal analysis</h4>
  * <p>
- * <img src="doc-files/chat_app_analysis.png" alt="image">
+ * <img src="doc-files/chat_app_analysis_send.png" alt="image">
  *
- * <h4>Receive Cells proposal analysis</h4>
+ * <h4>Receive Message proposal analysis</h4>
  * <p>
- * <img src="doc-files/share_cell_receive_image.png" alt="image">
+ * <img src="doc-files/chat_app_analysis_receive.png" alt="image">
  * <p>
  *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
+ * From the previous diagram we see that we need to add a thread for each
+ * conversation. Using a thread manager we can disable a thread when it´s
+ * necessary This is the core technical problem regarding this issue.
  *
  * <h3>Analysis of Core Technical Problem</h3>
  * The core of communication is expected to communicate in udp and tcp protocols
  * connections.
  * <p>
- * <img src="doc-files/ipc_analysis.png" alt="image">
+ * <img src="doc-files/ipc_chat_analysis.png" alt="image">
  *
  *
  * <h2>5. Design</h2>
