@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.cellsSharing.ui;
+package csheets.ext.importExportData.ui;
 
 import csheets.core.Cell;
 import csheets.core.formula.compiler.FormulaCompilationException;
@@ -21,8 +21,13 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * A panel for share a cell
@@ -36,7 +41,7 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	/**
 	 * The assertion controller
 	 */
-	private ShareCellsController controller;
+	private ShareTextFileController controller;
 
 	/**
 	 * Default instance list
@@ -74,7 +79,8 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 	 * @param uiController a ui controller
 	 * @param controller Share cells controller.
 	 */
-	public SharePanel(UIController uiController, ShareCellsController controller) {
+	public SharePanel(UIController uiController,
+					  ShareTextFileController controller) {
 		this.uiController = uiController;
 
 		setName(ShareExtension.NAME);
@@ -113,12 +119,24 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        instancesList = new javax.swing.JList<>();
+        instancesList = new javax.swing.JList<String>();
         sendButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        receiveList = new javax.swing.JList<>();
+        receiveList = new javax.swing.JList<String>();
         receiveButton = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        charLabel = new javax.swing.JLabel();
+        headerLabel = new javax.swing.JLabel();
+        cellsSelectedLabel = new javax.swing.JLabel();
+        helpNoteLabel = new javax.swing.JTextField();
+        OKOptionsButton = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        separatorTextField = new javax.swing.JTextField();
+        headerCheckBox = new javax.swing.JCheckBox();
+        cellsSelectedText = new javax.swing.JTextField();
+        importFileButton = new javax.swing.JButton();
+        filePathlabel = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instances", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
@@ -136,26 +154,6 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
                 sendButtonActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(sendButton)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sendButton)
-                .addGap(7, 7, 7))
-        );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cells Received", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
@@ -178,9 +176,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(87, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(receiveButton)
                 .addContainerGap())
         );
@@ -194,20 +192,156 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
                 .addContainerGap())
         );
 
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(sendButton)
+                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(sendButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Import Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
+
+        charLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        charLabel.setText("Separator character:");
+
+        headerLabel.setText("First Line Header:");
+
+        cellsSelectedLabel.setText("Cells Selected:");
+
+        helpNoteLabel.setEditable(false);
+        helpNoteLabel.setFont(new java.awt.Font("Tahoma", 1, 9)); // NOI18N
+        helpNoteLabel.setText("Must be special");
+        helpNoteLabel.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        helpNoteLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpNoteLabelActionPerformed(evt);
+            }
+        });
+
+        OKOptionsButton.setText("OK");
+        OKOptionsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKOptionsButtonActionPerformed(evt);
+            }
+        });
+
+        headerCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                headerCheckBoxActionPerformed(evt);
+            }
+        });
+
+        cellsSelectedText.setEditable(false);
+        cellsSelectedText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cellsSelectedTextActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(separatorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(headerCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cellsSelectedText, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(separatorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addComponent(headerCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(cellsSelectedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        importFileButton.setText("IMPORT");
+        importFileButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importFileButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(OKOptionsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filePathlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(charLabel)
+                            .addComponent(headerLabel)
+                            .addComponent(helpNoteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cellsSelectedLabel)
+                            .addComponent(importFileButton))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(charLabel)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
+                                .addComponent(helpNoteLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(headerLabel)))
+                        .addGap(18, 18, 18)
+                        .addComponent(cellsSelectedLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(importFileButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(filePathlabel, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addComponent(OKOptionsButton))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -219,21 +353,26 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		int column = cells[0].length;
 
 		if ((line > 2 && column == 1) || (line == 1 && column > 2) || (line > 1 && column > 1)) {
-			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
-			value = "[\"" + cells[0][0].getValue() + "\", ..., \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].
+				getAddress();
+			value = "[\"" + cells[0][0].getValue() + "\", ..., \"" + cells[cells.length - 1][cells[0].length - 1].
+				getValue() + "\"]";
 		} else if ((line == 2 && column == 1) || (line == 1 && column == 2)) {
-			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
-			value = "[\"" + cells[0][0].getValue() + "\", \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].
+				getAddress();
+			value = "[\"" + cells[0][0].getValue() + "\", \"" + cells[cells.length - 1][cells[0].length - 1].
+				getValue() + "\"]";
 		} else {
 			// The cells only have one value. A single cell.
 			cell = cells[0][0].getAddress().toString();
 			value = "[\"" + cells[0][0].getValue() + "\"]";
 		}
 
-		int reply = JOptionPane.showConfirmDialog(this, "::. Send information .::\n"
-				+ "Host: " + host
-				+ "\nCell: " + cell
-				+ "\nValue: " + value);
+		int reply = JOptionPane.
+			showConfirmDialog(this, "::. Send information .::\n"
+							  + "Host: " + host
+							  + "\nCell: " + cell
+							  + "\nValue: " + value);
 
 		if (reply == JOptionPane.YES_OPTION) {
 			controller.sendCells(host, cells);
@@ -282,9 +421,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		String columnStr;
 		int tempColumn = column;
 		for (columnStr = ""; tempColumn >= 0; tempColumn = tempColumn
-				/ ('Z' - 'A' + 1) - 1) {
+			/ ('Z' - 'A' + 1) - 1) {
 			columnStr = (char) ((char) (tempColumn % ('Z'
-					- 'A' + 1)) + 'A') + columnStr;
+				- 'A' + 1)) + 'A') + columnStr;
 		}
 
 		return columnStr + (row + 1);
@@ -310,7 +449,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		if (cells.size() == 1) {
 			for (Map.Entry<String, String> entry : cells.entrySet()) {
 				String[] key = entry.getKey().split(":");
-				firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+				firstAddress += this.
+					getAddress(Integer.parseInt(key[0]), Integer.
+							   parseInt(key[1]));
 				firstValue += this.getValue(entry.getValue());
 			}
 
@@ -323,12 +464,16 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 				String[] key = entry.getKey().split(":");
 
 				if (index == 0) {
-					firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					firstAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					firstValue += this.getValue(entry.getValue());
 				}
 
 				if (index == 1) {
-					secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					secondAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					secondValue += this.getValue(entry.getValue());
 				}
 
@@ -340,13 +485,17 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 			for (Map.Entry<String, String> entry : cells.entrySet()) {
 				if (index == 0) {
 					String[] key = entry.getKey().split(":");
-					firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					firstAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					firstValue += this.getValue(entry.getValue());
 				}
 
 				if (index == size) {
 					String[] key = entry.getKey().split(":");
-					secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					secondAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					secondValue += this.getValue(entry.getValue());
 				}
 
@@ -373,12 +522,14 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
     private void receiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiveButtonActionPerformed
 
-		int reply = JOptionPane.showConfirmDialog(this, "::. Receive information .::\n"
-				+ "You want to receive these cells?");
+		int reply = JOptionPane.
+			showConfirmDialog(this, "::. Receive information .::\n"
+							  + "You want to receive these cells?");
 
 		if (reply == JOptionPane.YES_OPTION) {
 			try {
-				controller.updateCells(uiController, receivedElements.get(receiveList.getSelectedIndex()));
+				controller.updateCells(uiController, receivedElements.
+									   get(receiveList.getSelectedIndex()));
 			} catch (FormulaCompilationException ex) {
 				System.out.println("Error!");
 			}
@@ -406,15 +557,86 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		}
     }//GEN-LAST:event_receiveListValueChanged
 
+    private void importFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importFileButtonActionPerformed
+		JFileChooser fc = new JFileChooser();
+		FileFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+		fc.setFileFilter(filter);
+		int returnVal = fc.showOpenDialog(fc);
+
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			this.filePathlabel.setText(fc.getSelectedFile().getAbsolutePath());
+		}
+
+    }//GEN-LAST:event_importFileButtonActionPerformed
+
+    private void helpNoteLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpNoteLabelActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_helpNoteLabelActionPerformed
+
+    private void headerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_headerCheckBoxActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_headerCheckBoxActionPerformed
+
+    private void OKOptionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKOptionsButtonActionPerformed
+		String character = this.separatorTextField.getText();
+
+		if (character.length() != 1) {
+			JOptionPane.
+				showMessageDialog(this, "Separator must be one character", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+
+		String pattern = "[a-zA-Z0-9 ]";
+		Pattern p = Pattern.compile(pattern, Pattern.CANON_EQ);
+
+		Matcher matcher = p.matcher(character);
+
+		if (matcher.find()) {
+			JOptionPane.
+				showMessageDialog(this, "Invalid character", "Error", JOptionPane.ERROR_MESSAGE);
+		} else {
+			String path = this.filePathlabel.getText();
+
+			if (!path.isEmpty()) {
+				String content = controller.importFile(path);
+				try {
+					cells = uiController.focusOwner.getSelectedCells();
+					controller.
+						parse(content, character, this.headerCheckBox.
+							  isSelected(), cells);
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(SharePanel.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+			}
+		}
+
+    }//GEN-LAST:event_OKOptionsButtonActionPerformed
+
+    private void cellsSelectedTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cellsSelectedTextActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_cellsSelectedTextActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton OKOptionsButton;
+    private javax.swing.JLabel cellsSelectedLabel;
+    private javax.swing.JTextField cellsSelectedText;
+    private javax.swing.JLabel charLabel;
+    private javax.swing.JLabel filePathlabel;
+    private javax.swing.JCheckBox headerCheckBox;
+    private javax.swing.JLabel headerLabel;
+    private javax.swing.JTextField helpNoteLabel;
+    private javax.swing.JButton importFileButton;
     private javax.swing.JList<String> instancesList;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton receiveButton;
     private javax.swing.JList<String> receiveList;
     private javax.swing.JButton sendButton;
+    private javax.swing.JTextField separatorTextField;
     // End of variables declaration//GEN-END:variables
 
 	@Override

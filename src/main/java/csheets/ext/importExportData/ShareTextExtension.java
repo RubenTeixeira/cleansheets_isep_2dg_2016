@@ -1,29 +1,29 @@
-package csheets.ext.cellsSharing;
+package csheets.ext.importExportData;
 
 import csheets.ext.Extension;
-import csheets.ext.cellsSharing.ui.UIExtensionShare;
+import csheets.ext.importExportData.ui.UIExtensionShareTextFile;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 
 /**
- * An extension to support cell sharing. An extension must extend the Extension
- * abstract class. The class that implements the Extension is the "bootstrap" of
- * the extension.
+ * An extension to support text file sharing. An extension must extend the
+ * Extension abstract class. The class that implements the Extension is the
+ * "bootstrap" of the extension.
  *
  * @see Extension
- * @author José Barros
+ * @author Rui Bastos
  */
-public class ShareExtension extends Extension {
+public class ShareTextExtension extends Extension {
 
 	/**
 	 * The name of extension
 	 */
-	public static final String NAME = "Share cells";
+	public static final String NAME = "Share text file";
 
 	/**
 	 * Creates a new Share extension.
 	 */
-	public ShareExtension() {
+	public ShareTextExtension() {
 		super(NAME);
 	}
 
@@ -34,6 +34,6 @@ public class ShareExtension extends Extension {
 	 * @return a user interface extension, or null if none is provided
 	 */
 	public UIExtension getUIExtension(UIController uiController) {
-		return new UIExtensionShare(this, uiController);
+		return new UIExtensionShareTextFile(this, uiController);
 	}
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.cellsSharing.ui;
+package csheets.ext.importExportData.ui;
 
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
@@ -21,15 +21,16 @@ public class OptionsUI extends javax.swing.JFrame implements SelectionListener {
 	/**
 	 * The share cells controller.
 	 */
-	private ShareCellsController controller;
+	private ShareTextFileController controller;
 
 	/**
 	 * Creates new form OptionsUI
 	 *
 	 * @param uiController The user interface controller.
-	 * @param controller The cell sharing controller.
+	 * @param controller The text file sharing controller.
 	 */
-	public OptionsUI(UIController uiController, ShareCellsController controller) {
+	public OptionsUI(UIController uiController,
+					 ShareTextFileController controller) {
 
 		setLocationRelativeTo(this);
 		initComponents();
@@ -145,7 +146,8 @@ public class OptionsUI extends javax.swing.JFrame implements SelectionListener {
 			int timer = Integer.parseInt(txtTimer.getText());
 
 			if (port <= 0 || port > 49151 || timer <= 0) {
-				JOptionPane.showMessageDialog(this, "Please insert a valid number for the field port or field refresh timer");
+				JOptionPane.
+					showMessageDialog(this, "Please insert a valid number for the field port or field refresh timer");
 			} else {
 				controller.restartServices(port, timer);
 
@@ -155,7 +157,8 @@ public class OptionsUI extends javax.swing.JFrame implements SelectionListener {
 			}
 
 		} else {
-			JOptionPane.showMessageDialog(this, "Please insert a number for the field port or field refresh timer");
+			JOptionPane.
+				showMessageDialog(this, "Please insert a number for the field port or field refresh timer");
 		}
 
     }//GEN-LAST:event_saveButtonActionPerformed

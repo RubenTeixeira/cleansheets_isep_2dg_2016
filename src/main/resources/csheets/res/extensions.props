@@ -7,3 +7,4 @@ csheets.ext.events.EventsExtension
 csheets.ext.cellsSharing.ShareExtension
 csheets.ext.distributedWorkbook.WorkbookSearchExtension
 csheets.ext.wizard.WizardExtension
+csheets.ext.importExportData.ShareTextExtension
