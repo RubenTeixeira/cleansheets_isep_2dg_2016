@@ -12,9 +12,10 @@
  * -Notes about the week's work.-
  * <p>
  * On this sprint i spent most of the time analysing the project's architecture,
- * then i help Ruben Santos in analysis and i did part of the design of the funcionality.
- * In the last day i implement one feature with Marcelo Barroso (pair programming).
- * 
+ * then i help Ruben Santos in analysis and i did part of the design of the
+ * funcionality. In the last day i implement one feature with Marcelo Barroso
+ * (pair programming).
+ *
  *
  * <h2>2. Use Case/Feature: Lang01.1</h2>
  *
@@ -23,24 +24,23 @@
  * <p>
  * Sub-Task in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-103">LPFOURDG-103</a>
- * 
+ *
  *
  * <h2>3. Requirement for InstructionBlock</h2>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
  * "result" is the result of the last statement of the block.
- * 
+ *
  * <h2>3.2 Requirement for AssignmentOperation support</h2>
- * Add a comment to this line
- * Add the possibility for assigning a value to a different cell than the one in
- * which the content is being edited.
+ * Add a comment to this line Add the possibility for assigning a value to a
+ * different cell than the one in which the content is being edited.
  *
  * <p>
  * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
- * Add a comment to this line
- * the cell where he/she wants to type an assignment operation, and then types
- * it. The system updates the referenced cell with the resulting value.
+ * Add a comment to this line the cell where he/she wants to type an assignment
+ * operation, and then types it. The system updates the referenced cell with the
+ * resulting value.
  *
  * <p>
  * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
@@ -50,7 +50,7 @@
  *
  *
  * <h2>4. Analysis</h2>
- * 
+ *
  * For the development of use case "Lang01.1 - Instructions Block", it´s
  * necessary analyze all classes of the project of packages formula. We conlude
  * that is necessary add new tokens "{", "}", ":=", "FOR" and define new rules
@@ -77,7 +77,7 @@
  *
  * <b>Assign Operation Sequence Diagram</b>:
  * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
- * 
+ *
  * <h3>5.3. Classes</h3>
  *
  *
@@ -94,7 +94,7 @@
  *
  * <b>Updated Classes/Files</b>: language.props, Formula.g,
  * ExcelExpressionCompiler.
- * 
+ *
  * <h2>7. Integration/Demonstration</h2>
  *
  * -In this section document your contribution and efforts to the integration of
@@ -121,7 +121,8 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working. Cloning of the projec. Read javadoc. Understand the project.
+ * 1. Configure the IDE to start working. Cloning of the projec. Read javadoc.
+ * Understand the project.
  * <p>
  * Today
  * <p>
@@ -135,7 +136,8 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working. Clone project. Read javadoc. Understand the project.
+ * 1. Configure the IDE to start working. 2. Clone project. 3. Read javadoc. 4.
+ * Understand the project.
  * <p>
  * Today
  * <p>
@@ -147,12 +149,14 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Configure the IDE to start working (done). Cloning of the projec(done). Read javadoc. Understand the project.
+ * 1. Configure the IDE to start working (done). 2. Cloning of the projec(done).
+ * 3. Read javadoc. 4. Understand the project.
  * <p>
  * Today
  * <p>
- * 1. Help Design and decide analysis. Design - Assign feature. Learn/read the class ExcelExpressionCompiler.java to add the assign functionality. 
- * Assign a value to a cell. - Pair Programming (Marcelo). 
+ * 1. Help Design and decide analysis. 2. Design - Assign feature. 3. Learn/read
+ * the class ExcelExpressionCompiler.java to add the assign functionality. 4.
+ * Assign a value to a cell. - Pair Programming (Marcelo).
  * <p>
  * Blocking:
  * <p>
