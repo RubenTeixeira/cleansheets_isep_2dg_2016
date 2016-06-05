@@ -29,7 +29,7 @@ class OptionsAction extends BaseAction {
 
 	@Override
 	protected String getName() {
-		return "Options";
+		return "Share Data Options";
 	}
 
 	@Override

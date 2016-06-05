@@ -32,7 +32,7 @@ public class TcpService extends Notifier {
 				server.expect(":share-cells", new Action() {
 					@Override
 					public void run(Map<String, Object> args) {
-                        // Each cell has the following information:
+						// Each cell has the following information:
 						// Column;Line;Type;Value
 						final int params = 4;
 
@@ -41,7 +41,7 @@ public class TcpService extends Notifier {
 							split(";");
 
 						for (int i = 0; i < data.length; i += params) {
-                            // Put in the map the address and the values.
+							// Put in the map the address and the values.
 							// Example:
 							// 0:2 => TEXT;abc
 							// Represents the A3 cell with the value of abc, which is of type TEXT.
@@ -67,7 +67,7 @@ public class TcpService extends Notifier {
 					}
 				});
 
-				server.stream(port);
+//				server.stream(port);
 			}
 		});
 

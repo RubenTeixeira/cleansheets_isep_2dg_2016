@@ -69,14 +69,14 @@ public class TcpServer extends Server {
 				super.active = true;
 			}
 		} catch (NullPointerException e) {
-			/*try {
-			 this.server = new ServerSocket(port);
-			 this.server.setSoTimeout(1000);
-			 super.active = true;
-			 } catch (IOException ex) {
-			 Logger.getLogger(TcpServer.class.getName()).
-			 log(Level.SEVERE, null, ex);
-			 }*/
+			try {
+				this.server = new ServerSocket(port);
+				this.server.setSoTimeout(1000);
+				super.active = true;
+			} catch (IOException ex) {
+				Logger.getLogger(TcpServer.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
 		}
 	}
 

@@ -138,6 +138,12 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
         importFileButton = new javax.swing.JButton();
         filePathlabel = new javax.swing.JLabel();
 
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                formMouseMoved(evt);
+            }
+        });
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Instances", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
 
         instancesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -529,7 +535,8 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		if (reply == JOptionPane.YES_OPTION) {
 			try {
 				controller.updateCells(uiController, receivedElements.
-									   get(receiveList.getSelectedIndex()));
+									   get(receiveList.getSelectedIndex()), uiController.focusOwner.
+									   getSelectedCells()[0][0]);
 			} catch (FormulaCompilationException ex) {
 				System.out.println("Error!");
 			}
@@ -597,12 +604,13 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 			String path = this.filePathlabel.getText();
 
 			if (!path.isEmpty()) {
-				String content = controller.importFile(path);
 				try {
 					cells = uiController.focusOwner.getSelectedCells();
-					controller.
-						parse(content, character, this.headerCheckBox.
+					cells = controller.
+						parse(path, character, this.headerCheckBox.
 							  isSelected(), cells);
+					String cellsSelected = cells[0][0].getAddress().toString() + " ; " + cells[cells.length - 1][cells[0].length - 1];
+					this.cellsSelectedText.setText(cellsSelected);
 				} catch (FormulaCompilationException ex) {
 					Logger.getLogger(SharePanel.class.getName()).
 						log(Level.SEVERE, null, ex);
@@ -615,6 +623,10 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     private void cellsSelectedTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cellsSelectedTextActionPerformed
 		// TODO add your handling code here:
     }//GEN-LAST:event_cellsSelectedTextActionPerformed
+
+    private void formMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseMoved
+		// TODO add your handling code here:
+    }//GEN-LAST:event_formMouseMoved
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton OKOptionsButton;
