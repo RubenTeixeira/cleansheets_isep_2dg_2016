@@ -1,0 +1,46 @@
+@startuml doc-files/import_file_send.png
+
+actor User
+participant "<<analysis>>\nShareTextFileUI" as ShareTextFileUI
+participant "<<analysis>>\nShareTextFileController" as ShareTextFileController
+participant "<<analysis>>\nVolt.UdpClient" as Volt.UdpClient
+participant "<<analysis>>\nVolt.UdpServer" as Volt.UdpServer
+
+User->ShareTextFileUI: chooses file and his options
+ShareTextFileUI->ShareTextFileController: new ()
+
+activate ShareTextFileController
+ShareTextFileUI->ShareTextFileController: import()
+
+User->ShareTextFileUI: activates "Send" option
+ShareTextFileUI->ShareTextFileController:
+ShareTextFileController->Volt.UdpClient: new ()
+ShareTextFileController->Volt.UdpServer: new ()
+deactivate ShareTextFileController
+
+ShareTextFileUI->ShareTextFileController: List<String> lst = getOtherInstances()
+loop
+activate ShareTextFileController
+ShareTextFileController->Volt.UdpClient: send(":broadcast")
+note right of ShareTextFileController: manager.after(1).every(5).fire(broadcast)
+ShareTextFileController->Volt.UdpServer: expect(":ip|:port")
+deactivate ShareTextFileController
+end
+
+ShareTextFileUI->User: Shows other available instances
+note left of ShareTextFileUI: in a sidebar window
+User->ShareTextFileUI: Selects instance
+note right of ShareTextFileUI: String target = instance.ip+":"instance.port
+User->ShareTextFileUI: Send Cell
+
+activate ShareTextFileUI
+ShareTextFileUI->ShareTextFileUI: List<Cell> cells = getTextFileCells()
+ShareTextFileUI->ShareTextFileController: sendCells(target, cells)
+activate ShareTextFileController
+deactivate ShareTextFileUI
+note right of ShareTextFileController: String msg = "";\nfor(Cell cell : cells){\n  msg+=cell.address+"|"+cell.value+"|";\n}
+ShareTextFileController->Volt.UdpClient: send(":address|:value", target, msg)
+deactivate ShareTextFileController
+ShareTextFileUI->User: Cell has been shared
+
+@enduml
