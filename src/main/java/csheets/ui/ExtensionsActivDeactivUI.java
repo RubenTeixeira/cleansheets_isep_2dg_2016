@@ -6,6 +6,7 @@
 package csheets.ui;
 
 import csheets.ext.Extension;
+import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import java.awt.BorderLayout;
