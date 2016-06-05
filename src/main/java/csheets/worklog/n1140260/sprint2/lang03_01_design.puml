@@ -1,0 +1,29 @@
+@startuml doc-files/lang03_01_design1.png
+User -> ConditionalFormattingUI: Initiate the process of conditional formatting
+ConditionalFormattingUI -> ConditionalFormattingController: editCell()
+ConditionalFormattingController -> Spreadsheet: getCell()
+Spreadsheet -> Cell: getValues()
+Cell -> StylableCell: create(cell)
+Cell -> Value: toBoolean()
+alt toBoolean() == true
+StylableCell -> StylableCell:setFromat(format)
+StylableCell -> StylableCell:setFont(font)
+StylableCell -> StylableCell:setHorizontalAlignment(hAlignment)
+StylableCell -> StylableCell:setVerticalAlignment(vAlignment)
+StylableCell -> StylableCell:setForegroundColor(fgColor)
+StylableCell -> StylableCell:setBackgroundColor(bgColor)
+StylableCell -> StylableCell:setBorder(border)
+else
+end
+alt toBoolean() == false
+StylableCell -> StylableCell:setFromat(format)
+StylableCell -> StylableCell:setFont(font)
+StylableCell -> StylableCell:setHorizontalAlignment(hAlignment)
+StylableCell -> StylableCell:setVerticalAlignment(vAlignment)
+StylableCell -> StylableCell:setForegroundColor(fgColor)
+StylableCell -> StylableCell:setBackgroundColor(bgColor)
+StylableCell -> StylableCell:setBorder(border)
+else
+end
+ConditionalFormattingUI -> User: Edited cell
+@enduml

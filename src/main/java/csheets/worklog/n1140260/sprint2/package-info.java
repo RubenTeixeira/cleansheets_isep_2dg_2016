@@ -45,6 +45,7 @@
  *
  * <h3>5.3. Classes</h3>
  *
+ * <img src="doc-files/lang04_01_design1.png" alt="image">
  * <h2>9. Work Log</h2>
  *
  * <b>Friday</b>
