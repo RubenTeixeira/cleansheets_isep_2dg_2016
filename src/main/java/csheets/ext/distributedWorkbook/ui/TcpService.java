@@ -6,6 +6,7 @@ import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
@@ -32,15 +33,22 @@ public class TcpService extends Notifier {
 					@Override
 					public void run(Map<String, Object> args) {
 						String message = ((String) args.get("message")) + " with " + args.get("from");
-						notifyChange(message);
+
+						int reply = JOptionPane.showConfirmDialog(null, message);
+						if (reply == JOptionPane.YES_OPTION) {
+							String destination = ((String) args.get("from")).split(":")[0] + ":" + port;
+							server.send(":share", destination, String.valueOf(30601));
+
+						} else if (reply == JOptionPane.NO_OPTION) {
+							// option 2
+						}
 					}
 				});
 
 				server.expect(":share", new Action() {
 					@Override
 					public void run(Map<String, Object> args) {
-						//TODO
-						//notifyChange();
+						notifyChange(true);
 					}
 				});
 
