@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,6 +49,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
 		setLocationRelativeTo(this);
 		initComponents();
+		this.waitingPanel.setVisible(false);
 
 		uiController.addSelectionListener(this);
 		instancesList.setModel(instanceListModel);
@@ -55,9 +57,10 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20000;
+		final int defaultPort = 20001;
 
 		this.controller.startUdpService(this, defaultPort, defaultSeconds);
+		this.controller.startTcpService(this, defaultPort);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -69,6 +72,8 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         instancesList = new javax.swing.JList<>();
         sendButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
+        waitingPanel = new javax.swing.JPanel();
+        imgPanel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,6 +89,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         sendButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         sendButton.setText("SEND REQUEST");
         sendButton.setEnabled(false);
+        sendButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("CANCEL");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -119,6 +129,20 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        imgPanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgPanel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/please-wait.gif"))); // NOI18N
+
+        javax.swing.GroupLayout waitingPanelLayout = new javax.swing.GroupLayout(waitingPanel);
+        waitingPanel.setLayout(waitingPanelLayout);
+        waitingPanelLayout.setHorizontalGroup(
+            waitingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+        );
+        waitingPanelLayout.setVerticalGroup(
+            waitingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,6 +151,8 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
                 .addContainerGap()
                 .addComponent(instancePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(waitingPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,6 +160,10 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
                 .addContainerGap()
                 .addComponent(instancePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(waitingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         pack();
@@ -157,6 +187,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		}
     }//GEN-LAST:event_instancesListValueChanged
 
+    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+		this.controller.sendRequest(host, "You accept sharing your workbook information");
+		this.waitingPanel.setVisible(true);
+    }//GEN-LAST:event_sendButtonActionPerformed
+
 	public void updateInstanceList(List<String> addresses) {
 
 		for (String address : addresses) {
@@ -179,10 +214,12 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel imgPanel;
     private javax.swing.JPanel instancePanel;
     private javax.swing.JList<String> instancesList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton sendButton;
+    private javax.swing.JPanel waitingPanel;
     // End of variables declaration//GEN-END:variables
 
 	@Override
@@ -196,9 +233,15 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
 	@Override
 	public void update(Observable o, Object object) {
-		if (object instanceof Map) {
-			// TODO
+		if (object instanceof String) {
+			int reply = JOptionPane.showConfirmDialog(this, object);
+			if (reply == JOptionPane.YES_OPTION) {
+				// TODO
+			} else if (reply == JOptionPane.NO_OPTION) {
+				// option 2
+			}
 		}
+
 		if (object instanceof List) {
 			List<String> addresses = (List<String>) object;
 			updateInstanceList(addresses);

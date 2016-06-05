@@ -1,4 +1,4 @@
-package csheets.ext.cellsSharing.ui;
+package csheets.ext.distributedWorkbook.ui;
 
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.udp.UdpClient;
@@ -37,9 +37,9 @@ public class UdpService extends Notifier {
 					@Override
 					public void run(Map<String, Object> args) {
 
-						if (server.same(args.get("from"))) {
-							return;
-						}
+//						if (server.same(args.get("from"))) {
+//							return;
+//						}
 						// Destination = Target's IP and Port
 						String destination = ((String) args.get("from")).split(":")[0] + ":" + localPort;
 
@@ -83,7 +83,7 @@ public class UdpService extends Notifier {
 				Task broadcast = new Task() {
 					@Override
 					public void fire() {
-						client.send(":broadcast", "all:30600", "check");
+						client.send(":broadcast", "all:30601", "check");
 					}
 				};
 
