@@ -2,6 +2,7 @@
  * Technical documentation regarding the work of the team member (1131190) João
  * Martins during week2.
  *
+ * <p>
  * <b>Scrum Master: no</b>
  *
  * <p>
@@ -37,21 +38,24 @@
  *
  * <h2>5. Design</h2>
  *
- *
+ * <img src="doc-files/lang02_01_design_temporary_variables.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
  * <h2>9. Work Log</h2>
  *
  * <b>Saturday</b>
+ * <p>
  * Reading feature requirements and analysing formulas code in order to
  * understand how antlr and grammars are integratd in the project
+ * <p>
  *
  * <b>Sunday</b>
+ * <p>
  * Analysis and designing of the UC
+ * <p>
  *
  * <b>Monday</b>
- *
  *
  * <b>Tuesday</b>
  *
