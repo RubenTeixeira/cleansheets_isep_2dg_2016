@@ -1,0 +1,45 @@
+@startuml doc-files/receive_export_file_image.png
+
+actor User
+participant "<<analysis>>\nShareTextFileUI" as ShareTextFileUI
+participant "<<analysis>>\nShareTextFileController" as ShareTextFileController
+participant "<<analysis>>\nVolt.UdpClient" as Volt.UdpClient
+participant "<<analysis>>\nVolt.UdpServer" as Volt.UdpServer
+participant "<<analysis>>\nUI" as UI
+
+User->ShareTextFileUI: activates "Receive Cells" option
+ShareTextFileUI->ShareTextFileController: new ()
+
+activate ShareTextFileController
+ShareTextFileController ->Volt.UdpClient: new ()
+ShareTextFileController ->Volt.UdpServer: new ()
+deactivate ShareTextFileController
+
+ShareTextFileUI->ShareTextFileController:  List<Cell> cells = receiveCells()
+
+activate ShareTextFileController
+ShareTextFileController->Volt.UdpClient: expect (":broadcast")
+ShareTextFileController->Volt.UdpServer: send (":ip|:port")
+
+ShareTextFileController->Volt.UdpServer: expect (":address|:value")
+deactivate ShareTextFileController
+
+ShareTextFileUI->ShareTextFileUI: List<Cell> textCells=chooseCells(cells);
+
+ShareTextFileUI->ShareTextFileUI: checkCells(cells)
+note left of ShareTextFileUI: checks if the cells\nare located on an address that\nalready has existing cells
+
+alt if there are already existing cells
+    ShareTextFileUI->User: Do you wish to replace the current cells\n   with the received ones?
+    User->ShareTextFileUI: Yes
+end
+
+ShareTextFileUI->UI: setCells(cells)
+ShareTextFileUI->User: Cells changed successfully
+
+User->ShareTextFileUI: Export File
+ShareTextFileUI->ShareTextFileController: export(content, path)
+
+ShareTextFileUI->User: Exported successfully
+
+@enduml
