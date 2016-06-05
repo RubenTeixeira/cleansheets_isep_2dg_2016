@@ -43,9 +43,9 @@
  *  
  * <h2>4. Analysis</h2>
  * <h3>Automatic Cells Update</h3>
- * The user selects "Automatic Cells Update Between Two Instances" option in the "Share Cells" menu.
- * The system gets the other available instances in the local network, and presents them in a sidebar window.
- * The user selects which instance to establish a connection to.
+ * The user opens up the "Share Cells" sidebar.
+ * The system gets the other available instances in the local network, and presents them in the sidebar window.
+ * The user selects which instance to establish a connection to and clicks on the "Connect" button.
  * Once a cell is edited by the user, the system sends it to the targeted instance 
  * and updates the instance's spreadsheet.
  * 
@@ -57,54 +57,34 @@
  * <p>
  * 
  * From the previous diagram we see that we need to add a new functionality to the UI: listening to the active spreadsheet's cells.
- * Therefore, at this point, we need to study how to add this new functionality to the UI. This is the core technical problem regarding this issue.
- * 
- * <h3>Analysis of Core Technical Problem</h3>
- *
- * 
+ * We also need to implement a constant TCP connection between instances.
+ * Therefore, at this point, we need to study how to add this new functionality to the UI and the TCP service.
+ * These are the core technical problems regarding this issue.
  * 
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to add an attribute to cells to be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a subclass of <code>CellExtension</code> with a new attribute for user comments with the corresponding method accessors (set and get). A simple test can be to set this attribute with a simple string and to verify if the get method returns the same string.
- * As usual, in a test driven development approach tests normally fail in the beginning. The idea is that the tests will pass in the end. 
- * <p>
- * see: <code>csheets.core.SpreadsheetTest</code>
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We will also need to create a subclass of UIExtension. For the sidebar we need to implement a JPanel. In the code of the extension <code>csheets.ext.style</code> we can find examples that illustrate how to implement these technical requirements.
+ * To realize this user story we will need to implement 
  * The following diagrams illustrate core aspects of the design of the solution for this use case.
  * <p>
  * <b>Note:</b> It is very important that in the final version of this technical documentation the elements depicted in these design diagrams exist in the code!
  * 
- * <h3>User Share selected Cells</h3>
- * The following diagram shows the setup of the local connection when cleansheets's user select share.
+ * <h3>User selects to connect to another instance (Automatic Cell Update)</h3>
+ * The following diagram shows the setup of the local connection when the user selects to connect to another instance, and how the updates are made.
  * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
- * 
- *
- * <h3>Application display shared cells</h3>
- * The following diagram illustrates what happens when a instance of cleansheet receive shared cells.
- * <p>
- * <img src="doc-files/ipc01_01_design1.png" alt="image">
+ * <img src="doc-files/ipc01_2_design_part2.png" alt="image">
  * 
  * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "share" extension when cleansheets is run.
+ * The following diagram shows the setup of the "share" extension when cleansheets is running.
  * <p>
- * <img src="doc-files/ipc01_design.png" alt="image">
+ * <img src="doc-files/ipc01_2_design_part1.png" alt="image">
  *  
  * <h3>5.3. Classes</h3>
  * <p>
  * <b>Class Diagram</b>
- * <p>
- * Global Class Diagram
- * <p>
- * <img src="doc-files/ipc01_classDiagram.png" alt="image"> 
- * <p>
- * Extension Class Diagram
- * <p>
- * <img src="doc-files/ipc_extension_image1.png" alt="image">
+ * 
  * <p>
  * * <b>Sequence Diagrams</b> illustrating the setup of the extension
  * <p>
@@ -141,13 +121,8 @@
  * <h2>6. Implementation</h2>
  * 
  * -Reference the code elements that where updated or added-
- * <p>
+ * 
  * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
- * <p>
- * see:<p>
- * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a><p>
- * <a href="../../../../csheets/framework/volt/package-summary.html">csheets.framework.volt</a>
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 
@@ -156,95 +131,67 @@
  * <h2>8. Final Remarks</h2>
  * 
  * -In this section present your views regarding alternatives, extra work and future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if the cell has a comment. This "feature" is not documented in this page.
  * 
  * 
  * <h2>9. Work Log</h2> 
- * 
- * -Insert here a log of you daily work. This is in essence the log of your daily standup meetings.-
+ * <b>Friday</b>
  * <p>
- * Example
+ * Today
+ * <p>
+ * 1. Started analysis of IPC01.2
+ * <p>
+ * 2. Studied the base code to help the analysis.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Saturday</b>
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Started analysis of IPC01.2
+ * <p>
+ * 2. Studied the base code to help the analysis.
+ * <p>
+ * Today
+ * <p>
+ * 1. Working on analysis of IPC01.2
+ * <p>
+ * 2. Working on design of IPC01.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Sunday</b>
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Working on analysis of IPC01.2
+ * <p>
+ * 2. Working on design of IPC01.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Finishing analysis of IPC01.2
+ * <p>
+ * 2. Designing IPC01.2
+ * <p>
+ * Blocking:
+ * 1. -nothing-
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Configure the IDE to start working
- * <p>
- * 2. Studying the base code.
- * <p>
- * 3. Started analysis of IPC01.1.
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
  * Yesterday I worked on: 
- * <p>
- * 1. Configure the IDE to start working
- * <p> 
- * 2. Studying the base code.
- * <p>
- * 3. Started analysis of IPC01.1.
- * <p>
  * Today
- * <p>
- * 1. Working on analysis of IPC01.1
- * <p>
- * 2. Help designing IPC01.1
- * <p>
- * 3. Help implementing IPC01.1
- * <p>
  * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
- * <b>Wednesday</b>
- * <p>
- * Yesterday I worked on: 
- * <p>
- * 1. Working on analysis of IPC01.1
- * <p>
- * 2. Help designing IPC01.1
- * <p>
- * 3. Help implementing IPC01.1
- * <p>
- * Today
- * <p>
- * 1. Help implementing IPC01.1
- * <p>
- * Blocking:
- * 1. -nothing-
- * <p>
- * <b>Thursday</b>
- * <p>
- * Yesterday I worked on: 
- * <p>
- * 1. Help implementing IPC01.1
- * <p>
- * Today
- * <p>
- * 1. Help finishing IPC01.1
- * <p>
- * 2. Preparing the functionality for the client demo.
- * <p>
- * Blocking:
- * 1. -nothing-
  * <h2>10. Self Assessment</h2> 
  * 
  * -Insert here your self-assessment of the work during this sprint.-
  * 
  * <h3>10.1. Design and Implementation:3</h3>
  * 
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
- * <p>
  * <b>Evidences:</b>
  * <p>
  * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
