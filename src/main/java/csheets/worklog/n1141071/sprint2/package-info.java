@@ -77,7 +77,9 @@
  * 
  * <b>Monday</b>
  * <ul>
- * <li></li>
+ * <li>Clarify doubts about the UC with Project Manager</li>
+ * <li>Finish UC design.</li>
+ * <li>Starting the UI design.</li>
  * </ul>
  *
  *
