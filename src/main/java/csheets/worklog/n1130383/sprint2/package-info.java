@@ -111,6 +111,12 @@
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
+ * To realize this user story we will need to create a subclass of Extension. As
+ * the following Diagrams suggest.</p>
+ *
+ * <h3>5.3. Extension Setup</h3>
+ *
+ * <p>
  * <img src="doc-files/sort_extension_2.png" alt="Sequence Diagram Design"></p>
  * <p>
  * <img src="doc-files/sort_extension_3.png" alt="Sequence Diagram Design"></p>
@@ -118,8 +124,6 @@
  * <img src="doc-files/sort_extension_4.png" alt="Sequence Diagram Design"></p>
  * <p>
  * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
- *
- * <h3>5.3. Extension Setup</h3>
  *
  * <h3>5.4. Classes</h3>
  *
