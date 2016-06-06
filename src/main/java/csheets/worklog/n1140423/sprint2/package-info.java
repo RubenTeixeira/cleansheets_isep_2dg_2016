@@ -49,7 +49,7 @@
  * In order to secure a message we'll need to encrypt it. To do so, we'll need to have an application key to help us protect our communication protocols.
  * Generally, this key should be generated randomly (in a production environment) in order to maintain security, but for simplicity purposes we will just pre-define it.
  * </p>
- * <img src="appkey.png" alt="Application Key protecting the CleanSheets instances from attackers">
+ * <img src="doc-files/appkey.png" alt="Application Key protecting the CleanSheets instances from attackers">
  * <p>
  * We'll use AES (Advanced Encryption Standard) which is a symmetric encryption algorithm, where we'll use our application key to encrypt our message.
  * On the instance that is receiving our encrypted message, we'll apply the same application key and decrypt our message.
@@ -121,6 +121,13 @@
  * <p>Started to plan out Volt new features. Started and completed the first analysis on this feature.</p>
  * <p>Blocking</p>
  * <p>Nothing.</p>
+ * <p>06/06/2016</p>
+ * <p>Monday</p>
+ * <p>Today</p>
+ * <p>Implemented Volt new features. Added base design.</p>
+ * <p>Blocking</p>
+ * <p>Nothing</p>
+ * 
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -138,6 +145,8 @@
  * </p>
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b8cf8e3950952c780501d4618af5b4626b086452">Analysis</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/41c3c827ab8a71cbcf35f881f617e5534537eb84">Base design</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/941200bbd1397d028114571cfaf36d3c0bf80e20">Improved Volt performance and documentation. Added new features to Volt: Channels and Dependencies. Added Encrypter.</a>
  * </p>
  * 
  * <h3>10.2. Teamwork: ...</h3>
