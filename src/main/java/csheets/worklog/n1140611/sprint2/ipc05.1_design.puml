@@ -1,21 +1,19 @@
 @startuml doc-files/ipc05.1_design.png
 
 participant "UIController" as UIController
-participant "SpreadsheetTable" as SpreadsheetTable
-participant "UIShareCellsExtension" as ShareCellsUI
-participant "ShareCellsController" as Controller
+participant "ChatUI" as ChatUI
+participant "ChatAppController" as Controller
 participant "Volt.UdpClient" as UdpClient
 participant "Volt.UdpServer" as UdpServer
-participant "<interface>\nCell" as Cell
 
-UIController->ShareCellsUI: runExtension()
-ShareCellsUI->Controller: new ()
+UIController->ChatUI: runExtension()
+ChatUI->Controller: new ()
 activate Controller
 Controller->UdpClient: new ()
 Controller->UdpServer: new ()
 deactivate Controller
 
-ShareCellsUI->Controller: List<String> lst = getOtherInstances()
+ChatUI->Controller: List<String> lst = getOtherInstances()
 
 loop
 activate Controller
@@ -24,27 +22,23 @@ note right of Controller: manager.after(1).every(5).fire(broadcast)
 Controller->UdpServer: expect(":ip|:port")
 deactivate Controller
 end
-ShareCellsUI->ShareCellsUI: Shows other available instances
+ChatUI->ChatUI: Shows other available instances
 
 
-note left of ShareCellsUI: in a sidebar window
-ShareCellsUI->ShareCellsUI: Selects instance
-note right of ShareCellsUI: String target = instance.ip+":"instance.port
-UIController->ShareCellsUI: selectionEventAction()
+note left of ChatUI: in a new frame
+ChatUI->ChatUI: Selects instance
+note right of ChatUI: String target = instance.ip+":"instance.port
+UIController->ChatUI: selectionEventAction()
 
-activate ShareCellsUI
-ShareCellsUI->SpreadsheetTable: Cell [][] cells = getSelectedCells()
-ShareCellsUI->Controller: sendCells(target, cells)
+activate ChatUI
+ChatUI->ChatUI: read message
+ChatUI->Controller: sendCells(target, message)
 activate Controller
-deactivate ShareCellsUI
-loop cells
-Controller->Cell: getAddress()
-Controller->Cell: getValue()
-Controller->Controller:msg=prepareMessage(Address ad,Value val)
-end
+deactivate ChatUI
 
-Controller->UdpClient: send(":address|:value", target, msg)
+
+Controller->UdpClient: send(":chat", target, msg)
 deactivate Controller
-ShareCellsUI->UIController: Sended cells
+ChatUI->UIController: Send message
 
 @enduml

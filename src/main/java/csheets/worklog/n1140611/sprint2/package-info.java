@@ -103,24 +103,18 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>User Share selected Cells</h3>
+ * <h3>Chat send Message</h3>
  * The following diagram shows the setup of the local connection when
  * cleansheets's user select share.
  * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
+ * <img src="doc-files/ipc05.1_design.png" alt="image">
  *
  *
- * <h3>Application display shared cells</h3>
+ * <h3>Receive Message</h3>
  * The following diagram illustrates what happens when a instance of cleansheet
- * receive shared cells.
+ * receive message.
  * <p>
- * <img src="doc-files/ipc01_01_design1.png" alt="image">
- *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "share" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/ipc01_design.png" alt="image">
+ * <img src="doc-files/ipc05.1_design1.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  * <p>
@@ -130,33 +124,6 @@
  * <p>
  * <img src="doc-files/ipc05.1_classdiagram.png" alt="image">
  * <p>
- * Extension Class Diagram
- * <p>
- * <img src="doc-files/ipc_extension_image1.png" alt="image">
- * <p>
- * * <b>Sequence Diagrams</b> illustrating the setup of the extension
- * <p>
- * The following sequence diagram illustrates the creation of the share
- * extension. All the extensions are loaded dynamically by the ExtensionManager
- * at application startup.
- * <img src="doc-files/ipc_extension_image2.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the user interface
- * extension. All the UI extensions are loaded by the UIController at
- * application startup.
- * <img src="doc-files/ipc_extension_image3.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the menu
- * extension. All the menu extensions are loaded by the MenuBar at application
- * startup.
- * <img src="doc-files/ipc_extension_image4.png" alt="image">
- * <p>
- * <b>Sequence Diagrams</b> illustrating use cases of the extension
- * <p>
- * <img src="doc-files/ipc_extension_image5.png" alt="image">
- *
  * -Document the implementation with class diagrams illustrating the new and the
  * modified classes-
  *
@@ -177,8 +144,8 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a><p>
+ * <a href="../../../../csheets/ext/chatApp/package-summary.html">csheets.ext.chatApp</a><p>
+ * <a href="../../../../csheets/ext/chatApp/ui/package-summary.html">csheets.ext.chatApp.ui</a><p>
  * <a href="../../../../csheets/framework/volt/package-summary.html">csheets.framework.volt</a>
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -271,9 +238,7 @@
  * <b>Evidences:</b>
  * <p>
  * - url of commit:
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b80d9575f17f21a548b497f92a1f33bad9c216c5">commit
- * b80d957</a>- description: this commit is related to the design of feature
- * start sharing.-
+ *
  *
  * <h3>10.2. Teamwork: ...</h3>
  *

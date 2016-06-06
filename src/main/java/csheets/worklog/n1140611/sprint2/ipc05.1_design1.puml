@@ -1,40 +1,32 @@
 @startuml doc-files/ipc05.1_design1.png
 
 participant "UIController" as UIController
-participant "SpreadsheetTable" as SpreadsheetTable
-participant "<interface>\nCell" as Cell
-participant "ShareCellUI" as ShareCellUI
-participant "ShareCellController" as ShareCellController
+participant "ChatUI" as ChatUI
+participant "ChatAppController" as ChatAppController
 participant "Volt.UdpClient" as UdpClient
 participant "Volt.UdpServer" as UdpServer
 
-UIController->ShareCellUI: activates "Receive Cells" option
-ShareCellUI->ShareCellController: new ()
+UIController->ChatUI: activates "Receive Message" option
+ChatUI->ChatAppController: new ()
 
-activate ShareCellController
-ShareCellController->UdpClient: new ()
-ShareCellController->UdpServer: new ()
-deactivate ShareCellController
+activate ChatAppController
+ChatAppController->UdpClient: new ()
+ChatAppController->UdpServer: new ()
+deactivate ChatAppController
 
-ShareCellUI->ShareCellController: Cell[][] cells = receiveCells()
+ChatUI->ChatAppController: message = receiveMessage()
 
-activate ShareCellController
-ShareCellController->UdpClient: expect (":broadcast")
-ShareCellController->UdpServer: send (":ip|:port")
+activate ChatAppController
+ChatAppController->UdpClient: expect (":broadcast")
+ChatAppController->UdpServer: send (":ip|:port")
 
-ShareCellController->UdpServer: expect (":address|:value")
-deactivate ShareCellController
+ChatAppController->UdpServer: expect (":chat")
+deactivate ChatAppController
 
-ShareCellUI->ShareCellUI: checkCells()
-note right of ShareCellUI: checks if the received cells\nare located on an address that\nalready has existing cells
+ChatUI->ChatUI:set message tree control
+note right of ChatUI: receive message and update all chat's ui
 
-alt if there are already existing cells
-    ShareCellUI->ShareCellUI: Do you wish to replace the current cells\n   with the received ones?
-    ShareCellUI->ShareCellUI: Yes
-end
-
-ShareCellController->UIController: setCells(cells)
-ShareCellController->UIController: Cells changed successfully
+ChatAppController->UIController: message saved successfully
 
 @enduml
 @enduml

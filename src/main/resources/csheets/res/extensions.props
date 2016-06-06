@@ -9,3 +9,4 @@ csheets.ext.distributedWorkbook.WorkbookSearchExtension
 csheets.ext.wizard.WizardExtension
 csheets.ext.importExportData.ImportExportDataExtension
 csheets.ext.sort.SortExtension
+csheets.ext.chatApp.ChatAppExtension
