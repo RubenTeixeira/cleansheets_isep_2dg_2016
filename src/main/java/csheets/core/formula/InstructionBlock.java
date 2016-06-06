@@ -33,10 +33,8 @@ public class InstructionBlock implements Expression {
 	 */
 	@Override
 	public Value evaluate() throws IllegalValueTypeException {
-
 		Value value = null;
-
-		for (int i = 0; i < (this.expressions.length); i++) {
+		for (int i = 0; i < this.expressions.length; i++) {
 			value = this.expressions[i].evaluate();
 		}
 		return value;
@@ -59,5 +57,18 @@ public class InstructionBlock implements Expression {
 	@Override
 	public Object accept(ExpressionVisitor visitor) {
 		return visitor.visitInstructionBlock(this);
+	}
+
+	@Override
+	public String toString() {
+		String string = "{";
+		for (int i = 0; i < expressions.length; i++) {
+			string += expressions[i];
+			if (i + 1 < expressions.length) {
+				string += "; ";
+			}
+		}
+		string += "}";
+		return string;
 	}
 }
