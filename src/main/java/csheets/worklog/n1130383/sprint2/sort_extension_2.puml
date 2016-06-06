@@ -2,7 +2,7 @@
 title: How SortExtension is loaded through ExtensionManager
   participant ExtensionManager as ExtM
   participant Class
-  participant "aClass:Class" as aClass
+  participant "extensionClass:Class" as aClass
   participant "extension : SortExtension" as SortExtension
   ExtM -> Class : aClass = forName("csheets.ext.simple.ExtensionExample");
   activate Class

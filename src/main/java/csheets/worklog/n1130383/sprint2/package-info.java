@@ -48,11 +48,11 @@
  * <h2>4. Analysis</h2>
  * <p>
  * The Analysis of the Example Extension facilitates the understanding on how to
- * implement this new Extension. As seen, the ExtensionManager.Class should load
- * this Extension and provide it to the UiController. The ExtensionManager.Class
+ * implement this new Extension. As seen, the ExtensionManager Class should load
+ * this Extension and provide it to the UiController. The ExtensionManager Class
  * is in charge of managing the extensions and it's the link between them and
  * the Cleansheets application.</p>
- * <b>ExtensionManager.Class:</b>
+ * <b>ExtensionManager Class:</b>
  * <p>
  * Implements the Singleton pattern to guarantee that there is only one instance
  * running. The Class links itself to a File - extension.props - that contains
@@ -63,30 +63,31 @@
  * CleanSheetps dynamically loads all Extensions that it finds declared in this
  * files: res/extensions.props and entensions.props. Both this files must
  * contain the name of the Extension - csheets.ext.sort.SortExtension</p>
- * <b>SortExtension.Class:</b>
+ * <b>SortExtension Class:</b>
  * <p>
  * Therefore, an extension class should be implemented to support cell sorting.
  * The class will extend, as all already implemented extensions the:
- * <b>Extension.class</b></p>
- * <b>SortExtensionController.Class:</b>
+ * <b>Extension class</b></p>
+ * <b>SortExtensionController Class:</b>
  * <p>
  * This Class will be implemented to handle sorting. It will contain a method
  * that by providing a specific column and a specific order it will sort the
- * Column as required. sortColumnOrder(Cell[] Column, int Order);</p>
+ * Column as required - order(column, order);</p>
  * <p>
- * <b>SortAction.Class:</b>
- * This Class will interact with the actual SpreadSheet.</p>
+ * <b>SortAction Class:</b>
+ * This Class will perform the Action, set the SortController and update the
+ * SpreadSheet.</p>
  * <p>
- * <b>SortExtensionMenu.Class:</b>
+ * <b>SortExtensionMenu Class:</b>
  * Represents the User Interface Menu for Sorting.</p>
  *
  * <p>
- * <b>UISortExtension.Class: </b>
+ * <b>UISortExtension Class: </b>
  * Extends UIExtension. User Interface Sort Extension.</p>
  * <p>
- * <b>UIController.Class: </b>
- * Has an important Attribute -uiExtensions : UIExtension[]. It will contain all
- * UIExtensions that extend UIExtension.Class.</p>
+ * <b>UIController Class: </b>
+ * Provide us a crucial Attribute -uiExtensions : UIExtension[]. It will contain
+ * all UIExtensions that extend UIExtension Class.</p>
  *
  *
  *
@@ -95,11 +96,17 @@
  * <img src="doc-files/sort_extension_1.png" alt="Class Diagram Analysis"></p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
+ * <p>
+ * The Core problem is similar to ExampleExtension, an example given for the
+ * first week of analysis to comprehend how to implement a new Extension. </p>
  *
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
+ * <p>
+ * Tests will be performed for Class SortController to check if the order occurs
+ * as planned.</p>
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -116,8 +123,10 @@
  *
  * <h3>5.4. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * <h3>Class Diagram</h3>
+ *
+ * <p>
+ * <img src="doc-files/sort_class_diagram.png" alt="Class Diagram Analysis"></p>
  *
  * <h3>5.5. Design Patterns and Best Practices</h3>
  * <p>
@@ -127,11 +136,16 @@
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
  * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-</p>
+ * The file containing the extensions name was the only file required to update
+ * - extension.props. All other Classes where implemented.</p>
+ *
+ * <p>
+ *
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3dbf709a0a5f3dc77b3f56d7fb028a66c308db0c">Commit
+ * concerning Analysis and Design</a>
+ *
+ * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -159,18 +173,17 @@
  * <p>
  * <b>Sunday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.
- * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Updated Analysis.
+ * <p>
+ * 2. Started and mostly finished Design.
+ * <p>
+ * 3. Started Implementation.
  * <p>
  * Blocking:
  * <p>
- * 1.
- *
+ * 1. nothing.
  *
  * <p>
  * <b>Monday</b>

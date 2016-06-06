@@ -1,5 +1,5 @@
   @startuml doc-files/sort_extension_1.png
-title: Class Diagram <<Analyis>>
+title: Class Diagram <<Analysis>>
   class SortAction {
    }
   class SortMenu

@@ -6,6 +6,9 @@
 package csheets.ext.sort;
 
 import csheets.ext.Extension;
+import csheets.ext.sort.ui.UISort;
+import csheets.ui.ctrl.UIController;
+import csheets.ui.ext.UIExtension;
 
 /**
  * Sort Extension
@@ -17,7 +20,7 @@ public class SortExtension extends Extension {
 	/**
 	 * Extension name - required.
 	 */
-	private static final String NAME = "SortExtension";
+	private static final String NAME = "Sort";
 
 	/**
 	 * Creates a new SortExtension.
@@ -27,4 +30,14 @@ public class SortExtension extends Extension {
 
 	}
 
+	/**
+	 * Returns the User Interface Extension of the SortExtension.
+	 *
+	 * @param uiController
+	 * @return
+	 */
+	@Override
+	public UIExtension getUIExtension(UIController uiController) {
+		return new UISort(this, uiController);
+	}
 }
