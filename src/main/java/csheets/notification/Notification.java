@@ -17,8 +17,8 @@ public class Notification {
 	};
 	private static Notifier extensionInformer = new Notifier() {
 	};
-        
-        
+	private static Notifier messageInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -30,6 +30,10 @@ public class Notification {
 
 	public static Notifier extensionInformer() {
 		return Notification.extensionInformer;
+	}
+
+	public static Notifier messageInformer() {
+		return Notification.messageInformer;
 	}
 
 }

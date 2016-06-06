@@ -63,7 +63,9 @@ public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
 
 	public Object visitFunctionCall(FunctionCall call) {
 		for (Expression argument : call.getArguments()) {
-			argument.accept(this);
+			if (argument != null) {
+				argument.accept(this);
+			}
 		}
 		return call;
 	}

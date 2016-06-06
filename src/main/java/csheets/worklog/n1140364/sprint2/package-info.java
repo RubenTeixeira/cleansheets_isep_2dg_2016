@@ -76,7 +76,7 @@
  * worksheet.
  *
  * <p>
- * <img src="#" alt="image">
+ * <img src="doc-files/ipc_03.1_analysis2.png" alt="image">
  *
  *
  * <h3>Analysis of Core Technical Problem</h3>

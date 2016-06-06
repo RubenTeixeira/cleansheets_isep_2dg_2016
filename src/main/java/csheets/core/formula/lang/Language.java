@@ -23,7 +23,6 @@ package csheets.core.formula.lang;
 import csheets.CleanSheets;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Function;
-import csheets.core.formula.TernaryOperator;
 import csheets.core.formula.UnaryOperator;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,8 +58,6 @@ public class Language {
 	 * The binary operators that are supported by the language
 	 */
 	private List<BinaryOperator> binaryOperators = new ArrayList<BinaryOperator>();
-
-	private List<TernaryOperator> ternaryOperators = new ArrayList<TernaryOperator>();
 
 	/**
 	 * The functions that are supported by the language
@@ -211,12 +208,4 @@ public class Language {
 		return functions.toArray(new Function[functions.size()]);
 	}
 
-	public TernaryOperator getTernaryOperator(String identifier) throws UnknownElementException {
-		for (TernaryOperator operator : ternaryOperators) {
-			if (identifier.equalsIgnoreCase(operator.getIdentifier())) {
-				return operator; // .clone()
-			}
-		}
-		throw new UnknownElementException(identifier);
-	}
 }

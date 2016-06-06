@@ -50,9 +50,11 @@ public class EventsControllerTest {
 		date.add(Calendar.DAY_OF_MONTH, 1);
 		event = new Event(contact, "New Event", date, true);
 		cleanSheets = new CleanSheets();
+		/*
 		uiController = new UIController(cleanSheets);
 		eventsPanel = new EventsPanel(uiController);
 		instance = new EventsController(uiController, eventsPanel);
+		 */
 	}
 
 	@After

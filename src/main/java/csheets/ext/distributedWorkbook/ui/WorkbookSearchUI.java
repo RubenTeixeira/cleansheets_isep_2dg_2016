@@ -6,7 +6,6 @@ import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -40,10 +39,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 	/**
 	 * Creates new form WorkbookSearchUI
 	 *
-	 * @param uiController
-	 * @param controller
+	 * @param uiController UI Controller
+	 * @param controller Distributed Workbook Search Controller
 	 */
-	public WorkbookSearchUI(UIController uiController, DistributedWorkbookSearchController controller) {
+	public WorkbookSearchUI(UIController uiController,
+							DistributedWorkbookSearchController controller) {
 		this.uiController = uiController;
 		this.controller = controller;
 		instanceListModel = new DefaultListModel();
@@ -143,11 +143,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         waitingPanel.setLayout(waitingPanelLayout);
         waitingPanelLayout.setHorizontalGroup(
             waitingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(imgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 408, Short.MAX_VALUE)
         );
         waitingPanelLayout.setVerticalGroup(
             waitingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(imgPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+            .addComponent(imgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Workbook", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
@@ -159,6 +159,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
         searchButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -256,11 +261,16 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
     }//GEN-LAST:event_instancesListValueChanged
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-		this.controller.sendRequest(host, "You accept sharing your workbook information");
+		this.controller.
+			sendRequest(host, "You accept sharing your workbook information");
 
 		this.instancePanel.setVisible(false);
 		this.waitingPanel.setVisible(true);
     }//GEN-LAST:event_sendButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+		this.controller.setNameOfWorkbookToSearch(txtName.getText());
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 	public void updateInstanceList(List<String> addresses) {
 
@@ -314,8 +324,18 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 				this.workbookPanel.setVisible(true);
 			} else {
 				this.waitingPanel.setVisible(false);
-				JOptionPane.showMessageDialog(this, "This host doesnt wish to share workbooks.");
+				JOptionPane.
+					showMessageDialog(this, "This host doesnt wish to share workbooks.");
 				dispose();
+			}
+		}
+
+		if (object instanceof String) {
+			if (object.equals("Search")) {
+				this.controller.searchWorkbook(uiController);
+			}
+			if (object.equals("Check")) {
+
 			}
 		}
 

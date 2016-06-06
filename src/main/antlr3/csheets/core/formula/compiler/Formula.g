@@ -48,6 +48,7 @@ expression
 
 comparison
 : 	concatenation ( ( EQ^ | NEQ^ | GT^ | LT^ | LTEQ^ | GTEQ^ ) concatenation )?
+|	assignment
 ;
 
 concatenation
@@ -76,29 +77,34 @@ arithmetic_highest
 
 atom
 :	function_call
-|	assignment
 |	reference
+|	priority
 |	literal
 |	block
-|	LPAR! comparison RPAR!
 ;
 
 function_call
-:	'FOR'^ LBRA! ( comparison ) SEMI! ( comparison ) SEMI! ( comparison ) ( SEMI! comparison )* RBRA!
-|	'FOR'^ LPAR! ( comparison ) SEMI! ( comparison ) SEMI! ( comparison ) ( SEMI! comparison )* RPAR!
+:	'FOR'^ LBRA! comparison SEMI! comparison SEMI! comparison RBRA!
+|	'FOR'^ LPAR! comparison SEMI! comparison SEMI! comparison RPAR!
 |	FUNCTION^ LPAR! ( comparison ( SEMI! comparison )* )? RPAR!
 ;
 
-block
-:	LBRA! ( comparison ( SEMI! comparison )* )? RBRA!
+assignment
+:	( CELL_REF | VART_REF | VARG_REF ) ( ASSIGN^ ) comparison
 ;
 
 reference
 :	CELL_REF ( ( COLON^ ) CELL_REF )?
+|	VART_REF ( ( COLON^ ) VART_REF )?
+|	VARG_REF ( ( COLON^ ) VARG_REF )?
 ;
 
-assignment
-:	CELL_REF ( ASSIGN^ ) comparison
+priority
+:	LPAR! comparison RPAR!
+;
+
+block
+:	LBRA^ ( comparison ( SEMI! comparison )* )? RBRA!
 ;
 
 literal
@@ -109,6 +115,8 @@ literal
 /* String literals, i.e. anything inside the delimiters */
 FUNCTION : ( LETTER )+ ;
 CELL_REF : ( ABS )? LETTER ( LETTER )? ( ABS )? ( DIGIT )+ ;
+VART_REF : UNDR ( LETTER | DIGIT )+ ;
+VARG_REF : ARRB ( LETTER | DIGIT )+ ;
 
 /* String literals, i.e. anything inside the delimiters */
 fragment LETTER : ('a'..'z'|'A'..'Z') ;
@@ -138,13 +146,13 @@ DIV	: '/' ;
 POWER	: '^' ;
 PERCENT : '%' ;
 
-/* Assign operator */
-ASSIGN : ':=' ;
-
 /* Reference operators */
 fragment ABS : '$' ;
 fragment EXCL : '!' ;
+fragment UNDR : '_' ;
+fragment ARRB : '@' ;
 COLON	: ':' ;
+ASSIGN : ':=' ;
 
 /* Miscellaneous operators */
 COMMA	: ',' ;

@@ -56,8 +56,9 @@
  *
  * <h3>5.1. </h3>
  *
- * <b>Sequence Diagram (exemplo em baixo, remover)</b>:
- * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
+ * <b>Sequence Diagram - Get Instance and select/send request to another
+ * instance</b>:
+ * <img src="doc-files/ip07.1_getInstances.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
  *

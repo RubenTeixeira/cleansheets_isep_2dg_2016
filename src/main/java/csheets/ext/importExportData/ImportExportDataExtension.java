@@ -1,7 +1,7 @@
 package csheets.ext.importExportData;
 
 import csheets.ext.Extension;
-import csheets.ext.importExportData.ui.UIExtensionShareTextFile;
+import csheets.ext.importExportData.ui.UIExtensionImportExportTextFile;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 
@@ -13,17 +13,17 @@ import csheets.ui.ext.UIExtension;
  * @see Extension
  * @author Rui Bastos
  */
-public class ShareTextExtension extends Extension {
+public class ImportExportDataExtension extends Extension {
 
 	/**
 	 * The name of extension
 	 */
-	public static final String NAME = "Share text file";
+	public static final String NAME = "Import/Export text file";
 
 	/**
 	 * Creates a new Share extension.
 	 */
-	public ShareTextExtension() {
+	public ImportExportDataExtension() {
 		super(NAME);
 	}
 
@@ -34,6 +34,6 @@ public class ShareTextExtension extends Extension {
 	 * @return a user interface extension, or null if none is provided
 	 */
 	public UIExtension getUIExtension(UIController uiController) {
-		return new UIExtensionShareTextFile(this, uiController);
+		return new UIExtensionImportExportTextFile(this, uiController);
 	}
 }

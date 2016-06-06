@@ -42,7 +42,8 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-	public UIExtensionWorkbookSearch(Extension extension, UIController uiController) {
+	public UIExtensionWorkbookSearch(Extension extension,
+									 UIController uiController) {
 		super(extension, uiController);
 	}
 
@@ -59,14 +60,14 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	/**
 	 * Returns an instance of a class that implements JMenu.
 	 *
-	 * @see ShareMenu
+	 * @see WorkbookSearchMenu
 	 * @return a JMenu component
 	 */
 	@Override
 	public JMenu getMenu() {
 		if (menu == null) {
 			if (distributedSearchController == null) {
-				distributedSearchController = new DistributedWorkbookSearchController();
+				distributedSearchController = new DistributedWorkbookSearchController(uiController);
 			}
 			menu = new WorkbookSearchMenu(uiController, distributedSearchController);
 		}

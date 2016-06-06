@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1140491) Rui
- * Bastos during week1.
+ * Bastos during week2.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -26,53 +26,40 @@
  *
  * <h2>3. Requirement</h2>
  * -The responsibility that was assignedto me, was to resolve the feature of
- * import/export/sharing a text file.-
+ * import/export a text file.-
  *
  * <p>
  * <b>Use Case "Import/Export Text":</b> A sidebar window that provides
- * functionalities for importing/exporting/sharing a text fiel. Each line of
- * this file should be separeted by a special character. The user may choose if
- * the first line of the file is a header or not. He can choose the cells where
- * the content is displayed.
+ * functionalities for importing/exporting a text fiel. Each line of this file
+ * should be separeted by a special character. The user may choose if the first
+ * line of the file is a header or not. He can choose the cells where the
+ * content is displayed.
  *
  *
  * <h2>4. Analysis</h2>
- * This feature will be supported in a new extension. The connection between the
- * instances will be similar to the share cells feature.
- * <h3>Import File and Send</h3>
+ * This feature will be supported in a new extension.
+ * <h3>Import File</h3>
  * The user selects the file, choooses the special character to use as a column
  * separator, if the first line is an header or not and the cells to add the
- * file text. The system gets the information and add the text to the cells. The
- * user selects "Send" option. The system gets the other available instances in
- * the local network, and presents them in a sidebar window. The user selects
- * which instance to send the cells to, and activates the sending. The system
- * gets the selected cells, and sends them to the targeted instance. The system
- * notifies the user that the cells were sent.
+ * file text. The system gets the information and add the text to the cells.
  *
- * <h3>Receive Cells and Export File</h3>
- * The user selects "Receive" option and the cells to add the text. The system
- * waits for the cells being sent in the local network. After receiving the
- * cells, the system checks if checks if the received cells are located on an
- * address that already has existing cells. If so, then the system asks the user
- * for permission to change the original cells with the new ones. Otherwise, the
- * system just changes them. The system notifies the user that the cells were
- * changed. The user selects the path to export the file. System exports the
- * file to the wanted path.
+ * <h3>Export File</h3>
+ * The user selects the path to export the file. System exports the file to the
+ * wanted path.
  *
  * <h3>First "analysis" sequence diagram</h3>
  *
- *  * <h4>Import file and Send Content proposal analysis</h4>
+ *  * <h4>Import file Content proposal analysis</h4>
  * <p>
- * <img src="doc-files/import_file_send_image.png" alt="image">
+ * <img src="doc-files/import_file_image.png" alt="image">
  *
- * <h4>Receive Content and Export File proposal analysis</h4>
+ * <h4>Export File proposal analysis</h4>
  * <p>
- * <img src="doc-files/receive_export_file_image.png" alt="image">
+ * <img src="doc-files/export_file_image.png" alt="image">
  * <p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
- * The core of communication is expected to communicate in udp and tcp protocols
- * connections.
+ *
  *
  * <h2>5. Design</h2>
  *

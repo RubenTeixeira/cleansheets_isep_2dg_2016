@@ -5,7 +5,6 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.core.formula.InstructionBlock;
 
 /**
  * Execution of For Loop.
@@ -14,21 +13,14 @@ import csheets.core.formula.InstructionBlock;
  */
 public class For implements Function {
 
-	//private FunctionParameter[] args;
-	private Expression[] args;
-
-//	public For(Expression[] args){
-//		//explode
-//		this.args = (FunctionParameter[]) args;
-//	}
-	/**
-	 * Create For.
-	 *
-	 * @param args Variable number of expression arguments.
-	 */
-	public For(Expression... args) {
-		this.args = args;
-	}
+	public static final FunctionParameter[] parameters = new FunctionParameter[]{
+		new FunctionParameter(Value.Type.UNDEFINED, "Term1", false,
+							  "A number to be included in the sum"),
+		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
+							  "A condition to evaluate before proceeding"),
+		new FunctionParameter(Value.Type.UNDEFINED, "Term3", false,
+							  "A number to be included in the sum")
+	};
 
 	public For() {
 	}
@@ -50,6 +42,16 @@ public class For implements Function {
 	 */
 	@Override
 	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
+		Value value = new Value();
+		for (Expression expression : args) {
+			System.out.println(expression);
+		}
+		args[0].evaluate();
+		while (args[1].evaluate().toBoolean()) {
+			args[2].evaluate();
+		}
+		return value;
+		/*
 		Expression assignment = args[0];
 		Expression limiter = args[1];
 		//expressions[] for instructionblock.
@@ -71,27 +73,14 @@ public class For implements Function {
 		while (args[1].evaluate().toBoolean()) {
 			value = block.evaluate();
 		}
-		return value;
+		return value;*/
 	}
 
-	/**
-	 * TODO.
-	 *
-	 * @return Gets the function parameters.
-	 */
-	@Override
 	public FunctionParameter[] getParameters() {
-		return null;
+		return parameters;
 	}
 
-	/**
-	 * n Arguments.
-	 *
-	 * @return true
-	 */
-	@Override
 	public boolean isVarArg() {
-		return true;
-
+		return false;
 	}
 }

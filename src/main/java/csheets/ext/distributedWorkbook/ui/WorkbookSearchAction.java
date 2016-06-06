@@ -20,9 +20,10 @@ public class WorkbookSearchAction extends BaseAction {
 	 * Creates a new action.
 	 *
 	 * @param uiController the user interface controller
-	 * @param distributedSearchController
+	 * @param distributedSearchController Controller
 	 */
-	public WorkbookSearchAction(UIController uiController, DistributedWorkbookSearchController distributedSearchController) {
+	public WorkbookSearchAction(UIController uiController,
+								DistributedWorkbookSearchController distributedSearchController) {
 		this.uiController = uiController;
 		this.distributedSearchController = distributedSearchController;
 	}
