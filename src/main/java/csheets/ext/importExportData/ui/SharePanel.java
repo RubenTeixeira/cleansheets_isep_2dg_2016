@@ -448,7 +448,22 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
     }//GEN-LAST:event_helpNoteLabel1ActionPerformed
 
     private void OKOptionsButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKOptionsButton1ActionPerformed
-		// TODO add your handling code here:
+
+		this.cells = this.uiController.focusOwner.getSelectedCells();
+
+		String path = this.filePathlabel1.getText();
+		if (JOptionPane.
+			showConfirmDialog(this, "Do you want to save the file here?",
+							  "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			if (controller.exportFile(path, cells, this.separatorTextField1.
+									  getText())) {
+				JOptionPane.
+					showMessageDialog(null, "The file was saved", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+			} else {
+				JOptionPane.
+					showMessageDialog(null, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
     }//GEN-LAST:event_OKOptionsButton1ActionPerformed
 
     private void headerCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_headerCheckBox1ActionPerformed
@@ -460,16 +475,7 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		jfc.setDialogTitle("Export File");
 		if (jfc.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
 			String path = jfc.getSelectedFile().getAbsolutePath();
-			if (JOptionPane.
-				showConfirmDialog(this, "Confirm", "Do you want to save the file here?", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-				if (controller.exportFile(path, path, cells)) {
-					JOptionPane.
-						showMessageDialog(null, "Sucess", "The file was saved", JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.
-						showMessageDialog(null, "Error", "Something went wrong", JOptionPane.ERROR_MESSAGE);
-				}
-			}
+			this.filePathlabel1.setText(path);
 		}
     }//GEN-LAST:event_exportFileButtonActionPerformed
 
