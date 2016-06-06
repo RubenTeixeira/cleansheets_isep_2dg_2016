@@ -1,19 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.framework.volt.protocols.udp;
 
-/**
- *
- * @author Carlos Mateus
- */
+import csheets.framework.volt.channels.MessageEncryptionChannel;
+import csheets.support.Task;
+import csheets.support.TaskManager;
+
 public class UdpClientTest {
 
     public static void main(String[] args) {
         UdpClient client = new UdpClient(0);
-        client.send(":oi", "25.58.255.35:30600", "Enviar mensagem");
+        
+        // Define the channel.
+        client.client().channel(":message", new MessageEncryptionChannel("ohT3e8TJ55QOsAsx"));
+        
+        TaskManager tm = new TaskManager();
+        
+        // Execute the broadcast task every 4 seconds.
+        tm.every(4).fire(new Task() {
+            @Override
+            public void fire()
+            {
+                client.send(":message", "all:30600", "Meet Volt.");
+            }
+        });
+        
     }
 
 }
