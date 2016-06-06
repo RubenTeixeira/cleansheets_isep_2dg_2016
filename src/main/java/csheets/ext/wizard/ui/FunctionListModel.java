@@ -7,6 +7,7 @@ package csheets.ext.wizard.ui;
 
 import csheets.core.formula.Function;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 
 /**
@@ -15,9 +16,9 @@ import javax.swing.DefaultListModel;
  */
 public class FunctionListModel extends DefaultListModel<String> {
 
-    public ArrayList<Function> listSubjects;
+    private List<Function> listSubjects;
 
-    public FunctionListModel(ArrayList<Function> listSubjects) {
+    public FunctionListModel(List<Function> listSubjects) {
         this.listSubjects = listSubjects;
     }
 
