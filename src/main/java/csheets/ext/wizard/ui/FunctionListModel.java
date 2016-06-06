@@ -15,19 +15,28 @@ import javax.swing.DefaultListModel;
  */
 public class FunctionListModel extends DefaultListModel<String> {
 
-	public ArrayList<Function> listSubjects;
+    public ArrayList<Function> listSubjects;
 
-	public FunctionListModel(ArrayList<Function> listSubjects) {
-		this.listSubjects = listSubjects;
-	}
+    public FunctionListModel(ArrayList<Function> listSubjects) {
+        this.listSubjects = listSubjects;
+    }
 
-	@Override
-	public int getSize() {
-		return listSubjects.size();
-	}
+    @Override
+    public int getSize() {
+        return listSubjects.size();
+    }
 
-	@Override
-	public String getElementAt(int index) {
-		return listSubjects.get(index).getIdentifier();
-	}
+    @Override
+    public String getElementAt(int index) {
+        return listSubjects.get(index).getIdentifier();
+    }
+
+    public String getFunctionInfo(int index, WizardController controller) {
+        return controller.getFunctionInfo(listSubjects.get(index));
+    }
+
+    public String getHelp(int selectedIndex) {
+        //listSubjects.get(selectedIndex).getDescription();
+        return "To be done";
+    }
 }

@@ -59,8 +59,12 @@
  * Doing Use case design, first draft finished and ready to strat implementing, might require some
  * changes later on
  * 
+ * <b>Sunday</b> 
+ * Copied example Ui and finished adding extention to the system
+ * 
  * <b>Monday</b>
- *
+ * Morning
+ * Finished UI implementation
  *
  *
  * <b>Tuesday</b>
