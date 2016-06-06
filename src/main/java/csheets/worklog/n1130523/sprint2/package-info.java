@@ -36,19 +36,29 @@
  *
  *
  * <p>
- * <b>Use Case 1 - "Export XML of Worksheet with default tags":</b> The user
- * inserts all values in the cells and selects File-ExportXML, assign a title to
- * the file and save it.
+ * <b>Use Case 1 - "Export the contents of an workbook to XML file":</b> The
+ * user inserts all values in the cells and selects File-ExportXML, defines
+ * content like workbook, if he wants, defines the tags to see in XML file,
+ * assign file title and save it.
  *
  * <p>
- * <b>Use Case 2 - "Export XML of Worksheet with different tags":</b>
- * The user inserts all values in the cells, defines the tags to see in XML file
- * and selects File-ExportXML, assign a title to the file and save it.
+ * <b>Use Case 2 - "Export the contents of an Worksheet to XML file":</b>
+ * The user inserts all values in the cells and selects File-ExportXML, defines
+ * the worksheet to save, if he wants, defines the tags to see in XML file,
+ * assign file title and save it.
+ *
+ * <b>Use Case 3 - "Export part of an worksheet to an XML file":</b>
+ * The user inserts all values in the cells and selects File-ExportXML, selects
+ * cells to export, the worksheet to save, if he wants, defines the tags to see
+ * in XML file, assign file title and save it.
  *
  * <h2>4.2 Analysis - Export XML of Worksheet</h2>
  * The user must have the option to export the worksheet information to a
  * standard xml file with the defined tags (paper-columns-column-line-cell) or
- * set these tags with the names what the user wants.
+ * set these tags with the names what the user wants. The user can choose one of
+ * this options: Export the contents of an workbook to XML file, Export the
+ * contents of an Worksheet to XML file and Export part of an worksheet to an
+ * XML file.
  *
  *
  * <h3> First "analysis" sequence diagram - Export XML of Worksheetk</h3>
