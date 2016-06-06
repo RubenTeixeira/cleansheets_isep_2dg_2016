@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.sort;
+package csheets.ext.macro_beanshell;
 
 import java.util.Collections;
 import java.util.List;
