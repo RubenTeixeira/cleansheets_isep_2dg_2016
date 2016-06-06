@@ -1,6 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1140780) Rúben
- * Teixeira during week1.
+ * Technical documentation regarding the work of the team member (1131399)
+ * Marcelo Barroso during week2.
  *
  * <p>
  * <b>Scrum Master: yes</b>
@@ -11,60 +11,49 @@
  * <h2>1. Notes</h2>
  *
  * <p>
- * On this sprint i spent most of the time analysing the project's architecture,
- * then i implemented and tested Assign operations but spent wednesday afternoon
- * helping my colleague Pedro Gomes implement InstructionBlock in order to be
- * able to advance to FOR() function implementation.
  *
- * <h2>2. Use Case/Feature: Lang01.1</h2>
+ * <h2>2. Use Case/Feature: CRM01.2</h2>
  *
  * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27
- * Lang01.1- Block of Instructions</a>
- * My Sub-Task: Unallocated to be responsible for the main task.
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-76">LPFOURDG-76
+ * CRM01.2- Company Contact</a>
  *
- * <h2>3.1 Requirement for InstructionBlock support</h2>
- * Add the possibility of writing blocks (or sequences) of instructions. A block
- * must be delimited by curly braces and its instructions must be separated by
- * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block.
- *
- * <h2>3.2 Requirement for AssignmentOperation support</h2>
- * Add the possibility for assigning a value to a different cell than the one in
- * which the content is being edited.
- *
- * <p>
- * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
- * the cell where he/she wants to type an assignment operation, and then types
- * it. The system updates the referenced cell with the resulting value.
- *
- * <p>
- * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
- * instructions separated by a semi-colon and surrounded with bracket. The
- * system all the instructions returning the resulting value from the last
- * instruction.
- *
- * <h2>4.2 Analysis for AssignmentOperation support</h2>
- * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
- * ) aswell as from a UnaryOperation(Operator, operand), a new Operation must
- * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
- * ensure the architecture will be ready for new assignment operations as such:
- * '*= += /= ...' The following class diagram shows how we intend to implement
- * this:
- * <p>
- * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
- * </p>
- * This approach was then abandoned, as our team agreed with the Area Leader
- * when he advised us not to extend the architecture yet, in favour of a more
- * conservative approach. This would allow us to have a working solution in a
- * more timely manner.
+ * <h2>3 Requirement</h2>
+ * A contact may also be a company. If a contact is a company then it has a name
+ * (no first and no last name). A person contact may now be related to a company
+ * contact. A person contact may have also a profession. The profession should
+ * be selected from a list. The list of professions should be loaded (and/or
+ * updated) from a external xml file or an existing configuration file of
+ * Cleansheets. The window for company contacts should display all the person
+ * contacts that are related to it. The company window should also have an
+ * agenda. The agenda of a company should be read only and display all the
+ * events of the individual contacts that are related to it.
  *
  *
- * <h3> First "analysis" sequence diagram UC1 - Instruction Block</h3>
+ * <h2>4. Analysis</h2>
+ * Since contacts will be supported in a new extension to cleansheets we need to
+ * study how extensions are loaded by cleansheets and how they work. The first
+ * sequence diagram in the section
+ * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
+ * Startup</a> tells us that extensions must be a subclass of the Extension
+ * abstract class and need to be registered in special files. The Extension
+ * class has a method called getUIExtension that should be implemented and
+ * return an instance of a class that is a subclass of UIExtension. In this
+ * subclass of UIExtension there is a method (getSideBar) that returns the
+ * sidebar for the extension. A sidebar is a JPanel.
  *
  * <p>
- * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
+ * After understanding how extensions are created, we proceded to our use case
+ * analysis. We decided that our sidebar will cover all the possible features
+ * for the user (create/edit/remove contacts and events).
+ *
+ * We control the use case flow by enable or disable sidebar's components and
+ * updating other components.
+ *
+ * The functional area of this use case requires the use of JPA (ORM). To
+ * achieve this functionality we use the same framework used in UC EAPLI,
+ * allowing the abstraction of persistence layer.
  *
  * <h2>5. Design</h2>
  *
