@@ -63,6 +63,48 @@
  * This feature is already supported, and was built on the Feature <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-51">IPC01.1</a>.
  * 
  * <h2>5. Design</h2>
+ * <p>
+ * Since all that it's needed for this feature is for secure communication, we only need to make sure we have our Application Key set through the AppSettings, which will allow 
+ * to get it anywhere our application.
+ * </p>
+ * <p>
+ * Next, while building our service with Volt we need to declare a Channel, which allows us to filter information on run time when Volt is processing the same information.
+ * Volt already supports a MessageDecryptionChannel and a MessageEncryptionChannel, so by default we can use that to secure our messages. (This functionality was built while developing this use case)
+ * </p>
+ * 
+ * <p>
+ * This means that any extension that currently uses the IPC Protocol Services, should be able to secure their messages, thus allow me to get information on what it's sent.
+ * </p>
+ * 
+ * <h3>Tests:</h3>
+ * <p>
+ * Since we're encrypting a message, that should be tested to check proper encryption and decryption.
+ * As for network related operations such as transmitting a message through UDP and TCP are hard to test since we'd need to have another host on our network to test (since we block ourselves on a broadcast signal),
+ * which is a flaw since the build of the project would fail most of the time due to failed connections or not having other hosts. Therefore, all tests based on network related operations will only be available through
+ * screenshots to prove what the correct I/O should be (unless the feature requirements change).
+ * </p>
+ * 
+ * <h3>Sequence Diagram:</h3>
+ * 
+ * <p>
+ * Since any feature can use this feature, we can generalize the User Interface class (UI) and the Controller class (Controller). The reason for this is because
+ * any other feature can implement their own UI and controller while using the same process to implement secure message transmission.
+ * </p>
+ * 
+ * <p>
+ * <strong>Important:</strong> Since all network based features must implement the protocols services (such as UdpService or TcpService), this diagram will focus
+ * solely on showing on how to trigger secure messaging, instead of showing the whole setting up the service process all over.
+ * </p>
+ * <p>
+ * <strong>Note:</strong> It is also important to note that the Service is abstracted to work with the UDP or TCP protocol, which means that the class represented as the "Service" in the
+ * sequence diagram can be either UdpService or TcpService.
+ * </p>
+ * 
+ * <h4>Server</h4>
+ * <img src="doc-files/general_design_server.png" alt="Server generalization">
+ * 
+ * <h4>Client</h4>
+ * <img src="doc-files/general_design_client.png" alt="Client generalization">
  * 
  * <h2>6. Implementation</h2>
  * 
@@ -82,9 +124,9 @@
  * 
  * <h2>10. Self Assessment</h2> 
  * 
- * Outcome 3 ("Design and Implementation") -> 
- * Outcome 5 ("Teamwork") -> 
- * Outcome 6 ("Technical Documentation") -> 
+ * Outcome 3 ("Design and Implementation") - ?
+ * Outcome 5 ("Teamwork") - ?
+ * Outcome 6 ("Technical Documentation") - ?
  *
  * <h3>10.1. Design and Implementation:3</h3>
  * 
@@ -95,7 +137,7 @@
  * <b>Evidences:</b>
  * </p>
  * <p>
- * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b8cf8e3950952c780501d4618af5b4626b086452">Analysis</a>
  * </p>
  * 
  * <h3>10.2. Teamwork: ...</h3>
