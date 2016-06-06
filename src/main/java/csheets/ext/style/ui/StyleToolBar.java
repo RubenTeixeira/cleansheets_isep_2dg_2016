@@ -20,10 +20,15 @@
  */
 package csheets.ext.style.ui;
 
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
+import csheets.ext.style.ui.conditionalFormatting.ui.ConditionalFormattingAction;
+import csheets.ui.ctrl.SelectionEvent;
+import csheets.ui.ctrl.SelectionListener;
+import csheets.ui.ctrl.UIController;
 import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -31,34 +36,38 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
-import csheets.ext.style.StylableCell;
-import csheets.ext.style.StyleExtension;
-import csheets.ui.ctrl.SelectionEvent;
-import csheets.ui.ctrl.SelectionListener;
-import csheets.ui.ctrl.UIController;
-
 /**
  * A tool bar that displays style-related actions.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
 public class StyleToolBar extends JToolBar implements SelectionListener {
 
-	/** The common button insets */
+	/**
+	 * The common button insets
+	 */
 	private static final Insets INSETS = new Insets(2, 2, 2, 2);
 
-	/** The button for making the current font bold */
+	/**
+	 * The button for making the current font bold
+	 */
 	private JToggleButton boldButton;
 
-	/** The button for making the current font italic */
+	/**
+	 * The button for making the current font italic
+	 */
 	private JToggleButton italicButton;
 
-	/** The button for applying left alignment */
+	/**
+	 * The button for applying left alignment
+	 */
 	private Map<Integer, JToggleButton> hAlignButtons
 		= new HashMap<Integer, JToggleButton>();
 
 	/**
 	 * Creates a new style tool bar.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public StyleToolBar(UIController uiController) {
@@ -81,16 +90,20 @@ public class StyleToolBar extends JToolBar implements SelectionListener {
 		// Adds alignment actions
 		ButtonGroup hAlignGroup = new ButtonGroup();
 		hAlignButtons.put(SwingConstants.LEFT, addToggleButton(
-			new AlignLeftAction(uiController), hAlignGroup));
+						  new AlignLeftAction(uiController), hAlignGroup));
 		hAlignButtons.put(SwingConstants.CENTER, addToggleButton(
-			new AlignCenterAction(uiController), hAlignGroup));
+						  new AlignCenterAction(uiController), hAlignGroup));
 		hAlignButtons.put(SwingConstants.RIGHT, addToggleButton(
-			new AlignRightAction(uiController), hAlignGroup));
+						  new AlignRightAction(uiController), hAlignGroup));
+
+		//Adds conditional formatting actions
+		add(new ConditionalFormattingAction(uiController));
 	}
 
 	/**
 	 * Adds a button with the given action to the tool bar, and reduces the
 	 * default insets.
+	 *
 	 * @param action the action to add
 	 * @return the button that was added
 	 */
@@ -103,6 +116,7 @@ public class StyleToolBar extends JToolBar implements SelectionListener {
 	/**
 	 * Adds a button with the given action to the tool bar, and reduces the
 	 * default insets.
+	 *
 	 * @param action the action to add
 	 * @param groups the button groups to which the button belongs
 	 * @return the button that was added
@@ -112,18 +126,20 @@ public class StyleToolBar extends JToolBar implements SelectionListener {
 		button.setText(null);
 		button.setMargin(INSETS);
 		add(button);
-		for (ButtonGroup group : groups)
+		for (ButtonGroup group : groups) {
 			group.add(button);
+		}
 		return button;
 	}
 
 	/**
 	 * Selects buttons depending on the style of the active cell.
+	 *
 	 * @param event the selection event that was fired
 	 */
 	public void selectionChanged(SelectionEvent event) {
 		if (event.getCell() != null && event.isCellChanged()) {
-			StylableCell cell = (StylableCell)event.getCell().getExtension(
+			StylableCell cell = (StylableCell) event.getCell().getExtension(
 				StyleExtension.NAME);
 			boldButton.setSelected(cell.getFont().isBold());
 			italicButton.setSelected(cell.getFont().isItalic());
