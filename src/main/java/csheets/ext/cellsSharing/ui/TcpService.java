@@ -34,8 +34,8 @@ public class TcpService extends Notifier {
                     @Override
                     public void run(Map<String, Object> args) {
                         // Each cell has the following information:
-                        // Column;Line;Type;Value
-                        final int params = 4;
+                        // Column;Line;Type;Value;FontName;FontStyle;FontSize;HAlignment;VAlignment;fgColor;bgColor
+                        final int params = 11;
                         
                         Map<String, String> cells = new LinkedHashMap<>();
                         String[] data = ((String) args.get("message")).split(";");
@@ -47,7 +47,10 @@ public class TcpService extends Notifier {
                             // Represents the A3 cell with the value of abc, which is of type TEXT.
                             
                             if (i + 3 < data.length) {
-                                cells.put(data[i] + ":" + data[i + 1], data[i + 2] + ";" + data[i + 3]);
+                                cells.put(data[i] + ":" + data[i + 1], data[i + 2] + ";" + data[i + 3]
+                                        + ";" + data[i + 4] + ";" + data[i + 5] + ";" + data[i + 6] 
+                                        + ";" + data[i + 7] + ";" + data[i + 8] + ";" + data[i + 9]
+                                        + ";" + data[i + 10]);
                                 continue;
                             }
                             
