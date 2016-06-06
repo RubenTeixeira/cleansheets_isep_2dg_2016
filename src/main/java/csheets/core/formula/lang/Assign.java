@@ -5,10 +5,13 @@
  */
 package csheets.core.formula.lang;
 
+import csheets.core.CellImpl;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A Function where the Left Operand will be assigned the Value of the Right
@@ -26,7 +29,27 @@ public class Assign implements BinaryOperator {
 
 	@Override
 	public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
-		return rightOperand.evaluate();
+		Value value = new Value();
+		try {
+			if (rightOperand instanceof VariableLocalReference) {
+				VariableLocalReference var = (VariableLocalReference) rightOperand;
+				value = var.evaluate();
+			} else {
+				value = rightOperand.evaluate();
+			}
+			if (leftOperand instanceof VariableLocalReference) {
+				VariableLocalReference var = (VariableLocalReference) leftOperand;
+				((CellImpl) var.getCell()).
+					addVariables(var.getVariable(), value);
+			} else if (leftOperand instanceof CellReference) {
+				CellReference cell = (CellReference) leftOperand;
+				((CellImpl) cell.getCell()).setContent(value.toNumber() + "");
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Assign.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+		return value;
 	}
 
 	@Override
@@ -36,7 +59,7 @@ public class Assign implements BinaryOperator {
 
 	@Override
 	public Value.Type getOperandValueType() {
-		return Value.Type.NUMERIC;
+		return Value.Type.UNDEFINED;
 	}
 
 	@Override
