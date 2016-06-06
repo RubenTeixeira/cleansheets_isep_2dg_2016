@@ -63,6 +63,7 @@ public class SortAction extends BaseAction {
 	/**
 	 *
 	 */
+	@Override
 	protected void defineProperties() {
 		putValue(SMALL_ICON, new ImageIcon(CleanSheets.class.
 				 getResource("ext/sort/sort_icon_2.png")));
@@ -77,40 +78,33 @@ public class SortAction extends BaseAction {
 	public void actionPerformed(ActionEvent e) {
 
 		this.spreadsheet = theController.getActiveSpreadsheet();
+		//testing purposes.
+		int index = 0; //only A sorting available
+		int order = 0; //or 1
 
-		int index = 5;
-		int order = 0;
-
-		//filtering empyy cells and cells content
 		List<String> valueList = new ArrayList<>();
-		List<String> resultList = new ArrayList<>();
 
-		int n = spreadsheet.getColumn(index).length; //gives the bigger column - breakpoint
+		int n = spreadsheet.getColumn(index).length;
 		System.out.println("Selected Column has: " + n + " Working Cells");
 
 		for (int i = 0; i < n; i++) {
-			//if not empty
 			if (!spreadsheet.getCell(index, i).getValue().toString().equals("")) {
-				//adds cell value to column.
 				valueList.add(spreadsheet.getCell(index, i).getValue().
 					toString());
 			}
 		}
-		resultList = this.sortController.order(valueList, order);
-
+		this.sortController.order(valueList, order);
 		int j = 0;
-		for (Cell c : theController.getActiveSpreadsheet().
-			getColumn(index)) {
+		for (Cell c : this.spreadsheet.getColumn(index)) {
 			if (!c.getValue().toString().equalsIgnoreCase("")) {
-				c.clear(); //clears the value of the cell.
+				c.clear();
 				try {
-					c.setContent(resultList.get(j));
+					c.setContent(valueList.get(j));
 				} catch (FormulaCompilationException exc) {
-					exc.printStackTrace();
+					//TODO: handling
 				}
 				j++;
 			}
 		}
-
 	}
 }

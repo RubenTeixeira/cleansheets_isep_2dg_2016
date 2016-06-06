@@ -5,7 +5,6 @@
  */
 package csheets.ext.sort;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,19 +20,13 @@ public class SortController {
 	 *
 	 * @param valueList
 	 * @param order
-	 * @return column sorted
 	 */
-	public List<String> order(List<String> valueList, int order) {
+	public void order(List<String> valueList, int order) {
 
-		//will the object be lost?
-		List<String> list = new ArrayList<>();
 		if (order == 0) { //ascending
 			Collections.sort(valueList);
-			list = valueList;
 		} else { //descending mode
 			Collections.reverse(valueList);
-			list = valueList;
 		}
-		return list;
 	}
 }
