@@ -20,7 +20,7 @@ public class ShareMenu extends JMenu {
 	 * @param shareController The share cells controller.
 	 */
 	public ShareMenu(UIController uiController,
-					 ShareTextFileController shareController) {
+					 ImportExportTextFileController shareController) {
 		super("Share");
 		setMnemonic(KeyEvent.VK_E);
 

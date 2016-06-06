@@ -19,7 +19,7 @@ import javax.swing.JMenu;
  * @see UIExtension
  * @author José Barros
  */
-public class UIExtensionShareTextFile extends UIExtension {
+public class UIExtensionImportExportTextFile extends UIExtension {
 
 	/**
 	 * The icon to display with the extension's name
@@ -39,7 +39,7 @@ public class UIExtensionShareTextFile extends UIExtension {
 	/**
 	 * Controller.
 	 */
-	private ShareTextFileController shareController;
+	private ImportExportTextFileController shareController;
 
 	/**
 	 * The menu of the extension
@@ -47,7 +47,7 @@ public class UIExtensionShareTextFile extends UIExtension {
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-	public UIExtensionShareTextFile(Extension extension, UIController uiController) {
+	public UIExtensionImportExportTextFile(Extension extension, UIController uiController) {
 		super(extension, uiController);
 	}
 
@@ -73,7 +73,7 @@ public class UIExtensionShareTextFile extends UIExtension {
 	public JMenu getMenu() {
 		if (menu == null) {
 			if (shareController == null) {
-				shareController = new ShareTextFileController();
+				shareController = new ImportExportTextFileController();
 			}
 			menu = new ShareMenu(uiController, shareController);
 		}
@@ -88,7 +88,7 @@ public class UIExtensionShareTextFile extends UIExtension {
 	public JComponent getSideBar() {
 		if (sideBar == null) {
 			if (shareController == null) {
-				shareController = new ShareTextFileController();
+				shareController = new ImportExportTextFileController();
 			}
 			sideBar = new SharePanel(uiController, shareController);
 		}
