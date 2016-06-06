@@ -70,18 +70,14 @@
  *
  * <h3>Search the workbook by name</h3>
  * The user introduces the name of workbook to search in the remote instance of
- * Cleansheets and waits reply of search.
+ * Cleansheets and waits reply of search. If workbook was find the system
+ * display a summary of the contents of the workbook. This summary include the
+ * name of the worksheets and the values of the first non-empty cells of each
+ * worksheet.
  *
  * <p>
  * <img src="#" alt="image">
  *
- * <h3>Display summary of search</h3>
- * If workbook was find the system display a summary of the contents of the
- * workbook. This summary include the name of the worksheets and the values of
- * the first non-empty cells of each worksheet.
- *
- * <p>
- * <img src="#" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
@@ -174,7 +170,7 @@
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -182,15 +178,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. Analysis use case and design.
  * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Implementation: List all instances. Send request for another instance and
+ * confirm.
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -198,30 +195,31 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. Implementation: List all instances. Send request for another instance and
+ * confirm.
  * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Search workbook by name in another instance <b>design</b>. Implementation.
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. Search workbook by name in another instance <b>design</b>. Implementation.
  * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Tests
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -287,7 +285,7 @@
  *
  * <h3>10.3. Technical Documentation:</h3>
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author José Barros 1140364@isep.ipp.pt
  */
 package csheets.worklog.n1140364.sprint2;
 
