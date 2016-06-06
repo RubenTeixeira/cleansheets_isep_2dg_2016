@@ -70,15 +70,14 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * Basically, for the development and after analysis, we test if a column index
- * it´s corretly converted for a letter in the xml file...
+ * Basically, for the development and after analysis, we test if the content of
+ * the cells of xml file it´s correct.
  *
  *
  * <h3>5.2. UC Realization</h3>
  *
- * For this use case it will be necessary to create a class that implements
- * Extension. Will be using a FileChooser to choose the type of file and the
- * directory where the file will be saved.
+ * Will be using a FileChooser to choose the type of file and the directory
+ * where the file will be saved.
  *
  * <b>Assign Operation Sequence Diagram</b>:
  * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
@@ -128,7 +127,7 @@
  * <p>
  * Today
  * </p>
- * 1. Design Lang08.1 - Export XML 2. Begin of Implementation
+ * 1. Design Lang08.1 - Export XML 2. Implementation
  * <p>
  * Blocking:
  * </p>
