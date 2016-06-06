@@ -87,23 +87,15 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
+ * functionality of this use case is to be able to send and receive messages.
  * <p>
- * see: <code>csheets.core.SpreadsheetTest</code>
+ * see: <code>csheets</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
+ * <code>csheets.ext.chatApp</code> we can find examples that illustrate how to
  * implement these technical requirements. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
  * <p>
@@ -136,7 +128,7 @@
  * <p>
  * Global Class Diagram
  * <p>
- * <img src="doc-files/ipc01_classDiagram.png" alt="image">
+ * <img src="doc-files/ipc05.1_classdiagram.png" alt="image">
  * <p>
  * Extension Class Diagram
  * <p>
@@ -211,43 +203,57 @@
  * <p>
  * Example
  * <p>
+ * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. sprint review
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Saturday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis of feature ipc05.1Chat Application
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1.-nothing-
+ * <p>
+ * <b>Sunday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing to report at moment-
+ * <p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. -nothing-
+ * 1. Analysis of feature ipc05.1 Chat Application
  * <p>
  * Today
  * <p>
- * 1. Configure the IDE to start working
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. Configure the IDE to start working
- * <p>
- * Today
- * <p>
- * 1. Design of IPC01.1 Start Sharing and help on first analysis
- * <p>
- * Blocking:
- * <p>
- * 1. Depend on first analysis
- * <p>
- * <b>Wednesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. Design of IPC01.1 Start Sharing
- * <p>
- * Today
- * <p>
- * 1. Study the architecture of application
+ * 1. Design of feature ipc05.1 Chat Application and start implementation
  * <p>
  * Blocking:
  * <p>
