@@ -23,7 +23,7 @@ loop : while connection != false
         Cell->UI: valueChanged(cell) / contentChanged(cell)
         UI->Controller: sendCell(cell)
         Controller->TcpClient: send("cell", "address", data)
-        note left of TcpClient: data = value + style
+        note left of TcpClient: data = data = Column;Line;Type;Value;FontName;FontStyle;FontSize;HAlignment;VAlignment;fgColor;bgColor
     end
     
     TcpServer->UI: update
