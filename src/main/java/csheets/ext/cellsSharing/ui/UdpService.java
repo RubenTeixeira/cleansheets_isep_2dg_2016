@@ -37,9 +37,9 @@ public class UdpService extends Notifier {
 					@Override
 					public void run(Map<String, Object> args) {
 
-//						if (server.same(args.get("from"))) {
-//							return;
-//						}
+						if (server.same(args.get("from"))) {
+							return;
+						}
 						// Destination = Target's IP and Port
 						String destination = ((String) args.get("from")).split(":")[0] + ":" + localPort;
 
