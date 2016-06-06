@@ -7,43 +7,83 @@ public class Action {
     /**
      * Executes a action.
      * 
-     * @param args Arguments passed into the action.
+     * <p>Sample declaration of a Action:</p>
      * 
-     * Sample declaration of a Action:
-     * 
-     * ```code
+     * <pre>
+     * <code>
      * server.expect(":route", new Action() {
-     *     @Override
-     *     public void run(Map<String, Object> args) {
+     *     &#64;Override
+     *     public void run(Map&lt;String, Object&gt; args) {
      *         // ...
      *     }
      * });
-     * ```
+     * </code>
+     * </pre>
      * 
-     * Reserved arguments (UDP):
+     * <p>Reserved arguments for <strong>UDP</strong> Protocol:</p>
      * 
-     * Name      Type           Description
+     * <table>
+     * <tr>
+     * <th>Name</th>
+     * <th>Type</th>
+     * <th>Description</th>
+     * </tr>
+     * <tr>
+     * <td>message</td>   <td>String</td>      <td>Gives the request from the client.</td>
+     * </tr>
+     * <tr>
+     * <td>length</td>    <td>String</td>      <td>Message length.</td>
+     * </tr>
+     * <tr>
+     * <td>from</td>      <td>String</td>      <td>Shows who made the request (IPv4:Port).</td>
+     * </tr>
+     * <tr>
+     * <td>packets</td>   <td>String</td>      <td>Shows the number of total packets read.</td>
+     * </tr>
+     * <tr>
+     * <td>hostname</td>  <td>String</td>      <td>Host name of the request sender.</td>
+     * </tr>
+     * <tr>
+     * <td>address</td>   <td>InetAddress</td> <td>Gives the InetAddress of the request sender.</td>
+     * </tr>
+     * </table>
      * 
-     * message   :String      - Gives the request from the client.
-     * length    :String      - Message length.
-     * from      :String      - Shows who made the request (IPv4:Port).
-     * packets   :String      - Shows the number of total packets read.
-     * hostname  :String      - Host name of the request sender.
-     * address   :InetAddress - Gives the InetAddress of the request sender.
+     * <p>Reserved arguments for <strong>TCP</strong> Protocol</p>
      * 
+     * <table>
+     * <tr>
+     * <th>Name</th>
+     * <th>Type</th>
+     * <th>Description</th>
+     * </tr>
      * 
-     * Reserved arguments (TCP):
+     * <tr>
+     * <td>route</td>     <td>String</td>         <td>Route that the request matched.</td>
+     * </tr>
+     * <tr>
+     * <td>length</td>    <td>String</td>         <td>Message length.</td>
+     * </tr>
+     * <tr>
+     * <td>message</td>   <td>String</td>         <td>Message received.</td>
+     * </tr>
+     * <tr>
+     * <td>from</td>      <td>String</td>         <td>Request sender IPv4:Port.</td>
+     * </tr>
+     * <tr>
+     * <td>hostname</td>  <td>String</td>         <td>Host name of the request sender.</td>
+     * </tr>
+     * <tr>
+     * <td>input</td>     <td>BufferedReader</td> <td>Input Stream connected to the request sender.</td>
+     * </tr>
+     * <tr>
+     * <td>output</td>    <td>PrintWriter</td>    <td>Output Stream connected to the request sender.</td>
+     * </tr>
+     * <tr>
+     * <td>socket</td>    <td>Socket</td>         <td>Socket connected to the request sender.</td>
+     * </tr>
+     * </table>
      * 
-     * Name      Type              Description
-     * 
-     * route     :String         - Route that the request matched.
-     * length    :String         - Message length.
-     * message   :String         - Message received.
-     * from      :String         - Request sender IPv4:Port.
-     * hostname  :String         - Host name of the request sender.
-     * input     :BufferedReader - Input Stream connected to the request sender.
-     * output    :PrintWriter    - Output Stream connected to the request sender.
-     * socket    :Socket         - Socket connected to the request sender.
+     * @param args Arguments passed into the action.
      */
     public void run(Map<String, Object> args) {}
     
