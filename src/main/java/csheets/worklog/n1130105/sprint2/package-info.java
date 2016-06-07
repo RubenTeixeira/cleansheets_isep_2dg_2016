@@ -1,5 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1130105) Carlos Mateus during week2.
+ * Technical documentation regarding the work of the team member (1130105)
+ * Carlos Mateus during week2.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -48,6 +49,7 @@
  *
  * <p>
  * <b>Use Case "Find Workbooks":</b>
+ * <p>
  * The extension should add a new window (sidebar) to search for workbook ﬁles
  * in the local ﬁle system. The user should be able to enter the name of a
  * directory of the ﬁle system to be used as the root of the search. The search

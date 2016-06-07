@@ -40,11 +40,12 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	 */
 	public ChatApplicationPanel(UIController uiController,
 								ChatAppController chatAppController) {
-		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
+
 		this.uiController = uiController;
 		this.chatAppController = chatAppController;
 		setName(ChatAppExtension.NAME);
 		initComponents();
+		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
 		Notification.messageInformer().addObserver(this);
 	}
 
