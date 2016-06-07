@@ -9,4 +9,6 @@ public interface RepositoryFactory {
 	ContactRepository contacts();
 
 	EventRepository events();
+        
+        ReminderRepository reminders();
 }
