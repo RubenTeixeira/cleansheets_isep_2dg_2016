@@ -19,10 +19,8 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"NAME", "TEXT", "COLOR"})})
+	@UniqueConstraint(columnNames = {"NAME"})})
 public class Calendar implements Serializable {
-
-	private Contact m_contact;
 
 	@Id
 	@GeneratedValue
@@ -33,6 +31,9 @@ public class Calendar implements Serializable {
 	private String text;
 	private String color;
 
+	protected Calendar() {
+	}
+
 	public Calendar(String name, String text, String color, Contact contato) {
 		this.name = name;
 		this.text = text;
@@ -41,11 +42,11 @@ public class Calendar implements Serializable {
 	}
 
 	public Contact getM_contact() {
-		return m_contact;
+		return m_Contact;
 	}
 
 	public void setM_contact(Contact m_contact) {
-		this.m_contact = m_contact;
+		this.m_Contact = m_contact;
 	}
 
 	public Long getId() {
