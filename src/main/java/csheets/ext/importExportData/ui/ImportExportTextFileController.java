@@ -21,8 +21,8 @@ public class ImportExportTextFileController {
 
 		Cell[][] textCells = nTextCells(lines, separator);
 
-		return textCells.length == cells.length
-			&& textCells[0].length == cells[0].length;
+		return textCells.length <= cells.length
+			&& textCells[0].length <= cells[0].length;
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class ImportExportTextFileController {
 			int r = cells[0][0].getAddress().getRow();
 			int c = cells[0][0].getAddress().getColumn();
 			Cell cell = cells[0][0].getSpreadsheet().getCell(c, r);
-			for (int i = 0; 0 < lines.length; i++) {
+			for (int i = 0; i < lines.length; i++) {
 				String[] col = lines[i].split(separator);
 				for (int j = 0; j < col.length; j++) {
 					cell.setContent(col[j]);
