@@ -94,7 +94,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30602", "check");
+											 send(":broadcast", "all:30604", "check");
 									 }
 								 };
 
