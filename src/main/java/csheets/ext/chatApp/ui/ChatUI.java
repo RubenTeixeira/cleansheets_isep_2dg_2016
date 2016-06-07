@@ -5,6 +5,7 @@
  */
 package csheets.ext.chatApp.ui;
 
+import csheets.notification.Notification;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -93,6 +94,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		this.chatAppController.
 			startUdpService(this, defaultPort, defaultSeconds);
 		this.chatAppController.startTcpService(this, defaultPort);
+		Notification.messageInformer().addObserver(this);
 		this.setVisible(true);
 	}
 

@@ -3,6 +3,7 @@ package csheets.ext.chatApp.ui;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
+import csheets.notification.Notification;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.util.LinkedHashMap;
@@ -43,7 +44,9 @@ public class TcpService extends Notifier {
 													   put("message", (String) args.
 														   get("message"));
 
-												   notifyChange(mapMessage);
+												   Notification.
+													   messageInformer().
+													   notifyChange(mapMessage);
 											   }
 										   });
 
