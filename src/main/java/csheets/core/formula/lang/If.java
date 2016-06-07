@@ -28,43 +28,53 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that emulates the if-then-else statement.
+ *
  * @author Einar Pehrson
  */
 public class If implements Function {
 
-	/** The function's three parameters: condition, result and alternative */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
-			"A condition to evaluate before proceeding"),
-		new FunctionParameter(Value.Type.UNDEFINED, "Then", false,
-			"A value to return if the condition was met"),
-		new FunctionParameter(Value.Type.UNDEFINED, "Else", true,
-			"A value to return otherwise")
-	};
+    /**
+     * The function's three parameters: condition, result and alternative
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
+        "A condition to evaluate before proceeding"),
+        new FunctionParameter(Value.Type.UNDEFINED, "Then", false,
+        "A value to return if the condition was met"),
+        new FunctionParameter(Value.Type.UNDEFINED, "Else", true,
+        "A value to return otherwise")
+    };
 
-	/**
-	 * Creates a new instance of the IF function.
-	 */
-	public If() {}
+    /**
+     * Creates a new instance of the IF function.
+     */
+    public If() {
+    }
 
-	public String getIdentifier() {
-		return "IF";
-	}
+    public String getIdentifier() {
+        return "IF";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		if (arguments[0].evaluate().toBoolean())
-			return arguments[1].evaluate();
-		else if (arguments.length == 3)
-			return arguments[2].evaluate();
-		else
-			return new Value();
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        if (arguments[0].evaluate().toBoolean()) {
+            return arguments[1].evaluate();
+        } else if (arguments.length == 3) {
+            return arguments[2].evaluate();
+        } else {
+            return new Value();
+        }
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return false;
-	}
+    public boolean isVarArg() {
+        return false;
+    }
+
+    @Override
+    public String getDescription() {
+        return "A function that emulates the if-then-else statement.";
+    }
 }

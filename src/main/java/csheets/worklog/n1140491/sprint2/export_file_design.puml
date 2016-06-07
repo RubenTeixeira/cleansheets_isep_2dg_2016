@@ -1,0 +1,18 @@
+@startuml doc-files/export_file_design_image.png
+
+actor User
+participant "<<analysis>>\nExportFileUI" as ExportFileUI
+participant "<<analysis>>\nExportFileController" as ExportFileController
+participant "<<analysis>>\nUI" as UI
+
+User->ExportFileUI: Export File
+ExportFileUI->ExportFileController: content = getContent(cells, separator, header)
+ExportFileController->TxtParser: create
+ExportFileController->TxtParser: content = ExportTextFileStrategy()
+TxtParser->ExportTextFileStrategy: create
+TxtParser->ExportTextFileStrategy: parse()
+ExportFileUI->ExportFileController: export(content, path)
+
+ExportFileUI->User: Exported successfully
+
+@enduml

@@ -60,6 +60,9 @@
  * instance</b>:
  * <img src="doc-files/ip07.1_getInstances.png" alt="SD">
  *
+ * <b>Sequence Diagram - Create an extension</b>:
+ * <img src=".png" alt="SD">
+ *
  * <h3>5.3. Classes</h3>
  *
  *
@@ -114,15 +117,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. Did the requirements. 2. Did the analyses. 3. Clarified some doubts of the
+ * first analyses with my colleagues.
  * <p>
  * Today
  * <p>
- * 1. ........
+ * 1. Design. 2. Implement the extension.
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
+ * 1.nothing.
  * <p>
  * <b>Tuesday</b>
  * <p>

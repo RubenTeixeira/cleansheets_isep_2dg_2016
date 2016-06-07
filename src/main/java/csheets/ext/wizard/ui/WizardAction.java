@@ -28,10 +28,12 @@ public class WizardAction extends BaseAction {
 		this.uiController = uiController;
 	}
 
+        @Override
 	protected String getName() {
 		return "Wizard to help the use of functions.";
 	}
 
+        @Override
 	protected void defineProperties() {
 		putValue(SMALL_ICON, new ImageIcon(CleanSheets.class.
 				 getResource("ext/wizard/wizard-icon.png")));
@@ -44,6 +46,7 @@ public class WizardAction extends BaseAction {
 	 *
 	 * @param event the event that was fired
 	 */
+        @Override
 	public void actionPerformed(ActionEvent event) {
 
 		// Lets user select a font

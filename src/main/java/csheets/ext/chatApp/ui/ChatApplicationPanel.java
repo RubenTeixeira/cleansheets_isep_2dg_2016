@@ -18,7 +18,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class ChatApplicationPanel extends javax.swing.JPanel implements Observer {
 
+	/**
+	 * Chat App Controller
+	 */
 	private ChatAppController chatAppController;
+	/**
+	 * User interface controller
+	 */
 	private UIController uiController;
 
 	/**
@@ -39,15 +45,14 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
 			String message = (String) arg;
+
 			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
-		} else {
-//			//clearEventList();
-//			for (Event event : this.controller.allEvents()) {
+
 			DefaultMutableTreeNode root = (DefaultMutableTreeNode) MessagesTree.
 				getModel().getRoot();
 
 			root.add(new DefaultMutableTreeNode(arg));
-//			}
+
 			this.revalidate();
 			this.repaint();
 		}
@@ -62,11 +67,11 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
+        chatApplicationPanel = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         MessagesTree = new javax.swing.JTree();
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Messages History"));
+        chatApplicationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Messages History"));
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Messages");
         MessagesTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -83,19 +88,20 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
         });
         jScrollPane2.setViewportView(MessagesTree);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout chatApplicationPanelLayout = new javax.swing.GroupLayout(chatApplicationPanel);
+        chatApplicationPanel.setLayout(chatApplicationPanelLayout);
+        chatApplicationPanelLayout.setHorizontalGroup(
+            chatApplicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatApplicationPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE)
+        chatApplicationPanelLayout.setVerticalGroup(
+            chatApplicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatApplicationPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -103,17 +109,11 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(chatApplicationPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(chatApplicationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -135,7 +135,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTree MessagesTree;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel chatApplicationPanel;
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

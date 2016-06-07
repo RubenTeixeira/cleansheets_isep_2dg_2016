@@ -22,7 +22,6 @@ package csheets.ext.style.ui;
 
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
-import csheets.ext.style.ui.conditionalFormatting.ui.ConditionalFormattingAction;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
@@ -96,8 +95,6 @@ public class StyleToolBar extends JToolBar implements SelectionListener {
 		hAlignButtons.put(SwingConstants.RIGHT, addToggleButton(
 						  new AlignRightAction(uiController), hAlignGroup));
 
-		//Adds conditional formatting actions
-		add(new ConditionalFormattingAction(uiController));
 	}
 
 	/**

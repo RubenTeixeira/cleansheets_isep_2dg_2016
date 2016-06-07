@@ -2,14 +2,24 @@ package csheets.ext.importExportData.ui;
 
 import csheets.core.Cell;
 import csheets.core.formula.compiler.FormulaCompilationException;
-import csheets.ext.importExportData.FileHandler;
+import csheets.ext.importExportData.parsers.FileHandler;
+import csheets.ext.importExportData.parsers.TxtParser;
+import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
+import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ui.ctrl.UIController;
 import java.util.Map;
 
 public class ImportExportTextFileController {
 
-	public boolean hasEnoughCells(String path, String separator, Cell[][] cells) {
-		Cell[][] textCells = nTextCells(path, separator);
+	public boolean hasEnoughCells(String path, String separator,
+								  Cell[][] cells) {
+
+		TxtParser txtParser = new TxtParser(new FileHandler());
+		String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
+			with(path).
+			parse());
+
+		Cell[][] textCells = nTextCells(lines, separator);
 
 		return textCells.length == cells.length
 			&& textCells[0].length == cells[0].length;
@@ -23,9 +33,10 @@ public class ImportExportTextFileController {
 	public Cell[][] parse(String path, String separator, boolean header,
 						  Cell[][] cells) throws FormulaCompilationException {
 
-		FileHandler fh = new FileHandler();
-		String[] lines = fh.getLines(path);
-		Cell[][] textCells = nTextCells(path, separator);
+		TxtParser txtParser = new TxtParser(new FileHandler());
+		String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
+			with(path).parse());
+		Cell[][] textCells = nTextCells(lines, separator);
 
 		if (header == true) {
 			cells[0][0].setContent(lines[0]);
@@ -65,9 +76,7 @@ public class ImportExportTextFileController {
 		return textCells;
 	}
 
-	private Cell[][] nTextCells(String path, String separator) {
-		FileHandler fh = new FileHandler();
-		String[] lines = fh.getLines(path);
+	private Cell[][] nTextCells(String[] lines, String separator) {
 		int maxColumns = 0;
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].split(separator).length > maxColumns) {
@@ -77,8 +86,11 @@ public class ImportExportTextFileController {
 		return new Cell[lines.length][maxColumns];
 	}
 
-	public boolean exportFile(String content, String filename, Cell[][] cells) {
+	public boolean exportFile(String filename, Cell[][] cells, String separator) {
 		FileHandler fh = new FileHandler();
+
+		String content = new TxtEncoder().getContent(cells, separator);
+
 		if (fh.createFile(filename)) {
 			return fh.append(filename, content);
 		}

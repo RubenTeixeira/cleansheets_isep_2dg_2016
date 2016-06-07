@@ -4,7 +4,7 @@ import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
 
-class OptionsAction extends BaseAction {
+class ChatAction extends BaseAction {
 
 	/**
 	 * The user interface controller
@@ -21,7 +21,7 @@ class OptionsAction extends BaseAction {
 	 *
 	 * @param uiController the user interface controller
 	 */
-	public OptionsAction(UIController uiController,
+	public ChatAction(UIController uiController,
 						 ChatAppController chatAppController) {
 		this.uiController = uiController;
 		this.chatAppController = chatAppController;

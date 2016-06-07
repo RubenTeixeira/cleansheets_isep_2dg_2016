@@ -28,52 +28,65 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the numeric average of its arguments.
+ *
  * @author Einar Pehrson
  */
 public class Average implements Function {
 
-	/** The only (but repeatable) parameter: a numeric term */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.NUMERIC, "Term", false,
-			"A number to be included in the average")
-	};
+    /**
+     * The only (but repeatable) parameter: a numeric term
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.NUMERIC, "Term", false,
+        "A number to be included in the average")
+    };
 
-	/**
-	 * Creates a new instance of the AVERAGE function.
-	 */
-	public Average() {}
+    /**
+     * Creates a new instance of the AVERAGE function.
+     */
+    public Average() {
+    }
 
-	public String getIdentifier() {
-		return "AVERAGE";
-	}
+    public String getIdentifier() {
+        return "AVERAGE";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		double count = 0;
-		double sum = 0;
-		for (Expression expression : arguments) {
-			Value value = expression.evaluate();
-			if (value.getType() == Value.Type.NUMERIC) {
-				count++;
-				sum += value.toDouble();
-			} else if (value.getType() == Value.Type.MATRIX)
-				for (Value[] vector : value.toMatrix()) {
-					for (Value item : vector)
-						if (item.getType() == Value.Type.NUMERIC) {
-							count++;
-						 	sum += item.toDouble();
-						} else
-						 	throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
-			} else
-				throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
-		}
-		return new Value(sum / count);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        double count = 0;
+        double sum = 0;
+        for (Expression expression : arguments) {
+            Value value = expression.evaluate();
+            if (value.getType() == Value.Type.NUMERIC) {
+                count++;
+                sum += value.toDouble();
+            } else if (value.getType() == Value.Type.MATRIX) {
+                for (Value[] vector : value.toMatrix()) {
+                    for (Value item : vector) {
+                        if (item.getType() == Value.Type.NUMERIC) {
+                            count++;
+                            sum += item.toDouble();
+                        } else {
+                            throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
+                        }
+                    }
+                }
+            } else {
+                throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
+            }
+        }
+        return new Value(sum / count);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    public boolean isVarArg() {
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "A function that returns the numeric average of its arguments.";
+    }
 }

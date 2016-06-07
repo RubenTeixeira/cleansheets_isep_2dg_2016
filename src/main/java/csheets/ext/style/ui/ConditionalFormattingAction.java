@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.style.ui.conditionalFormatting.ui;
+package csheets.ext.style.ui;
 
+import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
@@ -20,13 +21,14 @@ public class ConditionalFormattingAction extends FocusOwnerAction {
 	 * The user interface controller
 	 */
 	private UIController uiController;
+	private ConditionalFormattingExtension conditionalFormattingExtension;
 
 	public ConditionalFormattingAction(UIController uiController) {
 		this.uiController = uiController;
 	}
 
 	protected String getName() {
-		return "Conditional Formatting...";
+		return "Conditional Formatting";
 	}
 
 	protected void defineProperties() {
@@ -36,8 +38,7 @@ public class ConditionalFormattingAction extends FocusOwnerAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		ConditionalFormattingUI conditionalFormattingUI = new ConditionalFormattingUI(uiController);
-		conditionalFormattingUI.run();
+		conditionalFormattingExtension = new ConditionalFormattingExtension();
 
 	}
 

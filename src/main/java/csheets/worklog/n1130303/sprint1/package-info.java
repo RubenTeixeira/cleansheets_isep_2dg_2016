@@ -24,19 +24,19 @@
  * each one.
  *
  * <p>
- * <b>Use Case "Contact Edition":</b> A sidebar window that provides
- * functionalities for creating, editing and removing contacts. Each contact
- * should have a first and last name and also a photograph. Each contact should
- * also have one agenda in which events related to the contact should be
- * displayed. For the moment, events have only a due date (i.e., timestamp) and
- * a textual description. It should be possible to create, edit and remove
- * events. The agenda may be displayed in a different sidebar. This sidebar
- * should display a list of all events: past, present and future. One of the
- * contacts should be the user of the session in the computer where Cleansheets
- * is running. If this user has events then, when their due date arrives,
- * Cleansheets should display a popup window notifying the user about the
- * events. This popup window should automatically disappear after a small time
- * interval (e.g., 5 seconds).
+ * <b>Use Case "Contact Edition":</b>
+ * A sidebar window that provides functionalities for creating, editing and
+ * removing contacts. Each contact should have a first and last name and also a
+ * photograph. Each contact should also have one agenda in which events related
+ * to the contact should be displayed. For the moment, events have only a due
+ * date (i.e., timestamp) and a textual description. It should be possible to
+ * create, edit and remove events. The agenda may be displayed in a different
+ * sidebar. This sidebar should display a list of all events: past, present and
+ * future. One of the contacts should be the user of the session in the computer
+ * where Cleansheets is running. If this user has events then, when their due
+ * date arrives, Cleansheets should display a popup window notifying the user
+ * about the events. This popup window should automatically disappear after a
+ * small time interval (e.g., 5 seconds).
  *
  *
  * <h2>4. Analysis</h2>
@@ -90,9 +90,9 @@
  *
  * <h3>5.2. UC Realization</h3>
  * <p>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
+ * To accomplish this user story we will need to create a subclass of Extension.
+ * We will also need to create a subclass of UIExtension. For the sidebar we
+ * need to implement a JPanel. In the code of the extension
  * <code>csheets.ext.style</code> we can find examples that illustrate how to
  * implement these technical requirements. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
@@ -124,7 +124,7 @@
  * </p>
  * <h3>5.3. Classes</h3>
  *
- * TODO: class diagram!
+ * <img src="doc-files/crm01_01_design_class_diagram.png" alt="image">
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
@@ -144,7 +144,7 @@
  * commits of your work-
  * </p>
  * see:
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
+ * <a href="../../../../csheets/persistence/package-summary.html">csheets.persistence</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -156,39 +156,57 @@
  * <h2>8. Final Remarks</h2>
  *
  * <h2>9. Work Log</h2>
- * 
+ *
  * <p>
  * <b>Monday</b>
  * </p>
- * 1. Meeting with our supervisor and decided who were the Aea Leaders as well who was going to be Scrum Master.
+ * 1. Meeting with our supervisor and decided who were the Aea Leaders as well
+ * who was going to be Scrum Master.
  * <p>
  * Blocking:
  * </p>
  * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
- * </p>
+ * <p>
  * 1. Analysis of the UC, testing, designing and start the implementation
  * <p>
  * Blocking:
- * </p>
+ * <p>
  * 1. Nothing.
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * 1. Implementation of the events
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * 1. Presentation to the client
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * This sprint was very thight in time. He had to add the persistence framework,
+ * design our solution, implement it and deal with swing design (UI) to make
+ * things prettier.
+ *
+ * Overall it was a good sprint because we accomplished our requirements with
+ * what we think it was a good solution.
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
  * </p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * Since it was a feature with a lot of things added to the code I generated a
+ * lot of commits. It's easier to check commits from 1130303.
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
