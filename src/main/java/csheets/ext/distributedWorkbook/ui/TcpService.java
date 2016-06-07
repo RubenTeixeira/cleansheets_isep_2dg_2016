@@ -61,8 +61,7 @@ public class TcpService extends Notifier {
 														   get("from")).
 														   split(":")[0] + ":" + port;
 													   server.
-														   send(":reply", destination, String.
-																valueOf(30601));
+														   send(":reply", destination, "30602");
 
 												   } else if (reply == JOptionPane.NO_OPTION) {
 													   receiveMessage = false;

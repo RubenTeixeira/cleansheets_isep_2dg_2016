@@ -5,8 +5,11 @@
  */
 package csheets.ext.calendar;
 
+import csheets.domain.Calendar;
 import csheets.domain.Contact;
 import csheets.ext.calendar.ui.CalendarMainPanel;
+import csheets.factory.CalendarFactory;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
 
@@ -36,4 +39,11 @@ public class CalendarController {
 		return PersistenceContext.repositories().contacts().all();
 	}
 
+	public Calendar createCalendar(String nome, String descripition,
+								   String color, Contact cont) throws DataIntegrityViolationException {
+		Calendar cal = CalendarFactory.
+			createCalendar(nome, descripition, color, cont);
+		PersistenceContext.repositories().calendars().add(cal);
+		return cal;
+	}
 }

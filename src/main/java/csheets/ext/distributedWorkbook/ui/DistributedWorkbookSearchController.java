@@ -19,10 +19,10 @@ public class DistributedWorkbookSearchController {
 	 */
 	private TcpService tcpService;
 
-	private final SearchWorkbook searchWorkbook;
+	private SearchWorkbook searchWorkbook;
 
-	public DistributedWorkbookSearchController(UIController ui) {
-		searchWorkbook = new SearchWorkbook(ui);
+	public void newSearch(UIController uiController) {
+		this.searchWorkbook = new SearchWorkbook(uiController);
 	}
 
 	void startUdpService(int port, int seconds) {
@@ -103,6 +103,14 @@ public class DistributedWorkbookSearchController {
 	}
 
 	/**
+	 * Stop both the UDP and TCP services.
+	 */
+	public void stopServices() {
+		this.tcpService.stop();
+		this.udpService.stop();
+	}
+
+	/**
 	 * Restarts both the UDP and TCP services.
 	 *
 	 * @param port The target port that is defined by the user.
@@ -118,6 +126,7 @@ public class DistributedWorkbookSearchController {
 
 	public void sendRequest(String target, String message) {
 		new TcpService().client(target, message);
+
 	}
 
 	public void setNameOfWorkbookToSearch(String name) {
@@ -132,7 +141,7 @@ public class DistributedWorkbookSearchController {
 		return searchWorkbook.result();
 	}
 
-//	public List<Spreadsheet> getWorksheets() {
-//		return searchWorkbook.worksheets();
-//	}
+	public String getWorkbookSummary() {
+		return searchWorkbook.getSummary();
+	}
 }
