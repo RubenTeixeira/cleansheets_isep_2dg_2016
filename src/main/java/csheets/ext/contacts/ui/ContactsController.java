@@ -40,7 +40,8 @@ public class ContactsController {
 	}
 
 	public Iterable<Contact> allContacts() {
-		return PersistenceContext.repositories().contacts().all();
+		//return PersistenceContext.repositories().contacts().all();
+		return null;
 	}
 
 	public Image contactPhoto(Contact contact) throws IOException {

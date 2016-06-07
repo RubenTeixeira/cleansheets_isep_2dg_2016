@@ -22,4 +22,14 @@ class InMemoryContactRepository extends InMemoryRepository<Contact, Long>
 	protected Long newPK(Contact entity) {
 		return ++nextID;
 	}
+
+	@Override
+	public Contact getByName(String name) {
+		for (Contact contact : this.all()) {
+			if (contact.name().equalsIgnoreCase(name)) {
+				return contact;
+			}
+		}
+		return null;
+	}
 }

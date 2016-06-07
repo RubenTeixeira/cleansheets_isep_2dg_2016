@@ -4,7 +4,6 @@ import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
-import java.awt.GridLayout;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,6 +37,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 		//((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
 		List<Contact> contacts = (List<Contact>) this.controller.allContacts();
 		Contact principal = null;
+		/*
 		for (Contact contact : this.controller.allContacts()) {
 			if (contact.name() == "") {
 				principal = contact;
@@ -48,6 +48,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 				layout.setRows(layout.getRows() + 1);
 			}
 		}
+		 */
 		if (principal != null) {
 			this.jPanelPrincipal.
 				add(new ContactsPanelSingle2(this.controller, principal));
