@@ -35,26 +35,9 @@ public class UIExtensionCondicionalFormatting extends UIExtension {
 	 */
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			if (conditionalFormatting == null) {
-				conditionalFormatting = new ConditionalFormattingController();
-			}
 			sideBar = new ConditionalFormattingUI(uiController);
 		}
 		return sideBar;
 	}
 
-//	/**
-//	 * Returns an icon to display with the extension's name. TODO CHANGE
-//	 * DIRECTORY
-//	 *
-//	 * @return an icon with a tree
-//	 */
-//	public Icon getIcon() {
-//		if (icon == null) {
-//			icon = new ImageIcon(
-//				ChatAppExtension.class.
-//				getResource("res/img/logo.gif"));
-//		}
-//		return icon;
-//	}
 }
