@@ -536,7 +536,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 
     @Override
     public void contentChanged(Cell cell) {
-        // Do nothing
+        this.controller.continuousSending(cell);
     }
 
     @Override
