@@ -30,6 +30,9 @@ public class UISort extends UIExtension {
 
 	/**
 	 * Creats UISortExtension.
+	 *
+	 * @param extension extension
+	 * @param uiController uiController
 	 */
 	public UISort(Extension extension, UIController uiController) {
 		super(extension, uiController);
