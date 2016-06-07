@@ -1,9 +1,7 @@
 package csheets.ext.reminder;
 
-import csheets.ext.events.*;
 import csheets.ext.Extension;
-import csheets.ext.events.ui.EventsPanel;
-import csheets.ext.reminder.ui.RemindersPanel;
+import csheets.ext.reminder.ui.ReminderPanel;
 import csheets.ext.simple.ui.ExampleMenu;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.CellDecorator;
@@ -107,7 +105,7 @@ public class UIExtensionReminder extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new RemindersPanel(uiController);
+			sideBar = new ReminderPanel(uiController);
 		}
 		return sideBar;
 	}

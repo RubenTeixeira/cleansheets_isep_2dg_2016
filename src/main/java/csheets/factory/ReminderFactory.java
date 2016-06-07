@@ -14,10 +14,11 @@ import java.util.Calendar;
  */
 public class ReminderFactory {
 
-    public ReminderFactory() {
-    }
-    
-    static public Reminder createReminder(String name,String dsc,Calendar tStp) {
-		return new Reminder(name,dsc,tStp);
+	public ReminderFactory() {
+	}
+
+	static public Reminder createReminder(String name, String dsc, Calendar tStp,
+										  boolean alert) {
+		return new Reminder(name, dsc, tStp, alert);
 	}
 }
