@@ -28,7 +28,6 @@ import javax.swing.JOptionPane;
 /**
  * A panel for share a cell
  *
- * @author José Barros
  */
 public class SharePanel extends javax.swing.JPanel implements CellListener, SelectionListener, Observer {
 
