@@ -5,20 +5,33 @@
  */
 package csheets.ext.conditionalFormatting.ui;
 
+import csheets.core.Cell;
+import csheets.core.IllegalValueTypeException;
+import csheets.core.Spreadsheet;
+import csheets.core.Value;
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
-import csheets.ui.ctrl.SelectionEvent;
-import csheets.ui.ctrl.SelectionListener;
+import csheets.ext.style.ui.FontAction;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Diogo Leite
  */
-public class ConditionalFormattingUI extends JPanel implements SelectionListener {
+public class ConditionalFormattingUI extends JPanel {
 
 	private final UIController uiController;
 	private final ConditionalFormattingController conditionalFormattingController;
+	/**
+	 * Cell selected
+	 */
+	private Cell cell;
 
 	/**
 	 * Creates new form ConditionalFormattingUI
@@ -31,7 +44,13 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
 		initComponents();
 		this.uiController = uiController;
 		this.conditionalFormattingController = new ConditionalFormattingController();
+
+		Workbook work = new Workbook(1);
+		Spreadsheet s = work.getSpreadsheet(0);
+		cell = s.getCell(0, 0);
+		this.jToolBar1.add(new FontAction(uiController));
 		this.setVisible(true);
+
 	}
 
 	/**
@@ -68,18 +87,24 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
         checkboxFBold = new javax.swing.JCheckBox();
         checkboxTItalic = new javax.swing.JCheckBox();
         checkboxFItalic = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        trueLabel = new javax.swing.JLabel();
+        falseLabel = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         textFieldFormula = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnConfirm = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        btnValidate1 = new javax.swing.JButton();
+        jToolBar1 = new javax.swing.JToolBar();
+        btnValidate = new javax.swing.JButton();
 
         setAlignmentY(0.1F);
 
         btnTFont.setText("choose");
+        btnTFont.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTFontActionPerformed(evt);
+            }
+        });
 
         btnFFont.setText("choose");
 
@@ -119,13 +144,20 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
 
         jLabel8.setText("Format");
 
-        jLabel9.setText("True");
+        trueLabel.setText("True");
 
-        jLabel10.setText("False");
+        falseLabel.setText("False");
 
         jLabel11.setText("Expression");
 
-        textFieldFormula.setText("formula");
+        btnValidate1.setText("Test");
+        btnValidate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidate1ActionPerformed(evt);
+            }
+        });
+
+        jToolBar1.setRollover(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,8 +186,11 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(checkboxTItalic)
-                            .addComponent(checkboxTBold))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(checkboxTBold)
+                                .addGap(65, 65, 65)
+                                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(btnFFont, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -173,14 +208,16 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel11)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textFieldFormula)
-                .addGap(62, 62, 62))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnValidate1)
+                .addGap(6, 6, 6))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(102, 102, 102)
-                .addComponent(jLabel9)
+                .addComponent(trueLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10)
+                .addComponent(falseLabel)
                 .addGap(38, 38, 38))
             .addComponent(jSeparator1)
             .addComponent(jSeparator2)
@@ -191,24 +228,26 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(textFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(textFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnValidate1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(trueLabel)
+                    .addComponent(falseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTFont)
                     .addComponent(btnFFont)
                     .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkboxTBold)
                     .addComponent(checkboxFBold)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkboxFItalic)
                     .addComponent(jLabel3)
@@ -242,9 +281,12 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        btnConfirm.setText("Confirm");
-
-        btnCancel.setText("Cancel");
+        btnValidate.setText("Apply");
+        btnValidate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidateActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -252,15 +294,12 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnConfirm)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel)
-                        .addGap(34, 34, 34))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(btnValidate)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,16 +307,59 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirm)
-                    .addComponent(btnCancel))
+                .addComponent(btnValidate)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTFontActionPerformed
+
+    }//GEN-LAST:event_btnTFontActionPerformed
+
+    private void btnValidateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidateActionPerformed
+
+    }//GEN-LAST:event_btnValidateActionPerformed
+
+    private void btnValidate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidate1ActionPerformed
+
+		if (!textFieldFormula.getText().isEmpty()) {
+
+			try {
+				// TODO add your handling code here:
+				cell.setContent(textFieldFormula.getText());
+			} catch (FormulaCompilationException ex) {
+				defaultLabelColor();
+			}
+
+			try {
+
+				if (cell.getValue().
+					isOfType(Value.Type.BOOLEAN)) {
+					if (cell.getValue().toBoolean()) {
+						trueLabel.setForeground(Color.red);
+						falseLabel.setForeground(Color.black);
+					} else {
+						trueLabel.setForeground(Color.black);
+						falseLabel.setForeground(Color.red);
+					}
+				} else {
+					defaultLabelColor();
+				}
+
+			} catch (IllegalValueTypeException ex) {
+				Logger.getLogger(ConditionalFormattingUI.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+		} else {
+			defaultLabelColor();
+		}
+    }//GEN-LAST:event_btnValidate1ActionPerformed
+
+	private void defaultLabelColor() {
+		trueLabel.setForeground(new JLabel().getForeground());
+		falseLabel.setForeground(new JLabel().getForeground());
+	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnConfirm;
     private javax.swing.JButton btnFAlign;
     private javax.swing.JButton btnFBackground;
     private javax.swing.JButton btnFBorder;
@@ -290,12 +372,14 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
     private javax.swing.JButton btnTFont;
     private javax.swing.JButton btnTForeground;
     private javax.swing.JButton btnTFormat;
+    private javax.swing.JButton btnValidate;
+    private javax.swing.JButton btnValidate1;
     private javax.swing.JCheckBox checkboxFBold;
     private javax.swing.JCheckBox checkboxFItalic;
     private javax.swing.JCheckBox checkboxTBold;
     private javax.swing.JCheckBox checkboxTItalic;
+    private javax.swing.JLabel falseLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -304,19 +388,12 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTextField textFieldFormula;
+    private javax.swing.JLabel trueLabel;
     // End of variables declaration//GEN-END:variables
 
-	public void run() {
-		this.setVisible(true);
-	}
-
-	@Override
-	public void selectionChanged(SelectionEvent event) {
-		//TODO
-	}
 }

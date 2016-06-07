@@ -15,3 +15,4 @@ csheets.ext.calendar.CalendarExtension
 csheets.ext.reminder.ReminderExtension
 csheets.ext.conditionalFormatting.ConditionalFormattingExtension
 csheets.ext.FindWorkbook.FindWorkbookExtension
+csheets.ext.notes.NotesExtension
