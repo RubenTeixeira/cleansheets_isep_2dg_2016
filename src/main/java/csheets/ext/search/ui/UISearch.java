@@ -37,15 +37,15 @@ public class UISearch extends UIExtension {
 		super(extension, uiController);
 	}
 
-	@Override
-	public Icon getIcon() {
-		return null;
-	}
-
+	/**
+	 * Returns a side bar that gives access to search functionality.
+	 *
+	 * @return a component, or null if the extension does not provide one
+	 */
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new SearchBar(uiController);
+			sideBar = new SearchPanel(uiController);
 		}
 		return sideBar;
 	}
