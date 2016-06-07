@@ -81,6 +81,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		//TODO
 
 		initComponents();
+		this.getRootPane().setDefaultButton(btnSend);
 		txtMessage.setText("Type here...");
 		uiController.addSelectionListener(this);
 
@@ -156,9 +157,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -200,7 +201,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 				btnSend.setEnabled(false);
 			} else {
 				btnSend.setEnabled(true);
-				host = usersList.getSelectedValue();
+				String hostValues[] = usersList.getSelectedValue().split("-");
+				host = hostValues[0];
 			}
 		}
     }//GEN-LAST:event_usersListValueChanged
@@ -214,7 +216,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		}
 		try {
 			receiveListModel.
-				addElement(InetAddress.getLocalHost().getHostName() + ":" + message);
+				addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
 		} catch (UnknownHostException ex) {
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -225,6 +227,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private void txtMessageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusLost
 		if (txtMessage.getText().isEmpty()) {
 			txtMessage.setText("Type here...");
+			btnSend.setEnabled(false);
+		} else {
+			btnSend.setEnabled(true);
 		}
     }//GEN-LAST:event_txtMessageFocusLost
 
@@ -245,13 +250,23 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
-			if (!instanceListModel.contains(address)) {
-				instanceListModel.addElement(address);
-
-				manager.after(4).once(new Task() {
+			if (instanceListModel.contains(address + "-(offline)")) {
+				instanceListModel.removeElement(address + "-(offline)");
+				instanceListModel.addElement(address + "-(online)");
+			} else if (!instanceListModel.contains(address + "-(online)")) {
+				instanceListModel.addElement(address + "-(online)");
+				manager.after(8).once(new Task() {
+					@Override
 					public void fire() {
-						instanceListModel.removeElement(address);
-						usersList.setModel(instanceListModel);
+						while (instanceListModel.elements().nextElement() != null) {
+							if (instanceListModel.elements().nextElement().
+								equals(address + "-(online)")) {
+								instanceListModel.
+									removeElement(address + "-(online)");
+								instanceListModel.
+									addElement(address + "-(offline)");
+							}
+						}
 					}
 				});
 			}
