@@ -41,10 +41,16 @@ public class ImportExportTextFileController {
 	 */
 	public Cell[][] parse(String path, String separator, boolean header,
 						  Cell[][] cells) throws FormulaCompilationException {
+		if (cells == null) {
+			return null;
+		}
 
 		TxtParser txtParser = new TxtParser(new FileHandler());
 		String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
 			with(path).parse());
+		if (lines == null) {
+			return null;
+		}
 		Cell[][] textCells = nTextCells(lines, separator);
 
 		if (header == true) {
@@ -92,6 +98,9 @@ public class ImportExportTextFileController {
 	 * @return
 	 */
 	private Cell[][] nTextCells(String[] lines, String separator) {
+		if (lines == null) {
+			return null;
+		}
 		int maxColumns = 0;
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].split(separator).length > maxColumns) {

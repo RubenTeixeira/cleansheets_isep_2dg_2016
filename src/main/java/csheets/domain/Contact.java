@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * This class is an AggregateRoot. Represents an domain entity Contact.
@@ -27,10 +26,9 @@ import javax.persistence.UniqueConstraint;
  * @author Rui Freitas
  */
 @Entity
+@Table(name = "CONTACT")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DISCRIMIN")
-@Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"NAME"})})
+@DiscriminatorColumn(name = "DISCRIMIN", discriminatorType = DiscriminatorType.STRING)
 public abstract class Contact implements Serializable {
 
 	@Id
@@ -41,7 +39,6 @@ public abstract class Contact implements Serializable {
 
 	@Basic(fetch = LAZY)
 	@Lob
-	@Column(name = "photo")
 	protected byte[] photo;
 
 	protected Contact() {
@@ -51,7 +48,6 @@ public abstract class Contact implements Serializable {
 		if (photo == null) {
 			throw new IllegalArgumentException();
 		}
-		this.name = name;
 		this.photo = photo;
 	}
 

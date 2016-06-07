@@ -15,6 +15,8 @@ public class Notification {
 	};
 	private static Notifier eventInformer = new Notifier() {
 	};
+	private static Notifier reminderInformer = new Notifier() {
+	};
 	private static Notifier extensionInformer = new Notifier() {
 	};
 	private static Notifier messageInformer = new Notifier() {
@@ -26,6 +28,10 @@ public class Notification {
 
 	public static Notifier eventInformer() {
 		return Notification.eventInformer;
+	}
+
+	public static Notifier reminderInformer() {
+		return Notification.reminderInformer;
 	}
 
 	public static Notifier extensionInformer() {
