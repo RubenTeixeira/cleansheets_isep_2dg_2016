@@ -15,25 +15,25 @@ import csheets.ui.ext.UIExtension;
  */
 public class ChatAppExtension extends Extension {
 
-    /**
-     * The name of extension
-     */
-    public static final String NAME = "Chat Application";
+	/**
+	 * The name of extension
+	 */
+	public static final String NAME = "Chat Application";
 
-    /**
-     * Creates a new Share extension.
-     */
-    public ChatAppExtension() {
-        super(NAME);
-    }
+	/**
+	 * Creates a new Share extension.
+	 */
+	public ChatAppExtension() {
+		super(NAME);
+	}
 
-    /**
-     * Returns the user interface extension of this extension
-     *
-     * @param uiController the user interface controller
-     * @return a user interface extension, or null if none is provided
-     */
-    public UIExtension getUIExtension(UIController uiController) {
-        return new UIExtensionChat(this, uiController);
-    }
+	/**
+	 * Returns the user interface extension of this extension
+	 *
+	 * @param uiController the user interface controller
+	 * @return a user interface extension, or null if none is provided
+	 */
+	public UIExtension getUIExtension(UIController uiController) {
+		return new UIExtensionChat(this, uiController);
+	}
 }

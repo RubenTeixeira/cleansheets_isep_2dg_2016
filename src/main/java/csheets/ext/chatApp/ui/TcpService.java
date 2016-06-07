@@ -28,17 +28,20 @@ public class TcpService extends Notifier {
 							 @Override
 							 public void run() {
 								 server = new TcpServer();
-
 								 server.expect(":chat", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   // Each cell has the following information:
-
 												   Map<String, String> mapMessage = new LinkedHashMap<>();
-												   String[] data = ((String) args.
-													   get("message")).
-													   split(";");
+												   mapMessage.
+													   put("hostname", (String) args.
+														   get("hostname"));
+												   mapMessage.
+													   put("from", (String) args.
+														   get("from"));
+												   mapMessage.
+													   put("message", (String) args.
+														   get("message"));
 
 												   notifyChange(mapMessage);
 											   }
@@ -61,7 +64,8 @@ public class TcpService extends Notifier {
 		ThreadManager.create("ipc.tcpClient", new Thread() {
 							 @Override
 							 public void run() {
-								 new TcpClient(0).send(":chat", target, message);
+								 new TcpClient(0).
+									 send(":chat", target, message);
 							 }
 						 });
 

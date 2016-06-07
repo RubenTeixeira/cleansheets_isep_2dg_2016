@@ -100,7 +100,8 @@ public class UdpService extends Notifier {
 
 								 TaskManager manager = new TaskManager();
 
-								 manager.after(3).every(seconds).fire(broadcast);
+								 manager.after(10).every(seconds).
+									 fire(broadcast);
 							 }
 						 });
 

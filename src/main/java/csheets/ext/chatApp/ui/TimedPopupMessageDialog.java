@@ -28,6 +28,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 		super(parent, true);
 		this.theController = controller;
 		this.message = message;
+		lblMessage.setText(message);
 		setTitle(title);
 		taskTimer = new Timer(TIME_VISIBLE, new ActionListener() {
 							  @Override
@@ -38,7 +39,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 						  });
 
 		taskTimer.start();
-
+		
 		setLocationRelativeTo(null);
 		setModal(true);
 		initComponents();
