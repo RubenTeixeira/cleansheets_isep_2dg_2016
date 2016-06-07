@@ -10,10 +10,13 @@ import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -24,58 +27,40 @@ import javax.persistence.UniqueConstraint;
  * @author Rui Freitas
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DISCRIMIN")
 @Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"FIRSTNAME", "LASTNAME"})})
-public class Contact implements Serializable {
+	@UniqueConstraint(columnNames = {"NAME"})})
+public abstract class Contact implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	protected Long id;
 
-	private Agenda agenda;
-
-	private String firstName;
-	private String lastName;
+	protected String name;
 
 	@Basic(fetch = LAZY)
 	@Lob
 	@Column(name = "photo")
-	private byte[] photo;
+	protected byte[] photo;
 
 	protected Contact() {
 	}
 
-	public Contact(String firstName, String lastName, byte[] photo) {
-		if (firstName == null || lastName == null) {
-			throw new IllegalArgumentException();
-
-		} else if (firstName.isEmpty() || lastName.isEmpty()) {
+	protected Contact(byte[] photo) {
+		if (photo == null) {
 			throw new IllegalArgumentException();
 		}
-
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.name = name;
 		this.photo = photo;
 	}
 
-	public String firstName() {
-		return this.firstName;
-	}
-
-	public String lastName() {
-		return this.lastName;
+	public String name() {
+		return name;
 	}
 
 	public byte[] photo() {
 		return this.photo;
-	}
-
-	public void changeFirstName(String name) {
-		this.firstName = name;
-	}
-
-	public void changeLastName(String name) {
-		this.lastName = name;
 	}
 
 	public void changePhoto(byte[] photo) {
@@ -84,15 +69,13 @@ public class Contact implements Serializable {
 
 	@Override
 	public String toString() {
-		return this.firstName + " - " + this.lastName;
+		return this.name;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 5;
-		hash = 29 * hash + Objects.hashCode(this.agenda);
-		hash = 29 * hash + Objects.hashCode(this.firstName);
-		hash = 29 * hash + Objects.hashCode(this.lastName);
+		hash = 29 * hash + Objects.hashCode(this.name);
 		hash = 29 * hash + Arrays.hashCode(this.photo);
 		return hash;
 	}
@@ -109,13 +92,7 @@ public class Contact implements Serializable {
 			return false;
 		}
 		final Contact other = (Contact) obj;
-		if (!this.firstName.equals(other.firstName)) {
-			return false;
-		}
-		if (!this.lastName.equals(other.lastName)) {
-			return false;
-		}
-		return !Arrays.equals(this.photo, other.photo);
+		return this.hashCode() == other.hashCode();
 	}
 
 }
