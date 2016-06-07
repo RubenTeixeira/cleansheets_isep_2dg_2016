@@ -1,7 +1,6 @@
 package csheets.ext.calendar.ui;
 
 import csheets.ext.calendar.CalendarController;
-import csheets.ext.events.EventsExtension;
 import csheets.ui.ctrl.UIController;
 import javax.swing.JOptionPane;
 
@@ -23,7 +22,7 @@ public class CalendarMainPanel extends javax.swing.JPanel {
 	public CalendarMainPanel(UIController uiController) {
 		this.m_cController = uiController;
 		this.controller = new CalendarController(uiController, this);
-		this.setName(EventsExtension.NAME);
+		this.setName(csheets.ext.calendar.CalendarExtension.NAME);
 		this.initComponents();
 		//this.controller = new EventsController(uiController, this);
 	}
