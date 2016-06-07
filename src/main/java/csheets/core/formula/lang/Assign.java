@@ -39,8 +39,7 @@ public class Assign implements BinaryOperator {
 			}
 			if (leftOperand instanceof VariableLocalReference) {
 				VariableLocalReference var = (VariableLocalReference) leftOperand;
-				((CellImpl) var.getCell()).
-					addVariables(var.getVariable(), value);
+				((CellImpl) var.getCell()).addVariable(var.getVariable(), value);
 			} else if (leftOperand instanceof CellReference) {
 				CellReference cell = (CellReference) leftOperand;
 				((CellImpl) cell.getCell()).setContent(value.toNumber() + "");

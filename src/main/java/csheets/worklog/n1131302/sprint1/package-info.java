@@ -1,5 +1,5 @@
 /**
- * Technical documentation regarding the work of the team member (1140263) Joao Martins during week1
+ * Technical documentation regarding the work of the team member (1131302) Gabriel Sousa during week1
  *
  * <p>
  * <b>Scrum Master: no</b>
@@ -33,7 +33,7 @@
  * existing one). The system saves the comment of the cell.
  * </p>
  *
- * <h2>4. ###TODO### Analysis</h2>
+ * <h2>4.  Analysis</h2>
  * <p>
  * Since comments on cells will be supported in a new extension to cleansheets
  * we need to study how extensions are loaded by cleansheets and how they work.

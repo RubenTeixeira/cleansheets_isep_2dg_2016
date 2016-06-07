@@ -95,7 +95,7 @@ public class VariableLocalReference implements Reference {
 	 * @param rowAbsolute if the column is denoted with an absolute reference
 	 */
 	public VariableLocalReference(Cell cell, boolean columnAbsolute,
-							 boolean rowAbsolute) {
+								  boolean rowAbsolute) {
 		this.cell = cell;
 		this.columnAbsolute = columnAbsolute;
 		this.rowAbsolute = rowAbsolute;
@@ -133,7 +133,7 @@ public class VariableLocalReference implements Reference {
 	}
 
 	public Value evaluate() {
-		return ((CellImpl) cell).getVariables(this.variable);
+		return ((CellImpl) cell).getVariable(this.variable);
 	}
 
 	public Object accept(ExpressionVisitor visitor) throws ExpressionVisitorException {

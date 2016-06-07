@@ -1,6 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1140780) Rúben
- * Teixeira during week1.
+ * Technical documentation regarding the work of the team member (1131399)
+ * Marcelo Barroso during week1.
  *
  * <p>
  * <b>Scrum Master: yes</b>

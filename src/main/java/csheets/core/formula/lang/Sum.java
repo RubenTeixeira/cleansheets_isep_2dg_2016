@@ -28,49 +28,62 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the numeric sum of its arguments.
+ *
  * @author Einar Pehrson
  */
 public class Sum implements Function {
 
-	/** The only (but repeatable) parameter: a numeric term */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.NUMERIC, "Term", false,
-			"A number to be included in the sum")
-	};
+    /**
+     * The only (but repeatable) parameter: a numeric term
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.NUMERIC, "Term", false,
+        "A number to be included in the sum")
+    };
 
-	/**
-	 * Creates a new instance of the SUM function.
-	 */
-	public Sum() {}
+    /**
+     * Creates a new instance of the SUM function.
+     */
+    public Sum() {
+    }
 
-	public String getIdentifier() {
-		return "SUM";
-	}
+    public String getIdentifier() {
+        return "SUM";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		double sum = 0;
-		for (Expression expression : arguments) {
-			Value value = expression.evaluate();
-			if (value.getType() == Value.Type.NUMERIC)
-			 	sum += value.toDouble();
-			else if (value.getType() == Value.Type.MATRIX)
-				for (Value[] vector : value.toMatrix()) {
-					for (Value item : vector)
-						if (item.getType() == Value.Type.NUMERIC)
-						 	sum += item.toDouble();
-						 else
-						 	throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
-			} else
-				throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
-		}
-		return new Value(sum);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        double sum = 0;
+        for (Expression expression : arguments) {
+            Value value = expression.evaluate();
+            if (value.getType() == Value.Type.NUMERIC) {
+                sum += value.toDouble();
+            } else if (value.getType() == Value.Type.MATRIX) {
+                for (Value[] vector : value.toMatrix()) {
+                    for (Value item : vector) {
+                        if (item.getType() == Value.Type.NUMERIC) {
+                            sum += item.toDouble();
+                        } else {
+                            throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
+                        }
+                    }
+                }
+            } else {
+                throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
+            }
+        }
+        return new Value(sum);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    public boolean isVarArg() {
+        return true;
+    }
+
+    @Override
+    public String getDescription() {
+        return "A function that returns the numeric sum of its arguments.";
+    }
 }

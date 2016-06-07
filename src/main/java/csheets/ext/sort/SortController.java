@@ -5,6 +5,11 @@
  */
 package csheets.ext.sort;
 
+import csheets.core.Cell;
+import csheets.core.Value;
+import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,17 +21,59 @@ import java.util.List;
 public class SortController {
 
 	/**
-	 * Handle Sorting.
-	 *
-	 * @param valueList
-	 * @param order
+	 * User Interface controller.
 	 */
-	public void order(List<String> valueList, int order) {
+	private UIController uiController;
 
-		if (order == 0) { //ascending
+	/**
+	 * Sorting List.
+	 */
+	private List<Value> valueList = new ArrayList<>();
+
+	/**
+	 * Column index.
+	 */
+	private int index;
+
+	public SortController(UIController controller) {
+		this.uiController = controller;
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
+	}
+
+	public void updateValueList() {
+		for (Cell c : this.uiController.getActiveSpreadsheet().
+			getColumn(this.index)) {
+			if (!c.getValue().toString().equals("")) {
+				valueList.add(c.getValue());
+			}
+		}
+	}
+
+	public void order(int order) {
+		if (order == 0) {
 			Collections.sort(valueList);
-		} else { //descending mode
+		} else {
+			Collections.sort(valueList);
 			Collections.reverse(valueList);
+		}
+	}
+
+	public void updateColumn() {
+		int j = 0;
+		for (Cell c : this.uiController.getActiveSpreadsheet().
+			getColumn(this.index)) {
+			if (!c.getValue().toString().equalsIgnoreCase("")) {
+				c.clear();
+				try {
+					c.setContent(valueList.get(j).toString());
+				} catch (FormulaCompilationException exc) {
+					//TODO: handling
+				}
+				j++;
+			}
 		}
 	}
 }

@@ -1,117 +1,123 @@
 /**
- * Technical documentation regarding the work of the team member (1140780) Rúben
- * Teixeira during week1.
+ * Technical documentation regarding the work of the team member (1131399)
+ * Marcelo Barroso during week2.
  *
  * <p>
  * <b>Scrum Master: yes</b>
- *
+ * </p>
  * <p>
  * <b>Area Leader: yes</b>
- *
- * <h2>1. Notes</h2>
- *
+ * </p>
  * <p>
- * On this sprint i spent most of the time analysing the project's architecture,
- * then i implemented and tested Assign operations but spent wednesday afternoon
- * helping my colleague Pedro Gomes implement InstructionBlock in order to be
- * able to advance to FOR() function implementation.
+ * <h2>1. Notes</h2>
+ * </p>
  *
- * <h2>2. Use Case/Feature: Lang01.1</h2>
+ * <h2>2. Use Case/Feature: CRM01.2</h2>
  *
  * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-27">LPFOURDG-27
- * Lang01.1- Block of Instructions</a>
- * My Sub-Task: Unallocated to be responsible for the main task.
- *
- * <h2>3.1 Requirement for InstructionBlock support</h2>
- * Add the possibility of writing blocks (or sequences) of instructions. A block
- * must be delimited by curly braces and its instructions must be separated by
- * ";". The instructions of a block are executed sequentially and the block
- * "result" is the result of the last statement of the block.
- *
- * <h2>3.2 Requirement for AssignmentOperation support</h2>
- * Add the possibility for assigning a value to a different cell than the one in
- * which the content is being edited.
- *
- * <p>
- * <b>Use Case 1 - "Assign a refrenced cell with a value":</b> The user selects
- * the cell where he/she wants to type an assignment operation, and then types
- * it. The system updates the referenced cell with the resulting value.
- *
- * <p>
- * <b>Use Case 2 - "Instruction block":</b> The user writes down a set of
- * instructions separated by a semi-colon and surrounded with bracket. The
- * system all the instructions returning the resulting value from the last
- * instruction.
- *
- * <h2>4.2 Analysis for AssignmentOperation support</h2>
- * Since an assignment differs from a BinaryOperation(Operand, Operator, Operand
- * ) aswell as from a UnaryOperation(Operator, operand), a new Operation must
- * emerge: AssignmentOperation(CellReference, Operator, Operand). This will
- * ensure the architecture will be ready for new assignment operations as such:
- * '*= += /= ...' The following class diagram shows how we intend to implement
- * this:
- * <p>
- * <img src="doc-files/class_analysis_lang01.1.png" alt="image">
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-76">LPFOURDG-76
+ * CRM01.2- Company Contact</a>
  * </p>
- * This approach was then abandoned, as our team agreed with the Area Leader
- * when he advised us not to extend the architecture yet, in favour of a more
- * conservative approach. This would allow us to have a working solution in a
- * more timely manner.
- *
- *
- * <h3> First "analysis" sequence diagram UC1 - Instruction Block</h3>
  *
  * <p>
- * <img src="doc-files/lang01.1_Instructions_block_sd_analysis.png" alt="Analysis">
+ * <h2>3 Requirement</h2>
+ * A contact may also be a company. If a contact is a company then it has a name
+ * (no first and no last name). A person contact may now be related to a company
+ * contact. A person contact may have also a profession. The profession should
+ * be selected from a list. The list of professions should be loaded (and/or
+ * updated) from a external xml file or an existing configuration file of
+ * Cleansheets. The window for company contacts should display all the person
+ * contacts that are related to it. The company window should also have an
+ * agenda. The agenda of a company should be read only and display all the
+ * events of the individual contacts that are related to it.
+ * </p>
  *
+ * <p>
+ * <h2>4. Analysis</h2>
+ * Since contacts will be supported in a new extension to cleansheets we need to
+ * study how extensions are loaded by cleansheets and how they work. The first
+ * sequence diagram in the section
+ * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
+ * Startup</a> tells us that extensions must be a subclass of the Extension
+ * abstract class and need to be registered in special files. The Extension
+ * class has a method called getUIExtension that should be implemented and
+ * return an instance of a class that is a subclass of UIExtension. In this
+ * subclass of UIExtension there is a method (getSideBar) that returns the
+ * sidebar for the extension. A sidebar is a JPanel.
+ * </p>
+ *
+ * <p>
+ * After understanding how extensions are created, we proceded to our use case
+ * analysis. We decided that our sidebar will cover all the possible features
+ * for the user (create/edit/remove contacts and events).
+ * </p>
+ * <p>
+ * We control the use case flow by enable or disable sidebar's components and
+ * updating other components.
+ * </p>
+ * <p>
+ * The functional area of this use case requires the use of JPA (ORM). To
+ * achieve this functionality we use the same framework used in UC EAPLI,
+ * allowing the abstraction of persistence layer.
+ * </p>
+ *
+ * <p>
  * <h2>5. Design</h2>
- *
- * <h3>5.1. Functional Tests</h3>
- * Basically, for the development and after analysis, we test if the assign for
- * a specidfic cell it works and a method to test if should recognize the
- * Expression as a InstructionBlock and assign the result of the last Expression
- * to result.
- *
- *
- * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create Class "For" (function), and
- * "Atribution" (operator). It will be necessary to define a better grammar to
- * accept new tokens, and a "for" loop with multiple operations blocks. Also we
- * have create a new Operation to resolve n expressions and validates in
- * function "convert" of class "ExcelExpressionCompiler".
- *
- * <b>Assign Operation Sequence Diagram</b>:
- * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
- *
- * <h3>5.3. Classes</h3>
- *
- *
- * <h3>5.4. Design Patterns and Best Practices</h3>
- * <p>
- * Implemented Patterns: Low Coupling - High Cohesion.
- *
- * <h2>6. Implementation</h2>
+ * </p>
  *
  * <p>
- * <b>Created Classes</b>: For, Assign, Instruction Block, Ternary Operation,
- * Ternary Operator.
+ * To realize this user story we will need to create a subclass of Extension. We
+ * will also need to create a subclass of UIExtension. For the sidebar we need
+ * to implement a JPanel. In the code of the extension
+ * <code>csheets.ext.style</code> we can find examples that illustrate how to
+ * implement these technical requirements. The following diagrams illustrate
+ * core aspects of the design of the solution for this use case.
+ * </p>
  *
  * <p>
- * <b>Updated Classes/Files</b>: language.props, Formula.g,
- * ExcelExpressionCompiler.
+ * <h3>Create Contact</h3>
+ * </p>
  *
+ * <p>
+ * <img src="doc-files/crm01_01_design_add_contact.png" alt="image" />
+ * </p>
+ *
+ * <p>
+ * <h3>Edit Contact</h3>
+ * </p>
+ *
+ * <p>
+ * <img src="doc-files/crm01_01_design_edit_contact.png" alt="image" />
+ * </p>
+ *
+ * <p>
+ * <h3>Remove Contact</h3>
+ * </p>
+ *
+ * <p>
+ * <img src="doc-files/crm01_01_design_remove_contact.png" alt="image" />
+ * </p>
+ *
+ * <p>
  * <h2>7. Integration/Demonstration</h2>
+ * </p>
  *
+ * <p>
  * -In this section document your contribution and efforts to the integration of
  * your work with the work of the other elements of the team and also your work
  * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * </p>
  *
+ * <p>
  * <h2>8. Final Remarks</h2>
+ * </p>
  *
+ * <p>
  * -In this section present your views regarding alternatives, extra work and
  * future work on the issue.-
+ * <p>
+ * </p>
  * <p>
  * As an extra this use case also implements a small cell visual decorator if
  * the cell has a comment. This "feature" is not documented in this page.

@@ -35,8 +35,7 @@ public class WizardController {
         for (Function func : Language.getInstance().getFunctions()) {
             list.add(func);
         }
-        FunctionListModel modelList = new FunctionListModel(list);
-        return modelList;
+        return new FunctionListModel(list);
     }
 
     public String getFunctionInfo(Function func) {
@@ -48,8 +47,8 @@ public class WizardController {
             }
             result += param[i].getValueType().toString();
         }
-
-        return result += ")}";
+        result += ")}";
+        return result ;
 
     }
 

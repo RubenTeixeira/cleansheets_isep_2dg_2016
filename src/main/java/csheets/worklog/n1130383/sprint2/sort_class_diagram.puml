@@ -52,15 +52,27 @@ class BaseAction{
 
 class SortAction{
 	-uiController : UIController
-	-sortController : SortController
+	*-sortController : SortController*
 	+SortAction(UIController controller)
 	+getName() : String
 	+defineProperties()
 	+actionPerformed(ActionEvent event)
 }
 
+class SortJDialog{
+	-uiController : UIController
+	-sortController : SortController
+	-order : int
+	+SortJDialog(UIController controller)
+}
+
+
 class SortController{
-	+order(List<String> column, int order)
+	-column : ArrayList<Value>
+	*+order(List<String> column, int order)*
+	+SortController(UIController controller);
+	+setIndex(int index);
+	+order(int order);
 }
 
 
@@ -78,7 +90,8 @@ ExtensionManager --> SortExtension : load(Extension extension);
 SortExtension --> UISort : new(UIController controller);
 UISort --> SortMenu : new(UIController controller);
 SortMenu --> SortAction : new(UIController controller);
-SortAction --> SortController : new(List<String> column, int order);
+SortAction --> SortJDialog : new(UIController);
+SortJDialog --> SortController : new(UIController);
 
 
   @enduml
