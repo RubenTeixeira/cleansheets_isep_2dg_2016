@@ -23,10 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="lblAlert" pref="254" max="32767" attributes="0"/>
+                  <Component id="lblAlert" max="32767" attributes="0"/>
                   <Component id="lblMessage" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -55,10 +55,13 @@
           <Color blue="9" green="0" red="ff" type="rgb"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="RECEIVE MESSAGE!"/>
+        <Property name="text" type="java.lang.String" value="RECEIVED A MESSAGE!"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMessage">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

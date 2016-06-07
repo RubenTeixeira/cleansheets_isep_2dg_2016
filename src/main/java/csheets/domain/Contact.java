@@ -25,97 +25,97 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"FIRSTNAME", "LASTNAME"})})
+	@UniqueConstraint(columnNames = {"FIRSTNAME", "LASTNAME"})})
 public class Contact implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    private Agenda agenda;
+	private Agenda agenda;
 
-    private String firstName;
-    private String lastName;
+	private String firstName;
+	private String lastName;
 
-    @Basic(fetch = LAZY)
-    @Lob
-    @Column(name = "photo")
-    private byte[] photo;
+	@Basic(fetch = LAZY)
+	@Lob
+	@Column(name = "photo")
+	private byte[] photo;
 
-    protected Contact() {
-    }
+	protected Contact() {
+	}
 
-    public Contact(String firstName, String lastName, byte[] photo) {
-        if (firstName == null || lastName == null) {
-            throw new IllegalArgumentException();
+	public Contact(String firstName, String lastName, byte[] photo) {
+		if (firstName == null || lastName == null) {
+			throw new IllegalArgumentException();
 
-        } else if (firstName.isEmpty() || lastName.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+		} else if (firstName.isEmpty() || lastName.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.photo = photo;
-    }
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.photo = photo;
+	}
 
-    public String firstName() {
-        return this.firstName;
-    }
+	public String firstName() {
+		return this.firstName;
+	}
 
-    public String lastName() {
-        return this.lastName;
-    }
+	public String lastName() {
+		return this.lastName;
+	}
 
-    public byte[] photo() {
-        return this.photo;
-    }
+	public byte[] photo() {
+		return this.photo;
+	}
 
-    public void changeFirstName(String name) {
-        this.firstName = name;
-    }
+	public void changeFirstName(String name) {
+		this.firstName = name;
+	}
 
-    public void changeLastName(String name) {
-        this.lastName = name;
-    }
+	public void changeLastName(String name) {
+		this.lastName = name;
+	}
 
-    public void changePhoto(byte[] photo) {
-        this.photo = photo;
-    }
+	public void changePhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
-    @Override
-    public String toString() {
-        return this.firstName + " - " + this.lastName;
-    }
+	@Override
+	public String toString() {
+		return this.firstName + " - " + this.lastName;
+	}
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.agenda);
-        hash = 29 * hash + Objects.hashCode(this.firstName);
-        hash = 29 * hash + Objects.hashCode(this.lastName);
-        hash = 29 * hash + Arrays.hashCode(this.photo);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 29 * hash + Objects.hashCode(this.agenda);
+		hash = 29 * hash + Objects.hashCode(this.firstName);
+		hash = 29 * hash + Objects.hashCode(this.lastName);
+		hash = 29 * hash + Arrays.hashCode(this.photo);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Contact other = (Contact) obj;
-        if (!this.firstName.equals(other.firstName)) {
-            return false;
-        }
-        if (!this.lastName.equals(other.lastName)) {
-            return false;
-        }
-        return !Arrays.equals(this.photo, other.photo);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Contact other = (Contact) obj;
+		if (!this.firstName.equals(other.firstName)) {
+			return false;
+		}
+		if (!this.lastName.equals(other.lastName)) {
+			return false;
+		}
+		return !Arrays.equals(this.photo, other.photo);
+	}
 
 }

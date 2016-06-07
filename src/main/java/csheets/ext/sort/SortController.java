@@ -75,5 +75,6 @@ public class SortController {
 				j++;
 			}
 		}
+		valueList.clear();
 	}
 }

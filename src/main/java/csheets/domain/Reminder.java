@@ -42,10 +42,6 @@ public class Reminder implements Serializable {
         } else if (Name.isEmpty() || description.isEmpty()) {
             throw new IllegalArgumentException("description of reminder can´t be null.");
         }
-        if(DateTime.now().after(ts)){
-            throw new IllegalArgumentException("the date of reminder is invalid.");
-        }
-        
         this.name = Name;
         this.description = description;
         this.timeStep = ts;
@@ -94,5 +90,16 @@ public class Reminder implements Serializable {
 		hashcode += this.timeStep.hashCode();
 		return hashcode;
 	}
+
+    public void defineReminder(String n, String d, Calendar calendar) {
+        if(n==null||n.isEmpty()){
+            throw new IllegalArgumentException("the Reminder´s name can´t be null.");
+        }
+        if(d==null||d.isEmpty()){
+            throw new IllegalArgumentException("the Reminder´s description can´t be null.");
+        }
+        this.name=n;
+        this.description=d;
+    }
 
 }

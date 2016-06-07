@@ -20,9 +20,13 @@ public class TxtEncoder {
 
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
-				content += cells[i][j].getContent() + separator + " ";
+				if (j == cells[i].length - 1) {
+					content += cells[i][j].getContent();
+				} else {
+					content += cells[i][j].getContent() + separator + " ";
+				}
 			}
-			content += "\n";
+			content += "\r\n";
 		}
 
 		return content;

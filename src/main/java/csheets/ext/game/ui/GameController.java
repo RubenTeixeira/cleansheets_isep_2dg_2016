@@ -37,7 +37,7 @@ public class GameController {
 		}
 
 		try {
-			this.udpService.server(30600, port);
+			this.udpService.server(30606, port);
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();

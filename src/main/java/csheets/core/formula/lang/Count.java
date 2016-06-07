@@ -73,6 +73,11 @@ public class Count implements Function {
         return true;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that counts those of its arguments that yield numeric values.";

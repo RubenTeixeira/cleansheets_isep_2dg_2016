@@ -59,7 +59,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20001;
+		final int defaultPort = 20002;
 
 		this.controller.startUdpService(this, defaultPort, defaultSeconds);
 		this.controller.startTcpService(this, defaultPort);
@@ -269,7 +269,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-		this.controller.setNameOfWorkbookToSearch(txtName.getText());
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
 	public void updateInstanceList(List<String> addresses) {
@@ -321,7 +321,14 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		if (object instanceof Boolean) {
 			if (((Boolean) object)) {
 				this.waitingPanel.setVisible(false);
-				this.workbookPanel.setVisible(true);
+				this.setVisible(false);
+				String workbook = JOptionPane.showInputDialog(
+					null,
+					"Enter the workbook name to search:",
+					"Search Workbook",
+					JOptionPane.WARNING_MESSAGE
+				);
+				this.controller.setNameOfWorkbookToSearch(workbook);
 			} else {
 				this.waitingPanel.setVisible(false);
 				JOptionPane.
@@ -331,11 +338,17 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		}
 
 		if (object instanceof String) {
-			if (object.equals("Search")) {
+			if (((String) object).compareTo("Search") == 0) {
 				this.controller.searchWorkbook(uiController);
-			}
-			if (object.equals("Check")) {
 
+			}
+			if (((String) object).compareTo("Check") == 0) {
+				boolean result = this.controller.checkResult();
+				if (result) {
+					JOptionPane.showMessageDialog(this, "Encontrou");
+				} else {
+					JOptionPane.showMessageDialog(this, "Nao encontrou");
+				}
 			}
 		}
 

@@ -146,6 +146,15 @@
  * <p>
  * There was also the possibility to work with ascII code to operate with the
  * associated decimal, but for now the idea is on hold.</p>
+ * <p>
+ * Update on current subject:</p>
+ * <p>
+ * After considering using ascII code I've decided to proceed with this idea.
+ * Turns out the solution was quite simple. The implemented code will allow
+ * SortJDialog to show to the User all the columns that have content. The user
+ * proceeds to select a column. This column references are Char type, this Char
+ * will be added to the existing columnComboBox and the selected column index
+ * will further be used.</p>
  *
  *
  * <h2>5. Design</h2>
@@ -194,7 +203,8 @@
  * - extension.props. All other Classes where implemented.</p>
  * <p>
  * Also, it was found a <b>bug</b> on SpreadsheetImpl in method getColumn(index)
- * - For loop limiter wasn't valid</p>
+ * - For loop limiter wasn't valid, that leads to the update of the current
+ * class also.</p>
  *
  * <p>
  * Commit Evidences:</p>

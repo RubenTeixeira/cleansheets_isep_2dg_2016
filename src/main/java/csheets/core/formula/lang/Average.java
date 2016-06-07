@@ -85,6 +85,11 @@ public class Average implements Function {
         return true;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that returns the numeric average of its arguments.";
