@@ -33,8 +33,7 @@ public class SortExtension extends Extension {
 	/**
 	 * Returns the User Interface Extension of the SortExtension.
 	 *
-	 * @param uiController
-	 * @return
+	 * @return UIExtension
 	 */
 	@Override
 	public UIExtension getUIExtension(UIController uiController) {

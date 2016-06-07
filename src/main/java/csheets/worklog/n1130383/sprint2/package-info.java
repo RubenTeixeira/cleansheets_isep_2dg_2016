@@ -47,48 +47,82 @@
  *
  * <h2>4. Analysis</h2>
  * <p>
- * The Analysis of the Example Extension facilitates the understanding on how to
- * implement this new Extension. As seen, the ExtensionManager Class should load
- * this Extension and provide it to the UiController. The ExtensionManager Class
- * is in charge of managing the extensions and it's the link between them and
- * the Cleansheets application.</p>
+ * The Analysis of the ExampleExtension facilitates the understanding of this
+ * feature and how to implement this new Sort Extension. As seen, the
+ * ExtensionManager should load this (and others) Extension(s) and provide them
+ * to the UIController. UIController is in charge for managing the Interface and
+ * therefore it returns all UIExtensions from their belonging Extensions to the
+ * MenuBar. The ExtensionManager is the link all Extensions and Cleansheets
+ * application.</p>
+ *
  * <b>ExtensionManager Class:</b>
  * <p>
  * Implements the Singleton pattern to guarantee that there is only one instance
- * running. The Class links itself to a File - extension.props - that contains
- * the name reference for all available extensions. All loaded Extensions are
- * saved into a TreeMap with the Extensions Itself associated with a name
- * reference (String).</p>
+ * running on each application. The Class links itself to a File -
+ * "extension.props" - that contains the name reference for all available
+ * extensions. When loaded the Extensions are saved into a TreeMap associated
+ * with a name reference, a String.</p>
  * <p>
- * CleanSheetps dynamically loads all Extensions that it finds declared in this
- * files: res/extensions.props and entensions.props. Both this files must
- * contain the name of the Extension - csheets.ext.sort.SortExtension</p>
+ * CleanSheetps dynamically loads, at Runtime, all Extensions that it finds
+ * declared in this files: "res/extensions.props" and "entensions.props" by the
+ * ExtensionManager. Both this files must contain the name of the Extension -
+ * "csheets.ext.sort.SortExtension" for this specific case.</p>
+ *
  * <b>SortExtension Class:</b>
  * <p>
  * Therefore, an extension class should be implemented to support cell sorting.
- * The class will extend, as all already implemented extensions the:
- * <b>Extension class</b></p>
- * <b>SortExtensionController Class:</b>
- * <p>
- * This Class will be implemented to handle sorting. It will contain a method
- * that by providing a specific column and a specific order it will sort the
- * Column as required - order(column, order);</p>
- * <p>
- * <b>SortAction Class:</b>
- * This Class will perform the Action, set the SortController and update the
- * SpreadSheet.</p>
- * <p>
- * <b>SortExtensionMenu Class:</b>
- * Represents the User Interface Menu for Sorting.</p>
+ * The class will extend, as all already implemented extensions, the: Extension
+ * class (All Inheritance will be available further on this page).</p>
  *
- * <p>
- * <b>UISortExtension Class: </b>
- * Extends UIExtension. User Interface Sort Extension.</p>
- * <p>
  * <b>UIController Class: </b>
+ * <p>
  * Provide us a crucial Attribute -uiExtensions : UIExtension[]. It will contain
  * all UIExtensions that extend UIExtension Class.</p>
  *
+ * <b>UISort Class: </b>
+ * <p>
+ * Extends UIExtension. The User Interface known by the MenuBar of Sort
+ * Extension.</p>
+ *
+ * <b>SortMenu Class:</b>
+ * <p>
+ * Represents the User Interface Menu for Sorting.</p>
+ *
+ * <b>SortAction Class:</b>
+ * <p>
+ * This Class will perform the Action, set the SortController to update the
+ * Cleansheet application.</p>
+ *
+ * <b>SortController Class:</b>
+ * <p>
+ * This Class will be implemented to handle sorting. It will contain a method
+ * that will perform the actual sorting of the chosen column. No other elements
+ * will be required aside from a column : cell[] and specific order.</p>
+ *
+ * <b>Update on SortController Class after first Implementation:</b>
+ * <p>
+ * After spending some time with the Design and trying to imagine what would be
+ * the best way to promote Low Coupling High Cohesion, I decided to give this
+ * class access to UIController and therefore to the active Spreadsheet.</p>
+ * <p>
+ * The sorting will be performed on an Arraylist of Values. Before the actual
+ * sorting occurs all Cells' Values will be added to this Arraylist to
+ * facilitate the procedure. After that, the Controller will use this sorted
+ * ArrayList to update the current selected column. On a previous version,
+ * instead of an ArrayList of values and ArrayList of Strings was being used
+ * because of the habit in using the method "getContent()" accessed by the cell
+ * itself. The change was made duo to impossibility of ascending or descending
+ * correctly. Example: with two Strings, one being "35" and other "4" the "35"
+ * would actually be a "smaller" number when asceding.</p>
+ *
+ * <b>SortJDialog</b>
+ * <p>
+ * This window will interact with the user to select the column and the sorting
+ * order.</p>
+ * <p>
+ * Window first Draft:</p>
+ * <p>
+ * <img src="doc-files/Jdialog_box.png" alt="Jdialog_draft"></p>
  *
  *
  * <h3>Class Diagram Analysis</h3>
@@ -97,8 +131,21 @@
  *
  * <h3>Analysis of Core Technical Problem</h3>
  * <p>
- * The Core problem is similar to ExampleExtension, an example given for the
- * first week of analysis to comprehend how to implement a new Extension. </p>
+ * The Core problem lies on the algorithm used to show only the active columns.
+ * The only method that already exists and can be helpful in this situation is
+ * the "getColumnCount()" provided by the active Spreadsheet accessed by the
+ * UIController. Even then, this method returns an int number accountable from
+ * the first column to the last "active" column. In a situation where A,B,C
+ * columns had cells with content the returned number would be 3 (scenario 1).
+ * If only A and C had content the number would be the same(scenario 2). Same as
+ * C being the only with content (scenario 3). A possible solution for the 3
+ * scenarios above would be to allow the User to select either one of the three
+ * columns. So all three cells would be available to select, no matter the
+ * scenario. On the other hand the sorting algorithm will only target cells with
+ * content so this doesn't represent an actual hard-to-solve problem.</p>
+ * <p>
+ * There was also the possibility to work with ascII code to operate with the
+ * associated decimal, but for now the idea is on hold.</p>
  *
  *
  * <h2>5. Design</h2>
@@ -111,8 +158,7 @@
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
- * To realize this user story we will need to create a subclass of Extension. As
- * the following Diagrams suggest.</p>
+ * The following Diagrams are useful to understand the UC Realization:</p>
  *
  * <h3>5.3. Extension Setup</h3>
  *
@@ -126,6 +172,9 @@
  * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
  *
  * <h3>5.4. Classes</h3>
+ * <p>
+ * Everything inside *[expression]* was implemented before JDialog
+ * implementation. SortAction was directly connected to SortController</p>
  *
  * <h3>Class Diagram</h3>
  *
@@ -143,13 +192,20 @@
  * <p>
  * The file containing the extensions name was the only file required to update
  * - extension.props. All other Classes where implemented.</p>
+ * <p>
+ * Also, it was found a <b>bug</b> on SpreadsheetImpl in method getColumn(index)
+ * - For loop limiter wasn't valid</p>
  *
  * <p>
+ * Commit Evidences:</p>
  *
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3dbf709a0a5f3dc77b3f56d7fb028a66c308db0c">Commit
- * concerning Analysis and Design</a>
+ * concerning Analysis and Design</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2c5a95e9c69bd0fe2903809e04a3d65be54d9e45">Commit
+ * concerning the fix for the bug, and first steps into Implementation</a></p>
  *
- * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -192,17 +248,24 @@
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.
- * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Feature fully available, finished Implementation but will need
+ * refactoring.
+ * <p>
+ * 2. Altered Design, code refactoring was needed and most likely will be needed
+ * again. With it, the previous designed and implemented test solution will too
+ * need to change.
+ * <p>
+ * 3. Altered Diagrams according to SortJDialog implementation.
+ * <p>
+ * 4. Reunion with Product Owner.
+ * <p>
+ * 5. Reunion with Manager.
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. nothing.
  *
  * <p>
  * <b>Tuesday</b>
