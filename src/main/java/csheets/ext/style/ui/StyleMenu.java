@@ -20,7 +20,6 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.ext.style.ui.conditionalFormatting.ui.ConditionalFormattingAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
