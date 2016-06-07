@@ -66,8 +66,6 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
         lblAlert.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblAlert.setText("RECEIVED A MESSAGE!");
 
-        lblMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

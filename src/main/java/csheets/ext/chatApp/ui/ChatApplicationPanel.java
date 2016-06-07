@@ -29,6 +29,10 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	 */
 	private UIController uiController;
 
+	DefaultMutableTreeNode root;
+
+	DefaultMutableTreeNode lastChild;
+
 	/**
 	 *
 	 * @param uiController user interface controller
@@ -36,6 +40,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	 */
 	public ChatApplicationPanel(UIController uiController,
 								ChatAppController chatAppController) {
+		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
 		this.uiController = uiController;
 		this.chatAppController = chatAppController;
 		setName(ChatAppExtension.NAME);
@@ -46,15 +51,28 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Map) {
+			((Map) arg).remove("reference");
 			String message = (String) ((Map) arg).get("message");
+			String hostname = (String) ((Map) arg).get("hostname");
+
+			String chatMessage = hostname + ": message";
 
 			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
 
-			DefaultMutableTreeNode root = (DefaultMutableTreeNode) MessagesTree.
-				getModel().getRoot();
+			while (true) {
+				DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+					children().nextElement();
+				if (no != null) {
+					String treeMessage = (String) no.getUserObject();
+					String ip = treeMessage.split(":")[0];
+					if (ip.equals(hostname)) {
+					}
+				} else {
+					break;
+				}
+			}
 
-			System.out.println(arg);
-			root.add(new DefaultMutableTreeNode(message));
+			root.add(new DefaultMutableTreeNode(chatMessage));
 
 			this.revalidate();
 			this.repaint();
