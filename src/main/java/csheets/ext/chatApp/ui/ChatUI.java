@@ -78,7 +78,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		//TODO
 
 		initComponents();
-
+		txtMessage.setText("Type here...");
 		uiController.addSelectionListener(this);
 
 		usersList.setModel(instanceListModel);
@@ -118,6 +118,14 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
+        txtMessage.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtMessageFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtMessageFocusLost(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtMessage);
 
         usersList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -207,7 +215,18 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		chatAppController.sendMessage(host, message);
+		txtMessage.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
+
+    private void txtMessageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusLost
+		if (txtMessage.getText().isEmpty()) {
+			txtMessage.setText("Type here...");
+		}
+    }//GEN-LAST:event_txtMessageFocusLost
+
+    private void txtMessageFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusGained
+		txtMessage.setText("");
+    }//GEN-LAST:event_txtMessageFocusGained
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSend;
@@ -238,9 +257,10 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	}
 
 	public void updateReceiveList(Map<String, String> mapMessages) {
-		int index = 0, size = mapMessages.size() - 1;
+		int size = mapMessages.size() - 1;
 		String message = "";
-		message = mapMessages.get("hostname") + ":" + mapMessages.get("message");
+		message = mapMessages.get("hostname") + ": " + mapMessages.
+			get("message");
 		new TimedPopupMessageDialog(null, "Message", chatAppController, message);
 		usersList.setSelectedValue(mapMessages.get("from"), true);
 
