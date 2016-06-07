@@ -9,7 +9,7 @@ import csheets.core.Cell;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 public class TxtEncoder {
 

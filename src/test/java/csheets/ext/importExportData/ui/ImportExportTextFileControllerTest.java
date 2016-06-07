@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 public class ImportExportTextFileControllerTest {
 

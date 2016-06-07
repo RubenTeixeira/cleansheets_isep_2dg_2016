@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 class ExportAction extends BaseAction {
 
