@@ -1,7 +1,6 @@
 package csheets.ext.conditionalFormatting.ui;
 
 import csheets.ext.Extension;
-import csheets.ext.conditionalFormatting.ConditionalFormattingController;
 import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;

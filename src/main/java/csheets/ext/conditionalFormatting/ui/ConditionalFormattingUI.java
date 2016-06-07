@@ -5,7 +5,6 @@
  */
 package csheets.ext.conditionalFormatting.ui;
 
-import csheets.ext.conditionalFormatting.ConditionalFormattingController;
 import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
@@ -64,10 +63,10 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
+        checkboxTBold = new javax.swing.JCheckBox();
+        checkboxFBold = new javax.swing.JCheckBox();
+        checkboxTItalic = new javax.swing.JCheckBox();
+        checkboxFItalic = new javax.swing.JCheckBox();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -151,8 +150,8 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBox3)
-                            .addComponent(jCheckBox1))))
+                            .addComponent(checkboxTItalic)
+                            .addComponent(checkboxTBold))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -165,8 +164,8 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCheckBox4)
-                            .addComponent(jCheckBox2))))
+                            .addComponent(checkboxFItalic)
+                            .addComponent(checkboxFBold))))
                 .addGap(18, 18, 18))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -204,14 +203,14 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2))
+                    .addComponent(checkboxTBold)
+                    .addComponent(checkboxFBold))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
-                        .addComponent(jCheckBox4))
-                    .addComponent(jCheckBox3))
+                        .addComponent(checkboxFItalic))
+                    .addComponent(checkboxTItalic))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTForeground)
@@ -291,10 +290,10 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
     private javax.swing.JButton btnTFont;
     private javax.swing.JButton btnTForeground;
     private javax.swing.JButton btnTFormat;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
+    private javax.swing.JCheckBox checkboxFBold;
+    private javax.swing.JCheckBox checkboxFItalic;
+    private javax.swing.JCheckBox checkboxTBold;
+    private javax.swing.JCheckBox checkboxTItalic;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
