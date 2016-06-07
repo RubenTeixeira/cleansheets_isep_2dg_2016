@@ -8,8 +8,12 @@ package csheets.ext.notes;
 import csheets.domain.Contact;
 import csheets.domain.Note;
 import csheets.ext.notes.ui.NotesPanel;
+import csheets.factory.NoteFactory;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -42,8 +46,16 @@ public class NotesController {
       return PersistenceContext.repositories().contacts().all();  
     }
     
-    public void createNote(String noteText){
-        Note n= new Note(noteText);
-        n.add();
+    public Note createNote(String noteText){
+        Note note = NoteFactory.createNote(noteText);
+            try {
+               PersistenceContext.repositories().notes().add(note);
+                
+            } catch (DataIntegrityViolationException ex) {
+                Logger.getLogger(NotesController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+             return note;
     }
+   
+    
 }

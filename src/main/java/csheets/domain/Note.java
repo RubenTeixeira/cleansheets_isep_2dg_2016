@@ -9,35 +9,52 @@ import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author Diogo Azevedo
  */
+@Entity
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"TITULO"})})
 public class Note {
-    private final String titulo;
-    private final String noteText;
-    private ArrayList<Note> noteVersions;
+
+    @Id
+    @GeneratedValue
+    private Long id;
+    @ManyToOne
+    private Note note;
+    private  String titulo;
+    private  String noteText;
+    @ManyToOne
     private Contact contact;
     private String timeStamp;//change to DATE
-    
-    public Note(String noteText){
-       String[] lines = noteText.split(System.getProperty("\n"));
-       titulo=lines[0];
-       this.noteText=noteText;
-       
-       updateNote();   
+
+    protected Note(){
+        
     }
     
-    private void updateNote(){
+    public Note(String noteText) {
+        String[] lines = noteText.split(System.getProperty("\n"));
+        titulo = lines[0];
+        this.noteText = noteText;
+
+        updateNote();
+    }
+
+    private void updateNote() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	   //get current date time with Date()
-	   Date date = new Date();
-	   timeStamp=dateFormat.format(date);//DATE
-       
+        //get current date time with Date()
+        Date date = new Date();
+        timeStamp = dateFormat.format(date);//DATE
+
     }
-    public void add(){
-        //add the note to the NoteRepository(not created yet)
-    }
-    
+
+   
 }
