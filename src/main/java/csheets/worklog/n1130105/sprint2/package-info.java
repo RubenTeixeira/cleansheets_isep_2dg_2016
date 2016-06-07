@@ -50,14 +50,14 @@
  * <p>
  * <b>Use Case "Find Workbooks":</b>
  * <p>
- * The extension should add a new window (sidebar) to search for workbook ﬁles
- * in the local ﬁle system. The user should be able to enter the name of a
- * directory of the ﬁle system to be used as the root of the search. The search
+ * The extension should add a new window (sidebar) to search for workbook files
+ * in the local file system. The user should be able to enter the name of a
+ * directory of the file system to be used as the root of the search. The search
  * should include this directory and all its contents (including
- * subdirectories). The results of the search should appear in a list (as ﬁles
+ * subdirectories). The results of the search should appear in a list (as files
  * are found). It should be possible for the user to open a workbook from this
- * list by double clicking in it. The search can be based solely on the ﬁle name
- * extension. For instance, ﬁnd the ﬁles with .cls extension.
+ * list by double clicking in it. The search can be based solely on the file
+ * name extension. For instance, find the files with .cls extension.
  * </p>
  *
  *
