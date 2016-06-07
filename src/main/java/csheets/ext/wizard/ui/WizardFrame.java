@@ -6,11 +6,11 @@
 package csheets.ext.wizard.ui;
 
 import csheets.ui.ctrl.UIController;
-import javax.swing.JList;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author AB
+ * @author AB-1140280
  */
 public class WizardFrame extends javax.swing.JFrame {
 
@@ -28,9 +28,7 @@ public class WizardFrame extends javax.swing.JFrame {
 
 	private void loadFunctions() {
 		FunctionListModel model = controller.getFunctions();
-
-		functionsList = new JList<>(model);
-		functionsList.setVisible(true);
+		functionsList.setModel(model);
 
 	}
 
@@ -49,10 +47,11 @@ public class WizardFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         selectedFunctionTextBox = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        confirmButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         functionsList = new javax.swing.JList<>();
+        helpButton = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -84,11 +83,33 @@ public class WizardFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Confirm");
+        confirmButton.setText("Confirm");
+        confirmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                confirmButtonActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Cancel");
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelButtonActionPerformed(evt);
+            }
+        });
 
+        functionsList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                functionsListMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(functionsList);
+
+        helpButton.setText("Help");
+        helpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,32 +117,33 @@ public class WizardFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(61, 61, 61)
-                .addComponent(jButton1)
+                .addComponent(confirmButton)
+                .addGap(18, 18, 18)
+                .addComponent(helpButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(cancelButton)
                 .addGap(61, 61, 61))
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                            .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(6, 6, 6)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(resultTextBox))))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resultTextBox)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(21, 21, 21)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -131,8 +153,9 @@ public class WizardFrame extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(confirmButton)
+                    .addComponent(cancelButton)
+                    .addComponent(helpButton))
                 .addGap(37, 37, 37))
         );
 
@@ -147,10 +170,51 @@ public class WizardFrame extends javax.swing.JFrame {
 		// TODO add your handling code here:
     }//GEN-LAST:event_resultTextBoxActionPerformed
 
+	/**
+	 * When a function is clicked diplays detailed function info
+	 *
+	 * @param evt
+	 */
+    private void functionsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_functionsListMouseClicked
+		int index = functionsList.getSelectedIndex();
+		String info = ((FunctionListModel) functionsList.getModel()).
+			getFunctionInfo(index, controller);
+		selectedFunctionTextBox.setText(info);
+    }//GEN-LAST:event_functionsListMouseClicked
+
+    private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+		this.dispose();
+    }//GEN-LAST:event_cancelButtonActionPerformed
+
+	/**
+	 * Tries to execute the function in selectedFunctionTextBox if an an
+	 * exception occurs a message dialog is presented to the user showing the
+	 * error
+	 *
+	 * @param evt
+	 */
+    private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+		try {
+			String result = controller.executeFormula(selectedFunctionTextBox.
+				getText());
+			resultTextBox.setText(result);
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Ocorreu um erro" + ex.
+										  getMessage());
+		}
+    }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+		String help = ((FunctionListModel) functionsList.getModel()).
+			getHelp(functionsList.getSelectedIndex());
+		JOptionPane.showMessageDialog(this, help);
+    }//GEN-LAST:event_helpButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cancelButton;
+    private javax.swing.JButton confirmButton;
     private javax.swing.JList<String> functionsList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jList1;

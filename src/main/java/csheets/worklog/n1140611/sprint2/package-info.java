@@ -87,23 +87,15 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
+ * functionality of this use case is to be able to send and receive messages.
  * <p>
- * see: <code>csheets.core.SpreadsheetTest</code>
+ * see: <code>csheets</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the sidebar we need
  * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
+ * <code>csheets.ext.chatApp</code> we can find examples that illustrate how to
  * implement these technical requirements. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
  * <p>
@@ -111,24 +103,18 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>User Share selected Cells</h3>
+ * <h3>Chat send Message</h3>
  * The following diagram shows the setup of the local connection when
  * cleansheets's user select share.
  * <p>
- * <img src="doc-files/ipc01_01_design.png" alt="image">
+ * <img src="doc-files/ipc05.1_design.png" alt="image">
  *
  *
- * <h3>Application display shared cells</h3>
+ * <h3>Receive Message</h3>
  * The following diagram illustrates what happens when a instance of cleansheet
- * receive shared cells.
+ * receive message.
  * <p>
- * <img src="doc-files/ipc01_01_design1.png" alt="image">
- *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "share" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/ipc01_design.png" alt="image">
+ * <img src="doc-files/ipc05.1_design1.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  * <p>
@@ -136,35 +122,8 @@
  * <p>
  * Global Class Diagram
  * <p>
- * <img src="doc-files/ipc01_classDiagram.png" alt="image">
+ * <img src="doc-files/ipc05.1_classdiagram.png" alt="image">
  * <p>
- * Extension Class Diagram
- * <p>
- * <img src="doc-files/ipc_extension_image1.png" alt="image">
- * <p>
- * * <b>Sequence Diagrams</b> illustrating the setup of the extension
- * <p>
- * The following sequence diagram illustrates the creation of the share
- * extension. All the extensions are loaded dynamically by the ExtensionManager
- * at application startup.
- * <img src="doc-files/ipc_extension_image2.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the user interface
- * extension. All the UI extensions are loaded by the UIController at
- * application startup.
- * <img src="doc-files/ipc_extension_image3.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the menu
- * extension. All the menu extensions are loaded by the MenuBar at application
- * startup.
- * <img src="doc-files/ipc_extension_image4.png" alt="image">
- * <p>
- * <b>Sequence Diagrams</b> illustrating use cases of the extension
- * <p>
- * <img src="doc-files/ipc_extension_image5.png" alt="image">
- *
  * -Document the implementation with class diagrams illustrating the new and the
  * modified classes-
  *
@@ -185,8 +144,8 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/cellsSharing/package-summary.html">csheets.ext.cellsSharing</a><p>
- * <a href="../../../../csheets/ext/cellsSharing/ui/package-summary.html">csheets.ext.cellsSharing.ui</a><p>
+ * <a href="../../../../csheets/ext/chatApp/package-summary.html">csheets.ext.chatApp</a><p>
+ * <a href="../../../../csheets/ext/chatApp/ui/package-summary.html">csheets.ext.chatApp.ui</a><p>
  * <a href="../../../../csheets/framework/volt/package-summary.html">csheets.framework.volt</a>
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -211,43 +170,57 @@
  * <p>
  * Example
  * <p>
+ * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. sprint review
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Saturday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis of feature ipc05.1Chat Application
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1.-nothing-
+ * <p>
+ * <b>Sunday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis of feature ipc05.1 Chat Application
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing to report at moment-
+ * <p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. -nothing-
+ * 1. Analysis of feature ipc05.1 Chat Application
  * <p>
  * Today
  * <p>
- * 1. Configure the IDE to start working
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. Configure the IDE to start working
- * <p>
- * Today
- * <p>
- * 1. Design of IPC01.1 Start Sharing and help on first analysis
- * <p>
- * Blocking:
- * <p>
- * 1. Depend on first analysis
- * <p>
- * <b>Wednesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. Design of IPC01.1 Start Sharing
- * <p>
- * Today
- * <p>
- * 1. Study the architecture of application
+ * 1. Design of feature ipc05.1 Chat Application and start implementation
  * <p>
  * Blocking:
  * <p>
@@ -265,9 +238,7 @@
  * <b>Evidences:</b>
  * <p>
  * - url of commit:
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b80d9575f17f21a548b497f92a1f33bad9c216c5">commit
- * b80d957</a>- description: this commit is related to the design of feature
- * start sharing.-
+ *
  *
  * <h3>10.2. Teamwork: ...</h3>
  *

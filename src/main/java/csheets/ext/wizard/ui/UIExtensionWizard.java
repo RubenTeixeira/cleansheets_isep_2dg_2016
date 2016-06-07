@@ -20,11 +20,6 @@ import javax.swing.JToolBar;
 public class UIExtensionWizard extends UIExtension {
 
 	/**
-	 * The icon to display with the extension's name
-	 */
-	private Icon icon;
-
-	/**
 	 * The menu of the extension
 	 */
 	private WizardMenu menu;
@@ -39,6 +34,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return an icon with style
 	 */
+        @Override
 	public Icon getIcon() {
 		return null;
 	}
@@ -50,6 +46,7 @@ public class UIExtensionWizard extends UIExtension {
 	 * @see ExampleMenu
 	 * @return a JMenu component
 	 */
+        @Override
 	public JMenu getMenu() {
 		if (menu == null) {
 			menu = new WizardMenu(uiController);
@@ -62,6 +59,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a cell decorator, or null if the extension does not provide one
 	 */
+        @Override
 	public CellDecorator getCellDecorator() {
 		return null;
 	}
@@ -72,6 +70,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a table decorator, or null if the extension does not provide one
 	 */
+        @Override
 	public TableDecorator getTableDecorator() {
 		return null;
 	}
@@ -82,6 +81,7 @@ public class UIExtensionWizard extends UIExtension {
 	 * @return a JToolBar component, or null if the extension does not provide
 	 * one
 	 */
+        @Override
 	public JToolBar getToolBar() {
 		return null;
 	}
@@ -91,6 +91,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a component, or null if the extension does not provide one
 	 */
+        @Override
 	public JComponent getSideBar() {
 		return null;
 	}

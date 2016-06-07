@@ -29,29 +29,34 @@
             <version>3.4</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
         </dependency>
-
         <dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>eclipselink</artifactId>
-			<version>2.5.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<version>1.4.192</version>
-		</dependency>
-
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.192</version>
+        </dependency>
+        
+        <!-- http://mvnrepository.com/artifact/org.beanshell/bsh -->
+        <dependency>
+            <groupId>org.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <version>2.0b5</version>
+        </dependency>
+        
     </dependencies>
 
     <reporting>
@@ -319,38 +324,37 @@
                     </descriptorRefs>
                     <!--
 
-					  Specify that we want the resulting jar to be executable
-					  via java -jar, which we do by modifying the manifest
-					  of course.
-					-->
-					<archive>
+                      Specify that we want the resulting jar to be executable
+                      via java -jar, which we do by modifying the manifest
+                      of course.
+                    -->
+                    <archive>
 
-						<manifest>
-							<mainClass>csheets.CleanSheets</mainClass>
-						</manifest>
-					</archive>
+                        <manifest>
+                            <mainClass>csheets.CleanSheets</mainClass>
+                        </manifest>
+                    </archive>
 
-				</configuration>
+                </configuration>
 
-				<!--
-				  We don't want to have to specifically ask for the uber jar, so we attach the
-				  running of this plugin to the execution of the package life-cycle
-				  phase.
-				-->
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-					</execution>
-				</executions>
+                <!--
+                  We don't want to have to specifically ask for the uber jar, so we attach the
+                  running of this plugin to the execution of the package life-cycle
+                  phase.
+                -->
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
 
-			</plugin>
+            </plugin>
 
-		</plugins>
-	</build>
-
+        </plugins>
+    </build>
 
 </project>

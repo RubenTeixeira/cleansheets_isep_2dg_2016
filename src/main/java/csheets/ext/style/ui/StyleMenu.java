@@ -20,14 +20,13 @@
  */
 package csheets.ext.style.ui;
 
-import java.awt.event.KeyEvent;
-
-import javax.swing.JMenu;
-
 import csheets.ui.ctrl.UIController;
+import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
 
 /**
  * A menu that displays style-related actions.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -35,6 +34,7 @@ public class StyleMenu extends JMenu {
 
 	/**
 	 * Creates a new style menu.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public StyleMenu(UIController uiController) {
@@ -65,5 +65,9 @@ public class StyleMenu extends JMenu {
 		add(new AlignTopAction(uiController));
 		add(new AlignMiddleAction(uiController));
 		add(new AlignBottomAction(uiController));
+		addSeparator();
+		//Adds conditional formatting
+		add(new ConditionalFormattingAction(uiController));
+
 	}
 }

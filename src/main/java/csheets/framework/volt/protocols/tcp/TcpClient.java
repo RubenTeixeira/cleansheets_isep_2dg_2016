@@ -26,6 +26,15 @@ public class TcpClient {
     }
     
     /**
+     * Gets the client.
+     *
+     * @return Client instance.
+     */
+    public TcpServer client() {
+        return this.client;
+    }
+    
+    /**
      * Sends a given set of headers with a message to the given target.
      *
      * @param headers Set of headers separated by ";". This headers follow a

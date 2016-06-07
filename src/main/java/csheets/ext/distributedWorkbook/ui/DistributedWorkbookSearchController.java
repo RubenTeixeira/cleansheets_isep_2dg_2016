@@ -1,5 +1,8 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.ext.distributedWorkbook.SearchWorkbook;
+import csheets.ui.ctrl.UIController;
+
 /**
  *
  * @author José Barros
@@ -15,6 +18,12 @@ public class DistributedWorkbookSearchController {
 	 * The TCP Service.
 	 */
 	private TcpService tcpService;
+
+	private final SearchWorkbook searchWorkbook;
+
+	public DistributedWorkbookSearchController(UIController ui) {
+		searchWorkbook = new SearchWorkbook(ui);
+	}
 
 	void startUdpService(int port, int seconds) {
 
@@ -39,7 +48,7 @@ public class DistributedWorkbookSearchController {
 	/**
 	 * Starts the UDP service.
 	 *
-	 * @param ui
+	 * @param ui Workbook Search ui
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
@@ -78,7 +87,7 @@ public class DistributedWorkbookSearchController {
 	/**
 	 * Starts the TCP service.
 	 *
-	 * @param ui
+	 * @param ui Workbook Search ui
 	 * @param port The target port that is defined by the user.
 	 */
 	public void startTcpService(WorkbookSearchUI ui, int port) {
@@ -109,5 +118,13 @@ public class DistributedWorkbookSearchController {
 
 	public void sendRequest(String target, String message) {
 		new TcpService().client(target, message);
+	}
+
+	public void setNameOfWorkbookToSearch(String name) {
+		searchWorkbook.setWorkbookToSearch(name);
+	}
+
+	public void searchWorkbook(UIController uiController) {
+		searchWorkbook.findWorkbook();
 	}
 }

@@ -1,6 +1,7 @@
 package csheets.framework.volt.protocols.udp;
 
 import csheets.framework.volt.Action;
+import csheets.framework.volt.Channel;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import java.io.IOException;
@@ -26,11 +27,11 @@ public class UdpServer extends Server {
 
     private int clientPort;
     
-    private boolean isClient = false;
+    //private boolean isClient = false;
     
     private final Map<String, Action> routes;
-
-    protected final Map<String, Object> arguments;
+    
+    private final Map<String, String> hashedRoutes;
     
     protected final Map<String, Map<String, Map<Integer, String>>> packets;
 
@@ -38,8 +39,8 @@ public class UdpServer extends Server {
         super();
 
         this.routes = new HashMap<>();
-        this.arguments = new HashMap<>();
         this.packets = new HashMap<>();
+        this.hashedRoutes = new HashMap<>();
     }
 
     public void close() {
@@ -81,28 +82,24 @@ public class UdpServer extends Server {
      * @return True if successful in handling the route, false if they don't
      * match.
      */
-    private synchronized Action getActionFromRequest(String request, String message) {
+    private synchronized Action getActionFromRequest(String request, String message, Map<String, Object> arguments) {
         Action action = null;
         String route = null;
         
-        for (Map.Entry<String, Action> entry : this.routes.entrySet()) {
-            CRC32 checksum = new CRC32();
-            
-            try {
-                checksum.update(entry.getKey().getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException ex) {
-                Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            if (String.valueOf(checksum.getValue()).equals(request)) {
-                route = entry.getKey();
-                action = entry.getValue();
-                break;
-            }
+        if (this.hashedRoutes.containsKey(request)) {
+            route = this.hashedRoutes.get(request);
+            action = this.routes.get(route);
         }
             
-        if (action == null) {
+        if (action == null || route == null) {
             return null;
+        }
+        
+        arguments.put("message", message);
+        
+        // Execute all the before channels.
+        for (Channel channel : getRouteChannels(route)) {
+            channel.before(arguments, dependencies);
         }
         
         // We have found an action to perform, but now we need the route arguments.
@@ -116,25 +113,23 @@ public class UdpServer extends Server {
         // Variable :file -> [ Students.json, foobar.xml ]
         
         String[] routeTokens = route.split("\\|");
-        String[] requestTokens = message.split("\\|");
+        String[] requestTokens = ((String) arguments.get("message")).split("\\|");
         
         int length = requestTokens.length / routeTokens.length;
         
         for (int i = 0; i < routeTokens.length; i++) {
             routeTokens[i] = routeTokens[i].substring(1);
-            this.arguments.put(routeTokens[i], new ArrayList<>());
+            arguments.put(routeTokens[i], new ArrayList<>());
         }
         
         int item = 0;
         
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < routeTokens.length; j++) {
-                ((List) this.arguments.get(routeTokens[j])).add(requestTokens[item++]);
+            for (String routeToken : routeTokens) {
+                ((List) arguments.get(routeToken)).add(requestTokens[item++]);
             }
         }
 
-        this.arguments.put("request", message);
-        
         return action;
     }
     
@@ -191,16 +186,18 @@ public class UdpServer extends Server {
                     @Override
                     public void run() {
                         final Map<String, String> headers;
+                        final Map<String, Object> arguments = new HashMap<>();
                         final String packet;
                         final String client;
                         final String message;
+                        final InetAddress address;
                         
                         synchronized (request) {
                             try {    
                                 packet = new String(request.getData(), "UTF-8");
                                 
                                 headers = getPacketHeaders(packet);
-                                
+                                address = request.getAddress();
                                 message = packet.split("@")[1].trim();
                                 
                                 client = (request.getAddress() + ":" + request.getPort()).substring(1);
@@ -234,7 +231,6 @@ public class UdpServer extends Server {
                                     });
                                 } else {
                                     
-                                    
                                     if (packets.get(client).containsKey(headers.get("checksum"))) {
                                         packets.get(client).get(headers.get("checksum")).put(Integer.parseInt(headers.get("id")), message);
                                     } else {
@@ -245,6 +241,7 @@ public class UdpServer extends Server {
                                         
                                         // Only happens if the checksum wasn't available in the first time.
                                         manager.after(3).once(new Task() {
+                                            @Override
                                             public void fire() {
                                                 packets.get(client).remove(headers.get("checksum"));
                                                 this.kill();
@@ -267,42 +264,57 @@ public class UdpServer extends Server {
                                     
                                     String requestMessage = builder.toString();
                                     
-                                    synchronized (arguments) {
-                                        Action action = getActionFromRequest(headers.get("route"), requestMessage);
-                                        
-                                        if (action == null) {
-                                            this.interrupt();
-                                        }
-
-                                        arguments.put("from", client);
-                                        arguments.put("packets", headers.get("count"));
-
-                                        action.run(arguments);
-                                        arguments.clear();
-                                        this.interrupt();
-                                        return;
-                                    }
-                                }
-                            }
-                        } else {
-                            synchronized (arguments) {
-                                synchronized (headers) {
-                                    Action action = getActionFromRequest(headers.get("route"), message);
+                                    Action action = getActionFromRequest(headers.get("route"), requestMessage, arguments);
 
                                     if (action == null) {
                                         this.interrupt();
                                         return;
                                     }
-
+                                    
                                     arguments.put("from", client);
                                     arguments.put("packets", headers.get("count"));
-
-                                    action.run(arguments);
-                                    arguments.clear();
+                                    arguments.put("hostname", address.getHostName());
+                                    arguments.put("address", address);
+                                    arguments.put("length", message.length());
+                                    
+                                    synchronized (action) {
+                                        action.run(arguments);
+                                    }
+                                    
+                                    // Execute all the after channels.
+                                    for (Channel channel : getRouteChannels(headers.get("route"))) {
+                                        channel.after(arguments, dependencies);
+                                    }
+                                    
                                     this.interrupt();
                                     return;
                                 }
                             }
+                        } else {
+                            Action action = getActionFromRequest(headers.get("route"), message, arguments);
+
+                            if (action == null) {
+                                this.interrupt();
+                                return;
+                            }
+
+                            arguments.put("from", client);
+                            arguments.put("packets", headers.get("count"));
+                            arguments.put("hostname", address.getHostName());
+                            arguments.put("address", address);
+                            arguments.put("length", message.length());
+                            
+                            synchronized (action) {
+                                action.run(arguments);
+                            }
+                            
+                            // Execute all the after channels.
+                            for (Channel channel : getRouteChannels(headers.get("route"))) {
+                                channel.after(arguments, dependencies);
+                            }
+                            
+                            this.interrupt();
+                            return;
                         }
                         this.interrupt();
                         return;
@@ -317,17 +329,6 @@ public class UdpServer extends Server {
     }
     
     /**
-     * Defines a new server for client usage.
-     * 
-     * @return self
-     */
-    public UdpServer client()
-    {
-        this.isClient = true;
-        return this;
-    }
-    
-    /**
      * Sends a given message to the route of the target.
      * 
      * @param route Route defined by the target.
@@ -337,17 +338,22 @@ public class UdpServer extends Server {
     public void send(String route, String target, String message) {
         try {
             if (server() == null) {
-                if (!this.isClient) {
-                    return;
-                }
-            }
-        } catch (NullPointerException e) {
-            if (!this.isClient) {
                 return;
             }
+        } catch (NullPointerException e) {
+            return;
         }
         
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("message", message);
+        
+        // Execute all the before channels.
+        for (Channel channel : getRouteChannels(route)) {
+            channel.before(arguments, dependencies);
+        }
 
+        message = (String) arguments.get("message");
+        
         int parts = 0, length = message.length();
         
         CRC32 checkRoute = new CRC32();
@@ -391,6 +397,15 @@ public class UdpServer extends Server {
      * @param action Action to be executed.
      */
     public void expect(String route, Action action) {
+        CRC32 checksum = new CRC32();
+
+        try {
+            checksum.update(route.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.hashedRoutes.put(String.valueOf(checksum.getValue()), route);
         this.routes.put(route, action);
     }
     
@@ -483,7 +498,17 @@ public class UdpServer extends Server {
                     Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-
+            
+            Map<String, Object> arguments = new HashMap<>();
+            arguments.put("message", message);
+            arguments.put("target", target);
+            arguments.put("packets", parts);
+            
+            // Execute all the after channels.
+            for (Channel channel : getRouteChannels(route)) {
+                channel.after(arguments, dependencies);
+            }
+            
             try {
                 this.server().setBroadcast(false);
                 return;
@@ -508,6 +533,16 @@ public class UdpServer extends Server {
                 DatagramPacket packet = new DatagramPacket(packetMessage.getBytes("UTF-8"), packetMessage.length(), InetAddress.getByName(targetData[0]), port);
                 this.server().send(packet);
                 this.server().setBroadcast(false);
+                
+                Map<String, Object> arguments = new HashMap<>();
+                arguments.put("message", message);
+                arguments.put("target", target);
+                arguments.put("packets", parts);
+
+                // Execute all the after channels.
+                for (Channel channel : getRouteChannels(route)) {
+                    channel.after(arguments, dependencies);
+                }
             } catch (UnknownHostException | UnsupportedEncodingException | SocketException ex) {
                 //Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

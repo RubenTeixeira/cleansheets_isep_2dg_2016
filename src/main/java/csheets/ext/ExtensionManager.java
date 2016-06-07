@@ -82,6 +82,7 @@ public class ExtensionManager {
                         stream.close();
                     }
                 } catch (IOException e) {
+                    System.out.println(e);
                 }
             }
         }

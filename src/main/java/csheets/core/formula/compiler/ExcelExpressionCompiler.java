@@ -23,6 +23,7 @@
 package csheets.core.formula.compiler;
 
 import csheets.core.Cell;
+import csheets.core.CellImpl;
 import csheets.core.Value;
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.BinaryOperator;
@@ -39,7 +40,7 @@ import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.RangeReference;
 import csheets.core.formula.lang.ReferenceOperation;
 import csheets.core.formula.lang.UnknownElementException;
-import csheets.support.Converter;
+import csheets.core.formula.lang.VariableLocalReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 		}
 
 		// Converts the expression and returns it
+		((CellImpl) cell).clearVariables();
 		return convert(cell, tree);
 	}
 
@@ -136,10 +138,20 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 						return new Literal(Value.
 							parseValue(node.getText(), Value.Type.BOOLEAN, Value.Type.DATE));
 					case FormulaLexer.CELL_REF:
+						System.out.
+							println("CELL_REF " + cell.getAddress() + " " + node.
+								getText());
 						return new CellReference(cell.getSpreadsheet(), node.
 												 getText());
-//					case FormulaParserTokenTypes.NAME:
-					/* return cell.getSpreadsheet().getWorkbook().
+					case FormulaLexer.VART_REF:
+						System.out.
+							println("VART_REF " + cell.getAddress() + " " + node.
+								getText());
+						return new VariableLocalReference(cell, node.getText());
+					/*case FormulaParserTokenTypes.NAME:
+					return cell.getSpreadsheet().getWorkbook().
+						case FormulaParserTokenTypes.NAME:
+					return cell.getSpreadsheet().getWorkbook().
 					 getRange(node.getText()) (Reference)*/
 				}
 			} catch (ParseException e) {
@@ -169,13 +181,24 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 			return new FunctionCall(function, argArray);
 		}
 
-		if (node.getChildCount() == 1) // Convert unary operation
-		{
+		if (node.getText().equals("{")) {
+			List<Expression> args = new ArrayList<Expression>();
+			for (int numChild = 0; numChild < node.getChildCount(); numChild++) {
+				Tree child = node.getChild(numChild);
+				if (child != null) {
+					args.add(convert(cell, child));
+				}
+			}
+			Expression[] argArray = args.toArray(new Expression[args.size()]);
+			return new InstructionBlock(argArray);
+		}
+
+		if (node.getChildCount() == 1) {
 			return new UnaryOperation(
 				Language.getInstance().getUnaryOperator(node.getText()),
 				convert(cell, node.getChild(0))
 			);
-		} else if (node.getChildCount() == 2 && node.getText() != null) {
+		} else if (node.getChildCount() == 2) {
 			// Convert binary operation
 			BinaryOperator operator = Language.getInstance().
 				getBinaryOperator(node.getText());
@@ -190,13 +213,8 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					Value value = new BinaryOperation(
 						convert(cell, node.getChild(0)),
 						operator,
-						convert(cell, node.getChild(1))
-					).evaluate();
-					Cell cellDest = new CellReference(Converter.controller().
-						getActiveSpreadsheet(), node.getChild(0).getText()).
-						getCell();
-					cellDest.setContent(value.toString());
-					return null;
+						convert(cell, node.getChild(1))).evaluate();
+					return new Literal(value);
 				} catch (Exception ex) {
 					Logger.getLogger(ExcelExpressionCompiler.class.getName()).
 						log(Level.SEVERE, null, ex);
@@ -208,23 +226,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					convert(cell, node.getChild(1))
 				);
 			}
-		} else if (node.getChildCount() > 2) {
-			Expression[] expressions = new Expression[node.getChildCount()];
-//			if (node.getChild(0).getText().equalsIgnoreCase("FOR")) {
-//
-//				for (int i = 0; i < node.getChildCount(); i++) {
-//					expressions[i] = convert(cell, node.getChild(i));
-//				}
-//
-//				return new For(expressions);
-//
-//			} else {
-			for (int i = 0; i < node.getChildCount(); i++) {
-				expressions[i] = convert(cell, node.getChild(i));
-			}
-			return new InstructionBlock(expressions);
 		}
-//		}
 		// Shouldn't happen
 		throw new FormulaCompilationException();
 	}

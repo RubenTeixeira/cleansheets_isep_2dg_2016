@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -219,21 +217,26 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		int column = cells[0].length;
 
 		if ((line > 2 && column == 1) || (line == 1 && column > 2) || (line > 1 && column > 1)) {
-			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
-			value = "[\"" + cells[0][0].getValue() + "\", ..., \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].
+				getAddress();
+			value = "[\"" + cells[0][0].getValue() + "\", ..., \"" + cells[cells.length - 1][cells[0].length - 1].
+				getValue() + "\"]";
 		} else if ((line == 2 && column == 1) || (line == 1 && column == 2)) {
-			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].getAddress();
-			value = "[\"" + cells[0][0].getValue() + "\", \"" + cells[cells.length - 1][cells[0].length - 1].getValue() + "\"]";
+			cell = cells[0][0].getAddress() + ":" + cells[cells.length - 1][cells[0].length - 1].
+				getAddress();
+			value = "[\"" + cells[0][0].getValue() + "\", \"" + cells[cells.length - 1][cells[0].length - 1].
+				getValue() + "\"]";
 		} else {
 			// The cells only have one value. A single cell.
 			cell = cells[0][0].getAddress().toString();
 			value = "[\"" + cells[0][0].getValue() + "\"]";
 		}
 
-		int reply = JOptionPane.showConfirmDialog(this, "::. Send information .::\n"
-				+ "Host: " + host
-				+ "\nCell: " + cell
-				+ "\nValue: " + value);
+		int reply = JOptionPane.
+			showConfirmDialog(this, "::. Send information .::\n"
+							  + "Host: " + host
+							  + "\nCell: " + cell
+							  + "\nValue: " + value);
 
 		if (reply == JOptionPane.YES_OPTION) {
 			controller.sendCells(host, cells);
@@ -282,9 +285,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		String columnStr;
 		int tempColumn = column;
 		for (columnStr = ""; tempColumn >= 0; tempColumn = tempColumn
-				/ ('Z' - 'A' + 1) - 1) {
+			/ ('Z' - 'A' + 1) - 1) {
 			columnStr = (char) ((char) (tempColumn % ('Z'
-					- 'A' + 1)) + 'A') + columnStr;
+				- 'A' + 1)) + 'A') + columnStr;
 		}
 
 		return columnStr + (row + 1);
@@ -310,7 +313,9 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 		if (cells.size() == 1) {
 			for (Map.Entry<String, String> entry : cells.entrySet()) {
 				String[] key = entry.getKey().split(":");
-				firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+				firstAddress += this.
+					getAddress(Integer.parseInt(key[0]), Integer.
+							   parseInt(key[1]));
 				firstValue += this.getValue(entry.getValue());
 			}
 
@@ -323,12 +328,16 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 				String[] key = entry.getKey().split(":");
 
 				if (index == 0) {
-					firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					firstAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					firstValue += this.getValue(entry.getValue());
 				}
 
 				if (index == 1) {
-					secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					secondAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					secondValue += this.getValue(entry.getValue());
 				}
 
@@ -340,13 +349,17 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 			for (Map.Entry<String, String> entry : cells.entrySet()) {
 				if (index == 0) {
 					String[] key = entry.getKey().split(":");
-					firstAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					firstAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					firstValue += this.getValue(entry.getValue());
 				}
 
 				if (index == size) {
 					String[] key = entry.getKey().split(":");
-					secondAddress += this.getAddress(Integer.parseInt(key[0]), Integer.parseInt(key[1]));
+					secondAddress += this.
+						getAddress(Integer.parseInt(key[0]), Integer.
+								   parseInt(key[1]));
 					secondValue += this.getValue(entry.getValue());
 				}
 
@@ -373,12 +386,14 @@ public class SharePanel extends javax.swing.JPanel implements SelectionListener,
 
     private void receiveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_receiveButtonActionPerformed
 
-		int reply = JOptionPane.showConfirmDialog(this, "::. Receive information .::\n"
-				+ "You want to receive these cells?");
+		int reply = JOptionPane.
+			showConfirmDialog(this, "::. Receive information .::\n"
+							  + "You want to receive these cells?");
 
 		if (reply == JOptionPane.YES_OPTION) {
 			try {
-				controller.updateCells(uiController, receivedElements.get(receiveList.getSelectedIndex()));
+				controller.updateCells(uiController, receivedElements.
+									   get(receiveList.getSelectedIndex()));
 			} catch (FormulaCompilationException ex) {
 				System.out.println("Error!");
 			}

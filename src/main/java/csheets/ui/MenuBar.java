@@ -20,15 +20,6 @@
  */
 package csheets.ui;
 
-import java.awt.event.KeyEvent;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-
 import csheets.CleanSheets;
 import csheets.ui.ctrl.ActionManager;
 import csheets.ui.ctrl.UIController;
@@ -39,9 +30,17 @@ import csheets.ui.ext.SideBarAction;
 import csheets.ui.ext.TableDecorator;
 import csheets.ui.ext.TableDecoratorAction;
 import csheets.ui.ext.UIExtension;
+import java.awt.event.KeyEvent;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 
 /**
  * The menu bar.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -49,16 +48,19 @@ public class MenuBar extends JMenuBar {
 
 	/**
 	 * Creates the menu bar.
+	 *
 	 * @param app the CleanSheets application
 	 * @param actionManager a manager for actions
 	 * @param uiController the user interface controller
 	 */
-	public MenuBar(CleanSheets app, ActionManager actionManager, UIController uiController) {
+	public MenuBar(CleanSheets app, ActionManager actionManager,
+				   UIController uiController) {
 		// Creates the file menu
 		JMenu fileMenu = addMenu("File", KeyEvent.VK_F);
 		fileMenu.add(actionManager.getAction("new"));
 		fileMenu.add(actionManager.getAction("open"));
 		fileMenu.add(new ReopenMenu(app, uiController));
+		fileMenu.add(new ExportMenu(app, uiController));
 		fileMenu.add(actionManager.getAction("save"));
 		fileMenu.add(actionManager.getAction("saveas"));
 		fileMenu.addSeparator();
@@ -87,20 +89,22 @@ public class MenuBar extends JMenuBar {
 		// Creates the view menu
 		JMenu viewMenu = addMenu("View", KeyEvent.VK_V);
 
-		JMenu sideBarMenu = (JMenu)viewMenu.add(new JMenu("Side Bars"));
+		JMenu sideBarMenu = (JMenu) viewMenu.add(new JMenu("Side Bars"));
 		sideBarMenu.setMnemonic(KeyEvent.VK_S);
-		sideBarMenu.setIcon(new ImageIcon(CleanSheets.class.getResource("res/img/sidebar.gif")));
+		sideBarMenu.setIcon(new ImageIcon(CleanSheets.class.
+			getResource("res/img/sidebar.gif")));
 
-		JMenu toolBarMenu = (JMenu)viewMenu.add(new JMenu("Tool Bars"));
+		JMenu toolBarMenu = (JMenu) viewMenu.add(new JMenu("Tool Bars"));
 		toolBarMenu.setMnemonic(KeyEvent.VK_T);
-		toolBarMenu.setIcon(new ImageIcon(CleanSheets.class.getResource("res/img/toolbar.gif")));
+		toolBarMenu.setIcon(new ImageIcon(CleanSheets.class.
+			getResource("res/img/toolbar.gif")));
 
 		viewMenu.addSeparator();
-		JMenu cellDecMenu = (JMenu)viewMenu.add(new JMenu("Cell Decorators"));
+		JMenu cellDecMenu = (JMenu) viewMenu.add(new JMenu("Cell Decorators"));
 		cellDecMenu.setMnemonic(KeyEvent.VK_C);
 		cellDecMenu.setIcon(new BlankIcon(16));
 
-		JMenu tableDecMenu = (JMenu)viewMenu.add(new JMenu("Table Decorators"));
+		JMenu tableDecMenu = (JMenu) viewMenu.add(new JMenu("Table Decorators"));
 		tableDecMenu.setMnemonic(KeyEvent.VK_C);
 		tableDecMenu.setIcon(new BlankIcon(16));
 
@@ -108,26 +112,30 @@ public class MenuBar extends JMenuBar {
 		for (UIExtension extension : uiController.getExtensions()) {
 
 			CellDecorator cellDec = extension.getCellDecorator();
-			if (cellDec != null)
+			if (cellDec != null) {
 				cellDecMenu.add(new JCheckBoxMenuItem(new CellDecoratorAction(
 					extension))).setSelected(cellDec.isEnabled());
+			}
 
 			TableDecorator tableDec = extension.getTableDecorator();
-			if (tableDec != null)
+			if (tableDec != null) {
 				tableDecMenu.add(new JCheckBoxMenuItem(new TableDecoratorAction(
 					extension))).setSelected(tableDec.isEnabled());
+			}
 
 			JComponent sideBar = extension.getSideBar();
-			if (sideBar != null)
+			if (sideBar != null) {
 				sideBarMenu.add(new JCheckBoxMenuItem(
 					new SideBarAction(extension, sideBar))
 				).setSelected(sideBar.isEnabled());
+			}
 
 			JComponent toolBar = extension.getToolBar();
-			if (toolBar != null)
+			if (toolBar != null) {
 				toolBarMenu.add(new JCheckBoxMenuItem(
 					new ComponentAction(extension, toolBar, "toolbar"))
 				).setSelected(toolBar.isVisible());
+			}
 		}
 
 		// Creates the spreadsheet menu
@@ -149,14 +157,16 @@ public class MenuBar extends JMenuBar {
 				// Updates icon
 				if (extensionMenu.getIcon() == null) {
 					Icon icon = extension.getIcon();
-					extensionMenu.setIcon(icon != null ? icon : new BlankIcon(16));
+					extensionMenu.
+						setIcon(icon != null ? icon : new BlankIcon(16));
 				}
-	
+
 				// Adds menu
 				extensionsMenu.add(extensionMenu);
 			}
 		}
-                extensionsMenu.add(actionManager.getAction("extensiosactivatedeactivate"));
+		extensionsMenu.add(actionManager.
+			getAction("extensiosactivatedeactivate"));
 
 		// Creates the window menu
 		add(new WindowMenu(app, uiController));
@@ -167,13 +177,14 @@ public class MenuBar extends JMenuBar {
 		helpMenu.addSeparator();
 		helpMenu.add(actionManager.getAction("license"));
 		helpMenu.add(actionManager.getAction("about"));
-}
+	}
 
 	/**
 	 * Creates a menu and adds it to the menu bar.
-	 * @param name		The name of the menu.
+	 *
+	 * @param name	The name of the menu.
 	 * @param mnemonic	The shortcut-key to access the menu.
-	 * @return		The menu created.
+	 * @return	The menu created.
 	 */
 	private JMenu addMenu(String name, int mnemonic) {
 		JMenu menu = new JMenu(name);
