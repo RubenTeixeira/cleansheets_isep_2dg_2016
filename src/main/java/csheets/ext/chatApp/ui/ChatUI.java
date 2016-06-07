@@ -29,6 +29,7 @@ import javax.swing.DefaultListModel;
  */
 public class ChatUI extends javax.swing.JFrame implements SelectionListener, Observer {
 
+	private static ChatUI atualInstance = null;
 	/**
 	 * UI controller
 	 */
@@ -69,7 +70,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	 * @param uiController User interface controller
 	 * @param chatAppController chat app controller
 	 */
-	public ChatUI(UIController uiController, ChatAppController chatAppController) {
+	private ChatUI(UIController uiController,
+				   ChatAppController chatAppController) {
 		this.uiController = uiController;
 		this.setTitle("Chat");
 		// Create default lists
@@ -246,7 +248,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			if (!instanceListModel.contains(address)) {
 				instanceListModel.addElement(address);
 
-				manager.after(20).once(new Task() {
+				manager.after(4).once(new Task() {
 					public void fire() {
 						instanceListModel.removeElement(address);
 						usersList.setModel(instanceListModel);
@@ -263,7 +265,6 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		String message = "";
 		message = mapMessages.get("hostname") + ": " + mapMessages.
 			get("message");
-		new TimedPopupMessageDialog(null, "Message", chatAppController, message);
 		usersList.setSelectedValue(mapMessages.get("from"), true);
 
 		receiveListModel.addElement(message);
@@ -286,5 +287,16 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			List<String> addresses = (List<String>) arg;
 			updateInstanceList(addresses);
 		}
+	}
+
+	public static ChatUI instance(UIController uiController,
+								  ChatAppController chatAppController) {
+		if (ChatUI.atualInstance == null) {
+
+			ChatUI.atualInstance = new ChatUI(uiController, chatAppController);
+		} else {
+			ChatUI.atualInstance.toFront();
+		}
+		return ChatUI.atualInstance;
 	}
 }
