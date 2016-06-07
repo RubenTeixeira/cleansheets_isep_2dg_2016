@@ -1,11 +1,9 @@
 package csheets.ext.conditionalFormatting.ui;
 
 import csheets.ext.Extension;
-import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -45,18 +43,18 @@ public class UIExtensionCondicionalFormatting extends UIExtension {
 		return sideBar;
 	}
 
-	/**
-	 * Returns an icon to display with the extension's name.
-	 *
-	 * @return an icon with a tree
-	 */
-	public Icon getIcon() {
-		if (icon == null) {
-			icon = new ImageIcon(
-				ConditionalFormattingExtension.class.
-				getResource("res/img/logo.gif"));
-		}
-		return icon;
-	}
-
+//	/**
+//	 * Returns an icon to display with the extension's name. TODO CHANGE
+//	 * DIRECTORY
+//	 *
+//	 * @return an icon with a tree
+//	 */
+//	public Icon getIcon() {
+//		if (icon == null) {
+//			icon = new ImageIcon(
+//				ChatAppExtension.class.
+//				getResource("res/img/logo.gif"));
+//		}
+//		return icon;
+//	}
 }

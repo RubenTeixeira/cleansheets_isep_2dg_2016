@@ -5,7 +5,7 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.ext.conditionalFormatting.ui.ConditionalFormattingUI;
+import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
@@ -21,7 +21,7 @@ public class ConditionalFormattingAction extends FocusOwnerAction {
 	 * The user interface controller
 	 */
 	private UIController uiController;
-	private ConditionalFormattingUI conditionalFormattingUI;
+	private ConditionalFormattingExtension conditionalFormattingExtension;
 
 	public ConditionalFormattingAction(UIController uiController) {
 		this.uiController = uiController;
@@ -38,7 +38,7 @@ public class ConditionalFormattingAction extends FocusOwnerAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		conditionalFormattingUI = new ConditionalFormattingUI(uiController);
+		conditionalFormattingExtension = new ConditionalFormattingExtension();
 
 	}
 

@@ -11,3 +11,4 @@ csheets.ext.importExportData.ImportExportDataExtension
 csheets.ext.sort.SortExtension
 csheets.ext.chatApp.ChatAppExtension
 csheets.ext.game.GameExtension
+csheets.ext.conditionalFormatting.ConditionalFormattingExtension
