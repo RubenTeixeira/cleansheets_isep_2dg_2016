@@ -43,7 +43,10 @@ public class TaskManager {
                 this.fire();
 
                 this.cancel();
-                timer.purge();
+                
+                if (timer != null) {
+                    timer.purge();
+                }
             }
 
             @Override

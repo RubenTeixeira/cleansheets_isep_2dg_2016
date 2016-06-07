@@ -15,11 +15,12 @@ public class UdpClientTest {
         TaskManager tm = new TaskManager();
         
         // Execute the broadcast task every 4 seconds.
-        tm.every(4).fire(new Task() {
+        tm.every(1).fire(new Task() {
             @Override
             public void fire()
             {
                 client.send(":message", "all:30600", "Meet Volt.");
+                client.send(":new-message", "all:30600", "Meet Advanced Volt.");
             }
         });
         

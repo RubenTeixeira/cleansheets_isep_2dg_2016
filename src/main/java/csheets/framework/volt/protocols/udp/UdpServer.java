@@ -27,8 +27,6 @@ public class UdpServer extends Server {
 
     private int clientPort;
     
-    //private boolean isClient = false;
-    
     private final Map<String, Action> routes;
     
     private final Map<String, String> hashedRoutes;
@@ -66,7 +64,14 @@ public class UdpServer extends Server {
     @Override
     public void bootServer(int port) {
         try {
-            this.server = new DatagramSocket(port);
+            if (this.server != null) {
+                this.server.disconnect();
+                this.server.close();
+                this.server = new DatagramSocket(port);
+            } else {
+                this.server = new DatagramSocket(port);
+            }
+            
             this.server.setSoTimeout(1000);
         } catch (SocketException ex) {
             throw new IllegalArgumentException("Could not initiate the UDP service because the given port was already in use.");
@@ -335,6 +340,7 @@ public class UdpServer extends Server {
      * @param target IPv4 and Port (separated by ":")
      * @param message Message to send, no headers.
      */
+    @Override
     public void send(String route, String target, String message) {
         try {
             if (server() == null) {
@@ -396,6 +402,7 @@ public class UdpServer extends Server {
      * @param route Expected route.
      * @param action Action to be executed.
      */
+    @Override
     public void expect(String route, Action action) {
         CRC32 checksum = new CRC32();
 
@@ -405,8 +412,28 @@ public class UdpServer extends Server {
             Logger.getLogger(UdpServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        this.hashedRoutes.put(String.valueOf(checksum.getValue()), route);
-        this.routes.put(route, action);
+        synchronized (this.routes) {
+            this.routes.put(route, action);
+            this.hashedRoutes.put(String.valueOf(checksum.getValue()), route);
+        }
+    }
+    
+    /**
+     * Neglects an expected route.
+     * 
+     * @param route Route to be neglected.
+     */
+    public void neglect(String route) {
+        synchronized (this.routes) {
+            this.routes.remove(route);
+            
+            for (Map.Entry<String, String> entry : this.hashedRoutes.entrySet()) {
+                if (entry.getValue().equals(route)) {
+                    this.hashedRoutes.remove(entry.getKey());
+                    break;
+                }
+            }
+        }
     }
     
     /**
@@ -415,7 +442,9 @@ public class UdpServer extends Server {
      * @return Routes.
      */
     public Map<String, Action> routes() {
-        return this.routes;
+        synchronized (this.routes) {
+            return this.routes;
+        }
     }
 
     /**
@@ -554,9 +583,28 @@ public class UdpServer extends Server {
     /**
      * Shuts the server down.
      */
+    @Override
     public void shutdown()
     {
-        this.server().close();
+        try {
+            synchronized (this.server) {
+                try {
+                    super.active = false;
+                    
+                    if (this.server == null) {
+                        return;
+                    }
+                    
+                    this.server.disconnect();
+                    this.server.close();
+
+                } catch (Exception e) {
+                    throw new IllegalArgumentException(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
     
     /**
