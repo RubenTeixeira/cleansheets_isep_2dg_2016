@@ -11,11 +11,15 @@ import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 
 /**
@@ -183,12 +187,6 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 				//No selection.
 				btnSend.setEnabled(false);
 			} else {
-				//Selection.
-				message = txtMessage.getText();
-
-				if (message.length() <= 0) {
-					return;
-				}
 				btnSend.setEnabled(true);
 				host = usersList.getSelectedValue();
 			}
@@ -196,6 +194,18 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     }//GEN-LAST:event_usersListValueChanged
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+		//Selection.
+		message = txtMessage.getText();
+
+		if (message.length() <= 0) {
+			return;
+		}
+		try {
+			receiveListModel.
+				addElement(InetAddress.getLocalHost().getHostName() + ":" + message);
+		} catch (UnknownHostException ex) {
+			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
+		}
 		chatAppController.sendMessage(host, message);
     }//GEN-LAST:event_btnSendActionPerformed
 
@@ -231,9 +241,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		int index = 0, size = mapMessages.size() - 1;
 		String message = "";
 		message = mapMessages.get("hostname") + ":" + mapMessages.get("message");
-		System.out.println(mapMessages.get("hostname"));
-		System.out.println(mapMessages.get("from"));
-		System.out.println(mapMessages.get("message"));
+		new TimedPopupMessageDialog(null, "Message", chatAppController, message);
 		usersList.setSelectedValue(mapMessages.get("from"), true);
 
 		receiveListModel.addElement(message);
