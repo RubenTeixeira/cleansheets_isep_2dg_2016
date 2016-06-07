@@ -5,11 +5,17 @@
  */
 package csheets.ext.reminder.ui;
 
+import csheets.domain.Event;
+import csheets.domain.Reminder;
 import csheets.ext.events.EventsController;
+import csheets.ext.events.ui.EventPanelSingle;
+import csheets.ext.events.ui.TimedPopupDialog;
 import csheets.ext.reminder.ReminderExtension;
 import csheets.ext.reminder.RemindersControllers;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.ui.ctrl.UIController;
+import java.awt.GridLayout;
+import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,8 +33,51 @@ public class RemindersPanel extends javax.swing.JPanel {
         this.setName(ReminderExtension.NAME);
         this.controller = new RemindersControllers(uiController, this);
         initComponents();
+        this.update(null, null);
     }
+    
+	public void update(Observable o, Object arg) {
+//		if (arg instanceof Event) {
+//			Event event = (Event) arg;
+//                        new TimedPopupDialog(null, "Reminder: " + controller, event);
+//		} else {
+			clearRemindersList();
+			for (Reminder r : this.controller.allContacts()) {
+                            ReminderSinglePanel panel = new ReminderSinglePanel(this.controller, r);
+				this.addReminderPanel(panel);
+			}
+			this.jPanelReminders.revalidate();
+			this.jPanelReminders.repaint();
+//		}
+	}
 
+    private void addReminderPanel(ReminderSinglePanel panel) {
+		this.jPanelReminders.add(panel);
+		addGridRow();
+	}
+
+	/*
+    * Deletes all information from event list.
+	 */
+	private void clearRemindersList() {
+		this.jPanelReminders.removeAll();
+		defaultGridRow();
+	}
+
+    /*
+    * Layout specific: set's the default number of rows (5)
+	 */
+	private void defaultGridRow() {
+		((GridLayout) this.jPanelReminders.getLayout()).setRows(3);
+	}
+        /*
+    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+	 */
+	private void addGridRow() {
+		GridLayout layout = (GridLayout) this.jPanelReminders.getLayout();
+		layout.setRows(layout.getRows() + 1);
+	}
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,20 +88,12 @@ public class RemindersPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
-        jPanelEvents = new javax.swing.JPanel();
-        jButtonAddEvent = new javax.swing.JButton();
+        jPanelReminders = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
 
         jButton1.setText("jButton1");
 
-        jPanelEvents.setLayout(new java.awt.GridLayout(5, 1));
-
-        jButtonAddEvent.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_event.png"))); // NOI18N
-        jButtonAddEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddEventActionPerformed(evt);
-            }
-        });
+        jPanelReminders.setLayout(new java.awt.GridLayout(5, 1));
 
         jButton2.setText("New Reminder");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -68,14 +109,9 @@ public class RemindersPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
-                    .addComponent(jPanelEvents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+                    .addComponent(jPanelReminders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButtonAddEvent)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -83,19 +119,10 @@ public class RemindersPanel extends javax.swing.JPanel {
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelEvents, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelReminders, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jButtonAddEvent)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButtonAddEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddEventActionPerformed
-
-    }//GEN-LAST:event_jButtonAddEventActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
             ReminderManager remMan= new ReminderManager(this.controller,null);
@@ -109,14 +136,13 @@ public class RemindersPanel extends javax.swing.JPanel {
                     Logger.getLogger(RemindersPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
 		}
-            
+            update(null, null);
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButtonAddEvent;
-    private javax.swing.JPanel jPanelEvents;
+    private javax.swing.JPanel jPanelReminders;
     // End of variables declaration//GEN-END:variables
 }

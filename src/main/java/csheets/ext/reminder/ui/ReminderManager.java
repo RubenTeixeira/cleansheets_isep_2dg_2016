@@ -68,7 +68,19 @@ public class ReminderManager extends javax.swing.JPanel {
 
         jLabel1.setText("Description:");
 
+        jTextFieldDescripton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldDescriptonActionPerformed(evt);
+            }
+        });
+
         jLabel3.setText("Name:");
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -208,6 +220,14 @@ public class ReminderManager extends javax.swing.JPanel {
     private void cmbMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthActionPerformed
         initDays();
     }//GEN-LAST:event_cmbMonthActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextFieldDescriptonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldDescriptonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldDescriptonActionPerformed
 
     private void initDate() {
         initYear();
