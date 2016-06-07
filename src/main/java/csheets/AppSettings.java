@@ -1,5 +1,6 @@
 package csheets;
 
+import csheets.framework.Money;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,10 +16,13 @@ import java.util.logging.Logger;
 public final class AppSettings {
 
     private final Properties applicationProperties = new Properties();
-    // private final static String PROPERTIES_RESOURCE =
-    // "eapli/ecafeteria/ecafeteria.properties";
+    
     private final static String PROPERTIES_RESOURCE = "cleansheets.properties";
     private final static String REPOSITORY_FACTORY_KEY = "persistence.repositoryFactory";
+    private final static String EXCHANGERATE_POUNDTOEURO = "exchangerate.poundToEuro";
+    private final static String EXCHANGERATE_DOLLARTOEURO = "exchangerate.dollarToEuro";
+    private final static String EXCHANGERATE_EUROTOPOUND = "exchangerate.euroToPound";
+    private final static String EXCHANGERATE_EUROTODOLLAR = "exchangerate.euroToDollar";
 
     // use lazy holder idiom
     // https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
@@ -38,7 +42,6 @@ public final class AppSettings {
     private void loadProperties() {
         InputStream propertiesStream = null;
         try {
-            // propertiesStream = new FileInputStream(PROPERTIES_FILENAME);
             propertiesStream = AppSettings.class.getClassLoader().
                     getResourceAsStream(PROPERTIES_RESOURCE);
             if (propertiesStream != null) {
@@ -71,5 +74,25 @@ public final class AppSettings {
 
     public String getRepositoryFactory() {
         return this.applicationProperties.getProperty(REPOSITORY_FACTORY_KEY);
+    }
+    
+    public Money getDollarToEuroExchangeRate()
+    {
+        return Money.euros(Double.parseDouble(this.applicationProperties.getProperty(EXCHANGERATE_DOLLARTOEURO)));
+    }
+        
+    public Money getPoundToEuroExchangeRate()
+    {
+        return Money.euros(Double.parseDouble(this.applicationProperties.getProperty(EXCHANGERATE_POUNDTOEURO)));
+    }
+    
+    public Money getEuroToPoundExchangeRate()
+    {
+        return Money.pounds(Double.parseDouble(this.applicationProperties.getProperty(EXCHANGERATE_EUROTOPOUND)));
+    }
+    
+    public Money getEuroToDollarExchangeRate()
+    {
+        return Money.dollars(Double.parseDouble(this.applicationProperties.getProperty(EXCHANGERATE_EUROTODOLLAR)));
     }
 }

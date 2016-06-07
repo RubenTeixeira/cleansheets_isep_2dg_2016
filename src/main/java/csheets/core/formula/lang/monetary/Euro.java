@@ -1,0 +1,61 @@
+package csheets.core.formula.lang.monetary;
+
+import csheets.core.IllegalValueTypeException;
+import csheets.core.Value;
+import csheets.core.formula.Expression;
+import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
+
+/**
+ * This Function returns a Numeric type value with Euro currency basead on value
+ * passed as argument.
+ *
+ * In this case, this function does no conversion because the value passed as
+ * argument is already in euro currency.
+ *
+ * @author Rui Freitas <1130303@isep.ipp.pt>
+ */
+public class Euro implements Function {
+
+	/**
+	 * The only (but repeatable) parameter: a numeric term
+	 */
+	public static final FunctionParameter[] parameters = new FunctionParameter[]{
+		new FunctionParameter(Value.Type.MONEY, "Term", false,
+							  "A number to be converted to euro")
+	};
+
+	/**
+	 * Creates a new instance of the EURO function.
+	 */
+	public Euro() {
+	}
+
+	@Override
+	public String getIdentifier() {
+		return "euro";
+	}
+
+	/**
+	 * Returns a Numeric type Value. In this case, no conversion is need.
+	 *
+	 * @param arguments
+	 * @return
+	 * @throws IllegalValueTypeException
+	 */
+	@Override
+	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+
+		return new Value(arguments[0].evaluate().toMoney().amount());
+	}
+
+	@Override
+	public FunctionParameter[] getParameters() {
+		return parameters;
+	}
+
+	@Override
+	public boolean isVarArg() {
+		return false;
+	}
+}
