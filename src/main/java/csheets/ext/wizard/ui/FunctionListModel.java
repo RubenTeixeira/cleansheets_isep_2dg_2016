@@ -16,7 +16,7 @@ import javax.swing.DefaultListModel;
  */
 public class FunctionListModel extends DefaultListModel<String> {
 
-    private List<Function> listSubjects;
+    private transient List<Function> listSubjects;
 
     public FunctionListModel(List<Function> listSubjects) {
         this.listSubjects = listSubjects;
