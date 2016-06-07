@@ -237,7 +237,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		usersList.setSelectedValue(mapMessages.get("from"), true);
 
 		receiveListModel.addElement(message);
-		usersList.setModel(receiveListModel);
+		messagesList.setModel(receiveListModel);
 		repaint();
 	}
 
@@ -250,8 +250,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Map) {
 			Map<String, String> mapMessages = (Map<String, String>) arg;
-			//updateReceiveList(mapMessages);
-			System.out.println(mapMessages.get("message"));
+			updateReceiveList(mapMessages);
 		}
 		if (arg instanceof List) {
 			List<String> addresses = (List<String>) arg;
