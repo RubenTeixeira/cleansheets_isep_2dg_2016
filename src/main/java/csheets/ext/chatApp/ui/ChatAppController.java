@@ -60,7 +60,7 @@ public class ChatAppController {
 
 		this.startUdpService(port, seconds);
 
-		//this.udpService.addObserver(ui);
+		this.udpService.addObserver(ui);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class ChatAppController {
 
 		this.startTcpService(port);
 
-		//this.tcpService.addObserver(ui);
+		this.tcpService.addObserver(ui);
 	}
 
 	/**
