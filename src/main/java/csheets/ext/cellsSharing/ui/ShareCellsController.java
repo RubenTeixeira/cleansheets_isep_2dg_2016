@@ -228,7 +228,7 @@ public class ShareCellsController {
     }
 
     public void stopConnection() {
-        tcpService.setContinuousTarget("null");
         tcpService.stopContinuousSending();
+        tcpService.setContinuousTarget("null");
     }
 }
