@@ -47,7 +47,17 @@ public abstract class Server {
      * @param port The port number.
      */
     public abstract void serve(int port);
-
+    
+    public abstract void stream(int port);
+    
+    public abstract void expect(String route, Action action);
+    
+    public abstract void neglect(String route);
+    
+    public abstract void send(String route, String target, String message);
+    
+    public abstract void shutdown();
+    
     /**
      * Returns if the server is currently working.
      *
