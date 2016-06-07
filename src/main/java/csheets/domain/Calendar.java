@@ -37,7 +37,7 @@ public class Calendar implements Serializable {
 		this.name = name;
 		this.text = text;
 		this.color = color;
-
+		this.m_Contact = contato;
 	}
 
 	public Contact getM_contact() {
