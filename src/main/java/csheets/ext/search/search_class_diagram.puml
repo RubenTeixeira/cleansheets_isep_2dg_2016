@@ -1,0 +1,94 @@
+ @startuml doc-files/search_class_diagram.png
+class MenuBar {
+	+MenuBar(Cleansheet app, ActionManager actionManager, UIController uiController)
+}
+
+class JMenuBar {
+}
+
+class UIController {
+	-extensions : uiExtension[]
+	--
+	+UIController(Cleansheet app)
+	+getExtensions() : uiExtension[]
+}
+
+class ExtensionManager {
+	-instance : ExtensionManager
+	-extensionMap : SortedMap<String,Extension>
+	--
+	-ExtensionManager()
+	+load(String ClassName) : SortExtension
+	+load(Extension _class)
+}
+
+class Extension{
+}
+
+class SearchExtension{
+	-NAME : string
+	+super(String name)
+	+getUIExtension(UIController controller) : UIExtension
+}
+
+class UIExtension{
+}
+
+class UISearch{
+	+UISearch(UIController controller);
+	+getMenu() : JMenu
+}
+
+class JMenu{
+}
+
+class SearchMenu{
+	+SearchMenu(UIController controller)
+}
+
+class BaseAction{
+}
+
+class SearchAction{
+	-uiController : UIController
+	*-searchController : SortController*
+	+SearchAction(UIController controller)
+	+getName() : String
+	+defineProperties()
+	+actionPerformed(ActionEvent event)
+}
+
+class SearchJPanel{
+	-uiController : UIController
+	-sortController : SortController
+	-order : int
+	+SearchJPanel(UIController controller)
+}
+
+
+class SearchController{
+	-column : ArrayList<Value>
+	*+order(List<String> column, int order)*
+	+SearchController(UIController controller);
+}
+
+
+
+
+JMenuBar <|-- MenuBar
+Extension <|-- SearchExtension
+UIExtension <|-- UISearch
+JMenu <|-- SearchMenu
+BaseAction <|-- SearchAction
+
+MenuBar --> UIController : getExtensions();
+UIController --> ExtensionManager : getExtensions();
+ExtensionManager --> SearchExtension : load(Extension extension);
+SearchExtension --> UISearch : new(UIController controller);
+UISearch --> SearchMenu : new(UIController controller);
+SearchMenu --> SearchAction : new(UIController controller);
+SearchAction --> SearchJPanel : new(UIController);
+SearchJPanel --> SearchController : new(UIController);
+
+
+  @enduml
