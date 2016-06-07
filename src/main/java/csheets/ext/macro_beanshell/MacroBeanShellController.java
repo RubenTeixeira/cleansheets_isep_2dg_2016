@@ -3,30 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.sort;
+package csheets.ext.macro_beanshell;
 
-import java.util.Collections;
-import java.util.List;
+import csheets.ui.ctrl.UIController;
+import javax.activation.UnsupportedDataTypeException;
 
 /**
- * Sort Controller.
+ * Macro/BeanShell Controller.
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Rui Bento
  */
-public class SortController {
+public class MacroBeanShellController {
 
-	/**
-	 * Handle Sorting.
-	 *
-	 * @param valueList
-	 * @param order
-	 */
-	public void order(List<String> valueList, int order) {
+    private UIController uicontroller;
 
-		if (order == 0) { //ascending
-			Collections.sort(valueList);
-		} else { //descending mode
-			Collections.reverse(valueList);
-		}
-	}
+    public MacroBeanShellController(UIController uicontroller) {
+        this.uicontroller = uicontroller;
+    }
+    
+    public String executeCode(String scriptType, String code) throws UnsupportedDataTypeException {
+        Script script = createScript(scriptType);
+        if(script == null) throw new UnsupportedDataTypeException("Unknown script type.");
+        return script.run(code);
+    }
+    
+    private Script createScript(String scriptType) {
+        switch(scriptType) {
+            case BeanShell.NAME: {
+                return new BeanShell();
+            }
+            case Macro.NAME: {
+                return new Macro();
+            }
+        }
+        return null;
+    }
+
 }
