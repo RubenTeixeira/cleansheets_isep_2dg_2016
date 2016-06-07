@@ -5,6 +5,7 @@
  */
 package csheets.ext.reminder;
 
+import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.domain.Reminder;
 import csheets.ext.events.ui.EventsPanel;
@@ -20,6 +21,7 @@ import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  *
@@ -45,30 +47,12 @@ public class RemindersControllers {
     public RemindersControllers(UIController uiController, RemindersPanel uiPanel) {
 		this.uiController = uiController;
 		this.uiPanel = uiPanel;
-
-//		TaskManager tm = new TaskManager();
-//		Task verify;
-//		verify = new Task() {
-//			public void fire() {
-//				for (Event event : allEvents()) {
-//					if (event.alert() && event.date().before(DateTime.now())) {
-//						Notification.eventInformer().notifyChange(event);
-//					}
-//				}
-//			}
-//		};
-//		ThreadManager.create("crm.reminder", new Thread() {
-//							 public void run() {
-//								 tm.after(5).every(60).fire(verify);
-//							 }
-//						 });
-//		ThreadManager.run("crm.reminder");
     }
 
     public Reminder createReminder(String nameReminder, String dscReminder, Calendar calendar) throws DataIntegrityViolationException {
                 Reminder reminder = ReminderFactory.createReminder(nameReminder, dscReminder, calendar);
 		PersistenceContext.repositories().reminders().add(reminder);
-		
+		      System.out.println("Inseriu na BD " +reminder.toString());
 		return reminder;
     }
 
@@ -77,5 +61,20 @@ public class RemindersControllers {
 		
 		return reminder;
     }
+        public void removeReminder(Reminder r) {
+		PersistenceContext.repositories().reminders().delete(r);
+		Notification.eventInformer().notifyChange();
+	}
+
+	public Iterable<Reminder> allContacts() {
+		return (List<Reminder>) PersistenceContext.repositories().reminders().all();
+	}
+
+
+	public void snoozeEvent(Event event) {
+		event.add(Calendar.MINUTE, 5);
+		PersistenceContext.repositories().events().save(event);
+		Notification.eventInformer().notifyChange();
+	}
     
 }

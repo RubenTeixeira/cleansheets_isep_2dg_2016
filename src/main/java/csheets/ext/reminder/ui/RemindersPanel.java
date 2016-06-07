@@ -99,6 +99,16 @@ public class RemindersPanel extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
             ReminderManager remMan= new ReminderManager(this.controller,null);
+            int eventOption = JOptionPane.
+			showConfirmDialog(null, remMan, "Create Reminder", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+                try {
+                    remMan.createReminder();
+                    JOptionPane.showMessageDialog(remMan, "Sucess!");
+                } catch (DataIntegrityViolationException ex) {
+                    Logger.getLogger(RemindersPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+		}
             
     }//GEN-LAST:event_jButton2ActionPerformed
 
