@@ -26,35 +26,33 @@ public class TcpService extends Notifier {
 	 */
 	public void server(int port) {
 		ThreadManager.create("ipc.tcpServer", new Thread() {
-							 @Override
-							 public void run() {
-								 server = new TcpServer();
-								 server.expect(":chat", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   Map<String, String> mapMessage = new LinkedHashMap<>();
-												   mapMessage.
-													   put("reference", "chatMessage");
-												   mapMessage.
-													   put("hostname", (String) args.
-														   get("hostname"));
-												   mapMessage.
-													   put("from", (String) args.
-														   get("from"));
-												   mapMessage.
-													   put("message", (String) args.
-														   get("message"));
+			@Override
+			public void run() {
+				server = new TcpServer();
+				server.expect(":chat", new Action() {
+					@Override
+					public void run(
+						Map<String, Object> args) {
+						Map<String, String> mapMessage = new LinkedHashMap<>();
+						mapMessage.
+							put("reference", "chatMessage");
+						mapMessage.
+							put("hostname", (String) args.
+								get("hostname"));
+						mapMessage.
+							put("from", (String) args.
+								get("from"));
+						mapMessage.
+							put("message", (String) args.
+								get("message"));
 
-												   Notification.
-													   messageInformer().
-													   notifyChange(mapMessage);
-											   }
-										   });
+						Notification.messageInformer().notifyChange(mapMessage);
+					}
+				});
 
-								 server.stream(port);
-							 }
-						 });
+				server.stream(port);
+			}
+		});
 
 		ThreadManager.run("ipc.tcpServer");
 	}
@@ -67,12 +65,12 @@ public class TcpService extends Notifier {
 	 */
 	public void client(String target, String message) {
 		ThreadManager.create("ipc.tcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":chat", target, message);
-							 }
-						 });
+			@Override
+			public void run() {
+				new TcpClient(0).
+					send(":chat", target, message);
+			}
+		});
 
 		ThreadManager.run("ipc.tcpClient");
 	}

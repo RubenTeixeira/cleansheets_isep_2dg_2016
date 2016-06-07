@@ -45,38 +45,40 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		this.chatAppController = chatAppController;
 		setName(ChatAppExtension.NAME);
 		initComponents();
-		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
 		Notification.messageInformer().addObserver(this);
+		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Cheguei");
 		if (arg instanceof Map) {
-			((Map) arg).remove("reference");
-			String message = (String) ((Map) arg).get("message");
-			String hostname = (String) ((Map) arg).get("hostname");
+			if (((Map) arg).get("reference").equals("chatMessage")) {
+				((Map) arg).remove("reference");
+				String message = (String) ((Map) arg).get("message");
+				String hostname = (String) ((Map) arg).get("hostname");
 
-			String chatMessage = hostname + ": message";
+				String chatMessage = hostname + ": message";
 
-			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
+				new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
 
-			while (true) {
-				DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
-					children().nextElement();
-				if (no != null) {
-					String treeMessage = (String) no.getUserObject();
-					String ip = treeMessage.split(":")[0];
-					if (ip.equals(hostname)) {
-					}
-				} else {
-					break;
-				}
+//				while (true) {
+//					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+//						children().nextElement();
+//					if (no != null) {
+//						String treeMessage = (String) no.getUserObject();
+//						String ip = treeMessage.split(":")[0];
+//						if (ip.equals(hostname)) {
+//						}
+//					} else {
+//						break;
+//					}
+//				}
+				root.add(new DefaultMutableTreeNode(chatMessage));
+
+				this.revalidate();
+				this.repaint();
 			}
-
-			root.add(new DefaultMutableTreeNode(chatMessage));
-
-			this.revalidate();
-			this.repaint();
 		}
 	}
 
