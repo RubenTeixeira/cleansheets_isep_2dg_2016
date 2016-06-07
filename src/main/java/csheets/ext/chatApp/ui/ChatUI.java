@@ -14,8 +14,7 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,7 +50,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	/**
 	 * Received elements.
 	 */
-	private List<Map<String, String>> receivedElements;
+	private Map<String, String> hosts;
 	/**
 	 * Message to send
 	 */
@@ -77,7 +76,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		// Create default lists
 		instanceListModel = new DefaultListModel();
 		receiveListModel = new DefaulListModel();
-		receivedElements = new ArrayList<>();
+		hosts = new LinkedHashMap<>();
 		//TODO
 
 		initComponents();
@@ -202,7 +201,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			} else {
 				btnSend.setEnabled(true);
 				String hostValues[] = usersList.getSelectedValue().split("-");
-				host = hostValues[0];
+				host = hosts.get(hostValues[0]);
+
 			}
 		}
     }//GEN-LAST:event_usersListValueChanged
@@ -248,23 +248,24 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private javax.swing.JList<String> usersList;
     // End of variables declaration//GEN-END:variables
 
-	public void updateInstanceList(List<String> addresses) {
-		for (String address : addresses) {
-			if (instanceListModel.contains(address + "-(offline)")) {
-				instanceListModel.removeElement(address + "-(offline)");
-				instanceListModel.addElement(address + "-(online)");
-			} else if (!instanceListModel.contains(address + "-(online)")) {
-				instanceListModel.addElement(address + "-(online)");
+	public void updateInstanceList(Map<String, String> hostMap) {
+		for (String chatHost : hostMap.keySet()) {
+			if (instanceListModel.contains(chatHost + "-(offline)")) {
+				instanceListModel.removeElement(chatHost + "-(offline)");
+				instanceListModel.addElement(chatHost + "-(online)");
+			} else if (!instanceListModel.contains(chatHost + "-(online)")) {
+				instanceListModel.addElement(chatHost + "-(online)");
+				hosts.put(chatHost, hostMap.get(chatHost));
 				manager.after(8).once(new Task() {
 					@Override
 					public void fire() {
 						while (instanceListModel.elements().nextElement() != null) {
 							if (instanceListModel.elements().nextElement().
-								equals(address + "-(online)")) {
+								equals(chatHost + "-(online)")) {
 								instanceListModel.
-									removeElement(address + "-(online)");
+									removeElement(chatHost + "-(online)");
 								instanceListModel.
-									addElement(address + "-(offline)");
+									addElement(chatHost + "-(offline)");
 							}
 						}
 					}
@@ -295,12 +296,17 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Map) {
-			Map<String, String> mapMessages = (Map<String, String>) arg;
-			updateReceiveList(mapMessages);
-		}
-		if (arg instanceof List) {
-			List<String> addresses = (List<String>) arg;
-			updateInstanceList(addresses);
+			if (((Map) arg).get("reference").equals("chatMessage")) {
+				((Map) arg).remove("reference");
+				Map<String, String> mapMessages = (Map<String, String>) arg;
+				updateReceiveList(mapMessages);
+			}
+			if (((Map) arg).get("reference").equals("hosts")) {
+				((Map) arg).remove("reference");
+				Map<String, String> chatHosts = (Map<String, String>) arg;
+				updateInstanceList(chatHosts);
+			}
+
 		}
 	}
 

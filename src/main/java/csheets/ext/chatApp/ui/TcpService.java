@@ -35,6 +35,8 @@ public class TcpService extends Notifier {
 												   Map<String, Object> args) {
 												   Map<String, String> mapMessage = new LinkedHashMap<>();
 												   mapMessage.
+													   put("reference", "chatMessage");
+												   mapMessage.
 													   put("hostname", (String) args.
 														   get("hostname"));
 												   mapMessage.

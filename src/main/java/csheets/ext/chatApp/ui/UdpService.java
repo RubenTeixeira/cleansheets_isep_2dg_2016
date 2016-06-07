@@ -7,7 +7,7 @@ import csheets.notification.Notifier;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -59,16 +59,18 @@ public class UdpService extends Notifier {
 												   List<String> ports = (List<String>) args.
 													   get("port");
 
-												   List<String> addresses = new ArrayList<>();
-
+												   Map<String, String> chatHosts = new LinkedHashMap<>();
+												   chatHosts.
+													   put("reference", "hosts");
 												   for (String port : ports) {
-													   addresses.
-														   add((((String) args.
+													   chatHosts.
+														   put((String) args.
+															   get("hostname"), (((String) args.
 															   get("from")).
 															   split(":")[0]) + ":" + port);
 												   }
 
-												   notifyChange(addresses);
+												   notifyChange(chatHosts);
 											   }
 										   });
 
