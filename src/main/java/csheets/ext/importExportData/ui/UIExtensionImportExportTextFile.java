@@ -34,7 +34,7 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	/**
 	 * The menu of the extension
 	 */
-	private ShareMenu menu;
+	private ImportExportDataMenu menu;
 
 	/**
 	 * Controller.
@@ -47,7 +47,8 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-	public UIExtensionImportExportTextFile(Extension extension, UIController uiController) {
+	public UIExtensionImportExportTextFile(Extension extension,
+										   UIController uiController) {
 		super(extension, uiController);
 	}
 
@@ -67,7 +68,7 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	/**
 	 * Returns an instance of a class that implements JMenu.
 	 *
-	 * @see ShareMenu
+	 * @see ImportExportDataMenu
 	 * @return a JMenu component
 	 */
 	public JMenu getMenu() {
@@ -75,24 +76,9 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 			if (shareController == null) {
 				shareController = new ImportExportTextFileController();
 			}
-			menu = new ShareMenu(uiController, shareController);
+			menu = new ImportExportDataMenu(uiController, shareController);
 		}
 		return menu;
-	}
-
-	/**
-	 * Returns a side bar that gives access to extension-specific functionality.
-	 *
-	 * @return a component, or null if the extension does not provide one
-	 */
-	public JComponent getSideBar() {
-		if (sideBar == null) {
-			if (shareController == null) {
-				shareController = new ImportExportTextFileController();
-			}
-			sideBar = new SharePanel(uiController, shareController);
-		}
-		return sideBar;
 	}
 
 }

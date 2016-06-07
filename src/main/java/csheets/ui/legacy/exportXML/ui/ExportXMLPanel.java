@@ -73,7 +73,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 
         checkbox1.setLabel("export selected");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButtonExport.setText("Export");
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {

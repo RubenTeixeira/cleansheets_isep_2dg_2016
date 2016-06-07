@@ -38,10 +38,10 @@ public class UdpService extends Notifier {
 											   public void run(
 												   Map<String, Object> args) {
 
-												   if (server.same(args.
+												   /*												   if (server.same(args.
 													   get("from"))) {
 													   return;
-												   }
+												   }*/
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
 													   get("from")).split(":")[0] + ":" + localPort;
@@ -94,7 +94,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30600", "check");
+											 send(":broadcast", "all:30606", "check");
 									 }
 								 };
 

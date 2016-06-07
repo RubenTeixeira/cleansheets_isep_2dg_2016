@@ -98,7 +98,7 @@ public class ChatAppController {
 
 		this.startTcpService(port);
 
-		this.tcpService.addObserver(ui);
+		//this.tcpService.addObserver(ui);
 	}
 
 	/**

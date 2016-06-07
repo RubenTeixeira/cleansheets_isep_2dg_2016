@@ -63,7 +63,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20000;
+		final int defaultPort = 20006;
 
 		this.gameController = gameController;
 		this.gameController.startUdpService(this, defaultPort, defaultSeconds);
@@ -249,11 +249,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	@Override
 	public void selectionChanged(SelectionEvent event) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
 	public void update(java.util.Observable o, Object arg) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		if (arg instanceof List) {
+			List<String> addresses = (List<String>) arg;
+			updateInstanceList(addresses);
+		}
 	}
 }

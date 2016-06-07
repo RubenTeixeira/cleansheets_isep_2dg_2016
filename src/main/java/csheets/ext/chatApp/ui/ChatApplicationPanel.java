@@ -6,6 +6,7 @@
 package csheets.ext.chatApp.ui;
 
 import csheets.ext.chatApp.ChatAppExtension;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,7 +39,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		this.chatAppController = chatAppController;
 		setName(ChatAppExtension.NAME);
 		initComponents();
-		update(null, null);
+		Notification.messageInformer().addObserver(this);
 	}
 
 	@Override

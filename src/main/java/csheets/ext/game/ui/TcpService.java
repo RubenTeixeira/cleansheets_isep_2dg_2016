@@ -29,7 +29,7 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = new TcpServer();
 
-								 server.expect(":share-cells", new Action() {
+								 server.expect(":game", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -37,47 +37,24 @@ public class TcpService extends Notifier {
 												   // Column;Line;Type;Value;FontName;FontStyle;FontSize;HAlignment;VAlignment;fgColor;bgColor
 												   final int params = 11;
 
-												   Map<String, String> cells = new LinkedHashMap<>();
+												   Map<String, String> gameInformation = new LinkedHashMap<>();
 												   String[] data = ((String) args.
 													   get("message")).
 													   split(";");
 
-												   for (int i = 0; i < data.length; i += params) {
-													   // Put in the map the address and the values.
-													   // Example:
-													   // 0:2 => TEXT;abc
-													   // Represents the A3 cell with the value of abc, which is of type TEXT.
-
-													   if (i + 3 < data.length) {
-														   cells.
-															   put(data[i] + ":" + data[i + 1], data[i + 2] + ";" + data[i + 3]
-																   + ";" + data[i + 4] + ";" + data[i + 5] + ";" + data[i + 6]
-																   + ";" + data[i + 7] + ";" + data[i + 8] + ";" + data[i + 9]
-																   + ";" + data[i + 10]);
-														   continue;
-													   }
-
-													   if (i + 2 < data.length) {
-														   cells.
-															   put(data[i] + ":" + data[i + 1], data[i + 2] + ";");
-														   continue;
-													   }
-
-													   if (i + 1 < data.length) {
-														   cells.
-															   put(data[i] + ":" + data[i + 1], ";");
-													   }
-												   }
-
-												   notifyChange(cells);
+												   //realizar acoes que pretender
+												   notifyChange(gameInformation);
 											   }
+
 										   });
 
 								 server.stream(port);
 							 }
-						 });
+						 }
+		);
 
-		ThreadManager.run("ipc.tcpServer");
+		ThreadManager.run(
+			"ipc.tcpServer");
 	}
 
 	/**
@@ -91,7 +68,7 @@ public class TcpService extends Notifier {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":share-cells", target, message);
+									 send(":game", target, message);
 							 }
 						 });
 
