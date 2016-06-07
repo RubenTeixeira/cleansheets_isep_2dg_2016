@@ -13,3 +13,4 @@ csheets.ext.chatApp.ChatAppExtension
 csheets.ext.game.GameExtension
 csheets.ext.calendar.CalendarExtension
 csheets.ext.conditionalFormatting.ConditionalFormattingExtension
+csheets.ext.notes.NotesExtension
