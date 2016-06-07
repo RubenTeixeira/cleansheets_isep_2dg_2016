@@ -36,7 +36,7 @@ public class DistributedWorkbookSearchController {
 		}
 
 		try {
-			this.udpService.server(30601, port);
+			this.udpService.server(30602, port);
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
@@ -127,4 +127,12 @@ public class DistributedWorkbookSearchController {
 	public void searchWorkbook(UIController uiController) {
 		searchWorkbook.findWorkbook();
 	}
+
+	public boolean checkResult() {
+		return searchWorkbook.result();
+	}
+
+//	public List<Spreadsheet> getWorksheets() {
+//		return searchWorkbook.worksheets();
+//	}
 }
