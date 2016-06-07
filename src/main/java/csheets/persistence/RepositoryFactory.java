@@ -13,6 +13,6 @@ public interface RepositoryFactory {
 	ReminderRepository reminders();
 
 	CalendarRepository calendars();
-        
-        NoteRepository notes();
+
+	NoteRepository notes();
 }
