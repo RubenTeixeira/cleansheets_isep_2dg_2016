@@ -5,7 +5,6 @@
  */
 package csheets.support;
 
-import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,40 +20,27 @@ import javax.imageio.ImageIO;
  */
 public final class Converter {
 
-    static private UIController controller;
+	static public Image getImage(byte[] bytes) throws IOException {
 
-    private Converter() {
-    }
+		InputStream in = new ByteArrayInputStream(bytes);
+		BufferedImage bImageFromConvert = ImageIO.read(in);
 
-    static public Image getImage(byte[] bytes) throws IOException {
+		ImageIO.write(bImageFromConvert, "jpg", new File(
+					  "photo.jpg"));
+		return bImageFromConvert;
+	}
 
-        InputStream in = new ByteArrayInputStream(bytes);
-        BufferedImage bImageFromConvert = ImageIO.read(in);
+	static public byte[] setImage(File selectedFile) throws IOException {
+		byte[] imageInByte;
+		BufferedImage originalImage = ImageIO.read(selectedFile);
 
-        ImageIO.write(bImageFromConvert, "jpg", new File(
-                "photo.jpg"));
-        return bImageFromConvert;
-    }
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(originalImage, "jpg", baos);
+		baos.flush();
+		imageInByte = baos.toByteArray();
+		baos.close();
 
-    static public byte[] setImage(File selectedFile) throws IOException {
-        byte[] imageInByte;
-        BufferedImage originalImage = ImageIO.read(selectedFile);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(originalImage, "jpg", baos);
-        baos.flush();
-        imageInByte = baos.toByteArray();
-        baos.close();
-
-        return imageInByte;
-    }
-
-    public static UIController controller() {
-        return Converter.controller;
-    }
-
-    public static void controller(UIController controller) {
-        Converter.controller = controller;
-    }
+		return imageInByte;
+	}
 
 }

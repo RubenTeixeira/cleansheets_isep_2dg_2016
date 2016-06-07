@@ -142,7 +142,7 @@ public class FindWorkbookResults extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		CleanSheets cleansheets = uiController.getCleansheet();
+		CleanSheets cleansheets = uiController.getCleanSheets();
 		File file = this.jList1.getSelectedValue();
 
 		try {

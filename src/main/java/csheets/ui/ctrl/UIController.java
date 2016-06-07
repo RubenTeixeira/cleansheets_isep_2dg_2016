@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
@@ -82,6 +83,11 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	private CleanSheets app;
 
 	/**
+	 * The CleanSheets frame
+	 */
+	private JFrame frame;
+
+	/**
 	 * The transfer haandler used to transfer ranges of cells
 	 */
 	private TransferHandler transferHandler = new CellTransferHandler();
@@ -100,6 +106,11 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 * The edit listeners registered to receive events
 	 */
 	private List<EditListener> editListeners = new ArrayList<EditListener>();
+
+	/**
+	 * The instance of UIController App
+	 */
+	private static UIController uiController;
 
 	// private Map<Workbook, Spreadsheet> activeSpreadsheets;
 	// private Map<Spreadsheet, Cell> activeCells;
@@ -126,7 +137,22 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 			= uiExtensions.toArray(new UIExtension[uiExtensions.size()]);
 	}
 
-	public CleanSheets getCleansheet() {
+	/**
+	 * Creates a new user interface controller.
+	 *
+	 * @param app the CleanSheets application
+	 * @param frame the Frame application
+	 */
+	public UIController(CleanSheets app, JFrame frame) {
+		this(app);
+	}
+
+	/**
+	 * Creates a new user interface controller.
+	 *
+	 * @return the App Cleansheet
+	 */
+	public CleanSheets getCleanSheets() {
 		return this.app;
 	}
 
@@ -140,6 +166,24 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public Workbook getActiveWorkbook() {
 		return activeWorkbook;
+	}
+
+	/**
+	 * Returns the active spreadsheet.
+	 *
+	 * @return the active spreadsheet
+	 */
+	public Spreadsheet getActiveSpreadsheet() {
+		return activeSpreadsheet;
+	}
+
+	/**
+	 * Returns the UIController of App.
+	 *
+	 * @return the uiController of App
+	 */
+	public static UIController getUIController() {
+		return UIController.uiController;
 	}
 
 	/**
@@ -163,15 +207,6 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 													activeWorkbook, activeSpreadsheet, activeCell,
 													prevWorkbook, prevSpreadsheet, prevCell));
 		}
-	}
-
-	/**
-	 * Returns the active spreadsheet.
-	 *
-	 * @return the active spreadsheet
-	 */
-	public Spreadsheet getActiveSpreadsheet() {
-		return activeSpreadsheet;
 	}
 
 	/**
