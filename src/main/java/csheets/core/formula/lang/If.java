@@ -73,6 +73,11 @@ public class If implements Function {
         return false;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that emulates the if-then-else statement.";

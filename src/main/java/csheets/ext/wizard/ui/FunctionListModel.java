@@ -37,7 +37,6 @@ public class FunctionListModel extends DefaultListModel<String> {
     }
 
     public String getHelp(int selectedIndex) {
-        //listSubjects.get(selectedIndex).getDescription();
-        return "To be done";
+        return listSubjects.get(selectedIndex).getDescription();
     }
 }

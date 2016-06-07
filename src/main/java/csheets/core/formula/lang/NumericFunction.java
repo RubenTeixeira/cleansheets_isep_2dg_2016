@@ -94,6 +94,11 @@ public class NumericFunction implements Function {
         return method.isVarArgs();
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A numeric function that invokes a method object.";

@@ -68,6 +68,11 @@ public class And implements Function {
         return true;
     }
 
+    
+    /**
+     * Gets the description of the function
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "Binary operand and returns true if both operands are true";

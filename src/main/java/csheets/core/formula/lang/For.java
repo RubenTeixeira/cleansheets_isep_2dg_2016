@@ -84,6 +84,11 @@ public class For implements Function {
         return false;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return " Execution of For Loop.";

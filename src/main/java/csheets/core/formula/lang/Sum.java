@@ -82,6 +82,11 @@ public class Sum implements Function {
         return true;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that returns the numeric sum of its arguments.";

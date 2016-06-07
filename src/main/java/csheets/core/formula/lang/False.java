@@ -60,6 +60,11 @@ public class False implements Function {
         return false;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that returns the boolean value false.";

@@ -115,6 +115,11 @@ public class Do implements Function {
         return false;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that emulates a looping statement, where each cell in a given\n"

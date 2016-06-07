@@ -72,6 +72,11 @@ public class Factorial implements Function {
         return false;
     }
 
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
     @Override
     public String getDescription() {
         return "A function that returns the factorial of its argument.";
