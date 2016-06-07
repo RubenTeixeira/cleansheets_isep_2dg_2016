@@ -67,7 +67,7 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	public JMenu getMenu() {
 		if (menu == null) {
 			if (distributedSearchController == null) {
-				distributedSearchController = new DistributedWorkbookSearchController(uiController);
+				distributedSearchController = new DistributedWorkbookSearchController();
 			}
 			menu = new WorkbookSearchMenu(uiController, distributedSearchController);
 		}

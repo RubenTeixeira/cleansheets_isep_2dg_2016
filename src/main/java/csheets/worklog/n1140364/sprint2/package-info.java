@@ -215,7 +215,7 @@
  * <p>
  * Today:
  * <p>
- * 1. Tests
+ * 1. Finish a search of workbook. Display summary. Tests
  * <p>
  * Blocking:
  * <p>
@@ -227,7 +227,7 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Finish a search of workbook. Display summary. Tests </p>
  * <p>
  * Today:</p>
  * <p>

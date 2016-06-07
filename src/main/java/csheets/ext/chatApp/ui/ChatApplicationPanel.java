@@ -8,6 +8,7 @@ package csheets.ext.chatApp.ui;
 import csheets.ext.chatApp.ChatAppExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.SwingUtilities;
@@ -44,15 +45,16 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof String) {
-			String message = (String) arg;
+		if (arg instanceof Map) {
+			String message = (String) ((Map) arg).get("message");
 
 			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
 
 			DefaultMutableTreeNode root = (DefaultMutableTreeNode) MessagesTree.
 				getModel().getRoot();
 
-			root.add(new DefaultMutableTreeNode(arg));
+			System.out.println(arg);
+			root.add(new DefaultMutableTreeNode(message));
 
 			this.revalidate();
 			this.repaint();
@@ -80,11 +82,6 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
         MessagesTree.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 MessagesTreeMouseClicked(evt);
-            }
-        });
-        MessagesTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
-            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-                MessagesTreeValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(MessagesTree);
@@ -118,19 +115,10 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void MessagesTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_MessagesTreeValueChanged
-		// TODO add your handling code here:
-		DefaultMutableTreeNode root = (DefaultMutableTreeNode) MessagesTree.
-			getModel().getRoot();
-
-		root.add(new DefaultMutableTreeNode("Ola"));
-
-    }//GEN-LAST:event_MessagesTreeValueChanged
-
     private void MessagesTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagesTreeMouseClicked
 		if (SwingUtilities.isLeftMouseButton(evt)
 			&& evt.getClickCount() > 1) {
-			new ChatUI(uiController, chatAppController);
+			ChatUI.instance(uiController, chatAppController);
 		}
     }//GEN-LAST:event_MessagesTreeMouseClicked
 

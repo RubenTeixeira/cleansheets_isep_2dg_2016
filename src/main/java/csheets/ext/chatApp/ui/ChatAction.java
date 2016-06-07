@@ -22,7 +22,7 @@ class ChatAction extends BaseAction {
 	 * @param uiController the user interface controller
 	 */
 	public ChatAction(UIController uiController,
-						 ChatAppController chatAppController) {
+					  ChatAppController chatAppController) {
 		this.uiController = uiController;
 		this.chatAppController = chatAppController;
 	}
@@ -44,7 +44,7 @@ class ChatAction extends BaseAction {
 	 * @param event the event that was fired
 	 */
 	public void actionPerformed(ActionEvent event) {
-		ChatUI chat = new ChatUI(uiController, chatAppController);
+		ChatUI.instance(uiController, chatAppController);
 	}
 
 }

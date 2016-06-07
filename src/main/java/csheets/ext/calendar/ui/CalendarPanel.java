@@ -1,7 +1,11 @@
 package csheets.ext.calendar.ui;
 
+import csheets.domain.Calendar;
 import csheets.domain.Contact;
 import csheets.ext.calendar.CalendarController;
+import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -81,6 +85,11 @@ public class CalendarPanel extends javax.swing.JPanel {
         });
 
         jButton1.setText("Create");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
 
@@ -181,6 +190,19 @@ public class CalendarPanel extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
 
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		try {
+			Calendar cal = this.controller.
+				createCalendar(jTextField1.getText(), jTextField2.getText(), jLabel3.
+							   getText(), (Contact) jComboBox1.getSelectedItem());
+			System.out.println(cal.toString());
+		} catch (DataIntegrityViolationException ex) {
+			Logger.getLogger(CalendarPanel.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

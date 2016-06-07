@@ -3,13 +3,10 @@
  * Santos during week1.
  *
  * <p>
- * <b>Scrum Master: no</b>
+ * <b>Scrum Master: Marcelo Barroso</b>
  *
  * <p>
- * <b>Area Leader: no</b>
- *
- * <h2>1. Notes</h2>
- *
+ * <b>Area Leader: Rui Freitas</b>
  *
  *
  * <h2>1. Notes</h2>
@@ -20,10 +17,16 @@
  * <p>
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-48">LPFOURDG-48</a>
+ *
+ * <p>
  * Sub-Task in Jira:
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-161">LPFOURDG-161</a>
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-162">LPFOURDG-162</a>
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-163">LPFOURDG-163</a>
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-164">LPFOURDG-164</a>
  *
  * <h2>3.1 Requirement for Export XML of Worksheet</h2>
@@ -36,25 +39,29 @@
  *
  *
  * <p>
- * <b>Use Case 1 - "Export the contents of an workbook to XML file":</b> The
- * user inserts all values in the cells and selects File-ExportXML, defines
+ * <b>Use Case 1 - "Export the contents of an workbook to XML file":</b>
+ * <p>
+ * The user inserts all values in the cells and selects File-ExportXML, defines
  * content like workbook, if he wants, defines the tags to see in XML file,
  * assign file title and save it.
  *
  * <p>
  * <b>Use Case 2 - "Export the contents of an Worksheet to XML file":</b>
+ * <p>
  * The user inserts all values in the cells and selects File-ExportXML, defines
  * the worksheet to save, if he wants, defines the tags to see in XML file,
  * assign file title and save it.
  *
+ * <p>
  * <b>Use Case 3 - "Export part of an worksheet to an XML file":</b>
+ * <p>
  * The user inserts all values in the cells and selects File-ExportXML, selects
  * cells to export, the worksheet to save, if he wants, defines the tags to see
  * in XML file, assign file title and save it.
  *
  * <h2>4.2 Analysis - Export XML of Worksheet</h2>
  * The user must have the option to export the worksheet information to a
- * standard xml file with the defined tags (paper-columns-column-line-cell) or
+ * standard xml file with the defined tags (Woorkbook-SpreadSheet-row-column) or
  * set these tags with the names what the user wants. The user can choose one of
  * this options: Export the contents of an workbook to XML file, Export the
  * contents of an Worksheet to XML file and Export part of an worksheet to an
@@ -71,17 +78,25 @@
  * <h3>5.1. Functional Tests</h3>
  *
  * Basically, for the development and after analysis, we test if the content of
- * the cells of xml file it´s correct.
+ * the cells of xml file it´s correct for each column and row. I have to test if
+ * the tags have been changed according to what the user wants and if show only
+ * the columns and rows that had been written.
  *
  *
  * <h3>5.2. UC Realization</h3>
  *
- * Will be using a FileChooser to choose the type of file and the directory
- * where the file will be saved.
+ * I have to manipulate tags xml and create 3 methods on class ExportXML:
+ * exportWorkbook - Export the contents of an Worksheet to XML file;
+ * exportSpreadsheetSelected - Export part of an worksheet to an XML file;
+ * exportSpreadsheet - Export XML of Worksheet; In each method gets the various
+ * cleancheets tags per parameter, these variables received, will be written to
+ * an XML file. If the user wants can edit these tags and file sets, according
+ * to defined tags by user. It´s necessary to create a class ExportXMLAction and
+ * ExportXMLController to call all methods to export. Will be using a
+ * FileChooser to choose the type of file.
  *
- * <b>Assign Operation Sequence Diagram</b>:
- * <img src="doc-files/lang01.1_design_assign_operator.png" alt="SD">
  *
+ * *
  * <h3>5.3. Classes</h3>
  *
  *
@@ -92,10 +107,30 @@
  * <h2>6. Implementation</h2>
  *
  * <p>
+ * <b>Use Case 1 - "Export the contents of an workbook to XML file"</b>
+ *
+ * <img src="doc-files/lang08.1_Export_xml_sd_design_1.png" alt="Export_xml_sd_design_3">
+ *
+ * <p>
+ * <b>Use Case 2 - "Export the contents of an Worksheet to XML file"</b>
+ *
+ * <img src="doc-files/lang08.1_Export_xml_sd_design_2.png" alt="Export_xml_sd_design_2">
+ *
+ * <p>
+ * <b>Use Case 3 - "Export part of an worksheet to an XML file"</b>
+ *
+ * <img src="doc-files/lang08.1_Export_xml_sd_design_3.png" alt="Export_xml_sd_design_3">
+ *
  * <b>Created Classes</b>:
  *
  * <p>
+ * ExportXML, ExportXMLAction, ExportXMLController, ExportXMLPanel and
+ * ExportMenu
+ *
  * <b>Updated Classes/Files</b>:
+ *
+ * <p>
+ * MenuBar
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -127,7 +162,8 @@
  * <p>
  * Today
  * </p>
- * 1. Design Lang08.1 - Export XML 2. Implementation
+ * 1. Design Lang08.1 - Export XML, 2. Implementation, 3 - Analysis of Lang08.1
+ * - Export XML completed
  * <p>
  * Blocking:
  * </p>
@@ -137,11 +173,11 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. Design Lang08.1 - Export XML 2. Implementation, 3 - Analysis completed
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Design Lang08.1 - Export XML completed, 2. Implementation
  * </p>
  * Blocking:
  * <p>

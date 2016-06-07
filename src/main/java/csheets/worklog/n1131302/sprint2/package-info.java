@@ -12,7 +12,7 @@
  * <h2>2. Use Case/Feature: CRM06.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-75">LPFOURDG-90</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-90">LPFOURDG-90</a>
  *
  * <h2>3. Requirement</h2>
  * Implement a local db using JPA (ORM) so the application user could create
@@ -111,6 +111,7 @@
  * <p>
  * <b>Monday</b>
  * </p>
+ * 
  * 1. Analysis and design of the CRM6.1 to create, edit and remove reminders.
  * 2. Create the domain necessary in project.
  * <p>
@@ -119,11 +120,9 @@
  * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
- * <p>
+ * <p>1. Implementation of the controller and UI
  * <b>Evidences:</b>
  * </p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
  *
  * <h3>10.2. Teamwork: ...</h3>
  *

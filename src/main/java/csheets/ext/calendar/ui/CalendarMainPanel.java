@@ -1,6 +1,8 @@
 package csheets.ext.calendar.ui;
 
+import csheets.domain.Calendar;
 import csheets.ext.calendar.CalendarController;
+import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
 import javax.swing.JOptionPane;
 
@@ -84,7 +86,12 @@ public class CalendarMainPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		for (Calendar object : PersistenceContext.repositories().calendars().
+			all()) {
+			System.out.println(object.toString());
+		}
 		CalendarPanel calendar = new CalendarPanel(this.controller);
+
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, calendar, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (eventOption == JOptionPane.OK_OPTION) {

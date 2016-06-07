@@ -51,7 +51,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		setLocationRelativeTo(this);
 		initComponents();
 		this.waitingPanel.setVisible(false);
-		this.workbookPanel.setVisible(false);
+		this.searchingPanel.setVisible(false);
 
 		uiController.addSelectionListener(this);
 		instancesList.setModel(instanceListModel);
@@ -61,6 +61,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		final int defaultSeconds = 3;
 		final int defaultPort = 20002;
 
+		this.controller.newSearch(uiController);
 		this.controller.startUdpService(this, defaultPort, defaultSeconds);
 		this.controller.startTcpService(this, defaultPort);
 	}
@@ -76,11 +77,8 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         cancelButton = new javax.swing.JButton();
         waitingPanel = new javax.swing.JPanel();
         imgPanel = new javax.swing.JLabel();
-        workbookPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        workbookLabel = new javax.swing.JLabel();
-        txtName = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
+        searchingPanel = new javax.swing.JPanel();
+        searchingLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,66 +148,17 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
             .addComponent(imgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Workbook", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        searchingLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/searching.gif"))); // NOI18N
 
-        workbookLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        workbookLabel.setText("Pattern Name:");
-
-        txtName.setToolTipText("Workbook Name");
-
-        searchButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        searchButton.setText("SEARCH");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(140, 140, 140)
-                        .addComponent(workbookLabel))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(101, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout searchingPanelLayout = new javax.swing.GroupLayout(searchingPanel);
+        searchingPanel.setLayout(searchingPanelLayout);
+        searchingPanelLayout.setHorizontalGroup(
+            searchingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(searchingLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 408, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(workbookLabel)
-                .addGap(18, 18, 18)
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout workbookPanelLayout = new javax.swing.GroupLayout(workbookPanel);
-        workbookPanel.setLayout(workbookPanelLayout);
-        workbookPanelLayout.setHorizontalGroup(
-            workbookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(workbookPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        workbookPanelLayout.setVerticalGroup(
-            workbookPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(workbookPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+        searchingPanelLayout.setVerticalGroup(
+            searchingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(searchingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 246, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -223,7 +172,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(waitingPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(workbookPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(searchingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,7 +185,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
                     .addComponent(waitingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(workbookPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(searchingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -244,6 +193,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		this.setVisible(false);
+		this.controller.stopServices();
 		dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -267,10 +217,6 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		this.instancePanel.setVisible(false);
 		this.waitingPanel.setVisible(true);
     }//GEN-LAST:event_sendButtonActionPerformed
-
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-
-    }//GEN-LAST:event_searchButtonActionPerformed
 
 	public void updateInstanceList(List<String> addresses) {
 
@@ -297,14 +243,11 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
     private javax.swing.JLabel imgPanel;
     private javax.swing.JPanel instancePanel;
     private javax.swing.JList<String> instancesList;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton searchButton;
+    private javax.swing.JLabel searchingLabel;
+    private javax.swing.JPanel searchingPanel;
     private javax.swing.JButton sendButton;
-    private javax.swing.JTextField txtName;
     private javax.swing.JPanel waitingPanel;
-    private javax.swing.JLabel workbookLabel;
-    private javax.swing.JPanel workbookPanel;
     // End of variables declaration//GEN-END:variables
 
 	@Override
@@ -321,7 +264,6 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		if (object instanceof Boolean) {
 			if (((Boolean) object)) {
 				this.waitingPanel.setVisible(false);
-				this.setVisible(false);
 				String workbook = JOptionPane.showInputDialog(
 					null,
 					"Enter the workbook name to search:",
@@ -329,10 +271,13 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 					JOptionPane.WARNING_MESSAGE
 				);
 				this.controller.setNameOfWorkbookToSearch(workbook);
+				this.searchingPanel.setVisible(true);
+
 			} else {
 				this.waitingPanel.setVisible(false);
 				JOptionPane.
 					showMessageDialog(this, "This host doesnt wish to share workbooks.");
+				this.controller.stopServices();
 				dispose();
 			}
 		}
@@ -340,14 +285,19 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		if (object instanceof String) {
 			if (((String) object).compareTo("Search") == 0) {
 				this.controller.searchWorkbook(uiController);
-
 			}
 			if (((String) object).compareTo("Check") == 0) {
 				boolean result = this.controller.checkResult();
+				this.searchingPanel.setVisible(false);
 				if (result) {
-					JOptionPane.showMessageDialog(this, "Encontrou");
+					JOptionPane.showMessageDialog(this, this.controller.
+												  getWorkbookSummary(), "Workbook Summary", JOptionPane.INFORMATION_MESSAGE);
+					this.controller.stopServices();
+					dispose();
 				} else {
-					JOptionPane.showMessageDialog(this, "Nao encontrou");
+					JOptionPane.showMessageDialog(this, "Didn't find");
+					this.controller.stopServices();
+					dispose();
 				}
 			}
 		}
