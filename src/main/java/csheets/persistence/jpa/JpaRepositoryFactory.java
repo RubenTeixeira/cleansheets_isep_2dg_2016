@@ -25,4 +25,5 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	public ReminderRepository reminders() {
 		return new JpaReminderRepository();
 	}
+        
 }
