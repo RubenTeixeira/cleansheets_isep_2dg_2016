@@ -23,7 +23,7 @@ public class BeanShellTest {
     private UIController uiController;
     
     public BeanShellTest() {
-        this.uiController = new UIController(new CleanSheets());
+        this.uiController = UIController.getUIController();
     }
     
     @BeforeClass

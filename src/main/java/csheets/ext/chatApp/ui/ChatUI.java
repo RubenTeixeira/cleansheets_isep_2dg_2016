@@ -246,7 +246,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			} else if (!instanceListModel.
 				contains(chatHost + ":(online)")) {
 				hosts.put(chatHost, host);
-				if (hosts.containsValue(chatHost)) {
+				if (hosts.containsValue(host)) {
 					instanceListModel.
 						addElement(chatHost + ":(online)");
 

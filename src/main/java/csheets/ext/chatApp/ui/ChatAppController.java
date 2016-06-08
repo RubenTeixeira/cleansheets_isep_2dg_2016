@@ -32,13 +32,11 @@ public class ChatAppController {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds. It's not possible to register negative or zero seconds.");
 		}
-
 		try {
 			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
-
 			throw e;
 		}
 	}
@@ -54,11 +52,8 @@ public class ChatAppController {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.udpService = new UdpService();
-
 		this.startUdpService(seconds);
-
 		this.udpService.addObserver(ui);
 	}
 
@@ -88,9 +83,7 @@ public class ChatAppController {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.tcpService = new TcpService();
-
 		this.startTcpService();
 	}
 
@@ -103,7 +96,6 @@ public class ChatAppController {
 	public void restartServices(int seconds) {
 		this.tcpService.stop();
 		this.udpService.stop();
-
 		this.startUdpService(seconds);
 		this.startTcpService();
 	}
@@ -114,8 +106,7 @@ public class ChatAppController {
 		sendMessage.put("hostname", hostname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
-		Notification.
-			chatMessageInformer().
+		Notification.chatMessageInformer().
 			notifyChange(sendMessage);
 		new TcpService().client(target, message);
 	}

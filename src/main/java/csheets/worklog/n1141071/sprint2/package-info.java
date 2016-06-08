@@ -13,6 +13,12 @@
  * be possibly to create any BeanShell script but not using an example with
  * macro as it was required. Although, it will be easily to implement macros
  * once they are ready (available).</p>
+ * <p>Helped the LANG06.1 understanding and with interpretation of UC.</p>
+ * <p>Helped the IPC02.1 understanding and with interpretation of UC.
+ * Participation on discussions about the code design and implementation.</p>
+ * <p>Helped the CRM04.1 with the UI implementation.</p>
+ * <p>Helped the CRM05.1 with the UI design.</p>
+ * 
  *
  * <h2>2. Use Case/Feature: LANG07.1 - BeanShell Window</h2>
  *
@@ -46,11 +52,24 @@
  * 
  * <h2>5. Design</h2>
  *
- * <p>Diagram of the functionality of the feature </p>
+ * <p>Diagram of the functionality of the feature</p>
  *
  * <img src="doc-files/lang07_01_design1.png" alt="image">
  * 
  * <h3>5.3. Classes</h3>
+ * <ul>
+ * <li>BeanShell</li>
+ * <li>Script</li>
+ * <li>MacroBeanShell :
+ *      <ul>
+ *      <li>Extension</li>
+ *      <li>Controller</li>
+ *      <li>Panel</li>
+ *      <li>UIExtension</li>
+ *      </ul>
+ * </li>
+ * <li>CirclePanel</li>
+ * </ul>
  *
  * <h2>9. Work Log</h2>
  *
@@ -85,13 +104,16 @@
  *
  * <b>Tuesday</b>
  * <ul>
- * <li></li>
+ * <li>Finish the UI design.</li>
+ * <li>Complete implementation of UC code.</li>
  * </ul>
  * 
  * 
  * <b>Wednesday</b>
  * <ul>
- * <li></li>
+ * <li>Bug fixes.</li>
+ * <li>Unit Tests created</li>
+ * <li>JavaDoc</li>
  * </ul>
  * 
  * 
@@ -108,7 +130,11 @@
  *
  *
  * <b>Evidences:</b>
- * 
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-165">Analysis and requirements</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-166">Design</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-167">Code Implementation</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-168">Test Implementation</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/37146d64be29c04258493b829a2884ded1a4e977">CirclePanel Implementation</a>
  * 
  * <h3>10.2. Teamwork: ...</h3>
  * 

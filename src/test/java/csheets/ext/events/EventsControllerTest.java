@@ -28,7 +28,6 @@ public class EventsControllerTest {
 	EventsController instance;
 	UIController uiController;
 	EventsPanel eventsPanel;
-	CleanSheets cleanSheets;
 	Event event;
 	Calendar date;
 	Contact contact;
@@ -50,7 +49,6 @@ public class EventsControllerTest {
 		date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, 1);
 		//event = new Event(contact, "New Event", date, true);
-		cleanSheets = new CleanSheets();
 		/*
 		uiController = new UIController(cleanSheets);
 		eventsPanel = new EventsPanel(uiController);
