@@ -8,6 +8,7 @@ package csheets.ext.chatApp.ui;
 import csheets.ext.chatApp.ChatAppExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,34 +52,77 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Cheguei");
-		if (arg instanceof Map) {
-			if (((Map) arg).get("reference").equals("chatMessage")) {
-				((Map) arg).remove("reference");
-				String message = (String) ((Map) arg).get("message");
-				String hostname = (String) ((Map) arg).get("hostname");
+		Map messageData = new LinkedHashMap((Map) arg);
+		if (((Map) messageData).get("reference").equals("chatMessage")) {
+			((Map) messageData).remove("reference");
+			String message = (String) ((Map) messageData).get("message");
+			String hostname = (String) ((Map) messageData).get("hostname");
 
-				String chatMessage = hostname + ": message";
+			String chatMessage = hostname + ":" + message;
 
-				new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
+			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, chatMessage);
 
-//				while (true) {
-//					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
-//						children().nextElement();
-//					if (no != null) {
-//						String treeMessage = (String) no.getUserObject();
-//						String ip = treeMessage.split(":")[0];
-//						if (ip.equals(hostname)) {
-//						}
-//					} else {
-//						break;
-//					}
-//				}
-				root.add(new DefaultMutableTreeNode(chatMessage));
+			//inserir Node
+			while (true) {
+				if (root.getChildCount() > 0) {
+					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+						children().nextElement();
+					if (no != null) {
+						String treeMessage = (String) no.getUserObject();
+						String ip = treeMessage.split(":")[0];
+						if (ip.equals(hostname)) {
 
-				this.revalidate();
-				this.repaint();
+							if (no.getChildCount() == 0) {
+								no.
+									add(new DefaultMutableTreeNode(chatMessage));
+								break;
+							} else {
+								DefaultMutableTreeNode last = (DefaultMutableTreeNode) no.
+									getLastChild();
+								last.
+									add(new DefaultMutableTreeNode(chatMessage));
+							}
+						}
+					}
+				} else {
+					root.add(new DefaultMutableTreeNode(chatMessage));
+					break;
+				}
 			}
+			this.revalidate();
+			this.repaint();
+		}
+		Map sendData = new LinkedHashMap((Map) arg);
+		if (((Map) sendData).get("reference").equals("sendMessage")) {
+			((Map) sendData).remove("reference");
+			String localHost = (String) ((Map) sendData).get("hostname");
+			String sendMessage = (String) ((Map) sendData).get("message");
+
+			String chatMessage = localHost + ":" + sendMessage;
+
+			//inserir Node
+			while (true) {
+				if (root.getChildCount() > 0) {
+					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+						children().nextElement();
+					if (no != null) {
+						String treeMessage = (String) no.getUserObject();
+						String ip = treeMessage.split(":")[0];
+						if (ip.equals(localHost)) {
+							DefaultMutableTreeNode last = (DefaultMutableTreeNode) no.
+								getLastChild();
+							last.
+								add(new DefaultMutableTreeNode(chatMessage));
+							break;
+						}
+					}
+				} else {
+					root.add(new DefaultMutableTreeNode(chatMessage));
+					break;
+				}
+			}
+			this.revalidate();
+			this.repaint();
 		}
 	}
 
@@ -111,16 +155,12 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
         chatApplicationPanel.setLayout(chatApplicationPanelLayout);
         chatApplicationPanelLayout.setHorizontalGroup(
             chatApplicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatApplicationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
         );
         chatApplicationPanelLayout.setVerticalGroup(
             chatApplicationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, chatApplicationPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
