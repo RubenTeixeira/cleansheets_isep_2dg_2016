@@ -20,6 +20,13 @@
  */
 package csheets;
 
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompiler;
+import csheets.core.formula.lang.Language;
+import csheets.ext.ExtensionManager;
+import csheets.io.Codec;
+import csheets.io.CodecFactory;
+import csheets.io.NamedProperties;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,70 +39,81 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
-
+import java.util.ResourceBundle;
 import javax.swing.SwingUtilities;
 
-import csheets.core.Workbook;
-import csheets.core.formula.compiler.FormulaCompiler;
-import csheets.core.formula.lang.Language;
-import csheets.ext.ExtensionManager;
-import csheets.io.Codec;
-import csheets.io.CodecFactory;
-import csheets.io.NamedProperties;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 /**
- * CleanSheets - the main class of the application.
- * The class manages workbooks, performs I/O operations and provides support
- * for notifying listeners when workbooks are created, loaded or saved.
+ * CleanSheets - the main class of the application. The class manages workbooks,
+ * performs I/O operations and provides support for notifying listeners when
+ * workbooks are created, loaded or saved.
+ *
  * @author Einar Pehrson
  */
 public class CleanSheets {
-    
-        /** The filename for the localization resources */
-    	private static final String DEFAULT_RESOURCE_FILENAME = "MessagesBundle";
-    
-        /** The resource bundle for localization */
-        private static ResourceBundle messages=null;
-    
-	/** The filename of the default properties, loaded from the directory of the class */
+
+	/**
+	 * The filename for the localization resources
+	 */
+	private static final String DEFAULT_RESOURCE_FILENAME = "MessagesBundle";
+
+	/**
+	 * The resource bundle for localization
+	 */
+	private static ResourceBundle messages = null;
+
+	/**
+	 * The filename of the default properties, loaded from the directory of the
+	 * class
+	 */
 	private static final String DEFAULT_PROPERTIES_FILENAME = "res/defaults.xml";
 
-	/** The filename of the user properties, loaded from the user's current working directory */
+	/**
+	 * The filename of the user properties, loaded from the user's current
+	 * working directory
+	 */
 	private static final String USER_PROPERTIES_FILENAME = "csheets.xml";
 
-	/** The open workbooks */
+	/**
+	 * The open workbooks
+	 */
 	private Map<Workbook, File> workbooks = new HashMap<Workbook, File>();
 
-	/** The application's properties */
+	/**
+	 * The application's properties
+	 */
 	private NamedProperties props;
 
-	/** The listeners registered to receive events */
+	/**
+	 * The listeners registered to receive events
+	 */
 	private List<SpreadsheetAppListener> listeners
 		= new ArrayList<SpreadsheetAppListener>();
 
-        /**
-         * Gives access to the localization strings
-         * @param stringID string id
-         * @return return
-         */
-        public static String getString(String stringID) {
-            if (messages==null) {
-                messages = ResourceBundle.getBundle(DEFAULT_RESOURCE_FILENAME, Locale.getDefault());
-            }
-            return messages.getString(stringID);
-        }
-        
+	/**
+	 * Gives access to the localization strings
+	 *
+	 * @param stringID string id
+	 * @return return
+	 */
+	public static String getString(String stringID) {
+		if (messages == null) {
+			messages = ResourceBundle.
+				getBundle(DEFAULT_RESOURCE_FILENAME, Locale.getDefault());
+		}
+		return messages.getString(stringID);
+	}
+
 	/**
 	 * Creates the CleanSheets application.
 	 */
 	public CleanSheets() {
-                // Load resources
-                messages = ResourceBundle.getBundle(DEFAULT_RESOURCE_FILENAME, Locale.getDefault());
-            
+		// Load resources
+		messages = ResourceBundle.getBundle(DEFAULT_RESOURCE_FILENAME, Locale.
+											getDefault());
+
 		// Loads compilers
 		FormulaCompiler.getInstance();
 
@@ -107,18 +125,23 @@ public class CleanSheets {
 
 		// Loads default properties
 		Properties defaultProps = new Properties();
-		InputStream defaultStream = CleanSheets.class.getResourceAsStream(DEFAULT_PROPERTIES_FILENAME);
-		if (defaultStream != null)
+		InputStream defaultStream = CleanSheets.class.
+			getResourceAsStream(DEFAULT_PROPERTIES_FILENAME);
+		if (defaultStream != null) {
 			try {
 				defaultProps.loadFromXML(defaultStream);
 			} catch (IOException e) {
-				System.err.println("Could not load default application properties.");
+				System.err.
+					println("Could not load default application properties.");
 			} finally {
 				try {
-					if (defaultStream != null)
+					if (defaultStream != null) {
 						defaultStream.close();
-				} catch (IOException e) {}
+					}
+				} catch (IOException e) {
+				}
 			}
+		}
 
 		// Loads user properties
 		File propsFile = new File(USER_PROPERTIES_FILENAME);
@@ -127,6 +150,7 @@ public class CleanSheets {
 
 	/**
 	 * Starts CleanSheets from the command-line.
+	 *
 	 * @param args the command-line arguments (not used)
 	 */
 	public static void main(String[] args) {
@@ -135,7 +159,7 @@ public class CleanSheets {
 		// Configures look and feel
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated(true);
 		javax.swing.JDialog.setDefaultLookAndFeelDecorated(true);
-		
+
 		try {
 			javax.swing.UIManager.setLookAndFeel(
 				javax.swing.UIManager.getCrossPlatformLookAndFeelClassName());
@@ -152,6 +176,7 @@ public class CleanSheets {
 
 	/**
 	 * Returns the current user properties.
+	 *
 	 * @return the current user properties
 	 */
 	public Properties getUserProperties() {
@@ -163,13 +188,14 @@ public class CleanSheets {
 	 */
 	public void exit() {
 		// Stores properties
-		if (props.size() > 0)
+		if (props.size() > 0) {
 			try {
-				props.storeToXML("CleanSheets User Properties (" + 
-					DateFormat.getDateTimeInstance().format(new Date()) + ")");
+				props.storeToXML("CleanSheets User Properties ("
+					+ DateFormat.getDateTimeInstance().format(new Date()) + ")");
 			} catch (IOException e) {
 				System.err.println("An error occurred while saving properties.");
 			}
+		}
 
 		// Terminates the virtual machine
 		System.exit(0);
@@ -186,9 +212,10 @@ public class CleanSheets {
 
 	/**
 	 * Loads a workbook from the given file.
+	 *
 	 * @param file the file in which the workbook is stored
 	 * @throws IOException if the file could not be loaded correctly
-         * @throws java.lang.ClassNotFoundException exception
+	 * @throws java.lang.ClassNotFoundException exception
 	 */
 	public void load(File file) throws IOException, ClassNotFoundException {
 		Codec codec = new CodecFactory().getCodec(file);
@@ -201,20 +228,24 @@ public class CleanSheets {
 				workbook = codec.read(stream);
 			} finally {
 				try {
-					if (stream != null)
+					if (stream != null) {
 						stream.close();
-				} catch (IOException e) {}
+					}
+				} catch (IOException e) {
+				}
 			}
 
 			// Loads the workbook
 			workbooks.put(workbook, file);
 			fireSpreadsheetAppEvent(workbook, file, SpreadsheetAppEvent.Type.LOADED);
-		} else
+		} else {
 			throw new IOException("Codec could not be found");
+		}
 	}
 
 	/**
 	 * Unloads the given workbook.
+	 *
 	 * @param workbook the workbook to unload
 	 */
 	public void unload(Workbook workbook) {
@@ -223,21 +254,24 @@ public class CleanSheets {
 	}
 
 	/**
-	 * Saves the given workbook to the file from which it was loaded,
-	 * or to which it was most recently saved.
+	 * Saves the given workbook to the file from which it was loaded, or to
+	 * which it was most recently saved.
+	 *
 	 * @param workbook the workbook to save
 	 * @throws IOException if the file could not be saved correctly
 	 */
 	public void save(Workbook workbook) throws IOException {
 		File file = workbooks.get(workbook);
-		if (file != null)
+		if (file != null) {
 			saveAs(workbook, file);
-		else
+		} else {
 			throw new FileNotFoundException("No file assigned to the workbook.");
+		}
 	}
 
 	/**
 	 * Saves the given workbook to the given file.
+	 *
 	 * @param workbook the workbook to save
 	 * @param file the file to which the workbook should be saved
 	 * @throws IOException if the file could not be saved correctly
@@ -252,9 +286,11 @@ public class CleanSheets {
 				codec.write(workbook, stream);
 			} finally {
 				try {
-					if (stream != null)
+					if (stream != null) {
 						stream.close();
-				} catch (IOException e) {}
+					}
+				} catch (IOException e) {
+				}
 			}
 
 			workbooks.put(workbook, file);
@@ -264,6 +300,7 @@ public class CleanSheets {
 
 	/**
 	 * Returns the workbooks that are open.
+	 *
 	 * @return the workbooks that are open
 	 */
 	public Workbook[] getWorkbooks() {
@@ -273,17 +310,20 @@ public class CleanSheets {
 
 	/**
 	 * Returns the file in which the given workbook is stored.
-         * @param workbook workbook
-	 * @return the file in which the given workbook is stored, or null if it isn't
+	 *
+	 * @param workbook workbook
+	 * @return the file in which the given workbook is stored, or null if it
+	 * isn't
 	 */
 	public File getFile(Workbook workbook) {
 		return workbooks.get(workbook);
 	}
 
 	/**
-	 * Returns whether a file has been specified for the given workbook,
-	 * either when it was loaded or when it was last saved.
-         * @param workbook workbook
+	 * Returns whether a file has been specified for the given workbook, either
+	 * when it was loaded or when it was last saved.
+	 *
+	 * @param workbook workbook
 	 * @return whether the given workbook belongs to a file
 	 */
 	public boolean isWorkbookStored(Workbook workbook) {
@@ -293,19 +333,24 @@ public class CleanSheets {
 	/**
 	 * Returns the workbook that is stored in the given file, if it is already
 	 * open.
+	 *
 	 * @param file the file to look for
-	 * @return the workbook that is stored in the given file, or null if the file isn't open
+	 * @return the workbook that is stored in the given file, or null if the
+	 * file isn't open
 	 */
 	public Workbook getWorkbook(File file) {
-		for (Map.Entry<Workbook, File> entry : workbooks.entrySet())
-			if (entry.getValue() != null && entry.getValue().equals(file))
+		for (Map.Entry<Workbook, File> entry : workbooks.entrySet()) {
+			if (entry.getValue() != null && entry.getValue().equals(file)) {
 				return entry.getKey();
+			}
+		}
 		return null;
 	}
 
 	/**
 	 * Returns whether the given file is open, and a workbook thereby loaded
 	 * from it or saved to it.
+	 *
 	 * @param file the file to look for
 	 * @return whether the given file is open
 	 */
@@ -315,6 +360,7 @@ public class CleanSheets {
 
 	/**
 	 * Registers the given listener on the spreadsheet application.
+	 *
 	 * @param listener the listener to be added
 	 */
 	public void addSpreadsheetAppListener(SpreadsheetAppListener listener) {
@@ -323,6 +369,7 @@ public class CleanSheets {
 
 	/**
 	 * Removes the given listener from the spreadsheet application.
+	 *
 	 * @param listener the listener to be removed
 	 */
 	public void removeSpreadsheetAppListener(SpreadsheetAppListener listener) {
@@ -332,53 +379,69 @@ public class CleanSheets {
 	/**
 	 * Notifies all registered listeners that a spreadsheet application event
 	 * occurred.
+	 *
 	 * @param workbook the workbook that was affected
 	 * @param file the file that was affected
-         * @param type type
+	 * @param type type
 	 */
 	private void fireSpreadsheetAppEvent(Workbook workbook, File file,
-			SpreadsheetAppEvent.Type type) {
+										 SpreadsheetAppEvent.Type type) {
 		SpreadsheetAppEvent event
 			= new SpreadsheetAppEvent(this, workbook, file, type);
-		if (SwingUtilities.isEventDispatchThread())
-			for (SpreadsheetAppListener listener : listeners)
+		if (SwingUtilities.isEventDispatchThread()) {
+			for (SpreadsheetAppListener listener : listeners) {
 				switch (event.getType()) {
 					case CREATED:
-						listener.workbookCreated(event); break;
+						listener.workbookCreated(event);
+						break;
 					case LOADED:
-						listener.workbookLoaded(event); break;
+						listener.workbookLoaded(event);
+						break;
 					case UNLOADED:
-						listener.workbookUnloaded(event); break;
+						listener.workbookUnloaded(event);
+						break;
 					case SAVED:
-						listener.workbookSaved(event); break;
+						listener.workbookSaved(event);
+						break;
 				}
-		else
+			}
+		} else {
 			SwingUtilities.invokeLater(
-				new EventDispatcher(event, 
-					listeners.toArray(new SpreadsheetAppListener[listeners.size()])
+				new EventDispatcher(event,
+									listeners.
+									toArray(new SpreadsheetAppListener[listeners.
+										size()])
 				)
 			);
+		}
 	}
 
 	/**
 	 * A utility for dispatching events on the AWT event dispatching thread.
+	 *
 	 * @author Einar Pehrson
 	 */
 	public static class EventDispatcher implements Runnable {
 
-		/** The event to fire */
+		/**
+		 * The event to fire
+		 */
 		private SpreadsheetAppEvent event;
 
-		/** The listeners to which the event should be dispatched */
+		/**
+		 * The listeners to which the event should be dispatched
+		 */
 		private SpreadsheetAppListener[] listeners;
 
 		/**
 		 * Creates a new event dispatcher.
+		 *
 		 * @param event the event to fire
-		 * @param listeners the listeners to which the event should be dispatched
+		 * @param listeners the listeners to which the event should be
+		 * dispatched
 		 */
 		public EventDispatcher(SpreadsheetAppEvent event,
-				SpreadsheetAppListener[] listeners) {
+							   SpreadsheetAppListener[] listeners) {
 			this.event = event;
 			this.listeners = listeners;
 		}
@@ -387,17 +450,22 @@ public class CleanSheets {
 		 * Dispatches the event.
 		 */
 		public void run() {
-			for (SpreadsheetAppListener listener : listeners)
+			for (SpreadsheetAppListener listener : listeners) {
 				switch (event.getType()) {
 					case CREATED:
-						listener.workbookCreated(event); break;
+						listener.workbookCreated(event);
+						break;
 					case LOADED:
-						listener.workbookLoaded(event); break;
+						listener.workbookLoaded(event);
+						break;
 					case UNLOADED:
-						listener.workbookUnloaded(event); break;
+						listener.workbookUnloaded(event);
+						break;
 					case SAVED:
-						listener.workbookSaved(event); break;
+						listener.workbookSaved(event);
+						break;
 				}
+			}
 		}
 	}
 }

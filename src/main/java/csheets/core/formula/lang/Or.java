@@ -28,37 +28,53 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns true if any of its arguments are true.
+ *
  * @author Einar Pehrson
  */
 public class Or implements Function {
 
-	/** The only (but repeatable) parameter: a boolean expression */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
-			"A boolean expression to include")
-	};
+    /**
+     * The only (but repeatable) parameter: a boolean expression
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
+        "A boolean expression to include")
+    };
 
-	/**
-	 * Creates a new instance of the OR function.
-	 */
-	public Or() {}
+    /**
+     * Creates a new instance of the OR function.
+     */
+    public Or() {
+    }
 
-	public String getIdentifier() {
-		return "OR";
-	}
+    public String getIdentifier() {
+        return "OR";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		for (Expression argument : arguments)
-			if (argument.evaluate().toBoolean())
-				return new Value(true);
-		return new Value(false);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        for (Expression argument : arguments) {
+            if (argument.evaluate().toBoolean()) {
+                return new Value(true);
+            }
+        }
+        return new Value(false);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    public boolean isVarArg() {
+        return true;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "A function that returns true if any of its arguments are true.";
+    }
 }

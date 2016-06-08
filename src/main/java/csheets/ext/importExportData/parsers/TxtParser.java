@@ -7,7 +7,7 @@ package csheets.ext.importExportData.parsers;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 public class TxtParser extends Parser {
 

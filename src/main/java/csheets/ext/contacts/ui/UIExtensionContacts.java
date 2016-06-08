@@ -11,26 +11,27 @@ import javax.swing.JComponent;
  */
 public class UIExtensionContacts extends UIExtension {
 
-    /**
-     * A side bar that provides contact edition
-     */
-    private JComponent sideBar;
+	/**
+	 * A side bar that provides contact edition
+	 */
+	private JComponent sideBar;
 
-    public UIExtensionContacts(Extension extension, UIController uiController) {
-        super(extension, uiController);
-        // TODO Auto-generated constructor stub
-    }
+	public UIExtensionContacts(Extension extension, UIController uiController) {
+		super(extension, uiController);
+		// TODO Auto-generated constructor stub
+	}
 
-    /**
-     * Returns a side bar that gives access to extension-specific functionality.
-     *
-     * @return a component, or null if the extension does not provide one
-     */
-    @Override
-    public JComponent getSideBar() {
-        if (sideBar == null)
-			sideBar = new ContactsPanel(uiController);
+	/**
+	 * Returns a side bar that gives access to extension-specific functionality.
+	 *
+	 * @return a component, or null if the extension does not provide one
+	 */
+	@Override
+	public JComponent getSideBar() {
+		if (sideBar == null) {
+			sideBar = new ContactsPanel2(uiController);
+		}
 		return sideBar;
-    }
+	}
 
 }

@@ -9,14 +9,16 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Basic;
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * This class is an AggregateRoot. Represents an domain entity Contact.
@@ -24,98 +26,69 @@ import javax.persistence.UniqueConstraint;
  * @author Rui Freitas
  */
 @Entity
-@Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"FIRSTNAME", "LASTNAME"})})
-public class Contact implements Serializable {
+@Table(name = "CONTACT")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DISCRIMIN", discriminatorType = DiscriminatorType.STRING)
+public abstract class Contact implements Serializable {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	protected Long id;
 
-    private Agenda agenda;
+	protected String name;
 
-    private String firstName;
-    private String lastName;
+	@Basic(fetch = LAZY)
+	@Lob
+	protected byte[] photo;
 
-    @Basic(fetch = LAZY)
-    @Lob
-    @Column(name = "photo")
-    private byte[] photo;
+	protected Contact() {
+	}
 
-    protected Contact() {
-    }
+	protected Contact(byte[] photo) {
+		if (photo == null) {
+			throw new IllegalArgumentException();
+		}
+		this.photo = photo;
+	}
 
-    public Contact(String firstName, String lastName, byte[] photo) {
-        if (firstName == null || lastName == null) {
-            throw new IllegalArgumentException();
+	public String name() {
+		return name;
+	}
 
-        } else if (firstName.isEmpty() || lastName.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
+	public byte[] photo() {
+		return this.photo;
+	}
 
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.photo = photo;
-    }
+	public void changePhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
-    public String firstName() {
-        return this.firstName;
-    }
+	@Override
+	public String toString() {
+		return this.name;
+	}
 
-    public String lastName() {
-        return this.lastName;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 5;
+		hash = 29 * hash + Objects.hashCode(this.name);
+		hash = 29 * hash + Arrays.hashCode(this.photo);
+		return hash;
+	}
 
-    public byte[] photo() {
-        return this.photo;
-    }
-
-    public void changeFirstName(String name) {
-        this.firstName = name;
-    }
-
-    public void changeLastName(String name) {
-        this.lastName = name;
-    }
-
-    public void changePhoto(byte[] photo) {
-        this.photo = photo;
-    }
-
-    @Override
-    public String toString() {
-        return this.firstName + " - " + this.lastName;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.agenda);
-        hash = 29 * hash + Objects.hashCode(this.firstName);
-        hash = 29 * hash + Objects.hashCode(this.lastName);
-        hash = 29 * hash + Arrays.hashCode(this.photo);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Contact other = (Contact) obj;
-        if (!this.firstName.equals(other.firstName)) {
-            return false;
-        }
-        if (!this.lastName.equals(other.lastName)) {
-            return false;
-        }
-        return !Arrays.equals(this.photo, other.photo);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final Contact other = (Contact) obj;
+		return this.hashCode() == other.hashCode();
+	}
 
 }

@@ -57,6 +57,7 @@ public class UIExtensionChat extends UIExtension {
 	 * @see ChatMenu
 	 * @return a JMenu component
 	 */
+	@Override
 	public JMenu getMenu() {
 		if (menu == null) {
 			if (chatAppController == null) {
@@ -72,6 +73,7 @@ public class UIExtensionChat extends UIExtension {
 	 *
 	 * @return an icon with a tree
 	 */
+	@Override
 	public Icon getIcon() {
 		if (icon == null) {
 			icon = new ImageIcon(
@@ -85,6 +87,7 @@ public class UIExtensionChat extends UIExtension {
 	 *
 	 * @return a component, or null if the extension does not provide one
 	 */
+	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
 			if (chatAppController == null) {

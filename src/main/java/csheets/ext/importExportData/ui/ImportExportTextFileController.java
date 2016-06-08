@@ -6,11 +6,16 @@ import csheets.ext.importExportData.parsers.FileHandler;
 import csheets.ext.importExportData.parsers.TxtParser;
 import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
-import csheets.ui.ctrl.UIController;
-import java.util.Map;
 
 public class ImportExportTextFileController {
 
+	/**
+	 *
+	 * @param path
+	 * @param separator
+	 * @param cells
+	 * @return
+	 */
 	public boolean hasEnoughCells(String path, String separator,
 								  Cell[][] cells) {
 
@@ -21,21 +26,31 @@ public class ImportExportTextFileController {
 
 		Cell[][] textCells = nTextCells(lines, separator);
 
-		return textCells.length == cells.length
-			&& textCells[0].length == cells[0].length;
+		return textCells.length <= cells.length
+			&& textCells[0].length <= cells[0].length;
 	}
 
 	/**
 	 *
-	 * @param path path of the file
+	 * @param path
+	 * @param separator
+	 * @param header
+	 * @param cells
 	 * @return
+	 * @throws FormulaCompilationException
 	 */
 	public Cell[][] parse(String path, String separator, boolean header,
 						  Cell[][] cells) throws FormulaCompilationException {
+		if (cells == null) {
+			return null;
+		}
 
 		TxtParser txtParser = new TxtParser(new FileHandler());
 		String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
 			with(path).parse());
+		if (lines == null) {
+			return null;
+		}
 		Cell[][] textCells = nTextCells(lines, separator);
 
 		if (header == true) {
@@ -60,7 +75,7 @@ public class ImportExportTextFileController {
 			int r = cells[0][0].getAddress().getRow();
 			int c = cells[0][0].getAddress().getColumn();
 			Cell cell = cells[0][0].getSpreadsheet().getCell(c, r);
-			for (int i = 0; 0 < lines.length; i++) {
+			for (int i = 0; i < lines.length; i++) {
 				String[] col = lines[i].split(separator);
 				for (int j = 0; j < col.length; j++) {
 					cell.setContent(col[j]);
@@ -76,7 +91,16 @@ public class ImportExportTextFileController {
 		return textCells;
 	}
 
+	/**
+	 *
+	 * @param lines
+	 * @param separator
+	 * @return
+	 */
 	private Cell[][] nTextCells(String[] lines, String separator) {
+		if (lines == null) {
+			return null;
+		}
 		int maxColumns = 0;
 		for (int i = 0; i < lines.length; i++) {
 			if (lines[i].split(separator).length > maxColumns) {
@@ -86,6 +110,13 @@ public class ImportExportTextFileController {
 		return new Cell[lines.length][maxColumns];
 	}
 
+	/**
+	 *
+	 * @param filename
+	 * @param cells
+	 * @param separator
+	 * @return
+	 */
 	public boolean exportFile(String filename, Cell[][] cells, String separator) {
 		FileHandler fh = new FileHandler();
 
@@ -97,48 +128,4 @@ public class ImportExportTextFileController {
 		return false;
 	}
 
-	/**
-	 * Updates the active spreadsheet with the received cells.
-	 *
-	 * @param ui The user interface controller.
-	 * @param cells Received cells information.
-	 * @throws csheets.core.formula.compiler.FormulaCompilationException Cells
-	 * can have the wrong value.
-	 */
-	public void updateCells(UIController ui, Map<String, String> cells,
-							Cell selectedCell) throws FormulaCompilationException {
-
-		int selectedColumn = selectedCell.getAddress().getColumn();
-		int selectedRow = selectedCell.getAddress().getRow();
-
-		int iteration = 0;
-		int originColumn = 0;
-		int originRow = 0;
-
-		for (Map.Entry<String, String> entry : cells.entrySet()) {
-			if (iteration == 0) {
-				String[] addressData = entry.getKey().split(":");
-				originColumn = Integer.parseInt(addressData[0]);
-				originRow = Integer.parseInt(addressData[1]);
-			}
-			String[] addressData = entry.getKey().split(":");
-			int column = Integer.parseInt(addressData[0]) - originColumn + selectedColumn;
-			int row = Integer.parseInt(addressData[1]) - originRow + selectedRow;
-
-			try {
-				String value = "";
-				String[] valueData = entry.getValue().split(";");
-
-				if (valueData.length > 1) {
-					value = valueData[1];
-				} else {
-					value = "";
-				}
-
-				ui.getActiveSpreadsheet().getCell(column, row).setContent(value);
-			} catch (FormulaCompilationException ex) {
-				throw new FormulaCompilationException();
-			}
-		}
-	}
 }

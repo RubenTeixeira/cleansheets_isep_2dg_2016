@@ -56,9 +56,14 @@
  * <p>
  *
  * <b>Monday</b>
+ * <p>
+ * Implementation of the UC
+ * <p>
  *
  * <b>Tuesday</b>
- *
+ * <p>
+ * Tests in the implementation and close issue
+ * <p>
  *
  * <h2>10. Self Assessment</h2>
  *

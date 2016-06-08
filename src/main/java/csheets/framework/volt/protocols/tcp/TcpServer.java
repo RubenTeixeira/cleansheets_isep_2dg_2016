@@ -86,19 +86,24 @@ public class TcpServer extends Server {
     /**
      * Closes all open connections from the server.
      */
+    @Override
     public void shutdown()
     {
-        synchronized (this.server) {
-            try {
-                if (this.server != null) {
-                    this.server.close();
-                    this.server = null;
-                }
+        try {
+            synchronized (this.server) {
+                try {
+                    if (this.server != null) {
+                        this.server.close();
+                        this.server = null;
+                    }
 
-                super.active = false;
-            } catch (IOException ex) {
-                // Don't do anything.
+                    super.active = false;
+                } catch (IOException ex) {
+                    throw new IllegalArgumentException(ex.getMessage());
+                }
             }
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -222,9 +227,25 @@ public class TcpServer extends Server {
      * @param route Route.
      * @param action Action to execute if the request matches this route.
      */
+    @Override
     public void expect(String route, Action action)
     {
-        this.routes.put(route, action);
+        synchronized (this.routes) {
+            this.routes.put(route, action);
+        }
+    }
+    
+    /**
+     * Neglects an expected route.
+     *
+     * @param route Route to be neglected.
+     */
+    @Override
+    public void neglect(String route)
+    {
+        synchronized (this.routes) {
+            this.routes.remove(route);
+        }
     }
 
     /**
@@ -241,6 +262,7 @@ public class TcpServer extends Server {
      * @param target Target defined by IPv4:Port.
      * @param message Message.
      */
+    @Override
     public void send(String headers, String target, String message)
     {
         try {

@@ -22,7 +22,7 @@ public class Action {
      * 
      * <p>Reserved arguments for <strong>UDP</strong> Protocol:</p>
      * 
-     * <table>
+     * <table summary="Reserved arguments for the UDP Protocol">
      * <tr>
      * <th>Name</th>
      * <th>Type</th>
@@ -50,7 +50,7 @@ public class Action {
      * 
      * <p>Reserved arguments for <strong>TCP</strong> Protocol</p>
      * 
-     * <table>
+     * <table summary="Reserved arguments for the TCP Protocol">
      * <tr>
      * <th>Name</th>
      * <th>Type</th>

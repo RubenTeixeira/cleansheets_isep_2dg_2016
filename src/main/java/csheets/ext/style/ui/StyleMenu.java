@@ -65,9 +65,6 @@ public class StyleMenu extends JMenu {
 		add(new AlignTopAction(uiController));
 		add(new AlignMiddleAction(uiController));
 		add(new AlignBottomAction(uiController));
-		addSeparator();
-		//Adds conditional formatting
-		add(new ConditionalFormattingAction(uiController));
 
 	}
 }

@@ -28,31 +28,45 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the boolean value true.
+ *
  * @author Einar Pehrson
  */
 public class True implements Function {
 
-	/** The empty parameter list */
-	public static final FunctionParameter[] parameters = new FunctionParameter[]{};
+    /**
+     * The empty parameter list
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{};
 
-	/**
-	 * Creates a new instance of the TRUE function.
-	 */
-	public True() {}
+    /**
+     * Creates a new instance of the TRUE function.
+     */
+    public True() {
+    }
 
-	public String getIdentifier() {
-		return "TRUE";
-	}
+    public String getIdentifier() {
+        return "TRUE";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		return new Value(true);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        return new Value(true);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return false;
-	}
+    public boolean isVarArg() {
+        return false;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return " A function that returns the boolean value true.";
+    }
 }

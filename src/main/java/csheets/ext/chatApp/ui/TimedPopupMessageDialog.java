@@ -28,11 +28,11 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 		super(parent, true);
 		this.theController = controller;
 		this.message = message;
+
 		setTitle(title);
 		taskTimer = new Timer(TIME_VISIBLE, new ActionListener() {
 							  @Override
 							  public void actionPerformed(ActionEvent e) {
-								  // theController.alert(message, false);
 								  close();
 							  }
 						  });
@@ -42,6 +42,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 		setLocationRelativeTo(null);
 		setModal(true);
 		initComponents();
+		lblMessage.setText(message);
 		pack();
 		setVisible(true);
 	}
@@ -63,7 +64,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
         lblAlert.setFont(new java.awt.Font("Cantarell", 0, 24)); // NOI18N
         lblAlert.setForeground(new java.awt.Color(255, 0, 9));
         lblAlert.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAlert.setText("RECEIVE MESSAGE!");
+        lblAlert.setText("RECEIVED A MESSAGE!");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,7 +73,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblAlert, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                    .addComponent(lblAlert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(lblMessage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );

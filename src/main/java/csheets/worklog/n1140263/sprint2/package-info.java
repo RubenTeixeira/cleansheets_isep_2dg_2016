@@ -132,11 +132,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1.Design. 2. Implement the extension.
  * <p>
  * Today
  * <p>
- * 1.
+ * 1. Implementation and corrections.
  * <p>
  * Blocking:
  * <p>

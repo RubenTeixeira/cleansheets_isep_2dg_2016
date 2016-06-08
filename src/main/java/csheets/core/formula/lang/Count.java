@@ -28,43 +28,58 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that counts those of its arguments that yield numeric values.
+ *
  * @author Einar Pehrson
  */
 public class Count implements Function {
 
-	/** The function's parameters */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
-			"An expression whose value is checked for type compliance")
-		/* new FunctionParameter(Value.Type.TEXT, "Type", true,
+    /**
+     * The function's parameters
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
+        "An expression whose value is checked for type compliance")
+    /* new FunctionParameter(Value.Type.TEXT, "Type", true,
 			'The type to look for. Accepted values are "NUMERIC" (default),'
 			+ '"TEXT", "BOOLEAN", "DATE", "MATRIX" and "ERROR".'); */
-	};
+    };
 
-	/**
-	 * Creates a new instance of the COUNT function.
-	 */
-	public Count() {}
+    /**
+     * Creates a new instance of the COUNT function.
+     */
+    public Count() {
+    }
 
-	public String getIdentifier() {
-		return "COUNT";
-	}
+    public String getIdentifier() {
+        return "COUNT";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		double count = 0;
-		for (Expression expression : arguments) {
-			Value value = expression.evaluate();
-			if (value.getType() == Value.Type.NUMERIC)
-			 	count++;
-		}
-		return new Value(count);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        double count = 0;
+        for (Expression expression : arguments) {
+            Value value = expression.evaluate();
+            if (value.getType() == Value.Type.NUMERIC) {
+                count++;
+            }
+        }
+        return new Value(count);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    public boolean isVarArg() {
+        return true;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "A function that counts those of its arguments that yield numeric values.";
+    }
 }

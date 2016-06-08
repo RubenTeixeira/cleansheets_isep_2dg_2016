@@ -15,14 +15,14 @@ public class TcpClientTest {
 
         Task message = new Task() {
             public void fire() {
-                client.send(":message", "192.168.1.5:8000", "Meet Volt.");
-
+                client.send(":message", "192.168.56.1:30600", "Meet Volt.");
+                 client.send(":new-message", "192.168.56.1:30600", "Meet Advanced Volt.");
             }
         };
 
         TaskManager tm = new TaskManager();
 
-        tm.after(2).every(2).fire(message);
+        tm.every(2).fire(message);
 
     }
 

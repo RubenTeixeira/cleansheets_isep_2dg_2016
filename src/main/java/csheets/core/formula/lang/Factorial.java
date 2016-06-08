@@ -28,41 +28,57 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the factorial of its argument.
+ *
  * @author Einar Pehrson
  */
 public class Factorial implements Function {
 
-	/** The only parameter: a numeric term */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.NUMERIC, "Number", false,
-			"The positive integer for which to calculate the factorial")
-	};
+    /**
+     * The only parameter: a numeric term
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.NUMERIC, "Number", false,
+        "The positive integer for which to calculate the factorial")
+    };
 
-	/**
-	 * Creates a new instance of the FACT function.
-	 */
-	public Factorial() {}
+    /**
+     * Creates a new instance of the FACT function.
+     */
+    public Factorial() {
+    }
 
-	public String getIdentifier() {
-		return "FACT";
-	}
+    public String getIdentifier() {
+        return "FACT";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		double number = arguments[0].evaluate().toDouble();
-		if (number >= 1 && number == Math.round(number)) {
-			int factorial = 1;
-			for (int i = 2; i <= number; i++)
-				factorial *= i;
-			return new Value(factorial);
-		} else
-			return new Value(new IllegalArgumentException("Argument must be a positive integer"));
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        double number = arguments[0].evaluate().toDouble();
+        if (number >= 1 && number == Math.round(number)) {
+            int factorial = 1;
+            for (int i = 2; i <= number; i++) {
+                factorial *= i;
+            }
+            return new Value(factorial);
+        } else {
+            return new Value(new IllegalArgumentException("Argument must be a positive integer"));
+        }
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return false;
-	}
+    public boolean isVarArg() {
+        return false;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "A function that returns the factorial of its argument.";
+    }
 }

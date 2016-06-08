@@ -8,6 +8,7 @@ package csheets.ext.wizard.ui;
 import csheets.core.formula.Function;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.DefaultListModel;
 
 /**
@@ -16,7 +17,7 @@ import javax.swing.DefaultListModel;
  */
 public class FunctionListModel extends DefaultListModel<String> {
 
-    private List<Function> listSubjects;
+    private transient List<Function> listSubjects;
 
     public FunctionListModel(List<Function> listSubjects) {
         this.listSubjects = listSubjects;
@@ -37,7 +38,32 @@ public class FunctionListModel extends DefaultListModel<String> {
     }
 
     public String getHelp(int selectedIndex) {
-        //listSubjects.get(selectedIndex).getDescription();
-        return "To be done";
+        return listSubjects.get(selectedIndex).getDescription();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final FunctionListModel other = (FunctionListModel) obj;
+        if (this.getSize() != other.getSize()) {
+            return false;
+        }
+        int i = 0;
+        for (Function func : listSubjects) {
+            if (!func.getIdentifier().equalsIgnoreCase(other.getElementAt(i))) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+
 }

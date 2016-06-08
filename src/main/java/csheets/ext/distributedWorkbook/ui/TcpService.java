@@ -56,21 +56,20 @@ public class TcpService extends Notifier {
 												   int reply = JOptionPane.
 													   showConfirmDialog(null, message);
 												   if (reply == JOptionPane.YES_OPTION) {
+													   receiveMessage = true;
 													   String destination = ((String) args.
 														   get("from")).
 														   split(":")[0] + ":" + port;
 													   server.
-														   send(":reply", destination, String.
-																valueOf(30601));
-													   receiveMessage = true;
+														   send(":reply", destination, "30602");
 
 												   } else if (reply == JOptionPane.NO_OPTION) {
+													   receiveMessage = false;
 													   String destination = ((String) args.
 														   get("from")).
 														   split(":")[0] + ":" + port;
 													   server.
-														   send(":reply", destination, "30601");
-													   receiveMessage = false;
+														   send(":reply", destination, "30602");
 												   }
 											   }
 										   });
@@ -85,7 +84,7 @@ public class TcpService extends Notifier {
 													   get("from")).
 													   split(":")[0] + ":" + port;
 												   server.
-													   send(":search", destination, "30601");
+													   send(":search", destination, "30602");
 											   }
 										   });
 
@@ -98,7 +97,7 @@ public class TcpService extends Notifier {
 													   get("from")).
 													   split(":")[0] + ":" + port;
 												   server.
-													   send(":check", destination, "30601");
+													   send(":check", destination, "30602");
 											   }
 										   });
 

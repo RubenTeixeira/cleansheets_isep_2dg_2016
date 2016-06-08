@@ -28,31 +28,45 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the boolean value false.
+ *
  * @author Einar Pehrson
  */
 public class False implements Function {
 
-	/** The empty parameter list */
-	public static final FunctionParameter[] parameters = new FunctionParameter[]{};
+    /**
+     * The empty parameter list
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{};
 
-	/**
-	 * Creates a new instance of the FALSE function.
-	 */
-	public False() {}
+    /**
+     * Creates a new instance of the FALSE function.
+     */
+    public False() {
+    }
 
-	public String getIdentifier() {
-		return "FALSE";
-	}
+    public String getIdentifier() {
+        return "FALSE";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		return new Value(false);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        return new Value(false);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return false;
-	}
+    public boolean isVarArg() {
+        return false;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "A function that returns the boolean value false.";
+    }
 }

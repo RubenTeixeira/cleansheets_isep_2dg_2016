@@ -31,6 +31,9 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 		this.jComboBoxSpreedSheet.setEnabled(false);
 	}
 
+	/**
+	 * Method to add Items
+	 */
 	private void initiateOptions() {
 		this.jComboBoxType.removeAll();
 		this.jComboBoxType.addItem("Workbook");
@@ -73,7 +76,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 
         checkbox1.setLabel("export selected");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jButtonExport.setText("Export");
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {

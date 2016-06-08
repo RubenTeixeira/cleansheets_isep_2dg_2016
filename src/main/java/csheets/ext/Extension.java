@@ -32,131 +32,161 @@ import csheets.ui.ext.UIExtension;
  */
 public abstract class Extension implements Comparable<Extension> {
 
-    /**
-     * The state of the extension
-     */
-    private boolean enable;
+	/**
+	 * The state of the extension
+	 */
+	private boolean enable;
 
-    /**
-     * The name of the extension
-     */
-    private final String name;
+	/**
+	 * The name of the extension
+	 */
+	private final String name;
 
-    /**
-     * The base key to use for properties of the extension
-     */
-    private final String basePropKey;
+	/**
+	 * The description of the extension
+	 */
+	protected String description;
 
-    /**
-     * Creates a new extension.
-     *
-     * @param name the name of the extension
-     */
-    public Extension(String name) {
-        this.name = name;
+	/**
+	 * The version of the extension
+	 */
+	protected String version;
 
-        // Builds UI extension base property key
-        String basePropKey = "";
-        for (String token : name.toLowerCase().split(" ")) {
-            basePropKey += token;
-        }
-        this.basePropKey = basePropKey + ".ui.";
-        this.enable = true;
+	/**
+	 * The base key to use for properties of the extension
+	 */
+	private final String basePropKey;
 
-    }
+	/**
+	 * Creates a new extension.
+	 *
+	 * @param name the name of the extension
+	 */
+	public Extension(String name) {
+		this.name = name;
+		this.description = "No description";
+		this.version = "1.0";
+		// Builds UI extension base property key
+		String basePropKey = "";
+		for (String token : name.toLowerCase().split(" ")) {
+			basePropKey += token;
+		}
+		this.basePropKey = basePropKey + ".ui.";
+		this.enable = true;
+	}
 
-    /**
-     * Creates a new extension with the state.
-     *
-     * @param name the name of the extension
-     * @param state Current state of the extension.
-     */
-    public Extension(String name, boolean state) {
-        this.name = name;
+	/**
+	 * Creates a new extension.
+	 *
+	 * @param name the name of the extension
+	 * @param description the description of the extension
+	 * @param version the version of the extension
+	 */
+	public Extension(String name, String description, String version) {
+		this.name = name;
+		this.description = description;
+		this.version = version;
+		// Builds UI extension base property key
+		String basePropKey = "";
+		for (String token : name.toLowerCase().split(" ")) {
+			basePropKey += token;
+		}
+		this.basePropKey = basePropKey + ".ui.";
+		this.enable = true;
+	}
 
-        // Builds UI extension base property key
-        String basePropKey = "";
-        for (String token : name.toLowerCase().split(" ")) {
-            basePropKey += token;
-        }
-        this.basePropKey = basePropKey + ".ui.";
-        this.enable = state;
-    }
+	/**
+	 * Creates a new extension with the state.
+	 *
+	 * @param name the name of the extension
+	 * @param state Current state of the extension.
+	 */
+	public Extension(String name, boolean state) {
+		this.name = name;
 
-    /**
-     * Returns the name of the extension.
-     *
-     * @return the name of the extension
-     */
-    public final String getName() {
-        return name;
-    }
+		// Builds UI extension base property key
+		String basePropKey = "";
+		for (String token : name.toLowerCase().split(" ")) {
+			basePropKey += token;
+		}
+		this.basePropKey = basePropKey + ".ui.";
+		this.enable = state;
+	}
 
-    /**
-     * returns the state of the extension
-     *
-     * @return boolean state
-     */
-    public final boolean isEnabled() {
-        return enable;
-    }
+	/**
+	 * Returns the name of the extension.
+	 *
+	 * @return the name of the extension
+	 */
+	public final String getName() {
+		return name;
+	}
 
-    /**
-     * Returns the base key to use for properties of the UI extension.
-     *
-     * @return the base key to use for properties of the UI extension
-     */
-    public final String getPropertyKey() {
-        return basePropKey;
-    }
+	/**
+	 * returns the state of the extension
+	 *
+	 * @return boolean state
+	 */
+	public final boolean isEnabled() {
+		return enable;
+	}
 
-    /**
-     * Compares this extension with the given extension for order. Ordering is
-     * done by the extensions' names.
-     *
-     * @param extension the extension to compared to
-     * @return a negative integer, zero, or a positive integer as this object is
-     * less than, equal to, or greater than the specified object.
-     */
-    public final int compareTo(Extension extension) {
-        return name.compareTo(extension.name);
-    }
+	/**
+	 * Returns the base key to use for properties of the UI extension.
+	 *
+	 * @return the base key to use for properties of the UI extension
+	 */
+	public final String getPropertyKey() {
+		return basePropKey;
+	}
 
-    /**
-     * Returns an extension of the given spreadsheet.
-     *
-     * @param spreadsheet the spreadsheet to extend
-     * @return a spreadsheet extension, or null if none is provided
-     */
-    public SpreadsheetExtension extend(Spreadsheet spreadsheet) {
-        return null;
-    }
+	/**
+	 * Compares this extension with the given extension for order. Ordering is
+	 * done by the extensions' names.
+	 *
+	 * @param extension the extension to compared to
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 * less than, equal to, or greater than the specified object.
+	 */
+	public final int compareTo(Extension extension) {
+		return name.compareTo(extension.name);
+	}
 
-    /**
-     * Returns an extension of the given cell.
-     *
-     * @param cell the cell to extend
-     * @return a cell extension, or null if none is provided
-     */
-    public CellExtension extend(Cell cell) {
-        return null;
-    }
+	/**
+	 * Returns an extension of the given spreadsheet.
+	 *
+	 * @param spreadsheet the spreadsheet to extend
+	 * @return a spreadsheet extension, or null if none is provided
+	 */
+	public SpreadsheetExtension extend(Spreadsheet spreadsheet) {
+		return null;
+	}
 
-    /**
-     * Returns the user interface extension of this extension.
-     *
-     * @param uiController the user interface controller
-     * @return a user interface extension, or null if none is provided
-     */
-    public UIExtension getUIExtension(UIController uiController) {
-        return null;
-    }
+	/**
+	 * Returns an extension of the given cell.
+	 *
+	 * @param cell the cell to extend
+	 * @return a cell extension, or null if none is provided
+	 */
+	public CellExtension extend(Cell cell) {
+		return null;
+	}
 
-    public void enable() {
-        this.enable = true;
-    }
+	/**
+	 * Returns the user interface extension of this extension.
+	 *
+	 * @param uiController the user interface controller
+	 * @return a user interface extension, or null if none is provided
+	 */
+	public UIExtension getUIExtension(UIController uiController) {
+		return null;
+	}
 
-    public void disable() {
-        this.enable = false;
-    }
+	public void enable() {
+		this.enable = true;
+	}
+
+	public void disable() {
+		this.enable = false;
+	}
 }

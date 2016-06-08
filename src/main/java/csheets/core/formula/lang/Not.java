@@ -28,34 +28,48 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the boolean opposite of its argument.
+ *
  * @author Einar Pehrson
  */
 public class Not implements Function {
 
-	/** The only parameter: a boolean expression */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
-			"A boolean expression to invert")
-	};
+    /**
+     * The only parameter: a boolean expression
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
+        "A boolean expression to invert")
+    };
 
-	/**
-	 * Creates a new instance of the NOT function.
-	 */
-	public Not() {}
+    /**
+     * Creates a new instance of the NOT function.
+     */
+    public Not() {
+    }
 
-	public String getIdentifier() {
-		return "NOT";
-	}
+    public String getIdentifier() {
+        return "NOT";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		return new Value(!arguments[0].evaluate().toBoolean());
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        return new Value(!arguments[0].evaluate().toBoolean());
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return false;
-	}
+    public boolean isVarArg() {
+        return false;
+    }
+
+    /**
+     * Gets the description of the function
+     *
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "A function that returns the boolean opposite of its argument.";
+    }
 }

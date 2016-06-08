@@ -2,13 +2,16 @@ package csheets.ext.contacts.ui;
 
 import csheets.CleanSheets;
 import csheets.domain.Contact;
+import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.support.Converter;
+import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JPanel;
 
 /**
  *
@@ -16,64 +19,78 @@ import java.io.IOException;
  */
 public class ContactsController {
 
-    private static final String DEFAULT_USER_PHOTO_FILE = "res/img/default-user.png";
+	private static final String DEFAULT_USER_PHOTO_FILE = "res/img/default-user.png";
 
-    public Iterable<Contact> allContacts() {
-        return PersistenceContext.repositories().contacts().all();
-    }
+	/**
+	 * The user interface controller
+	 */
+	private UIController uiController;
 
-    public Image contactPhoto(Contact ct) throws IOException {
-        return Converter.getImage(ct.photo());
-    }
+	/**
+	 * User interface panel *
+	 */
+	private JPanel uiPanel;
 
-    public boolean newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
-        byte[] thePhoto;
+	public ContactsController() {
+	}
 
-        if (photoPath == null) {
-            thePhoto = Converter.setImage(new File(CleanSheets.class.getResource(DEFAULT_USER_PHOTO_FILE).getFile()));
-        } else {
-            try {
-                thePhoto = Converter.setImage(photoPath);
-            } catch (IOException ex) {
-                throw new IOException("Loading file error!");
-            }
-        }
+	public ContactsController(UIController uiController, JPanel uiPanel) {
+		this.uiController = uiController;
+		this.uiPanel = uiPanel;
+	}
 
-        Contact ct = new Contact(firstName, lastName, thePhoto);
+	public Iterable<Contact> allContacts() {
+		//return PersistenceContext.repositories().contacts().all();
+		return null;
+	}
 
-        boolean flag = PersistenceContext.repositories().contacts().add(ct);
-        Notification.contactInformer().notifyChange();
-        return flag;
-    }
+	public Image contactPhoto(Contact contact) throws IOException {
+		return Converter.getImage(contact.photo());
+	}
 
-    public void removeContact(Contact theContact) {
-        PersistenceContext.repositories().contacts().delete(theContact);
-        Notification.contactInformer().notifyChange();
-    }
+	public boolean newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
+		byte[] thePhoto;
 
-    public Contact editContact(Contact theContact) throws DataIntegrityViolationException {
-        PersistenceContext.repositories().contacts().save(theContact);
-        Notification.contactInformer().notifyChange();
-        return theContact;
-    }
+		if (photoPath == null) {
+			thePhoto = Converter.setImage(new File(CleanSheets.class.
+				getResource(DEFAULT_USER_PHOTO_FILE).getFile()));
+		} else {
+			try {
+				thePhoto = Converter.setImage(photoPath);
+			} catch (IOException ex) {
+				throw new IOException("Loading file error!");
+			}
+		}
 
-    public void addSystemUser() throws DataIntegrityViolationException, IOException {
-        String userName = System.getProperty("user.name");
-        
-        if(userName != null)
-        {
-            String[] splitArray = userName.split(" ");
-            String firstName, lastName;
-            Contact sysUser;
-            
-            if(splitArray.length >= 2)
-            {
-                newContact(splitArray[0], splitArray[1], null);
-            } else {
-                newContact(splitArray[0], splitArray[0], null);
-            }
-        }
-        
-    }
+		PersonContact ct = new PersonContact(firstName, lastName, "scrum", null, thePhoto);
+
+		boolean flag = PersistenceContext.repositories().contacts().add(ct);
+		Notification.contactInformer().notifyChange();
+		return flag;
+	}
+
+	public void removeContact(Contact theContact) {
+		PersistenceContext.repositories().contacts().delete(theContact);
+		Notification.contactInformer().notifyChange();
+	}
+
+	public Contact editContact(Contact theContact) throws DataIntegrityViolationException {
+		PersistenceContext.repositories().contacts().save(theContact);
+		Notification.contactInformer().notifyChange();
+		return theContact;
+	}
+
+	public void addSystemUser() {
+		try {
+			String userName = System.getProperty("user.name");
+			Contact contact = PersistenceContext.repositories().contacts().
+				getByName(userName);
+			if (contact == null) {
+				this.newContact(userName, "user", null);
+			}
+		} catch (Exception ex) {
+		}
+
+	}
 
 }

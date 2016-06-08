@@ -28,37 +28,53 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns true if and only if all of its arguments are true.
+ *
  * @author Einar Pehrson
  */
 public class And implements Function {
 
-	/** The only (but repeatable) parameter: a boolean expression */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
-			"A boolean expression to include")
-	};
+    /**
+     * The only (but repeatable) parameter: a boolean expression
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
+        "A boolean expression to include")
+    };
 
-	/**
-	 * Creates a new instance of the AND function.
-	 */
-	public And() {}
+    /**
+     * Creates a new instance of the AND function.
+     */
+    public And() {
+    }
 
-	public String getIdentifier() {
-		return "AND";
-	}
+    public String getIdentifier() {
+        return "AND";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		for (Expression argument : arguments)
-			if (!argument.evaluate().toBoolean())
-				return new Value(false);
-		return new Value(true);
-	}
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+        for (Expression argument : arguments) {
+            if (!argument.evaluate().toBoolean()) {
+                return new Value(false);
+            }
+        }
+        return new Value(true);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    public boolean isVarArg() {
+        return true;
+    }
+
+    
+    /**
+     * Gets the description of the function
+     * @return function description
+     */
+    @Override
+    public String getDescription() {
+        return "Binary operand and returns true if both operands are true";
+    }
 }

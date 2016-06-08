@@ -6,14 +6,14 @@
 package csheets.persistence;
 
 import csheets.domain.Contact;
-import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.framework.persistence.repositories.Repository;
 
 /**
  *
  * @author Rui Freitas
  */
-public interface ContactRepository extends Repository<Contact, Long>{
-    
-    
+public interface ContactRepository extends Repository<Contact, Long> {
+
+	Contact getByName(String name);
+
 }

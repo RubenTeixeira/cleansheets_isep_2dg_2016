@@ -28,25 +28,25 @@ public class WizardAction extends BaseAction {
 		this.uiController = uiController;
 	}
 
+        @Override
 	protected String getName() {
 		return "Wizard to help the use of functions.";
 	}
 
+        @Override
 	protected void defineProperties() {
 		putValue(SMALL_ICON, new ImageIcon(CleanSheets.class.
 				 getResource("ext/wizard/wizard-icon.png")));
 	}
 
 	/**
-	 * A simple action that presents a confirmation dialog. If the user confirms
-	 * then the contents of the cell A1 of the current sheet are set to the
-	 * string "Changed".
+	 * A simple action that presents a wizard frame. Which allows the user to see all available functions
+         * and try them
 	 *
 	 * @param event the event that was fired
 	 */
+        @Override
 	public void actionPerformed(ActionEvent event) {
-
-		// Lets user select a font
 		new WizardFrame(uiController).setVisible(true);
 	}
 }

@@ -29,6 +29,6 @@ public class ChatMenu extends JMenu {
 			getResource("ext/chatApp/res/img/chat.gif")));
 
 		// Adds font actions
-		add(new OptionsAction(uiController, chatAppController));
+		add(new ChatAction(uiController, chatAppController));
 	}
 }

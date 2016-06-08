@@ -6,7 +6,7 @@
 package csheets.ext.game;
 
 import csheets.ext.Extension;
-import csheets.ext.cellsSharing.ui.UIExtensionShare;
+import csheets.ext.game.ui.UIGameExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 
@@ -40,7 +40,7 @@ public class GameExtension extends Extension {
 	 */
 	@Override
 	public UIExtension getUIExtension(UIController uiController) {
-		return new UIExtensionShare(this, uiController);
+		return new UIGameExtension(this, uiController);
 	}
 
 }

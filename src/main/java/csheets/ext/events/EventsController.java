@@ -12,8 +12,8 @@ import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * A controller for updating the user-specified comment of a cell.
@@ -82,13 +82,13 @@ public class EventsController {
 	}
 
 	public Iterable<Contact> allContacts() {
-		return (List<Contact>) PersistenceContext.repositories().contacts().
+		return PersistenceContext.repositories().contacts().
 			all();
 	}
 
 	public Iterable<Event> allEvents() {
-		return PersistenceContext.repositories().events().
-			all();
+		//return PersistenceContext.repositories().events().all();
+		return new ArrayList();
 	}
 
 	public void snoozeEvent(Event event) {

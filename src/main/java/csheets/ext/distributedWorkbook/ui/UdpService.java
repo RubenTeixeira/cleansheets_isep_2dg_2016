@@ -29,42 +29,51 @@ public class UdpService extends Notifier {
 	 */
 	public void server(int localPort, int targetPort) {
 		ThreadManager.create("ipc.udpServer", new Thread() {
-			@Override
-			public void run() {
-				server = new UdpServer();
+							 @Override
+							 public void run() {
+								 server = new UdpServer();
 
-				server.expect(":broadcast", new Action() {
-					@Override
-					public void run(Map<String, Object> args) {
+								 server.expect(":broadcast", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
 
 //						if (server.same(args.get("from"))) {
 //							return;
 //						}
-						// Destination = Target's IP and Port
-						String destination = ((String) args.get("from")).split(":")[0] + ":" + localPort;
+												   // Destination = Target's IP and Port
+												   String destination = ((String) args.
+													   get("from")).split(":")[0] + ":" + localPort;
 
-						server.send(":port", destination, String.valueOf(targetPort));
-					}
-				});
+												   server.
+													   send(":port", destination, String.
+															valueOf(targetPort));
+											   }
+										   });
 
-				server.expect(":port", new Action() {
-					@Override
-					public void run(Map<String, Object> args) {
-						List<String> ports = (List<String>) args.get("port");
+								 server.expect(":port", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
+												   List<String> ports = (List<String>) args.
+													   get("port");
 
-						List<String> addresses = new ArrayList<>();
+												   List<String> addresses = new ArrayList<>();
 
-						for (String port : ports) {
-							addresses.add((((String) args.get("from")).split(":")[0]) + ":" + port);
-						}
+												   for (String port : ports) {
+													   addresses.
+														   add((((String) args.
+															   get("from")).
+															   split(":")[0]) + ":" + port);
+												   }
 
-						notifyChange(addresses);
-					}
-				});
+												   notifyChange(addresses);
+											   }
+										   });
 
-				server.stream(localPort);
-			}
-		});
+								 server.stream(localPort);
+							 }
+						 });
 
 		ThreadManager.run("ipc.udpServer");
 	}
@@ -76,22 +85,23 @@ public class UdpService extends Notifier {
 	 */
 	public void client(int seconds) {
 		ThreadManager.create("ipc.udpClient", new Thread() {
-			@Override
-			public void run() {
-				UdpClient client = new UdpClient(0);
+							 @Override
+							 public void run() {
+								 UdpClient client = new UdpClient(0);
 
-				Task broadcast = new Task() {
-					@Override
-					public void fire() {
-						client.send(":broadcast", "all:30601", "check");
-					}
-				};
+								 Task broadcast = new Task() {
+									 @Override
+									 public void fire() {
+										 client.
+											 send(":broadcast", "all:30602", "check");
+									 }
+								 };
 
-				TaskManager manager = new TaskManager();
+								 TaskManager manager = new TaskManager();
 
-				manager.after(3).every(seconds).fire(broadcast);
-			}
-		});
+								 manager.after(3).every(seconds).fire(broadcast);
+							 }
+						 });
 
 		ThreadManager.run("ipc.udpClient");
 	}

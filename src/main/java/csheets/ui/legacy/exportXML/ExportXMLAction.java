@@ -25,6 +25,8 @@ public class ExportXMLAction extends AbstractAction {
 
 	/**
 	 * Creates Export XML action.
+	 *
+	 * @param controller
 	 */
 	public ExportXMLAction(UIController controller) {
 		// Configures action
@@ -36,6 +38,12 @@ public class ExportXMLAction extends AbstractAction {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
 	}
 
+	/**
+	 *
+	 * Creates actionPerformed to call ExportXMLPanel
+	 *
+	 * @param e
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		new ExportXMLPanel(this.controller).show();

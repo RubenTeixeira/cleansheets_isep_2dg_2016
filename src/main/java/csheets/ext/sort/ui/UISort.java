@@ -31,8 +31,8 @@ public class UISort extends UIExtension {
 	/**
 	 * Creats UISortExtension.
 	 *
-	 * @param extension
-	 * @param uiController
+	 * @param extension extension
+	 * @param uiController uiController
 	 */
 	public UISort(Extension extension, UIController uiController) {
 		super(extension, uiController);
@@ -43,10 +43,6 @@ public class UISort extends UIExtension {
 
 	}
 
-	/**
-	 *
-	 * @return
-	 */
 	public JMenu getMenu() {
 		if (menu == null) {
 			menu = new SortMenu(uiController);

@@ -104,7 +104,7 @@ public class Event implements Serializable {
 	}
 
 	public void alert(boolean active) {
-		this.alert = alert;
+		this.alert = active;
 	}
 
 	@Override

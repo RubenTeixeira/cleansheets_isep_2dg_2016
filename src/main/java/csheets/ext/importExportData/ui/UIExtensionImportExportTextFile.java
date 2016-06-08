@@ -6,10 +6,11 @@
 package csheets.ext.importExportData.ui;
 
 import csheets.ext.Extension;
+import csheets.ext.importExportData.ImportExportDataExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
-import javax.swing.JComponent;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 
 /**
@@ -27,14 +28,9 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	private Icon icon;
 
 	/**
-	 * A side bar that provides editing of comments
-	 */
-	private JComponent sideBar;
-
-	/**
 	 * The menu of the extension
 	 */
-	private ShareMenu menu;
+	private ImportExportDataMenu menu;
 
 	/**
 	 * Controller.
@@ -47,7 +43,8 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-	public UIExtensionImportExportTextFile(Extension extension, UIController uiController) {
+	public UIExtensionImportExportTextFile(Extension extension,
+										   UIController uiController) {
 		super(extension, uiController);
 	}
 
@@ -57,17 +54,17 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 	 * @return an icon with style
 	 */
 	public Icon getIcon() {
-//		if (icon == null) {
-//			icon = new ImageIcon(ShareExtension.class.getResource("res/img/share.png"));
-//		}
-//		return icon;
-		return null;
+		if (icon == null) {
+			icon = new ImageIcon(ImportExportDataExtension.class.
+				getResource("res/img/import_export.png"));
+		}
+		return icon;
 	}
 
 	/**
 	 * Returns an instance of a class that implements JMenu.
 	 *
-	 * @see ShareMenu
+	 * @see ImportExportDataMenu
 	 * @return a JMenu component
 	 */
 	public JMenu getMenu() {
@@ -75,24 +72,9 @@ public class UIExtensionImportExportTextFile extends UIExtension {
 			if (shareController == null) {
 				shareController = new ImportExportTextFileController();
 			}
-			menu = new ShareMenu(uiController, shareController);
+			menu = new ImportExportDataMenu(uiController, shareController);
 		}
 		return menu;
-	}
-
-	/**
-	 * Returns a side bar that gives access to extension-specific functionality.
-	 *
-	 * @return a component, or null if the extension does not provide one
-	 */
-	public JComponent getSideBar() {
-		if (sideBar == null) {
-			if (shareController == null) {
-				shareController = new ImportExportTextFileController();
-			}
-			sideBar = new SharePanel(uiController, shareController);
-		}
-		return sideBar;
 	}
 
 }
