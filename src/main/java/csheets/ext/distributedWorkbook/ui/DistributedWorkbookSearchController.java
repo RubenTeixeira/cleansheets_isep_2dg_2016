@@ -4,6 +4,7 @@ import csheets.ext.distributedWorkbook.SearchWorkbook;
 import csheets.ui.ctrl.UIController;
 
 /**
+ * A controller to search workbooks of other instance.
  *
  * @author José Barros
  */
@@ -19,12 +20,27 @@ public class DistributedWorkbookSearchController {
 	 */
 	private TcpService tcpService;
 
+	/**
+	 * Instance responsible for save a workbook data and search to of this
+	 * workbook on another instance.
+	 */
 	private SearchWorkbook searchWorkbook;
 
+	/**
+	 * Creates instance.
+	 *
+	 * @param uiController UI Controller
+	 */
 	public void newSearch(UIController uiController) {
 		this.searchWorkbook = new SearchWorkbook(uiController);
 	}
 
+	/**
+	 * Starts the UDP service
+	 *
+	 * @param port The target port that is defined by the user.
+	 * @param seconds The number of seconds to execute each request.
+	 */
 	void startUdpService(int port, int seconds) {
 
 		if (port < 0 || port > 49151) {
@@ -48,7 +64,7 @@ public class DistributedWorkbookSearchController {
 	/**
 	 * Starts the UDP service.
 	 *
-	 * @param ui Workbook Search ui
+	 * @param ui UI of Workbook Search
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
@@ -124,24 +140,58 @@ public class DistributedWorkbookSearchController {
 		this.startTcpService(port);
 	}
 
+	/**
+	 * Sends a request to another instance to search workbook.
+	 *
+	 * @param target Targeted Host (ip and port)
+	 * @param message Request message
+	 */
 	public void sendRequest(String target, String message) {
-		new TcpService().client(target, message);
+		tcpService.client(target, message);
 
 	}
 
-	public void setNameOfWorkbookToSearch(String name) {
-		searchWorkbook.setWorkbookToSearch(name);
+	/**
+	 * Set name of workbook to search.
+	 *
+	 * @param target host
+	 * @param workbookName name of workbook
+	 */
+	public void sendNameOfWorkbookToSearch(String target, String workbookName) {
+		tcpService.searchWorkbook(target, workbookName);
 	}
 
-	public void searchWorkbook(UIController uiController) {
-		searchWorkbook.findWorkbook();
+	/**
+	 * Search the workbook in directories.
+	 *
+	 * @param uiController UI Controller
+	 * @param workbookToSearch workbook
+	 * @return response
+	 */
+	public boolean searchWorkbook(UIController uiController,
+								  String workbookToSearch) {
+		return searchWorkbook.findWorkbook(workbookToSearch);
 	}
 
+	/**
+	 * Check result of search
+	 *
+	 * @return Response of search
+	 */
 	public boolean checkResult() {
 		return searchWorkbook.result();
 	}
 
+	/**
+	 * Gets the workbook summary
+	 *
+	 * @return Summary of workbook contents
+	 */
 	public String getWorkbookSummary() {
 		return searchWorkbook.getSummary();
+	}
+
+	public void sendSearchResult(String target, String result) {
+		tcpService.searchResult(target, result);
 	}
 }
