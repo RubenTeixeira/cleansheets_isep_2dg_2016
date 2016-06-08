@@ -31,7 +31,7 @@ class ImportAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		new ImportDialog(null, false, uiController, controller).setVisible(true);
+		new ImportDialog(null, true, uiController, controller).setVisible(true);
 	}
 
 }

@@ -35,6 +35,15 @@ public class ExportDialog extends javax.swing.JDialog {
 		this.controller = controller;
 		this.uiController = uiController;
 		this.cells = new Cell[0][0];
+		initializeCellRangeText();
+	}
+
+	private void initializeCellRangeText() {
+		Cell[][] selectedCells = uiController.focusOwner.getSelectedCells();
+		this.rangeOfCellsExportText.setText(selectedCells[0][0].getAddress().
+			toString() + "-"
+			+ selectedCells[selectedCells.length - 1][selectedCells[0].length - 1].
+			getAddress().toString());
 	}
 
 	/**
@@ -71,6 +80,8 @@ public class ExportDialog extends javax.swing.JDialog {
                 helpNoteLabel1ActionPerformed(evt);
             }
         });
+
+        rangeOfCellsExportText.setEditable(false);
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
