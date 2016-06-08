@@ -6,8 +6,11 @@
 package csheets.persistence.jpa;
 
 import csheets.domain.Calendar;
+import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.CalendarRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +21,17 @@ public class JpaCalendarRepository extends JpaRepository<Calendar, Long> impleme
 	@Override
 	protected String persistenceUnitName() {
 		return PersistenceSettings.PERSISTENCE_UNIT_NAME;
+	}
+
+	@Override
+	public Iterable<Calendar> calendarsContact(Contact contact) {
+		List<Calendar> list = new ArrayList();
+		for (Calendar calendar : this.all()) {
+			if (calendar.getContact() == contact) {
+				list.add(calendar);
+			}
+		}
+		return list;
 	}
 
 }
