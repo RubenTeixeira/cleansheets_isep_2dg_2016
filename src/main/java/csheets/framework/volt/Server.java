@@ -104,17 +104,36 @@ public abstract class Server {
     /**
      * Creates a new channel for a given route.
      * 
-     * @param route Route that will trigger the channel.
+     * @param route Route that will trigger the channel. If given a '*', the
+     * channels will be applied to every route.
      * @param channels Channels to be executed.
      */
     public void channel(String route, Channel... channels)
     {
-        if (! this.channels.containsKey(route)) {
-            this.channels.put(route, new ArrayList<>());
-        }
-        
-        for (Channel channel : channels) {
-            this.channels.get(route).add(channel);
+        synchronized (this.channels) {
+            // If the route is a *, we want to apply the given channels to
+            // every route.
+            if (route.equals("*")) {
+                List<Channel> channelsList = new ArrayList<>();
+                
+                for (Channel channel : channels) {
+                    channelsList.add(channel);
+                }
+                
+                for (Map.Entry<String, List<Channel>> entry : this.channels.entrySet()) {
+                    entry.getValue().addAll(channelsList);
+                }
+                
+                return;
+            }
+            
+            if (! this.channels.containsKey(route)) {
+                this.channels.put(route, new ArrayList<>());
+            }
+
+            for (Channel channel : channels) {
+                this.channels.get(route).add(channel);
+            }
         }
     }
     
@@ -126,8 +145,10 @@ public abstract class Server {
      */
     public List<Channel> getRouteChannels(String route) 
     {
-        if (this.channels.containsKey(route)) {
-            return this.channels.get(route);
+        synchronized (this.channels) {
+            if (this.channels.containsKey(route)) {
+                return this.channels.get(route);
+            }
         }
         
         return new ArrayList<>();
