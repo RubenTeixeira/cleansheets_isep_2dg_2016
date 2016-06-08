@@ -1,35 +1,38 @@
 package csheets.ext.comments.ui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-import javax.swing.JComponent;
-
 import csheets.core.Cell;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
 import csheets.ui.ext.CellDecorator;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import javax.swing.JComponent;
 
 /**
  * A decorator for commented cells.
+ *
  * @author Alexandre Braganca
  * @author Einar Pehrson
  */
 public class CommentedCellDecorator extends CellDecorator {
 
-	/** The font used to render the '+' */
+	/**
+	 * The font used to render the '+'
+	 */
 	private static final Font font = new Font("Dialog", Font.PLAIN, 10);
 
 	/**
 	 * Creates a new cell decorator.
 	 */
-	public CommentedCellDecorator() {}
+	public CommentedCellDecorator() {
+	}
 
 	/**
-	 * Decorates the given graphics context if the cell being rendered
-	 * has a comment.
+	 * Decorates the given graphics context if the cell being rendered has a
+	 * comment.
+	 *
 	 * @param component the cell renderer component
 	 * @param g the graphics context on which drawing should be done
 	 * @param cell the cell being rendered
@@ -37,13 +40,13 @@ public class CommentedCellDecorator extends CellDecorator {
 	 * @param hasFocus whether the cell has focus
 	 */
 	public void decorate(JComponent component, Graphics g, Cell cell,
-			boolean selected, boolean hasFocus) {
+						 boolean selected, boolean hasFocus) {
 		if (enabled) {
-			CommentableCell commentableCell = (CommentableCell)cell.getExtension(CommentsExtension.NAME);
-			if (commentableCell.hasComment()) 
-			{
+			CommentableCell commentableCell = (CommentableCell) cell.
+				getExtension(CommentsExtension.NAME);
+			if (commentableCell.hasComments()) {
 				// Stores current graphics context properties
-				Graphics2D g2 = (Graphics2D)g;
+				Graphics2D g2 = (Graphics2D) g;
 				Color oldPaint = g2.getColor();
 				Font oldFont = g2.getFont();
 

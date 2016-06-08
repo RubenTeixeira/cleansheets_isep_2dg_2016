@@ -1,31 +1,38 @@
 package csheets.ext.comments;
 
+import csheets.core.Cell;
+import csheets.ext.CellExtension;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import csheets.core.Cell;
-import csheets.ext.CellExtension;
-
 /**
  * An extension of a cell in a spreadsheet, with support for comments.
+ *
  * @author Alexandre Braganca
  * @author Einar Pehrson
  */
 public class CommentableCell extends CellExtension {
 
-	/** The unique version identifier used for serialization */
+	/**
+	 * The unique version identifier used for serialization
+	 */
 	private static final long serialVersionUID = 1L;
 
-	/** The cell's user-specified comment */
-    private String userComment;
+	/**
+	 * The cell's user-specified comments list
+	 */
+	private List<Comment> commentsList = new ArrayList<>();
 
-	/** The listeners registered to receive events from the comentable cell */
+	/**
+	 * The listeners registered to receive events from the comentable cell
+	 */
 	private transient List<CommentableCellListener> listeners
 		= new ArrayList<CommentableCellListener>();
 
 	/**
 	 * Creates a comentable cell extension for the given cell.
+	 *
 	 * @param cell the cell to extend
 	 */
 	CommentableCell(Cell cell) {
@@ -33,57 +40,66 @@ public class CommentableCell extends CellExtension {
 	}
 
 
-/*
+	/*
  * DATA UPDATES
- */
-
-
+	 */
 //	public void contentChanged(Cell cell) {
 //	}
-
-
-/*
+	/*
  * COMMENT ACCESSORS
- */
-
+	 */
 	/**
-	 * Get the cell's user comment.
-	 * @return The user supplied comment for the cell or <code>null</code> if no user
-	 supplied comment exists.
-	*/
-	public String getUserComment() {
-		return userComment;
+	 *
+	 * @return lstComments
+	 */
+	public List<Comment> getLstComment() {
+		return commentsList;
 	}
 
 	/**
-	 * Returns whether the cell has a comment.
-	 * @return true if the cell has a comment
+	 * Returns whether the cell has comments.
+	 *
+	 * @return true if the cell has comments
 	 */
-	public boolean hasComment() {
-		return userComment != null;
+	public boolean hasComments() {
+		return (this.commentsList.size() != 0);
 	}
 
-/*
- * COMMENT MODIFIERS
- */
-
 	/**
-	 * Sets the user-specified comment for the cell.
-	 * @param comment the user-specified comment
+	 * Sets the user-specified comment list for the cell.
+	 *
+	 * @param userName the username
+	 * @param text the user-specified comment list
 	 */
-	public void setUserComment(String comment) {
-		this.userComment = comment;
+	public void addComment(String userName, String text)
+		throws IllegalArgumentException {
+
+		if (userName == null || userName.isEmpty()) {
+			throw new IllegalArgumentException("Unable to get the username.");
+		}
+		if (text == null || text.isEmpty()) {
+			throw new IllegalArgumentException("Comment string is empty or null.");
+		}
+		Comment newComment = new Comment(userName, text);
+		commentsList.add(newComment);
+		System.out.println("Comments currently:");
+		for (Comment comment : commentsList) {
+			System.out.
+				println("Name: " + comment.userName() + " Text: " + comment.
+					text());
+		}
 		// Notifies listeners
 		fireCommentsChanged();
+
 	}
 
 
-/*
+	/*
  * EVENT LISTENING SUPPORT
- */
-
+	 */
 	/**
 	 * Registers the given listener on the cell.
+	 *
 	 * @param listener the listener to be added
 	 */
 	public void addCommentableCellListener(CommentableCellListener listener) {
@@ -92,6 +108,7 @@ public class CommentableCell extends CellExtension {
 
 	/**
 	 * Removes the given listener from the cell.
+	 *
 	 * @param listener the listener to be removed
 	 */
 	public void removeCommentableCellListener(CommentableCellListener listener) {
@@ -102,19 +119,41 @@ public class CommentableCell extends CellExtension {
 	 * Notifies all registered listeners that the cell's comments changed.
 	 */
 	protected void fireCommentsChanged() {
-		for (CommentableCellListener listener : listeners)
+		for (CommentableCellListener listener : listeners) {
 			listener.commentChanged(this);
+		}
+	}
+
+	public String getTooltip() {
+
+		String tooltip = null;;
+		if (this.hasComments()) {
+
+			tooltip = "<html>";
+			for (Comment cmt : commentsList) {
+				tooltip += "<b>";
+				tooltip += cmt.userName() + ":</b> ";
+				tooltip += cmt.text();
+				tooltip += "<br/>";
+			}
+			tooltip += "</html>";
+		}
+
+		return tooltip;
 	}
 
 	/**
 	 * Customizes serialization, by recreating the listener list.
+	 *
 	 * @param stream the object input stream from which the object is to be read
-	 * @throws IOException If any of the usual Input/Output related exceptions occur
-	 * @throws ClassNotFoundException If the class of a serialized object cannot be found.
+	 * @throws IOException If any of the usual Input/Output related exceptions
+	 * occur
+	 * @throws ClassNotFoundException If the class of a serialized object cannot
+	 * be found.
 	 */
 	private void readObject(java.io.ObjectInputStream stream)
-			throws java.io.IOException, ClassNotFoundException {
-	    stream.defaultReadObject();
+		throws java.io.IOException, ClassNotFoundException {
+		stream.defaultReadObject();
 		listeners = new ArrayList<CommentableCellListener>();
 	}
 }
