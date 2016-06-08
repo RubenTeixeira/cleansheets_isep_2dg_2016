@@ -1,4 +1,3 @@
-  @startuml doc-files/ipc_extension_image1.png
 @startuml doc-files/ipc_analysis.png
 
 actor User

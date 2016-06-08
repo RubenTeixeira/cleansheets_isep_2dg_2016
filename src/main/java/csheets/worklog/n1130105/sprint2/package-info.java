@@ -2,12 +2,6 @@
  * Technical documentation regarding the work of the team member (1130105)
  * Carlos Mateus during week2.
  *
- * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
@@ -15,7 +9,6 @@
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.-
  * <p>
  * -In this section you should register important notes regarding your work
  * during the week. For instance, if you spend significant time helping a
@@ -32,15 +25,13 @@
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-174">LPFOURDG-174</a>
  * </p>
- *  * <p>
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-175">LPFOURDG-175</a>
  * </p>
- *  * <p>
+ * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-176">LPFOURDG-176</a>
  * </p>
  *
- *
- * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
  * <p>
@@ -62,51 +53,36 @@
  *
  *
  * <h2>4. Analysis</h2>
- *
- *
+ * Find workbook in another instance will be supported in a new extension to
+ * cleansheets we need to study how extensions are loaded by cleansheets and how
+ * they work. The first sequence diagram in the section Application Startup
+ * tells us that extensions must be subclasses of the Extension abstract class
+ * and need to be registered in special files. The Extension class has a method
+ * called getUIExtension that should be implemented and return an instance of a
+ * class that is a subclass of UIExtension.
  *
  * <h3>First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
- *
- * <h4>Receive Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_receive_image.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
- *
- * <h3>Analysis of Core Technical Problem</h3>
- * The core of communication is expected to communicate in udp and tcp protocols
- * connections.
+ * <h4>Find Workbooks on system</h4>
+ * The user enter the name of directory he want to search files, the system
+ * shows all the files, user select a file and the workbook is open
  * <p>
  * <img src="doc-files/ipc_analysis.png" alt="image">
+ * <p>
  *
+ *
+ *
+ * <h3>Analysis of Core Technical Problem</h3>
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * see: <code>csheets.core.SpreadsheetTest</code>
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension csheets.ext.style we can
- * find examples that illustrate how to implement these technical requirements.
- * The following diagrams illustrate core aspects of the design of the solution
- * for this use case.
  *
- * <h3>Extension Setup</h3>
+ * <p>
+ * <img src="doc-files/ipc_02.1_design.png" alt="image">
+ * <p>
  *
  * <h3>5.3. Classes</h3>
  *
@@ -199,13 +175,13 @@
  * <p>
  * <b>Wednesday</b>
  * <p>
- * Yesterday I worked on:
+ * Yesterday I worked on: Find Workbook UI- Implementation Design
  * <p>
  * 1.</p>
  * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Unit Tests of FindWorkBookController and update design </p>
  * <p>
  * Blocking:
  * <p>
