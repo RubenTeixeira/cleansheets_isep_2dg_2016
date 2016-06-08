@@ -2,11 +2,13 @@ package csheets.ext.calendar.ui;
 
 import csheets.domain.Calendar;
 import csheets.ext.calendar.CalendarController;
+import csheets.ext.events.EventsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,7 +17,6 @@ import javax.swing.DefaultListModel;
 public class CalendarPanel extends javax.swing.JPanel implements Observer {
 
 	private CalendarController controller;
-	private DefaultListModel model;
 
 	/**
 	 * Creates new form EventsPanel
@@ -23,21 +24,50 @@ public class CalendarPanel extends javax.swing.JPanel implements Observer {
 	 * @param uiController The user interface controller.
 	 */
 	public CalendarPanel(UIController uiController) {
-		this.setName(csheets.ext.calendar.CalendarExtension.NAME);
-		this.controller = new CalendarController(uiController, this);
+		this.setName(EventsExtension.NAME);
 		this.initComponents();
-		this.model = new DefaultListModel();
-		this.jList1.setModel(model);
-		this.update(null, null);
+		this.controller = new CalendarController(uiController, this);
 		Notification.calendarInformer().addObserver(this);
+		this.update(null, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.model.removeAllElements();
-		for (Calendar calendar : this.controller.getAllCalendars()) {
-			this.model.addElement(calendar);
+		clearCalendarList();
+		for (Calendar calendar : this.controller.allCalendars()) {
+			CalendarPanelSingle panel = new CalendarPanelSingle(this.controller, calendar);
+			this.addCalendarPanel(panel);
 		}
+		this.jPanelCalendars.revalidate();
+		this.jPanelCalendars.repaint();
+	}
+
+	private void addCalendarPanel(CalendarPanelSingle panel) {
+		this.jPanelCalendars.add(panel);
+		addGridRow();
+	}
+
+	/*
+    * Deletes all information from event list.
+	 */
+	private void clearCalendarList() {
+		this.jPanelCalendars.removeAll();
+		defaultGridRow();
+	}
+
+	/*
+    * Layout specific: set's the default number of rows (5)
+	 */
+	private void defaultGridRow() {
+		((GridLayout) this.jPanelCalendars.getLayout()).setRows(5);
+	}
+
+	/*
+    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+	 */
+	private void addGridRow() {
+		GridLayout layout = (GridLayout) this.jPanelCalendars.getLayout();
+		layout.setRows(layout.getRows() + 1);
 	}
 
 	/**
@@ -50,20 +80,22 @@ public class CalendarPanel extends javax.swing.JPanel implements Observer {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAddCalendar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jPanelCalendars = new javax.swing.JPanel();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jButton1.setText("Create");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAddCalendar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_event.png"))); // NOI18N
+        jButtonAddCalendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAddCalendarActionPerformed(evt);
             }
         });
+        jPanel1.add(jButtonAddCalendar, java.awt.BorderLayout.EAST);
 
-        jScrollPane1.setViewportView(jList1);
+        jPanelCalendars.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane1.setViewportView(jPanelCalendars);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -73,37 +105,35 @@ public class CalendarPanel extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(91, 91, 91)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		new CalendarManage(this.controller);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonAddCalendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddCalendarActionPerformed
+		ManageCalendar calendar = new ManageCalendar(this.controller, null);
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, calendar, "Create Calendar", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+			calendar.createCalendar();
+		}
+    }//GEN-LAST:event_jButtonAddCalendarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JButton jButtonAddCalendar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelCalendars;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
-
 }
