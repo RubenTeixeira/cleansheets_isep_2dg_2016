@@ -44,16 +44,19 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	 */
 	private CommentController controller;
 
-	JPanel jPanel1;
-	JPanel jPanel2;
-	JTextField txtBox;
-	GridLayout layout = new GridLayout(5, 1);
+	private JPanel jPanel1;
+	private JPanel jPanel2;
+	private JTextField txtBox;
+	private GridLayout layout = new GridLayout(5, 1);
 
 	/**
 	 * Creates new form CommentsPanel
+	 *
+	 * @param uiController the UIController
 	 */
 	public CommentsPanel(UIController uiController) {
-		//initComponents();
+		setName(CommentsExtension.NAME);
+		initComponents();
 
 		jPanel1 = new JPanel();
 		jPanel2 = new JPanel(layout);
@@ -94,11 +97,13 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	 *
 	 * @param event the selection event that was fired
 	 */
+	@Override
 	public void selectionChanged(SelectionEvent event) {
-		Cell cell = event.getCell();
-		if (cell != null) {
+		Cell selectedCell = event.getCell();
+		if (selectedCell != null) {
 			CommentableCell activeCell
-				= (CommentableCell) cell.getExtension(CommentsExtension.NAME);
+				= (CommentableCell) selectedCell.
+				getExtension(CommentsExtension.NAME);
 			activeCell.addCommentableCellListener(this);
 
 			commentChanged(activeCell);
@@ -132,7 +137,7 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	private void paintCommentPanels() {
 		jPanel2.removeAll();
 		refreshUI();
-		List<Comment> commentsList = controller.getCommentList(cell);
+		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
 			CommentPanel cmtPanel = new CommentPanel(comment.userName(), comment.
 													 text());
@@ -146,8 +151,6 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	}
 
 	private void refreshUI() {
-		jPanel2.revalidate();
-		jPanel2.repaint();
 		revalidate();
 		repaint();
 	}

@@ -36,12 +36,11 @@ public class UIExtensionComments extends UIExtension {
 	private JComponent sideBar;
 
 	/**
-	 * The menu of the extension
+	 * The constructor
 	 *
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-//	private ExampleMenu menu;
 	public UIExtensionComments(Extension extension, UIController uiController) {
 		super(extension, uiController);
 		// TODO Auto-generated constructor stub

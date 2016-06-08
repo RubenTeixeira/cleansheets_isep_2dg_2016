@@ -49,9 +49,6 @@ public class Comment {
 			return false;
 		}
 		final Comment other = (Comment) obj;
-		if (!Objects.equals(this.userName, other.userName)) {
-			return false;
-		}
-		return true;
+		return Objects.equals(this.userName, other.userName);
 	}
 }
