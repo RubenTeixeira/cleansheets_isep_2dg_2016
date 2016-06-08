@@ -2,6 +2,7 @@ package csheets.ext.contacts;
 
 import csheets.CleanSheets;
 import csheets.domain.Contact;
+import csheets.domain.Event;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
@@ -11,6 +12,8 @@ import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JPanel;
 
 /**
@@ -41,6 +44,27 @@ public class ContactsController {
 
 	public Iterable<Contact> allContacts() {
 		return PersistenceContext.repositories().contacts().all();
+	}
+
+	public Iterable<String> allProfissions() {
+		List<String> list = new ArrayList();
+		list.add("Study");
+		list.add("Teacher");
+		return list;
+	}
+
+	public Iterable<Contact> allCompanies() {
+		return PersistenceContext.repositories().contacts().allCompanies();
+	}
+
+	public Iterable<Contact> contactsCompany(Contact contact) {
+		return PersistenceContext.repositories().contacts().
+			contactsCompany(contact);
+	}
+
+	public Iterable<Event> eventsContact(Contact contact) {
+		return PersistenceContext.repositories().events().
+			eventsContact(contact);
 	}
 
 	public Image contactPhoto(Contact contact) throws IOException {

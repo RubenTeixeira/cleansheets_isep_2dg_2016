@@ -14,6 +14,10 @@ import csheets.framework.persistence.repositories.Repository;
  */
 public interface ContactRepository extends Repository<Contact, Long> {
 
-	Contact getByName(String name);
+	public Contact getByName(String name);
+
+	public Iterable<Contact> contactsCompany(Contact contact);
+
+	public Iterable<Contact> allCompanies();
 
 }
