@@ -11,60 +11,65 @@ package csheets.notification;
  */
 public class Notification {
 
-    private static Notifier contactInformer = new Notifier() {
-    };
-    private static Notifier eventInformer = new Notifier() {
-    };
-    private static Notifier reminderInformer = new Notifier() {
-    };
-    private static Notifier extensionInformer = new Notifier() {
-    };
-    private static Notifier chatMessageInformer = new Notifier() {
-    };
-    private static Notifier panelMessageInformer = new Notifier() {
-    };
-    private static Notifier calendarInformer = new Notifier() {
-    };
-    private static Notifier noteInformer = new Notifier() {
-    };
-    private static Notifier formInformer = new Notifier() {
-    };
+	private static Notifier contactInformer = new Notifier() {
+	};
+	private static Notifier eventInformer = new Notifier() {
+	};
+	private static Notifier reminderInformer = new Notifier() {
+	};
+	private static Notifier extensionInformer = new Notifier() {
+	};
+	private static Notifier chatMessageInformer = new Notifier() {
+	};
+	private static Notifier panelMessageInformer = new Notifier() {
+	};
+	private static Notifier calendarInformer = new Notifier() {
+	};
+	private static Notifier noteInformer = new Notifier() {
+	};
+	private static Notifier formInformer = new Notifier() {
+	};
+	private static Notifier gamerInformer = new Notifier() {
+	};
 
-    public static Notifier contactInformer() {
-        return Notification.contactInformer;
-    }
+	public static Notifier contactInformer() {
+		return Notification.contactInformer;
+	}
 
-    public static Notifier eventInformer() {
-        return Notification.eventInformer;
-    }
+	public static Notifier eventInformer() {
+		return Notification.eventInformer;
+	}
 
-    public static Notifier reminderInformer() {
-        return Notification.reminderInformer;
-    }
+	public static Notifier reminderInformer() {
+		return Notification.reminderInformer;
+	}
 
-    public static Notifier extensionInformer() {
-        return Notification.extensionInformer;
-    }
+	public static Notifier extensionInformer() {
+		return Notification.extensionInformer;
+	}
 
-    public static Notifier chatMessageInformer() {
-        return Notification.chatMessageInformer;
-    }
+	public static Notifier chatMessageInformer() {
+		return Notification.chatMessageInformer;
+	}
 
-    public static Notifier panelMessageInformer() {
-        return Notification.panelMessageInformer;
-    }
+	public static Notifier panelMessageInformer() {
+		return Notification.panelMessageInformer;
+	}
 
-    public static Notifier calendarInformer() {
-        return Notification.calendarInformer;
-    }
+	public static Notifier calendarInformer() {
+		return Notification.calendarInformer;
+	}
 
-    public static Notifier noteInformer() {
-        return Notification.noteInformer;
-    }
-    
-    public static Notifier formInformer()
-    {
-        return Notification.formInformer;
-    }
+	public static Notifier noteInformer() {
+		return Notification.noteInformer;
+	}
+
+	public static Notifier formInformer() {
+		return Notification.formInformer;
+	}
+
+	public static Notifier gameInformer() {
+		return Notification.gamerInformer;
+	}
 
 }

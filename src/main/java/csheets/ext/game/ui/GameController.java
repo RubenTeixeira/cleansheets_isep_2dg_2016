@@ -8,8 +8,11 @@ package csheets.ext.game.ui;
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
+import csheets.framework.volt.protocols.tcp.TcpClient;
+import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
+import csheets.notification.Notification;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import java.util.HashMap;
@@ -39,13 +42,17 @@ public class GameController {
 	 * @param port Target port defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void startUdpServices(Observer observer, String username,
-								 byte[] image) {
+	public void startServices(Observer observer, String username,
+							  byte[] image) {
 		UdpServer udp = NetworkManager.udp();
 
 		udp.expect(":game-broadcast", new Action() {
 				   @Override
 				   public void run(Map<String, Object> args) {
+					   if (udp.same(args.get("from"))) {
+						   return;
+					   }
+
 					   udp.send(":username|:image", "all:" + AppSettings.
 								instance().get("UDP_PORT"), username + "|" + new String(image));
 				   }
@@ -62,11 +69,44 @@ public class GameController {
 					   objects.put("image", ((String) ((List<String>) args.
 								   get("image")).get(0)));
 
-					   observer.update(null, objects);
+					   Notification.gameInformer().notifyChange(objects);
+					   //observer.update(null, objects);
 				   }
 			   });
 
 		this.startUdpClient();
+
+		TcpServer tcp = NetworkManager.tcp();
+
+		tcp.expect(":game-request", new Action() {
+				   @Override
+				   public void run(Map<String, Object> args) {
+					   // Get the game type and so on...
+
+					   // Needs to get answer from the UI.
+					   // So by default, we'll consider the answer to be true.
+					   boolean answer = true;
+
+					   String from = ((String) args.get("from")).split(":")[0];
+
+					   tcp.send(":game-on", from + ":" + AppSettings.instance().
+								get("TCP_PORT"), (String) args.get("message"));
+				   }
+			   });
+
+		tcp.expect(":game-on", new Action() {
+				   public void run(Map<String, Object> args) {
+					   // ...
+				   }
+			   });
+
+	}
+
+	public void requestMatch(String target, String gameType) {
+		TcpClient client = new TcpClient(0);
+
+		client.send(":game-request", target + ":" + AppSettings.instance().
+					get("TCP_PORT"), gameType);
 	}
 
 	private void startUdpClient() {
