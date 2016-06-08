@@ -82,4 +82,23 @@ public class If implements Function {
     public String getDescription() {
         return "A function that emulates the if-then-else statement.";
     }
+
+    /**
+     * Return template of the function
+     *
+     * @return function template
+     */
+    @Override
+    public String getTemplate() {
+        String result = "={" + getIdentifier() + "(";
+        FunctionParameter[] param = getParameters();
+        for (int i = 0; i < param.length; i++) {
+            if (i != 0) {
+                result += ",";
+            }
+            result += param[i].getValueType().toString();
+        }
+        result += ")}";
+        return result;
+    }
 }

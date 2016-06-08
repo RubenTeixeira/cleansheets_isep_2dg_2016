@@ -6,6 +6,7 @@
 package csheets.ext.game.ui;
 
 import csheets.ext.game.GameExtension;
+import csheets.support.Converter;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -19,7 +20,10 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -41,6 +45,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * Battleships designation.
 	 */
 	private static final String BATTLESHIPS = "Battleships";
+
+	private String username;
 
 	/**
 	 * Profile photo.
@@ -93,7 +99,9 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		instancesList.setModel(instanceListModel);
 		updateListOfGames();
 
-		jTextField1.setText(System.getProperty("user.name"));
+		username = System.getProperty("user.name");
+
+		jTextField1.setText(username);
 		jTextField1.setEditable(false);
 
 		jTextField2.setText(InetAddress.getLocalHost().getHostName());
@@ -105,9 +113,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		final int defaultPort = 20006;
 
 		this.gameController = gameController;
-		this.gameController.startUdpService(this, defaultPort, defaultSeconds);
 
-		//need tcp service?????
 	}
 
 	/**
@@ -299,6 +305,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			photoFile = fc.getSelectedFile();
 			this.jLabel5.setIcon(iconImageFromFile(photoFile));
+
+			try {
+				this.gameController.startUdpServices(this, username, Converter.
+													 setImage(photoFile));
+			} catch (IOException ex) {
+				Logger.getLogger(GamePanel.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
 		}
     }//GEN-LAST:event_jLabel5MouseClicked
 
@@ -396,17 +410,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	@Override
 	public void update(java.util.Observable o, Object arg) {
-		if (arg instanceof List) {
-			List<String> addresses = (List<String>) arg;
-			updateInstanceList(addresses);
-		}
-
-		if (arg instanceof Boolean) {
-			if (((Boolean) arg)) {
-				//aceita estabelecer conexao
-			} else {
-				//nao quer aceitar conexao
-			}
+		if (arg instanceof Map) {
+			instanceListModel.addElement(((Map) arg).get("from"));
 		}
 	}
 }

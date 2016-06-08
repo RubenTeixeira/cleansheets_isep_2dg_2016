@@ -1,10 +1,13 @@
 package csheets.ext.game.ui;
 
 import csheets.framework.volt.Action;
+import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
@@ -20,6 +23,19 @@ public class TcpService extends Notifier {
 	 */
 	private TcpServer server;
 
+	List<String> connectedInstances;
+
+	GamePanel panel;
+
+	// Empty constructor
+	public TcpService() {
+	}
+
+	public TcpService(GamePanel ui) {
+		connectedInstances = new ArrayList<>();
+		this.panel = ui;
+	}
+
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
@@ -29,7 +45,7 @@ public class TcpService extends Notifier {
 		ThreadManager.create("ipc.tcpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = new TcpServer();
+								 server = Volt.tcp(port, 0);
 
 								 server.expect(":request", new Action() {
 											   @Override

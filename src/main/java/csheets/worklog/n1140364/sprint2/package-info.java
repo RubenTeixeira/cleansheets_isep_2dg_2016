@@ -92,7 +92,7 @@
  * without the user has introduces a pattern name for search
  *
  * <p>
- * see: #
+ * see: <code>csheets.ext.distributedWorkbook.SearchWorkbookTest</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
@@ -227,47 +227,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Finish a search of workbook. Display summary. Tests </p>
+ * 1. Finish a search of workbook. Display summary. Tests. </p>
  * <p>
- * Today:</p>
- * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
- *
- * <p>
- * <b>Thursday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
- * Today:</p>
+ * Today: UC correction. Finish Tests. </p>
  * <p>
  * 1.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
- *
- *
- * <p>
- * <b>Friday</b>
- * <p>
- * Yesterday I worked on:</p>
- * <p>
- * 1.</p>
- * <p>
- * Today:</p>
- * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
  *
  * <h2>10. Self Assessment</h2>
  *

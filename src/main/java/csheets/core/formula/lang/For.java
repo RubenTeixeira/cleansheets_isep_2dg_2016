@@ -93,4 +93,23 @@ public class For implements Function {
     public String getDescription() {
         return " Execution of For Loop.";
     }
+
+    /**
+     * Return template of the function
+     *
+     * @return function template
+     */
+    @Override
+    public String getTemplate() {
+        String result = "={" + getIdentifier() + "(";
+        FunctionParameter[] param = getParameters();
+        for (int i = 0; i < param.length; i++) {
+            if (i != 0) {
+                result += ",";
+            }
+            result += param[i].getValueType().toString();
+        }
+        result += ")}";
+        return result;
+    }
 }

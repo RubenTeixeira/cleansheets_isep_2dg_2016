@@ -68,13 +68,32 @@ public class And implements Function {
         return true;
     }
 
-    
     /**
      * Gets the description of the function
+     *
      * @return function description
      */
     @Override
     public String getDescription() {
         return "Binary operand and returns true if both operands are true";
+    }
+
+    /**
+     * Return template of the function
+     *
+     * @return function template
+     */
+    @Override
+    public String getTemplate() {
+        String result = "={" + getIdentifier() + "(";
+        FunctionParameter[] param = getParameters();
+        for (int i = 0; i < param.length; i++) {
+            if (i != 0) {
+                result += ",";
+            }
+            result += param[i].getValueType().toString();
+        }
+        result += ")}";
+        return result;
     }
 }

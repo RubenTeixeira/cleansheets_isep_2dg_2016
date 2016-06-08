@@ -39,16 +39,7 @@ public class WizardController {
     }
 
     public String getFunctionInfo(Function func) {
-        String result = "={" + func.getIdentifier() + "(";
-        FunctionParameter[] param = func.getParameters();
-        for (int i = 0; i < param.length; i++) {
-            if (i != 0) {
-                result += ",";
-            }
-            result += param[i].getValueType().toString();
-        }
-        result += ")}";
-        return result ;
+        return func.getTemplate();
 
     }
 

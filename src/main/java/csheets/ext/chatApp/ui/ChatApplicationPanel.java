@@ -50,6 +50,40 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		Notification.chatMessageInformer().addObserver(this);
 	}
 
+	public void inserirHost(String chatUser, String message) {
+		while (true) {
+			if (root.getChildCount() > 0) {
+				DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+					children().nextElement();
+				if (no != null) {
+					String treeNode = (String) no.getUserObject();
+					if (treeNode.equals(chatUser)) {
+						insertMessage(no, message);
+						break;
+					}
+
+				}
+			} else {
+				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(chatUser);
+				root.add(newNode);
+				insertMessage(newNode, message);
+				break;
+			}
+		}
+	}
+
+	private void insertMessage(DefaultMutableTreeNode node, String message) {
+		if (node.getChildCount() == 0) {
+			node.
+				add(new DefaultMutableTreeNode(message));
+		} else {
+			DefaultMutableTreeNode last = (DefaultMutableTreeNode) node.
+				getLastChild();
+			last.
+				add(new DefaultMutableTreeNode(message));
+		}
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Map messageData = new LinkedHashMap((Map) arg);
@@ -57,38 +91,12 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 			((Map) messageData).remove("reference");
 			String message = (String) ((Map) messageData).get("message");
 			String hostname = (String) ((Map) messageData).get("hostname");
-
-			String chatMessage = hostname + ":" + message;
-
+			//String from = (String) ((Map) messageData).get("from");
+			String chatMessage = "Received from " + hostname + ": " + message;
 			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, chatMessage);
 
-			//inserir Node
-			while (true) {
-				if (root.getChildCount() > 0) {
-					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
-						children().nextElement();
-					if (no != null) {
-						String treeMessage = (String) no.getUserObject();
-						String ip = treeMessage.split(":")[0];
-						if (ip.equals(hostname)) {
+			inserirHost(hostname, chatMessage);
 
-							if (no.getChildCount() == 0) {
-								no.
-									add(new DefaultMutableTreeNode(chatMessage));
-								break;
-							} else {
-								DefaultMutableTreeNode last = (DefaultMutableTreeNode) no.
-									getLastChild();
-								last.
-									add(new DefaultMutableTreeNode(chatMessage));
-							}
-						}
-					}
-				} else {
-					root.add(new DefaultMutableTreeNode(chatMessage));
-					break;
-				}
-			}
 			this.revalidate();
 			this.repaint();
 		}
@@ -97,30 +105,10 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 			((Map) sendData).remove("reference");
 			String localHost = (String) ((Map) sendData).get("hostname");
 			String sendMessage = (String) ((Map) sendData).get("message");
+			//String target = (String) ((Map) sendData).get("target");
+			String chatMessage = "Sended to " + localHost + ": " + sendMessage;
 
-			String chatMessage = localHost + ":" + sendMessage;
-
-			//inserir Node
-			while (true) {
-				if (root.getChildCount() > 0) {
-					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
-						children().nextElement();
-					if (no != null) {
-						String treeMessage = (String) no.getUserObject();
-						String ip = treeMessage.split(":")[0];
-						if (ip.equals(localHost)) {
-							DefaultMutableTreeNode last = (DefaultMutableTreeNode) no.
-								getLastChild();
-							last.
-								add(new DefaultMutableTreeNode(chatMessage));
-							break;
-						}
-					}
-				} else {
-					root.add(new DefaultMutableTreeNode(chatMessage));
-					break;
-				}
-			}
+			inserirHost(localHost, chatMessage);
 			this.revalidate();
 			this.repaint();
 		}

@@ -3,15 +3,14 @@
 actor User
 participant "<<analysis>>\nExportFileUI" as ExportFileUI
 participant "<<analysis>>\nExportFileController" as ExportFileController
-participant "<<analysis>>\nUI" as UI
 
 User->ExportFileUI: Export File
-ExportFileUI->ExportFileController: content = getContent(cells, separator, header)
-ExportFileController->TxtParser: create
-ExportFileController->TxtParser: content = ExportTextFileStrategy()
-TxtParser->ExportTextFileStrategy: create
-TxtParser->ExportTextFileStrategy: parse()
-ExportFileUI->ExportFileController: export(content, path)
+ExportFileUI->ExportFileController: export(filepath, cells, separator)
+ExportFileController->TxtEncoder: create
+ExportFileController->TxtEncoder: content = getContent(cells, separator)
+ExportFileController->FileHandler: create
+ExportFileController->FileHandler: createFile(filepath)
+ExportFileController->FileHandler: append(filepath, content)
 
 ExportFileUI->User: Exported successfully
 
