@@ -16,6 +16,7 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -395,14 +396,21 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		if (arg instanceof Map) {
-			ProfileOpponent p = new ProfileOpponent((String) ((Map) arg).
-				get("username"), (Image) ((Map) arg).
-													get("image"));
-
+			String image = (String) ((Map) arg).get("image");
+			byte[] convertBytes = image.getBytes();
+			try {
+				BufferedImage img = ImageIO.
+					read(new ByteArrayInputStream(convertBytes));
+				ProfileOpponent p = new ProfileOpponent((String) ((Map) arg).
+					get("username"), img);
+				this.contactsPanel.add(p);
+			} catch (IOException ex) {
+				Logger.getLogger(GamePanel.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
 			//instanceListModel.addElement(((Map) arg).get("from"));
 			//ir buscar imagem e username
 			//new ProfileOpponent();
-			this.contactsPanel.add(p);
 		}
 	}
 }
