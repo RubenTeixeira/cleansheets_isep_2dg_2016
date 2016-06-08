@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
@@ -18,7 +17,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
-import javax.persistence.Table;
 
 /**
  * This class is an AggregateRoot. Represents an domain entity Contact.
@@ -26,9 +24,8 @@ import javax.persistence.Table;
  * @author Rui Freitas
  */
 @Entity
-@Table(name = "CONTACT")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DISCRIMIN", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "DISCRIMIN")
 public abstract class Contact implements Serializable {
 
 	@Id
