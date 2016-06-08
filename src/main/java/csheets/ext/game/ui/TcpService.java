@@ -5,13 +5,15 @@ import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import javax.swing.JOptionPane;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
  */
 public class TcpService extends Notifier {
+
+	private boolean receiveMessage;
 
 	/**
 	 * Server instance.
@@ -29,23 +31,68 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = new TcpServer();
 
-								 server.expect(":game", new Action() {
+								 server.expect(":request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   // Each cell has the following information:
-												   // Column;Line;Type;Value;FontName;FontStyle;FontSize;HAlignment;VAlignment;fgColor;bgColor
-												   final int params = 11;
+												   String message = ((String) args.
+													   get("message")) + " with " + args.
+													   get("hostname");
 
-												   Map<String, String> gameInformation = new LinkedHashMap<>();
-												   String[] data = ((String) args.
-													   get("message")).
-													   split(";");
+												   int reply = JOptionPane.
+													   showConfirmDialog(null, message);
+												   if (reply == JOptionPane.YES_OPTION) {
+													   receiveMessage = true;
+													   String destination = ((String) args.
+														   get("from")).
+														   split(":")[0] + ":" + port;
+													   server.
+														   send(":reply", destination, "30606");
 
-												   //realizar acoes que pretender
-												   notifyChange(gameInformation);
+												   } else if (reply == JOptionPane.NO_OPTION) {
+													   receiveMessage = false;
+													   String destination = ((String) args.
+														   get("from")).
+														   split(":")[0] + ":" + port;
+													   server.
+														   send(":reply", destination, "30606");
+												   }
 											   }
+										   });
 
+								 server.expect(":reply", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
+												   notifyChange(receiveMessage);
+
+												   String destination = ((String) args.
+													   get("from")).
+													   split(":")[0] + ":" + port;
+												   server.
+													   send(":search", destination, "30606");
+											   }
+										   });
+
+								 server.expect(":search", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
+												   notifyChange("Search");
+												   String destination = ((String) args.
+													   get("from")).
+													   split(":")[0] + ":" + port;
+												   server.
+													   send(":check", destination, "30606");
+											   }
+										   });
+
+								 server.expect(":check", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
+												   notifyChange("Check");
+											   }
 										   });
 
 								 server.stream(port);
@@ -68,7 +115,7 @@ public class TcpService extends Notifier {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":game", target, message);
+									 send(":request", target, message);
 							 }
 						 });
 

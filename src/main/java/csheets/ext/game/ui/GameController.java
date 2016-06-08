@@ -65,4 +65,14 @@ public class GameController {
 		this.udpService.addObserver(panel);
 	}
 
+	/**
+	 * Send request to another instance to establish connection.
+	 *
+	 * @param target
+	 * @param message
+	 */
+	public void sendRequest(String target, String message) {
+		new TcpService().client(target, message);
+	}
+
 }
