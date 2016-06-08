@@ -20,13 +20,12 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.List;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
  * @author Rafael
  */
-public class CommentsPanel extends javax.swing.JPanel implements SelectionListener,
+public class CommentsPanel extends JPanel implements SelectionListener,
 	CommentableCellListener {
 
 	/**
@@ -44,9 +43,7 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	 */
 	private CommentController controller;
 
-	private JPanel jPanel1;
 	private JPanel jPanel2;
-	private JTextField txtBox;
 	private GridLayout layout = new GridLayout(5, 1);
 
 	/**
@@ -58,11 +55,8 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 		setName(CommentsExtension.NAME);
 		initComponents();
 
-		jPanel1 = new JPanel();
 		jPanel2 = new JPanel(layout);
-		txtBox = new JTextField();
-		jPanel1.add(txtBox);
-		add(jPanel1, BorderLayout.NORTH);
+
 		add(jPanel2, BorderLayout.CENTER);
 
 		// Creates controller
@@ -74,8 +68,8 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 
 		//comment.setPreferredSize(new Dimension(120, 240));		// width, height
 		//comment.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
-		txtBox.addFocusListener(applyAction);
-		txtBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+		jTextField1.addFocusListener(applyAction);
+		jTextField1.setAlignmentX(Component.CENTER_ALIGNMENT);
 	}
 
 	/**
@@ -87,11 +81,35 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setLayout(new java.awt.GridLayout());
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 287, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 263, Short.MAX_VALUE)
+        );
+
+        setLayout(new java.awt.BorderLayout());
+
+        jTextField1.setText("jTextField1");
+        jPanel3.add(jTextField1);
+
+        add(jPanel3, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+
 	/**
 	 * Updates the comments field
 	 *
@@ -135,16 +153,28 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 	}
 
 	private void paintCommentPanels() {
+
+//		this.jPanelContacts.removeAll();
+//		((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
+//		for (Contact contact : this.controller.allContacts()) {
+//			ContactsPanelSingle2 panel = new ContactsPanelSingle2(this.controller, contact);
+//			this.jPanelContacts.add(panel);
+//			GridLayout layout = (GridLayout) this.jPanelContacts.getLayout();
+//			layout.setRows(layout.getRows() + 1);
+//		}
+//		this.jPanelContacts.revalidate();
+//		this.jPanelContacts.repaint();
 		jPanel2.removeAll();
-		refreshUI();
+		layout.setRows(5);
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
 			CommentPanel cmtPanel = new CommentPanel(comment.userName(), comment.
 													 text());
-			System.out.println("ADDED Panel for comment from " + comment.
+			System.out.println("ADDING Panel for comment from " + comment.
 				userName());
 
 			jPanel2.add(cmtPanel);
+			layout.setRows(layout.getRows() + 1);
 			cmtPanel.setVisible(true);
 		}
 		refreshUI();
@@ -166,11 +196,11 @@ public class CommentsPanel extends javax.swing.JPanel implements SelectionListen
 		public void focusLost(FocusEvent e) {
 			// TODO Auto-generated method stub
 			if (cell != null) {
-				String comment = txtBox.getText().trim();
+				String comment = jTextField1.getText().trim();
 				System.out.println("DEBUG: comment = " + comment);
 				if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
 					System.out.println("DEBUG: has comments... adComment()");
-					controller.addComment(cell, txtBox.getText());
+					controller.addComment(cell, jTextField1.getText());
 				}
 			}
 		}
