@@ -5,9 +5,13 @@
  */
 package csheets.persistence.jpa;
 
+import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -33,6 +37,31 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public Iterable<Contact> contactsCompany(Contact company) {
+		List<Contact> list = new ArrayList();
+		for (Contact contact : this.all()) {
+			if (contact instanceof PersonContact) {
+				PersonContact person = (PersonContact) contact;
+				if (person.company() == company) {
+					list.add(contact);
+				}
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Iterable<Contact> allCompanies() {
+		List<Contact> list = new ArrayList();
+		for (Contact contact : this.all()) {
+			if (contact instanceof CompanyContact) {
+				list.add(contact);
+			}
+		}
+		return list;
 	}
 
 }

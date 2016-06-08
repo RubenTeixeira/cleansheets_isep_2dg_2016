@@ -5,6 +5,7 @@
  */
 package csheets.persistence;
 
+import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.Repository;
 
@@ -13,5 +14,7 @@ import csheets.framework.persistence.repositories.Repository;
  * @author João Martins
  */
 public interface EventRepository extends Repository<Event, Long> {
+
+	public Iterable<Event> eventsContact(Contact contact);
 
 }

@@ -5,9 +5,12 @@
  */
 package csheets.persistence.jpa;
 
+import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.EventRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,6 +21,17 @@ public class JpaEventRepository extends JpaRepository<Event, Long> implements Ev
 	@Override
 	protected String persistenceUnitName() {
 		return PersistenceSettings.PERSISTENCE_UNIT_NAME;
+	}
+
+	@Override
+	public Iterable<Event> eventsContact(Contact contactObj) {
+		List<Event> list = new ArrayList();
+		for (Event event : this.all()) {
+			if (event.contact() == contactObj) {
+				list.add(event);
+			}
+		}
+		return list;
 	}
 
 }
