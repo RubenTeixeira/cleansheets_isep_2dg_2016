@@ -1,11 +1,11 @@
 package csheets.core.formula.lang.monetary;
 
-import csheets.AppSettings;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
+import csheets.support.ExchangeRateConverter;
 
 /**
  * This Function returns a Numeric type value with Dollar currency basead on
@@ -47,9 +47,10 @@ public class Dollar implements Function {
 	@Override
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
 
-		return new Value(arguments[0].evaluate().toMoney().multiply(AppSettings.
-			instance().
-			getEuroToPoundExchangeRate().amount()).amount());
+		return new Value(arguments[0].evaluate().toMoney().
+			multiply(ExchangeRateConverter.getEuroToDollarExchangeRate().
+				amount()).
+			amount());
 	}
 
 	@Override

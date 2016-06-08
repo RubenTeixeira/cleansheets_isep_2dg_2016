@@ -1,11 +1,11 @@
 package csheets.core.formula.lang.monetary;
 
-import csheets.AppSettings;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.UnaryOperator;
 import csheets.framework.Money;
+import csheets.support.ExchangeRateConverter;
 
 /**
  * This UnaryOperator returns a Money type value with Euro currency basead on
@@ -37,7 +37,7 @@ public class PoundOperator implements UnaryOperator {
 	public Value applyTo(Expression operand) throws IllegalValueTypeException {
 		return new Value(Money.
 			euros(operand.evaluate().toNumber().doubleValue()).
-			multiply(AppSettings.instance().getPoundToEuroExchangeRate().
+			multiply(ExchangeRateConverter.getPoundToEuroExchangeRate().
 				amount()));
 	}
 
