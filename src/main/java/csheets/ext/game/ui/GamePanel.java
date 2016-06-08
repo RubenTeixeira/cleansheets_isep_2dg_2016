@@ -14,6 +14,7 @@ import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -201,7 +202,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         contactsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        contactsPanel.setLayout(new java.awt.GridLayout(5, 1));
+        contactsPanel.setLayout(new java.awt.GridLayout());
         jScrollPane3.setViewportView(contactsPanel);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -393,6 +394,16 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
+	/*
+	 * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+	 */
+	private void addGridRow() {
+		GridLayout layout = (GridLayout) this.contactsPanel.getLayout();
+
+		layout.setRows(layout.getRows() + 1);
+
+	}
+
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		if (arg instanceof Map) {
@@ -404,6 +415,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 				ProfileOpponent p = new ProfileOpponent((String) ((Map) arg).
 					get("username"), img);
 				this.contactsPanel.add(p);
+				addGridRow();
 			} catch (IOException ex) {
 				Logger.getLogger(GamePanel.class.getName()).
 					log(Level.SEVERE, null, ex);
