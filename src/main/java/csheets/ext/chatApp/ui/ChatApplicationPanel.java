@@ -78,7 +78,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 				add(new DefaultMutableTreeNode(message));
 		} else {
 			DefaultMutableTreeNode last = (DefaultMutableTreeNode) node.
-				getLastChild();
+				getLastLeaf();
 			last.
 				add(new DefaultMutableTreeNode(message));
 		}
@@ -109,6 +109,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 			String chatMessage = "Sended to " + localHost + ": " + sendMessage;
 
 			inserirHost(localHost, chatMessage);
+
 			this.revalidate();
 			this.repaint();
 		}

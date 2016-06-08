@@ -202,7 +202,6 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		if (evt.getValueIsAdjusting() == false) {
 			if (usersList.getSelectedIndex() == -1) {
 				//Do nothing
-				usersList.setSelectedIndex(0);
 			} else {
 				String hostValues[] = usersList.getSelectedValue().split(":");
 				host = hostValues[0];
