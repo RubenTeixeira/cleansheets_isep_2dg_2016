@@ -29,7 +29,7 @@ public class UIExtensionContacts extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new ContactsPanel2(uiController);
+			sideBar = new ContactsPanel(uiController);
 		}
 		return sideBar;
 	}

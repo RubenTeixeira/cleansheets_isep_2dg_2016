@@ -26,7 +26,7 @@ class InMemoryContactRepository extends InMemoryRepository<Contact, Long>
 	@Override
 	public Contact getByName(String name) {
 		for (Contact contact : this.all()) {
-			if (contact.name().equalsIgnoreCase(name)) {
+			if (contact.toString().equalsIgnoreCase(name)) {
 				return contact;
 			}
 		}

@@ -6,19 +6,16 @@
 package csheets.domain;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.LAZY;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
-import javax.persistence.Table;
 
 /**
  * This class is an AggregateRoot. Represents an domain entity Contact.
@@ -26,69 +23,82 @@ import javax.persistence.Table;
  * @author Rui Freitas
  */
 @Entity
-@Table(name = "CONTACT")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "DISCRIMIN", discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorColumn(name = "DISCRIMIN")
 public abstract class Contact implements Serializable {
 
+	/**
+	 * Id of the contact it is for JPA
+	 */
 	@Id
-	@GeneratedValue
-	protected Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
-	protected String name;
-
-	@Basic(fetch = LAZY)
+	/**
+	 * The photo of the contact.
+	 */
 	@Lob
-	protected byte[] photo;
+	@Basic(fetch = FetchType.EAGER)
+	private byte[] photo = null;
 
-	protected Contact() {
-	}
-
-	protected Contact(byte[] photo) {
+	/**
+	 *
+	 * @param photo
+	 */
+	public Contact(byte[] photo) {
 		if (photo == null) {
 			throw new IllegalArgumentException();
 		}
 		this.photo = photo;
 	}
 
-	public String name() {
-		return name;
+	/**
+	 * construct JPA
+	 */
+	protected Contact() {
 	}
 
+	/**
+	 * Get Photo
+	 *
+	 * @return the photoFileName
+	 */
 	public byte[] photo() {
 		return this.photo;
 	}
 
-	public void changePhoto(byte[] photo) {
+	/**
+	 * Set Photo
+	 *
+	 * @param photo
+	 */
+	public void photo(byte[] photo) {
 		this.photo = photo;
 	}
 
+	/**
+	 * Get Id
+	 *
+	 * @return identifier
+	 */
+	public long id() {
+		return id;
+	}
+
+	/**
+	 * Get Name
+	 *
+	 * @return nane
+	 */
+	public abstract String name();
+
 	@Override
 	public String toString() {
-		return this.name;
+		return this.name().trim();
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 29 * hash + Objects.hashCode(this.name);
-		hash = 29 * hash + Arrays.hashCode(this.photo);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Contact other = (Contact) obj;
-		return this.hashCode() == other.hashCode();
+	public void id(long id) {
+		this.id = id;
 	}
 
 }

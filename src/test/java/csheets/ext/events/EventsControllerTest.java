@@ -46,7 +46,7 @@ public class EventsControllerTest {
 
 	@Before
 	public void setUp() {
-		contact = new PersonContact("User", "test", null, null, new byte[10]);
+		contact = new PersonContact("User", "test", new byte[10]);
 		date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, 1);
 		event = new Event(contact, "New Event", date, true);

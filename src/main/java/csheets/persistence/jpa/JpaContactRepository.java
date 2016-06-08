@@ -8,7 +8,6 @@ package csheets.persistence.jpa;
 import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
-import javax.persistence.Query;
 
 /**
  *
@@ -22,10 +21,18 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 	}
 
 	public Contact getByName(String name) {
+		/*
 		final Query query = entityManager().
 			createQuery("select m from Contact m where m.name = :name", Contact.class);
 		query.setParameter("name", name);
 		return (Contact) query.getSingleResult();
+		 */
+		for (Contact contact : this.all()) {
+			if (contact.name().equalsIgnoreCase(name)) {
+				return contact;
+			}
+		}
+		return null;
 	}
 
 }

@@ -11,7 +11,6 @@ import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -83,8 +82,7 @@ public class ReminderController {
 	}
 
 	public Iterable<Reminder> allReminders() {
-		//return PersistenceContext.repositories().reminders().all();
-		return new ArrayList();
+		return PersistenceContext.repositories().reminders().all();
 	}
 
 	public void snoozeReminder(Reminder reminder) {

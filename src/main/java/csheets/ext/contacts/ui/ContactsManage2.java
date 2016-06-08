@@ -1,5 +1,6 @@
 package csheets.ext.contacts.ui;
 
+import csheets.ext.contacts.ContactsController;
 import csheets.domain.Contact;
 import java.util.Calendar;
 import java.util.List;

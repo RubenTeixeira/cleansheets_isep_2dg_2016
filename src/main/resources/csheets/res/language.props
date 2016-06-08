@@ -1,6 +1,18 @@
 #Form operators
 Form
 
+# Monetary operators
+monetary.Pound
+monetary.PoundOperator
+monetary.Dollar
+monetary.DollarOperator
+monetary.Euro
+monetary.EuroOperator
+monetary.MonetaryAdder
+monetary.MonetarySubtracted
+monetary.MonetaryMultiplier
+monetary.MonetaryDivider
+
 # Unary operators
 Negator
 Percent

@@ -26,8 +26,10 @@ import csheets.SpreadsheetAppListener;
 import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
+import csheets.domain.Contact;
 import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
+import csheets.ext.contacts.ContactsController;
 import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.CellTransferHandler;
 import java.awt.event.ActionEvent;
@@ -108,6 +110,11 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	private List<EditListener> editListeners = new ArrayList<EditListener>();
 
 	/**
+	 * The edit listeners registered to receive events
+	 */
+	private Contact user = new ContactsController(null, null).addSystemUser();
+
+	/**
 	 * The instance of UIController App
 	 */
 	private static UIController uiController;
@@ -175,6 +182,15 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public Spreadsheet getActiveSpreadsheet() {
 		return activeSpreadsheet;
+	}
+
+	/**
+	 * Returns the Contact user of App.
+	 *
+	 * @return the Contact of App
+	 */
+	public Contact getUser() {
+		return this.user;
 	}
 
 	/**

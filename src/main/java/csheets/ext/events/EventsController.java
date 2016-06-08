@@ -12,7 +12,6 @@ import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
-import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -87,8 +86,7 @@ public class EventsController {
 	}
 
 	public Iterable<Event> allEvents() {
-		//return PersistenceContext.repositories().events().all();
-		return new ArrayList();
+		return PersistenceContext.repositories().events().all();
 	}
 
 	public void snoozeEvent(Event event) {

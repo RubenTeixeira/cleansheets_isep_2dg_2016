@@ -47,7 +47,7 @@ public class TcpService extends Notifier {
 														   get("message"));
 
 												   Notification.
-													   messageInformer().
+													   chatMessageInformer().
 													   notifyChange(mapMessage);
 											   }
 										   });

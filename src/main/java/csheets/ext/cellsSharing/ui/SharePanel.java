@@ -131,7 +131,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         });
         jScrollPane1.setViewportView(instancesList);
 
-        sendButton.setText("SEND");
+        sendButton.setText("Send");
         sendButton.setEnabled(false);
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,7 +139,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             }
         });
 
-        connectButton.setText("CONNECT");
+        connectButton.setText("Connect");
         connectButton.setEnabled(false);
         connectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,7 +147,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             }
         });
 
-        disconnectButton.setText("DISCONNECT");
+        disconnectButton.setText("Disconnect");
         disconnectButton.setEnabled(false);
         disconnectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -161,11 +161,10 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(sendButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(connectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(disconnectButton))
         );
         jPanel1Layout.setVerticalGroup(
@@ -191,7 +190,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         });
         jScrollPane2.setViewportView(receiveList);
 
-        receiveButton.setText("RECEIVE");
+        receiveButton.setText("Receive");
         receiveButton.setEnabled(false);
         receiveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,11 +202,10 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(receiveButton)
-                .addContainerGap())
             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(receiveButton))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,6 +275,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             if (instancesList.getSelectedIndex() == -1) {
                 //No selection.
                 sendButton.setEnabled(false);
+                connectButton.setEnabled(false);
             } else {
                 //Selection.
                 cells = uiController.focusOwner.getSelectedCells();
@@ -452,7 +451,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
     }//GEN-LAST:event_receiveListValueChanged
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-                int reply = JOptionPane.showConfirmDialog(this, "::. Connect to instance .::\n"
+        int reply = JOptionPane.showConfirmDialog(this, "::. Connect to instance .::\n"
                 + "Do you want to connect to this instance?");
 
         if (reply == JOptionPane.YES_OPTION) {
@@ -466,14 +465,13 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void disconnectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectButtonActionPerformed
-                int reply = JOptionPane.showConfirmDialog(this, "::. Disconnect from instance .::\n"
+        int reply = JOptionPane.showConfirmDialog(this, "::. Disconnect from instance .::\n"
                 + "Are you sure you want to disconnect?");
 
         if (reply == JOptionPane.YES_OPTION) {
             this.uiController.getActiveSpreadsheet().removeCellListener(this);
             this.controller.stopConnection();
             disconnectButton.setEnabled(false);
-            connectButton.setEnabled(true);
         } else if (reply == JOptionPane.NO_OPTION) {
             // nothing to do
         }
@@ -527,7 +525,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             updateInstanceList(addresses);
         }
     }
-    
+
     @Override
     public void valueChanged(Cell cell) {
         this.controller.continuousSending(cell);
@@ -535,7 +533,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 
     @Override
     public void contentChanged(Cell cell) {
-        this.controller.continuousSending(cell);
+        // To be developed in IPC01.3
     }
 
     @Override
