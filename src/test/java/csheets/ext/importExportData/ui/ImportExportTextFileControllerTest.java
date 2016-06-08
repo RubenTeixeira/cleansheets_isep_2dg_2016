@@ -19,9 +19,11 @@ import org.junit.Test;
  */
 public class ImportExportTextFileControllerTest {
 
-	//ImportExportTextFileController instance;
-	//String path, separator;
-	//UIController uic = new UIController(new CleanSheets());
+	/*
+	ImportExportTextFileController instance;
+	String path, separator;
+	UIController uic = new UIController(new CleanSheets());
+	 */
 	public ImportExportTextFileControllerTest() {
 		/*
 		File f = new File(System.getProperty("user.dir")
@@ -77,7 +79,7 @@ public class ImportExportTextFileControllerTest {
 		cells = uic.focusOwner.getSelectedCells();
 		result = instance.hasEnoughCells(path, separator, cells);
 
-		//assertEquals(expResult, result);
+		assertEquals(expResult, result);
 		 */
 	}
 
@@ -95,9 +97,9 @@ public class ImportExportTextFileControllerTest {
 		cells[1][1] = uic.focusOwner.getSpreadsheet().getCell(1, 1);
 		cells[1][2] = uic.focusOwner.getSpreadsheet().getCell(1, 2);
 		Cell[][] result = instance.parse(path, separator, true, cells);
-		//assertEquals(result[0].length, 2);
+		assertEquals(result[0].length, 2);
 		result = instance.parse(path, separator, false, cells);
-		//assertEquals(result[0].length, 2);
+		assertEquals(result[0].length, 2);
 		 */
 	}
 
@@ -115,10 +117,11 @@ public class ImportExportTextFileControllerTest {
 		String path = System.getProperty("user.dir") + "\\src\\test\\java\\csheets\\ext\\importExportData\\exportTest.txt";
 		boolean result = instance.exportFile(path, uic.focusOwner.
 											 getSelectedCells(), separator);
-		//assertEquals(expResult, result);
+		assertEquals(expResult, result);
 
 		String fileContents = new FileHandler().getFileContents(path);
-		//assertEquals(true, fileContents.contains("test1") && fileContents.contains("test2"));
+		assertEquals(true, fileContents.contains("test1") && fileContents.
+					 contains("test2"));
 		File f = new File(path);
 		f.delete();
 		 */

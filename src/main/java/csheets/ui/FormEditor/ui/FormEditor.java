@@ -5,7 +5,10 @@
  */
 package csheets.ui.FormEditor.ui;
 
+import csheets.notification.Notification;
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -13,12 +16,13 @@ import javax.swing.JPanel;
  *
  * @author hichampt
  */
-public class FormEditor extends javax.swing.JFrame {
+public class FormEditor extends javax.swing.JFrame implements Observer{
 
     /**
      * Creates new form FormEditor
      */
     public FormEditor() {
+        Notification.formInformer().addObserver(this);
         initComponents();
         setVisible(true);
     }
@@ -107,6 +111,11 @@ public class FormEditor extends javax.swing.JFrame {
         this.jPanel1.add(panel);
         addGridRow();
     }
+    
+    private void removeSingleLine(SingleLine panel) {
+        this.jPanel1.remove(panel);
+        removeGridRow();
+    }
 
     /*
      * Layout specific: set's the default number of rows (5)
@@ -122,6 +131,11 @@ public class FormEditor extends javax.swing.JFrame {
         GridLayout layout = (GridLayout) this.jPanel1.getLayout();
         layout.setRows(layout.getRows() + 1);
     }
+    
+    private void removeGridRow() {
+        GridLayout layout = (GridLayout) this.jPanel1.getLayout();
+        layout.setRows(layout.getRows() - 1);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
@@ -134,4 +148,15 @@ public class FormEditor extends javax.swing.JFrame {
         jPanel1.revalidate();
         jPanel1.repaint();
     }
+
+    @Override
+    public void update(Observable o, Object o1) {
+       if(o1 instanceof SingleLine)
+       {
+           removeSingleLine((SingleLine)o1);
+           refreshUI();
+       }
+    }
+
+    
 }

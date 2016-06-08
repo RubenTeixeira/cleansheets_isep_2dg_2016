@@ -28,15 +28,35 @@ public class Reminder implements Serializable {
 	@GeneratedValue
 	private Long id;
 
+        /**
+	 * The name of reminder
+	 */
 	private String name;
+        /**
+	 * The description of reminder
+	 */
 	private String description;
+        
+        /**
+	 * The Time of reminder
+	 */
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
 	private Calendar timeStep;
+        /**
+	 * bollean, if true the alert are active 
+	 */
 	private boolean alert;
 
 	public Reminder() {
 	}
 
+        /**
+	 * The complete constructor of reminder
+     * @param name
+     * @param description
+     * @param ts
+     * @param alert
+	 */
 	public Reminder(String name, String description, Calendar ts, boolean alert) {
 		if (name == null || description == null || ts == null) {
 			throw new IllegalArgumentException("name of reminder can´t be null.");
@@ -50,34 +70,65 @@ public class Reminder implements Serializable {
 		this.alert = alert;
 	}
 
+        /**
+	 * This method return the name of reminder.
+            * @return name 
+	 */
 	public String name() {
 		return this.name;
 	}
-
+        
+        /**
+	 * This method return the description of reminder.
+            * @return name 
+	 */
 	public String description() {
 		return this.description;
 	}
 
+        /**
+	 * This method return the date of reminder.
+            * @return name 
+	 */
 	public Calendar timeOfReminder() {
 		return this.timeStep;
 	}
 
+        /**
+	 * This method return the true if the alert is active.
+            * @return name 
+	 */
 	public boolean alert() {
 		return alert;
 	}
 
+        /**
+	 * This method define the alert of reminder, whit the boolean received.
+        * @param alert
+        */
 	public void defineAlert(boolean alert) {
 		this.alert = alert;
 	}
 
-	public void defineReminder(String name, String description, Calendar date,
-							   boolean alert) {
+        /**
+	 * This method are used to edit the information of the reminder.
+     * @param name
+     * @param description
+     * @param date 
+     * @param alert 
+	 */
+	public void defineReminder(String name, String description, Calendar date,boolean alert) {
 		this.name = name;
 		this.description = description;
 		this.timeStep = date;
 		this.alert = alert;
 	}
 
+        /**
+	 * This method increments the timeStep of reminder.
+        * @param field
+        * @param amount
+	 */
 	public void add(int field, int amount) {
 		this.timeStep.add(field, amount);
 	}

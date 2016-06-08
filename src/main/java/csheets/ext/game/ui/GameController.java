@@ -5,6 +5,18 @@
  */
 package csheets.ext.game.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
+import csheets.framework.volt.Action;
+import csheets.framework.volt.protocols.udp.UdpClient;
+import csheets.framework.volt.protocols.udp.UdpServer;
+import csheets.support.Task;
+import csheets.support.TaskManager;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Observer;
+
 /**
  *
  * @author João Martins
@@ -27,23 +39,48 @@ public class GameController {
 	 * @param port Target port defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	private void startUdpService(int port, int seconds) {
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
+	public void startUdpServices(Observer observer, String username,
+								 byte[] image) {
+		UdpServer udp = NetworkManager.udp();
 
-		if (seconds <= 0) {
-			throw new IllegalArgumentException("Invalid seconds number given. It's not possible to register negative or zero seconds.");
-		}
+		udp.expect(":game-broadcast", new Action() {
+				   @Override
+				   public void run(Map<String, Object> args) {
+					   udp.send(":username|:image", "all:" + AppSettings.
+								instance().get("UDP_PORT"), username + "|" + new String(image));
+				   }
+			   });
 
-		try {
-			this.udpService.server(30606, port);
-			this.udpService.client(seconds);
-		} catch (IllegalArgumentException e) {
-			this.udpService.stop();
+		udp.expect(":username|:image", new Action() {
+				   @Override
+				   public void run(Map<String, Object> args) {
+					   Map<String, Object> objects = new HashMap<>();
 
-			throw e;
-		}
+					   objects.put("from", (String) args.get("from"));
+					   objects.put("username", ((String) ((List<String>) args.
+								   get("username")).get(0)));
+					   objects.put("image", ((String) ((List<String>) args.
+								   get("image")).get(0)));
+
+					   observer.update(null, objects);
+				   }
+			   });
+
+		this.startUdpClient();
+	}
+
+	private void startUdpClient() {
+		UdpClient client = new UdpClient(0);
+
+		TaskManager tm = new TaskManager();
+
+		tm.every(5).fire(new Task() {
+			public void fire() {
+				client.send(":game-broadcast", "all:" + AppSettings.
+							instance().get("UDP_PORT"), "canPlay");
+
+			}
+		});
 	}
 
 	/**
@@ -60,9 +97,26 @@ public class GameController {
 
 		this.udpService = new UdpService();
 
-		this.startUdpService(port, seconds);
-
+		//this.startUdpService(port, seconds);
 		this.udpService.addObserver(panel);
+	}
+
+	/**
+	 * Starts the TCP service.
+	 *
+	 * @param panel The user interface.
+	 * @param port The target port that is defined by the user.
+	 */
+	public void startTcpService(GamePanel panel, int port) {
+		if (panel == null) {
+			throw new IllegalArgumentException("The user interface cannot be null.");
+		}
+
+		this.tcpService = new csheets.ext.game.ui.TcpService(panel);
+
+		this.startTcpService(panel, port);
+
+		this.tcpService.addObserver(panel);
 	}
 
 	/**

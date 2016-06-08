@@ -9,6 +9,8 @@ import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import java.awt.Font;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ImportExportTextFileController {
 
@@ -84,9 +86,13 @@ public class ImportExportTextFileController {
 	private void boldHeader(Cell cell) {
 		StylableCell stylableCell = (StylableCell) cell.
 			getExtension(StyleExtension.NAME);
-		stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
-									  stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
-									  getFont().getSize()));
+            try {
+                stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
+                        stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
+                                getFont().getSize()));
+            } catch (FormulaCompilationException ex) {
+                Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
 	/**

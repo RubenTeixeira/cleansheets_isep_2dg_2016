@@ -31,12 +31,15 @@ import javax.swing.ImageIcon;
 import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A format changing operation.
@@ -106,8 +109,12 @@ public class FormatAction extends FocusOwnerAction implements SelectionListener 
 				for (Cell cell : row) {
 					StylableCell stylableCell = (StylableCell)cell.getExtension(
 						StyleExtension.NAME);
-					stylableCell.setFormat(
-						stylableCell.isFormattable() ? format : null);
+                            try {
+                                stylableCell.setFormat(
+                                        stylableCell.isFormattable() ? format : null);
+                            } catch (FormulaCompilationException ex) {
+                                Logger.getLogger(FormatAction.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 				}
 	
 			uiController.setWorkbookModified(focusOwner.getSpreadsheet().getWorkbook());

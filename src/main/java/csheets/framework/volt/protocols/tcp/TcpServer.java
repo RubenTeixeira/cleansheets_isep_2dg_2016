@@ -63,9 +63,11 @@ public class TcpServer extends Server {
                 }
 
                 try {
+                    super.connectedPort = port;
                     this.server = new ServerSocket(port);
                     this.server.setSoTimeout(1000);
                 } catch (IOException ex) {
+                    super.connectedPort = port;
                     Logger.getLogger(TcpServer.class.getName()).
                             log(Level.SEVERE, null, ex);
                 }
@@ -74,10 +76,12 @@ public class TcpServer extends Server {
             }
         } catch (NullPointerException e) {
             try {
+                super.connectedPort = port;
                 this.server = new ServerSocket(port);
                 this.server.setSoTimeout(1000);
                 super.active = true;
             } catch (IOException ex) {
+                super.connectedPort = port;
                 throw new IllegalArgumentException(ex);
             }
         }

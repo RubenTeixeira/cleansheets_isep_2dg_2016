@@ -5,6 +5,7 @@
  */
 package csheets.ui.FormEditor.ui;
 
+import csheets.notification.Notification;
 import javax.swing.JOptionPane;
 
 /**
@@ -95,7 +96,7 @@ public class SingleLine extends javax.swing.JPanel {
             getText() + " " + "?", "Remove Event", JOptionPane.OK_CANCEL_OPTION);
 
         if (JOptionPane.OK_OPTION == op) {
-           //lbl this.controller.removeEvent(this.event);
+            Notification.formInformer().notifyChange(this);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
