@@ -34,7 +34,7 @@ public class UdpService extends Notifier {
 							 public void run() {
 								 server = Volt.udp(localPort, 0);
 
-								 server.expect(":broadcast", new Action() {
+								 server.expect(":chatbroadcast", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -97,7 +97,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30600", "check");
+											 send(":chatbroadcast", "all:30600", "check");
 									 }
 								 };
 
