@@ -38,9 +38,9 @@ public class UdpService extends Notifier {
 					@Override
 					public void run(Map<String, Object> args) {
 
-						if (server.same(args.get("from"))) {
-							return;
-						}
+//						if (server.same(args.get("from"))) {
+//							return;
+//						}
 						// Destination = Target's IP and Port
 						String destination = ((String) args.get("from")).split(":")[0] + ":" + localPort;
 
@@ -88,7 +88,7 @@ public class UdpService extends Notifier {
 
 				TaskManager manager = new TaskManager();
 
-				manager.after(3).every(seconds).fire(broadcast);
+				manager.after(4).every(seconds).fire(broadcast);
 			}
 		});
 
