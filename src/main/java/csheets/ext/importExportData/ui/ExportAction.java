@@ -31,7 +31,7 @@ class ExportAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		new ExportDialog(null, false, uiController, controller).setVisible(true);
+		new ExportDialog(null, true, uiController, controller).setVisible(true);
 	}
 
 }
