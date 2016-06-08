@@ -9,6 +9,7 @@ import csheets.core.Workbook;
 import csheets.search.SearchResultDTO;
 import csheets.search.WorkBookSearch;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * The SearchController
@@ -30,7 +31,7 @@ public class SearchController {
 	 * @return
 	 */
 	public List<SearchResultDTO> searchWorkBook(Workbook workbook,
-												String searchstring) {
+												String searchstring) throws PatternSyntaxException {
 		WorkBookSearch workBookSearch = new WorkBookSearch(workbook);
 		List<SearchResultDTO> results = workBookSearch.getMatches(searchstring);
 		return results;

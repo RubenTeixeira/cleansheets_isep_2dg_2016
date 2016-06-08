@@ -9,9 +9,11 @@ import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
 import csheets.search.SearchResultDTO;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
@@ -79,7 +81,7 @@ public class SearchPanel extends JPanel {
             }
         });
 
-        jStatusLabel.setText("");
+        jStatusLabel.setText(" ");
 
         javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
         jPanelTop.setLayout(jPanelTopLayout);
@@ -110,8 +112,10 @@ public class SearchPanel extends JPanel {
         jSearchTextField.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e){
-                if (firstClick)
-                jSearchTextField.setText("");
+                if (firstClick) {
+                    jSearchTextField.setText("");
+                    firstClick = false;
+                }
             }
         });
 
@@ -152,27 +156,38 @@ public class SearchPanel extends JPanel {
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
 		resultsModel.clear();
+		jStatusLabel.setText("Searching...");
+		jStatusLabel.setForeground(Color.BLACK);
 		String searchstring = jSearchTextField.getText();
-		List<SearchResultDTO> results = searchController.
-			searchWorkBook(uiController.getActiveWorkbook(), searchstring);
-		int found = results.size();
-		jStatusLabel.setText(found + " search results");
-		if (found > 0) {
 
-			results.stream().
-				forEach((result) -> {
-					resultsModel.addElement(result);
-				});
-			jResultsList.setModel(resultsModel);
-			jResultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		try {
+
+			List<SearchResultDTO> results = searchController.
+				searchWorkBook(uiController.getActiveWorkbook(), searchstring);
+			int found = results.size();
+			jStatusLabel.setText(found + " search results");
+			if (found > 0) {
+
+				results.stream().
+					forEach((result) -> {
+						resultsModel.addElement(result);
+					});
+				jResultsList.setModel(resultsModel);
+				jResultsList.
+					setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			}
+
+		} catch (PatternSyntaxException ex) {
+			jStatusLabel.setText("Invalid pattern syntax!");
+			jStatusLabel.setForeground(Color.RED);
 		}
+
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanelBottom;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JList jResultsList;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchTextField;

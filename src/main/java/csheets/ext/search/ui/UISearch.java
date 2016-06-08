@@ -6,9 +6,11 @@
 package csheets.ext.search.ui;
 
 import csheets.ext.Extension;
+import csheets.ext.search.SearchExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -35,6 +37,15 @@ public class UISearch extends UIExtension {
 	 */
 	public UISearch(Extension extension, UIController uiController) {
 		super(extension, uiController);
+	}
+
+	@Override
+	public Icon getIcon() {
+		if (icon == null) {
+			icon = new ImageIcon(
+				SearchExtension.class.getResource("res/img/search_icon.png"));
+		}
+		return icon;
 	}
 
 	/**

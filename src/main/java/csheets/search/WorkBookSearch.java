@@ -10,6 +10,8 @@ import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * This class is responsible for the search behaviour of the application.
@@ -40,7 +42,12 @@ public class WorkBookSearch {
 	 * @param pattern regex pattern
 	 * @return list of matching results
 	 */
-	public List<SearchResultDTO> getMatches(String pattern) {
+	public List<SearchResultDTO> getMatches(String pattern) throws PatternSyntaxException {
+
+		// This is a stub, will be needed later and serves as test
+		// for the pattern syntax
+		Pattern regex = Pattern.compile(pattern);
+
 		List<SearchResultDTO> results = new ArrayList<>();
 
 		for (int i = 0; i < this.workBook.getSpreadsheetCount(); i++) {
@@ -70,8 +77,11 @@ public class WorkBookSearch {
 				Cell cell = sheet.getCell(i, j);
 				String content = cell.getContent();
 				String value = cell.getValue().toString();
-				if (content.matches(".*" + pattern + ".*") || value.
-					matches(".*" + pattern + ".*")) {
+
+				// Should we match the empty cells if the pattern
+				// allows it?
+				if ((!content.isEmpty() && content.matches(pattern))
+					|| (!value.isEmpty() && value.matches(pattern))) {
 
 					results.add(SearchResultAssembler.
 						getResultInformation(sheet, cell));
