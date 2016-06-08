@@ -1,11 +1,11 @@
 package csheets.core.formula.lang.monetary;
 
-import csheets.AppSettings;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
+import csheets.support.ExchangeRateConverter;
 
 /**
  * This Function returns a Numeric type value with Pound currency basead on
@@ -36,20 +36,20 @@ public class Pound implements Function {
         return "pound";
     }
 
-    /**
-     * Returns a Numeric type Value. In this case, a conversion from Euro to
-     * Pound is applied.
-     *
-     * @param arguments
-     * @return
-     * @throws IllegalValueTypeException
-     */
-    @Override
-    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-        return new Value(arguments[0].evaluate().toMoney().multiply(AppSettings.
-                instance().
-                getEuroToPoundExchangeRate().amount()).amount());
-    }
+	/**
+	 * Returns a Numeric type Value. In this case, a conversion from Euro to
+	 * Pound is applied.
+	 *
+	 * @param arguments
+	 * @return
+	 * @throws IllegalValueTypeException
+	 */
+	@Override
+	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+		return new Value(arguments[0].evaluate().toMoney().
+			multiply(ExchangeRateConverter.getEuroToPoundExchangeRate().amount()).
+			amount());
+	}
 
     @Override
     public FunctionParameter[] getParameters() {
