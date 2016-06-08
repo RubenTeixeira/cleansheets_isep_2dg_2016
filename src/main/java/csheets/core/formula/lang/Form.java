@@ -25,7 +25,7 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.ui.FormEditor.ui.FormEdit;
+import csheets.ui.FormEditor.ui.FormEditor;
 
 /**
  * A function that returns the numeric sum of its arguments.
@@ -53,7 +53,7 @@ public class Form implements Function {
     }
 
     public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-        new FormEdit().setVisible(true);
+        new FormEditor();
         return new Value();
     }
 
@@ -62,7 +62,7 @@ public class Form implements Function {
     }
 
     public boolean isVarArg() {
-        return true;
+        return false;
     }
 
     /**
