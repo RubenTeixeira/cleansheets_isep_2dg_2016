@@ -6,6 +6,7 @@
 package csheets.ext.game.ui;
 
 import csheets.ext.game.GameExtension;
+import csheets.notification.Notification;
 import csheets.support.Converter;
 import csheets.support.Task;
 import csheets.support.TaskManager;
@@ -91,12 +92,12 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		// Create default lists
 		instanceListModel = new DefaultListModel();
 		instanceListModelGames = new DefaulListModel();
-
+		Notification.gameInformer().addObserver(this);
 		initComponents();
 
 		uiController.addSelectionListener(this);
 
-		instancesList.setModel(instanceListModel);
+		//instancesList.setModel(instanceListModel);
 		updateListOfGames();
 
 		username = System.getProperty("user.name");
@@ -110,7 +111,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20006;
+		final int defaultPort = 20000;
 
 		this.gameController = gameController;
 
@@ -127,8 +128,6 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        instancesList = new javax.swing.JList<>();
         sendButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         instancesList1 = new javax.swing.JList<>();
@@ -139,6 +138,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        contactsPanel = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -153,13 +154,6 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select the opponent and the game", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
         jPanel2.setToolTipText("");
-
-        instancesList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                instancesListValueChanged(evt);
-            }
-        });
-        jScrollPane1.setViewportView(instancesList);
 
         sendButton.setText("Start Game");
         sendButton.setFocusPainted(false);
@@ -203,12 +197,16 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             }
         });
 
+        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        contactsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        contactsPanel.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane3.setViewportView(contactsPanel);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-            .addComponent(jScrollPane2)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -224,12 +222,19 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(128, 128, 128)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(103, 103, 103)
-                        .addComponent(sendButton)))
+                        .addComponent(sendButton))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(jLabel2)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,8 +252,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
                             .addComponent(jLabel4))))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -277,12 +282,13 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
         jPanel2.getAccessibleContext().setAccessibleDescription("Select the opponent and the game");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void instancesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesListValueChanged
-
-    }//GEN-LAST:event_instancesListValueChanged
-
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
 
+		/**
+		 * if (instancesList1.getSelectedValue() != null && contactsPanel.get) {
+		 *
+		 * }
+		 */
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void instancesList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesList1ValueChanged
@@ -307,8 +313,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 			this.jLabel5.setIcon(iconImageFromFile(photoFile));
 
 			try {
-				this.gameController.startUdpServices(this, username, Converter.
-													 setImage(photoFile));
+				this.gameController.startServices(this, username, Converter.
+												  setImage(photoFile));
 			} catch (IOException ex) {
 				Logger.getLogger(GamePanel.class.getName()).
 					log(Level.SEVERE, null, ex);
@@ -329,13 +335,13 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 				manager.after(20).once(new Task() {
 					public void fire() {
 						instanceListModel.removeElement(address);
-						instancesList.setModel(instanceListModel);
+//						instancesList.setModel(instanceListModel);
 					}
 				});
 			}
 		}
 
-		instancesList.setModel(instanceListModel);
+		//instancesList.setModel(instanceListModel);
 		repaint();
 	}
 
@@ -364,30 +370,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 														Image.SCALE_SMOOTH));
 	}
 
-	private String getAddress(int column, int row) {
-		String columnStr;
-		int tempColumn = column;
-		for (columnStr = ""; tempColumn >= 0; tempColumn = tempColumn
-			/ ('Z' - 'A' + 1) - 1) {
-			columnStr = (char) ((char) (tempColumn % ('Z'
-				- 'A' + 1)) + 'A') + columnStr;
-		}
-
-		return columnStr + (row + 1);
-	}
-
-	private String getValue(String data) {
-		String[] keys = data.split(";");
-
-		if (keys.length == 1) {
-			return "\"\"";
-		}
-
-		return "\"" + keys[1] + "\"";
-	}
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> instancesList;
+    private javax.swing.JPanel contactsPanel;
     private javax.swing.JList<String> instancesList1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -396,8 +380,8 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JButton sendButton;
@@ -411,7 +395,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	@Override
 	public void update(java.util.Observable o, Object arg) {
 		if (arg instanceof Map) {
-			instanceListModel.addElement(((Map) arg).get("from"));
+			ProfileOpponent p = new ProfileOpponent((String) ((Map) arg).
+				get("username"), (Image) ((Map) arg).
+													get("image"));
+
+			//instanceListModel.addElement(((Map) arg).get("from"));
+			//ir buscar imagem e username
+			//new ProfileOpponent();
+			this.contactsPanel.add(p);
 		}
 	}
 }
