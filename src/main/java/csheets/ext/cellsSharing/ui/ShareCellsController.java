@@ -11,223 +11,232 @@ import java.util.Map;
 
 public class ShareCellsController {
 
-    /**
-     * The UDP Service.
-     */
-    private UdpService udpService;
+	/**
+	 * The UDP Service.
+	 */
+	private UdpService udpService;
 
-    /**
-     * The TCP Service.
-     */
-    private TcpService tcpService;
+	/**
+	 * The TCP Service.
+	 */
+	private TcpService tcpService;
 
-    /**
-     * Starts the UDP service.
-     *
-     * @param port The target port that is defined by the user.
-     * @param seconds The number of seconds to execute each request.
-     */
-    private void startUdpService(int port, int seconds) {
-        if (port < 0 || port > 49151) {
-            throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-        }
+	/**
+	 * Starts the UDP service.
+	 *
+	 * @param port The target port that is defined by the user.
+	 * @param seconds The number of seconds to execute each request.
+	 */
+	private void startUdpService(int port, int seconds) {
+		if (port < 0 || port > 49151) {
+			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
+		}
 
-        if (seconds <= 0) {
-            throw new IllegalArgumentException("Invalid seconds number given. It's not possible to register negative or zero seconds.");
-        }
+		if (seconds <= 0) {
+			throw new IllegalArgumentException("Invalid seconds number given. It's not possible to register negative or zero seconds.");
+		}
 
-        try {
-            this.udpService.server(30600, port);
-            this.udpService.client(seconds);
-        } catch (IllegalArgumentException e) {
-            this.udpService.stop();
+		try {
+			this.udpService.server(30600, port);
+			this.udpService.client(seconds);
+		} catch (IllegalArgumentException e) {
+			this.udpService.stop();
 
-            throw e;
-        }
-    }
+			throw e;
+		}
+	}
 
-    /**
-     * Starts the UDP service.
-     *
-     * @param panel The user interface.
-     * @param port The target port that is defined by the user.
-     * @param seconds The number of seconds to execute each request.
-     */
-    public void startUdpService(SharePanel panel, int port, int seconds) {
-        if (panel == null) {
-            throw new IllegalArgumentException("The user interface cannot be null.");
-        }
+	/**
+	 * Starts the UDP service.
+	 *
+	 * @param panel The user interface.
+	 * @param port The target port that is defined by the user.
+	 * @param seconds The number of seconds to execute each request.
+	 */
+	public void startUdpService(SharePanel panel, int port, int seconds) {
+		if (panel == null) {
+			throw new IllegalArgumentException("The user interface cannot be null.");
+		}
 
-        this.udpService = new UdpService();
+		this.udpService = new UdpService();
 
-        this.startUdpService(port, seconds);
+		this.startUdpService(port, seconds);
 
-        this.udpService.addObserver(panel);
-    }
+		this.udpService.addObserver(panel);
+	}
 
-    /**
-     * Starts the TCP service.
-     *
-     * @param port The target port that is defined by the user.
-     */
-    private void startTcpService(int port) {
-        if (port < 0 || port > 49151) {
-            throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-        }
+	/**
+	 * Starts the TCP service.
+	 *
+	 * @param port The target port that is defined by the user.
+	 */
+	private void startTcpService(int port) {
+		if (port < 0 || port > 49151) {
+			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
+		}
 
-        try {
-            this.tcpService.server(port);
+		try {
+			this.tcpService.server(port);
 
-        } catch (IllegalArgumentException e) {
-            this.tcpService.stop();
+		} catch (IllegalArgumentException e) {
+			this.tcpService.stop();
 
-            throw e;
-        }
-    }
+			throw e;
+		}
+	}
 
-    /**
-     * Starts the TCP service.
-     *
-     * @param panel The user interface.
-     * @param port The target port that is defined by the user.
-     */
-    public void startTcpService(SharePanel panel, int port) {
-        if (panel == null) {
-            throw new IllegalArgumentException("The user interface cannot be null.");
-        }
+	/**
+	 * Starts the TCP service.
+	 *
+	 * @param panel The user interface.
+	 * @param port The target port that is defined by the user.
+	 */
+	public void startTcpService(SharePanel panel, int port) {
+		if (panel == null) {
+			throw new IllegalArgumentException("The user interface cannot be null.");
+		}
 
-        this.tcpService = new TcpService(panel);
+		this.tcpService = new TcpService(panel);
 
-        this.startTcpService(port);
+		this.startTcpService(port);
 
-        this.tcpService.addObserver(panel);
-    }
+		this.tcpService.addObserver(panel);
+	}
 
-    /**
-     * Restarts both the UDP and TCP services.
-     *
-     * @param port The target port that is defined by the user.
-     * @param seconds The number of seconds to execute each request.
-     */
-    public void restartServices(int port, int seconds) {
-        this.tcpService.stop();
-        this.udpService.stop();
+	/**
+	 * Restarts both the UDP and TCP services.
+	 *
+	 * @param port The target port that is defined by the user.
+	 * @param seconds The number of seconds to execute each request.
+	 */
+	public void restartServices(int port, int seconds) {
+		this.tcpService.stop();
+		this.udpService.stop();
 
-        this.startUdpService(port, seconds);
-        this.startTcpService(port);
-    }
+		this.startUdpService(port, seconds);
+		this.startTcpService(port);
+	}
 
-    /**
-     * Sends a array of Cells to the targeted host.
-     *
-     * @param target Targeted Host (ip and port)
-     * @param cells Selected Cells
-     */
-    public void sendCells(String target, Cell[][] cells) {
-        String message = "";
+	/**
+	 * Sends a array of Cells to the targeted host.
+	 *
+	 * @param target Targeted Host (ip and port)
+	 * @param cells Selected Cells
+	 */
+	public void sendCells(String target, Cell[][] cells) {
+		String message = "";
 
-        int lines = cells.length;
-        int columns = cells[0].length;
+		int lines = cells.length;
+		int columns = cells[0].length;
 
-        for (int i = 0; i < lines; i++) {
-            for (int j = 0; j < columns; j++) {
-                Cell cell = cells[i][j];
-                message += buildMessage(cell);
-            }
-        }
+		for (int i = 0; i < lines; i++) {
+			for (int j = 0; j < columns; j++) {
+				Cell cell = cells[i][j];
+				message += buildMessage(cell);
+			}
+		}
 
-        message = message.substring(1);
+		message = message.substring(1);
 
-        new TcpService().client(target, message);
-    }
+		new TcpService().client(target, message);
+	}
 
-    public String buildMessage(Cell cell) {
-        StylableCell stylableCell = (StylableCell) cell.getExtension(
-                StyleExtension.NAME);
+	public String buildMessage(Cell cell) {
+		StylableCell stylableCell = (StylableCell) cell.getExtension(
+			StyleExtension.NAME);
 
-        String message = "";
+		String message = "";
 
-        message += ";" + stylableCell.getAddress().getColumn() + ";"
-                + stylableCell.getAddress().getRow() + ";" + stylableCell.getValue().getType()
-                + ";" + stylableCell.getValue().toString() + ";" + stylableCell.getFont().getName()
-                + ";" + stylableCell.getFont().getStyle() + ";" + stylableCell.getFont().getSize()
-                + ";" + stylableCell.getHorizontalAlignment() + ";" + stylableCell.getVerticalAlignment()
-                + ";" + stylableCell.getForegroundColor().getRGB() + ";" + stylableCell.getBackgroundColor().getRGB();
+		message += ";" + stylableCell.getAddress().getColumn() + ";"
+			+ stylableCell.getAddress().getRow() + ";" + stylableCell.getValue().
+			getType()
+			+ ";" + stylableCell.getValue().toString() + ";" + stylableCell.
+			getFont().getName()
+			+ ";" + stylableCell.getFont().getStyle() + ";" + stylableCell.
+			getFont().getSize()
+			+ ";" + stylableCell.getHorizontalAlignment() + ";" + stylableCell.
+			getVerticalAlignment()
+			+ ";" + stylableCell.getForegroundColor().getRGB() + ";" + stylableCell.
+			getBackgroundColor().getRGB();
 
-        return message;
-    }
+		return message;
+	}
 
-    /**
-     * Updates the active spreadsheet with the received cells.
-     *
-     * @param ui The user interface controller.
-     * @param cells Received cells information.
-     * @throws csheets.core.formula.compiler.FormulaCompilationException Cells
-     * can have the wrong value.
-     */
-    public void updateCells(UIController ui, Map<String, String> cells) throws FormulaCompilationException {
-        for (Map.Entry<String, String> entry : cells.entrySet()) {
-            String[] addressData = entry.getKey().split(":");
-            int column = Integer.parseInt(addressData[0]);
-            int row = Integer.parseInt(addressData[1]);
+	/**
+	 * Updates the active spreadsheet with the received cells.
+	 *
+	 * @param ui The user interface controller.
+	 * @param cells Received cells information.
+	 * @throws csheets.core.formula.compiler.FormulaCompilationException Cells
+	 * can have the wrong value.
+	 */
+	public void updateCells(UIController ui, Map<String, String> cells) throws FormulaCompilationException {
+		for (Map.Entry<String, String> entry : cells.entrySet()) {
+			String[] addressData = entry.getKey().split(":");
+			int column = Integer.parseInt(addressData[0]);
+			int row = Integer.parseInt(addressData[1]);
 
-            try {
-                String value = "";
-                Font font = null;
-                int hAlignment = 0;
-                int vAlignment = 0;
-                Color fgColor = null;
-                Color bgColor = null;
-                String[] data = entry.getValue().split(";");
+			try {
+				String value = "";
+				Font font = null;
+				int hAlignment = 0;
+				int vAlignment = 0;
+				Color fgColor = null;
+				Color bgColor = null;
+				String[] data = entry.getValue().split(";");
 
-                if (data.length > 1) {
-                    value = data[1];
-                    font = new Font(data[2], Integer.parseInt(data[3]), Integer.parseInt(data[4]));
-                    hAlignment = Integer.parseInt(data[5]);
-                    vAlignment = Integer.parseInt(data[6]);
-                    fgColor = new Color(Integer.parseInt(data[7]));
-                    bgColor = new Color(Integer.parseInt(data[8]));
-                } else {
-                    value = "";
-                }
+				if (data.length > 1) {
+					value = data[1];
+					font = new Font(data[2], Integer.parseInt(data[3]), Integer.
+									parseInt(data[4]));
+					hAlignment = Integer.parseInt(data[5]);
+					vAlignment = Integer.parseInt(data[6]);
+					fgColor = new Color(Integer.parseInt(data[7]));
+					bgColor = new Color(Integer.parseInt(data[8]));
+				} else {
+					value = "";
+				}
 
-                StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().getCell(column, row).getExtension(StyleExtension.NAME);
-                cell.setContent(value);
+				StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().
+					getCell(column, row).getExtension(StyleExtension.NAME);
+				cell.setContent(value);
 
-                if (font != null) {
-                    cell.setFont(font);
-                    cell.setHorizontalAlignment(hAlignment);
-                    cell.setVerticalAlignment(vAlignment);
-                    cell.setForegroundColor(fgColor);
-                    cell.setBackgroundColor(bgColor);
-                }
+				cell.setFont(font);
+				cell.setHorizontalAlignment(hAlignment);
+				cell.setVerticalAlignment(vAlignment);
+				cell.setForegroundColor(fgColor);
+				cell.setBackgroundColor(bgColor);
 
-            } catch (FormulaCompilationException ex) {
-                throw new FormulaCompilationException();
-            }
-        }
-    }
+				ui.setWorkbookModified(ui.focusOwner.getSpreadsheet().
+					getWorkbook());
+				ui.focusOwner.repaint();
 
-    /**
-     * Sends a Cell to the targeted host.
-     *
-     * @param cell Edited Cell
-     */
-    public void continuousSending(Cell cell) {
-        String message = "";
+			} catch (FormulaCompilationException ex) {
+				throw new FormulaCompilationException();
+			}
+		}
+	}
 
-        message += buildMessage(cell);
+	/**
+	 * Sends a Cell to the targeted host.
+	 *
+	 * @param cell Edited Cell
+	 */
+	public void continuousSending(Cell cell) {
+		String message = "";
 
-        message = message.substring(1);
+		message += buildMessage(cell);
 
-        tcpService.continuousSending(message);
-    }
+		message = message.substring(1);
 
-    public void setContinuousTarget(String target) {
-        tcpService.setContinuousTarget(target);
-    }
+		tcpService.continuousSending(message);
+	}
 
-    public void stopConnection() {
-        tcpService.stopContinuousSending();
-    }
+	public void setContinuousTarget(String target) {
+		tcpService.setContinuousTarget(target);
+	}
+
+	public void stopConnection() {
+		tcpService.stopContinuousSending();
+	}
 }
