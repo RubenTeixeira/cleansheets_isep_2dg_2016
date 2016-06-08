@@ -95,12 +95,10 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20000;
 
 		this.chatAppController = chatAppController;
-		this.chatAppController.
-			startUdpService(this, defaultPort, defaultSeconds);
-		this.chatAppController.startTcpService(this, defaultPort);
+		this.chatAppController.startUdpService(this, defaultSeconds);
+		this.chatAppController.startTcpService(this);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {

@@ -41,19 +41,19 @@ public class CommentableCell extends CellExtension {
 
 
 	/*
- * DATA UPDATES
+	 * DATA UPDATES
 	 */
 //	public void contentChanged(Cell cell) {
 //	}
 	/*
- * COMMENT ACCESSORS
+	 * COMMENT ACCESSORS
 	 */
 	/**
 	 *
 	 * @return lstComments
 	 */
-	public List<Comment> getLstComment() {
-		return commentsList;
+	public List<Comment> getCommentsList() {
+		return this.commentsList;
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class CommentableCell extends CellExtension {
 	 * @return true if the cell has comments
 	 */
 	public boolean hasComments() {
-		return (this.commentsList.size() != 0);
+		return !this.commentsList.isEmpty();
 	}
 
 	/**
@@ -83,11 +83,12 @@ public class CommentableCell extends CellExtension {
 		Comment newComment = new Comment(userName, text);
 		commentsList.add(newComment);
 		System.out.println("Comments currently:");
-		for (Comment comment : commentsList) {
-			System.out.
+		commentsList.stream().
+			forEach((comment) -> {
+				System.out.
 				println("Name: " + comment.userName() + " Text: " + comment.
 					text());
-		}
+			});
 		// Notifies listeners
 		fireCommentsChanged();
 
@@ -95,7 +96,7 @@ public class CommentableCell extends CellExtension {
 
 
 	/*
- * EVENT LISTENING SUPPORT
+	 * EVENT LISTENING SUPPORT
 	 */
 	/**
 	 * Registers the given listener on the cell.

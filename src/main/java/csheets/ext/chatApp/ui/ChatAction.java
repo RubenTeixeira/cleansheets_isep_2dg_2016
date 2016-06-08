@@ -29,7 +29,7 @@ class ChatAction extends BaseAction {
 
 	@Override
 	protected String getName() {
-		return "Open";
+		return "Connect";
 	}
 
 	@Override

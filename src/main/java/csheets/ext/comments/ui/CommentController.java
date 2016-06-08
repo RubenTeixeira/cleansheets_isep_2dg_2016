@@ -16,13 +16,12 @@ public class CommentController {
 	/**
 	 * The user interface controller
 	 */
-	private UIController uiController;
+	private final UIController uiController;
 
 	/**
 	 * Creates a new comment controller.
 	 *
 	 * @param uiController the user interface controller
-	 * @param uiPanel the user interface panel
 	 */
 	public CommentController(UIController uiController) {
 		this.uiController = uiController;
@@ -35,7 +34,6 @@ public class CommentController {
 	 *
 	 * @param cell the cell for which the comment should be set
 	 * @param commentString the comment, as entered by the user
-	 * @param username
 	 * @return true if the cell's comment was changed
 	 */
 	public boolean addComment(CommentableCell cell, String commentString)
@@ -62,6 +60,6 @@ public class CommentController {
 //		}
 //	}
 	public List<Comment> getCommentList(CommentableCell cell) {
-		return cell.getLstComment();
+		return cell.getCommentsList();
 	}
 }

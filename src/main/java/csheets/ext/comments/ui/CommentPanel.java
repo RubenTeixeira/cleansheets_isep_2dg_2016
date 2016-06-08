@@ -5,19 +5,22 @@
  */
 package csheets.ext.comments.ui;
 
+import csheets.ext.comments.CommentsExtension;
+
 /**
  *
  * @author Rafael
  */
 public class CommentPanel extends javax.swing.JPanel {
 
-	private String userName;
+	private final String userName;
 	private String comment;
 
 	/**
 	 * Creates new form Comment
 	 */
 	public CommentPanel(String username, String comment) {
+		setName(CommentsExtension.NAME);
 		this.userName = username;
 		this.comment = comment;
 		initComponents();
