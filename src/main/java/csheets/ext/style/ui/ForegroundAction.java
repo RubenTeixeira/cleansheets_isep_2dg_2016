@@ -28,10 +28,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JColorChooser;
 
 import csheets.core.Cell;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A foreground color changing operation.
@@ -82,7 +85,11 @@ public class ForegroundAction extends FocusOwnerAction {
 				for (Cell cell : row) {
 					StylableCell stylableCell = (StylableCell)cell.getExtension(
 						StyleExtension.NAME);
-					stylableCell.setForegroundColor(color);
+                            try {
+                                stylableCell.setForegroundColor(color);
+                            } catch (FormulaCompilationException ex) {
+                                Logger.getLogger(ForegroundAction.class.getName()).log(Level.SEVERE, null, ex);
+                            }
 				}
 	
 			uiController.setWorkbookModified(focusOwner.getSpreadsheet().getWorkbook());
