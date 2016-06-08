@@ -5,6 +5,10 @@
  */
 package csheets.ext.chatApp.ui;
 
+import csheets.notification.Notification;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  *
  * @author Carlos Santos
@@ -113,7 +117,15 @@ public class ChatAppController {
 		this.startTcpService(port);
 	}
 
-	public void sendMessage(String target, String message) {
+	public void sendMessage(String hostname, String target, String message) {
+		Map<String, String> sendMessage = new LinkedHashMap<>();
+		sendMessage.put("reference", "sendMessage");
+		sendMessage.put("hostname", hostname);
+		sendMessage.put("message", message);
+		sendMessage.put("target", target);
+		Notification.
+			chatMessageInformer().
+			notifyChange(sendMessage);
 		new TcpService().client(target, message);
 	}
 }

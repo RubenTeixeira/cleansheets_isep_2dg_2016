@@ -38,15 +38,14 @@ public class UdpService extends Notifier {
 											   public void run(
 												   Map<String, Object> args) {
 
-												   /*												   if (server.same(args.
+												   if (server.same(args.
 													   get("from"))) {
 													   return;
-												   }*/
+												   }
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
 													   get("hostname")).
 													   split(":")[0] + ":" + localPort;
-
 												   server.
 													   send(":port", destination, String.
 															valueOf(targetPort));

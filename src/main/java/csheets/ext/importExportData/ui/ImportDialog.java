@@ -40,6 +40,15 @@ public class ImportDialog extends javax.swing.JDialog {
 		this.controller = controller;
 		this.uiController = uiController;
 		this.cells = new Cell[0][0];
+		initializeCellRangeText();
+	}
+
+	private void initializeCellRangeText() {
+		Cell[][] selectedCells = uiController.focusOwner.getSelectedCells();
+		this.rangeOfCellsImportText.setText(selectedCells[0][0].getAddress().
+			toString() + "-"
+			+ selectedCells[selectedCells.length - 1][selectedCells[0].length - 1].
+			getAddress().toString());
 	}
 
 	/**
@@ -86,6 +95,8 @@ public class ImportDialog extends javax.swing.JDialog {
                 headerCheckBoxActionPerformed(evt);
             }
         });
+
+        rangeOfCellsImportText.setEditable(false);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -182,12 +193,12 @@ public class ImportDialog extends javax.swing.JDialog {
 	private void updateSelectedCells() {
 		this.uiController.focusOwner.
 			setRowSelectionInterval(cells[0][0].getAddress().
-				getRow(), cells[0][0].getAddress().getRow() + cells[0].length - 1);
+				getRow(), cells[0][0].getAddress().getRow() + cells.length - 1);
 		this.uiController.focusOwner.
 			setColumnSelectionInterval(cells[0][0].getAddress().
 				getColumn(), cells[0][0].
 									   getAddress().
-									   getColumn() + cells.length - 1);
+									   getColumn() + cells[0].length - 1);
 	}
 
     private void headerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_headerCheckBoxActionPerformed

@@ -64,10 +64,10 @@ public class UdpService extends Notifier {
 													   put("reference", "hosts");
 												   for (String port : ports) {
 													   chatHosts.
-														   put((String) args.
-															   get("hostname"), (((String) args.
+														   put((((String) args.
 															   get("from")).
-															   split(":")[0]) + ":" + port);
+															   split(":")[0]) + ":" + port, (String) args.
+															   get("hostname"));
 												   }
 
 												   notifyChange(chatHosts);

@@ -16,6 +16,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Observer;
 import javax.imageio.ImageIO;
@@ -30,9 +32,19 @@ import javax.swing.JOptionPane;
  */
 public class GamePanel extends javax.swing.JPanel implements SelectionListener, Observer {
 
-	public static final String TIC_TAC_TOE = "Tic-Tac-Toe";
-	public static final String BATTLESHIPS = "Battleships";
+	/**
+	 * Tic-tac-toe designation.
+	 */
+	private static final String TIC_TAC_TOE = "Tic-Tac-Toe";
 
+	/**
+	 * Battleships designation.
+	 */
+	private static final String BATTLESHIPS = "Battleships";
+
+	/**
+	 * Profile photo.
+	 */
 	private File photoFile;
 
 	private final UIController uiController;
@@ -65,7 +77,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	/**
 	 * Creates new form GamePanel.
 	 */
-	public GamePanel(UIController uiController, GameController gameController) {
+	public GamePanel(UIController uiController, GameController gameController) throws UnknownHostException {
 		this.uiController = uiController;
 
 		setName(GameExtension.NAME);
@@ -80,9 +92,12 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 		instancesList.setModel(instanceListModel);
 		updateListOfGames();
-		jTextField2.setEditable(false);
+
 		jTextField1.setText(System.getProperty("user.name"));
 		jTextField1.setEditable(false);
+
+		jTextField2.setText(InetAddress.getLocalHost().getHostName());
+		jTextField2.setEditable(false);
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
@@ -141,7 +156,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
         jScrollPane1.setViewportView(instancesList);
 
         sendButton.setText("Start Game");
-        sendButton.setEnabled(false);
+        sendButton.setFocusPainted(false);
         sendButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sendButtonActionPerformed(evt);
@@ -191,11 +206,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3)
-                        .addComponent(jLabel4)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField1)
@@ -204,10 +218,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
+                        .addGap(128, 128, 128)
                         .addComponent(jLabel2))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
+                        .addGap(103, 103, 103)
                         .addComponent(sendButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -225,7 +239,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))))
-                .addGap(33, 33, 33)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,6 +302,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		}
     }//GEN-LAST:event_jLabel5MouseClicked
 
+	/**
+	 * Update the list of "online" instances.
+	 *
+	 * @param addresses
+	 */
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
 			if (!instanceListModel.contains(address)) {
@@ -306,14 +325,13 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		repaint();
 	}
 
+	/**
+	 * Fill the list with the available games.
+	 */
 	private void updateListOfGames() {
 		instanceListModelGames.add(0, TIC_TAC_TOE);
 		instanceListModelGames.add(1, BATTLESHIPS);
 		instancesList1.setModel(instanceListModelGames);
-	}
-
-	public void updateUsernameAndPhoto(String username) {
-		this.jTextField1.setText(username);
 	}
 
 	private ImageIcon iconImageFromFile(File photoFile) {
