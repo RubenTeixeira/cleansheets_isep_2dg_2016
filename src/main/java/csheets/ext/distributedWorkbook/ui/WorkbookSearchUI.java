@@ -316,7 +316,6 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 				this.searchingPanel.setVisible(false);
 				JOptionPane.
 					showMessageDialog(this, ((String) object), "Workbook Summary", JOptionPane.INFORMATION_MESSAGE);
-				this.controller.stopServices();
 				exit();
 			}
 		}
