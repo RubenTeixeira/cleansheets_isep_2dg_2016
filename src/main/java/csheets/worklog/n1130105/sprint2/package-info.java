@@ -1,5 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1130105) Carlos Mateus during week2.
+ * Technical documentation regarding the work of the team member (1130105)
+ * Carlos Mateus during week2.
  *
  * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -25,8 +26,20 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-54">LPFOURDG-54</a>
  * <p>
  * Sub-Task in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-173">LPFOURDG-173</a>
  * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-173">LPFOURDG-173</a>
+ * </p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-174">LPFOURDG-174</a>
+ * </p>
+ *  * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-175">LPFOURDG-175</a>
+ * </p>
+ *  * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-176">LPFOURDG-176</a>
+ * </p>
+ *
+ *
  * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
@@ -36,7 +49,15 @@
  *
  * <p>
  * <b>Use Case "Find Workbooks":</b>
- *
+ * <p>
+ * The extension should add a new window (sidebar) to search for workbook files
+ * in the local file system. The user should be able to enter the name of a
+ * directory of the file system to be used as the root of the search. The search
+ * should include this directory and all its contents (including
+ * subdirectories). The results of the search should appear in a list (as files
+ * are found). It should be possible for the user to open a workbook from this
+ * list by double clicking in it. The search can be based solely on the file
+ * name extension. For instance, find the files with .cls extension.
  * </p>
  *
  *
@@ -53,9 +74,6 @@
  * that states that the element is not a design element and, therefore, does not
  * exists as such in the code of the application (at least at the moment that
  * this diagram was created).
- * <h4>Send Cells proposal analysis</h4>
- * <p>
- * <img src="doc-files/share_cell_send_image.png" alt="image">
  *
  * <h4>Receive Cells proposal analysis</h4>
  * <p>
@@ -155,7 +173,8 @@
  * <p>
  * Yesterday I worked on: Today:
  * <p>
- * 1. Analysis. Start Implementation
+ * 1. Analysis. Start Implementation of Find Workbook Controller and Extention.
+ * - Implementation
  * <p>
  * Blocking:
  * <p>
@@ -164,12 +183,13 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on:
+ * Yesterday I worked on: Implementation of Find Workbook Controller and
+ * Extention -Implementation
  *
  *
  * Today:
  * <p>
- *
+ * Find Workbook UI - Implementation Design
  * <p>
  * Blocking:
  * <p>

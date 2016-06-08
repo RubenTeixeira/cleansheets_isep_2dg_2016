@@ -5,20 +5,37 @@
  */
 package csheets.ext.conditionalFormatting.ui;
 
+import csheets.core.Cell;
+import csheets.core.IllegalValueTypeException;
+import csheets.core.Spreadsheet;
+import csheets.core.Value;
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
-import csheets.ui.ctrl.SelectionEvent;
-import csheets.ui.ctrl.SelectionListener;
+import csheets.ext.style.ui.BackgroundAction;
+import csheets.ext.style.ui.BorderAction;
+import csheets.ext.style.ui.FontAction;
+import csheets.ext.style.ui.ForegroundAction;
+import csheets.ext.style.ui.FormatAction;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
  *
  * @author Diogo Leite
  */
-public class ConditionalFormattingUI extends JPanel implements SelectionListener {
+public class ConditionalFormattingUI extends JPanel {
 
 	private final UIController uiController;
 	private final ConditionalFormattingController conditionalFormattingController;
+	/**
+	 * Cell selected
+	 */
+	private Cell cell;
 
 	/**
 	 * Creates new form ConditionalFormattingUI
@@ -31,7 +48,24 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
 		initComponents();
 		this.uiController = uiController;
 		this.conditionalFormattingController = new ConditionalFormattingController();
+
+		Workbook work = new Workbook(1);
+		Spreadsheet s = work.getSpreadsheet(0);
+		cell = s.getCell(0, 0);
+
+		this.toolBarTrueFont.add(new FontAction(uiController));
+		this.toolBarFalseFont.add(new FontAction(uiController));
+		this.toolBarTrueForeground.add(new ForegroundAction(uiController));
+		this.toolBarFalseForeground.add(new ForegroundAction(uiController));
+		this.toolBarTrueBackground.add(new BackgroundAction(uiController));
+		this.toolBarFalseBackground.add(new BackgroundAction(uiController));
+		this.toolBarTrueBorder.add(new BorderAction(uiController));
+		this.toolBarFalseBorder.add(new BorderAction(uiController));
+		this.toolBarTrueFormat.add(new FormatAction(uiController));
+		this.toolBarFalseFormat.add(new FormatAction(uiController));
+
 		this.setVisible(true);
+
 	}
 
 	/**
@@ -44,207 +78,208 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        btnTFont = new javax.swing.JButton();
-        btnFFont = new javax.swing.JButton();
-        btnTForeground = new javax.swing.JButton();
-        btnFForeground = new javax.swing.JButton();
-        btnTBackground = new javax.swing.JButton();
-        btnFBackground = new javax.swing.JButton();
-        btnTBorder = new javax.swing.JButton();
-        btnFBorder = new javax.swing.JButton();
-        btnTAlign = new javax.swing.JButton();
-        btnFAlign = new javax.swing.JButton();
-        btnTFormat = new javax.swing.JButton();
-        btnFFormat = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        checkboxTBold = new javax.swing.JCheckBox();
-        checkboxFBold = new javax.swing.JCheckBox();
-        checkboxTItalic = new javax.swing.JCheckBox();
-        checkboxFItalic = new javax.swing.JCheckBox();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        labelFont = new javax.swing.JLabel();
+        labelForeground = new javax.swing.JLabel();
+        labelBackground = new javax.swing.JLabel();
+        labelBorder = new javax.swing.JLabel();
+        labelAlign = new javax.swing.JLabel();
+        labelFormat = new javax.swing.JLabel();
+        trueLabel = new javax.swing.JLabel();
+        falseLabel = new javax.swing.JLabel();
+        labelExpression = new javax.swing.JLabel();
         textFieldFormula = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        btnConfirm = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
+        btnTest = new javax.swing.JButton();
+        toolBarTrueFont = new javax.swing.JToolBar();
+        toolBarFalseFont = new javax.swing.JToolBar();
+        toolBarTrueForeground = new javax.swing.JToolBar();
+        toolBarFalseForeground = new javax.swing.JToolBar();
+        toolBarTrueBackground = new javax.swing.JToolBar();
+        toolBarFalseBackground = new javax.swing.JToolBar();
+        toolBarTrueBorder = new javax.swing.JToolBar();
+        toolBarFalseBorder = new javax.swing.JToolBar();
+        toolBarTrueAlign = new javax.swing.JToolBar();
+        toolBarFalseAlign = new javax.swing.JToolBar();
+        toolBarTrueFormat = new javax.swing.JToolBar();
+        toolBarFalseFormat = new javax.swing.JToolBar();
+        btnApply = new javax.swing.JButton();
 
         setAlignmentY(0.1F);
 
-        btnTFont.setText("choose");
+        labelFont.setText("Font");
 
-        btnFFont.setText("choose");
+        labelForeground.setText("Foreground");
 
-        btnTForeground.setText("choose");
+        labelBackground.setText("Background");
 
-        btnFForeground.setText("choose");
+        labelBorder.setText("Border");
 
-        btnTBackground.setText("choose");
+        labelAlign.setText("Align");
 
-        btnFBackground.setText("choose");
+        labelFormat.setText("Format");
 
-        btnTBorder.setText("choose");
+        trueLabel.setText("True");
 
-        btnFBorder.setText("choose");
+        falseLabel.setText("False");
 
-        btnTAlign.setText("choose");
+        labelExpression.setText("Expression");
 
-        btnFAlign.setText("choose");
+        btnTest.setText("Test");
+        btnTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTestActionPerformed(evt);
+            }
+        });
 
-        btnTFormat.setText("choose");
+        toolBarTrueFont.setRollover(true);
 
-        btnFFormat.setText("choose");
+        toolBarFalseFont.setRollover(true);
 
-        jLabel1.setText("Font");
+        toolBarTrueForeground.setRollover(true);
 
-        jLabel2.setText("Bold");
+        toolBarFalseForeground.setRollover(true);
 
-        jLabel3.setText("Italic");
+        toolBarTrueBackground.setRollover(true);
 
-        jLabel4.setText("Foreground");
+        toolBarFalseBackground.setRollover(true);
 
-        jLabel5.setText("Background");
+        toolBarTrueBorder.setRollover(true);
 
-        jLabel6.setText("Border");
+        toolBarFalseBorder.setRollover(true);
 
-        jLabel7.setText("Align");
+        toolBarTrueAlign.setRollover(true);
 
-        jLabel8.setText("Format");
+        toolBarFalseAlign.setRollover(true);
 
-        jLabel9.setText("True");
+        toolBarTrueFormat.setRollover(true);
 
-        jLabel10.setText("False");
-
-        jLabel11.setText("Expression");
-
-        textFieldFormula.setText("formula");
+        toolBarFalseFormat.setRollover(true);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8))
-                .addGap(29, 29, 29)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnTBackground)
-                        .addComponent(btnTForeground)
-                        .addComponent(btnTFont))
-                    .addComponent(btnTBorder)
-                    .addComponent(btnTAlign)
-                    .addComponent(btnTFormat)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkboxTItalic)
-                            .addComponent(checkboxTBold))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnFFont, javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnFForeground, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(btnFBackground)
-                    .addComponent(btnFBorder)
-                    .addComponent(btnFAlign)
-                    .addComponent(btnFFormat)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(24, 24, 24)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(checkboxFItalic)
-                            .addComponent(checkboxFBold))))
-                .addGap(18, 18, 18))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11)
-                .addGap(18, 18, 18)
+                .addComponent(labelExpression)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textFieldFormula)
-                .addGap(62, 62, 62))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnTest)
+                .addGap(6, 6, 6))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(102, 102, 102)
-                .addComponent(jLabel9)
+                .addComponent(trueLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10)
+                .addComponent(falseLabel)
                 .addGap(38, 38, 38))
             .addComponent(jSeparator1)
             .addComponent(jSeparator2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelFont)
+                            .addComponent(labelForeground))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueFont, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 136, Short.MAX_VALUE)
+                                .addComponent(toolBarFalseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueForeground, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(toolBarFalseForeground, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelBackground)
+                            .addComponent(labelBorder)
+                            .addComponent(labelAlign)
+                            .addComponent(labelFormat))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueAlign, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(toolBarFalseAlign, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueBorder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(toolBarFalseBorder, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(toolBarTrueBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(toolBarFalseBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(toolBarFalseFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(textFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelExpression)
+                    .addComponent(textFieldFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTest))
+                .addGap(32, 32, 32)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(trueLabel)
+                    .addComponent(falseLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTFont)
-                    .addComponent(btnFFont)
-                    .addComponent(jLabel1))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkboxTBold)
-                    .addComponent(checkboxFBold)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(toolBarFalseFont, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(toolBarFalseForeground, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelFont)
+                            .addComponent(toolBarTrueFont, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelForeground)
+                            .addComponent(toolBarTrueForeground, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkboxFItalic)
-                    .addComponent(jLabel3)
-                    .addComponent(checkboxTItalic))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTForeground)
-                    .addComponent(btnFForeground)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTBackground)
-                    .addComponent(btnFBackground)
-                    .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTBorder)
-                    .addComponent(btnFBorder)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTAlign)
-                    .addComponent(btnFAlign)
-                    .addComponent(jLabel7))
+                    .addComponent(labelBackground)
+                    .addComponent(toolBarTrueBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toolBarFalseBackground, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelBorder)
+                    .addComponent(toolBarTrueBorder, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toolBarFalseBorder, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toolBarTrueAlign, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toolBarFalseAlign, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelAlign))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelFormat)
+                    .addComponent(toolBarTrueFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(toolBarFalseFormat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTFormat)
-                    .addComponent(btnFFormat)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        btnConfirm.setText("Confirm");
-
-        btnCancel.setText("Cancel");
+        btnApply.setText("Apply");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -252,71 +287,100 @@ public class ConditionalFormattingUI extends JPanel implements SelectionListener
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnConfirm)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnCancel)
-                        .addGap(34, 34, 34))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(btnApply)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnConfirm)
-                    .addComponent(btnCancel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnApply)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
+		try {
+			conditionalFormattingController.apply(cell);
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(ConditionalFormattingUI.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+
+    }//GEN-LAST:event_btnApplyActionPerformed
+
+    private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
+		if (!textFieldFormula.getText().isEmpty()) {
+
+			try {
+				// TODO add your handling code here:
+				cell.setContent(textFieldFormula.getText());
+			} catch (FormulaCompilationException ex) {
+				defaultLabelColor();
+			}
+
+			try {
+
+				if (cell.getValue().
+					isOfType(Value.Type.BOOLEAN)) {
+					if (cell.getValue().toBoolean()) {
+						trueLabel.setForeground(Color.red);
+						falseLabel.setForeground(Color.black);
+					} else {
+						trueLabel.setForeground(Color.black);
+						falseLabel.setForeground(Color.red);
+					}
+				} else {
+					defaultLabelColor();
+				}
+
+			} catch (IllegalValueTypeException ex) {
+				Logger.getLogger(ConditionalFormattingUI.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+		} else {
+			defaultLabelColor();
+		}
+    }//GEN-LAST:event_btnTestActionPerformed
+
+	private void defaultLabelColor() {
+		trueLabel.setForeground(new JLabel().getForeground());
+		falseLabel.setForeground(new JLabel().getForeground());
+	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancel;
-    private javax.swing.JButton btnConfirm;
-    private javax.swing.JButton btnFAlign;
-    private javax.swing.JButton btnFBackground;
-    private javax.swing.JButton btnFBorder;
-    private javax.swing.JButton btnFFont;
-    private javax.swing.JButton btnFForeground;
-    private javax.swing.JButton btnFFormat;
-    private javax.swing.JButton btnTAlign;
-    private javax.swing.JButton btnTBackground;
-    private javax.swing.JButton btnTBorder;
-    private javax.swing.JButton btnTFont;
-    private javax.swing.JButton btnTForeground;
-    private javax.swing.JButton btnTFormat;
-    private javax.swing.JCheckBox checkboxFBold;
-    private javax.swing.JCheckBox checkboxFItalic;
-    private javax.swing.JCheckBox checkboxTBold;
-    private javax.swing.JCheckBox checkboxTItalic;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JButton btnApply;
+    private javax.swing.JButton btnTest;
+    private javax.swing.JLabel falseLabel;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel labelAlign;
+    private javax.swing.JLabel labelBackground;
+    private javax.swing.JLabel labelBorder;
+    private javax.swing.JLabel labelExpression;
+    private javax.swing.JLabel labelFont;
+    private javax.swing.JLabel labelForeground;
+    private javax.swing.JLabel labelFormat;
     private javax.swing.JTextField textFieldFormula;
+    private javax.swing.JToolBar toolBarFalseAlign;
+    private javax.swing.JToolBar toolBarFalseBackground;
+    private javax.swing.JToolBar toolBarFalseBorder;
+    private javax.swing.JToolBar toolBarFalseFont;
+    private javax.swing.JToolBar toolBarFalseForeground;
+    private javax.swing.JToolBar toolBarFalseFormat;
+    private javax.swing.JToolBar toolBarTrueAlign;
+    private javax.swing.JToolBar toolBarTrueBackground;
+    private javax.swing.JToolBar toolBarTrueBorder;
+    private javax.swing.JToolBar toolBarTrueFont;
+    private javax.swing.JToolBar toolBarTrueForeground;
+    private javax.swing.JToolBar toolBarTrueFormat;
+    private javax.swing.JLabel trueLabel;
     // End of variables declaration//GEN-END:variables
 
-	public void run() {
-		this.setVisible(true);
-	}
-
-	@Override
-	public void selectionChanged(SelectionEvent event) {
-		//TODO
-	}
 }

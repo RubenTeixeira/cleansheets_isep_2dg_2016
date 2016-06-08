@@ -29,6 +29,10 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	 */
 	private UIController uiController;
 
+	DefaultMutableTreeNode root;
+
+	DefaultMutableTreeNode lastChild;
+
 	/**
 	 *
 	 * @param uiController user interface controller
@@ -36,28 +40,45 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	 */
 	public ChatApplicationPanel(UIController uiController,
 								ChatAppController chatAppController) {
+
 		this.uiController = uiController;
 		this.chatAppController = chatAppController;
 		setName(ChatAppExtension.NAME);
 		initComponents();
-		Notification.messageInformer().addObserver(this);
+		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
+		Notification.chatMessageInformer().addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Cheguei");
 		if (arg instanceof Map) {
-			String message = (String) ((Map) arg).get("message");
+			if (((Map) arg).get("reference").equals("chatMessage")) {
+				((Map) arg).remove("reference");
+				String message = (String) ((Map) arg).get("message");
+				String hostname = (String) ((Map) arg).get("hostname");
 
-			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
+				String chatMessage = hostname + ": message";
 
-			DefaultMutableTreeNode root = (DefaultMutableTreeNode) MessagesTree.
-				getModel().getRoot();
+				new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, message);
 
-			System.out.println(arg);
-			root.add(new DefaultMutableTreeNode(message));
+//				while (true) {
+//					DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
+//						children().nextElement();
+//					if (no != null) {
+//						String treeMessage = (String) no.getUserObject();
+//						String ip = treeMessage.split(":")[0];
+//						if (ip.equals(hostname)) {
+//						}
+//					} else {
+//						break;
+//					}
+//				}
+				root.add(new DefaultMutableTreeNode(chatMessage));
 
-			this.revalidate();
-			this.repaint();
+				this.revalidate();
+				this.repaint();
+			}
 		}
 	}
 

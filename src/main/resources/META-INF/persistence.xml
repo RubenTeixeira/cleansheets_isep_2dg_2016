@@ -4,8 +4,11 @@
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<class>csheets.domain.Contact</class>
 		<class>csheets.domain.Event</class>
-		<class>csheets.domain.Calendar</class>
 		<class>csheets.domain.Reminder</class>
+		<class>csheets.domain.Note</class>
+		<class>csheets.domain.Calendar</class>
+		<class>csheets.domain.CompanyContact</class>
+		<class>csheets.domain.PersonContact</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:./db/csheets;MV_STORE=FALSE"/>
 			<property name="javax.persistence.jdbc.user" value=""/>

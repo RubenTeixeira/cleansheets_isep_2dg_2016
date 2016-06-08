@@ -31,6 +31,9 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 		this.jComboBoxSpreedSheet.setEnabled(false);
 	}
 
+	/**
+	 * Method to add Items
+	 */
 	private void initiateOptions() {
 		this.jComboBoxType.removeAll();
 		this.jComboBoxType.addItem("Workbook");

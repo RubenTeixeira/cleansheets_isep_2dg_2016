@@ -9,6 +9,7 @@ csheets.ext.distributedWorkbook.WorkbookSearchExtension
 csheets.ext.wizard.WizardExtension
 csheets.ext.importExportData.ImportExportDataExtension
 csheets.ext.sort.SortExtension
+csheets.ext.search.SearchExtension
 csheets.ext.chatApp.ChatAppExtension
 csheets.ext.game.GameExtension
 csheets.ext.calendar.CalendarExtension
@@ -16,3 +17,5 @@ csheets.ext.reminder.ReminderExtension
 csheets.ext.conditionalFormatting.ConditionalFormattingExtension
 csheets.ext.FindWorkbook.FindWorkbookExtension
 csheets.ext.macro_beanshell.MacroBeanShellExtension
+csheets.ext.notes.NotesExtension
+csheets.ext.secureCommunications.SecureCommunicationsExtension

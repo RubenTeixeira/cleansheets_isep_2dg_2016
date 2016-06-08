@@ -96,7 +96,7 @@ public class SearchWorkbook {
 
 	private boolean activeWorkbook(File workbookFile) {
 
-		activeWorkbook = controller.getCleansheet().getWorkbook(workbookFile);
+		activeWorkbook = controller.getCleanSheets().getWorkbook(workbookFile);
 
 		return activeWorkbook != null;
 	}

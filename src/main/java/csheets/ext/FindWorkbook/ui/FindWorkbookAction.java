@@ -72,7 +72,7 @@ public class FindWorkbookAction extends BaseAction {
 				showMessageDialog(null, "The directory don´t have workbooks files!",
 								  "Workbooks files not Found", JOptionPane.INFORMATION_MESSAGE);
 		} else {
-			FindWorkbookResults window = new FindWorkbookResults();
+			FindWorkbookResults window = new FindWorkbookResults(uiController);
 			window.fillList(lst);
 
 			window.setVisible(true);

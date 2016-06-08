@@ -8,6 +8,7 @@ package csheets.ext.events;
 import csheets.CleanSheets;
 import csheets.domain.Contact;
 import csheets.domain.Event;
+import csheets.domain.PersonContact;
 import csheets.ext.events.ui.EventsPanel;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.ui.ctrl.UIController;
@@ -45,7 +46,7 @@ public class EventsControllerTest {
 
 	@Before
 	public void setUp() {
-		contact = new Contact("User", "test", new byte[10]);
+		contact = new PersonContact("User", "test", new byte[10]);
 		date = Calendar.getInstance();
 		date.add(Calendar.DAY_OF_MONTH, 1);
 		event = new Event(contact, "New Event", date, true);

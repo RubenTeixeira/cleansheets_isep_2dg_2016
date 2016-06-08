@@ -5,7 +5,9 @@
  */
 package csheets.domain;
 
+import java.awt.Color;
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,28 +27,32 @@ public class Calendar implements Serializable {
 	@Id
 	@GeneratedValue
 	private Long id;
-	@ManyToOne
-	private Contact m_Contact;
+
+	@ManyToOne(cascade = CascadeType.MERGE)
+	private Contact contact;
+
 	private String name;
-	private String text;
-	private String color;
+
+	private String description;
+
+	private Color color;
 
 	protected Calendar() {
 	}
 
-	public Calendar(String name, String text, String color, Contact contato) {
+	public Calendar(String name, String text, Color color, Contact contato) {
 		this.name = name;
-		this.text = text;
+		this.description = text;
 		this.color = color;
-		this.m_Contact = contato;
+		this.contact = contato;
 	}
 
-	public Contact getM_contact() {
-		return m_Contact;
+	public Contact getContact() {
+		return contact;
 	}
 
-	public void setM_contact(Contact m_contact) {
-		this.m_Contact = m_contact;
+	public void setContact(Contact contact) {
+		this.contact = contact;
 	}
 
 	public Long getId() {
@@ -55,14 +61,6 @@ public class Calendar implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Contact getM_Contact() {
-		return m_Contact;
-	}
-
-	public void setM_Contact(Contact m_Contact) {
-		this.m_Contact = m_Contact;
 	}
 
 	public String getName() {
@@ -74,18 +72,18 @@ public class Calendar implements Serializable {
 	}
 
 	public String getText() {
-		return text;
+		return description;
 	}
 
 	public void setText(String text) {
-		this.text = text;
+		this.description = text;
 	}
 
-	public String getColor() {
+	public Color getColor() {
 		return color;
 	}
 
-	public void setColor(String color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 

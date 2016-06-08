@@ -14,8 +14,7 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -51,7 +50,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	/**
 	 * Received elements.
 	 */
-	private List<Map<String, String>> receivedElements;
+	private Map<String, String> hosts;
 	/**
 	 * Message to send
 	 */
@@ -77,10 +76,11 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		// Create default lists
 		instanceListModel = new DefaultListModel();
 		receiveListModel = new DefaulListModel();
-		receivedElements = new ArrayList<>();
+		hosts = new LinkedHashMap<>();
 		//TODO
 
 		initComponents();
+		this.getRootPane().setDefaultButton(btnSend);
 		txtMessage.setText("Type here...");
 		uiController.addSelectionListener(this);
 
@@ -96,8 +96,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		this.chatAppController.
 			startUdpService(this, defaultPort, defaultSeconds);
 		this.chatAppController.startTcpService(this, defaultPort);
-		Notification.messageInformer().addObserver(this);
 		this.setVisible(true);
+		Notification.chatMessageInformer().addObserver(this);
 	}
 
 	/**
@@ -113,10 +113,10 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMessage = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        usersList = new javax.swing.JList<>();
+        usersList = new javax.swing.JList<String>();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        messagesList = new javax.swing.JList<>();
+        messagesList = new javax.swing.JList<String>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -156,9 +156,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -196,17 +196,16 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private void usersListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_usersListValueChanged
 		if (evt.getValueIsAdjusting() == false) {
 			if (usersList.getSelectedIndex() == -1) {
-				//No selection.
-				btnSend.setEnabled(false);
+				//Do nothing
+				usersList.setSelectedIndex(0);
 			} else {
-				btnSend.setEnabled(true);
-				host = usersList.getSelectedValue();
+				String hostValues[] = usersList.getSelectedValue().split(":");
+				host = hosts.get(hostValues[0]);
 			}
 		}
     }//GEN-LAST:event_usersListValueChanged
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-		//Selection.
 		message = txtMessage.getText();
 
 		if (message.length() <= 0) {
@@ -214,17 +213,23 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		}
 		try {
 			receiveListModel.
-				addElement(InetAddress.getLocalHost().getHostName() + ":" + message);
+				addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
 		} catch (UnknownHostException ex) {
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		chatAppController.sendMessage(host, message);
-		txtMessage.setText("");
+		txtMessage.setText("Type here...");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void txtMessageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusLost
 		if (txtMessage.getText().isEmpty()) {
 			txtMessage.setText("Type here...");
+			btnSend.setEnabled(false);
+		} else {
+			if (txtMessage.getText().equals("Type here...")) {
+				btnSend.setEnabled(false);
+			}
+			btnSend.setEnabled(true);
 		}
     }//GEN-LAST:event_txtMessageFocusLost
 
@@ -243,15 +248,26 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private javax.swing.JList<String> usersList;
     // End of variables declaration//GEN-END:variables
 
-	public void updateInstanceList(List<String> addresses) {
-		for (String address : addresses) {
-			if (!instanceListModel.contains(address)) {
-				instanceListModel.addElement(address);
-
-				manager.after(4).once(new Task() {
+	public void updateInstanceList(Map<String, String> hostMap) {
+		for (String chatHost : hostMap.keySet()) {
+			if (instanceListModel.contains(chatHost + ":(offline)")) {
+				instanceListModel.removeElement(chatHost + ":(offline)");
+				instanceListModel.addElement(chatHost + ":(online)");
+			} else if (!instanceListModel.contains(chatHost + ":(online)")) {
+				instanceListModel.addElement(chatHost + ":(online)");
+				hosts.put(chatHost, hostMap.get(chatHost));
+				manager.after(8).once(new Task() {
+					@Override
 					public void fire() {
-						instanceListModel.removeElement(address);
-						usersList.setModel(instanceListModel);
+						while (instanceListModel.elements().nextElement() != null) {
+							if (instanceListModel.elements().nextElement().
+								equals(chatHost + ":(online)")) {
+								instanceListModel.
+									removeElement(chatHost + ":(online)");
+								instanceListModel.
+									addElement(chatHost + ":(offline)");
+							}
+						}
 					}
 				});
 			}
@@ -279,20 +295,23 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Map) {
-			Map<String, String> mapMessages = (Map<String, String>) arg;
-			updateReceiveList(mapMessages);
+		Map hostdata = new LinkedHashMap((Map) arg);
+		if (((Map) hostdata).get("reference").equals("hosts")) {
+			((Map) hostdata).remove("reference");
+			Map<String, String> chatHosts = (Map<String, String>) hostdata;
+			updateInstanceList(chatHosts);
 		}
-		if (arg instanceof List) {
-			List<String> addresses = (List<String>) arg;
-			updateInstanceList(addresses);
+		Map data = new LinkedHashMap((Map) arg);
+		if (((Map) data).get("reference").equals("chatMessage")) {
+			((Map) data).remove("reference");
+			Map<String, String> mapMessages = (Map<String, String>) data;
+			updateReceiveList(mapMessages);
 		}
 	}
 
 	public static ChatUI instance(UIController uiController,
 								  ChatAppController chatAppController) {
 		if (ChatUI.atualInstance == null) {
-
 			ChatUI.atualInstance = new ChatUI(uiController, chatAppController);
 		} else {
 			ChatUI.atualInstance.toFront();

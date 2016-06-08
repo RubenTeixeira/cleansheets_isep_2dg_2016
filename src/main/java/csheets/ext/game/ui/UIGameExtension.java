@@ -19,7 +19,7 @@ import javax.swing.JComponent;
 public class UIGameExtension extends UIExtension {
 
 	/**
-	 * TODO
+	 * SideBar to choose player and game to paly.
 	 */
 	private JComponent sideBar;
 

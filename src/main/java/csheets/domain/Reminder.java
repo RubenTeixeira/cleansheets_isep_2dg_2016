@@ -23,53 +23,78 @@ import javax.persistence.UniqueConstraint;
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = {"NAME"})})
 public class Reminder implements Serializable {
-    @Id
-    @GeneratedValue
-    private Long id;
-    
-    private String name;
-    private String description;
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar timeStep;
 
-    public Reminder() {
-    }
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    public Reminder(String Name, String description, Calendar ts) {
-        if (Name == null || description == null) {
-            throw new IllegalArgumentException("name of reminder can´t be null.");
+	private String name;
+	private String description;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Calendar timeStep;
+	private boolean alert;
 
-        } else if (Name.isEmpty() || description.isEmpty()) {
-            throw new IllegalArgumentException("description of reminder can´t be null.");
-        }
-        this.name = Name;
-        this.description = description;
-        this.timeStep = ts;
-    }
-    
-    public String Name(){
-        return this.name;
-    }
+	public Reminder() {
+	}
 
-    public String Description(){
-        return this.description;
-    }
-    
-    public Calendar TimeOfReminder(){
-        return this.timeStep;
-    }
-    
-    public void add(int field, int amount) {
-	this.timeStep.add(field, amount);
-    }
-    @Override
-    public String toString() {
-	return "Reminder: "+this.name + " - Description: " + this.description + " - " + DateTime.format(this.timeStep);
-    }
+	public Reminder(String name, String description, Calendar ts, boolean alert) {
+		if (name == null || description == null || ts == null) {
+			throw new IllegalArgumentException("name of reminder can´t be null.");
 
-    @Override
-    public boolean equals(Object obj) {
-    if (obj == null) {
+		} else if (name.isEmpty() || description.isEmpty()) {
+			throw new IllegalArgumentException("description of reminder can´t be null.");
+		}
+		this.name = name;
+		this.description = description;
+		this.timeStep = ts;
+		this.alert = alert;
+	}
+
+	public String name() {
+		return this.name;
+	}
+
+	public String description() {
+		return this.description;
+	}
+
+	public Calendar timeOfReminder() {
+		return this.timeStep;
+	}
+
+	public boolean alert() {
+		return alert;
+	}
+
+	public void defineAlert(boolean alert) {
+		this.alert = alert;
+	}
+
+	public void defineReminder(String name, String description, Calendar date,
+							   boolean alert) {
+		this.name = name;
+		this.description = description;
+		this.timeStep = date;
+		this.alert = alert;
+	}
+
+	public void add(int field, int amount) {
+		this.timeStep.add(field, amount);
+	}
+
+	public void alert(boolean active) {
+		this.alert = active;
+	}
+
+	@Override
+	public String toString() {
+		return "Reminder: " + this.name + " - Description: " + this.description + " - " + DateTime.
+			format(this.timeStep);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
 			return false;
 		}
 		if (getClass() != obj.getClass()) {
@@ -90,16 +115,4 @@ public class Reminder implements Serializable {
 		hashcode += this.timeStep.hashCode();
 		return hashcode;
 	}
-
-    public void defineReminder(String n, String d, Calendar calendar) {
-        if(n==null||n.isEmpty()){
-            throw new IllegalArgumentException("the Reminder´s name can´t be null.");
-        }
-        if(d==null||d.isEmpty()){
-            throw new IllegalArgumentException("the Reminder´s description can´t be null.");
-        }
-        this.name=n;
-        this.description=d;
-    }
-
 }

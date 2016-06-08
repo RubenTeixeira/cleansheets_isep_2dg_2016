@@ -22,7 +22,6 @@ package csheets.ui;
 
 import csheets.CleanSheets;
 import csheets.core.Workbook;
-import csheets.support.Converter;
 import csheets.ui.ctrl.AboutAction;
 import csheets.ui.ctrl.ActionManager;
 import csheets.ui.ctrl.AddSpreadsheetAction;
@@ -100,8 +99,7 @@ public class Frame extends JFrame implements SelectionListener {
 	public Frame(CleanSheets app) {
 		// Stores members and creates controllers
 		this.app = app;
-		UIController uiController = new UIController(app);
-		Converter.controller(uiController);
+		UIController uiController = new UIController(app, this);
 
 		// Creates action manager
 		FileChooser chooser = null;

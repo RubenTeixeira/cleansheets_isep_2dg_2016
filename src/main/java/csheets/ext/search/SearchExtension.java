@@ -29,7 +29,7 @@ public class SearchExtension extends Extension {
 	}
 
 	/**
-	 * Returns the User Interface Extension of the SearchExtension.
+	 * Returns the User Interface Extension, the SearchExtension.
 	 *
 	 * @return UIExtension
 	 */

@@ -6,6 +6,7 @@
 package csheets.ext.FindWorkbook.ui;
 
 import csheets.CleanSheets;
+import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -20,12 +21,14 @@ import javax.swing.DefaultListModel;
 public class FindWorkbookResults extends javax.swing.JFrame {
 
 	private DefaultListModel<File> model;
+	private UIController uiController;
 
 	/**
 	 * Creates new form FindWorkbookResults
 	 */
-	public FindWorkbookResults() {
-		this.model = new DefaultListModel<>();
+	public FindWorkbookResults(UIController uiController) {
+		this.model = new DefaultListModel<File>();
+		this.uiController = uiController;
 		initComponents();
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -139,10 +142,10 @@ public class FindWorkbookResults extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		CleanSheets cleansheets = new CleanSheets();
+		CleanSheets cleansheets = uiController.getCleanSheets();
 		File file = this.jList1.getSelectedValue();
+
 		try {
-			new csheets.ui.Frame.Creator(cleansheets).createAndWait();
 			cleansheets.load(file);
 
 		} catch (IOException ex) {
@@ -152,6 +155,7 @@ public class FindWorkbookResults extends javax.swing.JFrame {
 			Logger.getLogger(FindWorkbookResults.class.getName()).
 				log(Level.SEVERE, null, ex);
 		}
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

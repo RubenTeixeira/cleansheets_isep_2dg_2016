@@ -59,9 +59,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblMessage">
-      <Properties>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

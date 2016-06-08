@@ -7,8 +7,16 @@ package csheets.ext.search.ui;
 
 import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
+import csheets.search.SearchResultDTO;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.regex.PatternSyntaxException;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -16,11 +24,30 @@ import javax.swing.JPanel;
  */
 public class SearchPanel extends JPanel {
 
+	/**
+	 * The SearchController
+	 */
 	private final SearchController searchController = new SearchController();
-	private UIController uiController;
+
+	/**
+	 * The UIController
+	 */
+	private final UIController uiController;
+
+	/**
+	 * The Results list Model
+	 */
+	private final DefaultListModel resultsModel = new DefaultListModel();
+
+	/**
+	 * Helper flag: If true, search box will be cleared otherwise it wont
+	 */
+	private boolean firstClick = true;
 
 	/**
 	 * Creates new form SearchPanel
+	 *
+	 * @param controller The UI
 	 */
 	public SearchPanel(UIController controller) {
 		setName(SearchExtension.NAME);
@@ -37,44 +64,44 @@ public class SearchPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jPanelTop = new javax.swing.JPanel();
         jSearchTextField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
         jStatusLabel = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanelBottom = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         jResultsList = new javax.swing.JList();
 
         jSearchTextField.setText("Type a search pattern...");
-        jSearchTextField.addActionListener(new java.awt.event.ActionListener() {
+
+        jSearchButton.setText("Search");
+        jSearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jSearchTextFieldActionPerformed(evt);
+                jSearchButtonActionPerformed(evt);
             }
         });
 
-        jSearchButton.setText("Search");
+        jStatusLabel.setText(" ");
 
-        jStatusLabel.setText("jStatusLabel");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
+        jPanelTop.setLayout(jPanelTopLayout);
+        jPanelTopLayout.setHorizontalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jStatusLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanelTopLayout.createSequentialGroup()
                         .addComponent(jSearchTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSearchButton)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelTopLayout.setVerticalGroup(
+            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSearchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSearchTextField))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -82,27 +109,31 @@ public class SearchPanel extends JPanel {
                 .addContainerGap())
         );
 
-        jResultsList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        jSearchTextField.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e){
+                if (firstClick) {
+                    jSearchTextField.setText("");
+                    firstClick = false;
+                }
+            }
         });
-        jScrollPane1.setViewportView(jResultsList);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jScrollPane2.setViewportView(jResultsList);
+
+        javax.swing.GroupLayout jPanelBottomLayout = new javax.swing.GroupLayout(jPanelBottom);
+        jPanelBottom.setLayout(jPanelBottomLayout);
+        jPanelBottomLayout.setHorizontalGroup(
+            jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelBottomLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+        jPanelBottomLayout.setVerticalGroup(
+            jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelBottomLayout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -110,28 +141,54 @@ public class SearchPanel extends JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelBottom, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jSearchTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchTextFieldActionPerformed
-		// TODO add your handling code here:
-    }//GEN-LAST:event_jSearchTextFieldActionPerformed
+    private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+		resultsModel.clear();
+		jStatusLabel.setText("Searching...");
+		jStatusLabel.setForeground(Color.BLACK);
+		String searchstring = jSearchTextField.getText();
+
+		try {
+
+			List<SearchResultDTO> results = searchController.
+				searchWorkBook(uiController.getActiveWorkbook(), searchstring);
+			int found = results.size();
+			jStatusLabel.setText(found + " search results");
+			if (found > 0) {
+
+				results.stream().
+					forEach((result) -> {
+						resultsModel.addElement(result);
+					});
+				jResultsList.setModel(resultsModel);
+				jResultsList.
+					setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			}
+
+		} catch (PatternSyntaxException ex) {
+			jStatusLabel.setText("Invalid pattern syntax!");
+			jStatusLabel.setForeground(Color.RED);
+		}
+
+    }//GEN-LAST:event_jSearchButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelBottom;
+    private javax.swing.JPanel jPanelTop;
     private javax.swing.JList jResultsList;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchTextField;
     private javax.swing.JLabel jStatusLabel;

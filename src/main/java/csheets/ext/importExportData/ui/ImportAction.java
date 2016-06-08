@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 class ImportAction extends BaseAction {
 
@@ -31,7 +31,7 @@ class ImportAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		new ImportDialog(null, true, uiController, controller).setVisible(true);
+		new ImportDialog(null, false, uiController, controller).setVisible(true);
 	}
 
 }

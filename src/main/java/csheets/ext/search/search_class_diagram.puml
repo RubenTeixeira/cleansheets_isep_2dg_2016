@@ -1,10 +1,4 @@
- @startuml doc-files/search_class_diagram.png
-class MenuBar {
-	+MenuBar(Cleansheet app, ActionManager actionManager, UIController uiController)
-}
-
-class JMenuBar {
-}
+@startuml doc-files/search_class_diagram.png
 
 class UIController {
 	-extensions : uiExtension[]
@@ -27,6 +21,7 @@ class Extension{
 
 class SearchExtension{
 	-NAME : string
+	--
 	+super(String name)
 	+getUIExtension(UIController controller) : UIExtension
 }
@@ -36,59 +31,28 @@ class UIExtension{
 
 class UISearch{
 	+UISearch(UIController controller);
-	+getMenu() : JMenu
+	+getSideBar() : SearchPanel
 }
 
-class JMenu{
-}
-
-class SearchMenu{
-	+SearchMenu(UIController controller)
-}
-
-class BaseAction{
-}
-
-class SearchAction{
+class SearchPanel{
 	-uiController : UIController
-	*-searchController : SortController*
-	+SearchAction(UIController controller)
-	+getName() : String
-	+defineProperties()
-	+actionPerformed(ActionEvent event)
+	-searchController : SearchController
+	--
+	+SearchPanel(UIController controller)
 }
-
-class SearchJPanel{
-	-uiController : UIController
-	-sortController : SortController
-	-order : int
-	+SearchJPanel(UIController controller)
-}
-
 
 class SearchController{
-	-column : ArrayList<Value>
-	*+order(List<String> column, int order)*
+	--
+	*+searchWorkBook(Workbook workbook, String searchstring)*
 	+SearchController(UIController controller);
 }
 
-
-
-
-JMenuBar <|-- MenuBar
 Extension <|-- SearchExtension
 UIExtension <|-- UISearch
-JMenu <|-- SearchMenu
-BaseAction <|-- SearchAction
-
-MenuBar --> UIController : getExtensions();
 UIController --> ExtensionManager : getExtensions();
 ExtensionManager --> SearchExtension : load(Extension extension);
 SearchExtension --> UISearch : new(UIController controller);
-UISearch --> SearchMenu : new(UIController controller);
-SearchMenu --> SearchAction : new(UIController controller);
-SearchAction --> SearchJPanel : new(UIController);
-SearchJPanel --> SearchController : new(UIController);
+UISearch --> SearchPanel : new(UIController controller);
+SearchPanel --> SearchController : new(UIController);
 
-
-  @enduml
+@enduml

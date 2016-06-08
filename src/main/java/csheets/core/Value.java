@@ -20,6 +20,7 @@
  */
 package csheets.core;
 
+import csheets.framework.Money;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.Format;
@@ -33,64 +34,101 @@ import java.util.GregorianCalendar;
 
 /**
  * A typed value that a cell can contain.
+ *
  * @author Einar Pehrson
  */
 public class Value implements Comparable<Value>, Serializable {
 
-	/** The unique version identifier used for serialization */
+	/**
+	 * The unique version identifier used for serialization
+	 */
 	private static final long serialVersionUID = 7140236908025236588L;
 
-	/** The recognized types of values */
+	/**
+	 * The recognized types of values
+	 */
 	public enum Type {
 
-		/** Denotes a value of undefined type */
+		/**
+		 * Denotes a value of undefined type
+		 */
 		UNDEFINED,
-
-		/** Denotes a numeric value, with or without decimals */
+		/**
+		 * Denotes a numeric value, with or without decimals
+		 */
 		NUMERIC,
-
-		/** Denotes a text value, or a type of value derived from text */
+		/**
+		 * Denotes a text value, or a type of value derived from text
+		 */
 		TEXT,
-
-		/** Denotes a boolean value, i.e. true or false */
+		/**
+		 * Denotes a boolean value, i.e. true or false
+		 */
 		BOOLEAN,
-
-		/** Denotes a date, time or date/time value */
+		/**
+		 * Denotes a date, time or date/time value
+		 */
 		DATE,
-
-		/** Denotes a row vector, column vector or two-dimensional matrix of values */
+		/**
+		 * Denotes a row vector, column vector or two-dimensional matrix of
+		 * values
+		 */
 		MATRIX,
-
-		/** Denotes an error, e.g. a type mismatch */
+		/**
+		 * Denotes a money value (see Money class)
+		 */
+		MONEY,
+		/**
+		 * Denotes an error, e.g. a type mismatch
+		 */
 		ERROR
 	}
 
-	/** The value */
+	/**
+	 * The value
+	 */
 	private Serializable value;
 
-	/** The type of the value */
+	/**
+	 * The type of the value
+	 */
 	private Type type = Type.UNDEFINED;
 
 	/**
 	 * Creates a null value.
 	 */
-	public Value() {}
+	public Value() {
+	}
+
+	/**
+	 * Creates a money value.
+	 *
+	 * @param money
+	 */
+	public Value(Money money) {
+		this.type = Type.MONEY;
+		this.value = money;
+
+	}
 
 	/**
 	 * Creates a numeric value.
+	 *
 	 * @param number the number of the value
 	 */
 	public Value(Number number) {
 		this.type = Type.NUMERIC;
 		if ((number instanceof Float || number instanceof Double)
-			&& number.doubleValue() == number.longValue())
+			&& number.doubleValue() == number.longValue()) {
 			this.value = number.longValue();
-		else
+		} else {
 			this.value = number;
+		}
 	}
 
 	/**
 	 * Creates a text value.
+	 *
 	 * @param text the text of the value
 	 */
 	public Value(String text) {
@@ -100,6 +138,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Creates a boolean value.
+	 *
 	 * @param booleanValue the boolean of the value
 	 */
 	public Value(Boolean booleanValue) {
@@ -109,6 +148,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Creates a date value.
+	 *
 	 * @param date the date of the value
 	 */
 	public Value(Date date) {
@@ -118,14 +158,16 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Creates a one-dimensional matrix value (vector).
+	 *
 	 * @param matrix the value vector
 	 */
 	public Value(Value[] matrix) {
-		this(new Value[][] {matrix});
+		this(new Value[][]{matrix});
 	}
 
 	/**
 	 * Creates a two-dimensional matrix value.
+	 *
 	 * @param matrix the value matrix
 	 */
 	public Value(Value[][] matrix) {
@@ -135,6 +177,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Creates an error value.
+	 *
 	 * @param error the error of the value
 	 */
 	public Value(Throwable error) {
@@ -144,6 +187,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Returns the value in untyped form.
+	 *
 	 * @return the value
 	 */
 	public final Object toAny() {
@@ -152,6 +196,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Returns the type of the value.
+	 *
 	 * @return the type of the value
 	 */
 	public final Type getType() {
@@ -160,6 +205,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Returns whether the value is of the given type.
+	 *
 	 * @param type the type of value to check against
 	 * @return whether the value is of the given type
 	 */
@@ -169,96 +215,127 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Returns a numeric representation of the value.
+	 *
 	 * @return a numeric representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public Number toNumber() throws IllegalValueTypeException {
-		if (type == Type.NUMERIC)
-			return (Number)value;
-		else
+		if (type == Type.NUMERIC) {
+			return (Number) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.NUMERIC);
+		}
 	}
 
 	/**
 	 * Returns a primitive numeric representation of the value.
+	 *
 	 * @return a primitive numeric representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
-	public double toDouble() throws IllegalValueTypeException{
+	public double toDouble() throws IllegalValueTypeException {
 		return toNumber().doubleValue();
 	}
 
 	/**
 	 * Returns a text representation of the value.
+	 *
 	 * @return a text representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public String toText() throws IllegalValueTypeException {
-		if (type == Type.TEXT)
-			return (String)value;
-		else
+		if (type == Type.TEXT) {
+			return (String) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.TEXT);
+		}
 	}
 
 	/**
 	 * Returns a boolean representation of the value.
+	 *
 	 * @return a boolean representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public Boolean toBoolean() throws IllegalValueTypeException {
-		if (type == Type.BOOLEAN)
-			return (Boolean)value;
-		else
+		if (type == Type.BOOLEAN) {
+			return (Boolean) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.BOOLEAN);
+		}
 	}
 
 	/**
 	 * Returns a date representation of the value.
+	 *
 	 * @return a date representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public Date toDate() throws IllegalValueTypeException {
-		if (type == Type.DATE)
-			return (Date)value;
-		else
+		if (type == Type.DATE) {
+			return (Date) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.DATE);
+		}
 	}
 
 	/**
 	 * Returns a matrix representation of the value.
+	 *
 	 * @return a matrix representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public Value[][] toMatrix() throws IllegalValueTypeException {
-		if (type == Type.MATRIX)
-			return (Value[][])value;
-		else
+		if (type == Type.MATRIX) {
+			return (Value[][]) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.MATRIX);
+		}
+	}
+
+	public Money toMoney() throws IllegalValueTypeException {
+		if (type == Type.MONEY) {
+			return (Money) value;
+		} else {
+			throw new IllegalValueTypeException(this, Type.MONEY);
+		}
 	}
 
 	/**
 	 * Returns an error representation of the value.
+	 *
 	 * @return an error representation of the value
-	 * @throws IllegalValueTypeException if the value cannot be converted to this type
+	 * @throws IllegalValueTypeException if the value cannot be converted to
+	 * this type
 	 */
 	public Throwable toError() throws IllegalValueTypeException {
-		if (type == Type.ERROR)
-			return (Throwable)value;
-		else
+		if (type == Type.ERROR) {
+			return (Throwable) value;
+		} else {
 			throw new IllegalValueTypeException(this, Type.ERROR);
+		}
 	}
 
 	/**
 	 * Compares this value with the given value for order.
+	 *
 	 * @param otherValue the value to compare to
-	 * @return a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+	 * @return a negative integer, zero, or a positive integer as this object is
+	 * less than, equal to, or greater than the specified object.
 	 */
 	public int compareTo(Value otherValue) {
-		if (type == otherValue.getType())
+		if (type == otherValue.getType()) {
 			try {
 				switch (type) {
 					case NUMERIC:
-						return ((Double)toDouble()).compareTo(otherValue.toDouble());
+						return ((Double) toDouble()).compareTo(otherValue.
+							toDouble());
 					case TEXT:
 						return toText().compareTo(otherValue.toText());
 					case BOOLEAN:
@@ -266,121 +343,145 @@ public class Value implements Comparable<Value>, Serializable {
 					case DATE:
 						return toDate().compareTo(otherValue.toDate());
 					case MATRIX:
-						return Arrays.hashCode((Object[])otherValue.toAny()) - Arrays.hashCode((Object[])value);
+						return Arrays.hashCode((Object[]) otherValue.toAny()) - Arrays.
+							hashCode((Object[]) value);
+					case MONEY:
+						return toMoney().compareTo(otherValue.toMoney());
 					default:
 						return 0;
 				}
 			} catch (IllegalValueTypeException e) {
 				return -1;
 			}
-		else
+		} else {
 			return type.compareTo(otherValue.getType());
+		}
 	}
 
 	/**
 	 * Returns whether the other object is an identical value .
+	 *
 	 * @param other the object to check for equality
 	 * @return true if the objects are equal
 	 */
 	public boolean equals(Object other) {
-		if (!(other instanceof Value) || other == null)
+		if (!(other instanceof Value) || other == null) {
 			return false;
-		Value otherValue = (Value)other;
+		}
+		Value otherValue = (Value) other;
 		boolean nulls = value == null && otherValue.value == null;
-		return type == otherValue.type 
-		   && (nulls || (!nulls && value.equals(otherValue.value)));
+		return type == otherValue.type
+			&& (nulls || (!nulls && value.equals(otherValue.value)));
 	}
 
 	/**
 	 * Returns a string representation of the value.
+	 *
 	 * @return a string representation of the value
 	 */
 	public String toString() {
-		if (value != null)
+		if (value != null) {
 			switch (type) {
 				case BOOLEAN:
 					return value.toString().toUpperCase();
 				case DATE:
 					return DateFormat.getDateTimeInstance(
-						DateFormat.SHORT, DateFormat.SHORT).format((Date)value);
+						DateFormat.SHORT, DateFormat.SHORT).format((Date) value);
 				case MATRIX:
-					Value[][] matrix = (Value[][])value;
+					Value[][] matrix = (Value[][]) value;
 					String string = "{";
 					for (int row = 0; row < matrix.length; row++) {
 						for (int column = 0; column < matrix[row].length; column++) {
 							string += matrix[row][column];
-							if (column + 1 < matrix[row].length)
+							if (column + 1 < matrix[row].length) {
 								string += ";";
+							}
 						}
-						if (row + 1 < matrix.length)
+						if (row + 1 < matrix.length) {
 							string += ";\n";
+						}
 					}
 					string += "}";
 					return string;
+				case MONEY:
+					return ((Money) value).toString();
 				default:
 					return value.toString();
 			}
-		else
+		} else {
 			return "";
+		}
 	}
 
 	/**
 	 * Returns a string representation of the value, using the given date or
 	 * number format.
-	 * @param format the format to use when converting the value 
+	 *
+	 * @param format the format to use when converting the value
 	 * @return a string representation of the value
 	 */
 	public String toString(Format format) {
-		if (value != null)
+		if (value != null) {
 			switch (type) {
 				case NUMERIC:
-					if (format instanceof NumberFormat)
-						return format.format((Number)value);
-					else
+					if (format instanceof NumberFormat) {
+						return format.format((Number) value);
+					} else {
 						return value.toString();
+					}
 				case DATE:
-					if (format instanceof DateFormat)
-						return format.format((Date)value);
+					if (format instanceof DateFormat) {
+						return format.format((Date) value);
+					}
 				default:
 					return value.toString();
 			}
+		}
 		return "";
 	}
 
 	/**
 	 * Attempts to parse a value from the given string. The value is matched
 	 * against the given types in order. If no types are supplied, conversion
-	 * will be attempted to boolean, date and numeric values. If no other
-	 * type matches, the value will be used as a string.
+	 * will be attempted to boolean, date and numeric values. If no other type
+	 * matches, the value will be used as a string.
+	 *
 	 * @param value the value
 	 * @param types the types for which parsing should be attempted
-         * @return return
+	 * @return return
 	 */
 	public static Value parseValue(String value, Type... types) {
 		// Uses default types
-		if (types.length == 0)
-			types = new Type[] {Type.BOOLEAN, Type.DATE, Type.NUMERIC};
+		if (types.length == 0) {
+			types = new Type[]{Type.BOOLEAN, Type.DATE, Type.NUMERIC};
+		}
 
-		for (int i = 0; i < types.length; i++)
+		for (int i = 0; i < types.length; i++) {
 			switch (types[i]) {
 				case BOOLEAN:
 					try {
 						return parseBooleanValue(value);
-					} catch (ParseException e) {}
+					} catch (ParseException e) {
+					}
 					break;
 
 				case DATE:
 					try {
 						return parseDateValue(value);
-					} catch (ParseException e) {}
+					} catch (ParseException e) {
+					}
 					break;
-	
+
 				case NUMERIC:
 					try {
 						return parseNumericValue(value);
-					} catch (ParseException e) {}
+					} catch (ParseException e) {
+					}
 					break;
+				case MONEY:
+					return parseMonetaryValue(value);
 			}
+		}
 
 		// Uses the string as the value
 		return new Value(value);
@@ -388,6 +489,7 @@ public class Value implements Comparable<Value>, Serializable {
 
 	/**
 	 * Attempts to parse a number from the given string.
+	 *
 	 * @param value the value
 	 * @return the numeric value that was found
 	 * @throws ParseException if no numeric value was found
@@ -395,28 +497,36 @@ public class Value implements Comparable<Value>, Serializable {
 	public static Value parseNumericValue(String value) throws ParseException {
 		ParsePosition position = new ParsePosition(0);
 		Number number = NumberFormat.getInstance().parse(value, position);
-		if (position.getIndex() == value.length())
+		if (position.getIndex() == value.length()) {
 			return new Value(number);
+		}
 		throw new ParseException(value, position.getErrorIndex());
+	}
+
+	public static Value parseMonetaryValue(String value) {
+		return new Value(Money.euros(Double.valueOf(value)));
 	}
 
 	/**
 	 * Attempts to parse a boolean from the given string.
+	 *
 	 * @param value the value
 	 * @return the boolean value that was found
 	 * @throws ParseException if no boolean value was found
 	 */
 	public static Value parseBooleanValue(String value) throws ParseException {
-		if (value.equalsIgnoreCase("true"))
+		if (value.equalsIgnoreCase("true")) {
 			return new Value(true);
-		else if (value.equalsIgnoreCase("false"))
+		} else if (value.equalsIgnoreCase("false")) {
 			return new Value(false);
-		else
+		} else {
 			throw new ParseException(value, 0);
+		}
 	}
 
 	/**
 	 * Attempts to parse a date, time or date/time from the given string.
+	 *
 	 * @param value the value
 	 * @return the date value that was found
 	 * @throws ParseException if no date value was found
@@ -425,7 +535,7 @@ public class Value implements Comparable<Value>, Serializable {
 		ParsePosition position = new ParsePosition(0);
 
 		// Attempts to parse a date or date/time
-		DateFormat[] dateFormats = new DateFormat[] {
+		DateFormat[] dateFormats = new DateFormat[]{
 			DateFormat.getDateInstance(DateFormat.SHORT),
 			DateFormat.getDateInstance(DateFormat.MEDIUM),
 			DateFormat.getDateInstance(DateFormat.LONG),
@@ -436,14 +546,15 @@ public class Value implements Comparable<Value>, Serializable {
 		};
 		for (DateFormat format : dateFormats) {
 			Date date = format.parse(value, position);
-			if (position.getIndex() == value.length())
+			if (position.getIndex() == value.length()) {
 				return new Value(date);
-			else if (position.getIndex() > 0)
+			} else if (position.getIndex() > 0) {
 				position.setIndex(0);
+			}
 		}
 
 		// Attempts to parse a time in the current day
-		DateFormat[] timeFormats = new DateFormat[] {
+		DateFormat[] timeFormats = new DateFormat[]{
 			DateFormat.getTimeInstance(DateFormat.SHORT),
 			DateFormat.getTimeInstance(DateFormat.MEDIUM),
 			DateFormat.getTimeInstance(DateFormat.LONG)
@@ -455,13 +566,14 @@ public class Value implements Comparable<Value>, Serializable {
 				datetime.setTime(date);
 				Calendar today = new GregorianCalendar();
 				datetime.set(
-					today.get(Calendar.YEAR), 
-					today.get(Calendar.MONTH), 
+					today.get(Calendar.YEAR),
+					today.get(Calendar.MONTH),
 					today.get(Calendar.DAY_OF_MONTH)
 				);
 				return new Value(datetime.getTime());
-			} else if (position.getIndex() > 0)
+			} else if (position.getIndex() > 0) {
 				position.setIndex(0);
+			}
 		}
 		throw new ParseException(value, position.getErrorIndex());
 	}

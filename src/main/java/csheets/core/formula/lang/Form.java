@@ -25,7 +25,7 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.ui.FormEditor.FormEdit;
+import csheets.ui.FormEditor.ui.FormEdit;
 
 /**
  * A function that returns the numeric sum of its arguments.
