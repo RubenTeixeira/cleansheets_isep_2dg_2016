@@ -1,7 +1,7 @@
 package csheets.ext.calendar;
 
 import csheets.ext.Extension;
-import csheets.ext.calendar.ui.CalendarMainPanel;
+import csheets.ext.calendar.ui.CalendarPanel;
 import csheets.ext.simple.ui.ExampleMenu;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.CellDecorator;
@@ -105,7 +105,7 @@ public class UIExtensionCalendar extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new CalendarMainPanel(uiController);
+			sideBar = new CalendarPanel(uiController);
 		}
 		return sideBar;
 	}

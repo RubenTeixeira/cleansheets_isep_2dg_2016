@@ -3,6 +3,7 @@ package csheets.ext.contacts.ui;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.domain.PersonContact;
+import csheets.ext.contacts.ContactsController;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.support.Converter;
 import java.awt.Image;
@@ -233,15 +234,15 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 		protected Integer doInBackground() throws Exception {
 			if (theContact instanceof PersonContact) {
 				PersonContact person = (PersonContact) theContact;
-				person.changeFirstName(firstNameTf.getText());
-				person.changeLastName(lastNameTf.getText());
+				person.firstName(firstNameTf.getText());
+				person.lastName(lastNameTf.getText());
 			} else if (theContact instanceof CompanyContact) {
 				CompanyContact company = (CompanyContact) theContact;
-				company.changeName(firstNameTf.getText());
+				company.designation(firstNameTf.getText());
 			}
 
 			if (photoFile != null) {
-				theContact.changePhoto(Converter.setImage(photoFile));
+				theContact.photo(Converter.setImage(photoFile));
 			}
 
 			theController.editContact(theContact);

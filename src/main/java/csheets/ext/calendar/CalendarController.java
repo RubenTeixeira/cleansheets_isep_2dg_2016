@@ -7,11 +7,13 @@ package csheets.ext.calendar;
 
 import csheets.domain.Calendar;
 import csheets.domain.Contact;
-import csheets.ext.calendar.ui.CalendarMainPanel;
+import csheets.ext.calendar.ui.CalendarPanel;
 import csheets.factory.CalendarFactory;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
 
 /**
  *
@@ -27,10 +29,10 @@ public class CalendarController {
 	/**
 	 * User interface panel *
 	 */
-	private CalendarMainPanel uiPanel;
+	private CalendarPanel uiPanel;
 
 	public CalendarController(UIController controller,
-							  CalendarMainPanel calendar) {
+							  CalendarPanel calendar) {
 		this.uiController = controller;
 		this.uiPanel = calendar;
 	}
@@ -40,10 +42,15 @@ public class CalendarController {
 	}
 
 	public Calendar createCalendar(String nome, String descripition,
-								   String color, Contact cont) throws DataIntegrityViolationException {
+								   Color color, Contact cont) throws DataIntegrityViolationException {
 		Calendar cal = CalendarFactory.
 			createCalendar(nome, descripition, color, cont);
 		PersistenceContext.repositories().calendars().add(cal);
+		Notification.calendarInformer().notifyChange();
 		return cal;
+	}
+
+	public Iterable<Calendar> getAllCalendars() {
+		return PersistenceContext.repositories().calendars().all();
 	}
 }

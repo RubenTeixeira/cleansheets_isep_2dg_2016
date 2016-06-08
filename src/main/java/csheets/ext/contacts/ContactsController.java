@@ -1,4 +1,4 @@
-package csheets.ext.contacts.ui;
+package csheets.ext.contacts;
 
 import csheets.CleanSheets;
 import csheets.domain.Contact;
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  */
 public class ContactsController {
 
-	private static final String DEFAULT_USER_PHOTO_FILE = "res/img/default-user.png";
+	private static final String DEFAULT_USER_PHOTO = "res/img/default_user.png";
 
 	/**
 	 * The user interface controller
@@ -40,20 +40,19 @@ public class ContactsController {
 	}
 
 	public Iterable<Contact> allContacts() {
-		//return PersistenceContext.repositories().contacts().all();
-		return null;
+		return PersistenceContext.repositories().contacts().all();
 	}
 
 	public Image contactPhoto(Contact contact) throws IOException {
 		return Converter.getImage(contact.photo());
 	}
 
-	public boolean newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
+	public Contact newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
 		byte[] thePhoto;
 
 		if (photoPath == null) {
 			thePhoto = Converter.setImage(new File(CleanSheets.class.
-				getResource(DEFAULT_USER_PHOTO_FILE).getFile()));
+				getResource(DEFAULT_USER_PHOTO).getFile()));
 		} else {
 			try {
 				thePhoto = Converter.setImage(photoPath);
@@ -62,11 +61,12 @@ public class ContactsController {
 			}
 		}
 
-		PersonContact ct = new PersonContact(firstName, lastName, "scrum", null, thePhoto);
+		Contact contact = new PersonContact(firstName, lastName, thePhoto);
 
-		boolean flag = PersistenceContext.repositories().contacts().add(ct);
+		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
-		return flag;
+		return PersistenceContext.repositories().contacts().getByName(contact.
+			name());
 	}
 
 	public void removeContact(Contact theContact) {
@@ -80,17 +80,19 @@ public class ContactsController {
 		return theContact;
 	}
 
-	public void addSystemUser() {
+	public Contact addSystemUser() {
 		try {
 			String userName = System.getProperty("user.name");
 			Contact contact = PersistenceContext.repositories().contacts().
 				getByName(userName);
 			if (contact == null) {
-				this.newContact(userName, "user", null);
+				this.newContact(userName, "", new File(CleanSheets.class.
+								getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
+			return contact;
 		} catch (Exception ex) {
+			return null;
 		}
-
 	}
 
 }

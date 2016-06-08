@@ -1,6 +1,7 @@
 package csheets.ext.contacts.ui;
 
 import csheets.domain.Contact;
+import csheets.ext.contacts.ContactsController;
 import csheets.ext.contacts.ContactsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
@@ -29,14 +30,7 @@ public class ContactsPanel extends JPanel implements Observer {
 	public ContactsPanel(UIController controller) {
 		setName(ContactsExtension.NAME);
 		Notification.contactInformer().addObserver(this);
-
 		initComponents();
-
-		try {
-			/* Add system user */
-			theController.addSystemUser();
-		} catch (Exception ex) {
-		}
 	}
 
 	/**

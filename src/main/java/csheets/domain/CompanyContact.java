@@ -13,53 +13,59 @@ import javax.persistence.Entity;
  * @author Marcelo Barroso 1131399
  */
 @Entity
-@DiscriminatorValue("COMPANY")
+@DiscriminatorValue("BUSINESS")
 public class CompanyContact extends Contact {
 
+	/**
+	 * The Enterprise's designation
+	 */
+	private String designation;
+
+	/**
+	 *
+	 * @param designation
+	 * @param photo
+	 */
+	public CompanyContact(String designation, byte[] photo) {
+		super(photo);
+		if (designation == null || designation.isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+		this.designation = designation;
+	}
+
+	/**
+	 * contruct JPA
+	 */
 	protected CompanyContact() {
 	}
 
-	public CompanyContact(String name, byte[] photo) {
-		if (name == null || name.isEmpty() || photo == null || photo == null) {
-			throw new IllegalArgumentException();
-		}
-		this.name = name;
-		this.photo = photo;
-	}
-
+	/**
+	 * Get Name
+	 *
+	 * @return name
+	 */
+	@Override
 	public String name() {
-		return this.name;
+		return this.designation;
 	}
 
-	public void changeName(String name) {
-		this.name = name;
+	/**
+	 * Get Designation
+	 *
+	 * @return designation
+	 */
+	public String designation() {
+		return designation;
 	}
 
-	@Override
-	public String toString() {
-		return this.name;
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 5;
-		hash = 29 * hash + super.hashCode();
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final CompanyContact other = (CompanyContact) obj;
-		return this.hashCode() == other.hashCode();
+	/**
+	 * Set Designation
+	 *
+	 * @param designation
+	 */
+	public void designation(String designation) {
+		this.designation = designation;
 	}
 
 }

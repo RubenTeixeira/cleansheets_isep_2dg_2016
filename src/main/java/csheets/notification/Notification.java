@@ -23,6 +23,10 @@ public class Notification {
 	};
 	private static Notifier panelMessageInformer = new Notifier() {
 	};
+	private static Notifier calendarInformer = new Notifier() {
+	};
+	private static Notifier noteInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -46,6 +50,14 @@ public class Notification {
 
 	public static Notifier panelMessageInformer() {
 		return Notification.panelMessageInformer;
+	}
+
+	public static Notifier calendarInformer() {
+		return Notification.calendarInformer;
+	}
+
+	public static Notifier noteInformer() {
+		return Notification.noteInformer;
 	}
 
 }
