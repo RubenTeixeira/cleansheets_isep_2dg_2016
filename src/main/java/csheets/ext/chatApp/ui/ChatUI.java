@@ -104,7 +104,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				System.out.println("Encerrar");
+				atualInstance = null;
 				dispose();
 			}
 
@@ -252,13 +252,15 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 					manager.after(10).once(new Task() {
 						@Override
 						public void fire() {
-							while (instanceListModel.elements().nextElement() != null) {
+							while (true) {
 								if (instanceListModel.elements().nextElement().
 									equals(hostMap.get(chatHost) + ":(online)")) {
 									instanceListModel.
 										removeElement(hostMap.get(chatHost) + ":(online)");
 									instanceListModel.
 										addElement(hostMap.get(chatHost) + ":(offline)");
+								} else {
+									break;
 								}
 							}
 						}
