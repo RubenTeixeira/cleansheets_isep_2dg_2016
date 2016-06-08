@@ -20,6 +20,7 @@
  */
 package csheets.ext.style.ui;
 
+import csheets.core.formula.compiler.FormulaCompilationException;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 
@@ -28,6 +29,8 @@ import javax.swing.ImageIcon;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A font weight changing operation.
@@ -58,7 +61,11 @@ public class BoldAction extends StyleAction {
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-		cell.setFont(new Font(cell.getFont().getFamily(),
-			cell.getFont().getStyle() ^ Font.BOLD, cell.getFont().getSize()));
+            try {
+                cell.setFont(new Font(cell.getFont().getFamily(),
+                        cell.getFont().getStyle() ^ Font.BOLD, cell.getFont().getSize()));
+            } catch (FormulaCompilationException ex) {
+                Logger.getLogger(BoldAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 }

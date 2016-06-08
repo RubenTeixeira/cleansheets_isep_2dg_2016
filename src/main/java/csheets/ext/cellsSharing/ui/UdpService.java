@@ -32,7 +32,7 @@ public class UdpService extends Notifier {
 		ThreadManager.create("ipc.udpServer", new Thread() {
 			@Override
 			public void run() {
-				server = Volt.udp(localPort);
+				server = Volt.udp(localPort, 0);
 
 				server.expect(":broadcast", new Action() {
 					@Override
