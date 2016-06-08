@@ -60,6 +60,14 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	 */
 	private String host;
 	/**
+	 * Ip of destination
+	 */
+	private String ipDestino;
+	/**
+	 * Name of local host
+	 */
+	private String localHost;
+	/**
 	 * Task Manager
 	 */
 	private final TaskManager manager = new TaskManager();
@@ -96,6 +104,14 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		this.chatAppController.
 			startUdpService(this, defaultPort, defaultSeconds);
 		this.chatAppController.startTcpService(this, defaultPort);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				System.out.println("Encerrar");
+				dispose();
+			}
+
+		});
 		this.setVisible(true);
 		Notification.chatMessageInformer().addObserver(this);
 	}
@@ -113,12 +129,12 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMessage = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        usersList = new javax.swing.JList<String>();
+        usersList = new javax.swing.JList<>();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        messagesList = new javax.swing.JList<String>();
+        messagesList = new javax.swing.JList<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -200,7 +216,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 				usersList.setSelectedIndex(0);
 			} else {
 				String hostValues[] = usersList.getSelectedValue().split(":");
-				host = hosts.get(hostValues[0]);
+
+				host = hostValues[0];
+				ipDestino = hosts.get(host);
 			}
 		}
     }//GEN-LAST:event_usersListValueChanged
@@ -217,19 +235,13 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		} catch (UnknownHostException ex) {
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		chatAppController.sendMessage(host, message);
+		chatAppController.sendMessage(host, ipDestino, message);
 		txtMessage.setText("Type here...");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void txtMessageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusLost
 		if (txtMessage.getText().isEmpty()) {
 			txtMessage.setText("Type here...");
-			btnSend.setEnabled(false);
-		} else {
-			if (txtMessage.getText().equals("Type here...")) {
-				btnSend.setEnabled(false);
-			}
-			btnSend.setEnabled(true);
 		}
     }//GEN-LAST:event_txtMessageFocusLost
 
@@ -250,22 +262,26 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 	public void updateInstanceList(Map<String, String> hostMap) {
 		for (String chatHost : hostMap.keySet()) {
-			if (instanceListModel.contains(chatHost + ":(offline)")) {
-				instanceListModel.removeElement(chatHost + ":(offline)");
-				instanceListModel.addElement(chatHost + ":(online)");
-			} else if (!instanceListModel.contains(chatHost + ":(online)")) {
-				instanceListModel.addElement(chatHost + ":(online)");
-				hosts.put(chatHost, hostMap.get(chatHost));
+			if (instanceListModel.contains(hostMap.get(chatHost) + ":(offline)")) {
+				instanceListModel.
+					removeElement(hostMap.get(chatHost) + ":(offline)");
+				instanceListModel.
+					addElement(hostMap.get(chatHost) + ":(online)");
+			} else if (!instanceListModel.
+				contains(hostMap.get(chatHost) + ":(online)")) {
+				instanceListModel.
+					addElement(hostMap.get(chatHost) + ":(online)");
+				hosts.put(hostMap.get(chatHost), chatHost);
 				manager.after(8).once(new Task() {
 					@Override
 					public void fire() {
 						while (instanceListModel.elements().nextElement() != null) {
 							if (instanceListModel.elements().nextElement().
-								equals(chatHost + ":(online)")) {
+								equals(hostMap.get(chatHost) + ":(online)")) {
 								instanceListModel.
-									removeElement(chatHost + ":(online)");
+									removeElement(hostMap.get(chatHost) + ":(online)");
 								instanceListModel.
-									addElement(chatHost + ":(offline)");
+									addElement(hostMap.get(chatHost) + ":(offline)");
 							}
 						}
 					}
