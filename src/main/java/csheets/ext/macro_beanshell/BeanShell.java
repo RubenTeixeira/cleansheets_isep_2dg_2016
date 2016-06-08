@@ -35,17 +35,16 @@ public class BeanShell implements Script {
     public String getExample() {
         return "uiController.getCleanSheets().create();\n" +
                "title=\"The BeanShell Mega Title\";\n" +
+               "uiController.getActiveSpreadsheet().setTitle(title);\n" +
                "sum=1;\n" +
-               "uiController.getActiveSpreadsheet().getCell(0, 0).setContent(\"1\");\n" +
+               "uiController.getActiveSpreadsheet().getCell(0, 0).setContent(\"\"+sum);\n" +
                "sum+=1;\n" +
                "uiController.getActiveSpreadsheet().getCell(0, 1).setContent(\"2\");\n" +
                "sum+=1;\n" +
                "uiController.getActiveSpreadsheet().getCell(1, 0).setContent(\"3\");\n" +
                "sum+=1;\n" +
                "uiController.getActiveSpreadsheet().getCell(1, 1).setContent(\"4\");\n" +
-               "sum+=1;\n" +
-               "uiController.getActiveSpreadsheet().setTitle(title);\n" +
-               "return \"Result is: \"+sum;\n";
+               "sum+=1;\n";
     }
     
     /**
