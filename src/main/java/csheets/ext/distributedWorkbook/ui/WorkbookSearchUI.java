@@ -5,6 +5,8 @@ import csheets.support.TaskManager;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,7 +19,14 @@ import javax.swing.JOptionPane;
  */
 public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionListener, Observer {
 
+	/**
+	 * UI Controller
+	 */
 	private final UIController uiController;
+
+	/**
+	 * The distributed workbook search controller
+	 */
 	private final DistributedWorkbookSearchController controller;
 
 	/**
@@ -34,7 +43,6 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 	 * Task Manager
 	 */
 	private final TaskManager manager = new TaskManager();
-	private boolean confirmShare;
 
 	/**
 	 * Creates new form WorkbookSearchUI
@@ -61,9 +69,21 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 		final int defaultSeconds = 3;
 		final int defaultPort = 20002;
 
-		this.controller.newSearch(uiController);
 		this.controller.startUdpService(this, defaultPort, defaultSeconds);
 		this.controller.startTcpService(this, defaultPort);
+
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent evt) {
+				exit();
+			}
+		});
+
+	}
+
+	public void exit() {
+		this.controller.stopServices();
+		dispose();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -193,8 +213,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		this.setVisible(false);
-		this.controller.stopServices();
-		dispose();
+		exit();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void instancesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesListValueChanged
@@ -261,50 +280,59 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
 	@Override
 	public void update(Observable o, Object object) {
-		if (object instanceof Boolean) {
-			if (((Boolean) object)) {
-				this.waitingPanel.setVisible(false);
-				String workbook = JOptionPane.showInputDialog(
-					null,
-					"Enter the workbook name to search:",
-					"Search Workbook",
-					JOptionPane.WARNING_MESSAGE
-				);
-				this.controller.setNameOfWorkbookToSearch(workbook);
-				this.searchingPanel.setVisible(true);
-
-			} else {
-				this.waitingPanel.setVisible(false);
-				JOptionPane.
-					showMessageDialog(this, "This host doesnt wish to share workbooks.");
-				this.controller.stopServices();
-				dispose();
-			}
-		}
-
-		if (object instanceof String) {
-			if (((String) object).compareTo("Search") == 0) {
-				this.controller.searchWorkbook(uiController);
-			}
-			if (((String) object).compareTo("Check") == 0) {
-				boolean result = this.controller.checkResult();
-				this.searchingPanel.setVisible(false);
-				if (result) {
-					JOptionPane.showMessageDialog(this, this.controller.
-												  getWorkbookSummary(), "Workbook Summary", JOptionPane.INFORMATION_MESSAGE);
-					this.controller.stopServices();
-					dispose();
-				} else {
-					JOptionPane.showMessageDialog(this, "Didn't find");
-					this.controller.stopServices();
-					dispose();
-				}
-			}
-		}
 
 		if (object instanceof List) {
 			List<String> addresses = (List<String>) object;
 			updateInstanceList(addresses);
+		}
+
+		if (object instanceof String) {
+
+			if (((String) object).compareTo("TRUE") == 0) {
+				this.waitingPanel.setVisible(false);
+
+				String workbook = JOptionPane.showInputDialog(
+					this,
+					"Enter the workbook name to search:",
+					"Search Workbook",
+					JOptionPane.WARNING_MESSAGE
+				);
+
+				if (workbook == null) {
+					exit();
+				}
+
+				this.controller.sendNameOfWorkbookToSearch(host, workbook);
+				this.searchingPanel.setVisible(true);
+
+			} else if (((String) object).compareTo("FALSE") == 0) {
+
+				this.waitingPanel.setVisible(false);
+				JOptionPane.
+					showMessageDialog(this, "This host doesnt wish to share workbooks.");
+				exit();
+
+			} else {
+				this.searchingPanel.setVisible(false);
+				JOptionPane.
+					showMessageDialog(this, ((String) object), "Workbook Summary", JOptionPane.INFORMATION_MESSAGE);
+				this.controller.stopServices();
+				exit();
+			}
+		}
+
+		if (object instanceof String[]) {
+			this.controller.newSearch(uiController);
+
+			String[] search = (String[]) object;
+			boolean workbookFound = this.controller.
+				searchWorkbook(uiController, search[1]);
+			if (workbookFound) {
+				this.controller.sendSearchResult(search[2], controller.
+												 getWorkbookSummary());
+			} else {
+				this.controller.sendSearchResult(host, "Didn't find");
+			}
 		}
 	}
 }

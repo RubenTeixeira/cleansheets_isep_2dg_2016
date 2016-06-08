@@ -1,12 +1,10 @@
 package csheets.ext.distributedWorkbook.ui;
 
-import csheets.ext.distributedWorkbook.WorkbookSearchExtension;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
-import csheets.ui.ctrl.UIController;
 import java.util.Map;
 import javax.swing.JOptionPane;
 
@@ -20,25 +18,12 @@ public class TcpService extends Notifier {
 	 */
 	private TcpServer server;
 
-	private boolean receiveMessage;
-
-	private String workbook;
-
-	UIController ui;
-
-	WorkbookSearchExtension wse;
-
-	private int spreeds;
-
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
 	 * @param port The server port, customized by the user.
 	 */
 	public void server(int port) {
-
-		workbook = "";
-		spreeds = 0;
 
 		ThreadManager.create("ipc.tcpServer", new Thread() {
 							 @Override
@@ -53,23 +38,28 @@ public class TcpService extends Notifier {
 													   get("message")) + " with " + args.
 													   get("hostname");
 
+												   String destination = ((String) args.
+													   get("from")).
+													   split(":")[0] + ":" + port;
+
 												   int reply = JOptionPane.
 													   showConfirmDialog(null, message);
-												   if (reply == JOptionPane.YES_OPTION) {
-													   receiveMessage = true;
-													   String destination = ((String) args.
-														   get("from")).
-														   split(":")[0] + ":" + port;
-													   server.
-														   send(":reply", destination, "30602");
 
-												   } else if (reply == JOptionPane.NO_OPTION) {
-													   receiveMessage = false;
-													   String destination = ((String) args.
-														   get("from")).
-														   split(":")[0] + ":" + port;
-													   server.
-														   send(":reply", destination, "30602");
+												   switch (reply) {
+													   case JOptionPane.YES_OPTION: {
+														   server.
+															   send(":reply", destination, "TRUE");
+														   break;
+													   }
+													   case JOptionPane.NO_OPTION: {
+														   server.
+															   send(":reply", destination, "FALSE");
+														   break;
+													   }
+													   default:
+														   server.
+															   send(":reply", destination, "FALSE");
+														   break;
 												   }
 											   }
 										   });
@@ -78,13 +68,8 @@ public class TcpService extends Notifier {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   notifyChange(receiveMessage);
-
-												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + port;
-												   server.
-													   send(":search", destination, "30602");
+												   notifyChange(args.
+													   get("message"));
 											   }
 										   });
 
@@ -92,28 +77,34 @@ public class TcpService extends Notifier {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   notifyChange("Search");
-												   String destination = ((String) args.
+												   String[] search = new String[3];
+												   search[0] = "Search";
+												   search[1] = ((String) args.
+													   get("message"));
+												   search[2] = ((String) args.
 													   get("from")).
 													   split(":")[0] + ":" + port;
-												   server.
-													   send(":check", destination, "30602");
+
+												   notifyChange(search);
 											   }
 										   });
 
-								 server.expect(":check", new Action() {
+								 server.expect(":result", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   notifyChange("Check");
+												   notifyChange(args.
+													   get("message"));
 											   }
 										   });
 
 								 server.stream(port);
 							 }
-						 });
+						 }
+		);
 
-		ThreadManager.run("ipc.tcpServer");
+		ThreadManager.run(
+			"ipc.tcpServer");
 	}
 
 	/**
@@ -135,11 +126,49 @@ public class TcpService extends Notifier {
 	}
 
 	/**
+	 * Initializes a client following the TCP protocol.
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void searchWorkbook(String target, String message) {
+		ThreadManager.create("ipc.searchTcpClient", new Thread() {
+							 @Override
+							 public void run() {
+								 new TcpClient(0).
+									 send(":search", target, message);
+							 }
+						 });
+
+		ThreadManager.run("ipc.searchTcpClient");
+	}
+
+	/**
+	 * Initializes a client following the TCP protocol.
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void searchResult(String target, String message) {
+		ThreadManager.create("ipc.resultTcpClient", new Thread() {
+							 @Override
+							 public void run() {
+								 new TcpClient(0).
+									 send(":result", target, message);
+							 }
+						 });
+
+		ThreadManager.run("ipc.resultTcpClient");
+	}
+
+	/**
 	 * Stops all the TCP services.
 	 */
 	public void stop() {
 		server.shutdown();
 		ThreadManager.destroy("ipc.tcpServer");
 		ThreadManager.destroy("ipc.tcpClient");
+		ThreadManager.destroy("ipc.searchTcpClient");
+		ThreadManager.destroy("ipc.resultTcpClient");
 	}
 }

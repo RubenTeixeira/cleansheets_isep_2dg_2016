@@ -124,6 +124,25 @@ public class Do implements Function {
     public String getDescription() {
         return "A function that emulates a looping statement, where each cell in a given\n"
                 + "range that satisfy a given condition, or each corresponding cell in\n"
-                + "another range, are passed to a functio";
+                + "another range, are passed to a function";
+    }
+
+    /**
+     * Return template of the function
+     *
+     * @return function template
+     */
+    @Override
+    public String getTemplate() {
+        String result = "={" + getIdentifier() + "(";
+        FunctionParameter[] param = getParameters();
+        for (int i = 0; i < param.length; i++) {
+            if (i != 0) {
+                result += ",";
+            }
+            result += param[i].getValueType().toString();
+        }
+        result += ")}";
+        return result;
     }
 }
