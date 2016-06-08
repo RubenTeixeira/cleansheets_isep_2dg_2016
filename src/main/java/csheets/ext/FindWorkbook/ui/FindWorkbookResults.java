@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -149,8 +150,8 @@ public class FindWorkbookResults extends javax.swing.JFrame {
 			cleansheets.load(file);
 
 		} catch (IOException ex) {
-			Logger.getLogger(FindWorkbookResults.class.getName()).
-				log(Level.SEVERE, null, ex);
+			JOptionPane.
+				showMessageDialog(null, "Corrupted File", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (ClassNotFoundException ex) {
 			Logger.getLogger(FindWorkbookResults.class.getName()).
 				log(Level.SEVERE, null, ex);
