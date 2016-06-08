@@ -1,6 +1,7 @@
 package csheets.ext.chatApp.ui;
 
 import csheets.framework.volt.Action;
+import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -31,7 +32,7 @@ public class UdpService extends Notifier {
 		ThreadManager.create("ipc.udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = new UdpServer();
+								 server = Volt.udp(localPort, 0);
 
 								 server.expect(":broadcast", new Action() {
 											   @Override
@@ -96,7 +97,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30604", "check");
+											 send(":broadcast", "all:30600", "check");
 									 }
 								 };
 
