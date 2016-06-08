@@ -30,81 +30,70 @@ public class Event implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	private Contact contact;
+	private csheets.domain.Calendar calendar;
 
 	private String description;
 
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
-	private Calendar date;
+	private Calendar startDate;
 
-	private boolean alert;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Calendar endDate;
 
 	protected Event() {
 	}
 
-	public Event(Contact contact, String description, Calendar date,
-				 boolean alert) {
-		if (contact == null || description == null || date == null) {
+	public Event(csheets.domain.Calendar calendar, String description,
+				 Calendar startDate,
+				 Calendar endDate) {
+		if (calendar == null || description == null || startDate == null || endDate == null) {
 			throw new IllegalArgumentException();
 		} else if (description.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		this.contact = contact;
+		this.calendar = calendar;
 		this.description = description;
-		this.date = date;
-		this.alert = alert;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
-	public Event(Contact contact, String description, Calendar date) {
-		if (contact == null || description == null || date == null) {
-			throw new IllegalArgumentException();
-		}
-		this.contact = contact;
-		this.description = description;
-		this.date = date;
-		this.alert = true;
+	public csheets.domain.Calendar calendar() {
+		return this.calendar;
 	}
 
-	public Contact contact() {
-		return contact;
+	public Calendar startDate() {
+		return this.startDate;
 	}
 
-	public Calendar date() {
-		return date;
+	public Calendar endDate() {
+		return this.endDate;
 	}
 
 	public String description() {
-		return description;
+		return this.description;
 	}
 
-	public boolean alert() {
-		return alert;
-	}
-
-	public void defineAlert(boolean alert) {
-		this.alert = alert;
-	}
-
-	public void defineEvent(Contact contact, String description, Calendar date,
-							boolean alert) {
-		this.contact = contact;
+	public void defineEvent(csheets.domain.Calendar calendar, String description,
+							Calendar startDate,
+							Calendar endDate) {
+		this.calendar = calendar;
 		this.description = description;
-		this.date = date;
-		this.alert = alert;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	@Override
 	public String toString() {
-		return this.contact + " - " + this.description + " - " + DateTime.
-			format(date);
+		return this.calendar + " - " + this.description + " - " + DateTime.
+			format(startDate) + " - " + DateTime.format(endDate);
 	}
 
-	public void add(int field, int amount) {
-		this.date.add(field, amount);
+	public void addStartDate(int field, int amount) {
+		this.startDate.add(field, amount);
 	}
 
-	public void alert(boolean active) {
-		this.alert = active;
+	public void addEndDate(int field, int amount) {
+		this.endDate.add(field, amount);
 	}
 
 	@Override
@@ -125,8 +114,10 @@ public class Event implements Serializable {
 	@Override
 	public int hashCode() {
 		int hashcode = 21;
-		hashcode += this.date.hashCode();
+		hashcode += this.calendar.hashCode();
 		hashcode += this.description.hashCode();
+		hashcode += this.startDate.hashCode();
+		hashcode += this.endDate.hashCode();
 		return hashcode;
 	}
 }

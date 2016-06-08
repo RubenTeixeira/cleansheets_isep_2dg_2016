@@ -114,7 +114,7 @@ public class ContactCardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		new AddEditContactDialog(null, theController, this.theContact).
+		new PersonManager(null, theController, this.theContact).
 			setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

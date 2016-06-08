@@ -1,11 +1,7 @@
 package csheets.ext.contacts.ui;
 
-import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
-import csheets.domain.PersonContact;
 import csheets.ext.contacts.ContactsController;
-import csheets.framework.persistence.repositories.DataIntegrityViolationException;
-import csheets.support.Converter;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,13 +11,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 
 /**
  *
  * @author Rui Freitas
  */
-public class AddEditContactDialog extends javax.swing.JDialog {
+public class CompanyManager extends javax.swing.JDialog {
 
 	private File photoFile;
 	private ContactsController theController;
@@ -34,8 +29,8 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 	 * @param theController The controller.
 	 * @param contact The contact to edit.
 	 */
-	public AddEditContactDialog(JFrame parent, ContactsController theController,
-								Contact contact) {
+	public CompanyManager(JFrame parent, ContactsController theController,
+						  Contact contact) {
 		super(parent);
 		this.theController = theController;
 		this.theContact = contact;
@@ -58,9 +53,7 @@ public class AddEditContactDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         firstNameTf = new javax.swing.JTextField();
-        lastNameTf = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -68,9 +61,7 @@ public class AddEditContactDialog extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
-        jLabel1.setText("First Name:");
-
-        jLabel2.setText("Last Name:");
+        jLabel1.setText("Name:");
 
         jButton1.setText("OK");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -99,41 +90,38 @@ public class AddEditContactDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(firstNameTf, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(firstNameTf)
-                    .addComponent(lastNameTf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(firstNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lastNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))))
-                .addGap(24, 24, 24))
+                .addContainerGap()
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(firstNameTf, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
 
         pack();
@@ -142,7 +130,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 	private void fillData() {
 		if (this.theContact != null) {
 			firstNameTf.setText(theContact.name());
-			lastNameTf.setText("algo");
 			jLabel3.setIcon(scaledImageIcon(new ImageIcon(theContact.photo()).
 				getImage()));
 		}
@@ -150,11 +137,6 @@ public class AddEditContactDialog extends javax.swing.JDialog {
 
     private void addEditBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEditBtnAction
 
-		if (this.theContact == null) {
-			new AddContactWorker().execute();
-		} else {
-			new EditContactWorker().execute();
-		}
     }//GEN-LAST:event_addEditBtnAction
 
     private void photoAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoAction
@@ -195,64 +177,7 @@ public class AddEditContactDialog extends javax.swing.JDialog {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField lastNameTf;
     // End of variables declaration//GEN-END:variables
-
-	class AddContactWorker extends SwingWorker<Integer, Contact> {
-
-		@Override
-		protected Integer doInBackground() throws Exception {
-
-			String firstName = firstNameTf.getText();
-			String lastName = lastNameTf.getText();
-
-			if (!firstName.isEmpty() && !lastName.isEmpty()) {
-				try {
-					theController.newContact(firstName, lastName, photoFile);
-				} catch (DataIntegrityViolationException ex) {
-					JOptionPane.
-						showMessageDialog(rootPane, "Contact already exists!", "Contact edition", JOptionPane.ERROR_MESSAGE);
-				} catch (IOException ex) {
-					JOptionPane.
-						showMessageDialog(rootPane, "Error opening file!", "Contact edition", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-			return 1;
-		}
-
-		@Override
-		protected void done() {
-			dispose();
-		}
-	}
-
-	class EditContactWorker extends SwingWorker<Integer, Contact> {
-
-		@Override
-		protected Integer doInBackground() throws Exception {
-			if (theContact instanceof PersonContact) {
-				PersonContact person = (PersonContact) theContact;
-				person.firstName(firstNameTf.getText());
-				person.lastName(lastNameTf.getText());
-			} else if (theContact instanceof CompanyContact) {
-				CompanyContact company = (CompanyContact) theContact;
-				company.designation(firstNameTf.getText());
-			}
-
-			if (photoFile != null) {
-				theContact.photo(Converter.setImage(photoFile));
-			}
-
-			theController.editContact(theContact);
-			return 1;
-		}
-
-		@Override
-		protected void done() {
-			dispose();
-		}
-	}
 
 }

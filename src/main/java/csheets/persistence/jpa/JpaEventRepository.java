@@ -9,8 +9,6 @@ import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.EventRepository;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -25,6 +23,7 @@ public class JpaEventRepository extends JpaRepository<Event, Long> implements Ev
 
 	@Override
 	public Iterable<Event> eventsContact(Contact contactObj) {
+		/*
 		List<Event> list = new ArrayList();
 		for (Event event : this.all()) {
 			if (event.contact() == contactObj) {
@@ -32,6 +31,8 @@ public class JpaEventRepository extends JpaRepository<Event, Long> implements Ev
 			}
 		}
 		return list;
+		 */
+		return null;
 	}
 
 }
