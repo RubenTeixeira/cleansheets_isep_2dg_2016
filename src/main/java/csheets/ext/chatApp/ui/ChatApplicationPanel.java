@@ -51,25 +51,32 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	}
 
 	public void inserirHost(String chatUser, String message) {
-		while (true) {
-			if (root.getChildCount() > 0) {
+		boolean exists = false;
+		if (root.getChildCount() > 0) {
+			while (true) {
 				DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
 					children().nextElement();
 				if (no != null) {
 					String treeNode = (String) no.getUserObject();
 					if (treeNode.equals(chatUser)) {
 						insertMessage(no, message);
+						exists = true;
 						break;
 					}
 
 				}
-			} else {
+			}
+			if (exists == false) {
 				DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(chatUser);
 				root.add(newNode);
 				insertMessage(newNode, message);
-				break;
 			}
+		} else {
+			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(chatUser);
+			root.add(newNode);
+			insertMessage(newNode, message);
 		}
+
 	}
 
 	private void insertMessage(DefaultMutableTreeNode node, String message) {
