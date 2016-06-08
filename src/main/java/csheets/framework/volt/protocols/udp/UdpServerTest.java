@@ -39,7 +39,11 @@ public class UdpServerTest {
 //        
 //        server.stream(30600);
         
+        
         UdpServer server = Volt.udp(30600);
+        
+        System.out.println(server.getPort());
+        
         
         server.expect(":message", new Action() {
             public void run(Map<String, Object> args) {

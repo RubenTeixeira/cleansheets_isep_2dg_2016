@@ -1,6 +1,7 @@
 package csheets.ext.cellsSharing.ui;
 
 import csheets.framework.volt.Action;
+import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
@@ -45,7 +46,7 @@ public class TcpService extends Notifier {
         ThreadManager.create("ipc.tcpServer", new Thread() {
             @Override
             public void run() {
-                server = new TcpServer();
+                server = Volt.tcp(port, 0);
 
                 server.expect(":share-cells", new Action() {
                     @Override

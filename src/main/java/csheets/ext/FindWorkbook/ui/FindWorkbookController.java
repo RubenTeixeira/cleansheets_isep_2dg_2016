@@ -17,9 +17,10 @@ import java.util.List;
 public class FindWorkbookController {
 
 	/**
+	 * Find workbooks files
 	 *
-	 * @param startingDirectory
-	 * @param pattern
+	 * @param startingDirectory start directory
+	 * @param pattern extention of the file
 	 * @return
 	 * @throws java.lang.NullPointerException
 	 */

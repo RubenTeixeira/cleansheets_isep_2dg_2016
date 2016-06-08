@@ -24,8 +24,6 @@ public final class AppSettings {
     private final static String EXCHANGERATE_EUROTOPOUND = "exchangerate.euroToPound";
     private final static String EXCHANGERATE_EUROTODOLLAR = "exchangerate.euroToDollar";
     
-    private final static String APP_KEY = "ohT3e8TJ55QOsAsx";
-
     // use lazy holder idiom
     // https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
     private static class LazyHolder {
@@ -73,9 +71,12 @@ public final class AppSettings {
     private void setDefaultProperties() {
         this.applicationProperties.setProperty(REPOSITORY_FACTORY_KEY,
                 "eapli.ecafeteria.persistence.jpa.JpaRepositoryFactory");
-        this.applicationProperties.setProperty("APP_KEY", APP_KEY);
     }
 
+    public String get(String key) {
+        return this.applicationProperties.getProperty(key);
+    }
+    
     public String getRepositoryFactory() {
         return this.applicationProperties.getProperty(REPOSITORY_FACTORY_KEY);
     }

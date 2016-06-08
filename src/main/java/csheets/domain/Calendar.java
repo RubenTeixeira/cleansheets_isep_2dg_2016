@@ -41,6 +41,12 @@ public class Calendar implements Serializable {
 	}
 
 	public Calendar(String name, String text, Color color, Contact contato) {
+		if (name == null || text == null || color == null || contato == null) {
+			throw new IllegalArgumentException("name of reminder can´t be null.");
+
+		} else if (name.isEmpty() || text.isEmpty()) {
+			throw new IllegalArgumentException("description of reminder can´t be null.");
+		}
 		this.name = name;
 		this.description = text;
 		this.color = color;
@@ -85,6 +91,14 @@ public class Calendar implements Serializable {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	public void defineCalendar(Contact contact, String name, String description,
+							   Color colour) {
+		this.contact = contact;
+		this.name = name;
+		this.description = description;
+		this.color = colour;
 	}
 
 }

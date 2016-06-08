@@ -98,7 +98,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
 		final int defaultSeconds = 3;
-		final int defaultPort = 20004;
+		final int defaultPort = 20000;
 
 		this.chatAppController = chatAppController;
 		this.chatAppController.
@@ -269,23 +269,26 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 					addElement(hostMap.get(chatHost) + ":(online)");
 			} else if (!instanceListModel.
 				contains(hostMap.get(chatHost) + ":(online)")) {
-				instanceListModel.
-					addElement(hostMap.get(chatHost) + ":(online)");
 				hosts.put(hostMap.get(chatHost), chatHost);
-				manager.after(8).once(new Task() {
-					@Override
-					public void fire() {
-						while (instanceListModel.elements().nextElement() != null) {
-							if (instanceListModel.elements().nextElement().
-								equals(hostMap.get(chatHost) + ":(online)")) {
-								instanceListModel.
-									removeElement(hostMap.get(chatHost) + ":(online)");
-								instanceListModel.
-									addElement(hostMap.get(chatHost) + ":(offline)");
+				if (hosts.containsValue(chatHost)) {
+					instanceListModel.
+						addElement(hostMap.get(chatHost) + ":(online)");
+
+					manager.after(8).once(new Task() {
+						@Override
+						public void fire() {
+							while (instanceListModel.elements().nextElement() != null) {
+								if (instanceListModel.elements().nextElement().
+									equals(hostMap.get(chatHost) + ":(online)")) {
+									instanceListModel.
+										removeElement(hostMap.get(chatHost) + ":(online)");
+									instanceListModel.
+										addElement(hostMap.get(chatHost) + ":(offline)");
+								}
 							}
 						}
-					}
-				});
+					});
+				}
 			}
 		}
 		usersList.setModel(instanceListModel);

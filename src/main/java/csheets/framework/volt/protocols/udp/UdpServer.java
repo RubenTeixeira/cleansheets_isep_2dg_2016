@@ -69,15 +69,18 @@ public class UdpServer extends Server {
                 this.server.close();
                 this.server = new DatagramSocket(port);
             } else {
-                this.server = new DatagramSocket(port);
+                
             }
             
+            super.connectedPort = port;
+            this.server = new DatagramSocket(port);
+            this.active = true;
             this.server.setSoTimeout(1000);
         } catch (SocketException ex) {
+            super.connectedPort = -1;
             throw new IllegalArgumentException("Could not initiate the UDP service because the given port was already in use.");
         }
 
-        this.active = true;
     }
 
     /**

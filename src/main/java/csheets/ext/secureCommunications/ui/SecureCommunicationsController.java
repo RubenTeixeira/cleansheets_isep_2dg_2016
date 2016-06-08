@@ -1,6 +1,7 @@
 package csheets.ext.secureCommunications.ui;
 
 import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.Volt;
 import csheets.framework.volt.channels.MessageEncryptionChannel;
@@ -20,8 +21,8 @@ public class SecureCommunicationsController {
      * @param observer User Interface to observe the communications.
      */
     public void startServices(Observer observer) {
-
-        UdpServer udp = Volt.udp(30600, 0);
+        
+        UdpServer udp = NetworkManager.udp();
 
         udp.channel(":secure-communication", new MessageReceivedChannel("Incoming from Secure Communications", observer));
 
@@ -31,7 +32,7 @@ public class SecureCommunicationsController {
             }
         });
         
-        TcpServer tcp = Volt.tcp(20000, 0);
+        TcpServer tcp = NetworkManager.tcp();
         
         tcp.channel(":secure-communication", new MessageReceivedChannel("Incoming from Secure Communications", observer));
         

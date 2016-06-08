@@ -20,6 +20,7 @@
  */
 package csheets.ext.style.ui;
 
+import csheets.core.formula.compiler.FormulaCompilationException;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
@@ -28,6 +29,8 @@ import javax.swing.SwingConstants;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A bottom-alignment operation.
@@ -58,6 +61,10 @@ public class AlignBottomAction extends StyleAction {
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-		cell.setVerticalAlignment(SwingConstants.BOTTOM);
+            try {
+                cell.setVerticalAlignment(SwingConstants.BOTTOM);
+            } catch (FormulaCompilationException ex) {
+                Logger.getLogger(AlignBottomAction.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 }
