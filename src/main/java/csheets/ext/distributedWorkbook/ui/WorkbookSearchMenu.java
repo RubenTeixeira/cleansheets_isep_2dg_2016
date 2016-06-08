@@ -1,7 +1,9 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 
 /**
@@ -19,9 +21,12 @@ class WorkbookSearchMenu extends JMenu {
 	 * @param uiController the user interface controller
 	 * @param distributedController The distributed workbook search controller.
 	 */
-	public WorkbookSearchMenu(UIController uiController, DistributedWorkbookSearchController distributedSearchController) {
+	public WorkbookSearchMenu(UIController uiController,
+							  DistributedWorkbookSearchController distributedSearchController) {
 		super("Distributed Workbook Search");
 		setMnemonic(KeyEvent.VK_W);
+		this.setIcon(new ImageIcon(CleanSheets.class.
+			getResource("ext/distributedWorkbook/res/img/find.png")));
 
 		// Adds font actions
 		add(new WorkbookSearchAction(uiController, distributedSearchController));
