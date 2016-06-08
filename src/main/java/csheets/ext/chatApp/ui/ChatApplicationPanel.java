@@ -105,10 +105,10 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 			((Map) sendData).remove("reference");
 			String localHost = (String) ((Map) sendData).get("hostname");
 			String sendMessage = (String) ((Map) sendData).get("message");
-			String target = (String) ((Map) sendData).get("target");
-			String chatMessage = "Sended to " + target + ": " + sendMessage;
+			//String target = (String) ((Map) sendData).get("target");
+			String chatMessage = "Sended to " + localHost + ": " + sendMessage;
 
-			inserirHost(target, chatMessage);
+			inserirHost(localHost, chatMessage);
 			this.revalidate();
 			this.repaint();
 		}
