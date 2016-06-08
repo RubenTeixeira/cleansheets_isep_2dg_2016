@@ -5,7 +5,6 @@
  */
 package csheets.factory;
 
-import csheets.domain.Contact;
 import csheets.domain.Event;
 import java.util.Calendar;
 
@@ -18,13 +17,9 @@ final public class EventsFactory {
 	private EventsFactory() {
 	}
 
-	static public Event createEvent(Contact contact, String description,
-									Calendar date) {
-		return new Event(contact, description, date);
-	}
-
-	static public Event createEvent(Contact contact, String description,
-									Calendar date, boolean alert) {
-		return new Event(contact, description, date, alert);
+	static public Event createEvent(csheets.domain.Calendar calendar,
+									String description,
+									Calendar startDate, Calendar endDate) {
+		return new Event(calendar, description, startDate, endDate);
 	}
 }

@@ -101,4 +101,8 @@ public class Calendar implements Serializable {
 		this.color = colour;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

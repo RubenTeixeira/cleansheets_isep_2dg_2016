@@ -9,8 +9,6 @@ import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.EventRepository;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -28,6 +26,7 @@ class InMemoryEventRepository extends InMemoryRepository<Event, Long>
 
 	@Override
 	public Iterable<Event> eventsContact(Contact contactObj) {
+		/*
 		List<Event> list = new ArrayList();
 		for (Event event : this.all()) {
 			if (event.contact() == contactObj) {
@@ -35,5 +34,7 @@ class InMemoryEventRepository extends InMemoryRepository<Event, Long>
 			}
 		}
 		return list;
+		 */
+		return null;
 	}
 }

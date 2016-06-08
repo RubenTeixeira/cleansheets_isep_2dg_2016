@@ -166,7 +166,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 		// TODO add your handling code here:
-		new AddEditContactDialog(null, this.controller, null).setVisible(true);
+		new PersonManager(null, this.controller, null).setVisible(true);
     }//GEN-LAST:event_addBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
