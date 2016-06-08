@@ -24,21 +24,14 @@
               <Component id="jPanel1" max="32767" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="170" max="-2" attributes="0"/>
-              <Component id="btnApply" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnApply" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -49,82 +42,91 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="labelExpression" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="textFieldFormula" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="btnTest" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
-                  <Component id="trueLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="falseLabel" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-              </Group>
               <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
               <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
-              <Group type="102" alignment="1" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="labelBackground" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelBorder" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelAlign" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFormat" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelForeground" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFont" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelFont" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelForeground" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="comboBoxTrueVerticalAlign" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="toolBarTrueFont" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace pref="136" max="32767" attributes="0"/>
-                                  <Component id="toolBarFalseFont" min="-2" pref="100" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="toolBarTrueForeground" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="toolBarFalseForeground" min="-2" pref="100" max="-2" attributes="0"/>
-                              </Group>
-                          </Group>
+                          <Component id="comboBoxFalseVerticalAlign" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="btnTrueFormat" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                                  <Component id="btnFalseFormat" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnTrueBackground" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnFalseBackground" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnTrueFont" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      <Component id="btnFalseFont" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnTrueForeground" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnFalseForeground" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="btnTrueBorder" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="btnFalseBorder" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="comboBoxTrueHorizontalAlign" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                                  <Component id="comboBoxFalseHorizontalAlign" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="labelExpression" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="textFieldFormula" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelBackground" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelBorder" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelAlign" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelFormat" alignment="0" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="toolBarTrueFormat" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
+                                  <Component id="trueLabel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
+                                  <Component id="falseLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="toolBarTrueAlign" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="toolBarFalseAlign" min="-2" pref="100" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="toolBarTrueBorder" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="toolBarFalseBorder" min="-2" pref="100" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="toolBarTrueBackground" min="-2" pref="100" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="toolBarFalseBackground" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="92" max="-2" attributes="0"/>
+                                  <Component id="btnApply" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                  <Component id="toolBarFalseFormat" min="-2" pref="100" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -135,60 +137,66 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelExpression" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="textFieldFormula" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnTest" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="trueLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="falseLabel" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+                      <Component id="falseLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="toolBarFalseFont" min="-2" pref="25" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="toolBarFalseForeground" min="-2" pref="25" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelFont" min="-2" max="-2" attributes="0"/>
-                              <Component id="toolBarTrueFont" min="-2" pref="25" max="-2" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelForeground" min="-2" max="-2" attributes="0"/>
-                              <Component id="toolBarTrueForeground" min="-2" pref="25" max="-2" attributes="0"/>
-                          </Group>
+                      <Component id="labelFont" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="btnTrueFont" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnFalseFont" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="labelBackground" min="-2" max="-2" attributes="0"/>
-                      <Component id="toolBarTrueBackground" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="toolBarFalseBackground" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="labelForeground" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnTrueForeground" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btnFalseForeground" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelBackground" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTrueBackground" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFalseBackground" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="labelBorder" min="-2" max="-2" attributes="0"/>
-                      <Component id="toolBarTrueBorder" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="toolBarFalseBorder" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="btnTrueBorder" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnFalseBorder" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="toolBarTrueAlign" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="toolBarFalseAlign" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="labelAlign" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxFalseHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxTrueHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="25" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="labelFormat" min="-2" max="-2" attributes="0"/>
-                      <Component id="toolBarTrueFormat" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="toolBarFalseFormat" min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxTrueVerticalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxFalseVerticalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelFormat" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTrueFormat" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnFalseFormat" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jSeparator2" min="-2" pref="21" max="-2" attributes="0"/>
+                  <Component id="btnApply" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -217,7 +225,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="labelAlign">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Align"/>
+            <Property name="text" type="java.lang.String" value="Horizontal Align"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="labelFormat">
@@ -241,112 +249,165 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="textFieldFormula">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textFieldFormulaKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator1">
         </Component>
         <Component class="javax.swing.JSeparator" name="jSeparator2">
         </Component>
-        <Component class="javax.swing.JButton" name="btnTest">
+        <Component class="javax.swing.JButton" name="btnTrueFont">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Test"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTestActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrueFontActionPerformed"/>
           </Events>
         </Component>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueFont">
+        <Component class="javax.swing.JButton" name="btnFalseFont">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseFont">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFalseFontActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnTrueForeground">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueForeground">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrueForegroundActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnFalseForeground">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseForeground">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFalseForegroundActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnTrueBackground">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueBackground">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrueBackgroundActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnFalseBackground">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseBackground">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFalseBackgroundActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnTrueBorder">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueBorder">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrueBorderActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnFalseBorder">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseBorder">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFalseBorderActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnTrueFormat">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueAlign">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTrueFormatActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnFalseFormat">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="..."/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseAlign">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFalseFormatActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboBoxFalseHorizontalAlign">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Center"/>
+                <StringItem index="1" value="Left"/>
+                <StringItem index="2" value="Right"/>
+              </StringArray>
+            </Property>
+            <Property name="name" type="java.lang.String" value="" noResource="true"/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarTrueFormat">
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboBoxFalseHorizontalAlignItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboBoxTrueHorizontalAlign">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Center"/>
+                <StringItem index="1" value="Left"/>
+                <StringItem index="2" value="Right"/>
+              </StringArray>
+            </Property>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
-        <Container class="javax.swing.JToolBar" name="toolBarFalseFormat">
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboBoxTrueHorizontalAlignItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
-            <Property name="rollover" type="boolean" value="true"/>
+            <Property name="text" type="java.lang.String" value="Vertical Align"/>
           </Properties>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
-        </Container>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboBoxTrueVerticalAlign">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Top"/>
+                <StringItem index="1" value="Center"/>
+                <StringItem index="2" value="Bottom"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboBoxTrueVerticalAlignItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="comboBoxFalseVerticalAlign">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="3">
+                <StringItem index="0" value="Top"/>
+                <StringItem index="1" value="Center"/>
+                <StringItem index="2" value="Bottom"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="comboBoxFalseVerticalAlignItemStateChanged"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnApply">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Apply"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnApply">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Apply"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyActionPerformed"/>
-      </Events>
-    </Component>
   </SubComponents>
 </Form>
