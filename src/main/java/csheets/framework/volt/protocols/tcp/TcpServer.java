@@ -298,7 +298,12 @@ public class TcpServer extends Server {
         
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("message", message);
-
+        
+        // Execute all of the wildcard channels.
+        for (Channel channel : getRouteChannels("*")) {
+            channel.before(arguments, dependencies);
+        }
+        
         // Execute all the before channels.
         for (Channel channel : getRouteChannels(data[0])) {
             channel.before(arguments, dependencies);
@@ -379,12 +384,22 @@ public class TcpServer extends Server {
         args.put("output", output);
         args.put("socket", socket);
         
+        // Execute all of the wildcard channels.
+        for (Channel channel : getRouteChannels("*")) {
+            channel.before(args, dependencies);
+        }
+        
         // Execute all the before channels.
         for (Channel channel : getRouteChannels((String) args.get("route"))) {
             channel.before(args, dependencies);
         }
         
         action.run(args);
+        
+        // Execute all of the wildcard channels.
+        for (Channel channel : getRouteChannels("*")) {
+            channel.after(args, dependencies);
+        }
         
         // Execute all the after channels.
         for (Channel channel : getRouteChannels((String) args.get("route"))) {
@@ -415,7 +430,12 @@ public class TcpServer extends Server {
             Map<String, Object> arguments = new HashMap<>();
             arguments.put("message", message);
             arguments.put("target", target);
-
+            
+            // Execute all of the wildcard channels.
+            for (Channel channel : getRouteChannels("*")) {
+                channel.after(arguments, dependencies);
+            }
+            
             // Execute all the after channels.
             for (Channel channel : getRouteChannels(route)) {
                 channel.after(arguments, dependencies);

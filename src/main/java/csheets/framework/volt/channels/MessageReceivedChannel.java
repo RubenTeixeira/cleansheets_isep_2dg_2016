@@ -33,7 +33,7 @@ public class MessageReceivedChannel extends Channel {
 
     @Override
     public void after(Map<String, Object> args, Map<String, Object> dependencies) {
-        String message = this.from + ": " + (String) args.get("message");
+        String message = this.from + args.get("route") + ": " + (String) args.get("message");
 
         for (Observer observer : this.observers) {
             observer.update(null, message);
