@@ -159,7 +159,7 @@
         <Component class="javax.swing.JButton" name="sendButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Start Game"/>
-            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendButtonActionPerformed"/>

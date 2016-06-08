@@ -46,7 +46,6 @@ public class UdpService extends Notifier {
 												   String destination = ((String) args.
 													   get("hostname")).
 													   split(":")[0] + ":" + localPort;
-
 												   server.
 													   send(":port", destination, String.
 															valueOf(targetPort));
