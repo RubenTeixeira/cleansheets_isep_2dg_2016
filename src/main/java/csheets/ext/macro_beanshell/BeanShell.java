@@ -8,8 +8,6 @@ package csheets.ext.macro_beanshell;
 import bsh.EvalError;
 import bsh.Interpreter;
 import csheets.ui.ctrl.UIController;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 
 /**
@@ -28,10 +26,19 @@ public class BeanShell implements Script {
     
     @Override
     public String getExample() {
-        return "uiController.getCleansheet().create();\n" +
+        return "uiController.getCleanSheets().create();\n" +
                "title=\"The BeanShell Mega Title\";\n" +
-               "uiController.getActiveSpreadsheet().getCell(0, 0).setContent(\"This is the Spreadsheet title: \"+title);\n" +
-               "uiController.getActiveSpreadsheet().setTitle(title);";
+               "sum=1;\n" +
+               "uiController.getActiveSpreadsheet().getCell(0, 0).setContent(\"1\");\n" +
+               "sum+=1;\n" +
+               "uiController.getActiveSpreadsheet().getCell(0, 1).setContent(\"2\");\n" +
+               "sum+=1;\n" +
+               "uiController.getActiveSpreadsheet().getCell(1, 0).setContent(\"3\");\n" +
+               "sum+=1;\n" +
+               "uiController.getActiveSpreadsheet().getCell(1, 1).setContent(\"4\");\n" +
+               "sum+=1;\n" +
+               "uiController.getActiveSpreadsheet().setTitle(title);\n" +
+               "return \"Result is: \"+sum;\n";
     }
     
     @Override
@@ -61,9 +68,7 @@ public class BeanShell implements Script {
     }
 
     private String[] separateInstructions(String code) {
-        //return code.split("(?<=;)");
         return code.split("\n");
-        //return new String[] {code};
     }
     
 }
