@@ -50,13 +50,17 @@
  * search. The system will then display the cell coordinates and content/value
  * of the search results</p>
  *
+ * <p>
+ * Window first Draft:</p>
+ * <p>
+ * <img src="http://i.imgur.com/Lij7lsd.png" alt="JPanel_draft"></p>
  *
  * <h2>4. Analysis</h2>
  * <p>
  * The ExtensionManager should load this (and others) Extension(s) and provide
  * them to the UIController. UIController is in charge of managing the Interface
- * and therefore it returns all UIExtensions from their corresponding Extensions
- * to the MenuBar. The ExtensionManager is the link to all Extensions and
+ * and therefore it returns all UIExtensions from their corresponding
+ * Extensions. The ExtensionManager is the link to all Extensions and
  * Cleansheets application.</p>
  *
  * <b>ExtensionManager Class:</b>
@@ -75,7 +79,7 @@
  * <p>
  * An extension class should be implemented to support WorkBook search. The
  * class will extend, as all already implemented extensions, the: Extension
- * class (All Inheritance will be available further on this page).</p>
+ * class.</p>
  *
  * <b>UIController Class: </b>
  * <p>
@@ -84,58 +88,57 @@
  *
  * <b>UISearch Class: </b>
  * <p>
- * Extends UIExtension. The User Interface known by the MenuBar of Search
- * Extension.</p>
+ * Extends UIExtension. Will provide the needed graphical components, including
+ * the sidebar containing the actual functionalitys.</p>
  *
- * <b>SearchMenu Class:</b>
- * <p>
- * Represents the User Interface Menu for Search.</p>
- *
- * <b>SearchAction Class:</b>
- * <p>
- * This Class will perform the Action, set the SearchController to control the
- * flow of the extension function.</p>
  *
  * <b>SearchController Class:</b>
  * <p>
  * This Class will be implemented to handle searching. It will contain a method
- * that will perform the search. It will require the pattern to compile and
- * match against WorkBook content.</p>
+ * that will perform the search.</p>
  *
+ * <b>SearchPanel Class:</b>
  * <p>
- * Window first Draft:</p>
- * <p>
- * <img src="http://i.imgur.com/Lij7lsd.png" alt="JPanel_draft"></p>
+ * The actual panel that will be added as sidebar which contains the search box,
+ * search button and results list.</p>
  *
- * <h3>Class Diagram Analysis</h3>
+ * <b>SearchresultDTO Class:</b>
  * <p>
- * <img src="doc-files/search_extension_image1.png" alt="Class Diagram Analysis"></p>
+ * This is the Data Transfer Object which will serve as the translation of core
+ * objects to UI specific implementation. Thought for future iterations of this
+ * feature.</p>
+ *
+ * <b>SearchresultAssembler Class:</b>
+ * <p>
+ * The translator. Should serve as good point to rearrange the way the results
+ * are displayed (arranged by sheet/workbook etc)</p>
+ *
+ * <b>WorkBookSearch Class:</b>
+ * <p>
+ * This class is responsible for the search behaviour. Any enhancements to the
+ * feature with respect to the search logic should be made here.</p>
+ *
+ * <h3>Class Diagram</h3>
+ * <p>
+ * <img src="doc-files/search_extension_image1.png" alt="Class Diagram"></p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
  * <p>
- * The Core problem lies on the algorithm used to show only the active columns.
- * The only method that already exists and can be helpful in this situation is
- * the "getColumnCount()" provided by the active Spreadsheet accessed by the
- * UIController. Even then, this method returns an int number accountable from
- * the first column to the last "active" column. In a situation where A,B,C
- * columns had cells with content the returned number would be 3 (scenario 1).
- * If only A and C had content the number would be the same(scenario 2). Same as
- * C being the only with content (scenario 3). A possible solution for the 3
- * scenarios above would be to allow the User to select either one of the three
- * columns. So all three cells would be available to select, no matter the
- * scenario. On the other hand the sorting algorithm will only target cells with
- * content so this doesn't represent an actual hard-to-solve problem.</p>
+ * The core problem is mainly the way the resulting information should be
+ * presented. The goal, at first, was to aggregate each result on the
+ * corresponding spreadsheet as per the draft shown upwards. That requires
+ * either full access to core objects on the UI, or a Data Transfer Object.</p>
  * <p>
- * There was also the possibility to work with ascII code to operate with the
- * associated decimal, but for now the idea is on hold.</p>
+ * Although the decision was made to use a DTO, for simplicity and time concerns
+ * the results won't be aggregated as of this sprint.</p>
  *
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  * <p>
- * Tests will be performed for Class SearchController to check if the search
- * works as intended.</p>
+ * Tests will be performed for Class WorkBookSearch to check if the search works
+ * as intended.</p>
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -153,19 +156,12 @@
  * <p>
  * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
  *
- * <h3>5.4. Classes</h3>
- * <p>
- * Everything inside *[expression]* was implemented before JDialog
- * implementation. SortAction was directly connected to SortController</p>
  *
- * <h3>Class Diagram</h3>
- *
- * <p>
- * <img src="doc-files/sort_class_diagram.png" alt="Class Diagram Analysis"></p>
- *
- * <h3>5.5. Design Patterns and Best Practices</h3>
+ * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
  * Singleton Pattern implemented by ExtensionManager.</p>
+ * <p>
+ * Data Transfer Object implemented by SearchResultDTO.</p>
  * <p>
  * Patterns promoting Low Cowpling - High Cohesion.</p>
  *
@@ -182,11 +178,14 @@
  * Commit Evidences:</p>
  *
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3dbf709a0a5f3dc77b3f56d7fb028a66c308db0c">Commit
- * concerning Analysis and Design</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/30579cf346e35642e71fa2edc643e9e7b64e6953">Commit
+ * concerning Analysis</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2c5a95e9c69bd0fe2903809e04a3d65be54d9e45">Commit
- * concerning the fix for the bug, and first steps into Implementation</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7e0c63311c05ef5e39e1d562e8b52222927b660f">Commit
+ * concernation Implementation #1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/24e3490725066d2a8eeacddb2a319e8a62bacf3d">Commit
+ * concernation Implementation #2</a></p>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -197,8 +196,10 @@
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * <p>
+ * Helped Pedro Gomes reproduce/fix a bug:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
+ * of the fix</a></p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -207,63 +208,32 @@
  * <p>
  * Today:
  * <p>
- * 1. Analysis.
- * <p>
- * 2. Design.
- *
+ * 1. Nothing.
  *
  * <p>
  * <b>Sunday</b>
  * <p>
  * Today:
  * <p>
- * 1. Updated Analysis.
- * <p>
- * 2. Started and mostly finished Design.
- * <p>
- * 3. Started Implementation.
- * <p>
- * Blocking:
- * <p>
- * 1. nothing.
+ * 1. Nothing.
  *
  * <p>
  * <b>Monday</b>
  * <p>
  * Today:
  * <p>
- * 1. Feature fully available, finished Implementation but will need
- * refactoring.
- * <p>
- * 2. Altered Design, code refactoring was needed and most likely will be needed
- * again. With it, the previous designed and implemented test solution will too
- * need to change.
- * <p>
- * 3. Altered Diagrams according to SortJDialog implementation.
- * <p>
- * 4. Reunion with Product Owner.
- * <p>
- * 5. Reunion with Manager.
- * <p>
- * Blocking:
- * <p>
- * 1. nothing.
+ * 1. Analysis.
  *
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.
- * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Finished Analysis.
  * <p>
- * Blocking:
+ * 2. Started Design.
  * <p>
- * 1.
- *
+ * 3. Started Implementation.
  *
  * <p>
  * <b>Wednesday</b>
@@ -294,7 +264,6 @@
  * Blocking:
  * <p>
  * 1.
- *
  *
  *
  * <p>
@@ -328,7 +297,7 @@
  *
  * <h3>10.3. Technical Documentation:</h3>
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Ruben Teixeita 1140780@isep.ipp.pt
  */
 package csheets.worklog.n1140780.sprint2;
 
@@ -336,7 +305,7 @@ package csheets.worklog.n1140780.sprint2;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Ruben Teixeita 1140780@isep.ipp.pt
  */
 class _Dummy_ {
 }
