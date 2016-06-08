@@ -18,7 +18,7 @@ import javax.swing.JPanel;
  */
 public class CirclePanel extends JPanel {
 
-    public static JPanel createCircle(Dimension d, Color color) {
+    public static JPanel createCircle(Dimension d, Color c) {
         DrawingClass dc = new DrawingClass();
         JPanel circle = new JPanel() {
             @Override
@@ -27,7 +27,7 @@ public class CirclePanel extends JPanel {
                 Graphics2D g2d = (Graphics2D) grphcs;
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 dc.draw(g2d, getWidth(), getHeight());
-                g2d.setColor(color);
+                g2d.setColor(c);
             }
 
             @Override
@@ -35,6 +35,10 @@ public class CirclePanel extends JPanel {
                 return d;
             }
         };
+        circle.setEnabled(true);
+        circle.setVisible(true);
+        circle.setForeground(c);
+        circle.setSize(d);
         return circle;
     }
 
