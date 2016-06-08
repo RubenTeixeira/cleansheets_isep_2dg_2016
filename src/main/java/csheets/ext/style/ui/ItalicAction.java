@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.Font;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 /**
  * An italicity changing operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class ItalicAction extends StyleAction {
 
 	/**
 	 * Creates a new italic action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public ItalicAction(UIController uiController) {
@@ -53,19 +50,18 @@ public class ItalicAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_I);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/font_italic.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/font_italic.gif")));
 	}
 
 	/**
 	 * Toggles the italicity of the selected cells in the focus owner table.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setFont(new Font(cell.getFont().getFamily(),
-                        cell.getFont().getStyle() ^ Font.ITALIC, cell.getFont().getSize()));
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(ItalicAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setFont(new Font(cell.getFont().getFamily(),
+							  cell.getFont().getStyle() ^ Font.ITALIC, cell.
+							  getFont().getSize()));
 	}
 }

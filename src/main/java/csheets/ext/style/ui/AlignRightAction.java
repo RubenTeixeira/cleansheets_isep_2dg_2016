@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * A right-alignment operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class AlignRightAction extends StyleAction {
 
 	/**
 	 * Creates a new align right action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public AlignRightAction(UIController uiController) {
@@ -53,18 +50,17 @@ public class AlignRightAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_R);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/align_right.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/align_right.gif")));
 	}
 
 	/**
 	 * Aligns the content of the given cell to the right.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setHorizontalAlignment(SwingConstants.RIGHT);
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(AlignRightAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setHorizontalAlignment(SwingConstants.RIGHT);
+
 	}
 }

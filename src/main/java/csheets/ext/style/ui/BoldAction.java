@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.Font;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Font;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 /**
  * A font weight changing operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class BoldAction extends StyleAction {
 
 	/**
 	 * Creates a new bold action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public BoldAction(UIController uiController) {
@@ -53,19 +50,18 @@ public class BoldAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_B);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/font_bold.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/font_bold.gif")));
 	}
 
 	/**
 	 * Toggles the boldness of the selected cells in the focus owner table.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setFont(new Font(cell.getFont().getFamily(),
-                        cell.getFont().getStyle() ^ Font.BOLD, cell.getFont().getSize()));
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(BoldAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setFont(new Font(cell.getFont().getFamily(),
+							  cell.getFont().getStyle() ^ Font.BOLD, cell.
+							  getFont().getSize()));
 	}
 }

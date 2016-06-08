@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * A middle-alignment operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class AlignMiddleAction extends StyleAction {
 
 	/**
 	 * Creates a new align middle action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public AlignMiddleAction(UIController uiController) {
@@ -53,18 +50,16 @@ public class AlignMiddleAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_M);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/align_middle.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/align_middle.gif")));
 	}
 
 	/**
 	 * Aligns the content of the given cell to the middle.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setVerticalAlignment(SwingConstants.CENTER);
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(AlignMiddleAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setVerticalAlignment(SwingConstants.CENTER);
 	}
 }

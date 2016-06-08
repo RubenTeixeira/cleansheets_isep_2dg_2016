@@ -20,42 +20,43 @@
  */
 package csheets.ext.style.ui;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.NumberFormat;
-
-import javax.swing.ImageIcon;
-
 import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
-import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.NumberFormat;
+import javax.swing.ImageIcon;
 
 /**
  * A format changing operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
 public class FormatAction extends FocusOwnerAction implements SelectionListener {
 
-	/** The user interface controller */
+	/**
+	 * The user interface controller
+	 */
 	private UIController uiController;
 
-	/** The cell being styled */
+	/**
+	 * The cell being styled
+	 */
 	private StylableCell cell;
 
 	/**
 	 * Creates a new format action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public FormatAction(UIController uiController) {
@@ -69,55 +70,64 @@ public class FormatAction extends FocusOwnerAction implements SelectionListener 
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_D);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/format.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/format.gif")));
 	}
 
 	/**
 	 * Updates the state of the action when a new cell is selected.
+	 *
 	 * @param event the selection event that was fired
 	 */
 	public void selectionChanged(SelectionEvent event) {
 		Cell c = event.getCell();
-		cell = c == null ? null : (StylableCell)c.getExtension(StyleExtension.NAME);
+		cell = c == null ? null : (StylableCell) c.
+			getExtension(StyleExtension.NAME);
 		setEnabled(c == null ? false : cell.isFormattable());
 	}
 
 	/**
-	 * Lets the user select a format from a chooser.
-	 * Then applies the format to the selected cells in the focus owner table.
+	 * Lets the user select a format from a chooser. Then applies the format to
+	 * the selected cells in the focus owner table.
+	 *
 	 * @param event the event that was fired
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (focusOwner == null)
+		if (focusOwner == null) {
 			return;
+		}
 		// Lets user select a format
 		Format format = null;
 		try {
-			if (cell.getValue().getType() == Value.Type.NUMERIC)
+			if (cell.getValue().getType() == Value.Type.NUMERIC) {
 				format = new FormatChooser(
-					(NumberFormat)cell.getFormat().clone(), cell.getValue().toNumber()
+					(NumberFormat) cell.getFormat().clone(), cell.getValue().
+					toNumber()
 				).showDialog(null, "Choose Format");
-			else if (cell.getValue().getType() == Value.Type.DATE)
+			} else if (cell.getValue().getType() == Value.Type.DATE) {
 				format = new FormatChooser(
-					(DateFormat)cell.getFormat().clone(), cell.getValue().toDate()
+					(DateFormat) cell.getFormat().clone(), cell.getValue().
+					toDate()
 				).showDialog(null, "Choose Format");
-		} catch (IllegalValueTypeException e) {}
+			}
+		} catch (IllegalValueTypeException e) {
+		}
 
 		if (format != null) {
 			// Changes the format of each selected cell
-			for (Cell[] row : focusOwner.getSelectedCells())
+			for (Cell[] row : focusOwner.getSelectedCells()) {
 				for (Cell cell : row) {
-					StylableCell stylableCell = (StylableCell)cell.getExtension(
-						StyleExtension.NAME);
-                            try {
-                                stylableCell.setFormat(
-                                        stylableCell.isFormattable() ? format : null);
-                            } catch (FormulaCompilationException ex) {
-                                Logger.getLogger(FormatAction.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+					StylableCell stylableCell = (StylableCell) cell.
+						getExtension(
+							StyleExtension.NAME);
+					stylableCell.setFormat(
+						stylableCell.isFormattable() ? format : null);
+
 				}
-	
-			uiController.setWorkbookModified(focusOwner.getSpreadsheet().getWorkbook());
+			}
+
+			uiController.setWorkbookModified(focusOwner.getSpreadsheet().
+				getWorkbook());
 			focusOwner.repaint();
 		}
 	}

@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * A left-alignment operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class AlignLeftAction extends StyleAction {
 
 	/**
 	 * Creates a new align left action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public AlignLeftAction(UIController uiController) {
@@ -53,18 +50,17 @@ public class AlignLeftAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_L);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/align_left.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/align_left.gif")));
 	}
 
 	/**
 	 * Aligns the content of the given cell to the left.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setHorizontalAlignment(SwingConstants.LEFT);
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(AlignLeftAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setHorizontalAlignment(SwingConstants.LEFT);
+
 	}
 }

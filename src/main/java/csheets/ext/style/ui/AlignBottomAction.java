@@ -20,20 +20,16 @@
  */
 package csheets.ext.style.ui;
 
-import csheets.core.formula.compiler.FormulaCompilationException;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 
 /**
  * A bottom-alignment operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
@@ -41,6 +37,7 @@ public class AlignBottomAction extends StyleAction {
 
 	/**
 	 * Creates a new align bottom action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public AlignBottomAction(UIController uiController) {
@@ -53,18 +50,16 @@ public class AlignBottomAction extends StyleAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_O);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/align_bottom.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/align_bottom.gif")));
 	}
 
 	/**
 	 * Aligns the content of the given cell to the bottom.
+	 *
 	 * @param cell the cell to which style should be applied
 	 */
 	protected void applyStyle(StylableCell cell) {
-            try {
-                cell.setVerticalAlignment(SwingConstants.BOTTOM);
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(AlignBottomAction.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		cell.setVerticalAlignment(SwingConstants.BOTTOM);
 	}
 }

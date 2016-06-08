@@ -20,34 +20,33 @@
  */
 package csheets.ext.style.ui;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JColorChooser;
-
 import csheets.core.Cell;
-import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JColorChooser;
 
 /**
  * A background color changing operation.
+ *
  * @author Einar Pehrson
  */
 @SuppressWarnings("serial")
 public class BackgroundAction extends FocusOwnerAction {
 
-	/** The user interface controller */
+	/**
+	 * The user interface controller
+	 */
 	protected UIController uiController;
 
 	/**
 	 * Creates a new background color action.
+	 *
 	 * @param uiController the user interface controller
 	 */
 	public BackgroundAction(UIController uiController) {
@@ -60,39 +59,42 @@ public class BackgroundAction extends FocusOwnerAction {
 
 	protected void defineProperties() {
 		putValue(MNEMONIC_KEY, KeyEvent.VK_G);
-		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.getResource("res/img/color_bg.gif")));
+		putValue(SMALL_ICON, new ImageIcon(StyleExtension.class.
+				 getResource("res/img/color_bg.gif")));
 	}
 
 	/**
-	 * Lets the user select a color from a chooser.
-	 * Then applies the color to the selected cells in the focus owner table.
+	 * Lets the user select a color from a chooser. Then applies the color to
+	 * the selected cells in the focus owner table.
+	 *
 	 * @param event the event that was fired
 	 */
 	public void actionPerformed(ActionEvent event) {
-		if (focusOwner == null)
+		if (focusOwner == null) {
 			return;
+		}
 
 		// Lets user select color
 		Color color = JColorChooser.showDialog(
 			null,
 			"Choose Background Color",
-			((StylableCell)focusOwner.getSelectedCell().
-				getExtension(StyleExtension.NAME)).getBackgroundColor());
+			((StylableCell) focusOwner.getSelectedCell().
+			getExtension(StyleExtension.NAME)).getBackgroundColor());
 
 		if (color != null) {
 			// Colors each selected cell
-			for (Cell[] row : focusOwner.getSelectedCells())
+			for (Cell[] row : focusOwner.getSelectedCells()) {
 				for (Cell cell : row) {
-					StylableCell stylableCell = (StylableCell)cell.getExtension(
-						StyleExtension.NAME);
-                            try {
-                                stylableCell.setBackgroundColor(color);
-                            } catch (FormulaCompilationException ex) {
-                                Logger.getLogger(BackgroundAction.class.getName()).log(Level.SEVERE, null, ex);
-                            }
+					StylableCell stylableCell = (StylableCell) cell.
+						getExtension(
+							StyleExtension.NAME);
+					stylableCell.setBackgroundColor(color);
+
 				}
-	
-			uiController.setWorkbookModified(focusOwner.getSpreadsheet().getWorkbook());
+			}
+
+			uiController.setWorkbookModified(focusOwner.getSpreadsheet().
+				getWorkbook());
 			focusOwner.repaint();
 		}
 	}
