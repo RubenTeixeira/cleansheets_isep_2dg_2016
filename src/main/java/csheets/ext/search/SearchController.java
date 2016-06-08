@@ -6,8 +6,8 @@
 package csheets.ext.search;
 
 import csheets.core.Workbook;
-import csheets.search.SearchResultDTO;
-import csheets.search.WorkBookSearch;
+import csheets.framework.search.SearchResultDTO;
+import csheets.framework.search.WorkBookSearch;
 import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
@@ -25,10 +25,11 @@ public class SearchController {
 	}
 
 	/**
+	 * Searches given Workbook for given pattern
 	 *
-	 * @param workbook
-	 * @param searchstring
-	 * @return
+	 * @param workbook the workbook
+	 * @param searchstring the string to match
+	 * @return result list
 	 */
 	public List<SearchResultDTO> searchWorkBook(Workbook workbook,
 												String searchstring) throws PatternSyntaxException {

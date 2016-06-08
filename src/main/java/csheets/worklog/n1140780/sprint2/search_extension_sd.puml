@@ -1,0 +1,27 @@
+  @startuml doc-files/search_extension_sd.png
+  actor User
+  participant SearchPanel as SP
+  participant Spreadsheet as ss
+  participant "this.searchController : SearchController" as SC
+  participant "this.uiController : UIController" as UIC
+  participant "workBook : Workbook" as wb
+  participant "workBookSearch : WorkBookSearch" as wbs
+
+  User -> SP : jSearchTextField.setText(String pattern)
+  User -> SP : jSearchButton.actionPerformed(ActionEvent evt)
+  SP -> SP : performSearch()
+  SP -> UIC : wb=getActiveWorkbook()
+  SP -> SC : res=searchWorkBook(Workbook wb, String pattern)
+  SC -> wbs : new(Workbook wb)
+  SC -> wbs : getMatches(String pattern)
+  wbs -> wbs : compile(pattern)
+  loop for Spreadsheet ss : wb.getSpreadsheets()
+  	wbs -> wbs : addAll(getMatches(String pattern, Spreadsheet ss))
+  	deactivate ss
+  end
+
+  loop for SearchResultDTO r : res
+  	SP -> SP : resultsModel.addElement(r)
+  end
+
+  @enduml

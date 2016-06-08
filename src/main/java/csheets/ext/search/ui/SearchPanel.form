@@ -72,7 +72,7 @@
             <Property name="text" type="java.lang.String" value="Type a search pattern..."/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jSearchTextField.addMouseListener(new MouseAdapter(){&#xa;            @Override&#xa;            public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;&#x9;if (firstClick) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;jSearchTextField.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;firstClick = false;&#xa;&#x9;&#x9;&#x9;&#x9;}&#xa;            }&#xa;        });"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jSearchTextField.addMouseListener(new MouseAdapter(){&#xa;            @Override&#xa;            public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;&#x9;if (firstClick) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;jSearchTextField.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;firstClick = false;&#xa;&#x9;&#x9;&#x9;&#x9;}&#xa;            }&#xa;        });&#xa;jSearchTextField.addKeyListener(new KeyAdapter() {&#xa;&#x9;&#x9;&#x9;@Override&#xa;&#x9;&#x9;&#x9;public void keyReleased(KeyEvent evt) {&#xa;&#x9;&#x9;&#x9;&#x9;if(evt.getKeyCode() == KeyEvent.VK_ENTER) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;if (!jSearchTextField.getText().isEmpty()) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;performSearch();&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;});"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="jSearchButton">

@@ -120,7 +120,7 @@
  *
  * <h3>Class Diagram</h3>
  * <p>
- * <img src="doc-files/search_extension_image1.png" alt="Class Diagram"></p>
+ * <img src="doc-files/search_class_diagram.png" alt="Class Diagram"></p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
  * <p>
@@ -148,13 +148,7 @@
  * <h3>5.3. Extension Setup</h3>
  *
  * <p>
- * <img src="doc-files/search_extension_image1.png" alt="Sequence Diagram Design"></p>
- * <p>
- * <img src="doc-files/sort_extension_3.png" alt="Sequence Diagram Design"></p>
- * <p>
- * <img src="doc-files/sort_extension_4.png" alt="Sequence Diagram Design"></p>
- * <p>
- * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
+ * <img src="doc-files/search_extension_sd.png" alt="Sequence Diagram Design"></p>
  *
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
@@ -170,9 +164,6 @@
  * <p>
  * The file containing the extensions name was the only file required to update
  * - extension.props. All other Classes where implemented.</p>
- * <p>
- * Also, it was found a <b>bug</b> on SpreadsheetImpl in method getColumn(index)
- * - For loop limiter wasn't valid</p>
  *
  * <p>
  * Commit Evidences:</p>

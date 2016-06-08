@@ -7,9 +7,11 @@ package csheets.ext.search.ui;
 
 import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
-import csheets.search.SearchResultDTO;
+import csheets.framework.search.SearchResultDTO;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -118,6 +120,16 @@ public class SearchPanel extends JPanel {
                 }
             }
         });
+        jSearchTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (!jSearchTextField.getText().isEmpty()) {
+                        performSearch();
+                    }
+                }
+            }
+        });
 
         jScrollPane2.setViewportView(jResultsList);
 
@@ -155,6 +167,11 @@ public class SearchPanel extends JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchButtonActionPerformed
+		performSearch();
+
+    }//GEN-LAST:event_jSearchButtonActionPerformed
+
+	private void performSearch() {
 		resultsModel.clear();
 		jStatusLabel.setText("Searching...");
 		jStatusLabel.setForeground(Color.BLACK);
@@ -181,8 +198,7 @@ public class SearchPanel extends JPanel {
 			jStatusLabel.setText("Invalid pattern syntax!");
 			jStatusLabel.setForeground(Color.RED);
 		}
-
-    }//GEN-LAST:event_jSearchButtonActionPerformed
+	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanelBottom;
