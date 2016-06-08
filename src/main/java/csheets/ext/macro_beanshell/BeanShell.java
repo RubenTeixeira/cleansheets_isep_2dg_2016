@@ -16,6 +16,9 @@ import csheets.ui.ctrl.UIController;
  */
 public class BeanShell implements Script {
 
+    /**
+     * Name of the Script
+     */
     public final static String NAME = "BeanShell";
     
     private UIController uiController;
@@ -24,6 +27,10 @@ public class BeanShell implements Script {
         this.uiController = uiController;
     }
     
+    /**
+     * Create example and return it
+     * @return String example
+     */
     @Override
     public String getExample() {
         return "uiController.getCleanSheets().create();\n" +
@@ -41,16 +48,22 @@ public class BeanShell implements Script {
                "return \"Result is: \"+sum;\n";
     }
     
+    /**
+     * Execute the code on param and return the result of the last command.
+     * Each command is separated by line ('\n').
+     * 
+     * @param code of the beanshell script
+     * @return result of the script
+     */
     @Override
     public String run(String code) {
         String result = "";
-        uiController.getActiveSpreadsheet().getCell(1, 1).getContent();
         String instructions[] = separateInstructions(code);
         Interpreter i = new Interpreter();  // Construct an interpreter
         try {
             i.set("uiController", uiController);
         } catch (EvalError ex) {
-            return String.format("Error: %s\n", ex.getMessage());
+            return createErrorMessage(ex.getMessage());
         }
         for (String instruction : instructions) {
             try {
@@ -61,12 +74,16 @@ public class BeanShell implements Script {
                     result = "";
                 }
             } catch (EvalError ex) {
-                return String.format("Error: %s\n", ex.getMessage());
+                return createErrorMessage(ex.getMessage());
             }
         }
         return result;
     }
 
+    private String createErrorMessage(String error) {
+        return String.format("Error: %s\n", error);
+    }
+    
     private String[] separateInstructions(String code) {
         return code.split("\n");
     }
