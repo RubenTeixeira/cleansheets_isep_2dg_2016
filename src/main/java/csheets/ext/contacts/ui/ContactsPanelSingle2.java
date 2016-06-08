@@ -1,10 +1,9 @@
 package csheets.ext.contacts.ui;
 
-import csheets.ext.contacts.ContactsController;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import csheets.ext.contacts.ContactsController;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
@@ -34,26 +33,21 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.labelName.setText(this.contact.toString());
-		if (this.contact instanceof CompanyContact) {
-			this.jLabelType.setText("Company");
-		} else {
-			this.jLabelType.setText("Person");
-		}
-		ImageIcon icon = null;
-		try {
-			InputStream in = new ByteArrayInputStream(this.contact.photo());
-		} catch (Exception ex) {
+		if (this.contact != null) {
+			this.labelName.setText(this.contact.toString());
 			if (this.contact instanceof CompanyContact) {
-				icon = new ImageIcon("res/img/default_company.jpg");
+				this.jLabelType.setText("Company");
 			} else {
-				icon = new ImageIcon("res/img/default_person.jpg");
+				this.jLabelType.setText("Person");
+			}
+			try {
+				this.jLabelPhoto.setIcon(new ImageIcon(this.controller.
+					contactPhoto(contact).getScaledInstance(this.jLabelPhoto.
+					getWidth(), this.jLabelPhoto.getHeight(), Image.SCALE_SMOOTH)));
+			} catch (Exception ex) {
+				System.out.println(ex);
 			}
 		}
-		icon.getImage().
-			getScaledInstance(this.jLabelPhoto.getWidth(), this.jLabelPhoto.
-							  getHeight(), java.awt.Image.SCALE_SMOOTH);
-		this.jLabelPhoto.setIcon(icon);
 	}
 
 	public void contactView() {
@@ -88,6 +82,11 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
         });
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.setMaximumSize(new java.awt.Dimension(265, 65));
+        jPanel1.setMinimumSize(new java.awt.Dimension(265, 65));
+        jPanel1.setPreferredSize(new java.awt.Dimension(265, 65));
+        jPanel1.setSize(new java.awt.Dimension(265, 65));
+
         labelName.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelName.setText("Name");
         labelName.setAutoscrolls(true);
@@ -117,49 +116,48 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
         });
 
         jLabelPhoto.setBackground(new java.awt.Color(204, 204, 204));
-        jLabelPhoto.setLocation(new java.awt.Point(0, 0));
-        jLabelPhoto.setMaximumSize(new java.awt.Dimension(60, 60));
-        jLabelPhoto.setMinimumSize(new java.awt.Dimension(60, 60));
-        jLabelPhoto.setPreferredSize(new java.awt.Dimension(60, 60));
-        jLabelPhoto.setSize(new java.awt.Dimension(60, 60));
+        jLabelPhoto.setMaximumSize(new java.awt.Dimension(40, 40));
+        jLabelPhoto.setMinimumSize(new java.awt.Dimension(40, 40));
+        jLabelPhoto.setPreferredSize(new java.awt.Dimension(40, 40));
+        jLabelPhoto.setSize(new java.awt.Dimension(40, 40));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addComponent(jSeparator1)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelType, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(38, 38, 38))
-                    .addComponent(labelName, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEdit)
-                    .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                    .addComponent(jLabelType, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jButtonDelete))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEdit)
+                        .addGap(14, 14, 14))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonEdit))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelType)
-                            .addComponent(jButtonDelete)))
+                        .addComponent(labelName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelType))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonEdit)
+                        .addGap(1, 1, 1)
+                        .addComponent(jButtonDelete))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
