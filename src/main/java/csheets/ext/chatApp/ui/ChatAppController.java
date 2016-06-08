@@ -210,7 +210,7 @@ public class ChatAppController {
 
 		tm.every(5).fire(new Task() {
 			public void fire() {
-				client.send(":game-broadcast", "all:" + AppSettings.
+				client.send(":chatbroadcast", "all:" + AppSettings.
 							instance().get("UDP_PORT"), "canPlay");
 
 			}

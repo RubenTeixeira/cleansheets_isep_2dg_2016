@@ -237,7 +237,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 	public void updateInstanceList(Map<String, String> hostMap) {
 		//MAYBE CHANGE FOR IP
-		for (String chatHost : hostMap.keySet()) {
+		for (String host : hostMap.keySet()) {
+			String chatHost = host.split(":")[0];
+
 			if (instanceListModel.contains(chatHost + ":(offline)")) {
 				instanceListModel.
 					removeElement(chatHost + ":(offline)");
@@ -245,7 +247,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 					addElement(chatHost + ":(online)");
 			} else if (!instanceListModel.
 				contains(chatHost + ":(online)")) {
-				hosts.put(chatHost, chatHost);
+				hosts.put(chatHost, host);
 				if (hosts.containsValue(chatHost)) {
 					instanceListModel.
 						addElement(chatHost + ":(online)");
