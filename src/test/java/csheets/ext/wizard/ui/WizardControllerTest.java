@@ -43,8 +43,7 @@ public class WizardControllerTest {
     @Before
     public void setUp() {
         f1 = new And();
-        CleanSheets app = new CleanSheets();
-        UIController uiController = new UIController(app);
+        UIController uiController = UIController.getUIController();
         controller = new WizardController(uiController);
     }
 
