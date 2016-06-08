@@ -5,17 +5,8 @@
  */
 package csheets.ext.chatApp.ui;
 
-import csheets.AppSettings;
-import csheets.ext.NetworkManager;
-import csheets.framework.volt.Action;
-import csheets.framework.volt.protocols.tcp.TcpServer;
-import csheets.framework.volt.protocols.udp.UdpClient;
-import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notification;
-import csheets.support.Task;
-import csheets.support.TaskManager;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,83 +28,13 @@ public class ChatAppController {
 	 */
 	private TcpService tcpService;
 
-	public void startServices(int localPort, int targetPort) {
-		UdpServer udp = NetworkManager.udp();
-
-		udp.expect(":port", new Action() {
-				   @Override
-				   public void run(
-					   Map<String, Object> args) {
-					   List<String> ports = (List<String>) args.
-						   get("port");
-
-					   Map<String, String> chatHosts = new LinkedHashMap<>();
-					   chatHosts.
-						   put("reference", "hosts");
-					   for (String port : ports) {
-						   chatHosts.
-							   put((((String) args.
-								   get("from")).
-								   split(":")[0]) + ":" + port, (String) args.
-								   get("hostname"));
-					   }
-
-					   Notification.chatMessageInformer().
-						   notifyChange(chatHosts);
-				   }
-			   });
-
-		udp.expect(":chatbroadcast", new Action() {
-				   @Override
-				   public void run(
-					   Map<String, Object> args) {
-
-					   if (udp.same(args.
-						   get("from"))) {
-						   return;
-					   }
-					   // Destination = Target's IP and Port
-					   String destination = ((String) args.get("from")).
-						   split(":")[0] + ":" + localPort;
-
-					   udp.send(":port", destination, String.
-								valueOf(targetPort));
-				   }
-			   });
-
-		this.startUdpClient();
-
-		TcpServer tcp = NetworkManager.tcp();
-
-		tcp.expect(":chat", new Action() {
-				   @Override
-				   public void run(
-					   Map<String, Object> args) {
-					   Map<String, String> mapMessage = new LinkedHashMap<>();
-					   mapMessage.put("reference", "chatMessage");
-					   mapMessage.put("hostname", (String) args.get("hostname"));
-					   mapMessage.put("from", (String) args.get("from"));
-					   mapMessage.put("message", (String) args.get("message"));
-
-					   Notification.chatMessageInformer().
-						   notifyChange(mapMessage);
-				   }
-			   });
-
-	}
-
-	void startUdpService(int port, int seconds) {
-
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	void startUdpService(int seconds) {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds. It's not possible to register negative or zero seconds.");
 		}
 
 		try {
-			this.udpService.server(30600, port);
+			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
@@ -129,14 +50,14 @@ public class ChatAppController {
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void startUdpService(ChatUI ui, int port, int seconds) {
+	public void startUdpService(ChatUI ui, int seconds) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
 		this.udpService = new UdpService();
 
-		this.startUdpService(port, seconds);
+		this.startUdpService(seconds);
 
 		this.udpService.addObserver(ui);
 	}
@@ -146,13 +67,9 @@ public class ChatAppController {
 	 *
 	 * @param port The target port that is defined by the user.
 	 */
-	private void startTcpService(int port) {
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	private void startTcpService() {
 		try {
-			this.tcpService.server(port);
+			this.tcpService.server();
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -167,14 +84,14 @@ public class ChatAppController {
 	 * @param ui user interface od chat
 	 * @param port The target port that is defined by the user.
 	 */
-	public void startTcpService(ChatUI ui, int port) {
+	public void startTcpService(ChatUI ui) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
 		this.tcpService = new TcpService();
 
-		this.startTcpService(port);
+		this.startTcpService();
 	}
 
 	/**
@@ -183,12 +100,12 @@ public class ChatAppController {
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void restartServices(int port, int seconds) {
+	public void restartServices(int seconds) {
 		this.tcpService.stop();
 		this.udpService.stop();
 
-		this.startUdpService(port, seconds);
-		this.startTcpService(port);
+		this.startUdpService(seconds);
+		this.startTcpService();
 	}
 
 	public void sendMessage(String hostname, String target, String message) {
@@ -203,17 +120,4 @@ public class ChatAppController {
 		new TcpService().client(target, message);
 	}
 
-	private void startUdpClient() {
-		UdpClient client = new UdpClient(0);
-
-		TaskManager tm = new TaskManager();
-
-		tm.every(5).fire(new Task() {
-			public void fire() {
-				client.send(":chatbroadcast", "all:" + AppSettings.
-							instance().get("UDP_PORT"), "canPlay");
-
-			}
-		});
-	}
 }
