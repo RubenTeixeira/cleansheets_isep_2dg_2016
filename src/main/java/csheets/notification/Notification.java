@@ -19,7 +19,9 @@ public class Notification {
 	};
 	private static Notifier extensionInformer = new Notifier() {
 	};
-	private static Notifier messageInformer = new Notifier() {
+	private static Notifier chatMessageInformer = new Notifier() {
+	};
+	private static Notifier panelMessageInformer = new Notifier() {
 	};
 
 	public static Notifier contactInformer() {
@@ -38,8 +40,12 @@ public class Notification {
 		return Notification.extensionInformer;
 	}
 
-	public static Notifier messageInformer() {
-		return Notification.messageInformer;
+	public static Notifier chatMessageInformer() {
+		return Notification.chatMessageInformer;
+	}
+
+	public static Notifier panelMessageInformer() {
+		return Notification.panelMessageInformer;
 	}
 
 }

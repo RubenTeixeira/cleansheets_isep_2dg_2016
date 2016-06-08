@@ -96,8 +96,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		this.chatAppController.
 			startUdpService(this, defaultPort, defaultSeconds);
 		this.chatAppController.startTcpService(this, defaultPort);
-		Notification.messageInformer().addObserver(this);
 		this.setVisible(true);
+		Notification.chatMessageInformer().addObserver(this);
 	}
 
 	/**
@@ -201,13 +201,11 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			} else {
 				String hostValues[] = usersList.getSelectedValue().split(":");
 				host = hosts.get(hostValues[0]);
-				System.out.println(host);
 			}
 		}
     }//GEN-LAST:event_usersListValueChanged
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-		//Selection.
 		message = txtMessage.getText();
 
 		if (message.length() <= 0) {
@@ -220,7 +218,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		chatAppController.sendMessage(host, message);
-		txtMessage.setText("");
+		txtMessage.setText("Type here...");
     }//GEN-LAST:event_btnSendActionPerformed
 
     private void txtMessageFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtMessageFocusLost
@@ -297,18 +295,17 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Map) {
-			if (((Map) arg).get("reference").equals("chatMessage")) {
-				((Map) arg).remove("reference");
-				Map<String, String> mapMessages = (Map<String, String>) arg;
-				updateReceiveList(mapMessages);
-			}
-			if (((Map) arg).get("reference").equals("hosts")) {
-				((Map) arg).remove("reference");
-				Map<String, String> chatHosts = (Map<String, String>) arg;
-				updateInstanceList(chatHosts);
-			}
-
+		Map hostdata = new LinkedHashMap((Map) arg);
+		if (((Map) hostdata).get("reference").equals("hosts")) {
+			((Map) hostdata).remove("reference");
+			Map<String, String> chatHosts = (Map<String, String>) hostdata;
+			updateInstanceList(chatHosts);
+		}
+		Map data = new LinkedHashMap((Map) arg);
+		if (((Map) data).get("reference").equals("chatMessage")) {
+			((Map) data).remove("reference");
+			Map<String, String> mapMessages = (Map<String, String>) data;
+			updateReceiveList(mapMessages);
 		}
 	}
 
