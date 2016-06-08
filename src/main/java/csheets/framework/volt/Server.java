@@ -23,6 +23,11 @@ public abstract class Server {
     protected Map<String, List<Channel>> channels;
     
     /**
+     * Server connected port.
+     */
+    protected int connectedPort;
+    
+    /**
      * If the server is active.
      */
     protected boolean active;
@@ -31,6 +36,7 @@ public abstract class Server {
         this.dependencies = new HashMap<>();
         this.channels = new HashMap<>();
         this.active = false;
+        this.connectedPort = -1;
     }
 
     /**
@@ -153,4 +159,15 @@ public abstract class Server {
         
         return new ArrayList<>();
     }
+    
+    /**
+     * Gets the port that the server is currently using.
+     * 
+     * @return Returns the active connected port, if the server is not connected
+     * returns -1.
+     */
+    public int getPort()
+    {
+        return this.connectedPort;
+    }    
 }
