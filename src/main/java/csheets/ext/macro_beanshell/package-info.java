@@ -1,6 +1,6 @@
 /**
- * Provides an Extension to support Sorting.
+ * Provides an Extension to support Macro/BeanShell.
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Rui Bento
  */
-package csheets.ext.sort;
+package csheets.ext.macro_beanshell;

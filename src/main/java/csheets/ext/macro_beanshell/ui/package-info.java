@@ -1,6 +1,6 @@
 /**
- * Provides the UI for the Sort extension.
+ * Provides the UI for the Macro/BeanShell extension.
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Rui Bento
  */
-package csheets.ext.sort.ui;
+package csheets.ext.macro_beanshell.ui;
