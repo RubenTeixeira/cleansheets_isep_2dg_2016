@@ -34,7 +34,10 @@ import javax.swing.border.Border;
 
 import csheets.core.Cell;
 import csheets.core.Value;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.CellExtension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An extension of a cell in a spreadsheet, with support for style, i.e. font,
@@ -185,27 +188,31 @@ public class StylableCell extends CellExtension {
 	 * Sets the format applied to the cell's value before rendering.
 	 * @param format the format applied to the cell's value before rendering
 	 */
-	public void setFormat(Format format) {
+	public void setFormat(Format format) throws FormulaCompilationException {
 		this.format = format;
+                super.setContent(super.getValue().toString());
 	}
 
 	/**
 	 * Sets the font used when rendering the cell's content.
 	 * @param font the font used when rendering the cell's content
 	 */
-	public void setFont(Font font) {
+	public void setFont(Font font) throws FormulaCompilationException {
 		this.font = font;
+                super.setContent(super.getValue().toString());
 	}
 
 	/**
 	 * Sets the horizontal alignment of the cell's content.
 	 * @param hAlignment the horizontal alignment of the cell's content
 	 */
-	public void setHorizontalAlignment(int hAlignment) {
+	public void setHorizontalAlignment(int hAlignment) throws FormulaCompilationException {
 		if (hAlignment == SwingConstants.LEFT
 		 ||	hAlignment == SwingConstants.CENTER
-		 ||	hAlignment == SwingConstants.RIGHT)
-		 	this.hAlignment = hAlignment;
+		 ||	hAlignment == SwingConstants.RIGHT) {
+                    this.hAlignment = hAlignment;
+                    super.setContent(super.getValue().toString());
+                }
 		 else throw new IllegalArgumentException("Illegal alignment");
 	}
 
@@ -213,11 +220,13 @@ public class StylableCell extends CellExtension {
 	 * Sets the vertical alignment of the cell's content.
 	 * @param vAlignment the vertical alignment of the cell's content
 	 */
-	public void setVerticalAlignment(int vAlignment) {
+	public void setVerticalAlignment(int vAlignment) throws FormulaCompilationException {
 		if (vAlignment == SwingConstants.TOP
 		 ||	vAlignment == SwingConstants.CENTER
-		 ||	vAlignment == SwingConstants.BOTTOM)
-			this.vAlignment = vAlignment;
+		 ||	vAlignment == SwingConstants.BOTTOM) {
+                    this.vAlignment = vAlignment;
+                    super.setContent(super.getValue().toString());
+                }
 		 else throw new IllegalArgumentException("Illegal alignment");
 	}
 
@@ -225,24 +234,27 @@ public class StylableCell extends CellExtension {
 	 * Sets the color used when rendering the cell's content.
 	 * @param fgColor the color used when rendering the cell's content
 	 */
-	public void setForegroundColor(Color fgColor) {
+	public void setForegroundColor(Color fgColor) throws FormulaCompilationException {
 		this.fgColor = fgColor;
+                super.setContent(super.getValue().toString());
 	}
 
 	/**
 	 * Sets the background color of the cell.
 	 * @param bgColor the background color of the cell
 	 */
-	public void setBackgroundColor(Color bgColor) {
+	public void setBackgroundColor(Color bgColor) throws FormulaCompilationException {
 		this.bgColor = bgColor;
+                super.setContent(super.getValue().toString());
 	}
 
 	/**
 	 * Sets the border of the cell.
 	 * @param border the border of the cell
 	 */
-	public void setBorder(Border border) {
+	public void setBorder(Border border) throws FormulaCompilationException {
 		this.border = border;
+                super.setContent(super.getValue().toString());
 	}
 
 	/**
@@ -256,6 +268,7 @@ public class StylableCell extends CellExtension {
 		this.fgColor	= FOREGROUND;
 		this.bgColor	= BACKGROUND;
 		this.border		= BORDER;
+                
 	}
 
 	/**
@@ -265,6 +278,11 @@ public class StylableCell extends CellExtension {
 	public void cellCleared(Cell cell) {
 		if (this.getDelegate().equals(cell)) {
 			resetStyle();
+                    try {
+                        super.setContent(super.getValue().toString());
+                    } catch (FormulaCompilationException ex) {
+                        Logger.getLogger(StylableCell.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 		}
 	}
 
