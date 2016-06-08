@@ -10,8 +10,10 @@ import csheets.domain.Note;
 import csheets.ext.notes.ui.NotesPanel;
 import csheets.factory.NoteFactory;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,31 +27,27 @@ public class NotesController {
 	 */
 	private final UIController uiController;
 
-	/**
-	 * User interface panel *
-	 */
-	private final NotesPanel uiPanel;
         
 	/**
 	 * Creates a new comment controller.
 	 *
 	 * @param uiCtrl the user interface controller
-	 * @param panel the user interface panel
 	 */
-    public NotesController(UIController uiCtrl,NotesPanel panel ){
+    public NotesController(UIController uiCtrl ){
         this.uiController = uiCtrl;
-	this.uiPanel = panel;
-        
+
     }
     
     public Iterable<Contact> showContacts(){
-      return PersistenceContext.repositories().contacts().all();  
+      return PersistenceContext.repositories().contacts().all();
     }
     
-    public Note createNote(String noteText){
-        Note note = NoteFactory.createNote(noteText);
+    public Note createNote(String noteText,Contact contact){
+        Note note = NoteFactory.createNote(noteText,contact, true);
             try {
                PersistenceContext.repositories().notes().add(note);
+               Notification.noteInformer().notifyChange();
+               
                 
             } catch (DataIntegrityViolationException ex) {
                 Logger.getLogger(NotesController.class.getName()).log(Level.SEVERE, null, ex);
@@ -57,5 +55,22 @@ public class NotesController {
              return note;
     }
    
+    public Note editNote(String noteText,Note note){
+        note.editNote(noteText);
+        PersistenceContext.repositories().notes().save(note);
+        Notification.noteInformer().notifyChange();
+        
+        return note;
+    }
     
+    public void deleteNote(Note note){
+        PersistenceContext.repositories().notes().delete(note);
+        Notification.noteInformer().notifyChange();
+    }
+    public List<Note> notesByContact(Contact contact){
+        return PersistenceContext.repositories().notes().principalNotes(contact);
+    }
+    public List<Note> versionByNote(Note note){
+        return note.versionByNote();
+    }
 }
