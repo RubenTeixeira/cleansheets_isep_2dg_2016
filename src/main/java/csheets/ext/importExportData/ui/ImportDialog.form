@@ -164,6 +164,9 @@
             <Component class="javax.swing.JTextField" name="separatorTextField">
             </Component>
             <Component class="javax.swing.JTextField" name="rangeOfCellsImportText">
+              <Properties>
+                <Property name="editable" type="boolean" value="false"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>

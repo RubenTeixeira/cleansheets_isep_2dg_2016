@@ -6,6 +6,9 @@ import csheets.ext.importExportData.parsers.FileHandler;
 import csheets.ext.importExportData.parsers.TxtParser;
 import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
+import java.awt.Font;
 
 public class ImportExportTextFileController {
 
@@ -53,42 +56,37 @@ public class ImportExportTextFileController {
 		}
 		Cell[][] textCells = nTextCells(lines, separator);
 
-		if (header == true) {
-			cells[0][0].setContent(lines[0]);
-			textCells[0][0] = cells[0][0];
-			int r = cells[0][0].getAddress().getRow();
-			int c = cells[0][0].getAddress().getColumn();
-			Cell cell = cells[0][0].getSpreadsheet().getCell(c, r + 1);
-			for (int i = 1; i < lines.length; i++) {
-				String[] col = lines[i].split(separator);
-				for (int j = 0; j < col.length; j++) {
-					cell.setContent(col[j]);
-					textCells[i][j] = cell;
-					int column = cell.getAddress().getColumn() + 1;
-					int row = cell.getAddress().getRow();
-					cell = cell.getSpreadsheet().getCell(column, row);
-				}
-				cell = cell.getSpreadsheet().getCell(c, cell.getAddress().
-													 getRow() + 1);
+		int r = cells[0][0].getAddress().getRow();
+		int c = cells[0][0].getAddress().getColumn();
+		Cell cell = cells[0][0].getSpreadsheet().getCell(c, r);
+		for (int i = 0; i < lines.length; i++) {
+			String[] col = lines[i].split(separator);
+			for (int j = 0; j < col.length; j++) {
+				cell.setContent(col[j]);
+				textCells[i][j] = cell;
+				int column = cell.getAddress().getColumn() + 1;
+				int row = cell.getAddress().getRow();
+				cell = cell.getSpreadsheet().getCell(column, row);
 			}
-		} else {
-			int r = cells[0][0].getAddress().getRow();
-			int c = cells[0][0].getAddress().getColumn();
-			Cell cell = cells[0][0].getSpreadsheet().getCell(c, r);
-			for (int i = 0; i < lines.length; i++) {
-				String[] col = lines[i].split(separator);
-				for (int j = 0; j < col.length; j++) {
-					cell.setContent(col[j]);
-					textCells[i][j] = cell;
-					int column = cell.getAddress().getColumn() + 1;
-					int row = cell.getAddress().getRow();
-					cell = cell.getSpreadsheet().getCell(column, row);
-				}
-				cell = cell.getSpreadsheet().getCell(c, cell.getAddress().
-													 getRow() + 1);
+			cell = cell.getSpreadsheet().getCell(c, cell.getAddress().
+												 getRow() + 1);
+		}
+
+		if (header) {
+			for (int i = 0; i < textCells[0].length; i++) {
+				boldHeader(textCells[0][i]);
 			}
 		}
+
 		return textCells;
+	}
+
+	private void boldHeader(Cell cell) {
+		StylableCell stylableCell = (StylableCell) cell.
+			getExtension(StyleExtension.NAME);
+		stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
+									  stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
+									  getFont().getSize()));
 	}
 
 	/**

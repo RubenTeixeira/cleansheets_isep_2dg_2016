@@ -82,7 +82,9 @@
  *
  *
  * <h2>5. Design</h2>
- *
+ * <p>
+ * <img src="doc-files/core02_2_Design.png" alt="image">
+ * </p>
  * <h3>5.1. Functional Tests</h3>
  *
  *
@@ -139,7 +141,7 @@
  * <p>
  * <b>Tuesday</b>
  * </p>
- * 1.
+ * 1. Complete Design and Starts Implementaton
  * <p>
  * Blocking:
  * </p>
