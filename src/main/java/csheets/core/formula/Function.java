@@ -67,4 +67,11 @@ public interface Function {
      * @return a string description of the operator.
      */
     public String getDescription();
+
+    /**
+     * Returns a template of the called function
+     *
+     * @return a string template to use the function.
+     */
+    public String getTemplate();
 }

@@ -17,50 +17,69 @@ import csheets.core.formula.FunctionParameter;
  */
 public class Euro implements Function {
 
-	/**
-	 * The only (but repeatable) parameter: a numeric term
-	 */
-	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.MONEY, "Term", false,
-							  "A number to be converted to euro")
-	};
+    /**
+     * The only (but repeatable) parameter: a numeric term
+     */
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+        new FunctionParameter(Value.Type.MONEY, "Term", false,
+        "A number to be converted to euro")
+    };
 
-	/**
-	 * Creates a new instance of the EURO function.
-	 */
-	public Euro() {
-	}
+    /**
+     * Creates a new instance of the EURO function.
+     */
+    public Euro() {
+    }
 
-	@Override
-	public String getIdentifier() {
-		return "euro";
-	}
+    @Override
+    public String getIdentifier() {
+        return "euro";
+    }
 
-	/**
-	 * Returns a Numeric type Value. In this case, no conversion is need.
-	 *
-	 * @param arguments
-	 * @return
-	 * @throws IllegalValueTypeException
-	 */
-	@Override
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
+    /**
+     * Returns a Numeric type Value. In this case, no conversion is need.
+     *
+     * @param arguments
+     * @return
+     * @throws IllegalValueTypeException
+     */
+    @Override
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
 
-		return new Value(arguments[0].evaluate().toMoney().amount());
-	}
+        return new Value(arguments[0].evaluate().toMoney().amount());
+    }
 
-	@Override
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    @Override
+    public FunctionParameter[] getParameters() {
+        return parameters;
+    }
 
-	@Override
-	public boolean isVarArg() {
-		return false;
-	}
+    @Override
+    public boolean isVarArg() {
+        return false;
+    }
 
-	@Override
-	public String getDescription() {
-		return "Convert a monetary type value (parameter) to euro currency.";
-	}
+    @Override
+    public String getDescription() {
+        return "Convert a monetary type value (parameter) to euro currency.";
+    }
+
+    /**
+     * Return template of the function
+     *
+     * @return function template
+     */
+    @Override
+    public String getTemplate() {
+        String result = "#" + getIdentifier() + "{";
+        FunctionParameter[] param = getParameters();
+        for (int i = 0; i < param.length; i++) {
+            if (i != 0) {
+                result += ",";
+            }
+            result += param[i].getValueType().toString();
+        }
+        result += "}";
+        return result;
+    }
 }
