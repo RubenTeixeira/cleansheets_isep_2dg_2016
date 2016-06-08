@@ -15,11 +15,12 @@ import java.util.logging.Logger;
 public class ImportExportTextFileController {
 
 	/**
+	 * Checks if the selected cells are enough to the received content
 	 *
-	 * @param path
-	 * @param separator
-	 * @param cells
-	 * @return
+	 * @param path path of the file to import text
+	 * @param separator colums separator character
+	 * @param cells selected cells
+	 * @return true if cells are enough, false otherwise
 	 */
 	public boolean hasEnoughCells(String path, String separator,
 								  Cell[][] cells) {
@@ -36,12 +37,13 @@ public class ImportExportTextFileController {
 	}
 
 	/**
+	 * Copies the file content to selected cells
 	 *
-	 * @param path
-	 * @param separator
-	 * @param header
-	 * @param cells
-	 * @return
+	 * @param path path of file
+	 * @param separator separator column character
+	 * @param header has header or not
+	 * @param cells cells to copy from file
+	 * @return the cells with the text
 	 * @throws FormulaCompilationException
 	 */
 	public Cell[][] parse(String path, String separator, boolean header,
@@ -83,23 +85,30 @@ public class ImportExportTextFileController {
 		return textCells;
 	}
 
+	/**
+	 * Cell character to bold
+	 *
+	 * @param cell cell to change
+	 */
 	private void boldHeader(Cell cell) {
 		StylableCell stylableCell = (StylableCell) cell.
 			getExtension(StyleExtension.NAME);
-            try {
-                stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
-                        stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
-                                getFont().getSize()));
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+		try {
+			stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
+										  stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
+										  getFont().getSize()));
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(ImportExportTextFileController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 	}
 
 	/**
+	 * Returns the number of cells needed to copy text from content
 	 *
-	 * @param lines
-	 * @param separator
-	 * @return
+	 * @param lines lines of content
+	 * @param separator column separator character
+	 * @return the cells needed
 	 */
 	private Cell[][] nTextCells(String[] lines, String separator) {
 		if (lines == null) {
@@ -115,11 +124,12 @@ public class ImportExportTextFileController {
 	}
 
 	/**
+	 * Creates a file with content of the selected cells
 	 *
-	 * @param filename
-	 * @param cells
-	 * @param separator
-	 * @return
+	 * @param filename path to new file
+	 * @param cells selected cells
+	 * @param separator columns separator character
+	 * @return true if file was sucessfully created, false otherwise
 	 */
 	public boolean exportFile(String filename, Cell[][] cells, String separator) {
 		FileHandler fh = new FileHandler();
