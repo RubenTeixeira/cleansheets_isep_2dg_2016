@@ -113,10 +113,10 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
         jScrollPane1 = new javax.swing.JScrollPane();
         txtMessage = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        usersList = new javax.swing.JList<>();
+        usersList = new javax.swing.JList<String>();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        messagesList = new javax.swing.JList<>();
+        messagesList = new javax.swing.JList<String>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
