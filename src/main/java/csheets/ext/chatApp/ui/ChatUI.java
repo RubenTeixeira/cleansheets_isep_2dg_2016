@@ -236,29 +236,30 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     // End of variables declaration//GEN-END:variables
 
 	public void updateInstanceList(Map<String, String> hostMap) {
+		//MAYBE CHANGE FOR IP
 		for (String chatHost : hostMap.keySet()) {
-			if (instanceListModel.contains(hostMap.get(chatHost) + ":(offline)")) {
+			if (instanceListModel.contains(chatHost + ":(offline)")) {
 				instanceListModel.
-					removeElement(hostMap.get(chatHost) + ":(offline)");
+					removeElement(chatHost + ":(offline)");
 				instanceListModel.
-					addElement(hostMap.get(chatHost) + ":(online)");
+					addElement(chatHost + ":(online)");
 			} else if (!instanceListModel.
-				contains(hostMap.get(chatHost) + ":(online)")) {
-				hosts.put(hostMap.get(chatHost), chatHost);
+				contains(chatHost + ":(online)")) {
+				hosts.put(chatHost, chatHost);
 				if (hosts.containsValue(chatHost)) {
 					instanceListModel.
-						addElement(hostMap.get(chatHost) + ":(online)");
+						addElement(chatHost + ":(online)");
 
 					manager.after(10).once(new Task() {
 						@Override
 						public void fire() {
 							while (true) {
 								if (instanceListModel.elements().nextElement().
-									equals(hostMap.get(chatHost) + ":(online)")) {
+									equals(chatHost + ":(online)")) {
 									instanceListModel.
-										removeElement(hostMap.get(chatHost) + ":(online)");
+										removeElement(chatHost + ":(online)");
 									instanceListModel.
-										addElement(hostMap.get(chatHost) + ":(offline)");
+										addElement(chatHost + ":(offline)");
 								} else {
 									break;
 								}
