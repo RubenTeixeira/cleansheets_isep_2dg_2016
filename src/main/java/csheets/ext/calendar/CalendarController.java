@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.calendar;
 
 import csheets.domain.Calendar;
@@ -16,8 +11,9 @@ import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 
 /**
+ * A controller for updating the user-specified comment of a cell.
  *
- * @author Eduardo
+ * @author João Martins
  */
 public class CalendarController {
 
@@ -31,26 +27,43 @@ public class CalendarController {
 	 */
 	private CalendarPanel uiPanel;
 
-	public CalendarController(UIController controller,
-							  CalendarPanel calendar) {
-		this.uiController = controller;
-		this.uiPanel = calendar;
+	/**
+	 * Creates a new comment controller.
+	 *
+	 * @param uiController the user interface controller
+	 * @param uiPanel the user interface panel
+	 */
+	public CalendarController(UIController uiController, CalendarPanel uiPanel) {
+		this.uiController = uiController;
+		this.uiPanel = uiPanel;
 	}
 
-	public Iterable<Contact> getAllContacts() {
-		return PersistenceContext.repositories().contacts().all();
-	}
-
-	public Calendar createCalendar(String nome, String descripition,
-								   Color color, Contact cont) throws DataIntegrityViolationException {
-		Calendar cal = CalendarFactory.
-			createCalendar(nome, descripition, color, cont);
+	public Calendar createCalendar(Contact contact, String name,
+								   String description, Color colour) throws DataIntegrityViolationException {
+		csheets.domain.Calendar cal = CalendarFactory.
+			createCalendar(name, description, colour, contact);
 		PersistenceContext.repositories().calendars().add(cal);
 		Notification.calendarInformer().notifyChange();
 		return cal;
 	}
 
-	public Iterable<Calendar> getAllCalendars() {
+	public Calendar editCalendar(Calendar calendar) {
+		PersistenceContext.repositories().calendars().save(calendar);
+		Notification.calendarInformer().notifyChange();
+		return calendar;
+	}
+
+	public void removeCalendar(Calendar calendar) {
+		PersistenceContext.repositories().calendars().delete(calendar);
+		Notification.calendarInformer().notifyChange();
+	}
+
+	public Iterable<Contact> allContacts() {
+		return PersistenceContext.repositories().contacts().
+			all();
+	}
+
+	public Iterable<Calendar> allCalendars() {
 		return PersistenceContext.repositories().calendars().all();
 	}
 }

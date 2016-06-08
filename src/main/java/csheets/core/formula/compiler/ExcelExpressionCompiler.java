@@ -164,6 +164,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 		try {
 			if (node.getText() != null) {
 				function = Language.getInstance().getFunction(node.getText());
+                                System.out.println(function.getIdentifier());
 			}
 		} catch (UnknownElementException e) {
 		}

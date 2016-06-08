@@ -39,7 +39,7 @@ public class ChatAppController {
 		}
 
 		try {
-			this.udpService.server(30604, port);
+			this.udpService.server(30600, port);
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
