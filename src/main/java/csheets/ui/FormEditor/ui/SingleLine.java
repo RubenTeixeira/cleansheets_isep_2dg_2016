@@ -13,9 +13,13 @@ public class SingleLine extends javax.swing.JPanel {
 
     /**
      * Creates new form SingleLine
+     * @param name
+     * @param content
      */
-    public SingleLine() {
+    public SingleLine(String name, String content) {
         initComponents();
+        this.lblname.setText(name);
+        this.txtContent.setText(content);
     }
 
     /**
