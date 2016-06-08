@@ -58,4 +58,9 @@ public class Euro implements Function {
 	public boolean isVarArg() {
 		return false;
 	}
+
+	@Override
+	public String getDescription() {
+		return "Convert a monetary type value (parameter) to euro currency.";
+	}
 }
