@@ -23,6 +23,8 @@ public final class AppSettings {
     private final static String EXCHANGERATE_DOLLARTOEURO = "exchangerate.dollarToEuro";
     private final static String EXCHANGERATE_EUROTOPOUND = "exchangerate.euroToPound";
     private final static String EXCHANGERATE_EUROTODOLLAR = "exchangerate.euroToDollar";
+    
+    private final static String APP_KEY = "ohT3e8TJ55QOsAsx";
 
     // use lazy holder idiom
     // https://en.wikipedia.org/wiki/Initialization-on-demand_holder_idiom
@@ -36,6 +38,7 @@ public final class AppSettings {
     }
 
     private AppSettings() {
+        setDefaultProperties();
         loadProperties();
     }
 
@@ -70,6 +73,7 @@ public final class AppSettings {
     private void setDefaultProperties() {
         this.applicationProperties.setProperty(REPOSITORY_FACTORY_KEY,
                 "eapli.ecafeteria.persistence.jpa.JpaRepositoryFactory");
+        this.applicationProperties.setProperty("APP_KEY", APP_KEY);
     }
 
     public String getRepositoryFactory() {
@@ -94,5 +98,10 @@ public final class AppSettings {
     public Money getEuroToDollarExchangeRate()
     {
         return Money.dollars(Double.parseDouble(this.applicationProperties.getProperty(EXCHANGERATE_EUROTODOLLAR)));
+    }
+    
+    public String getApplicationKey()
+    {
+        return this.applicationProperties.getProperty("APP_KEY");
     }
 }

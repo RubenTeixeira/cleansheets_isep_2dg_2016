@@ -246,6 +246,10 @@ public class TcpServer extends Server {
         synchronized (this.routes) {
             this.routes.remove(route);
         }
+        
+        synchronized (this.channels) {
+            this.channels.remove(route);
+        }
     }
 
     /**

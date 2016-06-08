@@ -85,6 +85,8 @@ public class Action {
      * 
      * @param args Arguments passed into the action.
      */
-    public void run(Map<String, Object> args) {}
+    public void run(Map<String, Object> args) {
+        throw new UnsupportedOperationException("The Action run method must be defined in a separate class or anonymously.");
+    }
     
 }

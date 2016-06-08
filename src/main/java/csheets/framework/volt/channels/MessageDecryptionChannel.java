@@ -17,6 +17,14 @@ public class MessageDecryptionChannel extends Channel {
     private final String key;
 
     public MessageDecryptionChannel(String key) {
+        if (key == null) {
+            throw new IllegalArgumentException("The encryption key cannot be null.");
+        }
+
+        if (key.length() != 16) {
+            throw new IllegalArgumentException("The encryption key must have 16 characters.");
+        }
+        
         this.key = key;
     }
 

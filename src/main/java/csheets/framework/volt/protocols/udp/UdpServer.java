@@ -101,6 +101,7 @@ public class UdpServer extends Server {
         }
         
         arguments.put("message", message);
+        arguments.put("route", route);
         
         // Execute all the before channels.
         for (Channel channel : getRouteChannels(route)) {
@@ -287,7 +288,7 @@ public class UdpServer extends Server {
                                     }
                                     
                                     // Execute all the after channels.
-                                    for (Channel channel : getRouteChannels(headers.get("route"))) {
+                                    for (Channel channel : getRouteChannels((String) arguments.get("route"))) {
                                         channel.after(arguments, dependencies);
                                     }
                                     
@@ -314,7 +315,7 @@ public class UdpServer extends Server {
                             }
                             
                             // Execute all the after channels.
-                            for (Channel channel : getRouteChannels(headers.get("route"))) {
+                            for (Channel channel : getRouteChannels((String) arguments.get("route"))) {
                                 channel.after(arguments, dependencies);
                             }
                             
@@ -433,6 +434,10 @@ public class UdpServer extends Server {
                     break;
                 }
             }
+        }
+        
+        synchronized (this.channels) {
+            this.channels.remove(route);
         }
     }
     

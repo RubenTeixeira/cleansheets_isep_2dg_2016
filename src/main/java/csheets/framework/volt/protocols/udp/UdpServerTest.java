@@ -71,7 +71,7 @@ public class UdpServerTest {
             }
         });
         
-        tm.after(5).once(new Task() {
+        tm.after(9).once(new Task() {
             public void fire() {
                 // server.neglect(":message");
                 System.out.println("wsup");
