@@ -74,7 +74,7 @@
                 </Property>
               </Properties>
               <AuxValues>
-                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextArea1.setText(comment);"/>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextArea1.setText(comment);&#xa;jTextArea1.setEditable(false);"/>
               </AuxValues>
             </Component>
           </SubComponents>

@@ -203,28 +203,14 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	}
 
 	private void paintCommentPanels() {
-
-//		this.jPanelContacts.removeAll();
-//		((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
-//		for (Contact contact : this.controller.allContacts()) {
-//			ContactsPanelSingle2 panel = new ContactsPanelSingle2(this.controller, contact);
-//			this.jPanelContacts.add(panel);
-//			GridLayout layout = (GridLayout) this.jPanelContacts.getLayout();
-//			layout.setRows(layout.getRows() + 1);
-//		}
-//		this.jPanelContacts.revalidate();
-//		this.jPanelContacts.repaint();
 		cleanCommentsPanel();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
 			CommentPanel cmtPanel = new CommentPanel(comment.userName(), comment.
 													 text());
-			System.out.println("ADDING Panel for comment from " + comment.
-				userName());
 
 			jPanel2.add(cmtPanel);
 			jTextField1.setText("");
-			//layout.setRows(layout.getRows() + 1);
 			cmtPanel.setVisible(true);
 		}
 		refreshUI();
@@ -232,7 +218,6 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 
 	private void cleanCommentsPanel() {
 		jPanel2.removeAll();
-		//layout.setRows(1);
 		refreshUI();
 	}
 

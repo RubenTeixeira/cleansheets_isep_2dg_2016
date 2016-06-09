@@ -24,10 +24,10 @@ public class SearchResultAssembler {
 	 */
 	public static SearchResultDTO getResultInformation(Spreadsheet spreadSheet,
 													   Cell cell) {
-		String sheetName = spreadSheet.getTitle();
-		String cellAddress = cell.getAddress().toString();
-		String cellContent = cell.getContent();
-		String cellValue = cell.getValue().toString();
+		String sheetName = spreadSheet.getTitle().trim().replaceAll("\\s+", " ");
+		String cellAddress = cell.getAddress().toString().trim();
+		String cellContent = cell.getContent().trim();
+		String cellValue = cell.getValue().toString().trim();
 		return new SearchResultDTO(sheetName, cellAddress, cellContent, cellValue);
 	}
 

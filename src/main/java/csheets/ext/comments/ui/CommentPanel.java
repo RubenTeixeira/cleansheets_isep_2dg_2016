@@ -49,6 +49,7 @@ public class CommentPanel extends javax.swing.JPanel {
         jTextArea1.setColumns(0);
         jTextArea1.setRows(0);
         jTextArea1.setText(comment);
+        jTextArea1.setEditable(false);
         jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
