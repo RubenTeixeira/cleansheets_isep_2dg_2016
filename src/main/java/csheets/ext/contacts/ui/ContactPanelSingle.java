@@ -3,6 +3,7 @@ package csheets.ext.contacts.ui;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsController;
+import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Marcelo Barroso 1131399
  */
-public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer {
+public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
 
 	private Contact contact;
 	private ContactsController controller;
@@ -24,7 +25,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
 	 * @param controller controller of events
 	 * @param contact contact
 	 */
-	public ContactsPanelSingle2(ContactsController controller, Contact contact) {
+	public ContactPanelSingle(ContactsController controller, Contact contact) {
 		this.controller = controller;
 		this.contact = contact;
 		this.initComponents();
@@ -77,7 +78,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
         setPreferredSize(new java.awt.Dimension(250, 65));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ContactsPanelSingle2.this.mouseClicked(evt);
+                ContactPanelSingle.this.mouseClicked(evt);
             }
         });
         setLayout(new java.awt.BorderLayout());
@@ -86,6 +87,11 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
         jPanel1.setMinimumSize(new java.awt.Dimension(265, 65));
         jPanel1.setPreferredSize(new java.awt.Dimension(265, 65));
         jPanel1.setSize(new java.awt.Dimension(265, 65));
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         labelName.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         labelName.setText("Name");
@@ -170,12 +176,8 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
     }//GEN-LAST:event_mouseClicked
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		ContactsManage2 manage = new ContactsManage2(this.controller, this.contact);
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, manage, "Edit Contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			manage.createEvent();
-		}
+		new ContactManager(UIController.getUIController().getFrame(), this.controller, this.contact).
+			setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
@@ -191,6 +193,12 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
     private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
 		this.contactView();
     }//GEN-LAST:event_labelNameMouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+		if (this.contact instanceof CompanyContact) {
+			new CompanyView(this.controller, this.contact).setVisible(true);
+		}
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;

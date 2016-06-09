@@ -55,7 +55,7 @@ public class PersonContact extends Contact {
 		}
 		this.firstName = firstName;
 		this.lastName = lastName;
-
+		this.name = this.toString();
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class PersonContact extends Contact {
 	 */
 	@Override
 	public String name() {
-		return this.firstName + " " + this.lastName;
+		return this.toString();
 	}
 
 	/**
@@ -90,6 +90,7 @@ public class PersonContact extends Contact {
 	 */
 	public void firstName(String firstName) {
 		this.firstName = firstName;
+		this.name = this.toString();
 	}
 
 	/**
@@ -106,6 +107,7 @@ public class PersonContact extends Contact {
 	 */
 	public void lastName(String lastName) {
 		this.lastName = lastName;
+		this.name = this.toString();
 	}
 
 	/**
@@ -142,6 +144,33 @@ public class PersonContact extends Contact {
 	 */
 	public void profession(String profession) {
 		this.profession = profession;
+	}
+
+	@Override
+	public String toString() {
+		return this.firstName.trim() + " " + this.lastName.trim();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof PersonContact)) {
+			return false;
+		}
+		PersonContact instance = (PersonContact) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 27;
+		hashcode = hashcode + 11 + this.name().hashCode();
+		return hashcode;
 	}
 
 }

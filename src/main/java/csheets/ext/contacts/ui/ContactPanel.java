@@ -6,16 +6,16 @@ import csheets.ext.contacts.ContactsExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
-import java.util.List;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author Marcelo Barroso 1131399
  */
-public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
+public class ContactPanel extends javax.swing.JPanel implements Observer {
 
 	private ContactsController controller;
 	private Contact user;
@@ -25,10 +25,10 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 	 *
 	 * @param uiController The user interface controller.
 	 */
-	public ContactsPanel2(UIController uiController) {
+	public ContactPanel(UIController uiController) {
 		this.setName(ContactsExtension.NAME);
 		this.controller = new ContactsController(uiController, this);
-		this.user = uiController.getUser();
+		this.user = this.controller.systemUser();
 		this.initComponents();
 		this.update(null, null);
 		Notification.contactInformer().addObserver(this);
@@ -36,40 +36,28 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		this.jPanelContacts.removeAll();
-		//((GridLayout) this.jPanelPrincipal.getLayout()).setRows(1);
-		//((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
-		List<Contact> contacts = (List<Contact>) this.controller.allContacts();
-		//Contact principal = UIController.getUIController().getUser();
-		//System.out.println(principal);
-		System.out.println(UIController.getUIController());
-		/*
-		for (Contact contact : this.controller.allContacts()) {
-			if (contact.name() == "") {
-				principal = contact;
-			} else {
-				this.jPanelContacts.
-					add(new ContactsPanelSingle2(this.controller, principal));
-				GridLayout layout = (GridLayout) this.jPanelContacts.getLayout();
-				layout.setRows(layout.getRows() + 1);
+		try {
+			if (this.user != null) {
+				this.jLabelName.setText(this.user.name());
+				this.jLabelPhoto.setIcon(new ImageIcon(this.controller.
+					contactPhoto(this.user).getScaledInstance(this.jLabelPhoto.
+					getWidth(), this.jLabelPhoto.getHeight(), Image.SCALE_SMOOTH)));
 			}
+			this.jPanelContacts.removeAll();
+			((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
+			for (Contact contact : this.controller.allContacts()) {
+				if (!contact.name().equalsIgnoreCase(this.user.name())) {
+					ContactPanelSingle panel = new ContactPanelSingle(this.controller, contact);
+					this.jPanelContacts.add(panel);
+					GridLayout layout = (GridLayout) this.jPanelContacts.
+						getLayout();
+					layout.setRows(layout.getRows() + 1);
+				}
+			}
+			this.jPanelContacts.revalidate();
+			this.jPanelContacts.repaint();
+		} catch (Exception ex) {
 		}
-
-		if (principal != null) {
-			this.jPanelPrincipal.
-				add(new ContactsPanelSingle2(this.controller, principal));
-		}
-		 */
-		this.jPanelContacts.removeAll();
-		((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
-		for (Contact contact : this.controller.allContacts()) {
-			ContactsPanelSingle2 panel = new ContactsPanelSingle2(this.controller, contact);
-			this.jPanelContacts.add(panel);
-			GridLayout layout = (GridLayout) this.jPanelContacts.getLayout();
-			layout.setRows(layout.getRows() + 1);
-		}
-		this.jPanelContacts.revalidate();
-		this.jPanelContacts.repaint();
 	}
 
 	/**
@@ -93,11 +81,9 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jPanelContacts.setBackground(new java.awt.Color(204, 204, 204));
         jPanelContacts.setLayout(new java.awt.GridLayout(5, 1));
         jScrollPane1.setViewportView(jPanelContacts);
 
-        jPanelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
         jPanelPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabelPhoto.setMaximumSize(new java.awt.Dimension(45, 45));
@@ -193,17 +179,11 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-		new PersonManager(null, this.controller, null).setVisible(true);
+		new ContactManager(null, this.controller, null).setVisible(true);
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		ContactsManage2 manage = new ContactsManage2(this.controller, UIController.
-													 getUIController().getUser());
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, manage, "Edit Contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			manage.createEvent();
-		}
+		new ContactManager(null, this.controller, this.user).setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

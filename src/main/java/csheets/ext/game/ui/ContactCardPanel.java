@@ -1,7 +1,8 @@
-package csheets.ext.contacts.ui;
+package csheets.ext.game.ui;
 
 import csheets.ext.contacts.ContactsController;
 import csheets.domain.Contact;
+import csheets.ext.contacts.ui.ContactManager;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -114,7 +115,7 @@ public class ContactCardPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		new PersonManager(null, theController, this.theContact).
+		new ContactManager(null, theController, this.theContact).
 			setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 

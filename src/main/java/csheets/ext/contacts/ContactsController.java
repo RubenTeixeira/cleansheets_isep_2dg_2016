@@ -122,7 +122,7 @@ public class ContactsController {
 		return theContact;
 	}
 
-	public Contact addSystemUser() {
+	public Contact systemUser() {
 		try {
 			String userName = System.getProperty("user.name");
 			Contact contact = PersistenceContext.repositories().contacts().
@@ -136,6 +136,10 @@ public class ContactsController {
 		} catch (Exception ex) {
 			return null;
 		}
+	}
+
+	public Contact getContact(String name) {
+		return PersistenceContext.repositories().contacts().getByName(name);
 	}
 
 }

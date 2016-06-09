@@ -23,7 +23,7 @@ import javax.swing.SwingWorker;
  *
  * @author Rui Freitas
  */
-public class PersonManager extends javax.swing.JDialog implements Observer {
+public class ContactManager extends javax.swing.JDialog implements Observer {
 
 	private File photoFile;
 	private ContactsController controller;
@@ -36,8 +36,8 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 	 * @param controller controller
 	 * @param contact The contact to edit.
 	 */
-	public PersonManager(JFrame parent, ContactsController controller,
-						 Contact contact) {
+	public ContactManager(JFrame parent, ContactsController controller,
+						  Contact contact) {
 		super();
 		this.controller = controller;
 		this.contact = contact;
@@ -333,8 +333,9 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 						String lastName = jTextFieldLastName.getText();
 						String profession = (String) jComboBoxProfession.
 							getSelectedItem();
-						CompanyContact company = (CompanyContact) jComboBoxCompany.
-							getSelectedItem();
+						Contact company = controller.
+							getContact((String) jComboBoxCompany.
+								getSelectedItem());
 						controller.
 							addPerson(firstName, lastName, profession, company, photoFile);
 					} else {
