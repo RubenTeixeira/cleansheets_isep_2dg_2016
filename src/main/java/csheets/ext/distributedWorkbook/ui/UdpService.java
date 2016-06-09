@@ -29,30 +29,33 @@ public class UdpService extends Notifier {
 	 * @param localPort The local port to contact other UDP servers.
 	 * @param targetPort The target port, customized by the user.
 	 */
-	public void server(int localPort, int targetPort) {
+	public void server() {
 		ThreadManager.create("ipc.distributed-udpServer", new Thread() {
 							 @Override
 							 public void run() {
 								 server = NetworkManager.udp();
 
-								 server.expect(":distributed-broadcast", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
+								 server.
+									 expect(":distributed-broadcast", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
 //
-												   if (server.same(args.
-													   get("from"))) {
-													   return;
-												   }
-												   // Destination = Target's IP and Port
-												   String destination = ((String) args.
-													   get("from")).split(":")[0] + ":" + AppSettings.instance().get("UDP_PORT");
+												if (server.same(args.
+													get("from"))) {
+													return;
+												}
+												// Destination = Target's IP and Port
+												String destination = ((String) args.
+													get("from")).split(":")[0] + ":" + AppSettings.
+													instance().get("UDP_PORT");
 
-												   server.
-													   send(":distributed-port", destination, String.
-															valueOf(targetPort));
-											   }
-										   });
+												server.
+													send(":distributed-port", destination, AppSettings.
+														 instance().
+														 get("TCP_PORT"));
+											}
+										});
 
 								 server.
 									 expect(":distributed-port", new Action() {
@@ -96,7 +99,8 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":distributed-broadcast", "all:" + AppSettings.instance().get("UDP_PORT"), "check");
+											 send(":distributed-broadcast", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), "check");
 									 }
 								 };
 

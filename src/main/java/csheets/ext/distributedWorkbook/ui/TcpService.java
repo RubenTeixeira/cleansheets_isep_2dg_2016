@@ -25,80 +25,86 @@ public class TcpService extends Notifier {
 	 *
 	 * @param port The server port, customized by the user.
 	 */
-	public void server(int port) {
+	public void server() {
 
 		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
 							 @Override
 							 public void run() {
 								 server = NetworkManager.tcp();
 
-								 server.expect(":distributed-request", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   String message = ((String) args.
-													   get("message")) + " with " + args.
-													   get("hostname");
+								 server.
+									 expect(":distributed-request", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												String message = ((String) args.
+													get("message")) + " with " + args.
+													get("hostname");
 
-												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
+												String destination = ((String) args.
+													get("from")).
+													split(":")[0] + ":" + AppSettings.
+													instance().get("TCP_PORT");
 
-												   int reply = JOptionPane.
-													   showConfirmDialog(null, message);
+												int reply = JOptionPane.
+													showConfirmDialog(null, message);
 
-												   switch (reply) {
-													   case JOptionPane.YES_OPTION: {
-														   server.
-															   send(":distributed-reply", destination, "TRUE");
-														   break;
-													   }
-													   case JOptionPane.NO_OPTION: {
-														   server.
-															   send(":distributed-reply", destination, "FALSE");
-														   break;
-													   }
-													   default:
-														   server.
-															   send(":distributed-reply", destination, "FALSE");
-														   break;
-												   }
-											   }
-										   });
+												switch (reply) {
+													case JOptionPane.YES_OPTION: {
+														server.
+															send(":distributed-reply", destination, "TRUE");
+														break;
+													}
+													case JOptionPane.NO_OPTION: {
+														server.
+															send(":distributed-reply", destination, "FALSE");
+														break;
+													}
+													default:
+														server.
+															send(":distributed-reply", destination, "FALSE");
+														break;
+												}
+											}
+										});
 
-								 server.expect(":distributed-reply", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange(args.
-													   get("message"));
-											   }
-										   });
+								 server.
+									 expect(":distributed-reply", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												notifyChange(args.
+													get("message"));
+											}
+										});
 
-								 server.expect(":distributed-search", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   String[] search = new String[3];
-												   search[0] = "Search";
-												   search[1] = ((String) args.
-													   get("message"));
-												   search[2] = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
+								 server.
+									 expect(":distributed-search", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												String[] search = new String[3];
+												search[0] = "Search";
+												search[1] = ((String) args.
+													get("message"));
+												search[2] = ((String) args.
+													get("from")).
+													split(":")[0] + ":" + AppSettings.
+													instance().get("TCP_PORT");
 
-												   notifyChange(search);
-											   }
-										   });
+												notifyChange(search);
+											}
+										});
 
-								 server.expect(":distributed-result", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange(args.
-													   get("message"));
-											   }
-										   });
+								 server.
+									 expect(":distributed-result", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												notifyChange(args.
+													get("message"));
+											}
+										});
 
 							 }
 						 }

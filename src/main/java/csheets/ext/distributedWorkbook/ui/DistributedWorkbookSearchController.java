@@ -1,6 +1,5 @@
 package csheets.ext.distributedWorkbook.ui;
 
-import csheets.AppSettings;
 import csheets.ext.distributedWorkbook.SearchWorkbook;
 import csheets.ui.ctrl.UIController;
 
@@ -42,18 +41,13 @@ public class DistributedWorkbookSearchController {
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	void startUdpService(int port, int seconds) {
-
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	void startUdpService(int seconds) {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds. It's not possible to register negative or zero seconds.");
 		}
 
 		try {
-			this.udpService.server(Integer.valueOf(AppSettings.instance().get("TCP_PORT")), Integer.valueOf(AppSettings.instance().get("TCP_PORT")));
+			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
@@ -69,14 +63,14 @@ public class DistributedWorkbookSearchController {
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void startUdpService(WorkbookSearchUI ui, int port, int seconds) {
+	public void startUdpService(WorkbookSearchUI ui, int seconds) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
 		this.udpService = new UdpService();
 
-		this.startUdpService(port, seconds);
+		this.startUdpService(seconds);
 
 		this.udpService.addObserver(ui);
 	}
@@ -86,13 +80,9 @@ public class DistributedWorkbookSearchController {
 	 *
 	 * @param port The target port that is defined by the user.
 	 */
-	private void startTcpService(int port) {
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	private void startTcpService() {
 		try {
-			this.tcpService.server(port);
+			this.tcpService.server();
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -107,14 +97,14 @@ public class DistributedWorkbookSearchController {
 	 * @param ui Workbook Search ui
 	 * @param port The target port that is defined by the user.
 	 */
-	public void startTcpService(WorkbookSearchUI ui, int port) {
+	public void startTcpService(WorkbookSearchUI ui) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
 		this.tcpService = new TcpService();
 
-		this.startTcpService(port);
+		this.startTcpService();
 
 		this.tcpService.addObserver(ui);
 	}
@@ -133,12 +123,12 @@ public class DistributedWorkbookSearchController {
 	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void restartServices(int port, int seconds) {
+	public void restartServices(int seconds) {
 		this.tcpService.stop();
 		this.udpService.stop();
 
-		this.startUdpService(port, seconds);
-		this.startTcpService(port);
+		this.startUdpService(seconds);
+		this.startTcpService();
 	}
 
 	/**
