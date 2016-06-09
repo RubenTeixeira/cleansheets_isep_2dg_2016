@@ -28,7 +28,7 @@ public class UdpService extends Notifier {
 	 *
 	 */
 	public void server() {
-		ThreadManager.create("ipc.udpServer", new Thread() {
+		ThreadManager.create("ipc.share-cells-udpServer", new Thread() {
 							 @Override
 							 public void run() {
 								 server = NetworkManager.udp();
@@ -79,7 +79,7 @@ public class UdpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpServer");
+		ThreadManager.run("ipc.share-cells-udpServer");
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class UdpService extends Notifier {
 	 * @param seconds Time in seconds to send another request.
 	 */
 	public void client(int seconds) {
-		ThreadManager.create("ipc.udpClient", new Thread() {
+		ThreadManager.create("ipc.share-cells-udpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 UdpClient client = new UdpClient(0);
@@ -108,7 +108,7 @@ public class UdpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpClient");
+		ThreadManager.run("ipc.share-cells-udpClient");
 	}
 
 	/**
@@ -116,8 +116,8 @@ public class UdpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.udpServer");
-		ThreadManager.destroy("ipc.udpClient");
+		ThreadManager.destroy("ipc.share-cells-udpServer");
+		ThreadManager.destroy("ipc.share-cells-udpClient");
 	}
 
 }
