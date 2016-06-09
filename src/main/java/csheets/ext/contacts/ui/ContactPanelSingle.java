@@ -2,6 +2,7 @@ package csheets.ext.contacts.ui;
 
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.PersonContact;
 import csheets.ext.contacts.ContactsController;
 import csheets.ui.ctrl.UIController;
 import java.awt.Image;
@@ -197,6 +198,8 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
 		if (this.contact instanceof CompanyContact) {
 			new CompanyView(this.controller, this.contact).setVisible(true);
+		} else if (this.contact instanceof PersonContact) {
+			new PersonView(controller, contact).setVisible(true);
 		}
     }//GEN-LAST:event_jPanel1MouseClicked
 
