@@ -21,8 +21,8 @@ public class FindWorkbookController {
 	 *
 	 * @param startingDirectory start directory
 	 * @param pattern extention of the file
-	 * @return
-	 * @throws java.lang.NullPointerException
+	 * @return list file
+	 * @throws java.lang.NullPointerException exception
 	 */
 	public List<File> findWorkbook(final File startingDirectory,
 								   final String pattern)

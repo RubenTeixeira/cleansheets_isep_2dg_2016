@@ -52,7 +52,7 @@ public class FindWorkbookAction extends BaseAction {
 
 	/**
 	 *
-	 * @param event
+	 * @param event event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {

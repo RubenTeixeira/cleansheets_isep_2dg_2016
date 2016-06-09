@@ -27,7 +27,7 @@ import org.antlr.runtime.tree.Tree;
 
 /**
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class MonetaryExpressionCompiler implements ExpressionCompiler {
 

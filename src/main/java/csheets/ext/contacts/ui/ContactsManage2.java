@@ -1,7 +1,7 @@
 package csheets.ext.contacts.ui;
 
-import csheets.ext.contacts.ContactsController;
 import csheets.domain.Contact;
+import csheets.ext.contacts.ContactsController;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
@@ -26,7 +26,7 @@ public class ContactsManage2 extends javax.swing.JPanel implements Observer {
 	 * Creates new form NewJPanel
 	 *
 	 * @param controller The events controller.
-	 * @param event The event.
+	 * @param contact contact
 	 */
 	public ContactsManage2(ContactsController controller, Contact contact) {
 		this.controller = controller;

@@ -26,12 +26,11 @@ final public class ExportXML {
 	/**
 	 * Export the contents of an workbook to XML file with param tags.
 	 *
-	 * @param fileChooser
-	 * @param tagWorkbook
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @param workbook
+	 * @param tagWorkbook tagWorkbook
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow tagRow
+	 * @param tagColumn tagColumn
+	 * @param workbook workbook
 	 * @return toString of workbook
 	 */
 	static public String exportWorkbook(
@@ -75,10 +74,10 @@ final public class ExportXML {
 	 *
 	 * Export the contents of an Spreadsheet to XML file with param tags.
 	 *
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @param spreadsheet
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow tagRow
+	 * @param tagColumn tagColumn
+	 * @param spreadsheet tagSpreadSheet
 	 * @return toString of Spreadsheet
 	 */
 	static public String exportSpreadsheet(
@@ -115,10 +114,10 @@ final public class ExportXML {
 	/**
 	 * Export part of an worksheet to an XML file
 	 *
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @param uiController
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow tagRow
+	 * @param tagColumn tagColumn
+	 * @param uiController uiController
 	 * @return toString of SpreadsheetSelected
 	 */
 	static public String exportSpreadsheetSelected(

@@ -18,6 +18,9 @@ public class CommentPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form Comment
+	 *
+	 * @param username username
+	 * @param comment comment
 	 */
 	public CommentPanel(String username, String comment) {
 		setName(CommentsExtension.NAME);

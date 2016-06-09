@@ -26,7 +26,7 @@ public class ExportXMLAction extends AbstractAction {
 	/**
 	 * Creates Export XML action.
 	 *
-	 * @param controller
+	 * @param controller controller
 	 */
 	public ExportXMLAction(UIController controller) {
 		// Configures action
@@ -42,7 +42,7 @@ public class ExportXMLAction extends AbstractAction {
 	 *
 	 * Creates actionPerformed to call ExportXMLPanel
 	 *
-	 * @param e
+	 * @param e e
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

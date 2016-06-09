@@ -22,7 +22,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
 	 * Creates new form ContactPanel3
 	 *
 	 * @param controller controller of events
-	 * @param event event active
+	 * @param contact contact
 	 */
 	public ContactsPanelSingle2(ContactsController controller, Contact contact) {
 		this.controller = controller;

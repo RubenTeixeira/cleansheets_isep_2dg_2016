@@ -18,6 +18,8 @@ public class WizardFrame extends javax.swing.JFrame {
 
 	/**
 	 * Creates new form WizardFrame
+	 *
+	 * @param uiController uiController
 	 */
 	public WizardFrame(UIController uiController) {
 		setLocationRelativeTo(this);

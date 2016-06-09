@@ -18,7 +18,7 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
 	 * Creates new form ReminderPanel
 	 *
 	 * @param controller controller of events
-	 * @param reminder
+	 * @param reminder reminder
 	 */
 	public ReminderPanelSingle(ReminderController controller, Reminder reminder) {
 		this.controller = controller;

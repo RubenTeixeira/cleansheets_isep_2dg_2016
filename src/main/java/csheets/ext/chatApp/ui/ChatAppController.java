@@ -45,7 +45,6 @@ public class ChatAppController {
 	 * Starts the UDP service.
 	 *
 	 * @param ui user interface of chat
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void startUdpService(ChatUI ui, int seconds) {
@@ -77,7 +76,6 @@ public class ChatAppController {
 	 * Starts the TCP service.
 	 *
 	 * @param ui user interface od chat
-	 * @param port The target port that is defined by the user.
 	 */
 	public void startTcpService(ChatUI ui) {
 		if (ui == null) {
@@ -90,7 +88,6 @@ public class ChatAppController {
 	/**
 	 * Restarts both the UDP and TCP services.
 	 *
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void restartServices(int seconds) {

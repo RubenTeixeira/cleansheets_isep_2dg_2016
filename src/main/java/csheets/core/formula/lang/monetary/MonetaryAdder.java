@@ -12,7 +12,7 @@ import csheets.core.formula.Expression;
 
 /**
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class MonetaryAdder implements BinaryOperator {
 

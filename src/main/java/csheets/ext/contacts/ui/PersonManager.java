@@ -33,7 +33,7 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 	 * Creates new form AddContactDialog
 	 *
 	 * @param parent Parent frame.
-	 * @param theController The controller.
+	 * @param controller controller
 	 * @param contact The contact to edit.
 	 */
 	public PersonManager(JFrame parent, ContactsController controller,
