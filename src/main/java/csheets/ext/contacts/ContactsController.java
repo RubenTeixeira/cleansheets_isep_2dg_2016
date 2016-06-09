@@ -6,7 +6,7 @@ import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
-import csheets.framework.notification.Notification;
+import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.support.Converter;
 import csheets.ui.ctrl.UIController;
@@ -127,14 +127,11 @@ public class ContactsController {
 			String userName = System.getProperty("user.name");
 			Contact contact = PersistenceContext.repositories().contacts().
 				getByName(userName);
-			System.out.println(userName);
-			System.out.println(contact);
 			if (contact == null) {
 				contact = this.
 					addPerson(userName, "", null, null, new File(CleanSheets.class.
 							  getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
-			System.out.println(contact);
 			return contact;
 		} catch (Exception ex) {
 			return null;
