@@ -162,7 +162,7 @@ public class ExtensionManager {
 				load(s);
 			}
 		}
-		System.out.println("ole");
+
 	}
 
 	/**
