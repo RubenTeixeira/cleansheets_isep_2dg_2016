@@ -92,7 +92,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
         instancePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        instancesList = new javax.swing.JList<>();
+        instancesList = new javax.swing.JList<String>();
         sendButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         waitingPanel = new javax.swing.JPanel();
@@ -100,7 +100,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         searchingPanel = new javax.swing.JPanel();
         searchingLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         instancePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choose Instance", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
