@@ -66,7 +66,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
-		final int defaultSeconds = 3;
+		final int defaultSeconds = 5;
 		final int defaultPort = 20002;
 
 		this.controller.startUdpService(this, defaultPort, defaultSeconds);

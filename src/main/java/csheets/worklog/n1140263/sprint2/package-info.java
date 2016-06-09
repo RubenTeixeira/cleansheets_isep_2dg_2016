@@ -59,8 +59,16 @@
  * instance</b>:
  * <img src="doc-files/ip07.1_getInstances.png" alt="SD">
  *
- * <b>Sequence Diagram - Create an extension</b>:
- * <img src=".png" alt="SD">
+ * <b>Sequence Diagram - Main Sequence</b>:
+ * <img src="doc-files/ip07.1_main_sequence.png" alt="SD">
+ *
+ * <p>
+ * 1. Set profile photo 2. Broadcast (Udp) - search for "online" instances 3.
+ * Select instance to connect/play game 4. Select game 5. Connect to other
+ * instance - connect 6. Play game - not implemented in this feature
+ *
+ * Also: It is possible to end an established game.
+ *
  *
  * <h3>5.3. Classes</h3>
  *
@@ -90,7 +98,6 @@
  * "The name of the users and icon should be displayed in the list of available
  * users to play with." - not implemented yet; causa: No time do to the task.
  * The feature need improvements - friday and sunday (after presentation).
- * <p>
  *
  *
  * <h2>9. Work Log</h2>

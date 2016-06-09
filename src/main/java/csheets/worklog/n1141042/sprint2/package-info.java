@@ -19,41 +19,47 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-42">LPFOURDG-42</a>
  * </p>
  * <p>
- * LPFOURDG-42
- *Cleansheets should have a new menu option to launch a window for editing a form. 
- * A Form is a window that is designed by the end user and is used for interacting with the user (input and output). The new window should support the creation and testing of a Form. Forms should be very simple. 
- * A Form should be composed of rows, each row can be empty or have one or two visual widgets. The supported visual widgets are: button (to invoke actions); edit box (to enter data) and static text box (to display data). 
- * It should be possible to set the core properties of these widgets (like the text to display in a static text box, for instance). In the edit form window it should be possible to: add a new row; 
- * remove an existing row; edit an existing row; 'play' the form and close the edit form window.
- * The 'play' button is for testing the appearance of a form during its design (see example in the manual). At the moment it is only required to support a single Form for each workbook. 
- * It is not required to persist the Form. Macros and formulas should have a new function that can be used to display the form of the current workbook. Forms should have an icon or button to close de form. When the form is closed the function (in macros or formulas)
- * who call it returns.
+ * LPFOURDG-42 Cleansheets should have a new menu option to launch a window for
+ * editing a form. A Form is a window that is designed by the end user and is
+ * used for interacting with the user (input and output). The new window should
+ * support the creation and testing of a Form. Forms should be very simple. A
+ * Form should be composed of rows, each row can be empty or have one or two
+ * visual widgets. The supported visual widgets are: button (to invoke actions);
+ * edit box (to enter data) and static text box (to display data). It should be
+ * possible to set the core properties of these widgets (like the text to
+ * display in a static text box, for instance). In the edit form window it
+ * should be possible to: add a new row; remove an existing row; edit an
+ * existing row; 'play' the form and close the edit form window. The 'play'
+ * button is for testing the appearance of a form during its design (see example
+ * in the manual). At the moment it is only required to support a single Form
+ * for each workbook. It is not required to persist the Form. Macros and
+ * formulas should have a new function that can be used to display the form of
+ * the current workbook. Forms should have an icon or button to close de form.
+ * When the form is closed the function (in macros or formulas) who call it
+ * returns.
  *
  * </p>
  *
  * <h2>3. Requirement</h2>
  *
- *allow the user to create a form dynamically in it can insert or remove a line, 
- * which is composed of a name and content.
+ * allow the user to create a form dynamically in it can insert or remove a
+ * line, which is composed of a name and content.
  *
  *
  * <h2>4. Analysis</h2>
  *
  * <h3>Send a Secure Message</h3>
  * <p>
- * User->System: Starts the process.
- * System->User: Opens the window with options add or remove a line.
- * System->User: Presents the option to add remove a line.
- * User->System: Chooses an option.
- * System->User: ask the name of the label and the textbox description 
- * User->System: Answer.
- * System->User: Adds a new line.
- * User->System: If the chosen option is to remove.
- * System->User: Removes one line in the window.
+ * User-System: Starts the process. System-User: Opens the window with options
+ * add or remove a line. System-User: Presents the option to add remove a line.
+ * User-System: Chooses an option. System-User: ask the name of the label and
+ * the textbox description User-System: Answer. System-User: Adds a new line.
+ * User-System: If the chosen option is to remove. System-User: Removes one line
+ * in the window.
  * </p>
  * <h4>Analysis diagram:</h4>
  * <img src="doc-files/forms_editor_analysis.png">
- * 
+ *
  *
  * This feature is already supported, and was built on the Feature
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-42">LPFOURDG-42</a>.
@@ -63,7 +69,7 @@
  * <h2>8. Final Remarks</h2>
  *
  * <h2>9. Work Log</h2>
-
+ *
  * <p>
  * 06/06/2016</p>
  * <p>
@@ -84,8 +90,7 @@
  * <p>
  * Today</p>
  * <p>
- * start implementation
- * </p>
+ * start implementation </p>
  * <p>
  * Blocking</p>
  * <p>
@@ -131,8 +136,6 @@
  * <b>Evidences:</b>
  * </p>
  *
- * <p>
-
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
