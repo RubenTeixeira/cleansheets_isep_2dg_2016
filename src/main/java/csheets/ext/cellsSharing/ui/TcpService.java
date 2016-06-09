@@ -188,7 +188,7 @@ public class TcpService extends Notifier {
     }
 
     /**
-     * Sets the target instance.
+     * Sets the target instance for a continuous sending of messages.
      *
      * @param target Targeted instance
      */

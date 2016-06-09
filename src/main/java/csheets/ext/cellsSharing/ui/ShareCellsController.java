@@ -228,15 +228,15 @@ public class ShareCellsController {
 	}
 
         /**
-         * 
-         * @param target 
+         * Sets the target instance for a continuous sending of messages.
+         * @param target Targeted instance
          */
 	public void setContinuousTarget(String target) {
 		tcpService.setContinuousTarget(target);
 	}
 
         /**
-         * 
+         * Stops the continuous sending of messages.
          */
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
