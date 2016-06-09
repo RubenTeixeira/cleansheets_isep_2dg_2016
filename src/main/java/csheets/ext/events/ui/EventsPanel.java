@@ -35,7 +35,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		clearEventList();
 		for (Event event : this.controller.allEvents()) {
-			EventPanelSingle panel = new EventPanelSingle(this.controller, event);
+			EventsPanelSingle panel = new EventsPanelSingle(this.controller, event);
 			this.addEventPanel(panel);
 		}
 		this.jPanelEvents.revalidate();
@@ -43,7 +43,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	}
 
-	private void addEventPanel(EventPanelSingle panel) {
+	private void addEventPanel(EventsPanelSingle panel) {
 		this.jPanelEvents.add(panel);
 		addGridRow();
 	}
