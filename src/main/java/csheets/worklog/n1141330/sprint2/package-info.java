@@ -23,14 +23,14 @@
  *
  *
  * <b>Use Case "Create Calendar":</b> It should exist a new window that allows
- * to create a calendar to a Contact, and display it.
+ * to create a calendar to a Contact, where the user can select the contact,
+ * name, descpt and the color of the calendar.
  *
  *
  * <h2>4. Analysis</h2>
- *
+ * <img src="doc-files/crm5.1_01_analyse_1.png" alt="image">
  *
  * <h2>5. Design</h2>
- * Diagram of the core functionality of the feature
  *
  * <img src="doc-files/crm5.1_01_analyse.png" alt="image">
  *
@@ -49,14 +49,11 @@
  *
  * Yesterday I worked on:
  *
- * 1. -nothing-
+ * 1. Create Repository and Connect with UI. 2. Create a new JSideBar
  *
  * Today
  *
- * 1. Configure the IDE to start working 2. Debbug the app, and analyse the
- * generated javaDoc.
- *
- * Blocking:
+ * 1. Update Test. 2. Change my analysis Blocking:
  *
  * 1. -nothing-
  *
