@@ -43,7 +43,7 @@ class InMemoryContactRepository extends InMemoryRepository<Contact, Long>
 		for (Contact contact : this.all()) {
 			if (contact instanceof PersonContact) {
 				PersonContact person = (PersonContact) contact;
-				if (person.company() == company) {
+				if (person.company().equals(company)) {
 					list.add(contact);
 				}
 			}

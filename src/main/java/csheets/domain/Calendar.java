@@ -105,4 +105,29 @@ public class Calendar implements Serializable {
 	public String toString() {
 		return this.name;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Calendar)) {
+			return false;
+		}
+		Calendar instance = (Calendar) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 21;
+		hashcode += this.name.hashCode();
+		hashcode += this.description.hashCode();
+		hashcode += this.contact.hashCode();
+		hashcode += this.color.hashCode();
+		return hashcode;
+	}
 }

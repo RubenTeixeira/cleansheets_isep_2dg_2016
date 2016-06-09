@@ -53,14 +53,12 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 			this.jTreeCompany.removeAll();
 			DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTreeCompany.
 				getModel().getRoot();
-			DefaultMutableTreeNode root = new DefaultMutableTreeNode("tree");
+			DefaultMutableTreeNode root = new DefaultMutableTreeNode("Company");
 			treeRoot.add(root);
 			for (Contact contactPer : this.controller.contactsCompany(contact)) {
-				System.out.println("1");
 				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(contactPer);
 				root.add(contactRoot);
 				for (Event event : this.controller.eventsContact(contactPer)) {
-					System.out.println("2");
 					DefaultMutableTreeNode eventRoot = new DefaultMutableTreeNode(event);
 					contactRoot.add(eventRoot);
 				}
