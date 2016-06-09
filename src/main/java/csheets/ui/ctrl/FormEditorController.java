@@ -13,13 +13,13 @@ import csheets.ui.FormEditor.ui.SingleLine;
  */
 public class FormEditorController {
 
-	private final String name;
-	private final String description;
-	private SingleLine singleLine;
+    private final String name;
+    private final String description;
+    private SingleLine singleLine;
 
-	public FormEditorController(String name, String description) {
-		this.name = name;
-		this.description = description;
-	}
+    public FormEditorController(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
 }
