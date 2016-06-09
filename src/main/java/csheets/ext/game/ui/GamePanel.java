@@ -94,7 +94,6 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 *
 	 * @param uiController uiController
 	 * @param gameController gameController
-	 * @throws java.net.UnknownHostException exception
 	 */
 	public GamePanel(UIController uiController, GameController gameController) {
 		this.uiController = uiController;
@@ -133,6 +132,9 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		this.gameController.startTcpService(this, defaultPort);
 	}
 
+	/**
+	 * Update system property designation.
+	 */
 	private void updateSystemProperty() {
 		this.username = System.getProperty("user.name");
 		this.jTextField1.setText(username);
@@ -140,11 +142,21 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	}
 
+	/**
+	 * Update the name of the local host.
+	 *
+	 * @throws UnknownHostException
+	 */
 	private void updateLocalHostName() throws UnknownHostException {
 		jTextField2.setText(InetAddress.getLocalHost().getHostName());
 		jTextField2.setEditable(false);
 	}
 
+	/**
+	 * Update the online games between 2 instances.
+	 *
+	 * @param hostGame
+	 */
 	private void updateOnlineOpponentsGame(String hostGame) {
 		if (!instanceListModelOnlineGames.contains(hostGame)) {
 			instanceListModelOnlineGames.addElement(hostGame);
@@ -590,9 +602,9 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	}
 
 	/**
-	 * Update the list of "online" instances.
+	 * Update Instance list.
 	 *
-	 * @param addresses
+	 * @param addresses list of addressess
 	 */
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
