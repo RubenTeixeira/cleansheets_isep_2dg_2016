@@ -85,7 +85,7 @@ public class ContactsController {
 				throw new IOException("Loading file error!");
 			}
 		}
-		Contact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
+		PersonContact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
 		return PersistenceContext.repositories().contacts().getByName(contact.
@@ -104,7 +104,7 @@ public class ContactsController {
 				throw new IOException("Loading file error!");
 			}
 		}
-		Contact contact = new CompanyContact(name, thePhoto);
+		CompanyContact contact = new CompanyContact(name, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
 		return PersistenceContext.repositories().contacts().getByName(contact.

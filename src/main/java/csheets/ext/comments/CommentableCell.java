@@ -62,6 +62,9 @@ public class CommentableCell extends CellExtension {
 	 * @return true if the cell has comments
 	 */
 	public boolean hasComments() {
+		if (this.commentsList == null) {
+			return false;
+		}
 		return !this.commentsList.isEmpty();
 	}
 
@@ -86,8 +89,8 @@ public class CommentableCell extends CellExtension {
 		commentsList.stream().
 			forEach((comment) -> {
 				System.out.
-				println("Name: " + comment.userName() + " Text: " + comment.
-					text());
+					println("Name: " + comment.userName() + " Text: " + comment.
+						text());
 			});
 		// Notifies listeners
 		fireCommentsChanged();
