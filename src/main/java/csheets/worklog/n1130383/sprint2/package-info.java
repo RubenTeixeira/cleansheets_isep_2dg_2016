@@ -247,7 +247,16 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
  * concerning the fix described.</a></p>
  *
- *
+ * <p>
+ * Durante this week, one day before project submission, my colegue in charge of
+ * implementing LPFOURDG-2 feature - Auto-description of Extensions - was facing
+ * dificulties. I've proceed to implement his analysis and design on this
+ * subject. After ExtensionManagar reads "extensions.props" files a frame will
+ * be presented to user. From that point he decides what Extensions will load.
+ * The current implemented approach to solve this problem is to edit the current
+ * "extensions.props" file. When adding a new path extension to this file the
+ * developer must now introduce the number of the Extension version and a short
+ * Description of what the version current does.</p>
  *
  *
  * <p>
@@ -266,6 +275,12 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
  * concerning JDialog re-design, final deployment of Sort Extension.</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4ff6014ccddc64aafa90c286d337eb7d63b5e682">Commit
+ * concerning Auto-description implementation</a></p>
+ *
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e97b257c5c6a04a9d51931be788c650582a80954">Commit
+ * concerning Sort Extension Tests implementation.</a></p>
  *
  *
  *
