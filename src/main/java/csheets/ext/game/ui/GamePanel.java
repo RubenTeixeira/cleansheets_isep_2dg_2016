@@ -519,7 +519,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 				JOptionPane.
 					showMessageDialog(this, "Cant establish connection");
 
-			} else if (((String) object).compareTo("updateActiveGameListudpate") == 0) {
+			} else if (((String) object).compareTo("update") == 0) {
 				updateOnlineOpponentsGame(opp);
 			}
 		}

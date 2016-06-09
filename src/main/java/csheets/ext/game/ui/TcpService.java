@@ -47,7 +47,7 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = Volt.tcp(port, 0);
 
-								 server.expect("game-request", new Action() {
+								 server.expect(":game-request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -103,7 +103,7 @@ public class TcpService extends Notifier {
 											@Override
 											public void run(
 												Map<String, Object> args) {
-												notifyChange("updateActiveGameList");
+												notifyChange(args.get("message"));
 											}
 										});
 
