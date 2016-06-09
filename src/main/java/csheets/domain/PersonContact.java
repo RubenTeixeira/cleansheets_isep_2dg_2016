@@ -50,7 +50,7 @@ public class PersonContact extends Contact {
 	public PersonContact(String firstName, String lastName, String profession,
 						 Contact company, byte[] photo) {
 		super(photo);
-		if (firstName == null || firstName.isEmpty() || lastName == null) {
+		if (firstName == null || firstName.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.firstName = firstName;

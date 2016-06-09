@@ -129,11 +129,12 @@ public class ContactsController {
 				getByName(userName);
 			if (contact == null) {
 				contact = this.
-					addPerson(userName, "", null, null, new File(CleanSheets.class.
+					addPerson(userName, null, null, null, new File(CleanSheets.class.
 							  getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
 			return contact;
 		} catch (Exception ex) {
+			System.out.println("ERRO " + ex);
 			return null;
 		}
 	}

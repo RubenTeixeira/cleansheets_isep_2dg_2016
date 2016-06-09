@@ -52,6 +52,26 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (this.contact != null) {
+			this.jCheckBoxPerson.setEnabled(false);
+			this.jCheckBoxCompany.setEnabled(false);
+			Contact user = this.controller.systemUser();
+			System.out.println("user " + user);
+			System.out.println("user " + user);
+			if (user != null && this.contact.name().
+				equalsIgnoreCase(user.name())) {
+				this.jTextFieldFirstName.setEditable(false);
+				this.jTextFieldLastName.setEditable(false);
+				System.out.println("SYS");
+			} else {
+				this.jTextFieldFirstName.setEditable(true);
+				this.jTextFieldLastName.setEditable(true);
+				System.out.println("OUT");
+			}
+		} else {
+			this.jCheckBoxPerson.setEnabled(true);
+			this.jCheckBoxCompany.setEnabled(true);
+		}
 		this.jComboBoxProfession.removeAllItems();
 		for (String profession : this.controller.allProfissions()) {
 			this.jComboBoxProfession.addItem(profession);
