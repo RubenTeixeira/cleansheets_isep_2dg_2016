@@ -72,7 +72,7 @@ public class SortController {
 	/**
 	 * Value List Sorting.
 	 *
-	 * @param order
+	 * @param order order
 	 */
 	public void order(int order) {
 		if (order == 0) {

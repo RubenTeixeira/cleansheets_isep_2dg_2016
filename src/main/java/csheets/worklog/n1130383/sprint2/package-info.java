@@ -278,7 +278,7 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4ff6014ccddc64aafa90c286d337eb7d63b5e682">Commit
  * concerning Auto-description implementation</a></p>
- *
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e97b257c5c6a04a9d51931be788c650582a80954">Commit
  * concerning Sort Extension Tests implementation.</a></p>
  *
