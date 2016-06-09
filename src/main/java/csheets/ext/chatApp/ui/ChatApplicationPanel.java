@@ -98,11 +98,11 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 			((Map) messageData).remove("reference");
 			String message = (String) ((Map) messageData).get("message");
 			String hostname = (String) ((Map) messageData).get("hostname");
-			//String from = (String) ((Map) messageData).get("from");
-			String chatMessage = "Received from " + hostname + ": " + message;
+			String from = (String) ((Map) messageData).get("from");
+			String chatMessage = "Received from " + from + ": " + message;
 			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, chatMessage);
 
-			inserirHost(hostname, chatMessage);
+			inserirHost(from, chatMessage);
 
 			this.revalidate();
 			this.repaint();
