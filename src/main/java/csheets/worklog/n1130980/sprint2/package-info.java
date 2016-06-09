@@ -75,6 +75,8 @@
  * listeners that the cell's comments changed. There is also the getUserComment
  * () method that returns the comment
  *
+ * <b>In the analysis of this feature, we chose to register the user name logged
+ * on the machine.</b>
  *
  *
  * <h3>Domain Model</h3>
@@ -146,7 +148,15 @@
  * Blocking:
  * </p>
  * 1. Nothing.
- *
+ * <p>
+ * <b>Wednesday</b>
+ * </p>
+ * 1. Implementation and Tests
+ * <p>
+ * Blocking:
+ * </p>
+ * 1. Nothing.
+ * </p>
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-

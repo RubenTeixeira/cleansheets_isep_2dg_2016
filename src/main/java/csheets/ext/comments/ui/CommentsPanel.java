@@ -223,6 +223,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 				userName());
 
 			jPanel2.add(cmtPanel);
+			jTextField1.setText("");
 			//layout.setRows(layout.getRows() + 1);
 			cmtPanel.setVisible(true);
 		}
