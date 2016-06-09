@@ -5,11 +5,15 @@
  */
 package csheets.persistence.jpa;
 
+import csheets.domain.Calendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.Event;
+import csheets.domain.Note;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
+import csheets.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,4 +68,23 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		return list;
 	}
 
+	@Override
+	public void delete(Contact entity) {
+		for (Event event : PersistenceContext.repositories().events().
+			eventsContact(entity)) {
+			PersistenceContext.repositories().events().delete(event);
+		}
+		for (Calendar calendar : PersistenceContext.repositories().calendars().
+			calendarsContact(entity)) {
+			PersistenceContext.repositories().calendars().delete(calendar);
+		}
+		for (Note note : PersistenceContext.repositories().notes().
+			principalNotes(entity)) {
+			for (Note version : note.versionByNote()) {
+				PersistenceContext.repositories().notes().delete(version);
+			}
+			PersistenceContext.repositories().notes().delete(note);
+		}
+		super.delete(entity);
+	}
 }

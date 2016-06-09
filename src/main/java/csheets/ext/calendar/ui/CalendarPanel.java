@@ -28,6 +28,7 @@ public class CalendarPanel extends javax.swing.JPanel implements Observer {
 		this.initComponents();
 		this.controller = new CalendarController(uiController, this);
 		Notification.calendarInformer().addObserver(this);
+		Notification.contactInformer().addObserver(this);
 		this.update(null, null);
 	}
 
