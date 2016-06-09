@@ -32,13 +32,11 @@ public class ChatAppController {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds. It's not possible to register negative or zero seconds.");
 		}
-
 		try {
 			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
-
 			throw e;
 		}
 	}
@@ -47,18 +45,14 @@ public class ChatAppController {
 	 * Starts the UDP service.
 	 *
 	 * @param ui user interface of chat
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void startUdpService(ChatUI ui, int seconds) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.udpService = new UdpService();
-
 		this.startUdpService(seconds);
-
 		this.udpService.addObserver(ui);
 	}
 
@@ -82,28 +76,23 @@ public class ChatAppController {
 	 * Starts the TCP service.
 	 *
 	 * @param ui user interface od chat
-	 * @param port The target port that is defined by the user.
 	 */
 	public void startTcpService(ChatUI ui) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.tcpService = new TcpService();
-
 		this.startTcpService();
 	}
 
 	/**
 	 * Restarts both the UDP and TCP services.
 	 *
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void restartServices(int seconds) {
 		this.tcpService.stop();
 		this.udpService.stop();
-
 		this.startUdpService(seconds);
 		this.startTcpService();
 	}
@@ -114,10 +103,10 @@ public class ChatAppController {
 		sendMessage.put("hostname", hostname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
-		Notification.
-			chatMessageInformer().
-			notifyChange(sendMessage);
+
 		new TcpService().client(target, message);
+		Notification.chatMessageInformer().
+			notifyChange(sendMessage);
 	}
 
 }

@@ -13,7 +13,7 @@ import csheets.support.ExchangeRateConverter;
  *
  * The value is converted to Euro currency (see design explanation).
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class PoundOperator implements UnaryOperator {
 

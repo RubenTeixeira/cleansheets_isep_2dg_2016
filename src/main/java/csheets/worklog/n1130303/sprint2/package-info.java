@@ -58,7 +58,7 @@
  *
  * <h3>5.1. Tests</h3>
  * <p>
- * TODO -> How to test lang function area?
+ * TODO How to test lang function area?
  *
  * <h3>5.2. UC Realization</h3>
  * <p>
@@ -79,8 +79,9 @@
  * So in order to do that 3 <code>UnaryOperator</code> must exist:
  * <code>EuroOperator</code>, <code>DollarOperator</code> and
  * <code>PoundOperator</code>. This operators take the preciding value and
- * convert it to Euro currency. This is done using an exchanging rate defined in
- * a configuration file (cleansheets.properties).
+ * convert it to Euro currency. This is done through an utility class
+ * <code>ExchangeRateConverter</code> using an exchanging rate defined in a
+ * configuration file (cleansheets.properties).
  *
  * Value conversion done, 4 <code>BinaryOperator</code> must exist (each one to
  * every arithmetic operation): <code>MonetaryAdder</code>,
@@ -114,7 +115,6 @@
  * core aspects of the design of the solution for this use case.
  * </p>
  *
- * TODO!!! diagrams!
  * <h3>5.3. Classes</h3>
  *
  * TODO!!! Class diagram!
@@ -126,8 +126,16 @@
  *
  * <h2>6. Implementation</h2>
  *
- * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
- * <code>csheets.domain.Event</code>
+ * <code>csheets.formula.compiler.MonetaryExpressionCompiler</code>
+ * <code>csheets.formula.lang.monetary.Dollar</code>
+ * <code>csheets.formula.lang.monetary.DollarOperator</code>
+ * <code>csheets.formula.lang.monetary.Euro</code>
+ * <code>csheets.formula.lang.monetary.EuroOperator</code>
+ * <code>csheets.formula.lang.monetary.Pound</code>
+ * <code>csheets.formula.lang.monetary.MonetaryAdder</code>
+ * <code>csheets.formula.lang.monetary.MonetaryDivider</code>
+ * <code>csheets.formula.lang.monetary.MonetaryMultiplier</code>
+ * <code>csheets.formula.lang.monetary.MonetarySubtracter</code>
  *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
@@ -135,17 +143,19 @@
  * commits of your work-
  * </p>
  * see:
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.persistence</a>
+ * <a href="../../../../csheets/core/formula/lang/monetary/package-summary.html">csheets.core.formula.lang.monetary</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * We are in the first week where the workflow of the project is a little bit
- * different from the rest of the weeks. Our functional area is very independent
- * from the others. The only that we had to talk with our work collegues was
- * related to the extensions part (Core functional area).
+ * Since the feature I implemented this sprint was about a whole new grammar and
+ * new operators/functions I had no really comunication about it with others
+ * colleagues.
  *
  * <h2>8. Final Remarks</h2>
  *
+ * I will add a new "divide" method to <code>Money</code> class. Currently, this
+ * operation is done by doing a regular "divider" mathematic operation wich
+ * could lead to some rounding issues.
  * <h2>9. Work Log</h2>
  *
  * <p>
@@ -157,7 +167,7 @@
  * Blocking:
  * </p>
  * 1. Needed a new grammar or using the existing one? (Producted owner clarified
- * -> 1º option).
+ * 1º option).
  * <p>
  * <b>Sunday</b>
  * <p>
@@ -178,15 +188,34 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * 1.
+ * 1. Since I completed the implementation of my feature I started helping some
+ * colleagues with some issues.
  * <p>
  * Blocking:
  * <p>
  *  * 1. Nothing.
- *
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * 1. Since I completed the implementation of my feature I started helping some
+ * colleagues with some issues.
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * 1. Client presentation.
+ * <p>
+ * Blocking:
+ * <p>
+ *  * 1. Nothing.
+ * <p>
  * <h2>10. Self Assessment</h2>
  *
- *
+ * This week went well. I ended up completing the implementation off my feature
+ * early so as a teamworker I went to help how was needing the most.
  * <h3>10.1. Design and Implementation:3</h3>
  *
  * <p>

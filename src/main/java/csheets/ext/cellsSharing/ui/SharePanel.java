@@ -98,7 +98,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         final int defaultPort = 20000;
 
         this.controller = controller;
-        this.controller.startUdpService(this, defaultPort, defaultSeconds);
+        this.controller.startUdpService(this, defaultSeconds);
         this.controller.startTcpService(this, defaultPort);
     }
 

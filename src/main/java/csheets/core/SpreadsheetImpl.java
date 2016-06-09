@@ -210,6 +210,9 @@ public class SpreadsheetImpl implements Spreadsheet {
 	public Cell[] getColumn(int index) {
 		Cell[] column = new Cell[rows + 1];
 		int n = rows;
+		int c = rows + 1;
+		Cell cell = this.getCell(0, 0);
+		System.out.println(cell.getContent());
 		for (int row = 0; row <= rows; row++) {
 			column[row] = getCell(new Address(index, row));
 		}

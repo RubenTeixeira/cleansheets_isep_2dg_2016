@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.core.formula.lang.monetary;
 
 import csheets.core.IllegalValueTypeException;
@@ -11,10 +6,11 @@ import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 
 /**
+ * A subtracter of a monetary operand from another.
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
-public class MonetarySubtracted implements BinaryOperator {
+public class MonetarySubtracter implements BinaryOperator {
 
 	private static final long serialVersionUID = -3880052781226099414L;
 

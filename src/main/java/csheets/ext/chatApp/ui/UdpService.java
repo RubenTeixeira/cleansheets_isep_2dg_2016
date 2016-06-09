@@ -49,18 +49,18 @@ public class UdpService extends Notifier {
 													   get("UDP_PORT");
 
 												   server.
-													   send(":port", destination, AppSettings.
+													   send(":chat-port", destination, AppSettings.
 															instance().
 															get("TCP_PORT"));
 											   }
 										   });
 
-								 server.expect(":port", new Action() {
+								 server.expect(":chat-port", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
 												   List<String> ports = (List<String>) args.
-													   get("port");
+													   get("chat-port");
 
 												   Map<String, String> chatHosts = new LinkedHashMap<>();
 												   chatHosts.
@@ -105,7 +105,7 @@ public class UdpService extends Notifier {
 
 								 TaskManager manager = new TaskManager();
 
-								 manager.after(4).every(seconds).
+								 manager.after(12).every(seconds).
 									 fire(broadcast);
 							 }
 						 });

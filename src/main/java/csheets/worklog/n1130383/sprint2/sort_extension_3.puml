@@ -1,4 +1,4 @@
-  @startuml doc-files/sort_extension_3.png
+	  @startuml doc-files/sort_extension_3.png
 title: How the UIController retrieves the UIExtension associated with the Extension
   participant UIController as UIC
   participant ExtensionManager as ExtM

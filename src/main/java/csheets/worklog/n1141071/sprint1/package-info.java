@@ -27,33 +27,39 @@
  *
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-109">Core01.1- Enable and Disable Extensions</a>
- * <p>
- * It should exist a new window that allows to enable and disable extensions of
- * Cleansheets. A disabled extension means that 'all' its functionalities are
- * disabled.
- * </p>
  *
  * <h2>3. Requirement</h2>
- * <p>
- * It should be possible to establish a connection with other instance of
- * Cleansheets in the local network.
- * </p>
- * <p>
- * <b>Use Case "Start Sharing":</b> It should be possible to send the contents
- * of a range of cells to another instance of Cleansheets. The other instance
- * should display the received contents in the same cell address as the original
- * cells.
- * </p>
+ * It should exist a new window that allows to enable and disable extensions of
+ * Cleansheets. A disabled extension means that all its functionalities are
+ * disabled.
+ *
+ *
+ * <b>Use Case "Enable and Disable Extensions":</b> It should exist a new window
+ * that allows to enable and disable extensions of Cleansheets. A disabled
+ * extension means that all its functionalities are disabled.
  *
  *
  * <h2>4. Analysis</h2>
+ * The <b>system</b> loads the active extensions, the <b>user</b> select the
+ * extensions that want to disable it, the <b>system</b> disables the extensions
+ * on the menu.
+ * 
+ *
+ * <h2>SSD</h2>
+ * 
+ * <img src="doc-files/core01_01_analyse.png" alt="image">
  * 
  * 
  *
  * <h2>5. Design</h2>
- * 
- * 
- * 
+ *  <p>Diagram of the core functionality of the feature </p>
+ *
+ * <img src="doc-files/core01_01_design1.png" alt="image">
+ *
+ *  <p>Diagram of extention state change </p>
+ *
+ * <img src="doc-files/core01_01_design2.png" alt="image">
+ *
  * <h3>5.3. Classes</h3>
  * 
  * 
@@ -96,12 +102,20 @@
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- * <p>
+ *
  * <b>Evidences:</b>
- * </p>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/05ad63e48325b79bc10189d70a9d6296f889cc6c">Design</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/087187431200c890a9deb6e951f93e4b67836c74">Implementation done in pair programming</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6f4866a6e7497de14f8383986aa9d8a40f7acdee">Unit testing</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/749f8a33d60e2d516e7b25a929492bce7ef0c032">Bug Fixing</a>
  *
  * <h3>10.2. Teamwork: ...</h3>
- *
+ *  The whole team worked on analysis of the problem, after some team discussion we finished the design and the implemenation and tests were done in pair programming
+ * 
  * <h3>10.3. Technical Documentation: ...</h3>
  *
  * @author Rui Bento

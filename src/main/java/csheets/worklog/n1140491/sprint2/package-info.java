@@ -79,9 +79,8 @@
  * <h4>Export File proposal design</h4>
  * <p>
  * <img src="doc-files/export_file_design_image.png" alt="image">
- * <p>
  *
- * </p>
+ *
  * <h3>5.3. Classes</h3>
  *
  * <h3>Class Diagram of the feature</h3>
@@ -164,4 +163,4 @@
  *
  * @author Rui Bastos
  */
-package csheets.worklog.n1140491.sprint1;
+package csheets.worklog.n1140491.sprint2;

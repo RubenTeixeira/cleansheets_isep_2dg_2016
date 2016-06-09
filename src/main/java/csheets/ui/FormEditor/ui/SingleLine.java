@@ -5,6 +5,7 @@
  */
 package csheets.ui.FormEditor.ui;
 
+import csheets.ext.events.ui.ManageEvents;
 import csheets.notification.Notification;
 import javax.swing.JOptionPane;
 
@@ -16,8 +17,9 @@ public class SingleLine extends javax.swing.JPanel {
 
     /**
      * Creates new form SingleLine
-     * @param name
-     * @param content
+     *
+     * @param name name
+     * @param content content
      */
     public SingleLine(String name, String content) {
         initComponents();
@@ -61,7 +63,7 @@ public class SingleLine extends javax.swing.JPanel {
                 .addComponent(lblname)
                 .addGap(30, 30, 30)
                 .addComponent(txtContent, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -81,25 +83,24 @@ public class SingleLine extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
         int op = JOptionPane.
-        showConfirmDialog(this, "Do you want to remove " + this.lblname.
-            getText() + " " + "?", "Remove Event", JOptionPane.OK_CANCEL_OPTION);
+                showConfirmDialog(this, "Do you want to remove " + this.lblname.
+                        getText() + " " + "?", "Remove Event", JOptionPane.OK_CANCEL_OPTION);
 
         if (JOptionPane.OK_OPTION == op) {
             Notification.formInformer().notifyChange(this);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

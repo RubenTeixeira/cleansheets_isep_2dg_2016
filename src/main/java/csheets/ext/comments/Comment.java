@@ -5,6 +5,7 @@
  */
 package csheets.ext.comments;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Objects;
  *
  * @author Rafael
  */
-public class Comment {
+public class Comment implements Serializable {
 
 	/**
 	 * The username that made the comment

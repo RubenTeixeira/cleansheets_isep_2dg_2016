@@ -1,6 +1,7 @@
 package csheets.ext.game.ui;
 
 import csheets.framework.volt.Action;
+import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -31,20 +32,20 @@ public class UdpService extends Notifier {
 		ThreadManager.create("ipc.udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = new UdpServer();
+								 server = Volt.udp(localPort, 0);
 
 								 server.expect(":broadcast", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
 
-												   if (server.same(args.
+												   /*if (server.same(args.
 													   get("from"))) {
 													   return;
-												   }
+												   }*/
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
-													   get("hostname")).
+													   get("from")).
 													   split(":")[0] + ":" + localPort;
 												   server.
 													   send(":port", destination, String.
@@ -72,7 +73,7 @@ public class UdpService extends Notifier {
 											   }
 										   });
 
-								 server.stream(localPort);
+								 // server.stream(localPort);
 							 }
 						 });
 
@@ -100,7 +101,8 @@ public class UdpService extends Notifier {
 
 								 TaskManager manager = new TaskManager();
 
-								 manager.after(3).every(seconds).fire(broadcast);
+								 manager.after(10).every(seconds).
+									 fire(broadcast);
 							 }
 						 });
 

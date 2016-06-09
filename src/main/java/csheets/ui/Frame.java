@@ -100,6 +100,7 @@ public class Frame extends JFrame implements SelectionListener {
 		// Stores members and creates controllers
 		this.app = app;
 		UIController uiController = new UIController(app, this);
+		UIController.setUIController(uiController);
 
 		// Creates action manager
 		FileChooser chooser = null;

@@ -29,6 +29,11 @@ public class ImportDialog extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form IEDialog
+	 *
+	 * @param parent parent
+	 * @param modal modal
+	 * @param uiController uiController
+	 * @param controller controller
 	 */
 	public ImportDialog(java.awt.Frame parent, boolean modal,
 						UIController uiController,

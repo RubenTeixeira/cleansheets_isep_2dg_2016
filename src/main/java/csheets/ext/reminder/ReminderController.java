@@ -60,15 +60,19 @@ public class ReminderController {
 		ThreadManager.run("crm.reminders");
 	}
 
-        /**
-        * This méthod creates a new Reminder whit the parameters received and save the new reminder in persistence.
-	*
-        * @param name
-        * @param description
-        * @param date
-        * @param alert
-        * @return 
-	*/
+	/**
+	 * This méthod creates a new Reminder whit the parameters received and save
+	 * the new reminder in persistence.
+	 *
+	 * @param name name
+	 * @param description description
+	 * @param date date
+	 * @param alert alert
+	 * @return reminder
+	 * @throws
+	 * csheets.framework.persistence.repositories.DataIntegrityViolationException
+	 * exception
+	 */
 	public Reminder createReminder(String name, String description,
 								   Calendar date,
 								   boolean alert) throws DataIntegrityViolationException {
@@ -79,53 +83,56 @@ public class ReminderController {
 		return reminder;
 	}
 
-        /**
-        * This méthod save a edited reminder and save him in persistence.
-	*
-        * @param reminder
-        * @return reminder
-	*/
+	/**
+	 * This méthod save a edited reminder and save him in persistence.
+	 *
+	 * @param reminder reminder
+	 * @return reminder
+	 */
 	public Reminder editReminder(Reminder reminder) {
 		PersistenceContext.repositories().reminders().save(reminder);
 		Notification.reminderInformer().notifyChange();
 		return reminder;
 	}
 
-        /**
-        * This méthod remove a reminder received by parameters from the persistence.
-	*
-	*/
+	/**
+	 * This méthod remove a reminder received by parameters from the
+	 * persistence.
+	 *
+	 * @param reminder reminder
+	 */
 	public void removeReminder(Reminder reminder) {
 		PersistenceContext.repositories().reminders().delete(reminder);
 		Notification.reminderInformer().notifyChange();
 	}
 
-        /**
-        * This méthod  return  reminders from the persistence.
-	*
-        * @return allReminders
-	*/
+	/**
+	 * This méthod return reminders from the persistence.
+	 *
+	 * @return allReminders
+	 */
 	public Iterable<Reminder> allReminders() {
 		return PersistenceContext.repositories().reminders().all();
 	}
 
-        /**
-        * This méthod add 5 minutes at time step of the reminder.
-	*
-        * @param reminder
-	*/
+	/**
+	 * This méthod add 5 minutes at time step of the reminder.
+	 *
+	 * @param reminder reminder
+	 */
 	public void snoozeReminder(Reminder reminder) {
 		reminder.add(Calendar.MINUTE, 5);
 		PersistenceContext.repositories().reminders().save(reminder);
 		Notification.reminderInformer().notifyChange();
 	}
 
-        /**
-        * This méthod  activate or desactivate the alert of reminder received by parameters.
-	*
-        * @param reminder
-        * @param active
-	*/
+	/**
+	 * This méthod activate or desactivate the alert of reminder received by
+	 * parameters.
+	 *
+	 * @param reminder reminder
+	 * @param active active
+	 */
 	public void alert(Reminder reminder, boolean active) {
 		reminder.
 			defineReminder(reminder.name(), reminder.description(), reminder.

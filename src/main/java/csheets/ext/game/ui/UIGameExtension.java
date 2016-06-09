@@ -8,9 +8,6 @@ package csheets.ext.game.ui;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
-import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 /**
@@ -34,8 +31,8 @@ public class UIGameExtension extends UIExtension {
 	/**
 	 * The menu of the extension.
 	 *
-	 * @param extension
-	 * @param uiController
+	 * @param extension extension
+	 * @param uiController uiController
 	 */
 	public UIGameExtension(Extension extension, UIController uiController) {
 		super(extension, uiController);
@@ -52,12 +49,7 @@ public class UIGameExtension extends UIExtension {
 			if (gameController == null) {
 				gameController = new GameController();
 			}
-			try {
-				sideBar = new GamePanel(uiController, gameController);
-			} catch (UnknownHostException ex) {
-				Logger.getLogger(UIGameExtension.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
+			sideBar = new GamePanel(uiController, gameController);
 		}
 		return sideBar;
 	}

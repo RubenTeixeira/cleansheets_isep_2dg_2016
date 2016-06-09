@@ -30,7 +30,7 @@ class InMemoryCalendarRepository extends InMemoryRepository<Calendar, Long>
 	public Iterable<Calendar> calendarsContact(Contact contact) {
 		List<Calendar> list = new ArrayList();
 		for (Calendar calendar : this.all()) {
-			if (calendar.getContact() == contact) {
+			if (calendar.getContact().equals(contact)) {
 				list.add(calendar);
 			}
 		}

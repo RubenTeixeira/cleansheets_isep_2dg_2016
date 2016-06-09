@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.core.formula.lang.monetary;
 
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
+import csheets.framework.Money;
 
 /**
+ * A divider of a monetary operand from another.
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class MonetaryDivider implements BinaryOperator {
 
@@ -21,8 +18,9 @@ public class MonetaryDivider implements BinaryOperator {
 	@Override
 	public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
 		//TODO make Money.divide(double)!!!
-		return new Value(leftOperand.evaluate().toMoney().amount() / rightOperand.
-			evaluate().toMoney().amount());
+		return new Value(Money.
+			euros(leftOperand.evaluate().toMoney().amount() / rightOperand.
+				evaluate().toMoney().amount()));
 //		return new Value(leftOperand.evaluate().toMoney().divide(rightOperand.
 //			evaluate().toMoney()));
 	}

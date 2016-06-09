@@ -6,9 +6,11 @@
 package csheets.ui.FormEditor.ui;
 
 import csheets.notification.Notification;
+import csheets.ui.ctrl.FormEditorController;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -16,15 +18,19 @@ import javax.swing.JPanel;
  *
  * @author hichampt
  */
-public class FormEditor extends javax.swing.JFrame implements Observer{
+public class FormEditor extends javax.swing.JFrame implements Observer {
 
     /**
      * Creates new form FormEditor
      */
+    FormEditorController controller;
+
     public FormEditor() {
         Notification.formInformer().addObserver(this);
+        super.setAlwaysOnTop(true);
         initComponents();
         setVisible(true);
+
     }
 
     /**
@@ -88,14 +94,15 @@ public class FormEditor extends javax.swing.JFrame implements Observer{
                 .addGap(22, 22, 22))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(465, 413));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-       
+        super.setAlwaysOnTop(false);
         AskContent contentPanel = new AskContent();
         int op = JOptionPane.
-                showConfirmDialog(null, contentPanel, "Create Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                showConfirmDialog(null, contentPanel, "Create New Line", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (op == JOptionPane.OK_OPTION) {
             addSingleLine(new SingleLine(contentPanel.name(), contentPanel.content()));
             refreshUI();
@@ -107,11 +114,21 @@ public class FormEditor extends javax.swing.JFrame implements Observer{
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * add new Line
+     *
+     * @param panel
+     */
     private void addSingleLine(SingleLine panel) {
         this.jPanel1.add(panel);
         addGridRow();
     }
-    
+
+    /**
+     * remove line
+     *
+     * @param panel
+     */
     private void removeSingleLine(SingleLine panel) {
         this.jPanel1.remove(panel);
         removeGridRow();
@@ -131,7 +148,7 @@ public class FormEditor extends javax.swing.JFrame implements Observer{
         GridLayout layout = (GridLayout) this.jPanel1.getLayout();
         layout.setRows(layout.getRows() + 1);
     }
-    
+
     private void removeGridRow() {
         GridLayout layout = (GridLayout) this.jPanel1.getLayout();
         layout.setRows(layout.getRows() - 1);
@@ -151,12 +168,10 @@ public class FormEditor extends javax.swing.JFrame implements Observer{
 
     @Override
     public void update(Observable o, Object o1) {
-       if(o1 instanceof SingleLine)
-       {
-           removeSingleLine((SingleLine)o1);
-           refreshUI();
-       }
+        if (o1 instanceof SingleLine) {
+            removeSingleLine((SingleLine) o1);
+            refreshUI();
+        }
     }
 
-    
 }
