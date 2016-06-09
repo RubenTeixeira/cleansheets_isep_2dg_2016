@@ -172,7 +172,6 @@ public class TcpService extends Notifier {
 	 * Stops all the TCP services.
 	 */
 	public void stop() {
-		server.shutdown();
 		ThreadManager.destroy("ipc.distributed-tcpServer");
 		ThreadManager.destroy("ipc.distributed-tcpClient");
 		ThreadManager.destroy("ipc.distributed-searchTcpClient");
