@@ -1,7 +1,8 @@
 package csheets.ext.game.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
@@ -42,10 +43,10 @@ public class TcpService extends Notifier {
 	 * @param port The server port, customized by the user.
 	 */
 	public void server(int port) {
-		ThreadManager.create("ipc.tcpServer", new Thread() {
+		ThreadManager.create("ipc.game-tcpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = Volt.tcp(port, 0);
+								 server = NetworkManager.tcp();
 
 								 server.expect(":game-request", new Action() {
 											   @Override
@@ -57,7 +58,7 @@ public class TcpService extends Notifier {
 
 												   String destination = ((String) args.
 													   get("from")).
-													   split(":")[0] + ":" + port;
+													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
 
 												   int reply = JOptionPane.
 													   showConfirmDialog(null, message);
@@ -65,22 +66,22 @@ public class TcpService extends Notifier {
 												   switch (reply) {
 													   case JOptionPane.YES_OPTION: {
 														   server.
-															   send(":reply", destination, "TRUE");
+															   send(":game-reply", destination, "TRUE");
 														   break;
 													   }
 													   case JOptionPane.NO_OPTION: {
 														   server.
-															   send(":reply", destination, "FALSE");
+															   send(":game-reply", destination, "FALSE");
 														   break;
 													   }
 													   default:
 														   server.
-															   send(":reply", destination, "FALSE");
+															   send(":game-reply", destination, "FALSE");
 														   break;
 												   }
 											   }
 										   });
-								 server.expect(":reply", new Action() {
+								 server.expect(":game-reply", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -99,7 +100,7 @@ public class TcpService extends Notifier {
 											}
 										});
 								 server.
-									 expect(":update", new Action() {
+									 expect(":game-update", new Action() {
 											@Override
 											public void run(
 												Map<String, Object> args) {
@@ -107,11 +108,10 @@ public class TcpService extends Notifier {
 											}
 										});
 
-								 server.stream(port);
 							 }
 						 });
 
-		ThreadManager.run("ipc.tcpServer");
+		ThreadManager.run("ipc.game-tcpServer");
 	}
 
 	public void setContinuousTarget(String target) {
@@ -125,7 +125,7 @@ public class TcpService extends Notifier {
 	 * @param message Message to send to the target.
 	 */
 	public void client(String target, String message) {
-		ThreadManager.create("ipc.tcpClient", new Thread() {
+		ThreadManager.create("ipc.game-tcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
@@ -133,11 +133,11 @@ public class TcpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.tcpClient");
+		ThreadManager.run("ipc.game-tcpClient");
 	}
 
 	public void continuousSending(String message) {
-		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
+		ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 //								 new TcpClient(0).
@@ -158,14 +158,14 @@ public class TcpService extends Notifier {
 
 							 }
 						 });
-		ThreadManager.run("ipc.continuousTcpClient");
+		ThreadManager.run("ipc.game-continuousTcpClient");
 	}
 
 	/**
 	 * End game.
 	 */
 	public void stopContinuousSending() {
-		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
+		ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
@@ -173,7 +173,7 @@ public class TcpService extends Notifier {
 
 							 }
 						 });
-		ThreadManager.run("ipc.continuousTcpClient");
+		ThreadManager.run("ipc.game-continuousTcpClient");
 	}
 
 	/**
@@ -182,15 +182,15 @@ public class TcpService extends Notifier {
 	 * @param target
 	 */
 	public void updateOpponent(String target) {
-		ThreadManager.create("ipc.opponetTcpClient", new Thread() {
+		ThreadManager.create("ipc.game-opponetTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":update", target, "update");
+									 send(":game-update", target, "update");
 
 							 }
 						 });
-		ThreadManager.run("ipc.opponentTcpClient");
+		ThreadManager.run("ipc.game-opponentTcpClient");
 	}
 //
 //	/**
@@ -217,7 +217,7 @@ public class TcpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.tcpServer");
-		ThreadManager.destroy("ipc.tcpClient");
+		ThreadManager.destroy("ipc.game-tcpServer");
+		ThreadManager.destroy("ipc.game-tcpClient");
 	}
 }

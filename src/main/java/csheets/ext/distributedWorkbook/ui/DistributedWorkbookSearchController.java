@@ -1,5 +1,6 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.AppSettings;
 import csheets.ext.distributedWorkbook.SearchWorkbook;
 import csheets.ui.ctrl.UIController;
 
@@ -52,7 +53,7 @@ public class DistributedWorkbookSearchController {
 		}
 
 		try {
-			this.udpService.server(30602, port);
+			this.udpService.server(Integer.valueOf(AppSettings.instance().get("TCP_PORT")), Integer.valueOf(AppSettings.instance().get("TCP_PORT")));
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();

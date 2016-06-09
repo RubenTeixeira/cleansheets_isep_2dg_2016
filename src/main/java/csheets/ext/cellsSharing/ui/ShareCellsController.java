@@ -45,7 +45,6 @@ public class ShareCellsController {
 	 * Starts the UDP service.
 	 *
 	 * @param panel The user interface.
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void startUdpService(SharePanel panel, int seconds) {

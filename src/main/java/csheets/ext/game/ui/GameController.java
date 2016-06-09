@@ -5,6 +5,8 @@
  */
 package csheets.ext.game.ui;
 
+import csheets.AppSettings;
+
 /**
  *
  * @author João Martins
@@ -122,7 +124,7 @@ public class GameController {
 		}
 
 		try {
-			this.udpService.server(30606, port);
+			this.udpService.server(Integer.valueOf(AppSettings.instance().get("TCP_PORT")), Integer.valueOf(AppSettings.instance().get("TCP_PORT")));
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();

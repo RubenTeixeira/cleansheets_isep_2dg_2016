@@ -1,7 +1,8 @@
 package csheets.ext.game.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -29,12 +30,12 @@ public class UdpService extends Notifier {
 	 * @param targetPort The target port, customized by the user.
 	 */
 	public void server(int localPort, int targetPort) {
-		ThreadManager.create("ipc.udpServer", new Thread() {
+		ThreadManager.create("ipc.game-udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = Volt.udp(localPort, 0);
+								 server = NetworkManager.udp();
 
-								 server.expect(":broadcast", new Action() {
+								 server.expect(":game-broadcast", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -46,19 +47,19 @@ public class UdpService extends Notifier {
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
 													   get("from")).
-													   split(":")[0] + ":" + localPort;
+													   split(":")[0] + ":" + AppSettings.instance().get("UDP_PORT");
 												   server.
-													   send(":port", destination, String.
+													   send(":game-port", destination, String.
 															valueOf(targetPort));
 											   }
 										   });
 
-								 server.expect(":port", new Action() {
+								 server.expect(":game-port", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
 												   List<String> ports = (List<String>) args.
-													   get("port");
+													   get("game-port");
 
 												   List<String> addresses = new ArrayList<>();
 
@@ -73,11 +74,10 @@ public class UdpService extends Notifier {
 											   }
 										   });
 
-								 // server.stream(localPort);
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpServer");
+		ThreadManager.run("ipc.game-udpServer");
 	}
 
 	/**
@@ -86,7 +86,7 @@ public class UdpService extends Notifier {
 	 * @param seconds Time in seconds to send another request.
 	 */
 	public void client(int seconds) {
-		ThreadManager.create("ipc.udpClient", new Thread() {
+		ThreadManager.create("ipc.game-udpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 UdpClient client = new UdpClient(0);
@@ -95,7 +95,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30606", "check");
+											 send(":game-broadcast", "all:" + AppSettings.instance().get("UDP_PORT"), "check");
 									 }
 								 };
 
@@ -106,7 +106,7 @@ public class UdpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpClient");
+		ThreadManager.run("ipc.game-udpClient");
 	}
 
 	/**
@@ -114,8 +114,8 @@ public class UdpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.udpServer");
-		ThreadManager.destroy("ipc.udpClient");
+		ThreadManager.destroy("ipc.game-udpServer");
+		ThreadManager.destroy("ipc.game-udpClient");
 	}
 
 }

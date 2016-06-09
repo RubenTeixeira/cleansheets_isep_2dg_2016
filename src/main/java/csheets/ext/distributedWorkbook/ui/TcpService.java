@@ -1,5 +1,7 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
@@ -25,12 +27,12 @@ public class TcpService extends Notifier {
 	 */
 	public void server(int port) {
 
-		ThreadManager.create("ipc.tcpServer", new Thread() {
+		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = new TcpServer();
+								 server = NetworkManager.tcp();
 
-								 server.expect(":request", new Action() {
+								 server.expect(":distributed-request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -40,7 +42,7 @@ public class TcpService extends Notifier {
 
 												   String destination = ((String) args.
 													   get("from")).
-													   split(":")[0] + ":" + port;
+													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
 
 												   int reply = JOptionPane.
 													   showConfirmDialog(null, message);
@@ -48,23 +50,23 @@ public class TcpService extends Notifier {
 												   switch (reply) {
 													   case JOptionPane.YES_OPTION: {
 														   server.
-															   send(":reply", destination, "TRUE");
+															   send(":distributed-reply", destination, "TRUE");
 														   break;
 													   }
 													   case JOptionPane.NO_OPTION: {
 														   server.
-															   send(":reply", destination, "FALSE");
+															   send(":distributed-reply", destination, "FALSE");
 														   break;
 													   }
 													   default:
 														   server.
-															   send(":reply", destination, "FALSE");
+															   send(":distributed-reply", destination, "FALSE");
 														   break;
 												   }
 											   }
 										   });
 
-								 server.expect(":reply", new Action() {
+								 server.expect(":distributed-reply", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -73,7 +75,7 @@ public class TcpService extends Notifier {
 											   }
 										   });
 
-								 server.expect(":search", new Action() {
+								 server.expect(":distributed-search", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -83,13 +85,13 @@ public class TcpService extends Notifier {
 													   get("message"));
 												   search[2] = ((String) args.
 													   get("from")).
-													   split(":")[0] + ":" + port;
+													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
 
 												   notifyChange(search);
 											   }
 										   });
 
-								 server.expect(":result", new Action() {
+								 server.expect(":distributed-result", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -98,13 +100,12 @@ public class TcpService extends Notifier {
 											   }
 										   });
 
-								 server.stream(port);
 							 }
 						 }
 		);
 
 		ThreadManager.run(
-			"ipc.tcpServer");
+			"ipc.distributed-tcpServer");
 	}
 
 	/**
@@ -114,15 +115,15 @@ public class TcpService extends Notifier {
 	 * @param message Message to send to the target.
 	 */
 	public void client(String target, String message) {
-		ThreadManager.create("ipc.tcpClient", new Thread() {
+		ThreadManager.create("ipc.distributed-tcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":request", target, message);
+									 send(":distributed-request", target, message);
 							 }
 						 });
 
-		ThreadManager.run("ipc.tcpClient");
+		ThreadManager.run("ipc.distributed-tcpClient");
 	}
 
 	/**
@@ -132,15 +133,15 @@ public class TcpService extends Notifier {
 	 * @param message Message to send to the target.
 	 */
 	public void searchWorkbook(String target, String message) {
-		ThreadManager.create("ipc.searchTcpClient", new Thread() {
+		ThreadManager.create("ipc.distributed-searchTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":search", target, message);
+									 send(":distributed-search", target, message);
 							 }
 						 });
 
-		ThreadManager.run("ipc.searchTcpClient");
+		ThreadManager.run("ipc.distributed-searchTcpClient");
 	}
 
 	/**
@@ -150,15 +151,15 @@ public class TcpService extends Notifier {
 	 * @param message Message to send to the target.
 	 */
 	public void searchResult(String target, String message) {
-		ThreadManager.create("ipc.resultTcpClient", new Thread() {
+		ThreadManager.create("ipc.distributed-resultTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":result", target, message);
+									 send(":distributed-result", target, message);
 							 }
 						 });
 
-		ThreadManager.run("ipc.resultTcpClient");
+		ThreadManager.run("ipc.distributed-resultTcpClient");
 	}
 
 	/**
@@ -166,9 +167,9 @@ public class TcpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.tcpServer");
-		ThreadManager.destroy("ipc.tcpClient");
-		ThreadManager.destroy("ipc.searchTcpClient");
-		ThreadManager.destroy("ipc.resultTcpClient");
+		ThreadManager.destroy("ipc.distributed-tcpServer");
+		ThreadManager.destroy("ipc.distributed-tcpClient");
+		ThreadManager.destroy("ipc.distributed-searchTcpClient");
+		ThreadManager.destroy("ipc.distributed-resultTcpClient");
 	}
 }

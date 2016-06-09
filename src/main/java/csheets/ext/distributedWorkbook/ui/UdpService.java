@@ -1,5 +1,7 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
@@ -28,37 +30,37 @@ public class UdpService extends Notifier {
 	 * @param targetPort The target port, customized by the user.
 	 */
 	public void server(int localPort, int targetPort) {
-		ThreadManager.create("ipc.udpServer", new Thread() {
+		ThreadManager.create("ipc.distributed-udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = new UdpServer();
+								 server = NetworkManager.udp();
 
-								 server.expect(":broadcast", new Action() {
+								 server.expect(":distributed-broadcast", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
 //
-//												   if (server.same(args.
-//													   get("from"))) {
-//													   return;
-//												   }
+												   if (server.same(args.
+													   get("from"))) {
+													   return;
+												   }
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
-													   get("from")).split(":")[0] + ":" + localPort;
+													   get("from")).split(":")[0] + ":" + AppSettings.instance().get("UDP_PORT");
 
 												   server.
-													   send(":port-distributed", destination, String.
+													   send(":distributed-port", destination, String.
 															valueOf(targetPort));
 											   }
 										   });
 
 								 server.
-									 expect(":port-distributed", new Action() {
+									 expect(":distributed-port", new Action() {
 											@Override
 											public void run(
 												Map<String, Object> args) {
 												List<String> ports = (List<String>) args.
-													get("port-distributed");
+													get("distributed-port");
 
 												List<String> addresses = new ArrayList<>();
 
@@ -73,11 +75,10 @@ public class UdpService extends Notifier {
 											}
 										});
 
-								 server.stream(localPort);
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpServer");
+		ThreadManager.run("ipc.distributed-udpServer");
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class UdpService extends Notifier {
 	 * @param seconds Time in seconds to send another request.
 	 */
 	public void client(int seconds) {
-		ThreadManager.create("ipc.udpClient", new Thread() {
+		ThreadManager.create("ipc.distributed-udpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 UdpClient client = new UdpClient(0);
@@ -95,7 +96,7 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":broadcast", "all:30602", "check");
+											 send(":distributed-broadcast", "all:" + AppSettings.instance().get("UDP_PORT"), "check");
 									 }
 								 };
 
@@ -105,7 +106,7 @@ public class UdpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpClient");
+		ThreadManager.run("ipc.distributed-udpClient");
 	}
 
 	/**
@@ -113,8 +114,8 @@ public class UdpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.udpServer");
-		ThreadManager.destroy("ipc.udpClient");
+		ThreadManager.destroy("ipc.distributed-udpServer");
+		ThreadManager.destroy("ipc.distributed-udpClient");
 	}
 
 }
