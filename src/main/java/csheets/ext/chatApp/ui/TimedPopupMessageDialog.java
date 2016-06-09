@@ -23,13 +23,11 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 	 * @param controller The events controller.
 	 * @param message The message to display.
 	 */
-	public TimedPopupMessageDialog(java.awt.Frame parent, String title,
-								   ChatAppController controller, String message) {
+	public TimedPopupMessageDialog(java.awt.Frame parent, String message) {
 		super(parent, true);
-		this.theController = controller;
 		this.message = message;
 
-		setTitle(title);
+		setTitle("CleanSheets");
 		taskTimer = new Timer(TIME_VISIBLE, new ActionListener() {
 							  @Override
 							  public void actionPerformed(ActionEvent e) {

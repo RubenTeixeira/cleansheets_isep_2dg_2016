@@ -133,11 +133,6 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        usersList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                usersListValueChanged(evt);
-            }
-        });
         jScrollPane2.setViewportView(usersList);
 
         btnSend.setText("Send");
@@ -149,11 +144,6 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
         jScrollPane3.setViewportView(messagesList);
 
-        txtMessage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMessageActionPerformed(evt);
-            }
-        });
         txtMessage.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtMessageKeyPressed(evt);
@@ -174,7 +164,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtMessage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -205,43 +195,18 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usersListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_usersListValueChanged
-		if (evt.getValueIsAdjusting() == false) {
-			if (usersList.getSelectedIndex() == -1) {
-				//Do nothing
-			} else {
-				String hostValues[] = usersList.getSelectedValue().split(":");
-				host = hostValues[0];
-				ipDestino = hosts.get(host);
-			}
-		}
-    }//GEN-LAST:event_usersListValueChanged
-
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
+		sendMessage();
+    }//GEN-LAST:event_btnSendActionPerformed
+
+	private void sendMessage() {
 		message = txtMessage.getText();
 		if (message.length() <= 0) {
 			return;
 		}
-		try {
-			receiveListModel.
-				addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
-		} catch (UnknownHostException ex) {
-			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
-		}
-		chatAppController.sendMessage(host, ipDestino, message);
-		txtMessage.setText("");
-    }//GEN-LAST:event_btnSendActionPerformed
-
-    private void txtMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMessageActionPerformed
-		// TODO add your handling code here:
-    }//GEN-LAST:event_txtMessageActionPerformed
-
-    private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			message = txtMessage.getText();
-			if (message.length() <= 0) {
-				return;
-			}
+		if (!usersList.isSelectionEmpty()) {
+			host = usersList.getSelectedValue().split(":")[0];
+			ipDestino = hosts.get(host);
 			try {
 				receiveListModel.
 					addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
@@ -251,6 +216,11 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			}
 			chatAppController.sendMessage(host, ipDestino, message);
 			txtMessage.setText("");
+		}
+	}
+    private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			sendMessage();
 		}
     }//GEN-LAST:event_txtMessageKeyPressed
 
@@ -281,7 +251,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 					instanceListModel.
 						addElement(chatHost + ":(online)");
 
-					manager.after(10).once(new Task() {
+					manager.after(12).once(new Task() {
 						@Override
 						public void fire() {
 							while (true) {

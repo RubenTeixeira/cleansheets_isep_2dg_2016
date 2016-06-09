@@ -100,7 +100,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		String fromIP = ((String) ((Map) messageData).get("from")).
 			split(":")[0];
 		String chatMessage = "Received from " + fromIP + ": " + message;
-		new TimedPopupMessageDialog(null, "Message: " + messageData, chatAppController, chatMessage);
+		new TimedPopupMessageDialog(null, chatMessage);
 
 		inserirHost(fromIP, chatMessage);
 	}
