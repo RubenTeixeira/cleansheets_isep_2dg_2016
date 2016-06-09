@@ -16,12 +16,12 @@ import javax.swing.JOptionPane;
  */
 public class TcpService extends Notifier {
 
-	private boolean receiveMessage;
-
 	/**
 	 * Server instance.
 	 */
 	private TcpServer server;
+
+	String continuousTarget;
 
 	List<String> connectedInstances;
 
@@ -47,96 +47,102 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = Volt.tcp(port, 0);
 
-								 server.expect(":request", new Action() {
+								 server.expect("game-request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
-												   String message = ((String) args.
-													   get("message")) + " with " + args.
-													   get("hostname");
 
-												   int reply = JOptionPane.
-													   showConfirmDialog(null, message);
-												   if (reply == JOptionPane.YES_OPTION) {
-													   receiveMessage = true;
-													   String destination = ((String) args.
-														   get("from")).
-														   split(":")[0] + ":" + port;
-													   server.
-														   send(":reply", destination, "30606");
+												   String from = ((String) args.
+													   get("from")).split(":")[0];
 
-												   } else if (reply == JOptionPane.NO_OPTION) {
-													   receiveMessage = false;
-													   String destination = ((String) args.
-														   get("from")).
-														   split(":")[0] + ":" + port;
-													   server.
-														   send(":reply", destination, "30606");
-												   }
+//												   server.
+//													   send(":game-on", from + ":" + AppSettings.
+//															instance().
+//															get("TCP_PORT"), (String) args.
+//															get("message"));
+												   //notifyChange(from);
 											   }
 										   });
 
-								 server.expect(":reply", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange(receiveMessage);
-
-												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + port;
-												   server.
-													   send(":search", destination, "30606");
-											   }
-										   });
-
-								 server.expect(":search", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange("Search");
-												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + port;
-												   server.
-													   send(":check", destination, "30606");
-											   }
-										   });
-
-								 server.expect(":check", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange("Check");
-											   }
-										   });
+								 server.
+									 expect(":game-stopped", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												JOptionPane.
+													showMessageDialog(panel, "Game has been stopped.");
+											}
+										});
 
 								 server.stream(port);
 							 }
-						 }
-		);
+						 });
 
-		ThreadManager.run(
-			"ipc.tcpServer");
+		ThreadManager.run("ipc.tcpServer");
+	}
+
+	public void setContinuousTarget(String target) {
+		continuousTarget = target;
+	}
+
+	public void continuousSending(String message) {
+		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
+							 @Override
+							 public void run() {
+//								 new TcpClient(0).
+//									 send(":game-request", continuousTarget, message);
+								 int reply = JOptionPane.
+									 showConfirmDialog(panel, "::. Receive information .::\n"
+													   + "A host " + continuousTarget + " wants to play "
+													   + " with you.\n Game: " + message + " Do you wish to play with him ?");
+
+								 if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION) {
+									 return;
+								 }
+
+								 if (reply == JOptionPane.YES_OPTION) {
+									 JOptionPane.
+										 showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
+								 }
+
+							 }
+						 });
+		ThreadManager.run("ipc.continuousTcpClient");
 	}
 
 	/**
-	 * Initializes a client following the TCP protocol.
-	 *
-	 * @param target The target IPv4:Port
-	 * @param message Message to send to the target.
+	 * TODO. Terminar jogo.
 	 */
-	public void client(String target, String message) {
-		ThreadManager.create("ipc.tcpClient", new Thread() {
+	public void stopContinuousSending() {
+		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":request", target, message);
+									 send(":game-stopped", continuousTarget, "STOP");
+
 							 }
 						 });
-
-		ThreadManager.run("ipc.tcpClient");
+		ThreadManager.run("ipc.continuousTcpClient");
 	}
+//
+//	/**
+//	 * Initializes a client following the TCP protocol.
+//	 *
+//	 * @param target The target IPv4:Port
+//	 * @param message Message to send to the target.
+//	 */
+//	public void client(String target, String message) {
+//		ThreadManager.create("ipc.tcpClient", new Thread() {
+//							 @Override
+//							 public void run() {
+//								 new TcpClient(0).
+//									 send(":game-request", target, message);
+//
+//							 }
+//						 });
+//
+//		ThreadManager.run("ipc.tcpClient");
+//	}
 
 	/**
 	 * Stops all the TCP services.
