@@ -19,8 +19,6 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 	 * Creates new form TimedPopupDialog
 	 *
 	 * @param parent The parent frame.
-	 * @param title The window title.
-	 * @param controller The events controller.
 	 * @param message The message to display.
 	 */
 	public TimedPopupMessageDialog(java.awt.Frame parent, String message) {
