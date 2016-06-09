@@ -28,22 +28,15 @@ public class ChatAppController {
 	 */
 	private TcpService tcpService;
 
-	void startUdpService(int port, int seconds) {
-
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	void startUdpService(int seconds) {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds. It's not possible to register negative or zero seconds.");
 		}
-
 		try {
-			this.udpService.server(30600, port);
+			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
-
 			throw e;
 		}
 	}
@@ -52,18 +45,14 @@ public class ChatAppController {
 	 * Starts the UDP service.
 	 *
 	 * @param ui user interface of chat
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void startUdpService(ChatUI ui, int port, int seconds) {
+	public void startUdpService(ChatUI ui, int seconds) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.udpService = new UdpService();
-
-		this.startUdpService(port, seconds);
-
+		this.startUdpService(seconds);
 		this.udpService.addObserver(ui);
 	}
 
@@ -72,13 +61,9 @@ public class ChatAppController {
 	 *
 	 * @param port The target port that is defined by the user.
 	 */
-	private void startTcpService(int port) {
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	private void startTcpService() {
 		try {
-			this.tcpService.server(port);
+			this.tcpService.server();
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -91,30 +76,25 @@ public class ChatAppController {
 	 * Starts the TCP service.
 	 *
 	 * @param ui user interface od chat
-	 * @param port The target port that is defined by the user.
 	 */
-	public void startTcpService(ChatUI ui, int port) {
+	public void startTcpService(ChatUI ui) {
 		if (ui == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
-
 		this.tcpService = new TcpService();
-
-		this.startTcpService(port);
+		this.startTcpService();
 	}
 
 	/**
 	 * Restarts both the UDP and TCP services.
 	 *
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void restartServices(int port, int seconds) {
+	public void restartServices(int seconds) {
 		this.tcpService.stop();
 		this.udpService.stop();
-
-		this.startUdpService(port, seconds);
-		this.startTcpService(port);
+		this.startUdpService(seconds);
+		this.startTcpService();
 	}
 
 	public void sendMessage(String hostname, String target, String message) {
@@ -123,9 +103,10 @@ public class ChatAppController {
 		sendMessage.put("hostname", hostname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
-		Notification.
-			chatMessageInformer().
-			notifyChange(sendMessage);
+
 		new TcpService().client(target, message);
+		Notification.chatMessageInformer().
+			notifyChange(sendMessage);
 	}
+
 }

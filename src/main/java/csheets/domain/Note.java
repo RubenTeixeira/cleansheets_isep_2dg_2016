@@ -5,15 +5,23 @@
  */
 package csheets.domain;
 
+import csheets.support.DateTime;
 import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -28,33 +36,70 @@ public class Note {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne
-    private Note note;
-    private  String titulo;
-    private  String noteText;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "NOTEID")
+    private List<Note> versions;
+
+    private String title;
+    private String noteText;
+    private boolean versionState;
+
     @ManyToOne
     private Contact contact;
-    private String timeStamp;//change to DATE
 
-    protected Note(){
-        
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private java.util.Calendar timeStamp;
+
+    protected Note() {
     }
-    
-    public Note(String noteText) {
-        String[] lines = noteText.split(System.getProperty("\n"));
-        titulo = lines[0];
-        this.noteText = noteText;
 
-        updateNote();
+    public Note(String noteText, Contact contact, boolean noteState) {
+        String s[] = noteText.split("\\r?\\n");
+        ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
+        System.out.println(arrList);
+        title = arrList.get(0);
+        this.noteText = noteText;
+        this.contact = contact;
+        this.timeStamp = DateTime.now();
+        this.versionState = noteState;
     }
 
     private void updateNote() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        //get current date time with Date()
-        Date date = new Date();
-        timeStamp = dateFormat.format(date);//DATE
-
+        Note n = new Note(this.noteText, this.contact, false);
+        n.timeStamp(DateTime.now());
+        versions.add(n);
     }
 
-   
+    public void editNote(String textNote) {
+        String s[] = noteText.split("\\r?\\n");
+        ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
+        System.out.println(arrList);
+        title = arrList.get(0);
+        this.noteText = textNote;
+        
+        updateNote();
+    }
+
+    public Contact getContact() {
+        return this.contact;
+    }
+
+    private void timeStamp(Calendar now) {
+        this.timeStamp = now;
+    }
+
+    public List<Note> versionByNote() {
+        return this.versions;
+    }
+    
+    public boolean noteState() {
+        return this.versionState;
+    }
+
+    @Override
+    public String toString() {
+        return this.title;
+    }
+
 }

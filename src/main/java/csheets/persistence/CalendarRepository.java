@@ -6,6 +6,7 @@
 package csheets.persistence;
 
 import csheets.domain.Calendar;
+import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.Repository;
 
 /**
@@ -13,5 +14,7 @@ import csheets.framework.persistence.repositories.Repository;
  * @author Eduardo
  */
 public interface CalendarRepository extends Repository<Calendar, Long> {
+
+	public Iterable<Calendar> calendarsContact(Contact contact);
 
 }

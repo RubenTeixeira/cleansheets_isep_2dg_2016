@@ -26,6 +26,8 @@ public class FindWorkbookResults extends javax.swing.JFrame {
 
 	/**
 	 * Creates new form FindWorkbookResults
+	 *
+	 * @param uiController ui
 	 */
 	public FindWorkbookResults(UIController uiController) {
 		this.model = new DefaultListModel<File>();

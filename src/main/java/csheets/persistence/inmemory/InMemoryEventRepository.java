@@ -5,10 +5,14 @@
  */
 package csheets.persistence.inmemory;
 
+import csheets.domain.Calendar;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.EventRepository;
+import csheets.persistence.PersistenceContext;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,16 +29,25 @@ class InMemoryEventRepository extends InMemoryRepository<Event, Long>
 	}
 
 	@Override
-	public Iterable<Event> eventsContact(Contact contactObj) {
-		/*
+	public Iterable<Event> eventsContact(Contact contact) {
 		List<Event> list = new ArrayList();
-		for (Event event : this.all()) {
-			if (event.contact() == contactObj) {
+		for (Calendar calendar : PersistenceContext.repositories().calendars().
+			calendarsContact(contact)) {
+			for (Event event : this.eventsCalendar(calendar)) {
 				list.add(event);
 			}
 		}
 		return list;
-		 */
-		return null;
+	}
+
+	@Override
+	public Iterable<Event> eventsCalendar(Calendar calendar) {
+		List<Event> list = new ArrayList();
+		for (Event event : this.all()) {
+			if (event.calendar() == calendar) {
+				list.add(event);
+			}
+		}
+		return list;
 	}
 }

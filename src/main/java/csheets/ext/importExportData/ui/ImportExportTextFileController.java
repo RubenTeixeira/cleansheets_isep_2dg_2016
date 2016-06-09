@@ -42,7 +42,7 @@ public class ImportExportTextFileController {
 	 * @param header has header or not
 	 * @param cells cells to copy from file
 	 * @return the cells with the text
-	 * @throws FormulaCompilationException
+	 * @throws FormulaCompilationException exception
 	 */
 	public Cell[][] parse(String path, String separator, boolean header,
 						  Cell[][] cells) throws FormulaCompilationException {

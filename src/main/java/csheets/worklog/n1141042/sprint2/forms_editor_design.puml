@@ -1,4 +1,4 @@
-@startuml doc-files/chat_app_analysis.png
+@startuml doc-files/forms_editor_design.png
 
 actor User
 participant "<<analysis>>\nFormEditorUI" as FormEditorUI
@@ -9,17 +9,14 @@ User->FormEditorUI: form().
 loop
 FormEditorUI->FormFrame: new()
 alt add
-User->FormFrame: add(name, description)
-FormFrame->FormController: add()
-FormController->FormPanelSingle: new()
-FormPanelSingle->FormFrame:added()
+FormFrame->AskContent: add()
+AskContent->SingleLine:add(name, description)
+SingleLine->FormFrame: added()
 FormFrame->FormFrame: refresh()
 end
 alt remove
-User->FormFrame: remove()
-FormFrame->FormController: remove()
-FormController->FormPanelSingle: remove()
-FormPanelSingle->FormFrame:removed()
+FormFrame->SingleLine: remove()
+SingleLine->FormFrame: removed()
 FormFrame->FormFrame: refresh()
 end
 

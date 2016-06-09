@@ -24,8 +24,9 @@ public class GameController {
 	/**
 	 * Starts the TCP Service.
 	 *
-	 * @param port Target port defined by the user.
-	 * @param seconds The number of seconds to execute each request.
+	 * @param observer observer
+	 * @param username username
+	 * @param image image
 	 */
 //	public void startServices(GamePanel panel, String username) {
 //
@@ -148,11 +149,6 @@ public class GameController {
 		this.tcpService.addObserver(panel);
 	}
 
-	/**
-	 * Starts the TCP service.
-	 *
-	 * @param port The target port that is defined by the user.
-	 */
 	private void startTcpService(int port) {
 		if (port < 0 || port > 49151) {
 			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");

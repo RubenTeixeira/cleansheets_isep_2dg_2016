@@ -5,6 +5,7 @@
  */
 package csheets.factory;
 
+import csheets.domain.Contact;
 import csheets.domain.Note;
 
 /**
@@ -12,12 +13,13 @@ import csheets.domain.Note;
  * @author Diogo Azevedo
  */
 public class NoteFactory {
+    
         public NoteFactory() {
 
 	}
 
-	public static final Note createNote(String notetext) {
-		return new Note(notetext);
+	public static final Note createNote(String notetext,Contact contact, boolean version) {
+		return new Note(notetext,contact, version);
 	}
 }
 

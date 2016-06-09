@@ -58,7 +58,7 @@
  *
  * <h3>5.1. Tests</h3>
  * <p>
- * TODO -> How to test lang function area?
+ * TODO How to test lang function area?
  *
  * <h3>5.2. UC Realization</h3>
  * <p>
@@ -157,7 +157,7 @@
  * Blocking:
  * </p>
  * 1. Needed a new grammar or using the existing one? (Producted owner clarified
- * -> 1º option).
+ * 1º option).
  * <p>
  * <b>Sunday</b>
  * <p>

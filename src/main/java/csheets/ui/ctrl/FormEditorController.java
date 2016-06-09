@@ -9,18 +9,17 @@ import csheets.ui.FormEditor.ui.SingleLine;
 
 /**
  *
- * @author Hicham Abahri <1141042@isep.ipp.pt>
+ * @author Hicham Abahri
  */
 public class FormEditorController {
 
-    private final String name;
-    private final String description;
-    private SingleLine singleLine;
-    
+	private final String name;
+	private final String description;
+	private SingleLine singleLine;
 
-    public FormEditorController(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+	public FormEditorController(String name, String description) {
+		this.name = name;
+		this.description = description;
+	}
 
 }

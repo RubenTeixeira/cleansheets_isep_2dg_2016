@@ -1,7 +1,7 @@
 package csheets.ext.chatApp.ui;
 
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notification;
@@ -23,13 +23,13 @@ public class TcpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param port The server port, customized by the user.
 	 */
-	public void server(int port) {
+	public void server() {
 		ThreadManager.create("ipc.tcpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = Volt.tcp(port, 0);
+								 server = NetworkManager.tcp();
+
 								 server.expect(":chat", new Action() {
 											   @Override
 											   public void run(
@@ -52,8 +52,6 @@ public class TcpService extends Notifier {
 													   notifyChange(mapMessage);
 											   }
 										   });
-
-								 server.stream(port);
 							 }
 						 });
 

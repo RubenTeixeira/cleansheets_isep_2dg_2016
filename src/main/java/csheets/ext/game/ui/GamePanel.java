@@ -91,6 +91,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	/**
 	 * Creates new form GamePanel.
+	 *
+	 * @param uiController uiController
+	 * @param gameController gameController
+	 * @throws java.net.UnknownHostException exception
 	 */
 	public GamePanel(UIController uiController, GameController gameController) {
 		this.uiController = uiController;
@@ -532,9 +536,5 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 				});
 			}
 		}
-
-		opponentsList.setModel(instanceListModel);
-		repaint();
 	}
-
 }

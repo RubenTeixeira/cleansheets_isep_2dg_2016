@@ -1,0 +1,31 @@
+@startuml doc-files/core02_2_Design.png
+actor User
+participant "CommentPanel" as UIPanel
+participant "JTextArea" as text
+participant "ApplyAction" as Action
+participant "CommentController" as Ctrl
+participant "CommentableCell" as Cell
+participant "CellRenderer" as CRenderer
+participant "UIController" as UICtrl
+
+
+UIPanel -> text : create()
+User -> UIPanel : commentChanged(cell)
+UIPanel -> Ctrl : cellSelected(cell)
+Ctrl -> Cell : hasComment()
+Ctrl -> Cell : getUserName()
+Ctrl -> Cell : getUserComment()
+Ctrl -> UIPanel : setCommentText(username,comment)
+UIPanel -> text : setText(username,comment)
+UIPanel -> Action : create()
+User -> UIPanel : selectionChanged(event)
+UIPanel -> Action : focusLost(focusEvent)
+Action -> Ctrl : setComment(cell,comment,username)
+Ctrl -> Cell : addLstComments(username,comment)
+Cell -> Cell : map1.put(username,comment)
+Cell -> Cell : list.add(map1)
+Cell -> Cell : fireCommentsChanged()
+Ctrl -> UICtrl : setWorkbookModified(workbook)
+UICtrl -> UICtrl : changeLog.put(workbook,true)
+UICtrl -> UICtrl : fireWorkbookModified(workbook)
+@enduml

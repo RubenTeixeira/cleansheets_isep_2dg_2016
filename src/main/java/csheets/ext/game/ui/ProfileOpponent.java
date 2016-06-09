@@ -12,6 +12,8 @@ public class ProfileOpponent extends javax.swing.JPanel {
 	/**
 	 * Creates new form ContactCardPanel
 	 *
+	 * @param username username
+	 * @param photo photo
 	 */
 	public ProfileOpponent(String username, Image photo) {
 		initComponents();
@@ -74,9 +76,12 @@ public class ProfileOpponent extends javax.swing.JPanel {
 		this.jLabel1.setText(name);
 	}
 
-	public void setPhoto(Image photo) {
-		this.photo.setIcon(new ImageIcon(photo.getScaledInstance(100, 100,
-																 Image.SCALE_SMOOTH)));
+	public void setPhoto(Image image) {
+		if (image != null) {
+			this.photo.setIcon(new ImageIcon(image.getScaledInstance(100, 100,
+																	 Image.SCALE_SMOOTH)));
+
+		}
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

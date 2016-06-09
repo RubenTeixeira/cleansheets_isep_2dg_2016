@@ -106,6 +106,11 @@ public class UdpServer extends Server {
         arguments.put("message", message);
         arguments.put("route", route);
         
+        // Execute all of the wildcard channels.
+        for (Channel channel : getRouteChannels("*")) {
+            channel.before(arguments, dependencies);
+        }
+        
         // Execute all the before channels.
         for (Channel channel : getRouteChannels(route)) {
             channel.before(arguments, dependencies);
@@ -290,6 +295,11 @@ public class UdpServer extends Server {
                                         action.run(arguments);
                                     }
                                     
+                                    // Execute all of the wildcard channels.
+                                    for (Channel channel : getRouteChannels("*")) {
+                                        channel.after(arguments, dependencies);
+                                    }
+                                    
                                     // Execute all the after channels.
                                     for (Channel channel : getRouteChannels((String) arguments.get("route"))) {
                                         channel.after(arguments, dependencies);
@@ -315,6 +325,11 @@ public class UdpServer extends Server {
                             
                             synchronized (action) {
                                 action.run(arguments);
+                            }
+                            
+                            // Execute all of the wildcard channels.
+                            for (Channel channel : getRouteChannels("*")) {
+                                channel.after(arguments, dependencies);
                             }
                             
                             // Execute all the after channels.
@@ -356,6 +371,11 @@ public class UdpServer extends Server {
         
         Map<String, Object> arguments = new HashMap<>();
         arguments.put("message", message);
+        
+        // Execute all of the wildcard channels.
+        for (Channel channel : getRouteChannels("*")) {
+            channel.before(arguments, dependencies);
+        }
         
         // Execute all the before channels.
         for (Channel channel : getRouteChannels(route)) {
@@ -541,6 +561,11 @@ public class UdpServer extends Server {
             arguments.put("target", target);
             arguments.put("packets", parts);
             
+            // Execute all of the wildcard channels.
+            for (Channel channel : getRouteChannels("*")) {
+                channel.after(arguments, dependencies);
+            }
+            
             // Execute all the after channels.
             for (Channel channel : getRouteChannels(route)) {
                 channel.after(arguments, dependencies);
@@ -575,7 +600,12 @@ public class UdpServer extends Server {
                 arguments.put("message", message);
                 arguments.put("target", target);
                 arguments.put("packets", parts);
-
+                
+                // Execute all of the wildcard channels.
+                for (Channel channel : getRouteChannels("*")) {
+                    channel.after(arguments, dependencies);
+                }
+                
                 // Execute all the after channels.
                 for (Channel channel : getRouteChannels(route)) {
                     channel.after(arguments, dependencies);

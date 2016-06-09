@@ -103,7 +103,7 @@ public class Value implements Comparable<Value>, Serializable {
 	/**
 	 * Creates a money value.
 	 *
-	 * @param money
+	 * @param money the money value
 	 */
 	public Value(Money money) {
 		this.type = Type.MONEY;

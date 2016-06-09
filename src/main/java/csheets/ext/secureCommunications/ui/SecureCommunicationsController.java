@@ -3,7 +3,6 @@ package csheets.ext.secureCommunications.ui;
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.channels.MessageEncryptionChannel;
 import csheets.framework.volt.channels.MessageReceivedChannel;
 import csheets.framework.volt.channels.MessageSentChannel;
@@ -24,22 +23,22 @@ public class SecureCommunicationsController {
         
         UdpServer udp = NetworkManager.udp();
 
-        udp.channel(":secure-communication", new MessageReceivedChannel("Incoming from Secure Communications", observer));
+        udp.channel("*", new MessageReceivedChannel("Incoming from ", observer),
+                         new MessageSentChannel("Sent from ", observer));
 
         udp.expect(":secure-communication", new Action() {
             @Override
-            public void run(Map<String, Object> args) {
-            }
+            public void run(Map<String, Object> args) {}
         });
         
         TcpServer tcp = NetworkManager.tcp();
         
-        tcp.channel(":secure-communication", new MessageReceivedChannel("Incoming from Secure Communications", observer));
+        tcp.channel(":secure-communication", new MessageReceivedChannel("Incoming from ", observer),
+                                             new MessageSentChannel("Sent from ", observer));
         
         tcp.expect(":secure-communication", new Action() {
             @Override
-            public void run(Map<String, Object> args) {
-            }
+            public void run(Map<String, Object> args) {}
         });
     }
     
@@ -54,14 +53,11 @@ public class SecureCommunicationsController {
     {
         UdpClient client = new UdpClient(0);
 
-        if (!secure) {
-            client.client().channel(":secure-communication", new MessageSentChannel("Sent from Secure Communications", observer));
-            client.send(":secure-communication", "all:30600", message);
-            return;
+        if (secure) {
+            client.client().channel(":secure-communication", 
+                    new MessageEncryptionChannel(AppSettings.instance().getApplicationKey()));
         }
         
-        client.client().channel(":secure-communication", new MessageEncryptionChannel(AppSettings.instance().getApplicationKey()),
-                new MessageSentChannel("Sent from Secure Communications", observer));
-        client.send(":secure-communication", "all:30600", message);
+        client.send(":secure-communication", "all:" + AppSettings.instance().get("UDP_PORT"), message);
     }
 }

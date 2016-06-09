@@ -63,18 +63,17 @@
  * Copied example Ui and finished adding extention to the system
  *
  * <b>Monday</b>
- * <p>Morning -
- * Finished UI implementation
- * Afternoon</p>
- * <p>Afternoon -
- * Scrum meeting, learning about ipc volt<p>
+ * <p>
+ * Morning - Finished UI implementation Afternoon</p>
+ * <p>
+ * Afternoon - Scrum meeting, learning about ipc volt<p>
  *
  *
  * <b>Tuesday</b>
- * <p>Morning-
- * Added help to the functions and fished some UI details</p>
- * <p>Afternoon -
- * Finished implementing tests and use case<p>
+ * <p>
+ * Morning- Added help to the functions and fished some UI details</p>
+ * <p>
+ * Afternoon - Finished implementing tests and use case
  *
  * <h2>10. Self Assessment</h2>
  *

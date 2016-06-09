@@ -2,16 +2,24 @@
 title: Sequence Diagram
   actor User
   participant SortAction as SA
-  participant JPanel as JPanel
+  participant JDialog as jd
   participant "uiController : UIController" as UIC
-  participant "ss : Spreadsheet" as SS
-  participant "sc : SortController" as SC
+  participant  Spreadsheet as SS
+  participant  SortController as SC
 
   User -> SA : actionPerformed(ActionEvent event)
-  SA -> JPanel : column_index=selectColumn(int index1);
-  SA -> JPanel : order_index=selectOrder(int index2);
+	SA-> jd : new(UIController uiController)
+jd -> SC : new(UIController uiController)
+ loop for(i < ColumnCount; i++)
+jd -> UIC :  getActiveSpreadsheet().getColumn();
+end
+User <- jd : show window
+User-> jd : select column_index
+User -> jd : select order
+  jd -> SC : setIndex(column_index)
+  jd -> SC : updateValueList()
+  jd -> SC : order(order)
+  jd -> SC : updateColumn()
 
-    SA -> UIC : ss=getActiveSpreadsheet();
-	SA -> SS : column=getColumn(column_index);
-	SA -> SC : setColumnOrder(column, order_index);
+  jd -> jd: dispose();
   @enduml

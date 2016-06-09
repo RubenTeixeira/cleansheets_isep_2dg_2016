@@ -1,7 +1,8 @@
 package csheets.ext.chatApp.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -25,14 +26,12 @@ public class UdpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param localPort The local port to contact other UDP servers.
-	 * @param targetPort The target port, customized by the user.
 	 */
-	public void server(int localPort, int targetPort) {
+	public void server() {
 		ThreadManager.create("ipc.udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = Volt.udp(localPort, 0);
+								 server = NetworkManager.udp();
 
 								 server.expect(":chatbroadcast", new Action() {
 											   @Override
@@ -45,11 +44,14 @@ public class UdpService extends Notifier {
 												   }
 												   // Destination = Target's IP and Port
 												   String destination = ((String) args.
-													   get("from")).split(":")[0] + ":" + localPort;
+													   get("from")).split(":")[0] + ":" + AppSettings.
+													   instance().
+													   get("UDP_PORT");
 
 												   server.
-													   send(":port", destination, String.
-															valueOf(targetPort));
+													   send(":port", destination, AppSettings.
+															instance().
+															get("TCP_PORT"));
 											   }
 										   });
 
@@ -75,7 +77,6 @@ public class UdpService extends Notifier {
 											   }
 										   });
 
-								 server.stream(localPort);
 							 }
 						 });
 
@@ -97,7 +98,8 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":chatbroadcast", "all:30600", "check");
+											 send(":chatbroadcast", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), "check");
 									 }
 								 };
 

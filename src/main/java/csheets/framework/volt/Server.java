@@ -117,22 +117,6 @@ public abstract class Server {
     public void channel(String route, Channel... channels)
     {
         synchronized (this.channels) {
-            // If the route is a *, we want to apply the given channels to
-            // every route.
-            if (route.equals("*")) {
-                List<Channel> channelsList = new ArrayList<>();
-                
-                for (Channel channel : channels) {
-                    channelsList.add(channel);
-                }
-                
-                for (Map.Entry<String, List<Channel>> entry : this.channels.entrySet()) {
-                    entry.getValue().addAll(channelsList);
-                }
-                
-                return;
-            }
-            
             if (! this.channels.containsKey(route)) {
                 this.channels.put(route, new ArrayList<>());
             }

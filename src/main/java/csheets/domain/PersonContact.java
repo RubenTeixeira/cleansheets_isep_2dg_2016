@@ -41,18 +41,21 @@ public class PersonContact extends Contact {
 
 	/**
 	 *
-	 * @param firstName
-	 * @param lastName
-	 * @param photo
+	 * @param firstName firstName
+	 * @param lastName lastName
+	 * @param profession profession
+	 * @param company company
+	 * @param photo photo
 	 */
-	public PersonContact(String firstName, String lastName, byte[] photo) {
+	public PersonContact(String firstName, String lastName, String profession,
+						 Contact company, byte[] photo) {
 		super(photo);
 		if (firstName == null || firstName.isEmpty() || lastName == null) {
 			throw new IllegalArgumentException();
 		}
 		this.firstName = firstName;
 		this.lastName = lastName;
-
+		this.name = this.toString();
 	}
 
 	/**
@@ -68,7 +71,7 @@ public class PersonContact extends Contact {
 	 */
 	@Override
 	public String name() {
-		return this.firstName + " " + this.lastName;
+		return this.toString();
 	}
 
 	/**
@@ -83,10 +86,11 @@ public class PersonContact extends Contact {
 	/**
 	 * Set First Name
 	 *
-	 * @param firstName
+	 * @param firstName firstName
 	 */
 	public void firstName(String firstName) {
 		this.firstName = firstName;
+		this.name = this.toString();
 	}
 
 	/**
@@ -99,10 +103,11 @@ public class PersonContact extends Contact {
 	}
 
 	/**
-	 * @param lastName
+	 * @param lastName lastName
 	 */
 	public void lastName(String lastName) {
 		this.lastName = lastName;
+		this.name = this.toString();
 	}
 
 	/**
@@ -126,7 +131,7 @@ public class PersonContact extends Contact {
 	/**
 	 * Set Business
 	 *
-	 * @param business
+	 * @param company company
 	 */
 	public void company(Contact company) {
 		this.company = company;
@@ -135,10 +140,37 @@ public class PersonContact extends Contact {
 	/**
 	 * Set Profession
 	 *
-	 * @param profession
+	 * @param profession profession
 	 */
 	public void profession(String profession) {
 		this.profession = profession;
+	}
+
+	@Override
+	public String toString() {
+		return this.firstName.trim() + " " + this.lastName.trim();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof PersonContact)) {
+			return false;
+		}
+		PersonContact instance = (PersonContact) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 27;
+		hashcode = hashcode + 11 + this.name().hashCode();
+		return hashcode;
 	}
 
 }
