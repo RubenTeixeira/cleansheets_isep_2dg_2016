@@ -333,8 +333,9 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 						String lastName = jTextFieldLastName.getText();
 						String profession = (String) jComboBoxProfession.
 							getSelectedItem();
-						CompanyContact company = (CompanyContact) jComboBoxCompany.
-							getSelectedItem();
+						Contact company = controller.
+							getContact((String) jComboBoxCompany.
+								getSelectedItem());
 						controller.
 							addPerson(firstName, lastName, profession, company, photoFile);
 					} else {

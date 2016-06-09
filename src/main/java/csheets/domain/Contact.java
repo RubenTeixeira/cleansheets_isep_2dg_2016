@@ -16,6 +16,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * This class is an AggregateRoot. Represents an domain entity Contact.
@@ -23,6 +25,8 @@ import javax.persistence.Lob;
  * @author Rui Freitas
  */
 @Entity
+@Table(uniqueConstraints = {
+	@UniqueConstraint(columnNames = {"NAME"})})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "DISCRIMIN")
 public abstract class Contact implements Serializable {
@@ -33,6 +37,8 @@ public abstract class Contact implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+
+	protected String name;
 
 	/**
 	 * The photo of the contact.
@@ -99,6 +105,28 @@ public abstract class Contact implements Serializable {
 
 	public void id(long id) {
 		this.id = id;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Contact)) {
+			return false;
+		}
+		Contact instance = (Contact) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 27;
+		hashcode = hashcode + 11 + this.name().hashCode();
+		return hashcode;
 	}
 
 }

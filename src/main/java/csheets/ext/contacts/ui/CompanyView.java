@@ -9,7 +9,7 @@ import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.ext.contacts.ContactsController;
 import csheets.notification.Notification;
-import java.io.IOException;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -34,18 +34,21 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 	 */
 	public CompanyView(ContactsController controller, Contact contact) {
 		this.controller = controller;
+		this.contact = contact;
 		initComponents();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.update(null, null);
 		Notification.calendarInformer().addObserver(this);
 		Notification.contactInformer().addObserver(this);
 		Notification.eventInformer().addObserver(this);
-		this.update(null, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		try {
 			this.jLabelCompanyPhoto.setIcon(new ImageIcon(this.controller.
-				contactPhoto(contact)));
+				contactPhoto(contact).getScaledInstance(this.jLabelCompanyPhoto.
+				getWidth(), this.jLabelCompanyPhoto.getHeight(), Image.SCALE_SMOOTH)));
 			this.jLabelCompanyName.setText(this.contact.name());
 			this.jTreeCompany.removeAll();
 			DefaultMutableTreeNode root = (DefaultMutableTreeNode) this.jTreeCompany.
@@ -57,7 +60,7 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 					contactRoot.add(new DefaultMutableTreeNode(event));
 				}
 			}
-		} catch (IOException ex) {
+		} catch (Exception ex) {
 			Logger.getLogger(CompanyView.class.getName()).
 				log(Level.SEVERE, null, ex);
 		}
@@ -80,6 +83,8 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        jTreeCompany.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane1.setViewportView(jTreeCompany);
 
         jLabelAgenda.setText("Agenda:");

@@ -142,7 +142,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 		}
 		this.extensions
 			= uiExtensions.toArray(new UIExtension[uiExtensions.size()]);
-		this.user = new ContactsController(null, null).addSystemUser();
+		this.user = new ContactsController(null, null).systemUser();
 	}
 
 	/**
@@ -163,6 +163,15 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public CleanSheets getCleanSheets() {
 		return this.app;
+	}
+
+	/**
+	 * Creates a new user interface controller.
+	 *
+	 * @return the App Cleansheet
+	 */
+	public JFrame getFrame() {
+		return this.frame;
 	}
 
 	/*
