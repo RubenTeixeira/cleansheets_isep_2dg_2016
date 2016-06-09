@@ -95,7 +95,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
-		final int defaultSeconds = 3;
+		final int defaultSeconds = 10;
 
 		this.chatAppController = chatAppController;
 		this.chatAppController.startUdpService(this, defaultSeconds);
