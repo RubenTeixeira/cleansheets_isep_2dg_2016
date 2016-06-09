@@ -68,6 +68,12 @@ public final class AppSettings {
 											   "eapli.ecafeteria.persistence.jpa.JpaRepositoryFactory");
 	}
 
+	/**
+	 * Given a key returns a property (String).
+	 *
+	 * @param key
+	 * @return
+	 */
 	public String get(String key) {
 		return this.applicationProperties.getProperty(key);
 	}

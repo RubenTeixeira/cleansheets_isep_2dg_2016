@@ -18,7 +18,7 @@ import csheets.support.ExchangeRateConverter;
 public class Pound implements Function {
 
 	/**
-	 * The only (but repeatable) parameter: a numeric term
+	 * The only parameter: a Money term
 	 */
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
 		new FunctionParameter(Value.Type.MONEY, "Term", false,
