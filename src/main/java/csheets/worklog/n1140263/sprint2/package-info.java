@@ -11,7 +11,7 @@
  *
  * -Notes about the week's work.-
  * <p>
- * //Notas daquilo que fiz durante a semana (exemplo usado na worklog week1)
+ * Pair Programming last day with Jose Barros - 1140364
  *
  *
  * <h2>2. Use Case/Feature: IPC07.1 - Choose Game and Partner</h2>
@@ -49,8 +49,7 @@
  * profile requirement. In the sidebar i will put the 2 options of games - the
  * games are not implemented yet in this week - only for demonstration and
  * starting point to my colleagues. To end a game it is necessary to stop the
- * service (connection established between the "online" clients). - (1st
- * analysis of the problem) //changes are comming ...
+ * service (connection established between the "online" clients).
  *
  * <h2>5. Design</h2>
  *
@@ -80,17 +79,18 @@
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * Two instances need to be connected to the same network. It is possible to
+ * edit own profile photo. The username and host its automatically set by the
+ * program. One instance select other instance + game then press button connect
+ * for establish connection between users. It is also possible to remove
+ * connection/game between users.
  *
  * <h2>8. Final Remarks</h2>
- *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * The feature its funcional. The core of the problem is set and functional.
+ * "The name of the users and icon should be displayed in the list of available
+ * users to play with." - not implemented yet; causa: No time do to the task.
+ * The feature need improvements - friday and sunday (after presentation).
  * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
  *
  *
  * <h2>9. Work Log</h2>
@@ -144,26 +144,22 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. Huge implementation and corrections.
  * <p>
  * Today
  * <p>
- * 1.
+ * 1. Implementation 2. "Adapt" design - cause: fixes.
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. ----
  *
  * <h2>10. Self Assessment</h2>
- *
- * -Insert here your self-assessment of the work during this sprint.-
+ * Week 2 - i have done a lot of work and effort in my feature. It was a
+ * productive week.
  *
  * <h3>10.1. Design and Implementation:</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
  * <p>
  * <b>Evidences:</b>
  * <p>
