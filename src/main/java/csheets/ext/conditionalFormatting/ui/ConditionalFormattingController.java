@@ -233,4 +233,12 @@ public class ConditionalFormattingController {
 
 	}
 
+	public boolean isExpressionComparison(Cell cell) {
+		return (cell.getValue().
+			isOfType(Value.Type.BOOLEAN));
+	}
+
+	public boolean evaluateExpression(Cell cell) throws IllegalValueTypeException {
+		return (cell.getValue().toBoolean());
+	}
 }

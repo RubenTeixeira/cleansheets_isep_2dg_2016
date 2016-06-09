@@ -7,7 +7,6 @@ package csheets.ext.conditionalFormatting.ui;
 
 import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
-import csheets.core.Value;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.conditionalFormatting.ConditionalFormattingExtension;
 import csheets.ext.style.StylableCell;
@@ -391,9 +390,8 @@ public class ConditionalFormattingUI extends JPanel {
 
 			try {
 
-				if (cell.getValue().
-					isOfType(Value.Type.BOOLEAN)) {
-					if (cell.getValue().toBoolean()) {
+				if (conditionalFormattingController.isExpressionComparison(cell)) {
+					if (conditionalFormattingController.evaluateExpression(cell)) {
 						trueLabel.setForeground(Color.red);
 						falseLabel.setForeground(Color.black);
 						result = true;
