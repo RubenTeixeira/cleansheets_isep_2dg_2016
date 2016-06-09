@@ -23,7 +23,7 @@ import javax.swing.SwingWorker;
  *
  * @author Rui Freitas
  */
-public class PersonManager extends javax.swing.JDialog implements Observer {
+public class ContactManager extends javax.swing.JDialog implements Observer {
 
 	private File photoFile;
 	private ContactsController controller;
@@ -36,8 +36,8 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 	 * @param controller controller
 	 * @param contact The contact to edit.
 	 */
-	public PersonManager(JFrame parent, ContactsController controller,
-						 Contact contact) {
+	public ContactManager(JFrame parent, ContactsController controller,
+						  Contact contact) {
 		super();
 		this.controller = controller;
 		this.contact = contact;

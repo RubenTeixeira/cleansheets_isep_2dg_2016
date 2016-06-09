@@ -15,7 +15,7 @@ import javax.swing.ImageIcon;
  *
  * @author Marcelo Barroso 1131399
  */
-public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
+public class ContactPanel extends javax.swing.JPanel implements Observer {
 
 	private ContactsController controller;
 	private Contact user;
@@ -25,7 +25,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 	 *
 	 * @param uiController The user interface controller.
 	 */
-	public ContactsPanel2(UIController uiController) {
+	public ContactPanel(UIController uiController) {
 		this.setName(ContactsExtension.NAME);
 		this.controller = new ContactsController(uiController, this);
 		this.user = this.controller.systemUser();
@@ -47,7 +47,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 			((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
 			for (Contact contact : this.controller.allContacts()) {
 				if (!contact.name().equalsIgnoreCase(this.user.name())) {
-					ContactsPanelSingle2 panel = new ContactsPanelSingle2(this.controller, contact);
+					ContactPanelSingle panel = new ContactPanelSingle(this.controller, contact);
 					this.jPanelContacts.add(panel);
 					GridLayout layout = (GridLayout) this.jPanelContacts.
 						getLayout();
@@ -179,11 +179,11 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-		new PersonManager(null, this.controller, null).setVisible(true);
+		new ContactManager(null, this.controller, null).setVisible(true);
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		new PersonManager(null, this.controller, this.user).setVisible(true);
+		new ContactManager(null, this.controller, this.user).setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Marcelo Barroso 1131399
  */
-public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer {
+public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
 
 	private Contact contact;
 	private ContactsController controller;
@@ -25,7 +25,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
 	 * @param controller controller of events
 	 * @param contact contact
 	 */
-	public ContactsPanelSingle2(ContactsController controller, Contact contact) {
+	public ContactPanelSingle(ContactsController controller, Contact contact) {
 		this.controller = controller;
 		this.contact = contact;
 		this.initComponents();
@@ -78,7 +78,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
         setPreferredSize(new java.awt.Dimension(250, 65));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ContactsPanelSingle2.this.mouseClicked(evt);
+                ContactPanelSingle.this.mouseClicked(evt);
             }
         });
         setLayout(new java.awt.BorderLayout());
@@ -176,7 +176,7 @@ public class ContactsPanelSingle2 extends javax.swing.JPanel implements Observer
     }//GEN-LAST:event_mouseClicked
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		new PersonManager(UIController.getUIController().getFrame(), this.controller, this.contact).
+		new ContactManager(UIController.getUIController().getFrame(), this.controller, this.contact).
 			setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
 
