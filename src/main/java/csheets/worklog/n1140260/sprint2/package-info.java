@@ -46,6 +46,15 @@
  * <h3>5.3. Classes</h3>
  * <p>
  * <img src="doc-files/lang03_01_design.png" alt="image">
+ *
+ *
+ * <h2>6. Implementation</h2>
+ *
+ * <code>csheets.ext.conditionalFormatting</code>
+ * <code>csheets.ext.conditionalFormatting.ui</code>
+ *
+ *
+ *
  * <h2>9. Work Log</h2>
  *
  *

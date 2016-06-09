@@ -233,11 +233,24 @@ public class ConditionalFormattingController {
 
 	}
 
+	/**
+	 * This method checks if the cell content is a comparison
+	 *
+	 * @param cell Cell
+	 * @return true if cell content is a comparison,otherwise return false
+	 */
 	public boolean isExpressionComparison(Cell cell) {
 		return (cell.getValue().
 			isOfType(Value.Type.BOOLEAN));
 	}
 
+	/**
+	 * This method evaluate if exression is true or false
+	 *
+	 * @param cell Cell
+	 * @return boolean expression
+	 * @throws IllegalValueTypeException
+	 */
 	public boolean evaluateExpression(Cell cell) throws IllegalValueTypeException {
 		return (cell.getValue().toBoolean());
 	}
