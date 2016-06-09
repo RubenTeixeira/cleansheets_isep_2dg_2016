@@ -58,18 +58,17 @@
  * in the window.
  * </p>
  * <h4>Analysis diagram:</h4>
- * <img src="doc-files/forms_editor_analysis.png">
+ * <img src="doc-files/forms_editor_analysis.png" alt="image">
  *
  *
  * This feature is already supported, and was built on the Feature
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-42">LPFOURDG-42</a>.
  *
  * <h2>5. Design</h2>
- *
+ *  <img src="doc-files/forms_editor_design.png" alt="image">
  * <h2>8. Final Remarks</h2>
  *
  * <h2>9. Work Log</h2>
- *
  * <p>
  * 06/06/2016</p>
  * <p>
