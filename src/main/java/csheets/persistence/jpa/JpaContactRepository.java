@@ -45,7 +45,7 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		for (Contact contact : this.all()) {
 			if (contact instanceof PersonContact) {
 				PersonContact person = (PersonContact) contact;
-				if (person.company() == company) {
+				if (person.company() != null && person.company().equals(company)) {
 					list.add(contact);
 				}
 			}

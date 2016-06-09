@@ -85,7 +85,7 @@ public class ContactsController {
 				throw new IOException("Loading file error!");
 			}
 		}
-		Contact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
+		PersonContact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
 		return PersistenceContext.repositories().contacts().getByName(contact.
@@ -104,7 +104,7 @@ public class ContactsController {
 				throw new IOException("Loading file error!");
 			}
 		}
-		Contact contact = new CompanyContact(name, thePhoto);
+		CompanyContact contact = new CompanyContact(name, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
 		return PersistenceContext.repositories().contacts().getByName(contact.
@@ -129,12 +129,11 @@ public class ContactsController {
 				getByName(userName);
 			if (contact == null) {
 				contact = this.
-					addPerson(userName, null, null, null, new File(CleanSheets.class.
+					addPerson(userName, "", null, null, new File(CleanSheets.class.
 							  getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
 			return contact;
 		} catch (Exception ex) {
-			System.out.println("ERRO " + ex);
 			return null;
 		}
 	}

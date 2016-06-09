@@ -51,15 +51,22 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 				getWidth(), this.jLabelCompanyPhoto.getHeight(), Image.SCALE_SMOOTH)));
 			this.jLabelCompanyName.setText(this.contact.name());
 			this.jTreeCompany.removeAll();
-			DefaultMutableTreeNode root = (DefaultMutableTreeNode) this.jTreeCompany.
+			DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTreeCompany.
 				getModel().getRoot();
-			for (Contact contact : this.controller.contactsCompany(contact)) {
-				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(contact);
-				root.add(new DefaultMutableTreeNode(contact));
-				for (Event event : this.controller.eventsContact(contact)) {
-					contactRoot.add(new DefaultMutableTreeNode(event));
+			DefaultMutableTreeNode root = new DefaultMutableTreeNode("tree");
+			treeRoot.add(root);
+			for (Contact contactPer : this.controller.contactsCompany(contact)) {
+				System.out.println("1");
+				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(contactPer);
+				root.add(contactRoot);
+				for (Event event : this.controller.eventsContact(contactPer)) {
+					System.out.println("2");
+					DefaultMutableTreeNode eventRoot = new DefaultMutableTreeNode(event);
+					contactRoot.add(eventRoot);
 				}
 			}
+			this.jTreeCompany.revalidate();
+			this.jTreeCompany.repaint();
 		} catch (Exception ex) {
 			Logger.getLogger(CompanyView.class.getName()).
 				log(Level.SEVERE, null, ex);
