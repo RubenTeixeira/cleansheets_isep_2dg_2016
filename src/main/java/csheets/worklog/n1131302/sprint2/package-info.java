@@ -12,7 +12,7 @@
  * <h2>2. Use Case/Feature: CRM06.1</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-75">LPFOURDG-90</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-90">LPFOURDG-90</a>
  *
  * <h2>3. Requirement</h2>
  * Implement a local db using JPA (ORM) so the application user could create
@@ -33,10 +33,10 @@
  *
  * <h2>4. Analysis</h2>
  *
- *
- *
- *
- *
+ *Analyzing the use case found that we can separate into three separate use cases, one to create a new reminder,
+ * another to change existing reminders and finally one to remove reminders.
+ * A reminder has a name, a description and warning date.
+ * When the current date reaches the reminder date this triggers a new window to the user to inform. Then the user decides closes it or snooze in 5min.
  *
  *
  * <h2>5. Design</h2>
@@ -124,6 +124,12 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
+ * 1.Start Implemetation
+ * <b>Evidences:</b>
+ * </p>
+ * <b>Wednesday:</b>
+ * <p>
+ * 1.finish the implemetation. 2.Tests
  * <b>Evidences:</b>
  * </p>
  * - url of commit: ... - description: this commit is related to the
