@@ -27,8 +27,10 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 		this.setName(EventsExtension.NAME);
 		this.initComponents();
 		this.controller = new EventsController(uiController, this);
-		Notification.eventInformer().addObserver(this);
 		this.update(null, null);
+		Notification.eventInformer().addObserver(this);
+		Notification.calendarInformer().addObserver(this);
+		Notification.contactInformer().addObserver(this);
 	}
 
 	@Override

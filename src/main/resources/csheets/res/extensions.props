@@ -1,7 +1,8 @@
 csheets.ext.deptree.DependencyTreeExtension;1.0;Tree_Dependency
 csheets.ext.simple.ExtensionExample;1.0;Just_an_Example
 csheets.ext.comments.CommentsExtension;1.0;Enables_cell_comments
-csheets.ext.contacts.ContactsExtension;1.0;Enables_contacts
+csheets.ext.contacts.ContactsExtension;2.0;Enables_contacts v2
+csheets.ext.contacts.ContactsExtension;1.0;Enables_contacts v1
 csheets.ext.events.EventsExtension;1.0;Setup_an_event
 csheets.ext.cellsSharing.ShareExtension;1.0;Share_data_to_others
 csheets.ext.distributedWorkbook.WorkbookSearchExtension;1.0;Allow_workbook_search

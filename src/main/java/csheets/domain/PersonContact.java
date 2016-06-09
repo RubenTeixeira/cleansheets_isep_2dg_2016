@@ -50,11 +50,15 @@ public class PersonContact extends Contact {
 	public PersonContact(String firstName, String lastName, String profession,
 						 Contact company, byte[] photo) {
 		super(photo);
-		if (firstName == null || firstName.isEmpty() || lastName == null) {
+		if (firstName == null || firstName.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.firstName = firstName;
-		this.lastName = lastName;
+		if (lastName == null) {
+			this.lastName = "";
+		} else {
+			this.lastName = lastName;
+		}
 		this.company = company;
 		this.profession = profession;
 		this.name = this.toString();
@@ -150,7 +154,7 @@ public class PersonContact extends Contact {
 
 	@Override
 	public String toString() {
-		return this.firstName.trim() + " " + this.lastName.trim();
+		return (this.firstName.trim() + " " + this.lastName.trim()).trim();
 	}
 
 	@Override

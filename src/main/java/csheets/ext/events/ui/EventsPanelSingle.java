@@ -16,6 +16,9 @@ public class EventsPanelSingle extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form EventsPanelSingle
+	 *
+	 * @param controller controller
+	 * @param event event
 	 */
 	public EventsPanelSingle(EventsController controller, Event event) {
 		this.controller = controller;

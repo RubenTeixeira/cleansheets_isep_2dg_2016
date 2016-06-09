@@ -211,7 +211,7 @@
  * Blocking:
  * <p>
  *  * 1. Nothing.
- * <p>
+ *
  * <h2>10. Self Assessment</h2>
  *
  * This week went well. I ended up completing the implementation off my feature

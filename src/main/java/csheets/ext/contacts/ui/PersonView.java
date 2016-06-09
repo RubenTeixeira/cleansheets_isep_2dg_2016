@@ -62,6 +62,18 @@ public class PersonView extends javax.swing.JFrame implements Observer {
 				getScaledInstance(this.jLabelPersonPhoto.
 					getWidth(), this.jLabelPersonPhoto.getHeight(), Image.SCALE_SMOOTH)));
 			this.jLabelPersonName.setText(this.contact.name());
+			if (contact instanceof PersonContact) {
+				PersonContact person = (PersonContact) contact;
+				if (!person.profession().isEmpty()) {
+					this.jLabelProfission.setText("Profission: " + person.
+						profession());
+				}
+				if (person.company() != null) {
+					this.jLabelCompany.setText("Company: " + person.company().
+						name());
+				}
+			}
+
 			this.jTreePerson.removeAll();
 			for (Calendar calendarPer : this.controller.
 				calendarContact(contact)) {
@@ -97,6 +109,8 @@ public class PersonView extends javax.swing.JFrame implements Observer {
         jLabelPerson = new javax.swing.JLabel();
         jLabelPersonPhoto = new javax.swing.JLabel();
         jLabelPersonName = new javax.swing.JLabel();
+        jLabelProfission = new javax.swing.JLabel();
+        jLabelCompany = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +124,10 @@ public class PersonView extends javax.swing.JFrame implements Observer {
 
         jLabelPersonName.setText("Person Name");
 
+        jLabelProfission.setText(" ");
+
+        jLabelCompany.setText(" ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -120,27 +138,32 @@ public class PersonView extends javax.swing.JFrame implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabelPersonPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelPersonName, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelPersonPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPerson))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelPersonName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelProfission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelCompany, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabelPersonName)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(jLabelPersonPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelPerson)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(jLabelPerson))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelPersonName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelProfission)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelCompany)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -148,9 +171,11 @@ public class PersonView extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelCompany;
     private javax.swing.JLabel jLabelPerson;
     private javax.swing.JLabel jLabelPersonName;
     private javax.swing.JLabel jLabelPersonPhoto;
+    private javax.swing.JLabel jLabelProfission;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTree jTreePerson;
     // End of variables declaration//GEN-END:variables

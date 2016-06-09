@@ -125,7 +125,7 @@
  *
  * <p>
  * <img src="doc-files/autodescription_version_1.png" alt="Sequence Diagram Design"></p>
- * <p>
+ *
  *
  * <h2>6. Implementation</h2>
  *

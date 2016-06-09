@@ -13,9 +13,11 @@ import csheets.support.Converter;
 import csheets.ui.ctrl.UIController;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javax.swing.JPanel;
 
 /**
@@ -50,8 +52,14 @@ public class ContactsController {
 
 	public Iterable<String> allProfissions() {
 		List<String> list = new ArrayList();
-		list.add("Study");
-		list.add("Teacher");
+		try {
+			Scanner input = new Scanner(new File(CleanSheets.class.
+				getResource("res/profissions.props").getFile()));
+			while (input.hasNextLine()) {
+				list.add(input.nextLine());
+			}
+		} catch (FileNotFoundException ex) {
+		}
 		return list;
 	}
 
@@ -126,11 +134,10 @@ public class ContactsController {
 	public Contact systemUser() {
 		try {
 			String userName = System.getProperty("user.name");
-			Contact contact = PersistenceContext.repositories().contacts().
-				getByName(userName);
+			Contact contact = getContact(userName);
 			if (contact == null) {
 				contact = this.
-					addPerson(userName, "", null, null, new File(CleanSheets.class.
+					addPerson(userName, null, null, null, new File(CleanSheets.class.
 							  getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
 			return contact;

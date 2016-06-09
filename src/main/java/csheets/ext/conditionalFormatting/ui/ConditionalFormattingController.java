@@ -249,7 +249,7 @@ public class ConditionalFormattingController {
 	 *
 	 * @param cell Cell
 	 * @return boolean expression
-	 * @throws IllegalValueTypeException
+	 * @throws IllegalValueTypeException exception value illegal
 	 */
 	public boolean evaluateExpression(Cell cell) throws IllegalValueTypeException {
 		return (cell.getValue().toBoolean());

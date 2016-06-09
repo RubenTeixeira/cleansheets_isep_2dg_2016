@@ -7,6 +7,7 @@ import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
@@ -36,28 +37,30 @@ public class ContactPanel extends javax.swing.JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		try {
-			if (this.user != null) {
-				this.jLabelName.setText(this.user.name());
+		this.user = this.controller.systemUser();
+		if (this.user != null) {
+			this.jLabelName.setText(this.user.name());
+			try {
 				this.jLabelPhoto.setIcon(new ImageIcon(this.controller.
 					contactPhoto(this.user).getScaledInstance(this.jLabelPhoto.
 					getWidth(), this.jLabelPhoto.getHeight(), Image.SCALE_SMOOTH)));
+			} catch (IOException ex) {
 			}
-			this.jPanelContacts.removeAll();
-			((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
-			for (Contact contact : this.controller.allContacts()) {
-				if (!contact.name().equalsIgnoreCase(this.user.name())) {
-					ContactPanelSingle panel = new ContactPanelSingle(this.controller, contact);
-					this.jPanelContacts.add(panel);
-					GridLayout layout = (GridLayout) this.jPanelContacts.
-						getLayout();
-					layout.setRows(layout.getRows() + 1);
-				}
-			}
-			this.jPanelContacts.revalidate();
-			this.jPanelContacts.repaint();
-		} catch (Exception ex) {
 		}
+		this.jPanelContacts.removeAll();
+		((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
+		for (Contact contact : this.controller.allContacts()) {
+			if (this.user != null && !contact.name().equalsIgnoreCase(this.user.
+				name())) {
+				ContactPanelSingle panel = new ContactPanelSingle(this.controller, contact);
+				this.jPanelContacts.add(panel);
+				GridLayout layout = (GridLayout) this.jPanelContacts.
+					getLayout();
+				layout.setRows(layout.getRows() + 1);
+			}
+		}
+		this.jPanelContacts.revalidate();
+		this.jPanelContacts.repaint();
 	}
 
 	/**
@@ -85,13 +88,28 @@ public class ContactPanel extends javax.swing.JPanel implements Observer {
         jScrollPane1.setViewportView(jPanelContacts);
 
         jPanelPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanelPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanelPrincipalMouseClicked(evt);
+            }
+        });
 
         jLabelPhoto.setMaximumSize(new java.awt.Dimension(45, 45));
         jLabelPhoto.setMinimumSize(new java.awt.Dimension(45, 45));
         jLabelPhoto.setPreferredSize(new java.awt.Dimension(45, 45));
         jLabelPhoto.setSize(new java.awt.Dimension(45, 45));
+        jLabelPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPhotoMouseClicked(evt);
+            }
+        });
 
         jLabelName.setText("jLabel1");
+        jLabelName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelNameMouseClicked(evt);
+            }
+        });
 
         jButtonEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/edit.png"))); // NOI18N
         jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -102,6 +120,11 @@ public class ContactPanel extends javax.swing.JPanel implements Observer {
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
         jLabel1.setText("Computer user");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
@@ -185,6 +208,22 @@ public class ContactPanel extends javax.swing.JPanel implements Observer {
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
 		new ContactManager(null, this.controller, this.user).setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
+
+    private void jPanelPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelPrincipalMouseClicked
+		new PersonView(controller, this.user).setVisible(true);
+    }//GEN-LAST:event_jPanelPrincipalMouseClicked
+
+    private void jLabelPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPhotoMouseClicked
+		new PersonView(controller, this.user).setVisible(true);
+    }//GEN-LAST:event_jLabelPhotoMouseClicked
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+		new PersonView(controller, this.user).setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNameMouseClicked
+		new PersonView(controller, this.user).setVisible(true);
+    }//GEN-LAST:event_jLabelNameMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;

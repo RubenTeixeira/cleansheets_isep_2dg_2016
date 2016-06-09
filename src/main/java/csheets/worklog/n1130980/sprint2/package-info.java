@@ -156,7 +156,7 @@
  * Blocking:
  * </p>
  * 1. Nothing.
- * </p>
+ *
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-

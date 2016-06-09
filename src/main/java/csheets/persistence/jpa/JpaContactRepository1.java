@@ -5,14 +5,11 @@
  */
 package csheets.persistence.jpa;
 
-import csheets.domain.Calendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
-import csheets.domain.Note;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
-import csheets.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,7 @@ import java.util.List;
  *
  * @author Rui Freitas
  */
-public class JpaContactRepository extends JpaRepository<Contact, Long> implements ContactRepository {
+public class JpaContactRepository1 extends JpaRepository<Contact, Long> implements ContactRepository {
 
 	@Override
 	protected String persistenceUnitName() {
@@ -34,6 +31,7 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		query.setParameter("name", name);
 		return (Contact) query.getSingleResult();
 		 */
+
 		for (Contact contact : this.all()) {
 			if (contact instanceof PersonContact) {
 				PersonContact person = (PersonContact) contact;
@@ -75,19 +73,4 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		return list;
 	}
 
-	@Override
-	public void delete(Contact entity) {
-		for (Calendar calendar : PersistenceContext.repositories().calendars().
-			calendarsContact(entity)) {
-			PersistenceContext.repositories().calendars().delete(calendar);
-		}
-		for (Note note : PersistenceContext.repositories().notes().
-			principalNotes(entity)) {
-			for (Note version : note.versionByNote()) {
-				PersistenceContext.repositories().notes().delete(version);
-			}
-			PersistenceContext.repositories().notes().delete(note);
-		}
-		super.delete(entity);
-	}
 }

@@ -42,7 +42,7 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
 		this.controller = controller;
 		this.contact = contact;
 		initComponents();
-		fillData();
+		//fillData();
 		this.getRootPane().setDefaultButton(jButtonOk);
 		pack();
 		setLocationRelativeTo(parent);
@@ -52,11 +52,38 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (this.contact != null) {
+			this.jCheckBoxPerson.setEnabled(false);
+			this.jCheckBoxCompany.setEnabled(false);
+			Contact user = this.controller.systemUser();
+			if (user != null && contact.name().equalsIgnoreCase(user.name())) {
+				this.jTextFieldFirstName.setEnabled(false);
+				this.jTextFieldLastName.setEnabled(false);
+			} else {
+				this.jTextFieldFirstName.setEnabled(true);
+				this.jTextFieldLastName.setEnabled(true);
+			}
+			this.jLabelPhoto.setIcon(scaledImageIcon(new ImageIcon(this.contact.
+				photo()).getImage()));
+			if (this.contact instanceof PersonContact) {
+				PersonContact person = (PersonContact) this.contact;
+				this.jTextFieldFirstName.setText(person.firstName());
+				this.jTextFieldLastName.setText(person.lastName());
+			} else if (this.contact instanceof CompanyContact) {
+				CompanyContact company = (CompanyContact) this.contact;
+				this.jTextFieldFirstName.setText(company.designation());
+			}
+		} else {
+			this.jCheckBoxPerson.setEnabled(true);
+			this.jCheckBoxCompany.setEnabled(true);
+		}
 		this.jComboBoxProfession.removeAllItems();
+		this.jComboBoxProfession.addItem("");
 		for (String profession : this.controller.allProfissions()) {
 			this.jComboBoxProfession.addItem(profession);
 		}
 		this.jComboBoxCompany.removeAllItems();
+		this.jComboBoxCompany.addItem("");
 		for (Contact company : this.controller.allCompanies()) {
 			this.jComboBoxCompany.addItem(company.name());
 		}
@@ -136,6 +163,12 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
         });
 
         jLabelProfession.setText("Profession:");
+
+        jComboBoxProfession.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxProfessionActionPerformed(evt);
+            }
+        });
 
         jLabelCompany.setText("Company:");
 
@@ -237,16 +270,6 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-	private void fillData() {
-		if (this.contact != null) {
-			jTextFieldFirstName.setText(contact.name());
-			jTextFieldLastName.setText("algo");
-			jLabelPhoto.
-				setIcon(scaledImageIcon(new ImageIcon(contact.photo()).
-					getImage()));
-		}
-	}
-
     private void addEditBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEditBtnAction
 
 		if (this.contact == null) {
@@ -304,6 +327,10 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
     private void jCheckBoxCompanyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxCompanyMouseClicked
 
     }//GEN-LAST:event_jCheckBoxCompanyMouseClicked
+
+    private void jComboBoxProfessionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxProfessionActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxProfessionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancel;
@@ -367,6 +394,10 @@ public class ContactManager extends javax.swing.JDialog implements Observer {
 				PersonContact person = (PersonContact) contact;
 				person.firstName(jTextFieldFirstName.getText());
 				person.lastName(jTextFieldLastName.getText());
+				person.
+					profession((String) jComboBoxProfession.getSelectedItem());
+				person.company(controller.getContact((String) jComboBoxCompany.
+					getSelectedItem()));
 			} else if (contact instanceof CompanyContact) {
 				CompanyContact company = (CompanyContact) contact;
 				company.designation(jTextFieldFirstName.getText());
