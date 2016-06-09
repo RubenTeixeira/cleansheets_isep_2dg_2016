@@ -39,7 +39,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
 
 		taskTimer.start();
 
-		setLocationRelativeTo(null);
+		this.setLocationRelativeTo(parent);
 		setModal(true);
 		initComponents();
 		lblMessage.setText(message);

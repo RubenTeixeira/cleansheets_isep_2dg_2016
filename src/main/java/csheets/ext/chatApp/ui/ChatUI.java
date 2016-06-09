@@ -5,6 +5,7 @@
  */
 package csheets.ext.chatApp.ui;
 
+import com.sun.glass.events.KeyEvent;
 import csheets.notification.Notification;
 import csheets.support.Task;
 import csheets.support.TaskManager;
@@ -87,7 +88,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		hosts = new LinkedHashMap<>();
 
 		initComponents();
-		this.getRootPane().setDefaultButton(btnSend);
+		this.setLocationRelativeTo(null);
 		uiController.addSelectionListener(this);
 		usersList.setModel(instanceListModel);
 		messagesList.setModel(receiveListModel);
@@ -121,19 +122,16 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtMessage = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         usersList = new javax.swing.JList<>();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         messagesList = new javax.swing.JList<>();
+        txtMessage = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
-        jScrollPane1.setViewportView(txtMessage);
 
         usersList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
@@ -151,6 +149,17 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 
         jScrollPane3.setViewportView(messagesList);
 
+        txtMessage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMessageActionPerformed(evt);
+            }
+        });
+        txtMessage.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMessageKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,7 +172,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(txtMessage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -176,9 +185,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSend))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSend)
+                    .addComponent(txtMessage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -220,16 +229,38 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			Logger.getLogger(ChatUI.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		chatAppController.sendMessage(host, ipDestino, message);
+		txtMessage.setText("");
     }//GEN-LAST:event_btnSendActionPerformed
+
+    private void txtMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMessageActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_txtMessageActionPerformed
+
+    private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			message = txtMessage.getText();
+			if (message.length() <= 0) {
+				return;
+			}
+			try {
+				receiveListModel.
+					addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
+			} catch (UnknownHostException ex) {
+				Logger.getLogger(ChatUI.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+			chatAppController.sendMessage(host, ipDestino, message);
+			txtMessage.setText("");
+		}
+    }//GEN-LAST:event_txtMessageKeyPressed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSend;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> messagesList;
-    private javax.swing.JTextPane txtMessage;
+    private javax.swing.JTextField txtMessage;
     private javax.swing.JList<String> usersList;
     // End of variables declaration//GEN-END:variables
 

@@ -54,10 +54,8 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 	public synchronized void inserirHost(String chatUser, String message) {
 		boolean exists = false;
 		if (root.getChildCount() > 0) {
-			Enumeration childs = root.
-				children();
+			Enumeration childs = root.children();
 			for (int i = 0; i < root.getChildCount(); i++) {
-
 				DefaultMutableTreeNode no = (DefaultMutableTreeNode) childs.
 					nextElement();
 				if (no != null) {
