@@ -80,6 +80,7 @@ public class VariableLocalReference implements Reference {
 	 * addressing is used.
 	 *
 	 * @param cell the cell to which the reference points
+	 * @param variable variable
 	 */
 	public VariableLocalReference(Cell cell, String variable) {
 		this(cell, false, false);

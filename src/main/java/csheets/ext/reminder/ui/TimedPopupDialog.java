@@ -23,7 +23,7 @@ public class TimedPopupDialog extends javax.swing.JDialog {
 	 * @param parent The parent frame.
 	 * @param title The window title.
 	 * @param controller The events controller.
-	 * @param reminder
+	 * @param reminder reminder
 	 */
 	public TimedPopupDialog(java.awt.Frame parent, String title,
 							ReminderController controller, Reminder reminder) {

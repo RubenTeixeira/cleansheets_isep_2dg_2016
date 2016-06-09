@@ -85,6 +85,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	/**
 	 * Creates new form GamePanel.
+	 *
+	 * @param uiController uiController
+	 * @param gameController gameController
+	 * @throws java.net.UnknownHostException exception
 	 */
 	public GamePanel(UIController uiController, GameController gameController) throws UnknownHostException {
 		this.uiController = uiController;
@@ -327,7 +331,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	/**
 	 * Update the list of "online" instances.
 	 *
-	 * @param addresses
+	 * @param addresses addresses
 	 */
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {

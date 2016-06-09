@@ -11,8 +11,8 @@ import java.util.Map.Entry;
 /**
  * Created by nuno on 20/03/16.
  *
- * @param <T>
- * @param <K>
+ * @param <T> T
+ * @param <K> K
  */
 public abstract class InMemoryRepository<T, K>
 	implements Repository<T, K>, IterableRepository<T, K>, DeleteableRepository<T, K> {

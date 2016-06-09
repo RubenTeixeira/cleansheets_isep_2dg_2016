@@ -26,8 +26,9 @@ import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
 
 /**
+ * A compiler that generates Monetary-style formulas from strings.
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class MonetaryExpressionCompiler implements ExpressionCompiler {
 
@@ -38,7 +39,7 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
 	public static final char FORMULA_STARTER = '#';
 
 	/**
-	 * Creates the Excel expression compiler.
+	 * Creates the Monetary expression compiler.
 	 */
 	public MonetaryExpressionCompiler() {
 	}

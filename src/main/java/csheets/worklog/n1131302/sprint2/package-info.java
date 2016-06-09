@@ -7,7 +7,7 @@
  * <b>Area Leader: No</b>
  *
  * <h2>1. Notes</h2>
- * <p>
+ *
  *
  * <h2>2. Use Case/Feature: CRM06.1</h2>
  *
@@ -19,30 +19,34 @@
  * <code>csheets.domain.Reminder</code>.
  *
  * <p>
- * <b>Use Case "Reminders Edition":</b> A new window to create, edit and remove reminders. 
- * Reminders are like events but with reminders the user is notified when the due date of 
- * the reminder arrives. A reminder has a name, a description and a timestamp (due date). 
- * Cleansheets should only allow valid timestamps. The window should list all the existing reminders.
- * When the due date of a reminder is reached Cleansheets should automatically display an alert to the user in a popup window. 
- * This popup window should display the name, description and due date of the reminder. The window should have two buttons. 
- * One button to close the window and the other button to remind again the user in 5 minutes.
+ * <b>Use Case "Reminders Edition":</b> A new window to create, edit and remove
+ * reminders. Reminders are like events but with reminders the user is notified
+ * when the due date of the reminder arrives. A reminder has a name, a
+ * description and a timestamp (due date). Cleansheets should only allow valid
+ * timestamps. The window should list all the existing reminders. When the due
+ * date of a reminder is reached Cleansheets should automatically display an
+ * alert to the user in a popup window. This popup window should display the
+ * name, description and due date of the reminder. The window should have two
+ * buttons. One button to close the window and the other button to remind again
+ * the user in 5 minutes.
  *
  *
  * <h2>4. Analysis</h2>
- * 
  *
- * <p>
- * 
  *
- * </p>
+ *
+ *
+ *
+ *
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Tests</h3>
  * <p>
  * Basically, from requirements and also analysis, we see that we have to make
- * sure that a contact object HAS to have a name and a description and the time step can´t be before the actual date. So we
- * have created a test that represents this business rule.
+ * sure that a contact object HAS to have a name and a description and the time
+ * step can´t be before the actual date. So we have created a test that
+ * represents this business rule.
  * </p>
  * see: <code>csheets.domain.ContactTest</code>
  *
@@ -60,7 +64,7 @@
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
-
+ *
  * <h3>Create Reminder</h3>
  * <p>
  * <img src="doc-files/crm06_01_design_add_reminder.png" alt="image">
@@ -107,12 +111,12 @@
  * <h2>8. Final Remarks</h2>
  *
  * <h2>9. Work Log</h2>
- * 
+ *
  * <p>
  * <b>Monday</b>
  * </p>
- * 1. Analysis and design of the CRM6.1 to create, edit and remove reminders.
- * 2. Create the domain necessary in project.
+ * 1. Analysis and design of the CRM6.1 to create, edit and remove reminders. 2.
+ * Create the domain necessary in project.
  * <p>
  * Blocking:
  * </p>

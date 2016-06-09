@@ -39,8 +39,9 @@ public class GameController {
 	/**
 	 * Starts the UDP Service.
 	 *
-	 * @param port Target port defined by the user.
-	 * @param seconds The number of seconds to execute each request.
+	 * @param observer observer
+	 * @param username username
+	 * @param image image
 	 */
 	public void startServices(Observer observer, String username,
 							  byte[] image) {
@@ -162,8 +163,8 @@ public class GameController {
 	/**
 	 * Send request to another instance to establish connection.
 	 *
-	 * @param target
-	 * @param message
+	 * @param target target
+	 * @param message message
 	 */
 	public void sendRequest(String target, String message) {
 		new TcpService().client(target, message);

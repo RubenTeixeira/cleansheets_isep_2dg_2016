@@ -49,7 +49,7 @@ public abstract class Contact implements Serializable {
 
 	/**
 	 *
-	 * @param photo
+	 * @param photo photo
 	 */
 	public Contact(byte[] photo) {
 		if (photo == null) {
@@ -76,7 +76,7 @@ public abstract class Contact implements Serializable {
 	/**
 	 * Set Photo
 	 *
-	 * @param photo
+	 * @param photo photo
 	 */
 	public void photo(byte[] photo) {
 		this.photo = photo;

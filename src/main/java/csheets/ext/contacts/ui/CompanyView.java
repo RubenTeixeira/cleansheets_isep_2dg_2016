@@ -29,8 +29,8 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 	/**
 	 * Creates new form CompanyView
 	 *
-	 * @param controller
-	 * @param contact
+	 * @param controller controller
+	 * @param contact contact
 	 */
 	public CompanyView(ContactsController controller, Contact contact) {
 		this.controller = controller;

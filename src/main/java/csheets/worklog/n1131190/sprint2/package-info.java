@@ -9,8 +9,8 @@
  * <b>Area Leader: no</b>
  *
  * <h2>1. Notes</h2>
- * <p>
- * This week work time was mostly spent on how the base application works.
+ *
+ *
  *
  * <h2>2. Use Case/Feature: LANG02.1</h2>
  *
@@ -63,7 +63,18 @@
  * <b>Tuesday</b>
  * <p>
  * Tests in the implementation and close issue
+ *
  * <p>
+ * Helping in the UC LANG 08.1(export XML)
+ * <p>
+ *
+ * <b>Wednesday</b>
+ * <p>
+ * Helping in the UC CRM05.1(calendar edition)
+ *
+ * <p>
+ * Helping in the UC CRM06.1(reminders edition)
+ *
  *
  * <h2>10. Self Assessment</h2>
  *
