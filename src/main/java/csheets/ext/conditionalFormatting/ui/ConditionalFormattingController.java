@@ -32,21 +32,44 @@ import javax.swing.border.Border;
  */
 public class ConditionalFormattingController {
 
+	/**
+	 * UI controller
+	 */
 	private UIController uiController;
 
+	/**
+	 * Result
+	 */
 	private boolean result;
 
+	/**
+	 * Constructor of Conditional Formatting Controller
+	 *
+	 * @param uiController UI controller
+	 */
 	public ConditionalFormattingController(UIController uiController) {
 		this.uiController = uiController;
 
 	}
 
+	/**
+	 * This method returns one cell from the created workbook
+	 *
+	 * @return new cell
+	 */
 	public Cell createConditionalCell() {
 		Workbook workbook = new Workbook(1);
 		Spreadsheet spreadsheet = workbook.getSpreadsheet(0);
 		return spreadsheet.getCell(0, 0);
 	}
 
+	/**
+	 * This method returns one StylableCell.After that we can aplly styles at
+	 * the created object
+	 *
+	 * @param nr position of the cell
+	 * @return StylableCell
+	 */
 	public StylableCell createStylableCells(int nr) {
 		Workbook workbook = new Workbook(1);
 		Spreadsheet spreadsheet = workbook.getSpreadsheet(0);
@@ -54,6 +77,11 @@ public class ConditionalFormattingController {
 			StyleExtension.NAME);
 	}
 
+	/**
+	 * This method applies the styles that user choose
+	 *
+	 * @param style StylableCell
+	 */
 	public void apply(StylableCell style) {
 
 		for (Cell[] row : this.uiController.focusOwner.getSelectedCells()) {
@@ -83,6 +111,11 @@ public class ConditionalFormattingController {
 
 	}
 
+	/**
+	 * This method change the Font of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 */
 	public void changeFont(StylableCell theCell) {
 
 		Font font = FontChooser.showDialog(
@@ -95,6 +128,11 @@ public class ConditionalFormattingController {
 		}
 	}
 
+	/**
+	 * This method change the Foreground of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 */
 	public void changeForeground(StylableCell theCell) {
 
 		Color color = JColorChooser.showDialog(
@@ -107,6 +145,11 @@ public class ConditionalFormattingController {
 		}
 	}
 
+	/**
+	 * This method change the Background of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 */
 	public void changeBackground(StylableCell theCell) {
 
 		Color color = JColorChooser.showDialog(
@@ -119,6 +162,11 @@ public class ConditionalFormattingController {
 		}
 	}
 
+	/**
+	 * This method change the Border of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 */
 	public void changeBorder(StylableCell theCell) {
 
 		Border border = BorderChooser.showDialog(
@@ -131,6 +179,11 @@ public class ConditionalFormattingController {
 		}
 	}
 
+	/**
+	 * This method change the Format of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 */
 	public void changeFormat(StylableCell theCell) {
 		Format format = null;
 		Date date = new Date();
@@ -156,12 +209,24 @@ public class ConditionalFormattingController {
 		}
 	}
 
+	/**
+	 * This method change the Horizontal Align of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 * @param swing SwingConstants
+	 */
 	public void changeHorizontalAlign(StylableCell theCell, int swing) {
 
 		theCell.setHorizontalAlignment(swing);
 
 	}
 
+	/**
+	 * This method change the Vertical Align of the StylableCell
+	 *
+	 * @param theCell StylableCell
+	 * @param swing SwingConstants
+	 */
 	public void changeVerticalAlign(StylableCell theCell, int swing) {
 
 		theCell.setVerticalAlignment(swing);

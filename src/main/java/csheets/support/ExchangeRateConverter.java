@@ -11,7 +11,7 @@ import csheets.framework.Money;
 /**
  * Utility class to get a exchange rate in Money type.
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class ExchangeRateConverter {
 
@@ -27,7 +27,7 @@ public class ExchangeRateConverter {
 	/**
 	 * Exchange rate from dollar to euro.
 	 *
-	 * @return
+	 * @return money
 	 */
 	public static Money getDollarToEuroExchangeRate() {
 		return Money.euros(Double.parseDouble(AppSettings.instance().
@@ -37,7 +37,7 @@ public class ExchangeRateConverter {
 	/**
 	 * Exchange rate from pound to euro.
 	 *
-	 * @return
+	 * @return money
 	 */
 	public static Money getPoundToEuroExchangeRate() {
 		return Money.euros(Double.parseDouble(AppSettings.instance().
@@ -47,7 +47,7 @@ public class ExchangeRateConverter {
 	/**
 	 * Exchange rate from euro to pound.
 	 *
-	 * @return
+	 * @return money
 	 */
 	public static Money getEuroToPoundExchangeRate() {
 		return Money.pounds(Double.parseDouble(AppSettings.instance().
@@ -57,7 +57,7 @@ public class ExchangeRateConverter {
 	/**
 	 * Exchange rate from euro to dollar.
 	 *
-	 * @return
+	 * @return money
 	 */
 	public static Money getEuroToDollarExchangeRate() {
 		return Money.dollars(Double.parseDouble(AppSettings.instance().

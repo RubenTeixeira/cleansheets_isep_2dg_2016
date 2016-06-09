@@ -26,31 +26,44 @@ import javax.swing.SwingWorker;
 public class PersonManager extends javax.swing.JDialog implements Observer {
 
 	private File photoFile;
-	private ContactsController theController;
-	private Contact theContact;
+	private ContactsController controller;
+	private Contact contact;
 
 	/**
 	 * Creates new form AddContactDialog
 	 *
 	 * @param parent Parent frame.
-	 * @param theController The controller.
+	 * @param controller controller
 	 * @param contact The contact to edit.
 	 */
-	public PersonManager(JFrame parent, ContactsController theController,
+	public PersonManager(JFrame parent, ContactsController controller,
 						 Contact contact) {
 		super();
-		this.theController = theController;
-		this.theContact = contact;
+		this.controller = controller;
+		this.contact = contact;
 		initComponents();
 		fillData();
 		this.getRootPane().setDefaultButton(jButtonOk);
 		pack();
 		setLocationRelativeTo(parent);
 		setModal(true);
+		this.update(null, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		this.jComboBoxProfession.removeAllItems();
+		for (String profession : this.controller.allProfissions()) {
+			this.jComboBoxProfession.addItem(profession);
+		}
+		this.jComboBoxCompany.removeAllItems();
+		for (Contact company : this.controller.allCompanies()) {
+			this.jComboBoxCompany.addItem(company.name());
+		}
+		this.reloadOptions();
+	}
+
+	public void reloadOptions() {
 		if (this.jCheckBoxPerson.isSelected() == true) {
 			this.jLabelFistName.setText("First Name:");
 			this.jLabelLastName.setVisible(true);
@@ -128,6 +141,11 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 
         jCheckBoxPerson.setSelected(true);
         jCheckBoxPerson.setText("Person");
+        jCheckBoxPerson.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBoxPersonMouseClicked(evt);
+            }
+        });
         jCheckBoxPerson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxPersonActionPerformed(evt);
@@ -135,6 +153,11 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
         });
 
         jCheckBoxCompany.setText("Company");
+        jCheckBoxCompany.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCheckBoxCompanyMouseClicked(evt);
+            }
+        });
         jCheckBoxCompany.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBoxCompanyActionPerformed(evt);
@@ -215,18 +238,18 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void fillData() {
-		if (this.theContact != null) {
-			jTextFieldFirstName.setText(theContact.name());
+		if (this.contact != null) {
+			jTextFieldFirstName.setText(contact.name());
 			jTextFieldLastName.setText("algo");
 			jLabelPhoto.
-				setIcon(scaledImageIcon(new ImageIcon(theContact.photo()).
+				setIcon(scaledImageIcon(new ImageIcon(contact.photo()).
 					getImage()));
 		}
 	}
 
     private void addEditBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEditBtnAction
 
-		if (this.theContact == null) {
+		if (this.contact == null) {
 			new AddContactWorker().execute();
 		} else {
 			new EditContactWorker().execute();
@@ -262,17 +285,25 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 	}
 
     private void cancelBtnAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnAction
-		// TODO add your handling code here:
 		this.dispose();
     }//GEN-LAST:event_cancelBtnAction
 
     private void jCheckBoxPersonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxPersonActionPerformed
 		this.jCheckBoxCompany.setSelected(!this.jCheckBoxPerson.isSelected());
+		this.reloadOptions();
     }//GEN-LAST:event_jCheckBoxPersonActionPerformed
 
     private void jCheckBoxCompanyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxCompanyActionPerformed
 		this.jCheckBoxPerson.setSelected(!this.jCheckBoxCompany.isSelected());
+		this.reloadOptions();
     }//GEN-LAST:event_jCheckBoxCompanyActionPerformed
+
+    private void jCheckBoxPersonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxPersonMouseClicked
+    }//GEN-LAST:event_jCheckBoxPersonMouseClicked
+
+    private void jCheckBoxCompanyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCheckBoxCompanyMouseClicked
+
+    }//GEN-LAST:event_jCheckBoxCompanyMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCancel;
@@ -295,12 +326,21 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 		@Override
 		protected Integer doInBackground() throws Exception {
 
-			String firstName = jTextFieldFirstName.getText();
-			String lastName = jTextFieldLastName.getText();
-
-			if (!firstName.isEmpty() && !lastName.isEmpty()) {
+			if (!jTextFieldFirstName.getText().isEmpty()) {
 				try {
-					theController.newContact(firstName, lastName, photoFile);
+					if (jCheckBoxPerson.isSelected()) {
+						String firstName = jTextFieldFirstName.getText();
+						String lastName = jTextFieldLastName.getText();
+						String profession = (String) jComboBoxProfession.
+							getSelectedItem();
+						CompanyContact company = (CompanyContact) jComboBoxCompany.
+							getSelectedItem();
+						controller.
+							addPerson(firstName, lastName, profession, company, photoFile);
+					} else {
+						String name = jTextFieldFirstName.getText();
+						controller.addCompany(name, photoFile);
+					}
 				} catch (DataIntegrityViolationException ex) {
 					JOptionPane.
 						showMessageDialog(rootPane, "Contact already exists!", "Contact edition", JOptionPane.ERROR_MESSAGE);
@@ -322,20 +362,20 @@ public class PersonManager extends javax.swing.JDialog implements Observer {
 
 		@Override
 		protected Integer doInBackground() throws Exception {
-			if (theContact instanceof PersonContact) {
-				PersonContact person = (PersonContact) theContact;
+			if (contact instanceof PersonContact) {
+				PersonContact person = (PersonContact) contact;
 				person.firstName(jTextFieldFirstName.getText());
 				person.lastName(jTextFieldLastName.getText());
-			} else if (theContact instanceof CompanyContact) {
-				CompanyContact company = (CompanyContact) theContact;
+			} else if (contact instanceof CompanyContact) {
+				CompanyContact company = (CompanyContact) contact;
 				company.designation(jTextFieldFirstName.getText());
 			}
 
 			if (photoFile != null) {
-				theContact.photo(Converter.setImage(photoFile));
+				contact.photo(Converter.setImage(photoFile));
 			}
 
-			theController.editContact(theContact);
+			controller.editContact(contact);
 			return 1;
 		}
 

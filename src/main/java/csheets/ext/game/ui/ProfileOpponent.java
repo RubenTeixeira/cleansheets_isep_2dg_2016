@@ -12,6 +12,8 @@ public class ProfileOpponent extends javax.swing.JPanel {
 	/**
 	 * Creates new form ContactCardPanel
 	 *
+	 * @param username username
+	 * @param photo photo
 	 */
 	public ProfileOpponent(String username, Image photo) {
 		initComponents();

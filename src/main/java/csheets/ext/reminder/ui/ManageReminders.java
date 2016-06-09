@@ -27,7 +27,7 @@ public class ManageReminders extends javax.swing.JPanel implements Observer {
 	 * Creates new form NewJPanel
 	 *
 	 * @param controller The events controller.
-	 * @param reminder
+	 * @param reminder reminder
 	 */
 	public ManageReminders(ReminderController controller, Reminder reminder) {
 		this.controller = controller;

@@ -34,8 +34,8 @@ public class UIGameExtension extends UIExtension {
 	/**
 	 * The menu of the extension.
 	 *
-	 * @param extension
-	 * @param uiController
+	 * @param extension extension
+	 * @param uiController uiController
 	 */
 	public UIGameExtension(Extension extension, UIController uiController) {
 		super(extension, uiController);

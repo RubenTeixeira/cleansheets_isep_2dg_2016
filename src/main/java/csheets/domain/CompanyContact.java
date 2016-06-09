@@ -23,8 +23,8 @@ public class CompanyContact extends Contact {
 
 	/**
 	 *
-	 * @param designation
-	 * @param photo
+	 * @param designation designation
+	 * @param photo photo
 	 */
 	public CompanyContact(String designation, byte[] photo) {
 		super(photo);
@@ -62,7 +62,7 @@ public class CompanyContact extends Contact {
 	/**
 	 * Set Designation
 	 *
-	 * @param designation
+	 * @param designation designation
 	 */
 	public void designation(String designation) {
 		this.designation = designation;

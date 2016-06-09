@@ -41,11 +41,14 @@ public class PersonContact extends Contact {
 
 	/**
 	 *
-	 * @param firstName
-	 * @param lastName
-	 * @param photo
+	 * @param firstName firstName
+	 * @param lastName lastName
+	 * @param profession profession
+	 * @param company company
+	 * @param photo photo
 	 */
-	public PersonContact(String firstName, String lastName, byte[] photo) {
+	public PersonContact(String firstName, String lastName, String profession,
+						 Contact company, byte[] photo) {
 		super(photo);
 		if (firstName == null || firstName.isEmpty() || lastName == null) {
 			throw new IllegalArgumentException();
@@ -83,7 +86,7 @@ public class PersonContact extends Contact {
 	/**
 	 * Set First Name
 	 *
-	 * @param firstName
+	 * @param firstName firstName
 	 */
 	public void firstName(String firstName) {
 		this.firstName = firstName;
@@ -99,7 +102,7 @@ public class PersonContact extends Contact {
 	}
 
 	/**
-	 * @param lastName
+	 * @param lastName lastName
 	 */
 	public void lastName(String lastName) {
 		this.lastName = lastName;
@@ -126,7 +129,7 @@ public class PersonContact extends Contact {
 	/**
 	 * Set Business
 	 *
-	 * @param business
+	 * @param company company
 	 */
 	public void company(Contact company) {
 		this.company = company;
@@ -135,7 +138,7 @@ public class PersonContact extends Contact {
 	/**
 	 * Set Profession
 	 *
-	 * @param profession
+	 * @param profession profession
 	 */
 	public void profession(String profession) {
 		this.profession = profession;

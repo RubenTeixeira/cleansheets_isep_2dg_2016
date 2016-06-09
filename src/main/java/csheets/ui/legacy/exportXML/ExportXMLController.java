@@ -32,12 +32,12 @@ public class ExportXMLController {
 	 * Method to create a file with format .xml, call method exportWorkbook to
 	 * export a workbook and write to file
 	 *
-	 * @param fileChooser
-	 * @param tagWorkBook
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @throws IOException
+	 * @param fileChooser fileChooser
+	 * @param tagWorkBook tagWorkBook
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow tagRow
+	 * @param tagColumn tagColumn
+	 * @throws IOException exception
 	 */
 	public void exportWorkbook(JFileChooser fileChooser, String tagWorkBook,
 							   String tagSpreadSheet,
@@ -55,12 +55,12 @@ public class ExportXMLController {
 	 * Method to create a file with format .xml, call method exportSpreadSheet
 	 * to export a spreadsheet and write to file
 	 *
-	 * @param fileChooser
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @param spreadsheet
-	 * @throws IOException
+	 * @param fileChooser fileChooser
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow tagRow
+	 * @param tagColumn tagColumn
+	 * @param spreadsheet tagSpreadSheet
+	 * @throws IOException exception
 	 */
 	public void exportSpreadSheet(JFileChooser fileChooser,
 								  String tagSpreadSheet,
@@ -79,11 +79,11 @@ public class ExportXMLController {
 	 * exportSpreadSheetSelected to export a spreadsheetSelected and write to
 	 * file
 	 *
-	 * @param fileChooser
-	 * @param tagSpreadSheet
-	 * @param tagRow
-	 * @param tagColumn
-	 * @throws IOException
+	 * @param fileChooser fileChooser
+	 * @param tagSpreadSheet tagSpreadSheet
+	 * @param tagRow row
+	 * @param tagColumn column
+	 * @throws IOException exception
 	 */
 	public void exportSpreadSheetSelected(JFileChooser fileChooser,
 										  String tagSpreadSheet,
