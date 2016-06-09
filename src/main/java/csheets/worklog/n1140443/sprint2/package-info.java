@@ -101,7 +101,8 @@
  *
  * <h2>8. Final Remarks</h2>
  *
- * <h2>9. Work Log</h2>  *
+ * <h2>9. Work Log</h2>
+ *
  * <p>
  * Example
  * </p>
