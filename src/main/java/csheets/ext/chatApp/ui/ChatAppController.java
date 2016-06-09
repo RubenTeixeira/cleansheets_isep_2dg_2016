@@ -106,9 +106,10 @@ public class ChatAppController {
 		sendMessage.put("hostname", hostname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
+
+		new TcpService().client(target, message);
 		Notification.chatMessageInformer().
 			notifyChange(sendMessage);
-		new TcpService().client(target, message);
 	}
 
 }
