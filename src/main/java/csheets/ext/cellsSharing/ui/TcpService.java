@@ -179,8 +179,6 @@ public class TcpService extends Notifier {
                                 notifyChange(cells);
                             }
                         });
-
-                server.stream(port);
             }
         });
 
