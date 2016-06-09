@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1130523) Ruben
- * Santos during week1.
+ * Santos during week2.
  *
  * <p>
  * <b>Scrum Master: Marcelo Barroso</b>
@@ -59,7 +59,7 @@
  * cells to export, the worksheet to save, if he wants, defines the tags to see
  * in XML file, assign file title and save it.
  *
- * <h2>4.2 Analysis - Export XML of Worksheet</h2>
+ * <h2>4.2 Analysis - Export XML</h2>
  * The user must have the option to export the worksheet information to a
  * standard xml file with the defined tags (Woorkbook-SpreadSheet-row-column) or
  * set these tags with the names what the user wants. The user can choose one of
@@ -93,7 +93,8 @@
  * an XML file. If the user wants can edit these tags and file sets, according
  * to defined tags by user. It´s necessary to create a class ExportXMLAction and
  * ExportXMLController to call all methods to export. Will be using a
- * FileChooser to choose the type of file.
+ * FileChooser to choose the type of file, StringBuilder to construct the format
+ * of XML File and FileWriter to create and write in the file.
  *
  *
  * *
@@ -114,12 +115,12 @@
  * <p>
  * <b>Use Case 2 - "Export the contents of an Worksheet to XML file"</b>
  *
- * <img src="doc-files/lang08.1_Export_xml_sd_design_2.png" alt="Export_xml_sd_design_2">
+ * <img src="doc-files/lang08.1_Export_xml_sd_design_3.png" alt="Export_xml_sd_design_3">
  *
  * <p>
  * <b>Use Case 3 - "Export part of an worksheet to an XML file"</b>
  *
- * <img src="doc-files/lang08.1_Export_xml_sd_design_3.png" alt="Export_xml_sd_design_3">
+ * <img src="doc-files/lang08.1_Export_xml_sd_design_2.png" alt="Export_xml_sd_design_2">
  *
  * <b>Created Classes</b>:
  *
@@ -188,11 +189,11 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. Design Lang08.1 - Export XML completed, 2. Implementation
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Update Worklog, 2. Tests
  * </p>
  * Blocking:
  * <p>
@@ -203,11 +204,11 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. Update Worklog, 2. Tests, 3. Helped friends in other use cases
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Sprint 2 Apresentation.
  * <p>
  * 1. nothing
  * </p>
@@ -244,6 +245,15 @@
  * </p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
+ *
+ * Implementation commits (links only open in new windows - select option
+ * browser to open in new windows) :
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d0facf0dad250c4ed017266ddedeacadb4c1e691">Implementation</a>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b978f78ac8f18266a477bc163f23225fada4091c">Implementation
+ * Corrections</a>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
