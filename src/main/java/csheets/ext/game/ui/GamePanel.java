@@ -368,9 +368,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 			this.gameController.setContinuousTarget(opp);
 
-			gameController.establishConnection(gameList.getSelectedValue());
-			updateOnlineOpponentsGame("Opponent: " + opp + " | Game: " + gameList.
-				getSelectedValue());
+			gameController.
+				establishConnection(opp, "::. Receive information .::\n"
+									+ "A host " + opp + " wants to play "
+									+ " with you.\n Game: " + gameList.
+									getSelectedValue() + " Do you wish to play with him ?");
 
 		} else {
 			JOptionPane.showMessageDialog(this, "Impossible to connect");
@@ -499,23 +501,28 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		if (arg instanceof List) {
-			List<String> addresses = (List<String>) arg;
+	public void update(Observable o, Object object) {
+		if (object instanceof List) {
+			List<String> addresses = (List<String>) object;
 			updateInstanceList(addresses);
 		}
 
-		if (arg instanceof String) {
-			manager.after(10).once(new Task() {
-				public void fire() {
-					message((String) arg);
-				}
-			});
-		}
-	}
+		if (object instanceof String) {
 
-	public void message(String from) {
-		JOptionPane.showMessageDialog(this, "Games on com " + from);
+			if (((String) object).compareTo("TRUE") == 0) {
+				JOptionPane.
+					showMessageDialog(this, "Success! Connection establish");
+				updateOnlineOpponentsGame("Opponent: " + opp + " | Game: " + gameList.
+					getSelectedValue());
+				this.gameController.updateOpponentActiveGames(opp);
+			} else if (((String) object).compareTo("FALSE") == 0) {
+				JOptionPane.
+					showMessageDialog(this, "Cant establish connection");
+
+			} else if (((String) object).compareTo("update") == 0) {
+				updateOnlineOpponentsGame(opp);
+			}
+		}
 	}
 
 	/**

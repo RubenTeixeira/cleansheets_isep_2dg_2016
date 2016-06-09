@@ -164,8 +164,8 @@ public class GameController {
 		}
 	}
 
-	public void establishConnection(String message) {
-		tcpService.continuousSending(message);
+	public void establishConnection(String host, String message) {
+		tcpService.client(host, message);
 	}
 
 	public void setContinuousTarget(String target) {
@@ -174,5 +174,9 @@ public class GameController {
 
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
+	}
+
+	public void updateOpponentActiveGames(String target) {
+		tcpService.updateOpponent(target);
 	}
 }

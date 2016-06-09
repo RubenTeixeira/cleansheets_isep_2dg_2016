@@ -47,20 +47,45 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = Volt.tcp(port, 0);
 
-								 server.expect("game-request", new Action() {
+								 server.expect(":game-request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
+												   String message = ((String) args.
+													   get("message")) + " with " + args.
+													   get("hostname");
 
-												   String from = ((String) args.
-													   get("from")).split(":")[0];
+												   String destination = ((String) args.
+													   get("from")).
+													   split(":")[0] + ":" + port;
 
-//												   server.
-//													   send(":game-on", from + ":" + AppSettings.
-//															instance().
-//															get("TCP_PORT"), (String) args.
-//															get("message"));
-												   //notifyChange(from);
+												   int reply = JOptionPane.
+													   showConfirmDialog(null, message);
+
+												   switch (reply) {
+													   case JOptionPane.YES_OPTION: {
+														   server.
+															   send(":reply", destination, "TRUE");
+														   break;
+													   }
+													   case JOptionPane.NO_OPTION: {
+														   server.
+															   send(":reply", destination, "FALSE");
+														   break;
+													   }
+													   default:
+														   server.
+															   send(":reply", destination, "FALSE");
+														   break;
+												   }
+											   }
+										   });
+								 server.expect(":reply", new Action() {
+											   @Override
+											   public void run(
+												   Map<String, Object> args) {
+												   notifyChange(args.
+													   get("message"));
 											   }
 										   });
 
@@ -73,6 +98,14 @@ public class TcpService extends Notifier {
 													showMessageDialog(panel, "Game has been stopped.");
 											}
 										});
+								 server.
+									 expect(":update", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												notifyChange(args.get("message"));
+											}
+										});
 
 								 server.stream(port);
 							 }
@@ -83,6 +116,24 @@ public class TcpService extends Notifier {
 
 	public void setContinuousTarget(String target) {
 		continuousTarget = target;
+	}
+
+	/**
+	 * Initializes a client following the TCP protocol.
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void client(String target, String message) {
+		ThreadManager.create("ipc.tcpClient", new Thread() {
+							 @Override
+							 public void run() {
+								 new TcpClient(0).
+									 send(":game-request", target, message);
+							 }
+						 });
+
+		ThreadManager.run("ipc.tcpClient");
 	}
 
 	public void continuousSending(String message) {
@@ -111,7 +162,7 @@ public class TcpService extends Notifier {
 	}
 
 	/**
-	 * TODO. Terminar jogo.
+	 * End game.
 	 */
 	public void stopContinuousSending() {
 		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
@@ -123,6 +174,21 @@ public class TcpService extends Notifier {
 							 }
 						 });
 		ThreadManager.run("ipc.continuousTcpClient");
+	}
+
+	/**
+	 * Update Active game list.
+	 */
+	public void updateOpponent(String target) {
+		ThreadManager.create("ipc.opponetTcpClient", new Thread() {
+							 @Override
+							 public void run() {
+								 new TcpClient(0).
+									 send(":update", target, "update");
+
+							 }
+						 });
+		ThreadManager.run("ipc.opponentTcpClient");
 	}
 //
 //	/**

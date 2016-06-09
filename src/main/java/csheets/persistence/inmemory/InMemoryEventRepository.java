@@ -44,7 +44,7 @@ class InMemoryEventRepository extends InMemoryRepository<Event, Long>
 	public Iterable<Event> eventsCalendar(Calendar calendar) {
 		List<Event> list = new ArrayList();
 		for (Event event : this.all()) {
-			if (event.calendar() == calendar) {
+			if (event.calendar().equals(calendar)) {
 				list.add(event);
 			}
 		}

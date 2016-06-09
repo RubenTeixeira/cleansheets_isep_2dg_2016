@@ -38,7 +38,7 @@ public class SearchWorkbook {
 	/**
 	 * Result of search
 	 */
-	private boolean result;
+	private boolean result = false;
 
 	/**
 	 * Name of workbook to search

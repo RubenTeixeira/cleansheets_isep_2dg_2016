@@ -55,6 +55,8 @@ public class PersonContact extends Contact {
 		}
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.company = company;
+		this.profession = profession;
 		this.name = this.toString();
 	}
 

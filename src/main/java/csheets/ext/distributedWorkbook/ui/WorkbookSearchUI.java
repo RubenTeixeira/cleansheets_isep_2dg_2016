@@ -330,7 +330,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 				this.controller.sendSearchResult(search[2], controller.
 												 getWorkbookSummary());
 			} else {
-				this.controller.sendSearchResult(host, "Didn't find");
+				this.controller.sendSearchResult(search[2], "Didn't find");
 			}
 		}
 	}
