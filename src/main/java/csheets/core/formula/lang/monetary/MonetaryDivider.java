@@ -4,6 +4,7 @@ import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
+import csheets.framework.Money;
 
 /**
  * A divider of a monetary operand from another.
@@ -17,8 +18,9 @@ public class MonetaryDivider implements BinaryOperator {
 	@Override
 	public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
 		//TODO make Money.divide(double)!!!
-		return new Value(leftOperand.evaluate().toMoney().amount() / rightOperand.
-			evaluate().toMoney().amount());
+		return new Value(Money.
+			euros(leftOperand.evaluate().toMoney().amount() / rightOperand.
+				evaluate().toMoney().amount()));
 //		return new Value(leftOperand.evaluate().toMoney().divide(rightOperand.
 //			evaluate().toMoney()));
 	}
