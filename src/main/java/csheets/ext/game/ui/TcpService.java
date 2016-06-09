@@ -47,7 +47,7 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = Volt.tcp(port, 0);
 
-								 server.expect(":game-request", new Action() {
+								 server.expect("game-request", new Action() {
 											   @Override
 											   public void run(
 												   Map<String, Object> args) {
@@ -96,6 +96,14 @@ public class TcpService extends Notifier {
 												Map<String, Object> args) {
 												JOptionPane.
 													showMessageDialog(panel, "Game has been stopped.");
+											}
+										});
+								 server.
+									 expect(":update", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												notifyChange("updateActiveGameList");
 											}
 										});
 
@@ -166,6 +174,21 @@ public class TcpService extends Notifier {
 							 }
 						 });
 		ThreadManager.run("ipc.continuousTcpClient");
+	}
+
+	/**
+	 * Update Active game list.
+	 */
+	public void updateOpponent(String target) {
+		ThreadManager.create("ipc.opponetTcpClient", new Thread() {
+							 @Override
+							 public void run() {
+								 new TcpClient(0).
+									 send(":update", target, "update");
+
+							 }
+						 });
+		ThreadManager.run("ipc.opponentTcpClient");
 	}
 //
 //	/**

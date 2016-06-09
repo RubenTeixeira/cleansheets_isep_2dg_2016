@@ -175,4 +175,8 @@ public class GameController {
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
 	}
+
+	public void updateOpponentActiveGames(String target) {
+		tcpService.updateOpponent(target);
+	}
 }
