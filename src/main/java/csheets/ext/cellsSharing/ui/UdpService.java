@@ -1,7 +1,8 @@
 package csheets.ext.cellsSharing.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -17,103 +18,103 @@ import java.util.Map;
  */
 public class UdpService extends Notifier {
 
-	/**
-	 * Server instance.
-	 */
-	private UdpServer server;
+    /**
+     * Server instance.
+     */
+    private UdpServer server;
 
-	/**
-	 * Initializes a server following the UDP protocol.
-	 *
-	 * @param localPort The local port to contact other UDP servers.
-	 * @param targetPort The target port, customized by the user.
-	 */
-	public void server(int localPort, int targetPort) {
-		ThreadManager.create("ipc.udpServer", new Thread() {
-							 @Override
-							 public void run() {
-								 server = Volt.udp(localPort, 0);
+    /**
+     * Initializes a server following the UDP protocol.
+     *
+     */
+    public void server() {
+        ThreadManager.create("ipc.udpServer", new Thread() {
+            @Override
+            public void run() {
+                server = NetworkManager.udp();
+                
+                server.
+                        expect(":share-cells-broadcast", new Action() {
+                            @Override
+                            public void run(
+                                    Map<String, Object> args) {
 
-								 server.
-									 expect(":share-cells-broadcast", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
+				if (server.same(args.get("from"))) {
+                                    return;
+                                }
+                                // Destination = Target's IP and Port
+                                String destination = ((String) args.
+                                        get("from")).split(":")[0] + ":" + AppSettings.
+                                        instance().
+                                        get("UDP_PORT");
+                                
+                                server.
+                                        send(":share-cell-port", destination, AppSettings.
+                                                instance().
+                                                get("UDP_PORT"));
+                            }
+                        });
+                
+                server.expect(":share-cell-port", new Action() {
+                    @Override
+                    public void run(
+                            Map<String, Object> args) {
+                        List<String> ports = (List<String>) args.
+                                get("share-cell-port");
+                        
+                        List<String> addresses = new ArrayList<>();
+                        
+                        for (String port : ports) {
+                            addresses.
+                                    add((((String) args.
+                                            get("from")).
+                                            split(":")[0]) + ":" + port);
+                        }
+                        
+                        notifyChange(addresses);
+                    }
+                });
+            }
+        });
+        
+        ThreadManager.run("ipc.udpServer");
+    }
 
-												if (server.
-													same(args.get("from"))) {
-													return;
-												}
-												// Destination = Target's IP and Port
-												String destination = ((String) args.
-													get("from")).split(":")[0] + ":" + localPort;
+    /**
+     * Initializes a client following the UDP protocol.
+     *
+     * @param seconds Time in seconds to send another request.
+     */
+    public void client(int seconds) {
+        ThreadManager.create("ipc.udpClient", new Thread() {
+            @Override
+            public void run() {
+                UdpClient client = new UdpClient(0);
+                
+                Task broadcast = new Task() {
+                    @Override
+                    public void fire() {
+                        client.
+                                send(":share-cells-broadcast", "all:" + AppSettings.instance().get("UDP_PORT"), "check");
+                    }
+                };
+                
+                TaskManager manager = new TaskManager();
+                
+                manager.after(4).every(seconds).fire(broadcast);
+            }
+        });
+        
+        ThreadManager.run("ipc.udpClient");
+    }
 
-												server.
-													send(":port", destination, String.
-														 valueOf(targetPort));
-											}
-										});
-
-								 server.expect(":port", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   List<String> ports = (List<String>) args.
-													   get("port");
-
-												   List<String> addresses = new ArrayList<>();
-
-												   for (String port : ports) {
-													   addresses.
-														   add((((String) args.
-															   get("from")).
-															   split(":")[0]) + ":" + port);
-												   }
-
-												   notifyChange(addresses);
-											   }
-										   });
-							 }
-						 });
-
-		ThreadManager.run("ipc.udpServer");
-	}
-
-	/**
-	 * Initializes a client following the UDP protocol.
-	 *
-	 * @param seconds Time in seconds to send another request.
-	 */
-	public void client(int seconds) {
-		ThreadManager.create("ipc.udpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 UdpClient client = new UdpClient(0);
-
-								 Task broadcast = new Task() {
-									 @Override
-									 public void fire() {
-										 client.
-											 send(":share-cells-broadcast", "all:30600", "check");
-									 }
-								 };
-
-								 TaskManager manager = new TaskManager();
-
-								 manager.after(4).every(seconds).fire(broadcast);
-							 }
-						 });
-
-		ThreadManager.run("ipc.udpClient");
-	}
-
-	/**
-	 * Stops all the UDP services.
-	 */
-	public void stop() {
-		server.shutdown();
-		ThreadManager.destroy("ipc.udpServer");
-		ThreadManager.destroy("ipc.udpClient");
-	}
-
+    /**
+     * Stops all the UDP services.
+     */
+    public void stop() {
+        server.shutdown();
+        ThreadManager.destroy("ipc.udpServer");
+        ThreadManager.destroy("ipc.udpClient");
+    }
+    
 }
