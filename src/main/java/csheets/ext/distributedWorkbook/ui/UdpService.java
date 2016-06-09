@@ -47,30 +47,31 @@ public class UdpService extends Notifier {
 													   get("from")).split(":")[0] + ":" + localPort;
 
 												   server.
-													   send(":port", destination, String.
+													   send(":port-distributed", destination, String.
 															valueOf(targetPort));
 											   }
 										   });
 
-								 server.expect(":port", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   List<String> ports = (List<String>) args.
-													   get("port");
+								 server.
+									 expect(":port-distributed", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												List<String> ports = (List<String>) args.
+													get("port-distributed");
 
-												   List<String> addresses = new ArrayList<>();
+												List<String> addresses = new ArrayList<>();
 
-												   for (String port : ports) {
-													   addresses.
-														   add((((String) args.
-															   get("from")).
-															   split(":")[0]) + ":" + port);
-												   }
+												for (String port : ports) {
+													addresses.
+														add((((String) args.
+															get("from")).
+															split(":")[0]) + ":" + port);
+												}
 
-												   notifyChange(addresses);
-											   }
-										   });
+												notifyChange(addresses);
+											}
+										});
 
 								 server.stream(localPort);
 							 }
