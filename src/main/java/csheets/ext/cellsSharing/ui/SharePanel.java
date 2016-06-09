@@ -526,6 +526,14 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         }
     }
 
+    public boolean askForConfirmation(String hostname) {
+        int reply = JOptionPane.
+                showConfirmDialog(this, "::. Receive information .::\n"
+                        + "An instance (" + hostname + ") wants to establish a connection with you.\nDo you wish to receive its cells?");
+
+        return !(reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION);
+    }
+
     @Override
     public void valueChanged(Cell cell) {
         this.controller.continuousSending(cell);

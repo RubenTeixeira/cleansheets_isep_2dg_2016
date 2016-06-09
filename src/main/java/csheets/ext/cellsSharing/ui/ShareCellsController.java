@@ -190,7 +190,8 @@ public class ShareCellsController {
 				} else {
 					value = "";
 				}
-
+                                
+                                // Sets the cell's style
 				StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().
 					getCell(column, row).getExtension(StyleExtension.NAME);
 				cell.setContent(value);
@@ -226,10 +227,17 @@ public class ShareCellsController {
 		tcpService.continuousSending(message);
 	}
 
+        /**
+         * 
+         * @param target 
+         */
 	public void setContinuousTarget(String target) {
 		tcpService.setContinuousTarget(target);
 	}
 
+        /**
+         * 
+         */
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
 	}

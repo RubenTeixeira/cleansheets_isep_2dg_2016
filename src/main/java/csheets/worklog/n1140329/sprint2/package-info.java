@@ -179,18 +179,98 @@
  * 2. Designing IPC01.2
  * <p>
  * Blocking:
+ * <p>
  * 1. -nothing-
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on: 
+ * Yesterday I worked on:
+ * <p>
+ * 1. Finishing analysis of IPC01.2
+ * <p>
+ * 2. Designing IPC01.2
+ * <p>
  * Today
+ * <p>
+ * 1. Finishing design of IPC01.2
+ * <p>
+ * 2. Implementing IPC01.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Finishing design of IPC01.2
+ * <p>
+ * 2. Implementing IPC01.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Implementing IPC01.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -Managing multiple threads and port addresses.-
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Implementing IPC01.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Finishing IPC01.2's implementation.
+ * <p>
+ * 2. Testing this Use Case.
+ * <p>
+ * 3. Helping out with IPC07.1's implementation.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -Managing multiple threads.-
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Finishing IPC01.2's implementation.
+ * <p>
+ * 2. Testing this Use Case.
+ * <p>
+ * 3. Helping out with IPC07.1's implementation.
+ * <p>
+ * Today
+ * <p>
+ * 1. Testing IPC01.2's implementation and doing some final adjustments.
+ * <p>
+ * 2. Testing and fixing some issues of the other developed Use Cases of IPC.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
+ * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Testing IPC01.2's implementation and doing some final adjustments.
+ * <p>
+ * 2. Testing and fixing some issues of the other developed Use Cases of IPC.
+ * <p>
+ * Today
+ * <p>
  * Blocking:
  * <h2>10. Self Assessment</h2> 
  * 
- * -Insert here your self-assessment of the work during this sprint.-
+ * <h3>10.1. Design and Implementation: 3</h3>
  * 
- * <h3>10.1. Design and Implementation:3</h3>
+ * 3- Good. My Use Case's implementation worked out fine but could be severely improved. 
+ * The Unit Tests were scarce because I wasn't really sure how to test a Use Case that was very network dependent (broadcasts and TCP connections).
  * 
  * <b>Evidences:</b>
  * <p>
@@ -208,7 +288,7 @@ package csheets.worklog.n1140329.sprint2;
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
  * 
- * @author CarlosSantos
+ * @author RafaelRocha
  */
 class _Dummy_ {}
 
