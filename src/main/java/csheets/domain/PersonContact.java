@@ -45,7 +45,8 @@ public class PersonContact extends Contact {
 	 * @param lastName
 	 * @param photo
 	 */
-	public PersonContact(String firstName, String lastName, byte[] photo) {
+	public PersonContact(String firstName, String lastName, String profession,
+						 Contact company, byte[] photo) {
 		super(photo);
 		if (firstName == null || firstName.isEmpty() || lastName == null) {
 			throw new IllegalArgumentException();

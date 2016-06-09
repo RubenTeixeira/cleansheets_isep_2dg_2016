@@ -8,7 +8,7 @@ package csheets.ext.contacts.ui;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.ext.contacts.ContactsController;
-import csheets.notification.Notification;
+import csheets.framework.notification.Notification;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;

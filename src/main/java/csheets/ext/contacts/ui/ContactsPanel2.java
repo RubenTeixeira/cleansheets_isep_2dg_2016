@@ -3,7 +3,7 @@ package csheets.ext.contacts.ui;
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsController;
 import csheets.ext.contacts.ContactsExtension;
-import csheets.notification.Notification;
+import csheets.framework.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
 import java.util.List;
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 
 	private ContactsController controller;
+	private Contact user;
 
 	/**
 	 * Creates new form ContactsPanel
@@ -27,6 +28,7 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 	public ContactsPanel2(UIController uiController) {
 		this.setName(ContactsExtension.NAME);
 		this.controller = new ContactsController(uiController, this);
+		this.user = uiController.getUser();
 		this.initComponents();
 		this.update(null, null);
 		Notification.contactInformer().addObserver(this);
@@ -38,8 +40,9 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
 		//((GridLayout) this.jPanelPrincipal.getLayout()).setRows(1);
 		//((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
 		List<Contact> contacts = (List<Contact>) this.controller.allContacts();
-		Contact principal = null;
-
+		//Contact principal = UIController.getUIController().getUser();
+		//System.out.println(principal);
+		System.out.println(UIController.getUIController());
 		/*
 		for (Contact contact : this.controller.allContacts()) {
 			if (contact.name() == "") {
@@ -81,8 +84,11 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanelContacts = new javax.swing.JPanel();
-        jButtonAdd = new javax.swing.JButton();
         jPanelPrincipal = new javax.swing.JPanel();
+        jLabelPhoto = new javax.swing.JLabel();
+        jLabelName = new javax.swing.JLabel();
+        jButtonEdit = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         addBtn = new javax.swing.JButton();
 
         jPanel1.setLayout(new java.awt.BorderLayout());
@@ -91,25 +97,59 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
         jPanelContacts.setLayout(new java.awt.GridLayout(5, 1));
         jScrollPane1.setViewportView(jPanelContacts);
 
-        jButtonAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_event.png"))); // NOI18N
-        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+        jPanelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
+        jPanelPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabelPhoto.setMaximumSize(new java.awt.Dimension(45, 45));
+        jLabelPhoto.setMinimumSize(new java.awt.Dimension(45, 45));
+        jLabelPhoto.setPreferredSize(new java.awt.Dimension(45, 45));
+        jLabelPhoto.setSize(new java.awt.Dimension(45, 45));
+
+        jLabelName.setText("jLabel1");
+
+        jButtonEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/edit.png"))); // NOI18N
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddActionPerformed(evt);
+                jButtonEditActionPerformed(evt);
             }
         });
 
-        jPanelPrincipal.setBackground(new java.awt.Color(204, 204, 204));
-        jPanelPrincipal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
+        jLabel1.setText("Computer user");
 
         javax.swing.GroupLayout jPanelPrincipalLayout = new javax.swing.GroupLayout(jPanelPrincipal);
         jPanelPrincipal.setLayout(jPanelPrincipalLayout);
         jPanelPrincipalLayout.setHorizontalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(jButtonEdit)))
+                .addContainerGap())
         );
         jPanelPrincipalLayout.setVerticalGroup(
             jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 57, Short.MAX_VALUE)
+            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabelName, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jButtonEdit))
+                            .addGroup(jPanelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jLabelPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_contact.png"))); // NOI18N
@@ -132,10 +172,8 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
                     .addComponent(jPanelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
-                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonAdd))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
         );
@@ -145,33 +183,35 @@ public class ContactsPanel2 extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAdd)
                     .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addComponent(jPanelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
-		ContactsManage2 manage = new ContactsManage2(this.controller, null);
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, manage, "Create Contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			manage.createEvent();
-		}
-    }//GEN-LAST:event_jButtonAddActionPerformed
-
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-		// TODO add your handling code here:
 		new PersonManager(null, this.controller, null).setVisible(true);
     }//GEN-LAST:event_addBtnActionPerformed
 
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+		ContactsManage2 manage = new ContactsManage2(this.controller, UIController.
+													 getUIController().getUser());
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, manage, "Edit Contact", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+			manage.createEvent();
+		}
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
-    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabelName;
+    private javax.swing.JLabel jLabelPhoto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelContacts;
     private javax.swing.JPanel jPanelPrincipal;

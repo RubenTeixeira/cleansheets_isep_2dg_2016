@@ -3,7 +3,7 @@ package csheets.ext.contacts.ui;
 import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsController;
 import csheets.ext.contacts.ContactsExtension;
-import csheets.notification.Notification;
+import csheets.framework.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
 import java.io.IOException;

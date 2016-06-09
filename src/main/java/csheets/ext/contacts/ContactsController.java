@@ -1,11 +1,12 @@
 package csheets.ext.contacts;
 
 import csheets.CleanSheets;
+import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
-import csheets.notification.Notification;
+import csheets.framework.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.support.Converter;
 import csheets.ui.ctrl.UIController;
@@ -71,9 +72,9 @@ public class ContactsController {
 		return Converter.getImage(contact.photo());
 	}
 
-	public Contact newContact(String firstName, String lastName, File photoPath) throws DataIntegrityViolationException, IOException {
+	public Contact addPerson(String firstName, String lastName,
+							 String profession, Contact company, File photoPath) throws DataIntegrityViolationException, IOException {
 		byte[] thePhoto;
-
 		if (photoPath == null) {
 			thePhoto = Converter.setImage(new File(CleanSheets.class.
 				getResource(DEFAULT_USER_PHOTO).getFile()));
@@ -84,9 +85,26 @@ public class ContactsController {
 				throw new IOException("Loading file error!");
 			}
 		}
+		Contact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
+		PersistenceContext.repositories().contacts().add(contact);
+		Notification.contactInformer().notifyChange();
+		return PersistenceContext.repositories().contacts().getByName(contact.
+			name());
+	}
 
-		Contact contact = new PersonContact(firstName, lastName, thePhoto);
-
+	public Contact addCompany(String name, File photoPath) throws DataIntegrityViolationException, IOException {
+		byte[] thePhoto;
+		if (photoPath == null) {
+			thePhoto = Converter.setImage(new File(CleanSheets.class.
+				getResource(DEFAULT_USER_PHOTO).getFile()));
+		} else {
+			try {
+				thePhoto = Converter.setImage(photoPath);
+			} catch (IOException ex) {
+				throw new IOException("Loading file error!");
+			}
+		}
+		Contact contact = new CompanyContact(name, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
 		Notification.contactInformer().notifyChange();
 		return PersistenceContext.repositories().contacts().getByName(contact.
@@ -109,10 +127,14 @@ public class ContactsController {
 			String userName = System.getProperty("user.name");
 			Contact contact = PersistenceContext.repositories().contacts().
 				getByName(userName);
+			System.out.println(userName);
+			System.out.println(contact);
 			if (contact == null) {
-				this.newContact(userName, "", new File(CleanSheets.class.
-								getResource(DEFAULT_USER_PHOTO).getFile()));
+				contact = this.
+					addPerson(userName, "", null, null, new File(CleanSheets.class.
+							  getResource(DEFAULT_USER_PHOTO).getFile()));
 			}
+			System.out.println(contact);
 			return contact;
 		} catch (Exception ex) {
 			return null;
