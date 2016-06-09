@@ -1,4 +1,4 @@
-@startuml doc-files/lang03_01_design1.png
+@startuml doc-files/lang03_01_design.png
 User -> ConditionalFormattingUI: Initiate the process of conditional formatting
 User -> ConditionalFormattingUI: Introduce cell content
 ConditionalFormattingUI -> ConditionalFormattingController:content

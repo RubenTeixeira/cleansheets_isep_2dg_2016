@@ -44,9 +44,14 @@
  *
  *
  * <h3>5.3. Classes</h3>
- *
+ * <p>
  * <img src="doc-files/lang03_01_design.png" alt="image">
  * <h2>9. Work Log</h2>
+ *
+ *
+ *
+ *
+ *
  *
  * <b>Friday</b>
  * <p>
@@ -57,7 +62,9 @@
  *
  * <b>Monday</b>
  * <p>
- * Finnishing anlysis and design and begging implementation  *
+ * Finnishing anlysis and design and begging implementation *
+ *
+ *
  *
  *
  * <b>Tuesday</b>
@@ -67,9 +74,17 @@
  * Blocking: How to work with formatting actions
  *
  *
+ *
+ *
+ *
  * <b>Wednesday</b>
  * <p>
  * Finnish UI and Controller implementation
+ *
+ *
+ *
+ *
+ *
  *
  * <h2>10. Self Assessment</h2>
  *
