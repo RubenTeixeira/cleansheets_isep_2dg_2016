@@ -78,6 +78,10 @@ public final class AppSettings {
 		return this.applicationProperties.getProperty(key);
 	}
 
+	public void set(String key, String property) {
+		this.applicationProperties.setProperty(key, property);
+	}
+
 	public String getApplicationKey() {
 		return this.applicationProperties.getProperty("APP_KEY");
 	}
