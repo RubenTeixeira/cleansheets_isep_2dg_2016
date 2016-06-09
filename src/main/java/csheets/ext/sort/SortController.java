@@ -39,10 +39,18 @@ public class SortController {
 		this.uiController = controller;
 	}
 
+	/**
+	 * Set Column Index.
+	 *
+	 * @param index index
+	 */
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
+	/**
+	 * Assign column values to valueList.
+	 */
 	public void updateValueList() {
 		for (Cell c : this.uiController.getActiveSpreadsheet().
 			getColumn(this.index)) {
@@ -52,6 +60,20 @@ public class SortController {
 		}
 	}
 
+	/**
+	 * Set a new List.
+	 *
+	 * @param newList List.
+	 */
+	public void setValueList(List<Value> newList) {
+		this.valueList = newList;
+	}
+
+	/**
+	 * Value List Sorting.
+	 *
+	 * @param order
+	 */
 	public void order(int order) {
 		if (order == 0) {
 			Collections.sort(valueList);
@@ -61,6 +83,9 @@ public class SortController {
 		}
 	}
 
+	/**
+	 * Updates the working column.
+	 */
 	public void updateColumn() {
 		int j = 0;
 		for (Cell c : this.uiController.getActiveSpreadsheet().
