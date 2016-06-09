@@ -68,7 +68,6 @@ public class ConditionalFormattingUI extends JPanel {
         labelBackground = new javax.swing.JLabel();
         labelBorder = new javax.swing.JLabel();
         labelAlign = new javax.swing.JLabel();
-        labelFormat = new javax.swing.JLabel();
         trueLabel = new javax.swing.JLabel();
         falseLabel = new javax.swing.JLabel();
         labelExpression = new javax.swing.JLabel();
@@ -83,8 +82,6 @@ public class ConditionalFormattingUI extends JPanel {
         btnFalseBackground = new javax.swing.JButton();
         btnTrueBorder = new javax.swing.JButton();
         btnFalseBorder = new javax.swing.JButton();
-        btnTrueFormat = new javax.swing.JButton();
-        btnFalseFormat = new javax.swing.JButton();
         comboBoxFalseHorizontalAlign = new javax.swing.JComboBox();
         comboBoxTrueHorizontalAlign = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
@@ -103,8 +100,6 @@ public class ConditionalFormattingUI extends JPanel {
         labelBorder.setText("Border");
 
         labelAlign.setText("Horizontal Align");
-
-        labelFormat.setText("Format");
 
         trueLabel.setText("True");
 
@@ -174,20 +169,6 @@ public class ConditionalFormattingUI extends JPanel {
             }
         });
 
-        btnTrueFormat.setText("...");
-        btnTrueFormat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTrueFormatActionPerformed(evt);
-            }
-        });
-
-        btnFalseFormat.setText("...");
-        btnFalseFormat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFalseFormatActionPerformed(evt);
-            }
-        });
-
         comboBoxFalseHorizontalAlign.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Center", "Left", "Right" }));
         comboBoxFalseHorizontalAlign.setName(""); // NOI18N
         comboBoxFalseHorizontalAlign.addItemListener(new java.awt.event.ItemListener() {
@@ -238,45 +219,37 @@ public class ConditionalFormattingUI extends JPanel {
                     .addComponent(labelBackground)
                     .addComponent(labelBorder)
                     .addComponent(labelAlign)
-                    .addComponent(labelFormat)
                     .addComponent(labelForeground)
                     .addComponent(labelFont)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(comboBoxTrueVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(comboBoxFalseVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnTrueBackground, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnTrueForeground, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnTrueBorder, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnFalseForeground, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnFalseBorder, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnFalseBackground, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnTrueFont)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnFalseFont)))
+                        .addGap(27, 27, 27))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnTrueFormat)
-                                .addGap(32, 32, 32)
-                                .addComponent(btnFalseFormat))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnTrueBackground)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnFalseBackground))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnTrueFont)
-                                    .addGap(34, 34, 34)
-                                    .addComponent(btnFalseFont))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnTrueForeground)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnFalseForeground))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnTrueBorder)
-                                    .addGap(27, 27, 27))
-                                .addComponent(btnFalseBorder))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(comboBoxTrueHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(21, 21, 21)
-                                .addComponent(comboBoxFalseHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(comboBoxTrueVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxTrueHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxFalseHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboBoxFalseVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -285,17 +258,16 @@ public class ConditionalFormattingUI extends JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textFieldFormula))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(123, 123, 123)
-                                .addComponent(trueLabel)
-                                .addGap(82, 82, 82)
-                                .addComponent(falseLabel))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(92, 92, 92)
-                                .addComponent(btnApply)))
+                        .addGap(123, 123, 123)
+                        .addComponent(trueLabel)
+                        .addGap(82, 82, 82)
+                        .addComponent(falseLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnApply)
+                .addGap(114, 114, 114))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,9 +295,10 @@ public class ConditionalFormattingUI extends JPanel {
                         .addComponent(btnTrueForeground))
                     .addComponent(btnFalseForeground))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelBackground)
-                    .addComponent(btnTrueBackground)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(labelBackground)
+                        .addComponent(btnTrueBackground))
                     .addComponent(btnFalseBackground))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,23 +309,18 @@ public class ConditionalFormattingUI extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelAlign)
-                    .addComponent(comboBoxFalseHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBoxTrueHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxTrueHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxFalseHorizontalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(comboBoxTrueVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxFalseVerticalAlign, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelFormat)
-                    .addComponent(btnTrueFormat)
-                    .addComponent(btnFalseFormat))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnApply)
-                .addContainerGap())
+                .addGap(16, 16, 16))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -411,14 +379,6 @@ public class ConditionalFormattingUI extends JPanel {
     private void btnFalseBorderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFalseBorderActionPerformed
 		conditionalFormattingController.changeBorder(falseStyle);
     }//GEN-LAST:event_btnFalseBorderActionPerformed
-
-    private void btnTrueFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrueFormatActionPerformed
-		conditionalFormattingController.changeFormat(trueStyle);
-    }//GEN-LAST:event_btnTrueFormatActionPerformed
-
-    private void btnFalseFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFalseFormatActionPerformed
-		conditionalFormattingController.changeFormat(falseStyle);
-    }//GEN-LAST:event_btnFalseFormatActionPerformed
 
     private void textFieldFormulaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textFieldFormulaKeyReleased
 		if (!textFieldFormula.getText().isEmpty()) {
@@ -535,12 +495,10 @@ public class ConditionalFormattingUI extends JPanel {
     private javax.swing.JButton btnFalseBorder;
     private javax.swing.JButton btnFalseFont;
     private javax.swing.JButton btnFalseForeground;
-    private javax.swing.JButton btnFalseFormat;
     private javax.swing.JButton btnTrueBackground;
     private javax.swing.JButton btnTrueBorder;
     private javax.swing.JButton btnTrueFont;
     private javax.swing.JButton btnTrueForeground;
-    private javax.swing.JButton btnTrueFormat;
     private javax.swing.JComboBox comboBoxFalseHorizontalAlign;
     private javax.swing.JComboBox comboBoxFalseVerticalAlign;
     private javax.swing.JComboBox comboBoxTrueHorizontalAlign;
@@ -556,7 +514,6 @@ public class ConditionalFormattingUI extends JPanel {
     private javax.swing.JLabel labelExpression;
     private javax.swing.JLabel labelFont;
     private javax.swing.JLabel labelForeground;
-    private javax.swing.JLabel labelFormat;
     private javax.swing.JTextField textFieldFormula;
     private javax.swing.JLabel trueLabel;
     // End of variables declaration//GEN-END:variables
