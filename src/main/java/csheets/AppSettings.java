@@ -71,8 +71,8 @@ public final class AppSettings {
 	/**
 	 * Given a key returns a property (String).
 	 *
-	 * @param key
-	 * @return
+	 * @param key key
+	 * @return property
 	 */
 	public String get(String key) {
 		return this.applicationProperties.getProperty(key);

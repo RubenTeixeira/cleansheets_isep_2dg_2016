@@ -1,5 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1140423) Renato Machado during week2.
+ * Technical documentation regarding the work of the team member (1140423)
+ * Renato Machado during week2.
  *
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
@@ -143,7 +144,7 @@
  * through Volt. Since Volt already supports Channels for Encryption and
  * Decryption and as well as watch who receives and sends messages, the feature
  * is easily implemented.
- * </p>
+ *
  * <p>
  * Channels are a way to filter the message input & output in certain points of
  * Volt's execution. The Channels have 2 hook methods which are before() and

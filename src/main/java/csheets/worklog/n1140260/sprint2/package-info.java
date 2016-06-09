@@ -45,21 +45,31 @@
  *
  * <h3>5.3. Classes</h3>
  *
- * <img src="doc-files/lang04_01_design1.png" alt="image">
+ * <img src="doc-files/lang03_01_design.png" alt="image">
  * <h2>9. Work Log</h2>
  *
  * <b>Friday</b>
- *
+ * <p>
  * Reading feature requirements and analysing formulas code in order to
- * understand how antlr and grammars are integratd in the project
+ * understand how antlr and grammars are integratd in the project and how it is
+ * related with Use Case
  *
  *
  * <b>Monday</b>
- *
+ * <p>
+ * Finnishing anlysis and design and begging implementation  *
  *
  *
  * <b>Tuesday</b>
+ * <p>
+ * Continue UI and Controller implementation
+ * <p>
+ * Blocking: How to work with formatting actions
  *
+ *
+ * <b>Wednesday</b>
+ * <p>
+ * Finnish UI and Controller implementation
  *
  * <h2>10. Self Assessment</h2>
  *
