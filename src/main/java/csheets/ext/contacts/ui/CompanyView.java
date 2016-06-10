@@ -5,11 +5,12 @@
  */
 package csheets.ext.contacts.ui;
 
+import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.ext.contacts.ContactsController;
 import csheets.notification.Notification;
-import java.io.IOException;
+import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -25,39 +26,51 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 
 	private ContactsController controller;
 	private Contact contact;
+	DefaultMutableTreeNode root;
 
 	/**
 	 * Creates new form CompanyView
 	 *
-	 * @param controller
-	 * @param contact
+	 * @param controller controller
+	 * @param contact contact
 	 */
 	public CompanyView(ContactsController controller, Contact contact) {
 		this.controller = controller;
+		this.contact = contact;
 		initComponents();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		CompanyContact companyCont = (CompanyContact) this.contact;
+		DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTreeCompany.
+			getModel().getRoot();
+		this.root = new DefaultMutableTreeNode(companyCont.name());
+		treeRoot.add(root);
+
+		this.update(null, null);
 		Notification.calendarInformer().addObserver(this);
 		Notification.contactInformer().addObserver(this);
 		Notification.eventInformer().addObserver(this);
-		this.update(null, null);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		try {
 			this.jLabelCompanyPhoto.setIcon(new ImageIcon(this.controller.
-				contactPhoto(contact)));
+				contactPhoto(contact).getScaledInstance(this.jLabelCompanyPhoto.
+				getWidth(), this.jLabelCompanyPhoto.getHeight(), Image.SCALE_SMOOTH)));
 			this.jLabelCompanyName.setText(this.contact.name());
 			this.jTreeCompany.removeAll();
-			DefaultMutableTreeNode root = (DefaultMutableTreeNode) this.jTreeCompany.
-				getModel().getRoot();
-			for (Contact contact : this.controller.contactsCompany(contact)) {
-				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(contact);
-				root.add(new DefaultMutableTreeNode(contact));
-				for (Event event : this.controller.eventsContact(contact)) {
-					contactRoot.add(new DefaultMutableTreeNode(event));
+			for (Contact contactPer : this.controller.contactsCompany(contact)) {
+				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(contactPer);
+				root.add(contactRoot);
+				for (Event event : this.controller.eventsContact(contactPer)) {
+					DefaultMutableTreeNode eventRoot = new DefaultMutableTreeNode(event);
+					contactRoot.add(eventRoot);
 				}
 			}
-		} catch (IOException ex) {
+			this.jTreeCompany.revalidate();
+			this.jTreeCompany.repaint();
+		} catch (Exception ex) {
 			Logger.getLogger(CompanyView.class.getName()).
 				log(Level.SEVERE, null, ex);
 		}
@@ -80,6 +93,8 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("root");
+        jTreeCompany.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jScrollPane1.setViewportView(jTreeCompany);
 
         jLabelAgenda.setText("Agenda:");
@@ -93,9 +108,6 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -103,7 +115,8 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelCompanyName, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabelAgenda))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(134, Short.MAX_VALUE))
+            .addComponent(jScrollPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,14 +125,14 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jLabelCompanyName)
-                        .addGap(49, 49, 49))
+                        .addGap(43, 43, 43))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabelCompanyPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelAgenda)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabelAgenda)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE))
         );
 
         pack();

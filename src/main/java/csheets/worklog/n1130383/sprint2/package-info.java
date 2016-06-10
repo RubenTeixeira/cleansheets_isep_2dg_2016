@@ -13,7 +13,7 @@
  * <p>
  * -In this section you should register important notes regarding your work
  * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature-
+ * colleague or if you work in more than a feature-</p>
  *
  * <h2>2. Use Case/Feature: Core02.1</h2>
  *
@@ -122,7 +122,7 @@
  * <p>
  * Window first Draft:</p>
  * <p>
- * <img src="doc-files/Jdialog_box.png" alt="Jdialog_draft"></p>
+ * <img src="http://i.imgur.com/N6MGrKJ.png" alt="JDialog Draft"></p>
  *
  *
  * <h3>Class Diagram Analysis</h3>
@@ -167,16 +167,28 @@
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
+ * Final Version of Sort Extension interact window: A smaller and leaner version
+ * of the first Analysis and implementation.</p>
+ *
+ * <p>
+ * <img src="http://i.imgur.com/ZDUNUxO.png" alt="JDialog FinalVersion">
+ * </p>
+ *
+ * <p>
  * The following Diagrams are useful to understand the UC Realization:</p>
  *
  * <h3>5.3. Extension Setup</h3>
  *
+ * <h3>Extension Manager Interaction</h3>
  * <p>
  * <img src="doc-files/sort_extension_2.png" alt="Sequence Diagram Design"></p>
+ * <h3>UICOntroller Interaction</h3>
  * <p>
  * <img src="doc-files/sort_extension_3.png" alt="Sequence Diagram Design"></p>
+ * <h3>MenuBar Interaction</h3>
  * <p>
  * <img src="doc-files/sort_extension_4.png" alt="Sequence Diagram Design"></p>
+ * <h3>Sequence Diagram</h3>
  * <p>
  * <img src="doc-files/sort_extension_5.png" alt="Sequence Diagram Design"></p>
  *
@@ -204,7 +216,48 @@
  * <p>
  * Also, it was found a <b>bug</b> on SpreadsheetImpl in method getColumn(index)
  * - For loop limiter wasn't valid, that leads to the update of the current
- * class also.</p>
+ * class also. This bug also exists in the original version of the Author Einar
+ * Pehrson where the last update ocurred in 2013-05-02.</p>
+ * <p>
+ * Update on this subject:</p>
+ * <p>
+ * There was also another bug in the same method where the size assign to colum
+ * (: Cell[]) is the same as "rows" - a specific attribute that is equivalent to
+ * the the number of rows in the current Spreadsheet. This variable is getting
+ * its result from cells with content. The address of each cell is obtainable by
+ * its current position in the spreadsheet matrix[column][row]. The cell "B2"
+ * has its position in matrix[1][1]. Therefore, when updating the attribute
+ * using B2 "rows" it will be assigned to him the value: 1. When returning a
+ * column from the active Spreadsheet the returned array size will be also 1,
+ * creating space for only one value that, in this scenario, would be A2 value.
+ * B2 value wouldn't be stored. This bug took a while to solve, not because its
+ * complexity but because it lead to a in-depth revision of the already
+ * implemented code. Also, my analysis to this problem might be wrong, I'm
+ * afraid that something was left unchecked. Because a this more time was needed
+ * than the previous time planned for the implementation. The current solution
+ * was implemented and its seems to be working great. My teammate Rúben Teixeira
+ * helped in this fix realization.</p>
+ * <p>
+ * <b>Current fix:</b></p>
+ * <p>
+ * <img src="http://i.imgur.com/mQ5jmTq.png" alt="Fix"></p>
+ * <p>
+ * Commit</p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
+ * concerning the fix described.</a></p>
+ *
+ * <p>
+ * Durante this week, one day before project submission, my colegue in charge of
+ * implementing LPFOURDG-2 feature - Auto-description of Extensions - was facing
+ * dificulties. I've proceed to implement his analysis and design on this
+ * subject. After ExtensionManagar reads "extensions.props" files a frame will
+ * be presented to user. From that point he decides what Extensions will load.
+ * The current implemented approach to solve this problem is to edit the current
+ * "extensions.props" file. When adding a new path extension to this file the
+ * developer must now introduce the number of the Extension version and a short
+ * Description of what the version current does.</p>
+ *
  *
  * <p>
  * Commit Evidences:</p>
@@ -215,6 +268,20 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2c5a95e9c69bd0fe2903809e04a3d65be54d9e45">Commit
  * concerning the fix for the bug, and first steps into Implementation</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a1a78746338c6c0666d8854cb21c4b35f2353465">Commit
+ * concerning JDialog implementation and first deployment of Sort
+ * Extension</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
+ * concerning JDialog re-design, final deployment of Sort Extension.</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4ff6014ccddc64aafa90c286d337eb7d63b5e682">Commit
+ * concerning Auto-description implementation</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e97b257c5c6a04a9d51931be788c650582a80954">Commit
+ * concerning Sort Extension Tests implementation.</a></p>
+ *
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -280,17 +347,22 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.
- * <p>
  * Today:
  * <p>
- * 1.
+ * 1. Fixed a bug where the last cell with content wasn't being sorted. The fix
+ * was applied to SpreadsheetImpl Class in the method "getColumn". My teammate
+ * Rúben Teixeira - 1140780, helped in this fix realization.
+ * <p>
+ * 2. Reunion with Core Team for this Sprint. Analysis on all to-implement
+ * features where discussed.
+ * <p>
+ * 3. Re-Design of SortJDialog.
+ * <p>
+ * 4. Reunion with Supervisor.
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. nothing.
  *
  *
  * <p>

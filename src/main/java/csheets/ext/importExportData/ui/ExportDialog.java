@@ -24,6 +24,11 @@ public class ExportDialog extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form IEDialog
+	 *
+	 * @param parent parent
+	 * @param modal modal
+	 * @param uiController uiController
+	 * @param controller controller
 	 */
 	public ExportDialog(java.awt.Frame parent, boolean modal,
 						UIController uiController,

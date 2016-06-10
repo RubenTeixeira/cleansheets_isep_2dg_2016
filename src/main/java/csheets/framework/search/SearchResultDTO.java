@@ -76,4 +76,19 @@ public class SearchResultDTO implements Serializable {
 		return description;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final SearchResultDTO other = (SearchResultDTO) obj;
+		return !(!other.spreadSheet.equals(this.spreadSheet)
+			|| !other.cell.equals(this.cell)
+			|| !other.formula.equals(this.formula)
+			|| !other.value.equals(this.value));
+	}
+
 }

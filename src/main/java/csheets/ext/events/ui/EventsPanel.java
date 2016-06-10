@@ -27,15 +27,17 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 		this.setName(EventsExtension.NAME);
 		this.initComponents();
 		this.controller = new EventsController(uiController, this);
-		Notification.eventInformer().addObserver(this);
 		this.update(null, null);
+		Notification.eventInformer().addObserver(this);
+		Notification.calendarInformer().addObserver(this);
+		Notification.contactInformer().addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		clearEventList();
 		for (Event event : this.controller.allEvents()) {
-			EventPanelSingle panel = new EventPanelSingle(this.controller, event);
+			EventsPanelSingle panel = new EventsPanelSingle(this.controller, event);
 			this.addEventPanel(panel);
 		}
 		this.jPanelEvents.revalidate();
@@ -43,7 +45,7 @@ public class EventsPanel extends javax.swing.JPanel implements Observer {
 
 	}
 
-	private void addEventPanel(EventPanelSingle panel) {
+	private void addEventPanel(EventsPanelSingle panel) {
 		this.jPanelEvents.add(panel);
 		addGridRow();
 	}

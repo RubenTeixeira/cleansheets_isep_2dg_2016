@@ -67,7 +67,6 @@
  * shows all the files, user select a file and the workbook is open
  * <p>
  * <img src="doc-files/ipc_analysis.png" alt="image">
- * <p>
  *
  *
  *
@@ -82,7 +81,6 @@
  *
  * <p>
  * <img src="doc-files/ipc_02.1_design.png" alt="image">
- * <p>
  *
  * <h3>5.3. Classes</h3>
  *
@@ -100,7 +98,6 @@
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
  * commits of your work-
- * <p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -208,15 +205,15 @@
  * <b>Friday</b>
  * <p>
  * Yesterday I worked on:</p>
- * <p>
- * 1.</p>
+ *
+ *
  * <p>
  * Today:</p>
  * <p>
  * 1.</p>
  * <p>
  * Blocking:
- * <p>
+ *
  *
  * <h2>10. Self Assessment</h2>
  *

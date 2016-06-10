@@ -80,31 +80,37 @@
  * Copied example Ui and finished adding extention to the system
  *
  * <b>Monday</b>
- * <p>Morning -
- * Finished UI implementation
- * Afternoon</p>
- * <p>Afternoon -
- * Scrum meeting, learning about ipc volt<p>
+ * <p>
+ * Morning - Finished UI implementation Afternoon</p>
+ * <p>
+ * Afternoon - Scrum meeting, learning about ipc volt<p>
  *
  *
  * <b>Tuesday</b>
- * <p>Morning-
- * Added help to the functions and fished some UI details</p>
- * <p>Afternoon -
- * Finished implementing tests and use case<p>
+ * <p>
+ * Morning- Added help to the functions and fished some UI details</p>
+ * <p>
+ * Afternoon - Finished implementing tests and use case
  *
  * <b>Wednesday</b>
- * Already finished UC helping in different features but core help was in discussing and helping implementing Core 1.2
+ * <p>Changing template methods to work with montary functions </p>
+ * <p>Helping Core1.2 feature, mainly discussing implementation and a part of the implementation</p>
  *
  * <h2>10. Self Assessment</h2>
  * I believe I acomplished what i proposed to do in this sprint and helped the team accomplish the results demontrated in the presentation
  *
  *
- * <h3>10.1. Design and Implementation:3</h3>
- *
- *
  * <b>Evidences:</b>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7b7bde6250bf5e48b6cb2f0c5be688a2fded187f">Analysis</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6f5c5ded6fa3caec1f5c88823999fc4b13b64e63">Design</a>
  *
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6fe67e518508534477fa1381d4b9e06310d12d95">Implementation done in pair programming</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d8f99141f5c67302add45d6fabf15e1b8520f90a">Unit testing</a>
+ * 
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7074092df59a0c3f2d2c5f8fc2d7342755cd2ed0">Helping Core1.2</a>
  *
  * <h3>10.2. Teamwork: </h3>
  * After finishing my use cse early tried to help other and discuss other use case implementations

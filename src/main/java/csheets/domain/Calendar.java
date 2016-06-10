@@ -11,7 +11,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -28,7 +28,7 @@ public class Calendar implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.MERGE)
 	private Contact contact;
 
 	private String name;
@@ -104,5 +104,30 @@ public class Calendar implements Serializable {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Calendar)) {
+			return false;
+		}
+		Calendar instance = (Calendar) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 21;
+		hashcode += this.name.hashCode();
+		hashcode += this.description.hashCode();
+		hashcode += this.contact.hashCode();
+		hashcode += this.color.hashCode();
+		return hashcode;
 	}
 }

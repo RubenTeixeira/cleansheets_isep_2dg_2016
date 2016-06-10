@@ -112,7 +112,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	/**
 	 * The edit listeners registered to receive events
 	 */
-	private Contact user = new ContactsController(null, null).addSystemUser();
+	private Contact user;
 
 	/**
 	 * The instance of UIController App
@@ -142,6 +142,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 		}
 		this.extensions
 			= uiExtensions.toArray(new UIExtension[uiExtensions.size()]);
+		this.user = new ContactsController(null, null).systemUser();
 	}
 
 	/**
@@ -152,6 +153,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public UIController(CleanSheets app, JFrame frame) {
 		this(app);
+		this.frame = frame;
 	}
 
 	/**
@@ -161,6 +163,15 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public CleanSheets getCleanSheets() {
 		return this.app;
+	}
+
+	/**
+	 * Creates a new user interface controller.
+	 *
+	 * @return the App Cleansheet
+	 */
+	public JFrame getFrame() {
+		return this.frame;
 	}
 
 	/*
@@ -200,6 +211,10 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 */
 	public static UIController getUIController() {
 		return UIController.uiController;
+	}
+
+	public static void setUIController(UIController uiController) {
+		UIController.uiController = uiController;
 	}
 
 	/**

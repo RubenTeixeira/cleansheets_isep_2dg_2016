@@ -13,7 +13,7 @@ import javax.persistence.Entity;
  * @author Marcelo Barroso 1131399
  */
 @Entity
-@DiscriminatorValue("BUSINESS")
+@DiscriminatorValue("COMPANY")
 public class CompanyContact extends Contact {
 
 	/**
@@ -23,8 +23,8 @@ public class CompanyContact extends Contact {
 
 	/**
 	 *
-	 * @param designation
-	 * @param photo
+	 * @param designation designation
+	 * @param photo photo
 	 */
 	public CompanyContact(String designation, byte[] photo) {
 		super(photo);
@@ -32,6 +32,7 @@ public class CompanyContact extends Contact {
 			throw new IllegalArgumentException();
 		}
 		this.designation = designation;
+		this.name = this.toString();
 	}
 
 	/**
@@ -47,7 +48,7 @@ public class CompanyContact extends Contact {
 	 */
 	@Override
 	public String name() {
-		return this.designation;
+		return this.toString();
 	}
 
 	/**
@@ -62,10 +63,38 @@ public class CompanyContact extends Contact {
 	/**
 	 * Set Designation
 	 *
-	 * @param designation
+	 * @param designation designation
 	 */
 	public void designation(String designation) {
 		this.designation = designation;
+		this.name = this.toString();
+	}
+
+	@Override
+	public String toString() {
+		return this.designation.trim();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof CompanyContact)) {
+			return false;
+		}
+		CompanyContact instance = (CompanyContact) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 27;
+		hashcode = hashcode + 11 + this.name().hashCode();
+		return hashcode;
 	}
 
 }

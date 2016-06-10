@@ -98,7 +98,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
         final int defaultPort = 20000;
 
         this.controller = controller;
-        this.controller.startUdpService(this, defaultPort, defaultSeconds);
+        this.controller.startUdpService(this, defaultSeconds);
         this.controller.startTcpService(this, defaultPort);
     }
 
@@ -524,6 +524,14 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
             List<String> addresses = (List<String>) object;
             updateInstanceList(addresses);
         }
+    }
+
+    public boolean askForConfirmation(String hostname) {
+        int reply = JOptionPane.
+                showConfirmDialog(this, "::. Receive information .::\n"
+                        + "An instance (" + hostname + ") wants to establish a connection with you.\nDo you wish to receive its cells?");
+
+        return !(reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION);
     }
 
     @Override

@@ -13,7 +13,7 @@ import csheets.framework.Money;
  * In this case, this operator does no conversion because all the monetary
  * values are converted to euro (see Design explanation).
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas
  */
 public class EuroOperator implements UnaryOperator {
 

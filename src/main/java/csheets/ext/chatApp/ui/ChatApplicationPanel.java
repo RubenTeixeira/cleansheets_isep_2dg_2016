@@ -8,6 +8,7 @@ package csheets.ext.chatApp.ui;
 import csheets.ext.chatApp.ChatAppExtension;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -50,12 +51,13 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		Notification.chatMessageInformer().addObserver(this);
 	}
 
-	public void inserirHost(String chatUser, String message) {
+	public synchronized void inserirHost(String chatUser, String message) {
 		boolean exists = false;
 		if (root.getChildCount() > 0) {
-			while (true) {
-				DefaultMutableTreeNode no = (DefaultMutableTreeNode) root.
-					children().nextElement();
+			Enumeration childs = root.children();
+			for (int i = 0; i < root.getChildCount(); i++) {
+				DefaultMutableTreeNode no = (DefaultMutableTreeNode) childs.
+					nextElement();
 				if (no != null) {
 					String treeNode = (String) no.getUserObject();
 					if (treeNode.equals(chatUser)) {
@@ -63,7 +65,6 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 						exists = true;
 						break;
 					}
-
 				}
 			}
 			if (exists == false) {
@@ -79,7 +80,8 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 
 	}
 
-	private void insertMessage(DefaultMutableTreeNode node, String message) {
+	private synchronized void insertMessage(DefaultMutableTreeNode node,
+											String message) {
 		if (node.getChildCount() == 0) {
 			node.
 				add(new DefaultMutableTreeNode(message));
@@ -91,35 +93,44 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		}
 	}
 
+	private synchronized void receivedMessage(Map messageData) {
+		((Map) messageData).remove("reference");
+		String message = (String) ((Map) messageData).get("message");
+		String hostname = (String) ((Map) messageData).get("hostname");
+		String fromIP = ((String) ((Map) messageData).get("from")).
+			split(":")[0];
+		String chatMessage = "Received from " + fromIP + ": " + message;
+		new TimedPopupMessageDialog(null, chatMessage);
+
+		inserirHost(fromIP, chatMessage);
+	}
+
+	private synchronized void sendMessage(Map sendData) {
+		((Map) sendData).remove("reference");
+		String localHost = (String) ((Map) sendData).get("hostname");
+		String sendMessage = (String) ((Map) sendData).get("message");
+		//String target = (String) ((Map) sendData).get("target");
+		String chatMessage = "Sended to " + localHost + ": " + sendMessage;
+
+		inserirHost(localHost, chatMessage);
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		Map messageData = new LinkedHashMap((Map) arg);
 		if (((Map) messageData).get("reference").equals("chatMessage")) {
-			((Map) messageData).remove("reference");
-			String message = (String) ((Map) messageData).get("message");
-			String hostname = (String) ((Map) messageData).get("hostname");
-			//String from = (String) ((Map) messageData).get("from");
-			String chatMessage = "Received from " + hostname + ": " + message;
-			new TimedPopupMessageDialog(null, "Message: " + arg, chatAppController, chatMessage);
-
-			inserirHost(hostname, chatMessage);
-
-			this.revalidate();
-			this.repaint();
+			receivedMessage(messageData);
 		}
 		Map sendData = new LinkedHashMap((Map) arg);
 		if (((Map) sendData).get("reference").equals("sendMessage")) {
-			((Map) sendData).remove("reference");
-			String localHost = (String) ((Map) sendData).get("hostname");
-			String sendMessage = (String) ((Map) sendData).get("message");
-			//String target = (String) ((Map) sendData).get("target");
-			String chatMessage = "Sended to " + localHost + ": " + sendMessage;
-
-			inserirHost(localHost, chatMessage);
-
-			this.revalidate();
-			this.repaint();
+			sendMessage(sendData);
 		}
+		refreshUI();
+	}
+
+	private synchronized void refreshUI() {
+		MessagesTree.revalidate();
+		MessagesTree.repaint();
 	}
 
 	/**

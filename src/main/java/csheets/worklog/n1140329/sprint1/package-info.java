@@ -256,7 +256,7 @@
  * 
  * <h3>10.1. Design and Implementation:3</h3>
  * 
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex: mais de 50%) e apresentam código que para além de não ir contra a arquitetura do cleansheets segue ainda as boas práticas da área técnica (ex: sincronização, padrões de eapli, etc.)
+ * 3- Good. The Analysis was useful for the Use Case's implementation and my implementation of the UDP Server works as expected.
  * <p>
  * <b>Evidences:</b>
  * <p>
@@ -274,7 +274,7 @@ package csheets.worklog.n1140329.sprint1;
 /**
  * This class is only here so that javadoc includes the documentation about this EMPTY package! Do not remove this class!
  * 
- * @author CarlosSantos
+ * @author RafaelRocha
  */
 class _Dummy_ {}
 

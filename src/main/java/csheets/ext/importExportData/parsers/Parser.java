@@ -24,7 +24,7 @@ public abstract class Parser {
 	/**
 	 * Creates a new Parser instance.
 	 *
-	 * @param handler
+	 * @param handler handler
 	 */
 	public Parser(FileHandler handler) {
 		this.handler = handler;

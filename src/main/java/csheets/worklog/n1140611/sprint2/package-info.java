@@ -225,7 +225,48 @@
  * Blocking:
  * <p>
  * 1. -nothing to report at moment-
- *
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Design of feature ipc05.1 Chat Application and start implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. ipc05.1 Chat Application implementation
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. volt changes
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. ipc05.1 Chat Application implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. ipc05.1 Chat Application implementation
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. User interface
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. ipc05.1 Chat Application implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. ipc05.1 Chat Application implementation
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. how to do tests to a chat
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-

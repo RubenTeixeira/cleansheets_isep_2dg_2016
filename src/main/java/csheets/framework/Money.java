@@ -30,8 +30,8 @@ public class Money implements Comparable<Money>, Serializable {
 	 * make monies. Constructors that convert from basic numeric types are
 	 * always useful.
 	 *
-	 * @param amount
-	 * @param currency
+	 * @param amount amount
+	 * @param currency currency
 	 */
 	public Money(double amount, Currency currency) {
 		if (amount < 0.0 || currency == null) {
@@ -57,8 +57,8 @@ public class Money implements Comparable<Money>, Serializable {
 
 	/**
 	 *
-	 * @param amount
-	 * @return
+	 * @param amount amount
+	 * @return money
 	 */
 	public static Money pounds(final double amount) {
 		return new Money(amount, Currency.getInstance("GBP"));
@@ -67,6 +67,9 @@ public class Money implements Comparable<Money>, Serializable {
 	/**
 	 * If you use one currency a lot, you may want a special constructor for
 	 * that currency.
+	 *
+	 * @param amount amount
+	 * @return money
 	 */
 	public static Money dollars(final double amount) {
 		return new Money(amount, Currency.getInstance("USD"));
@@ -75,6 +78,9 @@ public class Money implements Comparable<Money>, Serializable {
 	/**
 	 * If you use one currency a lot, you may want a special constructor for
 	 * that currency.
+	 *
+	 * @param amount amount
+	 * @return money
 	 */
 	public static Money euros(final double amount) {
 		return new Money(amount, Currency.getInstance("EUR"));
@@ -90,6 +96,8 @@ public class Money implements Comparable<Money>, Serializable {
 	 * performance factors. The beauty of objects is that you can choose any
 	 * data structure you like on the inside, providing you hide it on the
 	 * outside.
+	 *
+	 * @return amout
 	 */
 	public double amount() {
 		return this.amount.doubleValue() / HUNDRED;
@@ -102,7 +110,7 @@ public class Money implements Comparable<Money>, Serializable {
 	/**
 	 * Returns the currency of this Money object.
 	 *
-	 * @return
+	 * @return currency
 	 */
 	public Currency currency() {
 		return this.currency;
@@ -113,6 +121,9 @@ public class Money implements Comparable<Money>, Serializable {
 	 *
 	 * For addition and subtraction I'm not trying to do any fancy conversion.
 	 * Notice that I'm using a special constructor with a marker argument.
+	 *
+	 * @param arg arg
+	 * @return money
 	 */
 	public Money add(Money arg) {
 		assertSameCurrencyAs(arg);
@@ -122,8 +133,8 @@ public class Money implements Comparable<Money>, Serializable {
 	/**
 	 * Subtracts two Money instances and returns a third one with the result.
 	 *
-	 * @param arg
-	 * @return
+	 * @param arg arg
+	 * @return money
 	 */
 	public Money subtract(Money arg) {
 		return add(arg.negate());
@@ -141,6 +152,8 @@ public class Money implements Comparable<Money>, Serializable {
 	/**
 	 * Multiplies two Money objects and returns the result a new object.
 	 *
+	 * @param arg arg
+	 * @return money
 	 */
 	public Money multiply(double arg) {
 		return new Money(amount() * arg, this.currency);
@@ -156,6 +169,9 @@ public class Money implements Comparable<Money>, Serializable {
 	 * and the original amount is distributed fairly between the elements of the
 	 * array. Fairly in this sense means those at the begining get the extra
 	 * pennies.
+	 *
+	 * @param denominator denominator
+	 * @return money
 	 */
 	public Money[] divide(int denominator) {
 		final BigInteger bigDenominator = BigInteger.valueOf(denominator);
@@ -178,6 +194,8 @@ public class Money implements Comparable<Money>, Serializable {
 	 *
 	 * Next we'll look at comparing monies, in Java the approach is to implement
 	 * comparable.
+	 *
+	 * @param moneyArg moneyArg
 	 */
 	@Override
 	public int compareTo(Money moneyArg) {
@@ -190,6 +208,9 @@ public class Money implements Comparable<Money>, Serializable {
 	 *
 	 * It's also useful to provide some better named operations such as: That
 	 * makes methods that need the comparison much easier to read.
+	 *
+	 * @param arg arg
+	 * @return boolean
 	 */
 	public boolean greaterThan(Money arg) {
 		return compareTo(arg) > 0;
@@ -197,6 +218,9 @@ public class Money implements Comparable<Money>, Serializable {
 
 	/**
 	 * Compares two Money objects.
+	 *
+	 * @param arg arg
+	 * @return boolean
 	 */
 	public boolean lessThan(Money arg) {
 		return compareTo(arg) < 0;
@@ -204,6 +228,9 @@ public class Money implements Comparable<Money>, Serializable {
 
 	/**
 	 * Compares two Money objects.
+	 *
+	 * @param arg arg
+	 * @return boolean
 	 */
 	public boolean greaterThanOrEqual(Money arg) {
 		return compareTo(arg) >= 0;
@@ -211,6 +238,9 @@ public class Money implements Comparable<Money>, Serializable {
 
 	/**
 	 * Compares two Money objects.
+	 *
+	 * @param arg arg
+	 * @return boolean
 	 */
 	public boolean lessThanOrEqual(Money arg) {
 		return compareTo(arg) <= 0;
@@ -218,6 +248,8 @@ public class Money implements Comparable<Money>, Serializable {
 
 	/**
 	 * Since money is a value, it should override equals.
+	 *
+	 * @param arg arg
 	 */
 	@Override
 	public boolean equals(Object arg) {

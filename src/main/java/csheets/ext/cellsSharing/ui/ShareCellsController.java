@@ -24,20 +24,15 @@ public class ShareCellsController {
 	/**
 	 * Starts the UDP service.
 	 *
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	private void startUdpService(int port, int seconds) {
-		if (port < 0 || port > 49151) {
-			throw new IllegalArgumentException("Invalid port was defined. Please select a valid port.");
-		}
-
+	private void startUdpService(int seconds) {
 		if (seconds <= 0) {
 			throw new IllegalArgumentException("Invalid seconds number given. It's not possible to register negative or zero seconds.");
 		}
 
 		try {
-			this.udpService.server(30600, port);
+			this.udpService.server();
 			this.udpService.client(seconds);
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
@@ -50,17 +45,16 @@ public class ShareCellsController {
 	 * Starts the UDP service.
 	 *
 	 * @param panel The user interface.
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
-	public void startUdpService(SharePanel panel, int port, int seconds) {
+	public void startUdpService(SharePanel panel, int seconds) {
 		if (panel == null) {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
 		this.udpService = new UdpService();
 
-		this.startUdpService(port, seconds);
+		this.startUdpService(seconds);
 
 		this.udpService.addObserver(panel);
 	}
@@ -113,7 +107,7 @@ public class ShareCellsController {
 		this.tcpService.stop();
 		this.udpService.stop();
 
-		this.startUdpService(port, seconds);
+		this.startUdpService(seconds);
 		this.startTcpService(port);
 	}
 
@@ -196,7 +190,8 @@ public class ShareCellsController {
 				} else {
 					value = "";
 				}
-
+                                
+                                // Sets the cell's style
 				StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().
 					getCell(column, row).getExtension(StyleExtension.NAME);
 				cell.setContent(value);
@@ -232,10 +227,17 @@ public class ShareCellsController {
 		tcpService.continuousSending(message);
 	}
 
+        /**
+         * Sets the target instance for a continuous sending of messages.
+         * @param target Targeted instance
+         */
 	public void setContinuousTarget(String target) {
 		tcpService.setContinuousTarget(target);
 	}
 
+        /**
+         * Stops the continuous sending of messages.
+         */
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
 	}

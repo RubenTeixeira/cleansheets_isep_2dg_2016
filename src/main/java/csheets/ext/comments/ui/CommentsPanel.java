@@ -15,11 +15,13 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -44,7 +46,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	private CommentController controller;
 
 	private JPanel jPanel2;
-	private GridLayout layout = new GridLayout(5, 1);
+	private BoxLayout layout;
 
 	/**
 	 * Creates new form CommentsPanel
@@ -54,10 +56,18 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	public CommentsPanel(UIController uiController) {
 		setName(CommentsExtension.NAME);
 		initComponents();
+		jPanel2 = new JPanel();
+		layout = new BoxLayout(jPanel2, BoxLayout.Y_AXIS);
+		jPanel2.setLayout(layout);
+		jTextField1.setPreferredSize(null);
 
-		jPanel2 = new JPanel(layout);
-
-		add(jPanel2, BorderLayout.CENTER);
+		JScrollPane scrollPane = new JScrollPane(jPanel2);
+		scrollPane.
+			setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.
+			setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		//scrollPane.setBounds(50, 30, 300, 50);
+		add(scrollPane, BorderLayout.CENTER);
 
 		// Creates controller
 		controller = new CommentController(uiController);
@@ -82,8 +92,11 @@ public class CommentsPanel extends JPanel implements SelectionListener,
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -96,17 +109,52 @@ public class CommentsPanel extends JPanel implements SelectionListener,
             .addGap(0, 263, Short.MAX_VALUE)
         );
 
+        jButton1.setText("jButton1");
+
         setLayout(new java.awt.BorderLayout());
 
-        jTextField1.setText("jTextField1");
-        jPanel3.add(jTextField1);
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jTextField1.setAlignmentX(4.0F);
+        jTextField1.setAlignmentY(4.0F);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+        jPanel3.add(jTextField1, java.awt.BorderLayout.CENTER);
+        jPanel3.add(jSeparator2, java.awt.BorderLayout.LINE_END);
+
+        jLabel1.setText("Insert Comment:");
+        jPanel3.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
         add(jPanel3, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+		// TODO add your handling code here:
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (this.cell != null) {
+				newComment();
+			}
+		}
+    }//GEN-LAST:event_jTextField1KeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
@@ -148,41 +196,47 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 
 		if (this.cell.hasComments()) {
 			paintCommentPanels();
+		} else {
+			cleanCommentsPanel();
 		}
 
 	}
 
 	private void paintCommentPanels() {
-
-//		this.jPanelContacts.removeAll();
-//		((GridLayout) this.jPanelContacts.getLayout()).setRows(5);
-//		for (Contact contact : this.controller.allContacts()) {
-//			ContactsPanelSingle2 panel = new ContactsPanelSingle2(this.controller, contact);
-//			this.jPanelContacts.add(panel);
-//			GridLayout layout = (GridLayout) this.jPanelContacts.getLayout();
-//			layout.setRows(layout.getRows() + 1);
-//		}
-//		this.jPanelContacts.revalidate();
-//		this.jPanelContacts.repaint();
-		jPanel2.removeAll();
-		layout.setRows(5);
+		cleanCommentsPanel();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
 			CommentPanel cmtPanel = new CommentPanel(comment.userName(), comment.
 													 text());
-			System.out.println("ADDING Panel for comment from " + comment.
-				userName());
 
 			jPanel2.add(cmtPanel);
-			layout.setRows(layout.getRows() + 1);
+			jTextField1.setText("");
 			cmtPanel.setVisible(true);
 		}
+		refreshUI();
+	}
+
+	private void cleanCommentsPanel() {
+		jPanel2.removeAll();
 		refreshUI();
 	}
 
 	private void refreshUI() {
 		revalidate();
 		repaint();
+	}
+
+	private void newComment() {
+		if (cell != null) {
+			String comment = jTextField1.getText().trim();
+			if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
+				try {
+					controller.addComment(cell, jTextField1.getText());
+				} catch (Exception ex) {
+					// nothing to do here yet
+				}
+			}
+		}
 	}
 
 	protected class ApplyAction implements FocusListener {
@@ -194,15 +248,8 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 
 		@Override
 		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
-			if (cell != null) {
-				String comment = jTextField1.getText().trim();
-				System.out.println("DEBUG: comment = " + comment);
-				if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
-					System.out.println("DEBUG: has comments... adComment()");
-					controller.addComment(cell, jTextField1.getText());
-				}
-			}
+			newComment();
 		}
+
 	}
 }

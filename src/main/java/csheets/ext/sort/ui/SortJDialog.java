@@ -38,9 +38,8 @@ public class SortJDialog extends javax.swing.JDialog {
 		initComponents();
 		setModal(true);
 		ascendingRadioButton.setSelected(true);//default
-		setLocation(1005, 100); //window location
-		setDefaultLookAndFeelDecorated(true); //LookAndFeal
-		//combo box - defaultmodel
+		setLocation(1005, 100);
+		setDefaultLookAndFeelDecorated(true);
 		columnComboBox.setModel(new DefaultComboBoxModel());
 		DefaultComboBoxModel box = (DefaultComboBoxModel) columnComboBox.
 			getModel();

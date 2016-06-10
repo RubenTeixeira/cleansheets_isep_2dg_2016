@@ -21,7 +21,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 	/**
 	 * Creates new form ExportXMLPanel
 	 *
-	 * @param uiController
+	 * @param uiController uiController
 	 */
 	public ExportXMLPanel(UIController uiController) {
 		initComponents();

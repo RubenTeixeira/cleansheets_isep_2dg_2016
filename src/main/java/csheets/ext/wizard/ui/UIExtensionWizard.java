@@ -34,7 +34,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return an icon with style
 	 */
-        @Override
+	@Override
 	public Icon getIcon() {
 		return null;
 	}
@@ -43,10 +43,9 @@ public class UIExtensionWizard extends UIExtension {
 	 * Returns an instance of a class that implements JMenu. In this simple case
 	 * this class only supplies one menu option.
 	 *
-	 * @see ExampleMenu
 	 * @return a JMenu component
 	 */
-        @Override
+	@Override
 	public JMenu getMenu() {
 		if (menu == null) {
 			menu = new WizardMenu(uiController);
@@ -59,7 +58,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a cell decorator, or null if the extension does not provide one
 	 */
-        @Override
+	@Override
 	public CellDecorator getCellDecorator() {
 		return null;
 	}
@@ -70,7 +69,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a table decorator, or null if the extension does not provide one
 	 */
-        @Override
+	@Override
 	public TableDecorator getTableDecorator() {
 		return null;
 	}
@@ -81,7 +80,7 @@ public class UIExtensionWizard extends UIExtension {
 	 * @return a JToolBar component, or null if the extension does not provide
 	 * one
 	 */
-        @Override
+	@Override
 	public JToolBar getToolBar() {
 		return null;
 	}
@@ -91,7 +90,7 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a component, or null if the extension does not provide one
 	 */
-        @Override
+	@Override
 	public JComponent getSideBar() {
 		return null;
 	}

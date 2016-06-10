@@ -5,25 +5,23 @@
  */
 package csheets.ext.game.ui;
 
+import csheets.ext.game.Battleships;
 import csheets.ext.game.GameExtension;
-import csheets.notification.Notification;
-import csheets.support.Converter;
+import csheets.ext.game.TicTacToe;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Map;
+import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -56,6 +54,9 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 */
 	private File photoFile;
 
+	/**
+	 * UI controller.
+	 */
 	private final UIController uiController;
 
 	/**
@@ -74,9 +75,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	private DefaultListModel instanceListModelGames;
 
 	/**
-	 * Hostname.
+	 * Default instance list - list online games.
 	 */
-	private String host;
+	private DefaultListModel instanceListModelOnlineGames;
+
+	/**
+	 * Opponent.
+	 */
+	private String opp;
 
 	/**
 	 * Task Manager.
@@ -85,8 +91,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 	/**
 	 * Creates new form GamePanel.
+	 *
+	 * @param uiController uiController
+	 * @param gameController gameController
 	 */
-	public GamePanel(UIController uiController, GameController gameController) throws UnknownHostException {
+	public GamePanel(UIController uiController, GameController gameController) {
 		this.uiController = uiController;
 
 		setName(GameExtension.NAME);
@@ -94,29 +103,66 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		// Create default lists
 		instanceListModel = new DefaultListModel();
 		instanceListModelGames = new DefaulListModel();
-		Notification.gameInformer().addObserver(this);
+		instanceListModelOnlineGames = new DefaulListModel();
 		initComponents();
 
 		uiController.addSelectionListener(this);
 
-		//instancesList.setModel(instanceListModel);
+		opponentsList.setModel(instanceListModel);
+		gameList.setModel(instanceListModelGames);
+		gamingOpponents.setModel(instanceListModelOnlineGames);
+
 		updateListOfGames();
+		updateSystemProperty();
 
-		username = System.getProperty("user.name");
-
-		jTextField1.setText(username);
-		jTextField1.setEditable(false);
-
-		jTextField2.setText(InetAddress.getLocalHost().getHostName());
-		jTextField2.setEditable(false);
+		try {
+			updateLocalHostName();
+		} catch (UnknownHostException ex) {
+			Logger.getLogger(GamePanel.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
-		final int defaultSeconds = 3;
-		final int defaultPort = 20000;
+		final int defaultSeconds = 10;
+		final int defaultPort = 20006;
 
 		this.gameController = gameController;
+		this.gameController.startUdpService(this, defaultPort, defaultSeconds);
+		this.gameController.startTcpService(this, defaultPort);
+	}
 
+	/**
+	 * Update system property designation.
+	 */
+	private void updateSystemProperty() {
+		this.username = System.getProperty("user.name");
+		this.jTextField1.setText(username);
+		this.jTextField1.setEditable(false);
+
+	}
+
+	/**
+	 * Update the name of the local host.
+	 *
+	 * @throws UnknownHostException
+	 */
+	private void updateLocalHostName() throws UnknownHostException {
+		jTextField2.setText(InetAddress.getLocalHost().getHostName());
+		jTextField2.setEditable(false);
+	}
+
+	/**
+	 * Update the online games between 2 instances.
+	 *
+	 * @param hostGame
+	 */
+	private void updateOnlineOpponentsGame(String hostGame) {
+		if (!instanceListModelOnlineGames.contains(hostGame)) {
+			instanceListModelOnlineGames.addElement(hostGame);
+		}
+		gamingOpponents.setModel(instanceListModelOnlineGames);
+		repaint();
 	}
 
 	/**
@@ -129,19 +175,27 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        sendButton = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        instancesList1 = new javax.swing.JList<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        opponentsList = new javax.swing.JList<>();
+        jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        contactsPanel = new javax.swing.JPanel();
+        gameList = new javax.swing.JList<>();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        gamingOpponents = new javax.swing.JList<>();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        connectButton = new javax.swing.JButton();
+        playButton = new javax.swing.JButton();
+        endButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -154,43 +208,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Select the opponent and the game", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
-        jPanel2.setToolTipText("");
-
-        sendButton.setText("Start Game");
-        sendButton.setFocusPainted(false);
-        sendButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendButtonActionPerformed(evt);
-            }
-        });
-
-        instancesList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                instancesList1ValueChanged(evt);
-            }
-        });
-        jScrollPane2.setViewportView(instancesList1);
-
-        jLabel1.setText("Opponents");
-
-        jLabel2.setText("Games");
-
-        jLabel3.setText("Username:");
-
-        jLabel4.setText("HostName:");
-
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "My Profile", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jLabel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -199,103 +217,240 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             }
         });
 
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Username:");
 
-        contactsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        contactsPanel.setLayout(new java.awt.GridLayout());
-        jScrollPane3.setViewportView(contactsPanel);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2))
-                .addGap(9, 9, 9))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(103, 103, 103)
-                        .addComponent(sendButton))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(jLabel2)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3)
-                        .addContainerGap())))
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("HostName:");
+
+        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addComponent(jTextField1)
+            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTextField2)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))))
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1)
-                .addGap(6, 6, 6)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(sendButton)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.addTab("Home", jPanel3);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Online Users", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        opponentsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                opponentsListValueChanged(evt);
+            }
+        });
+        jScrollPane2.setViewportView(opponentsList);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Online", jPanel1);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Availble Games", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        gameList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                gameListValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(gameList);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Games", jPanel5);
+
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Active Games", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        gamingOpponents.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                gamingOpponentsValueChanged(evt);
+            }
+        });
+        jScrollPane4.setViewportView(gamingOpponents);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Active", jPanel6);
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "What you want?", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+
+        connectButton.setText("Connect");
+        connectButton.setFocusPainted(false);
+        connectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                connectButtonActionPerformed(evt);
+            }
+        });
+
+        playButton.setText("Play");
+        playButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                playButtonActionPerformed(evt);
+            }
+        });
+
+        endButton.setText("End Game");
+        endButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(endButton, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                    .addComponent(playButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(playButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Options", jPanel7);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1)
+                .addGap(4, 4, 4))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, Short.MAX_VALUE)
         );
-
-        jPanel2.getAccessibleContext().setAccessibleDescription("Select the opponent and the game");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
+    private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
+		opp = opponentsList.getSelectedValue();
+		if (opp != null && gameList.getSelectedValue() != null) {
 
-		/**
-		 * if (instancesList1.getSelectedValue() != null && contactsPanel.get) {
-		 *
-		 * }
-		 */
-    }//GEN-LAST:event_sendButtonActionPerformed
+			this.gameController.setContinuousTarget(opp);
 
-    private void instancesList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_instancesList1ValueChanged
+			gameController.
+				establishConnection(opp, "::. Receive information .::\n"
+									+ "A host " + opp + " wants to play "
+									+ " with you.\n Game: " + gameList.
+									getSelectedValue() + " Do you wish to play with him ?");
+
+		} else {
+			JOptionPane.showMessageDialog(this, "Impossible to connect");
+		}
+    }//GEN-LAST:event_connectButtonActionPerformed
+
+    private void opponentsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_opponentsListValueChanged
 		// TODO add your handling code here:
-    }//GEN-LAST:event_instancesList1ValueChanged
+    }//GEN-LAST:event_opponentsListValueChanged
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
 		// TODO add your handling code here:
@@ -306,6 +461,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+		//photo upload handler
 		final JFileChooser fc = new JFileChooser();
 
 		int returnVal = fc.showOpenDialog(fc);
@@ -314,48 +470,60 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 			photoFile = fc.getSelectedFile();
 			this.jLabel5.setIcon(iconImageFromFile(photoFile));
 
-			try {
-				this.gameController.startServices(this, username, Converter.
-												  setImage(photoFile));
-			} catch (IOException ex) {
-				Logger.getLogger(GamePanel.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
 		}
     }//GEN-LAST:event_jLabel5MouseClicked
 
-	/**
-	 * Update the list of "online" instances.
-	 *
-	 * @param addresses
-	 */
-	public void updateInstanceList(List<String> addresses) {
-		for (String address : addresses) {
-			if (!instanceListModel.contains(address)) {
-				instanceListModel.addElement(address);
+    private void gameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gameListValueChanged
+		// TODO add your handling code here:
+    }//GEN-LAST:event_gameListValueChanged
 
-				manager.after(20).once(new Task() {
-					public void fire() {
-						instanceListModel.removeElement(address);
-//						instancesList.setModel(instanceListModel);
-					}
-				});
+    private void gamingOpponentsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gamingOpponentsValueChanged
+		// TODO add your handling code here:
+    }//GEN-LAST:event_gamingOpponentsValueChanged
+
+    private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
+		if (gamingOpponents.getSelectedValue() != null) {
+
+			int reply = JOptionPane.
+				showConfirmDialog(this, "::. Disconnect from instance .::\n"
+								  + "Are you sure you want to disconnect?");
+
+			if (reply == JOptionPane.YES_OPTION) {
+
+				this.gameController.stopConnection();
+				instanceListModelOnlineGames.removeElement(gamingOpponents.
+					getSelectedValue());
+			} else if (reply == JOptionPane.NO_OPTION) {
+				// nothing to do
 			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Please choose a game to end.");
 		}
+    }//GEN-LAST:event_endButtonActionPerformed
 
-		//instancesList.setModel(instanceListModel);
-		repaint();
-	}
+    private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_playButtonActionPerformed
 
 	/**
-	 * Fill the list with the available games.
+	 * Fill the list with the available games. Dummy classes.
 	 */
 	private void updateListOfGames() {
 		instanceListModelGames.add(0, TIC_TAC_TOE);
+		TicTacToe ticTacToe = new TicTacToe();
+
 		instanceListModelGames.add(1, BATTLESHIPS);
-		instancesList1.setModel(instanceListModelGames);
+		Battleships battleships = new Battleships();
+
+		gameList.setModel(instanceListModelGames);
 	}
 
+	/**
+	 * Upload image to user profile.
+	 *
+	 * @param photoFile
+	 * @return
+	 */
 	private ImageIcon iconImageFromFile(File photoFile) {
 		try {
 			BufferedImage img = ImageIO.read(photoFile);
@@ -367,26 +535,40 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		}
 	}
 
+	/**
+	 * Convert image do ImageIcon.
+	 *
+	 * @param theImage
+	 * @return
+	 */
 	private ImageIcon scaledImageIcon(Image theImage) {
 		return new ImageIcon(theImage.getScaledInstance(100, 100,
 														Image.SCALE_SMOOTH));
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel contactsPanel;
-    private javax.swing.JList<String> instancesList1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton connectButton;
+    private javax.swing.JButton endButton;
+    private javax.swing.JList<String> gameList;
+    private javax.swing.JList<String> gamingOpponents;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JButton sendButton;
+    private javax.swing.JList<String> opponentsList;
+    private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 
 	@Override
@@ -394,35 +576,48 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
-	/*
-	 * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
-	 */
-	private void addGridRow() {
-		GridLayout layout = (GridLayout) this.contactsPanel.getLayout();
+	@Override
+	public void update(Observable o, Object object) {
+		if (object instanceof List) {
+			List<String> addresses = (List<String>) object;
+			updateInstanceList(addresses);
+		}
 
-		layout.setRows(layout.getRows() + 1);
+		if (object instanceof String) {
 
+			if (((String) object).compareTo("TRUE") == 0) {
+				JOptionPane.
+					showMessageDialog(this, "Success! Connection establish");
+				updateOnlineOpponentsGame("Opponent: " + opp + " | Game: " + gameList.
+					getSelectedValue());
+				this.gameController.updateOpponentActiveGames(opp);
+			} else if (((String) object).compareTo("FALSE") == 0) {
+				JOptionPane.
+					showMessageDialog(this, "Cant establish connection");
+
+			} else if (((String) object).compareTo("update") == 0) {
+				updateOnlineOpponentsGame(opp);
+			}
+		}
 	}
 
-	@Override
-	public void update(java.util.Observable o, Object arg) {
-		if (arg instanceof Map) {
-			String image = (String) ((Map) arg).get("image");
-			byte[] convertBytes = image.getBytes();
-			try {
-				BufferedImage img = ImageIO.
-					read(new ByteArrayInputStream(convertBytes));
-				ProfileOpponent p = new ProfileOpponent((String) ((Map) arg).
-					get("username"), img);
-				this.contactsPanel.add(p);
-				addGridRow();
-			} catch (IOException ex) {
-				Logger.getLogger(GamePanel.class.getName()).
-					log(Level.SEVERE, null, ex);
+	/**
+	 * Update Instance list.
+	 *
+	 * @param addresses list of addressess
+	 */
+	public void updateInstanceList(List<String> addresses) {
+		for (String address : addresses) {
+			if (!instanceListModel.contains(address)) {
+				instanceListModel.addElement(address);
+
+				manager.after(20).once(new Task() {
+					public void fire() {
+						instanceListModel.removeElement(address);
+						opponentsList.setModel(instanceListModel);
+					}
+				});
 			}
-			//instanceListModel.addElement(((Map) arg).get("from"));
-			//ir buscar imagem e username
-			//new ProfileOpponent();
 		}
 	}
 }

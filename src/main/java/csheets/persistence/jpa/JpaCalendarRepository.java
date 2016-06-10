@@ -7,8 +7,10 @@ package csheets.persistence.jpa;
 
 import csheets.domain.Calendar;
 import csheets.domain.Contact;
+import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.CalendarRepository;
+import csheets.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +29,20 @@ public class JpaCalendarRepository extends JpaRepository<Calendar, Long> impleme
 	public Iterable<Calendar> calendarsContact(Contact contact) {
 		List<Calendar> list = new ArrayList();
 		for (Calendar calendar : this.all()) {
-			if (calendar.getContact() == contact) {
+			if (calendar.getContact().equals(contact)) {
 				list.add(calendar);
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public void delete(Calendar entity) {
+		for (Event event : PersistenceContext.repositories().events().
+			eventsCalendar(entity)) {
+			PersistenceContext.repositories().events().delete(event);
+		}
+		super.delete(entity);
 	}
 
 }

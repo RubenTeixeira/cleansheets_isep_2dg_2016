@@ -66,11 +66,10 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
-		final int defaultSeconds = 3;
-		final int defaultPort = 20002;
+		final int defaultSeconds = 5;
 
-		this.controller.startUdpService(this, defaultPort, defaultSeconds);
-		this.controller.startTcpService(this, defaultPort);
+		this.controller.startUdpService(this, defaultSeconds);
+		this.controller.startTcpService(this);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -92,7 +91,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 
         instancePanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        instancesList = new javax.swing.JList<>();
+        instancesList = new javax.swing.JList<String>();
         sendButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         waitingPanel = new javax.swing.JPanel();
@@ -100,7 +99,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
         searchingPanel = new javax.swing.JPanel();
         searchingLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         instancePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Choose Instance", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
@@ -330,7 +329,7 @@ public class WorkbookSearchUI extends javax.swing.JFrame implements SelectionLis
 				this.controller.sendSearchResult(search[2], controller.
 												 getWorkbookSummary());
 			} else {
-				this.controller.sendSearchResult(host, "Didn't find");
+				this.controller.sendSearchResult(search[2], "Didn't find");
 			}
 		}
 	}

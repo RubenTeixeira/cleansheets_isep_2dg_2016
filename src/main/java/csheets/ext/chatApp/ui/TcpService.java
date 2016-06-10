@@ -23,10 +23,9 @@ public class TcpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param port The server port, customized by the user.
 	 */
 	public void server() {
-		ThreadManager.create("ipc.tcpServer", new Thread() {
+		ThreadManager.create("ipc.chat-tcpServer", new Thread() {
 							 @Override
 							 public void run() {
 								 server = NetworkManager.tcp();
@@ -56,7 +55,7 @@ public class TcpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.tcpServer");
+		ThreadManager.run("ipc.chat-tcpServer");
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class TcpService extends Notifier {
 	 * @param message Message to send to the target.
 	 */
 	public void client(String target, String message) {
-		ThreadManager.create("ipc.tcpClient", new Thread() {
+		ThreadManager.create("ipc.chat-tcpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
@@ -74,7 +73,7 @@ public class TcpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.tcpClient");
+		ThreadManager.run("ipc.chat-tcpClient");
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class TcpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.tcpServer");
-		ThreadManager.destroy("ipc.tcpClient");
+		ThreadManager.destroy("ipc.chat-tcpServer");
+		ThreadManager.destroy("ipc.chat-tcpClient");
 	}
 }

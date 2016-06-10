@@ -26,7 +26,7 @@ public class ManageCalendar extends javax.swing.JPanel implements Observer {
 	 * Creates new form NewJPanel
 	 *
 	 * @param controller The events controller.
-	 * @param calendar
+	 * @param calendar calendar
 	 */
 	public ManageCalendar(CalendarController controller,
 						  Calendar calendar) {

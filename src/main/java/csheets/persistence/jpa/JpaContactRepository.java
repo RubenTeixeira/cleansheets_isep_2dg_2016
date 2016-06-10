@@ -5,11 +5,14 @@
  */
 package csheets.persistence.jpa;
 
+import csheets.domain.Calendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.Note;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
+import csheets.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +35,16 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		return (Contact) query.getSingleResult();
 		 */
 		for (Contact contact : this.all()) {
-			if (contact.name().equalsIgnoreCase(name)) {
-				return contact;
+			if (contact instanceof PersonContact) {
+				PersonContact person = (PersonContact) contact;
+				if (person.name().equalsIgnoreCase(name)) {
+					return contact;
+				}
+			} else if (contact instanceof CompanyContact) {
+				CompanyContact company = (CompanyContact) contact;
+				if (company.name().equalsIgnoreCase(name)) {
+					return contact;
+				}
 			}
 		}
 		return null;
@@ -45,7 +56,7 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		for (Contact contact : this.all()) {
 			if (contact instanceof PersonContact) {
 				PersonContact person = (PersonContact) contact;
-				if (person.company() == company) {
+				if (person.company() != null && person.company().equals(company)) {
 					list.add(contact);
 				}
 			}
@@ -64,4 +75,19 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		return list;
 	}
 
+	@Override
+	public void delete(Contact entity) {
+		for (Calendar calendar : PersistenceContext.repositories().calendars().
+			calendarsContact(entity)) {
+			PersistenceContext.repositories().calendars().delete(calendar);
+		}
+		for (Note note : PersistenceContext.repositories().notes().
+			principalNotes(entity)) {
+			for (Note version : note.versionByNote()) {
+				PersistenceContext.repositories().notes().delete(version);
+			}
+			PersistenceContext.repositories().notes().delete(note);
+		}
+		super.delete(entity);
+	}
 }

@@ -1,7 +1,8 @@
 package csheets.ext.cellsSharing.ui;
 
+import csheets.AppSettings;
+import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
-import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.udp.UdpClient;
 import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
@@ -25,14 +26,12 @@ public class UdpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param localPort The local port to contact other UDP servers.
-	 * @param targetPort The target port, customized by the user.
 	 */
-	public void server(int localPort, int targetPort) {
-		ThreadManager.create("ipc.udpServer", new Thread() {
+	public void server() {
+		ThreadManager.create("ipc.share-cells-udpServer", new Thread() {
 							 @Override
 							 public void run() {
-								 server = Volt.udp(localPort, 0);
+								 server = NetworkManager.udp();
 
 								 server.
 									 expect(":share-cells-broadcast", new Action() {
@@ -46,37 +45,41 @@ public class UdpService extends Notifier {
 												}
 												// Destination = Target's IP and Port
 												String destination = ((String) args.
-													get("from")).split(":")[0] + ":" + localPort;
+													get("from")).split(":")[0] + ":" + AppSettings.
+													instance().
+													get("UDP_PORT");
 
 												server.
-													send(":port", destination, String.
-														 valueOf(targetPort));
+													send(":share-cell-port", destination, AppSettings.
+														 instance().
+														 get("TCP_PORT"));
 											}
 										});
 
-								 server.expect(":port", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   List<String> ports = (List<String>) args.
-													   get("port");
+								 server.
+									 expect(":share-cell-port", new Action() {
+											@Override
+											public void run(
+												Map<String, Object> args) {
+												List<String> ports = (List<String>) args.
+													get("share-cell-port");
 
-												   List<String> addresses = new ArrayList<>();
+												List<String> addresses = new ArrayList<>();
 
-												   for (String port : ports) {
-													   addresses.
-														   add((((String) args.
-															   get("from")).
-															   split(":")[0]) + ":" + port);
-												   }
+												for (String port : ports) {
+													addresses.
+														add((((String) args.
+															get("from")).
+															split(":")[0]) + ":" + port);
+												}
 
-												   notifyChange(addresses);
-											   }
-										   });
+												notifyChange(addresses);
+											}
+										});
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpServer");
+		ThreadManager.run("ipc.share-cells-udpServer");
 	}
 
 	/**
@@ -85,7 +88,7 @@ public class UdpService extends Notifier {
 	 * @param seconds Time in seconds to send another request.
 	 */
 	public void client(int seconds) {
-		ThreadManager.create("ipc.udpClient", new Thread() {
+		ThreadManager.create("ipc.share-cells-udpClient", new Thread() {
 							 @Override
 							 public void run() {
 								 UdpClient client = new UdpClient(0);
@@ -94,7 +97,8 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":share-cells-broadcast", "all:30600", "check");
+											 send(":share-cells-broadcast", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), "check");
 									 }
 								 };
 
@@ -104,7 +108,7 @@ public class UdpService extends Notifier {
 							 }
 						 });
 
-		ThreadManager.run("ipc.udpClient");
+		ThreadManager.run("ipc.share-cells-udpClient");
 	}
 
 	/**
@@ -112,8 +116,8 @@ public class UdpService extends Notifier {
 	 */
 	public void stop() {
 		server.shutdown();
-		ThreadManager.destroy("ipc.udpServer");
-		ThreadManager.destroy("ipc.udpClient");
+		ThreadManager.destroy("ipc.share-cells-udpServer");
+		ThreadManager.destroy("ipc.share-cells-udpClient");
 	}
 
 }
