@@ -35,9 +35,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The class that manages extensions to the CleanSheets application.
@@ -144,25 +141,33 @@ public class ExtensionManager {
 					}
 				}
 			}
+			// Loads class
 			String className = (String) entry.getKey();
-			list.add(className);
-		}
-		CountDownLatch signal = new CountDownLatch(1);
-		frame = new ExtensionManagerFrame(list, signal);
-
-		try {
-			signal.await();
-		} catch (InterruptedException ex) {
-			Logger.getLogger(ExtensionManager.class.getName()).
-				log(Level.SEVERE, null, ex);
-		}
-		toLoadList = frame.getExtension();
-		for (String s : toLoadList) {
-			if (s != null) {
-				load(s);
+			String[] name = className.split(";");
+			if (classPath == null) {
+				load(name[0]);
+			} else {
+				load(name[0], classPath);
 			}
+			//For Extension Manager - in loop code
+//			String className = (String) entry.getKey();
+//			list.add(className);
 		}
-
+		//For Extension Managar - out loop code
+//		CountDownLatch signal = new CountDownLatch(1);
+//		frame = new ExtensionManagerFrame(list, signal);
+//		try {
+//			signal.await();
+//		} catch (InterruptedException ex) {
+//			Logger.getLogger(ExtensionManager.class.getName()).
+//				log(Level.SEVERE, null, ex);
+//		}
+//		toLoadList = frame.getExtension();
+//		for (String s : toLoadList) {
+//			if (s != null) {
+//				load(s);
+//			}
+//		}
 	}
 
 	/**
