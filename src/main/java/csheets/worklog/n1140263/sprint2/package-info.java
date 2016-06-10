@@ -11,7 +11,6 @@
  *
  * -Notes about the week's work.-
  * <p>
- * Pair Programming last day with Jose Barros - 1140364
  *
  *
  * <h2>2. Use Case/Feature: IPC07.1 - Choose Game and Partner</h2>
@@ -49,7 +48,7 @@
  * profile requirement. In the sidebar i will put the 2 options of games - the
  * games are not implemented yet in this week - only for demonstration and
  * starting point to my colleagues. To end a game it is necessary to stop the
- * service (connection established between the "online" clients).
+ * service - connection established between the "online" clients.
  *
  * <h2>5. Design</h2>
  *
@@ -63,14 +62,20 @@
  * <img src="doc-files/ip07.1_main_sequence.png" alt="SD">
  *
  * <p>
- * 1. Set profile photo 2. Broadcast (Udp) - search for "online" instances 3.
- * Select instance to connect/play game 4. Select game 5. Connect to other
- * instance - connect 6. Play game - not implemented in this feature
+ * System Sequence Diagram: 1. Set profile photo 2. Broadcast (Udp) - search for
+ * "online" instances 3. Select instance to connect/play game 4. Select game 5.
+ * Connect to other instance - connect 6. Play game - not implemented in this
+ * feature
  *
- * Also: It is possible to end an established game.
+ * Note: It is possible to end an established game.
  *
  *
  * <h3>5.3. Classes</h3>
+ * <p>
+ * 1.GamePanel 2.Battleships and TicTacToe - Dummy classes 3. GameExtension 4.
+ * ContactCardPanel - not used yet 5. GameController 6. ProfileOpponent not used
+ * yet 7. TcpService 8. UdpService 9. UiGameExtension - not used in this way of
+ * implementation
  *
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
@@ -80,24 +85,32 @@
  * <h2>6. Implementation</h2>
  *
  * <p>
- * <b>Created Classes</b>:
+ * <b>Created Classes</b>: 1. GamePanel 2. Battleships and TicTacToe - Dummy
+ * classes 3. GameExtension 4. ContactCardPanel - not used yet 5. GameController
+ * 6. ProfileOpponent not used yet 7. TcpService 8. UdpService 9.
+ * UiGameExtension - not used in this way of implementation
  * <p>
  *
- * <b>Updated Classes/Files</b>:
+ * <b>Updated Classes/Files</b>: 1. UiController
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * Two instances need to be connected to the same network. It is possible to
- * edit own profile photo. The username and host its automatically set by the
- * program. One instance select other instance + game then press button connect
- * for establish connection between users. It is also possible to remove
- * connection/game between users.
+ * Pair Programming last day with Jose Barros - 1140364
  *
  * <h2>8. Final Remarks</h2>
  * The feature its funcional. The core of the problem is set and functional.
  * "The name of the users and icon should be displayed in the list of available
  * users to play with." - not implemented yet; causa: No time do to the task.
  * The feature need improvements - friday and sunday (after presentation).
+ *
+ *  * Two instances need to be connected to the same network. It is possible to
+ * edit own profile photo. The username and host its automatically set by the
+ * program. One instance select other instance + game then press button connect
+ * for establish connection between users. It is also possible to remove
+ * connection/game between users.
+ *
+ * Demonstration: It's necessary that 2 or more instance are in the same network
+ * (to establish comunication; send game request; end established game).
  *
  *
  * <h2>9. Work Log</h2>

@@ -12,6 +12,8 @@ import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Sort Controller.
@@ -94,8 +96,9 @@ public class SortController {
 				c.clear();
 				try {
 					c.setContent(valueList.get(j).toString());
-				} catch (FormulaCompilationException exc) {
-					//TODO: handling
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(SortController.class.getName()).
+						log(Level.SEVERE, null, ex);
 				}
 				j++;
 			}
