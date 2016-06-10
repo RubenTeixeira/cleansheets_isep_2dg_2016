@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1130980)
- * Rafael Vilar during week1.
+ * Rafael Vilar during week2.
  *
  * * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -88,8 +88,9 @@
  * <img src="doc-files/core02_2_Design.png" alt="image">
  * </p>
  * <h3>5.1. Functional Tests</h3>
- *
- *
+ * <p>
+ * see: <code>csheets.core.CommentableCellTest</code>
+ * </p>
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -108,8 +109,24 @@
  * </p>
  * <h2>6. Implementation</h2>
  *
- * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
- * <code>csheets.domain.Event</code>
+ * <p>
+ * <code>csheets.ext.comments.ui.CommentController</code>
+ * </p>
+ * <p>
+ * <code>csheets.ext.comments.ui.CommentsPanel</code>
+ * </p>
+ * <p>
+ * <code>csheets.ext.comments.ui.CommentPanel</code>
+ * </p>
+ * <p>
+ * <code>csheets.ext.comments.ui.UIExtensionComments</code>
+ * </p>
+ * <p>
+ * <code>csheets.ext.comments.Comment</code>
+ * </p>
+ * <p>
+ * <code>csheets.ext.comments.CommentableCell</code>
+ * </p>
  *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
@@ -118,7 +135,7 @@
  * </p>
  * see:
  * <p>
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
+ * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a>
  * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
