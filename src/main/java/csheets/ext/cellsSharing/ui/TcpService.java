@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JOptionPane;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
@@ -133,6 +132,7 @@ public class TcpService extends Notifier {
                                 if (((String) args.
                                         get("message")).
                                         equals("STOP")) {
+                                    panel.notifyDisconnection((String) args.get("hostname"));
                                     int index = 0;
                                     for (String instance : connectedInstances) {
                                         if (instance.
