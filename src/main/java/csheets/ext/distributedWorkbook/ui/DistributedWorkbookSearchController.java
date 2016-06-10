@@ -60,7 +60,6 @@ public class DistributedWorkbookSearchController {
 	 * Starts the UDP service.
 	 *
 	 * @param ui UI of Workbook Search
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void startUdpService(WorkbookSearchUI ui, int seconds) {
@@ -95,7 +94,6 @@ public class DistributedWorkbookSearchController {
 	 * Starts the TCP service.
 	 *
 	 * @param ui Workbook Search ui
-	 * @param port The target port that is defined by the user.
 	 */
 	public void startTcpService(WorkbookSearchUI ui) {
 		if (ui == null) {
@@ -120,7 +118,6 @@ public class DistributedWorkbookSearchController {
 	/**
 	 * Restarts both the UDP and TCP services.
 	 *
-	 * @param port The target port that is defined by the user.
 	 * @param seconds The number of seconds to execute each request.
 	 */
 	public void restartServices(int seconds) {

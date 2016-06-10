@@ -23,7 +23,6 @@ public class TcpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param port The server port, customized by the user.
 	 */
 	public void server() {
 

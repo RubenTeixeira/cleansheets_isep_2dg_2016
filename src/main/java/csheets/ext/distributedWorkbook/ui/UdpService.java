@@ -26,8 +26,6 @@ public class UdpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param localPort The local port to contact other UDP servers.
-	 * @param targetPort The target port, customized by the user.
 	 */
 	public void server() {
 		ThreadManager.create("ipc.distributed-udpServer", new Thread() {

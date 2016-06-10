@@ -146,12 +146,11 @@
  * is easily implemented.
  *
  * <p>
- * Channels are a way to filter the message input & output in certain points of
- * Volt's execution. The Channels have 2 hook methods which are before() and
+ * Channels are a way to filter the message input and output in certain points
+ * of Volt's execution. The Channels have 2 hook methods which are before() and
  * after(), which allows us to execute actions before and after the Volt
  * execution. This allows for some very powerful data manipulation, yet
- * incredibly simple.
- * </p>
+ * incredibly simple.</p>
  *
  * <p>
  * As for Encryption, Volt uses AES-128 bits encryption which requires a key to
