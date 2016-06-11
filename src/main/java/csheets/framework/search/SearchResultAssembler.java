@@ -15,20 +15,21 @@ import csheets.core.Spreadsheet;
  */
 public class SearchResultAssembler {
 
-	/**
-	 * Returns the SearchResultDTO translation of the given Core objects
-	 *
-	 * @param spreadSheet the Spreadsheet
-	 * @param cell the Cell
-	 * @return the SearchResultDTO
-	 */
-	public static SearchResultDTO getResultInformation(Spreadsheet spreadSheet,
-													   Cell cell) {
-		String sheetName = spreadSheet.getTitle().trim().replaceAll("\\s+", " ");
-		String cellAddress = cell.getAddress().toString().trim();
-		String cellContent = cell.getContent().trim();
-		String cellValue = cell.getValue().toString().trim();
-		return new SearchResultDTO(sheetName, cellAddress, cellContent, cellValue);
-	}
+    /**
+     * Returns the SearchResultDTO translation of the given Core objects
+     *
+     * @param spreadSheet the Spreadsheet
+     * @param cell the Cell
+     * @return the SearchResultDTO
+     */
+    public static SearchResultDTO getResultInformation(Spreadsheet spreadSheet,
+            Cell cell) {
+        String workBookFileName = spreadSheet.getWorkbook().getParentFileName();
+        String sheetName = spreadSheet.getTitle().trim().replaceAll("\\s+", " ");
+        String cellAddress = cell.getAddress().toString().trim();
+        String cellContent = cell.getContent().trim();
+        String cellValue = cell.getValue().toString().trim();
+        return new SearchResultDTO(workBookFileName, sheetName, cellAddress, cellContent, cellValue);
+    }
 
 }

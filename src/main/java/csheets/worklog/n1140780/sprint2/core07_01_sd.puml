@@ -19,6 +19,9 @@
   SC -> wbs : getMatches(String pattern)
   deactivate SC
   wbs -> wbs : compile(pattern)
+  note right of wbs
+        Throws PatternSyntaxException on invalid input...
+  end note
   loop for Spreadsheet ss : wb.getSpreadsheets()
   	wbs -> wbs : addAll(getMatches(String pattern, Spreadsheet ss)
   end

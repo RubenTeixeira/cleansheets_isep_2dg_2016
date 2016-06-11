@@ -179,7 +179,7 @@ public class TcpService extends Notifier {
 	/**
 	 * Update Active game list.
 	 *
-	 * @param target
+	 * @param target the target
 	 */
 	public void updateOpponent(String target) {
 		ThreadManager.create("ipc.game-opponetTcpClient", new Thread() {

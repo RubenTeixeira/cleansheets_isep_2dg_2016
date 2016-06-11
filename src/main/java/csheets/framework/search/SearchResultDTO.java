@@ -16,6 +16,9 @@ import java.io.Serializable;
  */
 public class SearchResultDTO implements Serializable {
 
+        
+        private final String workbook;
+    
 	/**
 	 * The workbook (uneeded atm)
 	 */
@@ -40,14 +43,19 @@ public class SearchResultDTO implements Serializable {
 	 */
 	private final String value;
 
-	public SearchResultDTO(String spreadSheet, String cell, String formula,
+	public SearchResultDTO(String workbookFileName, String spreadSheet, String cell, String formula,
 						   String value) {
+                this.workbook = workbookFileName;
 		this.spreadSheet = spreadSheet;
 		this.cell = cell;
 		this.formula = formula;
 		this.value = value;
 	}
 
+        public String getWorkBook() {
+            return workbook;
+        }
+        
 	public String getSpreadSheet() {
 		return spreadSheet;
 	}
@@ -67,6 +75,7 @@ public class SearchResultDTO implements Serializable {
 	@Override
 	public String toString() {
 		String description = "";
+                description += workbook + " - ";
 		description += spreadSheet;
 		description += " [" + cell + "]\n";
 		if (formula != null && !"".equals(formula)) {
@@ -85,7 +94,8 @@ public class SearchResultDTO implements Serializable {
 			return false;
 		}
 		final SearchResultDTO other = (SearchResultDTO) obj;
-		return !(!other.spreadSheet.equals(this.spreadSheet)
+		return !(!other.workbook.equals(this.workbook)
+                        || !other.spreadSheet.equals(this.spreadSheet)
 			|| !other.cell.equals(this.cell)
 			|| !other.formula.equals(this.formula)
 			|| !other.value.equals(this.value));

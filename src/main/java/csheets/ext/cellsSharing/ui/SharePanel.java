@@ -533,6 +533,10 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 
         return !(reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION);
     }
+    
+    public void notifyDisconnection(String hostname) {
+        JOptionPane.showMessageDialog(this, "An instance (" + hostname + ") has disconnected from you.");
+    }
 
     @Override
     public void valueChanged(Cell cell) {

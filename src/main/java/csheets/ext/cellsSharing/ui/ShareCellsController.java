@@ -21,6 +21,9 @@ public class ShareCellsController {
 	 */
 	private TcpService tcpService;
 
+        public ShareCellsController(){
+        }
+        
 	/**
 	 * Starts the UDP service.
 	 *

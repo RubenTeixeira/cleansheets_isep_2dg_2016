@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1130980)
- * Rafael Vilar during week2.
+ * Rafael Vilar during week3.
  *
  * * <p>
  * <b>-Note: this is a template/example of the individual documentation that
@@ -17,33 +17,34 @@
  *
  * -Notes about the week's work.-
  * <p>
- * This week work time was mostly spent on how the base application works.
+ * This week will be developed the Tic-tac-toe game.
  *
- * <h2>2. Use Case/Feature: CORE02.2</h2>
+ * <h2>2. Use Case/Feature: IPC07.2</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-4">LPFOURDG-4</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-70">LPFOURDG-4</a>
  * Sub-Task in Jira:
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-144">LPFOURDG-144</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-212">LPFOURDG-144</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-147">LPFOURDG-147</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-213">LPFOURDG-147</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-149">LPFOURDG-149</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-214">LPFOURDG-149</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-150">LPFOURDG-150</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-215">LPFOURDG-150</a></p>
  *
  * <h2>3. Requirement</h2>
- * This feature Tooltip and User Associated to Comment is my responsibility
+ * This feature Tic-tac-toe is my responsibility
  *
  * <p>
- * <b>Use Case "Tooltip and User Associated to Comment":</b> Cleansheets should
- * register the name of the user that creates comments and each cell should
- * support several comments. When the mouse pointer is hovering above a cell and
- * the cell has comments then these comments should be displayed in a form
- * similar to a "tooltip". The name of the author of each comment should also
- * appear in all displays of comments. Comments should be persisted with the
- * workbook.
+ * <b>Use Case "Tic-tac-toe":</b> The tic-tac-toe game should be implemented.
+ * The game should be implemented as described in
+ * https://en.wikipedia.org/wiki/Tic-tac-toe . The board of the game should be
+ * displayed in a range of cells. Each cell should correspond to a position in
+ * the game board. Moves are performed by placing an "X" or an "O" in the cells.
+ * The user should only be able to perform a move when its his turn. Boards are
+ * updated on both instances. Cleansheets should automatically verify and
+ * enforce the rules of the game.
  *
  *
  * <h2>4. Analysis</h2>
@@ -88,9 +89,8 @@
  * <img src="doc-files/core02_2_Design.png" alt="image">
  * </p>
  * <h3>5.1. Functional Tests</h3>
- * <p>
- * see: <code>csheets.core.CommentableCellTest</code>
- * </p>
+ *
+ *
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -109,24 +109,8 @@
  * </p>
  * <h2>6. Implementation</h2>
  *
- * <p>
- * <code>csheets.ext.comments.ui.CommentController</code>
- * </p>
- * <p>
- * <code>csheets.ext.comments.ui.CommentsPanel</code>
- * </p>
- * <p>
- * <code>csheets.ext.comments.ui.CommentPanel</code>
- * </p>
- * <p>
- * <code>csheets.ext.comments.ui.UIExtensionComments</code>
- * </p>
- * <p>
- * <code>csheets.ext.comments.Comment</code>
- * </p>
- * <p>
- * <code>csheets.ext.comments.CommentableCell</code>
- * </p>
+ * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
+ * <code>csheets.domain.Event</code>
  *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
@@ -135,7 +119,7 @@
  * </p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a>
+ * <a href="../../../../csheets/ext/game/package-summary.html">csheets.ext.comments</a>
  * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -196,7 +180,7 @@
  *
  * @author Rafael Vilar
  */
-package csheets.worklog.n1130980.sprint2;
+package csheets.worklog.n1130980.sprint3;
 
 class _Dummy_ {
 }

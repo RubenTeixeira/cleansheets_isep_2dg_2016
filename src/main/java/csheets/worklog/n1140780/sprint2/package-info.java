@@ -11,9 +11,18 @@
  * <h2>1. Notes</h2>
  *
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature-
+ * Helped Pedro Gomes reproduce/fix a bug:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit of the fix</a></p>
+ * <p>
+ * Also spent a whole afternoon and night on wednesday helping revamp the
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-4">Core02.2- Tooltip and User Associated to Comment</a> feature.
+ * <p>
+ * Resumably my work in the latter was redesigning the UI, implement the Value
+ * Object class <code>Comment</code> (see:
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-18">colleague's commit</a>
+ * ) and later at night i fixed a few bugs and performed some aesthetic
+ * improvements which I then logged and commited on it's own
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-209">sub-task.</a></p>
  *
  * <h2>2. Use Case/Feature: Core07.1</h2>
  *
@@ -22,13 +31,17 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-18">LPFOURDG-18</a></p>
  * <b>Sub-tasks:</b>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-187">LPFOURDG-187</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-187">Analysis</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-188">LPFOURDG-188</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-188">Design</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-189">LPFOURDG-189</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-190">Tests</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-190">LPFOURDG-190</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-189">Implementation</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-209">Help Implement LPFOURDG-149 - Core02.2- Tooltip and User Associated to Comment</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-207">Worklog</a></p>
  *
  *
  * <h2>3. Requirement</h2>
@@ -130,26 +143,29 @@
  * either full access to core objects on the UI, or a Data Transfer Object.</p>
  * <p>
  * Although the decision was made to use a DTO, for simplicity and time concerns
- * the results won't be aggregated as of this sprint.</p>
+ * the results won't be aggregated per sheet as of this sprint.</p>
  *
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  * <p>
- * Tests will be performed for Class WorkBookSearch to check if the search works
- * as intended.</p>
+ * Tests were performed for Class WorkBookSearch to check if the search works as
+ * intended and for SearchResultAssembler to ensure the proper information was
+ * being gathered and displayed.</p>
  *
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
  * The following Diagrams are useful to understand the UC Realization:</p>
- *
- * <h3>5.3. Extension Setup</h3>
- *
  * <p>
  * <img src="doc-files/search_extension_sd.png" alt="Sequence Diagram Design"></p>
  *
+ * <h3>5.3. Extension Setup</h3>
+ * <p>
+ * The Search Extention is loaded as per the following:</p>
+ * <p>
+ * <img src="doc-files/core07_01_design.png" alt="Sequence Diagram Design"></p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
@@ -157,40 +173,64 @@
  * <p>
  * Data Transfer Object implemented by SearchResultDTO.</p>
  * <p>
- * Patterns promoting Low Cowpling - High Cohesion.</p>
+ * Low Cowpling - High Cohesion.</p>
  *
  * <h2>6. Implementation</h2>
  *
  * <p>
  * The file containing the extensions name was the only file required to update
  * - extension.props. All other Classes where implemented.</p>
+ * <p>
+ * see:</p>
+ * <p>
+ * <a href="../../../../csheets/ext/search/package-summary.html">csheets.ext.search</a></p>
+ * <p>
+ * <a href="../../../../csheets/ext/search/ui/package-summary.html">csheets.ext.search.ui</a></p>
+ * <p>
+ * <a href="../../../../csheets/framework/search/package-summary.html">csheets.framework.search</a></p>
  *
  * <p>
  * Commit Evidences:</p>
  *
+ * <b>Analysis:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/30579cf346e35642e71fa2edc643e9e7b64e6953">Commit
- * concerning Analysis</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/30579cf346e35642e71fa2edc643e9e7b64e6953">Commit concerning Analysis</a></p>
+ *
+ * <b>Design:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7e0c63311c05ef5e39e1d562e8b52222927b660f">Commit
- * concernation Implementation #1</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/aa9c04974805b955243d24db03128bbe37a30d5f">Commit concerning Design #1</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/24e3490725066d2a8eeacddb2a319e8a62bacf3d">Commit
- * concernation Implementation #2</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/d5d87b1bfd6da7e2f8631fe71b50005ec8d5ffc9">Commit concerning Design #2</a></p>
+ *
+ * <b>Tests:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/e65d6a279a51145e5ce49d3f1206adbddaf3a93d">Commit concerning Tests</a></p>
+ *
+ * <b>Implementation:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7e0c63311c05ef5e39e1d562e8b52222927b660f">Commit concernation Implementation #1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/24e3490725066d2a8eeacddb2a319e8a62bacf3d">Commit concernation Implementation #2</a></p>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * <p>
+ * On this sprint i demonstrated my own feature individually and helped prepare
+ * the demo for
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-4">Core02.2- Tooltip and User Associated to Comment</a>
+ * as well as help final testing of
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-6">Core03.1- Column Sort</a></p>
  *
  * <h2>8. Final Remarks</h2>
  *
  * <p>
- * Helped Pedro Gomes reproduce/fix a bug:
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
- * of the fix</a></p>
+ * During the design of this feature i always tried to make sure the next
+ * iteration would be the more effortless as possible with small changes to
+ * design and/or implementation.</p>
+ * <p>
+ * It was also implemented the class <code>SearchResultAssembler</code> which
+ * for its simplicity is not documented here.</p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -222,81 +262,99 @@
  * <p>
  * 1. Finished Analysis.
  * <p>
- * 2. Started Design.
+ * 2. Started Design and resolved it.
  * <p>
- * 3. Started Implementation.
+ * 3. Started Tests.
+ * <p>
+ * 4. Started Implementation and resolved it.
  *
  * <p>
  * <b>Wednesday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Finished Tests</p>
  * <p>
- * Blocking:
- * <p>
- * 1.
+ * 2. Helped colleague. See Notes on top.
  *
  * <p>
  * <b>Thursday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Helped prepare the presentations on my Area</p>
  * <p>
- * Blocking:
- * <p>
- * 1.
+ * 2. Did my presentation</p>
  *
  *
  * <p>
  * <b>Friday</b>
  * <p>
- * Yesterday I worked on:</p>
- * <p>
- * 1.</p>
- * <p>
  * Today:</p>
  * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
+ * 1. Finished this worklog.</p>
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * This sprint i consider my participation exponetially better as i felt more
+ * confortable with the architecture and the new area to work on.
  *
  * <h3>10.1. Design and Implementation</h3>
  *
  * <p>
  * <b>Evidences:</b>
+ *
  * <p>
- * - url of commit: - description: this commit is related to the implementation
- * of the design pattern-</p>
+ * Commit Evidences:</p>
+ *
+ * <b>Analysis:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/30579cf346e35642e71fa2edc643e9e7b64e6953">Commit concerning Analysis</a></p>
+ *
+ * <b>Design:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/aa9c04974805b955243d24db03128bbe37a30d5f">Commit concerning Design #1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/d5d87b1bfd6da7e2f8631fe71b50005ec8d5ffc9">Commit concerning Design #2</a></p>
+ *
+ * <b>Tests:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/e65d6a279a51145e5ce49d3f1206adbddaf3a93d">Commit concerning Tests</a></p>
+ *
+ * <b>Implementation:</b>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7e0c63311c05ef5e39e1d562e8b52222927b660f">Commit concernation Implementation #1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/24e3490725066d2a8eeacddb2a319e8a62bacf3d">Commit concernation Implementation #2</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *
+ * I believe the teamwork on this sprint was great as i learned a bit more by
+ * helping other colleagues.
+ *
  * <h3>10.3. Technical Documentation:</h3>
+ *
+ * <p>
+ * I improved my documentation on this sprint as obviously i had more time to
+ * prepare it aswell has i didn't had the learning curve associated with the
+ * first sprint.</p>
+ * <p>
+ * This is the final result:</p>
+ * <p>
+ * <img src="http://i.imgur.com/TGO7a52.png" alt="JPanel Final Result"></p>
+ * <p>
+ * <img src="http://i.imgur.com/8uMRGXd.png" alt="JPanel Final Result"></p>
+ * <p>
+ * <img src="http://i.imgur.com/j0ao6vL.png" alt="JPanel Final Result"></p>
  *
  * @author Ruben Teixeita 1140780@isep.ipp.pt
  */
 package csheets.worklog.n1140780.sprint2;
 
 /**
- * This class is only here so that javadoc includes the documentation about this
- * EMPTY package! Do not remove this class!
  *
- * @author Ruben Teixeita 1140780@isep.ipp.pt
+ *
+ * @author Ruben Teixeira 1140780@isep.ipp.pt
  */
 class _Dummy_ {
 }

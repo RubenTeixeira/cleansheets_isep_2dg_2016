@@ -23,12 +23,12 @@ public class SearchWorkbook {
 	/**
 	 * UI Controller
 	 */
-	private UIController controller;
+	UIController controller;
 
 	/**
 	 * List of workbook spreadsheets
 	 */
-	private List<Spreadsheet> worksheets;
+	List<Spreadsheet> worksheets;
 
 	/**
 	 * Instance workbook
@@ -82,7 +82,7 @@ public class SearchWorkbook {
 	public boolean findWorkbook(String workbookName) {
 
 		setWorkbookToSearch(workbookName);
-		searchDirectory(new File("C:\\Users\\"));
+		searchDirectory(new File(System.getProperty("user.home") + "\\Documents"));
 		return result;
 	}
 

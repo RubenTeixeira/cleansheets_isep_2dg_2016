@@ -5,10 +5,13 @@
  */
 package csheets.ext.search;
 
+import csheets.core.Value;
 import csheets.core.Workbook;
 import csheets.framework.search.SearchResultDTO;
 import csheets.framework.search.WorkBookSearch;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 import java.util.regex.PatternSyntaxException;
 
 /**
@@ -18,24 +21,28 @@ import java.util.regex.PatternSyntaxException;
  */
 public class SearchController {
 
-	/**
-	 * The constructor
-	 */
-	public SearchController() {
-	}
+    /**
+     * The constructor
+     */
+    public SearchController() {
+    }
 
-	/**
-	 * Searches given Workbook for given pattern
-	 *
-	 * @param workbook the workbook
-	 * @param searchstring the string to match
-	 * @return result list
-	 */
-	public List<SearchResultDTO> searchWorkBook(Workbook workbook,
-												String searchstring) throws PatternSyntaxException {
-		WorkBookSearch workBookSearch = new WorkBookSearch(workbook);
-		List<SearchResultDTO> results = workBookSearch.getMatches(searchstring);
-		return results;
-	}
+    /**
+     * Searches given Workbook for given pattern
+     *
+     * @param workBooks All the open workbooks
+     * @param searchstring the string to match
+     * @param types
+     * @param comments
+     * @return result list
+     */
+    public List<SearchResultDTO> searchWorkBook(Stack<Workbook> workBooks,
+            String searchstring, Map<String, Value.Type> types, 
+            boolean comments) throws PatternSyntaxException {
+        WorkBookSearch workBookSearch = new WorkBookSearch(workBooks);
+        List<SearchResultDTO> results = workBookSearch.getMatches(searchstring,
+                types, comments);
+        return results;
+    }
 
 }
