@@ -1,5 +1,9 @@
-@startuml doc-files/core01_01_analyse.png
-System-> User : Loads the active extensions.
-User -> System: Select the extensions that want to disable it
-System-> User : Disables the extensions on the menu.
+@startuml doc-files/analysis_CRM_5_2.png
+
+User -> System: Select agenda
+System-> User : Display events for current day and user
+loop
+User -> System: Change selected user or day
+System-> User : Display events for selected day and user
+end
 @enduml
