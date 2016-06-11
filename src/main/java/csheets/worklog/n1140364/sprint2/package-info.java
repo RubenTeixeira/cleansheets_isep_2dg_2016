@@ -229,7 +229,22 @@
  * <p>
  * 1. Finish a search of workbook. Display summary. Tests. </p>
  * <p>
- * Today: UC correction. Finish Tests. </p>
+ * Today:</p>
+ * <p>
+ * 1. UC correction. Finish Tests.</p>
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. Nothing
+ *
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. UC correction. Finish Tests. </p>
+ * <p>
+ * Today: Pair progamming with João Martins. "Game connection"</p>
  * <p>
  * 1.</p>
  * <p>
