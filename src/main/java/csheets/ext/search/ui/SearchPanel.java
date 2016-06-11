@@ -39,6 +39,8 @@ public class SearchPanel extends JPanel {
     
     private boolean comments = false;
 
+    private SearchToolsPanel searchTools;
+    
     /**
      * The UIController
      */
@@ -60,6 +62,7 @@ public class SearchPanel extends JPanel {
      * @param controller The UI
      */
     public SearchPanel(UIController controller) {
+        searchTools = new SearchToolsPanel(this);
         setName(SearchExtension.NAME);
         this.uiController = controller;
         initComponents();
@@ -214,7 +217,6 @@ public class SearchPanel extends JPanel {
     }//GEN-LAST:event_jResultsListMouseClicked
 
     private void jSearchToolsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchToolsButtonActionPerformed
-        SearchToolsPanel searchTools = new SearchToolsPanel(this);
         searchTools.setVisible(true);
     }//GEN-LAST:event_jSearchToolsButtonActionPerformed
 

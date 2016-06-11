@@ -57,8 +57,6 @@ public class SearchToolsPanel extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         commentsRadioButton = new javax.swing.JRadioButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
         numericCheckBox.setText("Numeric");
         numericCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -272,11 +270,11 @@ public class SearchToolsPanel extends javax.swing.JFrame {
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
         panel.setAdvancedSearch(types, comments);
-        dispose();
+        setVisible(false);
     }//GEN-LAST:event_applyButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        dispose();
+        setVisible(false);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void commentsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commentsRadioButtonActionPerformed
