@@ -73,9 +73,8 @@ public class FindWorkbookAction extends BaseAction {
 								  "Workbooks files not Found", JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			FindWorkbookResults window = new FindWorkbookResults(uiController);
+			window.run();
 			window.fillList(lst);
-
-			window.setVisible(true);
 		}
 	}
 }

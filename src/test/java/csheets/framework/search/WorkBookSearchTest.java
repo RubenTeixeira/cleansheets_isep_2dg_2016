@@ -7,6 +7,7 @@ package csheets.framework.search;
 
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
+import java.util.Stack;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -47,8 +48,10 @@ public class WorkBookSearchTest {
 
 		System.out.println("getMatches");
 		String pattern = ".*4.*";
-		Workbook workBook = new Workbook(1);
-		WorkBookSearch instance = new WorkBookSearch(workBook);
+		Stack<Workbook> workBooks = new Stack<>();
+                Workbook workBook = new Workbook(1);
+                workBooks.push(workBook);
+		WorkBookSearch instance = new WorkBookSearch(workBooks);
 
 		// set a few cells content: only 2 of them should match
 		try {

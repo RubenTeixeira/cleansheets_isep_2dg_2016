@@ -15,7 +15,7 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature-
  *
- * <h2>2. Use Case/Feature: Core02.1</h2>
+ * <h2>2. Use Case/Feature: IPC03.1</h2>
  *
  * <b>Issue in Jira:</b>
  * <p>
@@ -127,8 +127,8 @@
  *
  * <h3>5.3. Classes</h3>
  *
- * The following diagram shows the setup of the "share" extension when
- * cleansheets is run.
+ * The following diagram shows the setup of the "distributed workbook" extension
+ * when cleansheets is run.
  *
  * <p>
  * <img src="doc-files/ipc_3.1_extension_image1.png" alt="image">
@@ -229,7 +229,22 @@
  * <p>
  * 1. Finish a search of workbook. Display summary. Tests. </p>
  * <p>
- * Today: UC correction. Finish Tests. </p>
+ * Today:</p>
+ * <p>
+ * 1. UC correction. Finish Tests.</p>
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. Nothing
+ *
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. UC correction. Finish Tests. </p>
+ * <p>
+ * Today: Pair progamming with João Martins - "Game connection"</p>
  * <p>
  * 1.</p>
  * <p>
@@ -240,15 +255,58 @@
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * <p>
+ * Outcome 3 ("Design and Implementation") - 3</p>
+ * <p>
+ * Outcome 5 ("Teamwork") - 3</p>
+ * <p>
+ * Outcome 6 ("Technical Documentation") - 3</p>
  *
  * <h3>10.1. Design and Implementation</h3>
  *
  * <p>
  * <b>Evidences:</b>
+ * </p>
+ *
  * <p>
- * - url of commit: - description: this commit is related to the implementation
- * of the design pattern-</p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/904e3cafc2a6743538a7bc2a7b7807c117724f07">Analysis</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2e63959eecc67f4218cc4a683351ca97d4368ef3">Design
+ * of extension setup</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7c4d915025b7c415c4d194c1074df5aa168b17e6">
+ * Initial UI. Step "Search Instances"</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d25e508e0671e94dc2ff982979e366f0cc073f3e">Send
+ * Request to another instance. - Implemented</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/137f77bc482ba24aaf8a3670006f060cb9857303">Confirm
+ * request by another instance - Implemented</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/9a70ba62a41775ba206fce26817e965c93753a42">
+ * Javadoc and corrections in Server</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/612b67b24eab9173ae03ce5b7f526d3f324283ee">"Search
+ * workbook" and "Display summary" - implemented</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/16f008cfc0d70ff9cbcbf6e097129dfcbb133870">Pair
+ * progamming with João Martins - "UI for games and another changes in use
+ * case"</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/86ebb91260be7789893dcb484b18603ede1dd02f">Pair
+ * progamming - "Event panel updated"</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/0ae596dbfe063c6ed1d56a51e70d76fcca926ad7">Some
+ * tests</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *

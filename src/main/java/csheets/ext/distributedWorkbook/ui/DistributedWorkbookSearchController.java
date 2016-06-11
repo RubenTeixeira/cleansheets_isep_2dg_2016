@@ -116,19 +116,6 @@ public class DistributedWorkbookSearchController {
 	}
 
 	/**
-	 * Restarts both the UDP and TCP services.
-	 *
-	 * @param seconds The number of seconds to execute each request.
-	 */
-	public void restartServices(int seconds) {
-		this.tcpService.stop();
-		this.udpService.stop();
-
-		this.startUdpService(seconds);
-		this.startTcpService();
-	}
-
-	/**
 	 * Sends a request to another instance to search workbook.
 	 *
 	 * @param target Targeted Host (ip and port)
@@ -159,15 +146,6 @@ public class DistributedWorkbookSearchController {
 	public boolean searchWorkbook(UIController uiController,
 								  String workbookToSearch) {
 		return searchWorkbook.findWorkbook(workbookToSearch);
-	}
-
-	/**
-	 * Check result of search
-	 *
-	 * @return Response of search
-	 */
-	public boolean checkResult() {
-		return searchWorkbook.result();
 	}
 
 	/**

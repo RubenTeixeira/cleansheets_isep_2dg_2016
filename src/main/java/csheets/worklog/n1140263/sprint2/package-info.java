@@ -10,7 +10,6 @@
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p>
  *
  *
  * <h2>2. Use Case/Feature: IPC07.1 - Choose Game and Partner</h2>
