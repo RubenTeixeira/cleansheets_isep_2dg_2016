@@ -45,7 +45,7 @@
  * AgendaUI and display a panel for each even for the given day</p>
  *
  *
- * <h3>First "analysis" sequence diagram</h3>
+ * <h3>Analysis sequence diagram</h3>
  * <p>
  * <img src="doc-files/analysis_CRM_5_2.png" alt="image">
  * <p>
@@ -64,7 +64,10 @@
  *
  * <h3>5.2. UC Realization</h3>
  *
- *
+ * <h3>Design sequence diagram</h3>
+ * <p>
+ * <img src="doc-files/design_CRM_5_2.png" alt="image">
+ * <p>
  *
  * <h2>6. Implementation</h2>
  *
@@ -136,9 +139,8 @@
  * <p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
- *
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a1b927d93083c0cd659998bb5e2fea40855698dc">Analysis</a>
+ * Commit was sent referencing th wrong issue
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
