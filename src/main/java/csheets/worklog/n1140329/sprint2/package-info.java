@@ -11,8 +11,7 @@
  * 
  * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work during the week.
- * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
+ * On Wednesday, I spent a significant time helping out my collegue on the implementation of IPC07.1.
  *
  * <h2>2. Use Case/Feature: IPC01.2</h2>
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-52">LPFOURDG-52: Sharing’s Automatic Update</a>
