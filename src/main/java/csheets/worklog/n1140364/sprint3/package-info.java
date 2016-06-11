@@ -15,44 +15,41 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature-
  *
- * <h2>2. Use Case/Feature: Lang06.2</h2>
+ * <h2>2. Use Case/Feature: Lang07.2</h2>
  *
  * <b>Issue in Jira:</b>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-43">LPFOURDG-43</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-46">LPFOURDG-46</a></p>
  * <b>Sub-tasks:</b>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-">LPFOURDG-</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-224">LPFOURDG-224</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-">LPFOURDG-</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-225">LPFOURDG-225</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-">LPFOURDG-</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-226">LPFOURDG-226</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-">LPFOURDG-</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-227">LPFOURDG-227</a></p>
  *
  *
  * <h2>3. Requirement</h2>
  * <p>
- * An extension that adds support for Forms. Forms are windows that are designed
- * by the end user and can be integrated in languages. They are a simple way to
- * leverage languages by providing a mechanism to integrate user input/output
- * into languages (such as the Cleansheets formulas or macros).</p>
+ * The scripting language BeanShell should be integrated in Cleansheets. The
+ * idea is that BeanShell and Macros will be two possible mechanisms that
+ * Cleansheets will provide for facilitate its customization by end users. This
+ * feature is to be integrated with the Macros feature.</p>
  *
  * <p>
- * <b>Use Case 2 - "Forms and Variables":</b> In order for forms to become
- * useful in formulas or macros it is necessary to associate data with the
- * contents of the visual widgets. The mechanism used for that will be the
- * binding of variables (macros or formulas variables) with the contents of the
- * visual widgets. One simple way to achieve this is by using temporary
- * variables (from macros and formulas). The matching between widgets and
- * variables should be done by associating the ones with the same name. When
- * displaying a form (in the context of a macro or a formula), if the temporary
- * variables with the same name of widgets exist, them they are used to set the
- * content of the widgets. For widgets for which no temporary variables with the
- * same name are found then new temporary variables should be created. The user
- * should be able to change the contents of edit boxes. When closing the form
- * window the contents of the temporary variables should be updated from the
- * contents of the corresponding visual widgets.</p>
+ * <b>Use Case 2 - "BeanShell Integration":</b> It should now be possible to
+ * invoke Beanshell scripts from macros and formulas using a new function. The
+ * new function should be able to execute Beanshell scripts synchronously or
+ * asynchronously. If the execution mode is synchronous, then the function
+ * should wait for the script to end its execution. In this case the return
+ * value of the function should be the value of the last expression of the
+ * Beanshell script. If the execution mode is asynchronous then the function
+ * should return immediately after launching the execution of the script: the
+ * script and the formula/macro will execute in parallel. Existing variables in
+ * the macro or formula that executes the script should be accessible inside the
+ * Beanshell script.</p>
  *
  *
  * <h2>4. Analysis</h2>
