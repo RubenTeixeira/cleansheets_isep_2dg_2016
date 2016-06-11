@@ -60,7 +60,12 @@
  *
  * <h2>5. Design</h2>
  *
- * <h3>5.1. </h3>
+ * <h3>5.1. Functional Tests</h3>
+ * Test the broadcast - check if the online instances are added to the list.
+ * Check if the own computer dont appear in the list of instances. Connection
+ * between 2 instances. Close connection.
+ *
+ * <h3>5.2. </h3>
  *
  * <b>Sequence Diagram - Get Instance and select/send request to another
  * instance</b>:
