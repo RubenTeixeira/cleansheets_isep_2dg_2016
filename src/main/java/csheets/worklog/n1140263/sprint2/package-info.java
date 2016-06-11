@@ -10,7 +10,6 @@
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p>
  *
  *
  * <h2>2. Use Case/Feature: IPC07.1 - Choose Game and Partner</h2>
@@ -50,6 +49,15 @@
  * starting point to my colleagues. To end a game it is necessary to stop the
  * service - connection established between the "online" clients.
  *
+ * Its necessary implement an user interface with these options. First of all i
+ * need to offer to the user the profile definition. Seach and select a photo
+ * from the local machine. Second search for all the online users in a
+ * particular network. After the selection of the user to connect it's important
+ * to select a game (two options - tic tac toe and battleship). This games are
+ * dummy classes only for demonstration. I also offer three options - connection
+ * ; play game (dummy) ; end connection (from a list with the games and
+ * partner).
+ *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. </h3>
@@ -80,7 +88,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * Implemented Patterns: Low Coupling - High Cohesion.
+ * Concepts from RCOMP. TCP and UDP protocols. Layers - UI; Controller; Domain
  *
  * <h2>6. Implementation</h2>
  *
