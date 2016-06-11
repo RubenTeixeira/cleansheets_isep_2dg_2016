@@ -5,6 +5,7 @@
  */
 package csheets.ext.search.ui;
 
+import csheets.core.Value;
 import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
 import csheets.framework.search.SearchResultDTO;
@@ -14,7 +15,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -31,6 +34,10 @@ public class SearchPanel extends JPanel {
      * The SearchController
      */
     private final SearchController searchController = new SearchController();
+    
+    private Map<String, Value.Type> types = new HashMap<>();
+    
+    private boolean comments = false;
 
     /**
      * The UIController
@@ -71,7 +78,7 @@ public class SearchPanel extends JPanel {
         jSearchTextField = new javax.swing.JTextField();
         jSearchButton = new javax.swing.JButton();
         jStatusLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jSearchToolsButton = new javax.swing.JButton();
         jPanelBottom = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jResultsList = new javax.swing.JList();
@@ -87,10 +94,10 @@ public class SearchPanel extends JPanel {
 
         jStatusLabel.setText(" ");
 
-        jButton1.setText("Search Tools");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jSearchToolsButton.setText("Search Tools");
+        jSearchToolsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jSearchToolsButtonActionPerformed(evt);
             }
         });
 
@@ -106,7 +113,7 @@ public class SearchPanel extends JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jSearchButton))
                     .addGroup(jPanelTopLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jSearchToolsButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jStatusLabel)))
                 .addContainerGap())
@@ -121,7 +128,7 @@ public class SearchPanel extends JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jStatusLabel)
-                    .addComponent(jButton1))
+                    .addComponent(jSearchToolsButton))
                 .addContainerGap())
         );
 
@@ -206,10 +213,17 @@ public class SearchPanel extends JPanel {
         }
     }//GEN-LAST:event_jResultsListMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jSearchToolsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchToolsButtonActionPerformed
+        SearchToolsPanel searchTools = new SearchToolsPanel(this);
+        searchTools.setVisible(true);
+    }//GEN-LAST:event_jSearchToolsButtonActionPerformed
 
+    public void setAdvancedSearch(Map<String, Value.Type> types, 
+            boolean comments) {
+        this.types = types;
+        this.comments = comments;
+    }
+    
     private void performSearch() {
         resultsModel.clear();
         jStatusLabel.setText("Searching...");
@@ -219,7 +233,8 @@ public class SearchPanel extends JPanel {
         try {
 
             List<SearchResultDTO> results = searchController.
-                    searchWorkBook(uiController.workbooks(), searchstring);
+                    searchWorkBook(uiController.workbooks(), searchstring, types,
+                            comments);
             int found = results.size();
             jStatusLabel.setText(found + " search results");
             if (found > 0) {
@@ -240,13 +255,13 @@ public class SearchPanel extends JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanelBottom;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JList jResultsList;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jSearchButton;
     private javax.swing.JTextField jSearchTextField;
+    private javax.swing.JButton jSearchToolsButton;
     private javax.swing.JLabel jStatusLabel;
     // End of variables declaration//GEN-END:variables
 }
