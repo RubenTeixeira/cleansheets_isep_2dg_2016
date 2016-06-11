@@ -45,9 +45,14 @@ public class UdpService extends Notifier {
 													   return;
 												   }*/
 												   // Destination = Target's IP and Port
+//												   String destination = ((String) args.
+//													   get("from")).
+//													   split(":")[0] + ":" + AppSettings.instance().get("UDP_PORT");
 												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + AppSettings.instance().get("UDP_PORT");
+													   get("hostname")).
+													   split(":")[0] + ":" + AppSettings.
+													   instance().
+													   get("UDP_PORT");
 												   server.
 													   send(":game-port", destination, String.
 															valueOf(targetPort));
@@ -64,9 +69,13 @@ public class UdpService extends Notifier {
 												   List<String> addresses = new ArrayList<>();
 
 												   for (String port : ports) {
+//													   addresses.
+//														   add((((String) args.
+//															   get("from")).
+//															   split(":")[0]) + ":" + port);
 													   addresses.
 														   add((((String) args.
-															   get("from")).
+															   get("hostname")).
 															   split(":")[0]) + ":" + port);
 												   }
 
@@ -95,7 +104,8 @@ public class UdpService extends Notifier {
 									 @Override
 									 public void fire() {
 										 client.
-											 send(":game-broadcast", "all:" + AppSettings.instance().get("UDP_PORT"), "check");
+											 send(":game-broadcast", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), "check");
 									 }
 								 };
 

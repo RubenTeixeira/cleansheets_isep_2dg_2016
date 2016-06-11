@@ -100,17 +100,12 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 		setName(GameExtension.NAME);
 
-		// Create default lists
-		instanceListModel = new DefaultListModel();
-		instanceListModelGames = new DefaulListModel();
-		instanceListModelOnlineGames = new DefaulListModel();
+		initializeListsModel();
 		initComponents();
 
 		uiController.addSelectionListener(this);
 
-		opponentsList.setModel(instanceListModel);
-		gameList.setModel(instanceListModelGames);
-		gamingOpponents.setModel(instanceListModelOnlineGames);
+		setModel();
 
 		updateListOfGames();
 		updateSystemProperty();
@@ -130,6 +125,24 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		this.gameController = gameController;
 		this.gameController.startUdpService(this, defaultPort, defaultSeconds);
 		this.gameController.startTcpService(this, defaultPort);
+	}
+
+	/**
+	 * Create default lists.
+	 */
+	private void initializeListsModel() {
+		instanceListModel = new DefaultListModel();
+		instanceListModelGames = new DefaulListModel();
+		instanceListModelOnlineGames = new DefaulListModel();
+	}
+
+	/**
+	 * Sets jlist to a model.
+	 */
+	private void setModel() {
+		opponentsList.setModel(instanceListModel);
+		gameList.setModel(instanceListModelGames);
+		gamingOpponents.setModel(instanceListModelOnlineGames);
 	}
 
 	/**
@@ -264,7 +277,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Home", jPanel3);
+        jTabbedPane1.addTab("Profile User", jPanel3);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Online Users", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -288,11 +301,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Online", jPanel1);
+        jTabbedPane1.addTab("Online Users", jPanel1);
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Availble Games", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -316,11 +329,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Games", jPanel5);
+        jTabbedPane1.addTab("Available Games", jPanel5);
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Active Games", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -344,11 +357,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Active", jPanel6);
+        jTabbedPane1.addTab("Active Games", jPanel6);
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "What you want?", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
@@ -381,7 +394,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(endButton, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                    .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
                     .addComponent(playButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -593,7 +606,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 				this.gameController.updateOpponentActiveGames(opp);
 			} else if (((String) object).compareTo("FALSE") == 0) {
 				JOptionPane.
-					showMessageDialog(this, "Cant establish connection");
+					showMessageDialog(this, "Can't establish connection");
 
 			} else if (((String) object).compareTo("update") == 0) {
 				updateOnlineOpponentsGame(opp);
