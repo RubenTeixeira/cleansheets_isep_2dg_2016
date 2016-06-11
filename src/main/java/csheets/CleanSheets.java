@@ -236,6 +236,7 @@ public class CleanSheets {
 			}
 
 			// Loads the workbook
+                        workbook.setParentFileName(file.getName());
 			workbooks.put(workbook, file);
 			fireSpreadsheetAppEvent(workbook, file, SpreadsheetAppEvent.Type.LOADED);
 		} else {
@@ -292,7 +293,8 @@ public class CleanSheets {
 				} catch (IOException e) {
 				}
 			}
-
+                        
+                        workbook.setParentFileName(file.getName());
 			workbooks.put(workbook, file);
 			fireSpreadsheetAppEvent(workbook, file, SpreadsheetAppEvent.Type.SAVED);
 		}
