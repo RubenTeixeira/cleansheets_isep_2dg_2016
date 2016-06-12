@@ -69,24 +69,20 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
+ * functionality of this use case is to configure an email. We need to be able
+ * to know if the email data is valid. Following this approach we can start by
+ * coding a unit test that uses an email account and try to log in it. We
+ * created an account to test this. We will also need a test that tells us if
+ * the email got sent or not. A simple test can be sending an email from this
+ * email account to itself. As usual, in a test driven development approach
  * tests normally fail in the beginning. The idea is that the tests will pass in
  * the end.
- * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
+ * will also need to create a subclass of UIExtension. For the window we need to
+ * implement a JDialog. The code of the extension will be in
+ * <code>csheets.ext.email</code> package. The following diagrams illustrate
  * core aspects of the design of the solution for this use case.
  * <p>
  * <b>Note:</b> It is very important that in the final version of this technical
@@ -210,15 +206,15 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author alexandrebraganca
+ * @author Rui Bastos
  */
-package csheets.worklog.n9954321.sprint1;
+package csheets.worklog.n1140491.sprint3;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author Rui Bastos
  */
 class _Dummy_ {
 }
