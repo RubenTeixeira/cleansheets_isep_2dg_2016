@@ -46,6 +46,8 @@ public class WorkBookSearch {
      * method
      *
      * @param pattern regex pattern
+     * @param types
+     * @param comments
      * @return list of matching results
      */
     public List<SearchResultDTO> getMatches(String pattern, Map<String, Value.Type> types, boolean comments) throws PatternSyntaxException {

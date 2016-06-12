@@ -34,13 +34,13 @@ public class SearchPanel extends JPanel {
      * The SearchController
      */
     private final SearchController searchController = new SearchController();
-    
+
     private Map<String, Value.Type> types = new HashMap<>();
-    
+
     private boolean comments = false;
 
     private SearchToolsPanel searchTools;
-    
+
     /**
      * The UIController
      */
@@ -205,11 +205,10 @@ public class SearchPanel extends JPanel {
             int row = Integer.parseInt(cellAddress.substring(1)) - 1;
             int column = cellAddress.charAt(0) - 'A';
 
-//            if (uiController.getActiveSpreadsheet().
-//                    getCell(row, column).
-//                    getContent().equals("")) {
-//                JOptionPane.showMessageDialog(this, "This cell is in another workbook.");
-//            }
+            if (!uiController.getActiveWorkbook().getParentFileName().equals(cell.getWorkBook())) {
+                JOptionPane.showMessageDialog(this, "This cell is in another workbook.");
+                return;
+            }
 
             uiController.focusOwner.changeSelection(row, column, false, false);
         } catch (NullPointerException ex) {
@@ -218,14 +217,15 @@ public class SearchPanel extends JPanel {
 
     private void jSearchToolsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSearchToolsButtonActionPerformed
         searchTools.setVisible(true);
+        searchTools.setLocationRelativeTo(this);
     }//GEN-LAST:event_jSearchToolsButtonActionPerformed
 
-    public void setAdvancedSearch(Map<String, Value.Type> types, 
+    public void setAdvancedSearch(Map<String, Value.Type> types,
             boolean comments) {
         this.types = types;
         this.comments = comments;
     }
-    
+
     private void performSearch() {
         resultsModel.clear();
         jStatusLabel.setText("Searching...");

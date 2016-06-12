@@ -125,7 +125,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
             }
         });
 
-        commentsRadioButton.setText("Search in comments");
+        commentsRadioButton.setText("Search comments");
         commentsRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 commentsRadioButtonActionPerformed(evt);

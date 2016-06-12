@@ -26,7 +26,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 /**
  * A workbook which can contain several spreadsheets.
@@ -49,14 +48,14 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
      * The cell listeners that have been registered on the cell
      */
     private transient List<WorkbookListener> listeners
-            = new ArrayList<WorkbookListener>();
+            = new ArrayList<>();
 
     /**
      * The number of spreadsheets that have been created in the workbook
      */
     private int createdSpreadsheets;
     
-    private String parentFileName = "* Unsaved File *";
+    private String parentFileName;
 
     /**
      * Creates a new empty workbook.
