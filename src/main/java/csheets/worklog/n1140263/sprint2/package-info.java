@@ -111,19 +111,16 @@
  * Pair Programming last day with Jose Barros - 1140364
  *
  * <h2>8. Final Remarks</h2>
- * The feature its funcional. The core of the problem is set and functional.
- * "The name of the users and icon should be displayed in the list of available
- * users to play with." - not implemented yet; causa: No time do to the task.
- * The feature need improvements - friday and sunday (after presentation).
+ * The feature its tested and funcional. The core of the problem is set and
+ * functional. "The name of the users and icon should be displayed in the list
+ * of available users to play with." - not implemented yet; cause: No time do to
+ * the task.
  *
- *  * Two instances need to be connected to the same network. It is possible to
- * edit own profile photo. The username and host its automatically set by the
- * program. One instance select other instance + game then press button connect
- * for establish connection between users. It is also possible to remove
- * connection/game between users.
- *
- * Demonstration: It's necessary that 2 or more instance are in the same network
- * (to establish comunication; send game request; end established game).
+ * Two instances can establish connection. It is possible to edit own profile
+ * photo. The username and host its automatically set by the program. One
+ * instance select other instance + game then press button connect for establish
+ * connection between users. It is also possible to end connection/game between
+ * users.
  *
  *
  * <h2>9. Work Log</h2>

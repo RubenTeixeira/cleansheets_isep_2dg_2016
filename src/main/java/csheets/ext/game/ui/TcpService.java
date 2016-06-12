@@ -58,7 +58,9 @@ public class TcpService extends Notifier {
 
 												   String destination = ((String) args.
 													   get("from")).
-													   split(":")[0] + ":" + AppSettings.instance().get("TCP_PORT");
+													   split(":")[0] + ":" + AppSettings.
+													   instance().
+													   get("TCP_PORT");
 
 												   int reply = JOptionPane.
 													   showConfirmDialog(null, message);
@@ -192,25 +194,6 @@ public class TcpService extends Notifier {
 						 });
 		ThreadManager.run("ipc.game-opponentTcpClient");
 	}
-//
-//	/**
-//	 * Initializes a client following the TCP protocol.
-//	 *
-//	 * @param target The target IPv4:Port
-//	 * @param message Message to send to the target.
-//	 */
-//	public void client(String target, String message) {
-//		ThreadManager.create("ipc.tcpClient", new Thread() {
-//							 @Override
-//							 public void run() {
-//								 new TcpClient(0).
-//									 send(":game-request", target, message);
-//
-//							 }
-//						 });
-//
-//		ThreadManager.run("ipc.tcpClient");
-//	}
 
 	/**
 	 * Stops all the TCP services.

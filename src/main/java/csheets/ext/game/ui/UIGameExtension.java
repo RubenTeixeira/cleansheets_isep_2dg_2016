@@ -45,13 +45,13 @@ public class UIGameExtension extends UIExtension {
 	 */
 	@Override
 	public JComponent getSideBar() {
-		if (sideBar == null) {
-			if (gameController == null) {
-				gameController = new GameController();
+		if (this.sideBar == null) {
+			if (this.gameController == null) {
+				this.gameController = new GameController();
 			}
-			sideBar = new GamePanel(uiController, gameController);
+			this.sideBar = new GamePanel(this.uiController, this.gameController);
 		}
-		return sideBar;
+		return this.sideBar;
 	}
 
 }

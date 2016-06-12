@@ -23,8 +23,6 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -38,15 +36,8 @@ import javax.swing.JOptionPane;
 public class GamePanel extends javax.swing.JPanel implements SelectionListener, Observer {
 
 	/**
-	 * Tic-tac-toe designation.
+	 * Username of the system.
 	 */
-	private static final String TIC_TAC_TOE = "Tic-Tac-Toe";
-
-	/**
-	 * Battleships designation.
-	 */
-	private static final String BATTLESHIPS = "Battleships";
-
 	private String username;
 
 	/**
@@ -82,7 +73,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	/**
 	 * Opponent.
 	 */
-	private String opp;
+	private String opponent;
 
 	/**
 	 * Task Manager.
@@ -110,12 +101,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		updateListOfGames();
 		updateSystemProperty();
 
-		try {
-			updateLocalHostName();
-		} catch (UnknownHostException ex) {
-			Logger.getLogger(GamePanel.class.getName()).
-				log(Level.SEVERE, null, ex);
-		}
+		updateLocalHostName();
 
 		// @IMPROVEMENT: Needs to get the timer from the configuration.
 		// Maybe get it through a configuration file?
@@ -160,9 +146,15 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 *
 	 * @throws UnknownHostException
 	 */
-	private void updateLocalHostName() throws UnknownHostException {
-		jTextField2.setText(InetAddress.getLocalHost().getHostName());
-		jTextField2.setEditable(false);
+	private void updateLocalHostName() {
+		try {
+			jTextField2.setText(InetAddress.getLocalHost().getHostName());
+			jTextField2.setEditable(false);
+		} catch (UnknownHostException exception) {
+			jTextField2.setText("HostName");
+			jTextField2.setEditable(false);
+		}
+
 	}
 
 	/**
@@ -190,7 +182,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
         jPanel4 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        photoLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -223,10 +215,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(null, "My Profile", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        photoLabel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        photoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                photoLabelMouseClicked(evt);
             }
         });
 
@@ -258,14 +250,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addComponent(jTextField1)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(photoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jTextField2)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(photoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -445,19 +437,20 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-		opp = opponentsList.getSelectedValue();
-		if (opp != null && gameList.getSelectedValue() != null) {
+		this.opponent = this.opponentsList.getSelectedValue();
 
-			this.gameController.setContinuousTarget(opp);
+		if (this.opponent != null && this.gameList.getSelectedValue() != null) {
 
-			gameController.
-				establishConnection(opp, "::. Receive information .::\n"
-									+ "A host " + opp + " wants to play "
-									+ " with you.\n Game: " + gameList.
+			this.gameController.setContinuousTarget(this.opponent);
+
+			this.gameController.
+				establishConnection(this.opponent, "::. Receive information .::\n"
+									+ "A host " + this.opponent + " wants to play "
+									+ " with you. \n Game: " + this.gameList.
 									getSelectedValue() + " Do you wish to play with him ?");
 
 		} else {
-			JOptionPane.showMessageDialog(this, "Impossible to connect");
+			JOptionPane.showMessageDialog(this, "It is impossible to connect");
 		}
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -473,7 +466,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
     }//GEN-LAST:event_jTextField2ActionPerformed
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void photoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoLabelMouseClicked
 		//photo upload handler
 		final JFileChooser fc = new JFileChooser();
 
@@ -481,10 +474,10 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			photoFile = fc.getSelectedFile();
-			this.jLabel5.setIcon(iconImageFromFile(photoFile));
+			this.photoLabel.setIcon(iconImageFromFile(photoFile));
 
 		}
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_photoLabelMouseClicked
 
     private void gameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gameListValueChanged
 		// TODO add your handling code here:
@@ -522,13 +515,13 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * Fill the list with the available games. Dummy classes.
 	 */
 	private void updateListOfGames() {
-		instanceListModelGames.add(0, TIC_TAC_TOE);
 		TicTacToe ticTacToe = new TicTacToe();
+		this.instanceListModelGames.add(0, ticTacToe.toString());
 
-		instanceListModelGames.add(1, BATTLESHIPS);
 		Battleships battleships = new Battleships();
+		this.instanceListModelGames.add(1, battleships.toString());
 
-		gameList.setModel(instanceListModelGames);
+		this.gameList.setModel(this.instanceListModelGames);
 	}
 
 	/**
@@ -566,7 +559,6 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     private javax.swing.JList<String> gamingOpponents;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -581,6 +573,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JList<String> opponentsList;
+    private javax.swing.JLabel photoLabel;
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 
@@ -601,15 +594,15 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 			if (((String) object).compareTo("TRUE") == 0) {
 				JOptionPane.
 					showMessageDialog(this, "Success! Connection establish");
-				updateOnlineOpponentsGame("Opponent: " + opp + " | Game: " + gameList.
+				updateOnlineOpponentsGame("Opponent: " + opponent + " | Game: " + gameList.
 					getSelectedValue());
-				this.gameController.updateOpponentActiveGames(opp);
+				this.gameController.updateOpponentActiveGames(opponent);
 			} else if (((String) object).compareTo("FALSE") == 0) {
 				JOptionPane.
 					showMessageDialog(this, "Can't establish connection");
 
 			} else if (((String) object).compareTo("update") == 0) {
-				updateOnlineOpponentsGame(opp);
+				updateOnlineOpponentsGame(opponent);
 			}
 		}
 	}
@@ -621,10 +614,11 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 */
 	public void updateInstanceList(List<String> addresses) {
 		for (String address : addresses) {
-			if (!instanceListModel.contains(address)) {
-				instanceListModel.addElement(address);
+			if (!this.instanceListModel.contains(address)) {
+				this.instanceListModel.addElement(address);
 
 				manager.after(20).once(new Task() {
+					@Override
 					public void fire() {
 						instanceListModel.removeElement(address);
 						opponentsList.setModel(instanceListModel);
