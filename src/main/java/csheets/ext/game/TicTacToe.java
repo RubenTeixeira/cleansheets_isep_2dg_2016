@@ -15,4 +15,14 @@ public class TicTacToe {
 	public TicTacToe() {
 
 	}
+
+	/**
+	 * Tic Tac Toe designation.
+	 *
+	 * @return "TIC-TAC-TOE"
+	 */
+	@Override
+	public String toString() {
+		return "TIC-TAC-TOE";
+	}
 }

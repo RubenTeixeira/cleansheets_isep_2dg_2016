@@ -7,9 +7,14 @@ package csheets.framework.search;
 
 import csheets.core.Cell;
 import csheets.core.Spreadsheet;
+import csheets.core.Value;
 import csheets.core.Workbook;
+import csheets.ext.comments.Comment;
+import csheets.ext.comments.CommentableCell;
+import csheets.ext.comments.CommentsExtension;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -43,7 +48,7 @@ public class WorkBookSearch {
      * @param pattern regex pattern
      * @return list of matching results
      */
-    public List<SearchResultDTO> getMatches(String pattern) throws PatternSyntaxException {
+    public List<SearchResultDTO> getMatches(String pattern, Map<String, Value.Type> types, boolean comments) throws PatternSyntaxException {
 
         // This is a stub, will be needed later and serves as test
         // for the pattern syntax
@@ -54,7 +59,7 @@ public class WorkBookSearch {
         for (Workbook workBook : this.workBooks) {
             for (int i = 0; i < workBook.getSpreadsheetCount(); i++) {
                 Spreadsheet sheet = workBook.getSpreadsheet(i);
-                results.addAll(getMatches(pattern, sheet));
+                results.addAll(getMatches(pattern, types, comments, sheet));
             }
         }
 
@@ -69,7 +74,7 @@ public class WorkBookSearch {
      * @return list of matching results
      */
     private List<SearchResultDTO> getMatches(String pattern,
-            Spreadsheet sheet) {
+            Map<String, Value.Type> types, boolean comments, Spreadsheet sheet) {
         List<SearchResultDTO> results = new ArrayList<>();
         int columns = sheet.getColumnCount();
         int rows = sheet.getRowCount();
@@ -81,13 +86,36 @@ public class WorkBookSearch {
                 String content = cell.getContent();
                 String value = cell.getValue().toString();
 
+                if (comments == true) {
+                    CommentableCell commentableCell = (CommentableCell) cell.
+				getExtension(CommentsExtension.NAME);
+                    
+                    List<Comment> commentList = commentableCell.getCommentsList();
+                    
+                    for (Comment comment : commentList) {
+                        if (comment.text().matches(pattern)) {
+                            results.add(SearchResultAssembler.
+                                        getResultInformation(sheet, cell));
+                        }
+                    }
+                }
+
                 // Should we match the empty cells if the pattern
                 // allows it?
                 if ((!content.isEmpty() && content.matches(pattern))
                         || (!value.isEmpty() && value.matches(pattern))) {
 
-                    results.add(SearchResultAssembler.
+                    if (!types.isEmpty()) {
+                        for (Map.Entry<String, Value.Type> entry : types.entrySet()) {
+                            if (cell.getValue().getType().equals(entry.getValue())) {
+                                results.add(SearchResultAssembler.
+                                        getResultInformation(sheet, cell));
+                            }
+                        }
+                    } else {
+                        results.add(SearchResultAssembler.
                             getResultInformation(sheet, cell));
+                    }
                 }
             }
         }

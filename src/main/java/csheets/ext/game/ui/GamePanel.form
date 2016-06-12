@@ -67,8 +67,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Home">
-                <Property name="tabTitle" type="java.lang.String" value="Home"/>
+              <JTabbedPaneConstraints tabName="Profile User">
+                <Property name="tabTitle" type="java.lang.String" value="Profile User"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -84,7 +84,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Component id="jTextField1" max="32767" attributes="0"/>
-                  <Component id="jLabel5" alignment="0" max="32767" attributes="0"/>
+                  <Component id="photoLabel" alignment="0" max="32767" attributes="0"/>
                   <Component id="jTextField2" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
@@ -92,7 +92,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" pref="110" max="-2" attributes="0"/>
+                      <Component id="photoLabel" min="-2" pref="110" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -107,7 +107,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel5">
+            <Component class="javax.swing.JLabel" name="photoLabel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
@@ -116,7 +116,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel5MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="photoLabelMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -155,8 +155,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Online">
-                <Property name="tabTitle" type="java.lang.String" value="Online"/>
+              <JTabbedPaneConstraints tabName="Online Users">
+                <Property name="tabTitle" type="java.lang.String" value="Online Users"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -175,7 +175,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="230" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="150" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -218,8 +218,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Games">
-                <Property name="tabTitle" type="java.lang.String" value="Games"/>
+              <JTabbedPaneConstraints tabName="Available Games">
+                <Property name="tabTitle" type="java.lang.String" value="Available Games"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -238,7 +238,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane3" pref="230" max="32767" attributes="0"/>
+                      <Component id="jScrollPane3" pref="150" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -281,8 +281,8 @@
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Active">
-                <Property name="tabTitle" type="java.lang.String" value="Active"/>
+              <JTabbedPaneConstraints tabName="Active Games">
+                <Property name="tabTitle" type="java.lang.String" value="Active Games"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -301,7 +301,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="230" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" pref="150" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

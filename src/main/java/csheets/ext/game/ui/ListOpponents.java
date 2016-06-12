@@ -1,19 +1,14 @@
 package csheets.ext.game.ui;
 
-import csheets.domain.Contact;
 import csheets.ext.contacts.ContactsController;
 import csheets.ext.contacts.ContactsExtension;
-import csheets.ext.contacts.ui.*;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
-import java.io.IOException;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingWorker;
 
 /**
  *
@@ -87,7 +82,7 @@ public class ListOpponents extends JPanel implements Observer {
 	 */
 	protected void refreshContactCards() {
 		clearContactList();
-		new ListContactsWorker().execute();
+		//new ListContactsWorker().execute();
 	}
 
 	/**
@@ -135,41 +130,40 @@ public class ListOpponents extends JPanel implements Observer {
     private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 
-	/*
-	 * SwingWorker task to get all contacts from the persistence.
-	 * A ContactCard is added step by step and at the end of the task the panel is refreshed.
-	 */
-	class ListContactsWorker extends SwingWorker<Integer, ContactCardPanel> {
-
-		@Override
-		protected Integer doInBackground() throws Exception {
-
-			ContactCardPanel card;
-
-			for (Contact ct : theController.allContacts()) {
-				card = new ContactCardPanel(ct, theController);
-				card.setName(ct.name());
-				try {
-					card.setPhoto(theController.contactPhoto(ct));
-				} catch (IOException ex) {
-					System.out.println("erro");
-				}
-				publish(card);
-			}
-			return 1;
-		}
-
-		@Override
-		protected void process(List<ContactCardPanel> chunks) {
-			for (ContactCardPanel panel : chunks) {
-				addContactCard(panel);
-			}
-		}
-
-		@Override
-		protected void done() {
-			refreshUI();
-		}
-	}
-
+//	/*
+//	 * SwingWorker task to get all contacts from the persistence.
+//	 * A ContactCard is added step by step and at the end of the task the panel is refreshed.
+//	 */
+//	class ListContactsWorker extends SwingWorker<Integer, ContactCardPanel> {
+//
+//		@Override
+//		protected Integer doInBackground() throws Exception {
+//
+//			ContactCardPanel card;
+//
+//			for (Contact ct : theController.allContacts()) {
+//				card = new ContactCardPanel(ct, theController);
+//				card.setName(ct.name());
+//				try {
+//					card.setPhoto(theController.contactPhoto(ct));
+//				} catch (IOException ex) {
+//					System.out.println("erro");
+//				}
+//				publish(card);
+//			}
+//			return 1;
+//		}
+//
+//		@Override
+//		protected void process(List<ContactCardPanel> chunks) {
+//			for (ContactCardPanel panel : chunks) {
+//				addContactCard(panel);
+//			}
+//		}
+//
+//		@Override
+//		protected void done() {
+//			refreshUI();
+//		}
+//	}
 }

@@ -1,0 +1,36 @@
+  @startuml doc-files/ipc02.2_sequence_diagram.png
+
+  actor User
+
+  participant AWSExtension as ex
+  participant AWSUI as ui
+  participant AWSPanel as panel
+  participant  AWSController as cont
+  participant  WorkbookPreviewPanel as p
+	participant UIController as uicont
+
+  User -> ex : selects extension.
+	ex-> ui : new(UIController uiController);
+ui -> panel : new(UIController uiController);
+User <-panel : show sidebar.
+User ->panel : selects directory.
+User ->panel : begin search.
+panel -> panel : performSearch();
+
+loop while (!stopButton)
+group one-click-mouse
+User->panel : selects workbook.
+panel -> cont : new(UIController uicontroller, Workbook workbook);
+cont -> cont : buildPreview();
+cont -> p : new(Workbook workbook);
+p -> User : show preview.
+p -> p : dispose();
+end
+group two-click-mouse
+User->panel : selects workbook.
+panel -> cont : new(UIController uicontroller, Workbook workbook);
+cont -> uicont : open(Workbook workbook);
+end
+end loop
+
+  @enduml

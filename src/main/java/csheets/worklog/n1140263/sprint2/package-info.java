@@ -49,9 +49,23 @@
  * starting point to my colleagues. To end a game it is necessary to stop the
  * service - connection established between the "online" clients.
  *
+ * Its necessary implement an user interface with these options. First of all i
+ * need to offer to the user the profile definition. Seach and select a photo
+ * from the local machine. Second search for all the online users in a
+ * particular network. After the selection of the user to connect it's important
+ * to select a game (two options - tic tac toe and battleship). This games are
+ * dummy classes only for demonstration. I also offer three options - connection
+ * ; play game (dummy) ; end connection (from a list with the games and
+ * partner).
+ *
  * <h2>5. Design</h2>
  *
- * <h3>5.1. </h3>
+ * <h3>5.1. Functional Tests</h3>
+ * Test the broadcast - check if the online instances are added to the list.
+ * Check if the own computer dont appear in the list of instances. Connection
+ * between 2 instances. Close connection.
+ *
+ * <h3>5.2. </h3>
  *
  * <b>Sequence Diagram - Get Instance and select/send request to another
  * instance</b>:
@@ -79,7 +93,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * Implemented Patterns: Low Coupling - High Cohesion.
+ * Concepts from RCOMP. TCP and UDP protocols. Layers - UI; Controller; Domain
  *
  * <h2>6. Implementation</h2>
  *
@@ -97,19 +111,16 @@
  * Pair Programming last day with Jose Barros - 1140364
  *
  * <h2>8. Final Remarks</h2>
- * The feature its funcional. The core of the problem is set and functional.
- * "The name of the users and icon should be displayed in the list of available
- * users to play with." - not implemented yet; causa: No time do to the task.
- * The feature need improvements - friday and sunday (after presentation).
+ * The feature its tested and funcional. The core of the problem is set and
+ * functional. "The name of the users and icon should be displayed in the list
+ * of available users to play with." - not implemented yet; cause: No time do to
+ * the task.
  *
- *  * Two instances need to be connected to the same network. It is possible to
- * edit own profile photo. The username and host its automatically set by the
- * program. One instance select other instance + game then press button connect
- * for establish connection between users. It is also possible to remove
- * connection/game between users.
- *
- * Demonstration: It's necessary that 2 or more instance are in the same network
- * (to establish comunication; send game request; end established game).
+ * Two instances can establish connection. It is possible to edit own profile
+ * photo. The username and host its automatically set by the program. One
+ * instance select other instance + game then press button connect for establish
+ * connection between users. It is also possible to end connection/game between
+ * users.
  *
  *
  * <h2>9. Work Log</h2>

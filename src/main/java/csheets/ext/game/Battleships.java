@@ -16,4 +16,14 @@ public class Battleships {
 
 	}
 
+	/**
+	 * Battleships designation.
+	 *
+	 * @return "BATTLESHIPS"
+	 */
+	@Override
+	public String toString() {
+		return "BATTLESHIPS";
+	}
+
 }

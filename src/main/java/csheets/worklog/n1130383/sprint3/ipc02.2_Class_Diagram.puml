@@ -1,0 +1,76 @@
+ @startuml doc-files/ipc02.2_class_diagram.png
+
+class UIController {
+	-extensions : uiExtension[]
+	--
+	+UIController(Cleansheet app)
+	+getExtensions() : uiExtension[]
+}
+
+class ExtensionManager {
+	-instance : ExtensionManager
+	-extensionMap : SortedMap<String,Extension>
+	--
+	-ExtensionManager()
+	+load(String ClassName) : Extension.NAME
+	+load(Extension _class)
+}
+
+class Extension{
+}
+
+class AWSExtension{
+	+NAME : string
+	-VERSION : string
+	--
+	+super(String name)
+	+getUIExtension(UIController controller) : UIExtension
+}
+
+class UIExtension{
+}
+
+class AWSUI{
+	+AWSUI(UIController uicontroller);
+	+getSideBar() : JComponent
+}
+
+class JPanel{
+}
+
+class AWSPanel{
+	-awsController : AWSController
+	-uiController : UIController
+	-resultsModel : DefaultModeList
+	--
+	+AWSPanel(UIController uicontroller)
+}
+
+
+class AWSController{
+
+	+AWSController(UIController uicontroller, Workbook workbook);
+
+}
+
+class WorkbookPreviewPanel{
+	-workbook : Workbook
+	+WorkbookPreviewPanel(Workbook workbook);
+}
+
+
+
+
+JPanel <|-- AWSPanel
+Extension <|-- AWSExtension
+UIExtension <|-- AWSUI
+JPanel <|-- WorkbookPreviewPanel
+
+UIController --> ExtensionManager : getExtensions();
+ExtensionManager --> AWSExtension : load(Extension extension);
+AWSExtension --> AWSUI : new(UIController controller);
+AWSUI --> AWSPanel : new(UIController controller);
+AWSPanel --> AWSController : new(UIController controller, Workbook workbook);
+AWSController --> WorkbookPreviewPanel : new(Workbook workbook);
+
+  @enduml
