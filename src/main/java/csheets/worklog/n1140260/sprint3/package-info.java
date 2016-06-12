@@ -47,7 +47,7 @@
  * <h2>4. Analysis</h2>
  *
  *
- * <h4>Analysis diagram:</h4>
+ * <h3>Analysis diagram:</h3>
  *
  * <img src="doc-files/analysis.png" alt="Analysis">
  *
@@ -56,9 +56,6 @@
  * We'll use rtcharts that is a lightweight library for plotting data with a
  * high sampling rate in real time.
  * </p>
- * <h4>Analysis diagram:</h4>
- *
- * <img src="doc-files/analysis.png" alt="Analysis">
  *
  *
  * <h2>5. Design</h2>
@@ -112,11 +109,11 @@
  *
  *
  * <h3>10.1. Design and Implementation:3</h3>
- *
+ * <p>
  * The implementation uses Volt, a package developed during the RCOMP course of
  * the current year (2015/2016), which aims to ease the development of
  * communication protocols with a expressive syntax.
- * <p>
+ *
  *
  * <h3>10.2. Teamwork: ...</h3>
  *

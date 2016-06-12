@@ -20,3 +20,4 @@ csheets.ext.macro_beanshell.MacroBeanShellExtension;1.0;Shell_on_Cleansheet
 csheets.ext.notes.NotesExtension;1.0;Enables_noting
 csheets.ext.secureCommunications.SecureCommunicationsExtension;1.0;Allow_to_setup_a_secure_communication
 csheets.ext.style.StyleExtension;1.0;Enables_font_style
+csheets.ext.networkAnalizer.NetworkAnalizerExtension;1.0;Display_a_real_time_chart
