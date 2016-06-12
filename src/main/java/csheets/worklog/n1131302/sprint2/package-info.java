@@ -48,7 +48,7 @@
  * step can´t be before the actual date. So we have created a test that
  * represents this business rule.
  * </p>
- * see: <code>csheets.domain.ContactTest</code>
+ * see: <code>csheets.domain.ReminderTest</code>
  *
  * <p>
  * Agenda has no information at this point. From our view of the requirements
