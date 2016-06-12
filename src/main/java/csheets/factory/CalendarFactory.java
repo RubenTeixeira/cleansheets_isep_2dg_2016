@@ -5,7 +5,7 @@
  */
 package csheets.factory;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import java.awt.Color;
 
@@ -19,8 +19,8 @@ public class CalendarFactory {
 
 	}
 
-	public static final Calendar createCalendar(String name, String description,
+	public static final ContactCalendar createCalendar(String name, String description,
 												Color color, Contact contact) {
-		return new Calendar(name, description, color, contact);
+		return new ContactCalendar(name, description, color, contact);
 	}
 }

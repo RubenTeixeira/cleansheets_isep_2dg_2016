@@ -169,7 +169,7 @@ public class PersonContact extends Contact {
 			return false;
 		}
 		PersonContact instance = (PersonContact) obj;
-		return this.hashCode() == instance.hashCode();
+		return this.firstName.equals(instance.firstName) && this.lastName.equals(instance.lastName);
 	}
 
 	@Override

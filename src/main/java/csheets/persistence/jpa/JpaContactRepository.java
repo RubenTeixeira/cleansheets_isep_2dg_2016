@@ -5,7 +5,7 @@
  */
 package csheets.persistence.jpa;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.domain.Note;
@@ -77,7 +77,7 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 
 	@Override
 	public void delete(Contact entity) {
-		for (Calendar calendar : PersistenceContext.repositories().calendars().
+		for (ContactCalendar calendar : PersistenceContext.repositories().calendars().
 			calendarsContact(entity)) {
 			PersistenceContext.repositories().calendars().delete(calendar);
 		}

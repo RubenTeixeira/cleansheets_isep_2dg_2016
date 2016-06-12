@@ -1,6 +1,6 @@
 package csheets.ext.calendar.ui;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.ext.calendar.CalendarController;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 public class ManageCalendar extends javax.swing.JPanel implements Observer {
 
 	private CalendarController controller;
-	private Calendar calendar;
+	private ContactCalendar calendar;
 	private List<Contact> listContacts = new ArrayList();
 
 	/**
@@ -29,7 +29,7 @@ public class ManageCalendar extends javax.swing.JPanel implements Observer {
 	 * @param calendar calendar
 	 */
 	public ManageCalendar(CalendarController controller,
-						  Calendar calendar) {
+						  ContactCalendar calendar) {
 		this.controller = controller;
 		this.calendar = calendar;
 		initComponents();

@@ -30,7 +30,7 @@ public class Event implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	private csheets.domain.Calendar calendar;
+	private ContactCalendar calendar;
 
 	private String description;
 
@@ -43,7 +43,7 @@ public class Event implements Serializable {
 	protected Event() {
 	}
 
-	public Event(csheets.domain.Calendar calendar, String description,
+	public Event(ContactCalendar calendar, String description,
 				 Calendar startDate,
 				 Calendar endDate) {
 		if (calendar == null || description == null || startDate == null || endDate == null) {
@@ -57,7 +57,7 @@ public class Event implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public csheets.domain.Calendar calendar() {
+	public ContactCalendar calendar() {
 		return this.calendar;
 	}
 
@@ -73,7 +73,7 @@ public class Event implements Serializable {
 		return this.description;
 	}
 
-	public void defineEvent(csheets.domain.Calendar calendar, String description,
+	public void defineEvent(ContactCalendar calendar, String description,
 							Calendar startDate,
 							Calendar endDate) {
 		this.calendar = calendar;

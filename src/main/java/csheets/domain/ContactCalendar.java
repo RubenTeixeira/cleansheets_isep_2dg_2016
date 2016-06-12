@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = {"NAME"})})
-public class Calendar implements Serializable {
+public class ContactCalendar implements Serializable {
 
 	@Id
 	@GeneratedValue
@@ -37,10 +37,10 @@ public class Calendar implements Serializable {
 
 	private Color color;
 
-	protected Calendar() {
+	protected ContactCalendar() {
 	}
 
-	public Calendar(String name, String text, Color color, Contact contato) {
+	public ContactCalendar(String name, String text, Color color, Contact contato) {
 		if (name == null || text == null || color == null || contato == null) {
 			throw new IllegalArgumentException("name of reminder can´t be null.");
 
@@ -114,10 +114,10 @@ public class Calendar implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		if (!(obj instanceof Calendar)) {
+		if (!(obj instanceof ContactCalendar)) {
 			return false;
 		}
-		Calendar instance = (Calendar) obj;
+		ContactCalendar instance = (ContactCalendar) obj;
 		return this.hashCode() == instance.hashCode();
 	}
 

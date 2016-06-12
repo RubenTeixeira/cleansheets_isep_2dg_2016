@@ -5,10 +5,11 @@
  */
 package csheets.persistence;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.Repository;
+import java.util.Calendar;
 
 /**
  *
@@ -16,8 +17,10 @@ import csheets.framework.persistence.repositories.Repository;
  */
 public interface EventRepository extends Repository<Event, Long> {
 
-	public Iterable<Event> eventsContact(Contact contact);
+    public Iterable<Event> eventsContact(Contact contact);
 
-	public Iterable<Event> eventsCalendar(Calendar calendar);
+    public Iterable<Event> eventsCalendar(ContactCalendar calendar);
+
+   public Iterable<Event> eventsContactPerDay(Contact contact, Calendar date);
 
 }

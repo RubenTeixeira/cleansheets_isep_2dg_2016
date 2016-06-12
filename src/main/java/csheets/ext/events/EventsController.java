@@ -37,7 +37,7 @@ public class EventsController {
 		this.uiPanel = uiPanel;
 	}
 
-	public Event createEvent(csheets.domain.Calendar calendar,
+	public Event createEvent(csheets.domain.ContactCalendar calendar,
 							 String description, Calendar startDate,
 							 Calendar endDate) throws DataIntegrityViolationException {
 		Event event = EventsFactory.
@@ -58,7 +58,7 @@ public class EventsController {
 		Notification.eventInformer().notifyChange();
 	}
 
-	public Iterable<csheets.domain.Calendar> allCalendars() {
+	public Iterable<csheets.domain.ContactCalendar> allCalendars() {
 		return PersistenceContext.repositories().calendars().all();
 	}
 

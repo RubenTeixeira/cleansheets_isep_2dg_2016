@@ -5,7 +5,7 @@
  */
 package csheets.ext.contacts.ui;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.domain.PersonContact;
@@ -75,7 +75,7 @@ public class PersonView extends javax.swing.JFrame implements Observer {
 			}
 
 			this.jTreePerson.removeAll();
-			for (Calendar calendarPer : this.controller.
+			for (ContactCalendar calendarPer : this.controller.
 				calendarContact(contact)) {
 				DefaultMutableTreeNode contactRoot = new DefaultMutableTreeNode(calendarPer.
 					getName());

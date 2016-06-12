@@ -1,6 +1,6 @@
 package csheets.ext.calendar;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.ext.calendar.ui.CalendarPanel;
 import csheets.factory.CalendarFactory;
@@ -38,22 +38,22 @@ public class CalendarController {
 		this.uiPanel = uiPanel;
 	}
 
-	public Calendar createCalendar(Contact contact, String name,
+	public ContactCalendar createCalendar(Contact contact, String name,
 								   String description, Color colour) throws DataIntegrityViolationException {
-		csheets.domain.Calendar cal = CalendarFactory.
+		csheets.domain.ContactCalendar cal = CalendarFactory.
 			createCalendar(name, description, colour, contact);
 		PersistenceContext.repositories().calendars().add(cal);
 		Notification.calendarInformer().notifyChange();
 		return cal;
 	}
 
-	public Calendar editCalendar(Calendar calendar) {
+	public ContactCalendar editCalendar(ContactCalendar calendar) {
 		PersistenceContext.repositories().calendars().save(calendar);
 		Notification.calendarInformer().notifyChange();
 		return calendar;
 	}
 
-	public void removeCalendar(Calendar calendar) {
+	public void removeCalendar(ContactCalendar calendar) {
 		PersistenceContext.repositories().calendars().delete(calendar);
 		Notification.calendarInformer().notifyChange();
 	}
@@ -63,7 +63,7 @@ public class CalendarController {
 			all();
 	}
 
-	public Iterable<Calendar> allCalendars() {
+	public Iterable<ContactCalendar> allCalendars() {
 		return PersistenceContext.repositories().calendars().all();
 	}
 }

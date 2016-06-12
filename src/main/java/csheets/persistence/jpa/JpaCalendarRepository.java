@@ -5,7 +5,7 @@
  */
 package csheets.persistence.jpa;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Eduardo
  */
-public class JpaCalendarRepository extends JpaRepository<Calendar, Long> implements CalendarRepository {
+public class JpaCalendarRepository extends JpaRepository<ContactCalendar, Long> implements CalendarRepository {
 
 	@Override
 	protected String persistenceUnitName() {
@@ -26,9 +26,9 @@ public class JpaCalendarRepository extends JpaRepository<Calendar, Long> impleme
 	}
 
 	@Override
-	public Iterable<Calendar> calendarsContact(Contact contact) {
-		List<Calendar> list = new ArrayList();
-		for (Calendar calendar : this.all()) {
+	public Iterable<ContactCalendar> calendarsContact(Contact contact) {
+		List<ContactCalendar> list = new ArrayList();
+		for (ContactCalendar calendar : this.all()) {
 			if (calendar.getContact().equals(contact)) {
 				list.add(calendar);
 			}
@@ -37,7 +37,7 @@ public class JpaCalendarRepository extends JpaRepository<Calendar, Long> impleme
 	}
 
 	@Override
-	public void delete(Calendar entity) {
+	public void delete(ContactCalendar entity) {
 		for (Event event : PersistenceContext.repositories().events().
 			eventsCalendar(entity)) {
 			PersistenceContext.repositories().events().delete(event);

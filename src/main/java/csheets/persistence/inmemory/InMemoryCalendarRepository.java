@@ -5,7 +5,7 @@
  */
 package csheets.persistence.inmemory;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.CalendarRepository;
@@ -16,20 +16,20 @@ import java.util.List;
  *
  * @author Martins
  */
-class InMemoryCalendarRepository extends InMemoryRepository<Calendar, Long>
+class InMemoryCalendarRepository extends InMemoryRepository<ContactCalendar, Long>
 	implements CalendarRepository {
 
 	long nextID = 1;
 
 	@Override
-	protected Long newPK(Calendar entity) {
+	protected Long newPK(ContactCalendar entity) {
 		return ++nextID;
 	}
 
 	@Override
-	public Iterable<Calendar> calendarsContact(Contact contact) {
-		List<Calendar> list = new ArrayList();
-		for (Calendar calendar : this.all()) {
+	public Iterable<ContactCalendar> calendarsContact(Contact contact) {
+		List<ContactCalendar> list = new ArrayList();
+		for (ContactCalendar calendar : this.all()) {
 			if (calendar.getContact().equals(contact)) {
 				list.add(calendar);
 			}

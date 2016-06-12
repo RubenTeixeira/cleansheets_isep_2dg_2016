@@ -119,7 +119,7 @@ public abstract class Contact implements Serializable {
 			return false;
 		}
 		Contact instance = (Contact) obj;
-		return this.hashCode() == instance.hashCode();
+		return this.name.equals(instance.name);
 	}
 
 	@Override

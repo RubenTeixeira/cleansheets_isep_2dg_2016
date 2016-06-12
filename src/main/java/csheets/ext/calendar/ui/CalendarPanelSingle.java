@@ -1,6 +1,6 @@
 package csheets.ext.calendar.ui;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.ext.calendar.CalendarController;
 import csheets.support.CirclePanel;
 import java.awt.Dimension;
@@ -13,12 +13,12 @@ import javax.swing.JOptionPane;
 public class CalendarPanelSingle extends javax.swing.JPanel {
 
 	private CalendarController controller;
-	private Calendar calendar;
+	private ContactCalendar calendar;
 
 	/**
 	 * Creates new form CalendarPanelSingl
 	 */
-	public CalendarPanelSingle(CalendarController controller, Calendar calendar) {
+	public CalendarPanelSingle(CalendarController controller, ContactCalendar calendar) {
 		this.controller = controller;
 		this.calendar = calendar;
 		initComponents();

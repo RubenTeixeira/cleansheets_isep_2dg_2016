@@ -1,7 +1,7 @@
 package csheets.ext.contacts;
 
 import csheets.CleanSheets;
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
 import csheets.domain.Event;
@@ -150,12 +150,12 @@ public class ContactsController {
 		return PersistenceContext.repositories().contacts().getByName(name);
 	}
 
-	public Iterable<Calendar> calendarContact(Contact contact) {
+	public Iterable<ContactCalendar> calendarContact(Contact contact) {
 		return PersistenceContext.repositories().calendars().
 			calendarsContact(contact);
 	}
 
-	public Iterable<Event> eventsCalendar(Calendar calendarPer) {
+	public Iterable<Event> eventsCalendar(ContactCalendar calendarPer) {
 		return PersistenceContext.repositories().events().
 			eventsCalendar(calendarPer);
 	}

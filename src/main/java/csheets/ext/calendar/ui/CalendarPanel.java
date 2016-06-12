@@ -1,6 +1,6 @@
 package csheets.ext.calendar.ui;
 
-import csheets.domain.Calendar;
+import csheets.domain.ContactCalendar;
 import csheets.ext.calendar.CalendarController;
 import csheets.ext.events.EventsExtension;
 import csheets.notification.Notification;
@@ -35,7 +35,7 @@ public class CalendarPanel extends javax.swing.JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		clearCalendarList();
-		for (Calendar calendar : this.controller.allCalendars()) {
+		for (ContactCalendar calendar : this.controller.allCalendars()) {
 			CalendarPanelSingle panel = new CalendarPanelSingle(this.controller, calendar);
 			this.addCalendarPanel(panel);
 		}

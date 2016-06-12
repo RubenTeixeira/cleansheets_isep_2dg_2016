@@ -19,7 +19,7 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 
 	private final EventsController controller;
 	private Event event;
-	private List<csheets.domain.Calendar> listCalendar = new ArrayList();
+	private List<csheets.domain.ContactCalendar> listCalendar = new ArrayList();
 
 	private final String[] nameMonth = {"Invalid", "January", "Febraury",
 		"March", "April", "May", "June",
@@ -326,7 +326,7 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
 	private void initCalendar() {
-		for (csheets.domain.Calendar calendar : this.controller.allCalendars()) {
+		for (csheets.domain.ContactCalendar calendar : this.controller.allCalendars()) {
 			this.listCalendar.add(calendar);
 			this.jComboBoxCalendars.addItem(calendar.toString());
 		}
@@ -442,7 +442,7 @@ public class ManageEvents extends javax.swing.JPanel implements Observer {
 			if (this.event == null) {
 				try {
 					this.controller.
-						createEvent((csheets.domain.Calendar) this.listCalendar.
+						createEvent((csheets.domain.ContactCalendar) this.listCalendar.
 							get(this.jComboBoxCalendars.getSelectedIndex()), this.jTextFieldEventName.
 									getText(), startDate, endDate);
 				} catch (DataIntegrityViolationException ex) {
