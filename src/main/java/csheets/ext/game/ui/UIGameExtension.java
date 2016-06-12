@@ -5,9 +5,12 @@
  */
 package csheets.ext.game.ui;
 
+import csheets.CleanSheets;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -36,6 +39,17 @@ public class UIGameExtension extends UIExtension {
 	 */
 	public UIGameExtension(Extension extension, UIController uiController) {
 		super(extension, uiController);
+	}
+
+	/**
+	 * Returns an icon to display with the extension's name.
+	 *
+	 * @return an icon with style
+	 */
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(CleanSheets.class.
+			getResource("ext/game/game.png"));
 	}
 
 	/**
