@@ -87,9 +87,7 @@
  *
  * <p>
  * In regards to implementation, most of the feature implementation is done
- * through Volt. Since Volt already supports Channels for Encryption and
- * Decryption and as well as watch who receives and sends messages, the feature
- * is easily implemented.
+ * through Volt.
  *
  *
  * <p>
