@@ -3,7 +3,6 @@
  * Bastos during week3.
  *
  * <p>
- * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
@@ -20,7 +19,6 @@
  * <h2>2. Use Case/Feature: Core05.1</h2>
  *
  * Issue in Jira: -LPFOURDG-12-
- * <p>
  *
  * <h2>3. Requirement</h2>
  * The new extension should have a window to setup email. This window should be
@@ -57,7 +55,6 @@
  * this diagram was created).
  * <p>
  * <img src="doc-files/email_configuration_extension_uc_realization.png" alt="image">
- * <p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
  * It is possible to send email in java, using the javamail library. This
@@ -89,39 +86,27 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
+ * <h3>Use Case Sequence Diagram</h3>
+ * The following diagram shows the steps needed for this use case. We decided
+ * that the creation of the Email class would make sense, making all the actions
+ * related to emails a responsability to this class.
  * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
+ * <img src="doc-files/email_configuration_extension_design.png" alt="image">
  *
- *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * This is a really small class diagram. The only class we created to this task
+ * was Email, because Session and Properties already existed.
+ * <p>
+ * <img src="doc-files/email_configuration_extension_class_diagram.png" alt="image">
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -Describe new or existing design patterns used in the issue-
+ * -To resolve this use case, we're using patterns learned in the courses of
+ * EAPLI and ESOFT, namely the GRASP and SOLID patterns-
  * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * -...-
  *
  * <h2>6. Implementation</h2>
  *
