@@ -56,44 +56,25 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
+ * Main test is to see if the data queries to database are correct
  * For unit tests regarding this is feature are basically to test if the
  * controller returns the correct events given a data and a contact, since this
  * has nothing to change in the domain model most of the testing will be manual,
- * also some unit tests can test if next and previous button are resturning the
+ * also some unit tests can test if next and previous button are returning the
  * correct date
- *
+ * 
+ * 
  * <h3>5.2. UC Realization</h3>
- *
+ * Uc completed as the design and tests were pointing, main setbacks were:
+ * Understanding how to add a new jar to the maven project
+ * Understand how to work with jCalendar
+ * Understand how to querie the database correcly
+ * <code>
  *
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
- *
- * <h2>7. Integration/Demonstration</h2>
- *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
- *
- * <h2>8. Final Remarks</h2>
- *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
- *
+ * 
  * <h2>9. Work Log</h2>
  *
  * <b>Friday</b>
@@ -114,31 +95,48 @@
  * </p>
  * Today
  * <p>
- * 1. Stared and finished desiging the new window 2. Learned about jCalendar and
- * added jar to maven project 3. Started sprint 3 (Moving tasks from backlog to
- * sprint scope, atributing tasks and start it) 4. Started tests but had some
+ * 1. Stared and finished desiging the new window 
+ * 2. Learned about jCalendar and
+ * added jar to maven project 
+ * 3. Started sprint 3 (Moving tasks from backlog to
+ * sprint scope, atributing tasks and start it) 
+ * 4. Started tests but had some
  * trouble on how to implement UI and list model tests
  * <p>
  * Blocking:
  * <p>
  * 1. trouble on how to implement UI and list model tests
  *
+ * <b>Sunday</b>
+ * <p>
+ * Uc implementation completed as the design and tests were pointing, main setbacks were:
+ * Understand how to work with jCalendar
+ * Understand how to querie the database correcly
+ * </p>
+ * <p>
+ * Blocking:
+ * 1. How to implement unit test on queries to the database
+ * </p>
+ * <p>
+ * Tomorrow:
+ * 1. Ask specialist on how to implement unit test on queries to the database
+ * 2. Help all members having problems with their feature
+ * </p>
+ *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
- *
  * <h3>10.1. Design and Implementation:3</h3>
- *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
  * <p>
+ * Após a penalizaçao no Sprint 1 por nao tomar uma metodoliga TDD tentei alterar
+ * a ordem de trabalho e pensar e implementar os testes antes de começar a implemetaçao do caso de use em si
+ * Caso de uso funcional sem bugs detatados 
+ * 100% de coverage em metodos de controller a tirar duvidas para ter 100% em todo o codigo á exepção da UI
+ * </p>
  * <b>Evidences:</b>
  * <p>
  * - url of commit: ... - description: this commit is related to the
  * implementation of the design pattern ...-
- *
+ * </p>
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
