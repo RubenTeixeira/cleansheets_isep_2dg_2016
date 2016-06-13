@@ -14,11 +14,9 @@ import csheets.core.formula.FunctionParameter;
 public class WhileDo implements Function {
 
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.UNDEFINED, "Term1", false,
-							  "A number to be included in the sum"),
 		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
 							  "A condition to evaluate before proceeding"),
-		new FunctionParameter(Value.Type.UNDEFINED, "Term3", false,
+		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
 							  "A number to be included in the sum")
 	};
 
@@ -43,37 +41,10 @@ public class WhileDo implements Function {
 	@Override
 	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
 		Value value = new Value();
-		for (Expression expression : args) {
-			System.out.println(expression);
-		}
-		args[0].evaluate();
-		while (args[1].evaluate().toBoolean()) {
-			System.out.println(args[2].evaluate());
+		while (args[0].evaluate().toBoolean()) {
+			value = args[1].evaluate();
 		}
 		return value;
-		/*
-		Expression assignment = args[0];
-		Expression limiter = args[1];
-		//expressions[] for instructionblock.
-		Expression[] expBlock = new Expression[args.length - 2];
-		int j = 0;
-		for (int i = 2; i < args.length; i++) {
-			expBlock[j] = args[i];
-			j++;
-		}
-		InstructionBlock block = new InstructionBlock(expBlock);
-		//starting point.
-		assignment.evaluate();
-		//limiter validation
-		Value flag = limiter.evaluate();
-		if (flag.toBoolean() == false) {
-			throw new IllegalValueTypeException(flag, flag.getType());
-		}
-		Value value = new Value();
-		while (args[1].evaluate().toBoolean()) {
-			value = block.evaluate();
-		}
-		return value;*/
 	}
 
 	public FunctionParameter[] getParameters() {
@@ -91,7 +62,7 @@ public class WhileDo implements Function {
 	 */
 	@Override
 	public String getDescription() {
-		return " Execution of For Loop.";
+		return " Execution of While Do Loop.";
 	}
 
 	/**

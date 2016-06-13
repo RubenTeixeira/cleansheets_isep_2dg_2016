@@ -86,7 +86,7 @@ public class Eval implements Function {
 	 */
 	@Override
 	public String getDescription() {
-		return "Form edite Executed.";
+		return "Eval function.";
 	}
 
 	/**
