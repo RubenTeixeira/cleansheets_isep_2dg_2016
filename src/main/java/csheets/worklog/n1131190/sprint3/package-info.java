@@ -36,6 +36,7 @@
  *
  * <h2>5. Design</h2>
  *
+ * <img src="doc-files/ipc01_3_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
