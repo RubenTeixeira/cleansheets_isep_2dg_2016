@@ -18,7 +18,6 @@ csheets.ext.conditionalFormatting.ConditionalFormattingExtension;1.0;Text_format
 csheets.ext.FindWorkbook.FindWorkbookExtension;1.0;Find_workbook
 csheets.ext.macro_beanshell.MacroBeanShellExtension;1.0;Shell_on_Cleansheet
 csheets.ext.notes.NotesExtension;1.0;Enables_noting
-csheets.ext.secureCommunications.SecureCommunicationsExtension;1.0;Allow_to_setup_a_secure_communication
+csheets.ext.secureCommunications.SecureCommunicationsExtension;1.0;Allow_to_setup_a_secure_communication_and_Display_a_real_time_chart
 csheets.ext.style.StyleExtension;1.0;Enables_font_style
 csheets.ext.agenda.AgendaExtension;1.0;Wizard
-csheets.ext.networkAnalizer.NetworkAnalizerExtension;1.0;Display_a_real_time_chart

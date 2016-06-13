@@ -7,65 +7,72 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 
 /**
- * This class implements the UI interface extension for the secure communications extension.
- * A UI interface extension must extend the UIExtension abstract class.
+ * This class implements the UI interface extension for the secure
+ * communications extension. A UI interface extension must extend the
+ * UIExtension abstract class.
  *
  * @see UIExtension
  * @author Renato Machado
  */
 public class UIExtensionSecureCommunications extends UIExtension {
 
-    /**
-     * The icon to display with the extension's name
-     */
-    private Icon icon;
+	/**
+	 * The icon to display with the extension's name
+	 */
+	private Icon icon;
 
-    /**
-     * A side bar that provides editing of comments
-     */
-    private JComponent sideBar;
+	/**
+	 * A side bar that provides editing of comments
+	 */
+	private JComponent sideBarSecureCommunications;
 
-    /**
-     * Controller.
-     */
-    private SecureCommunicationsController shareController;
+	/**
+	 * A side bar that provides editing of comments
+	 */
+	private JComponent sideBarNetworkAnalizer;
 
-    /**
-     * The menu of the extension
-     *
-     * @param extension extension
-     * @param uiController ui controller
-     */
-    public UIExtensionSecureCommunications(Extension extension, UIController uiController) {
-        super(extension, uiController);
-    }
+	/**
+	 * Controller.
+	 */
+	private SecureCommunicationsController shareController;
 
-    /**
-     * Returns an icon to display with the extension's name.
-     *
-     * @return an icon with style
-     */
-    public Icon getIcon() {
+	/**
+	 * The menu of the extension
+	 *
+	 * @param extension extension
+	 * @param uiController ui controller
+	 */
+	public UIExtensionSecureCommunications(Extension extension,
+										   UIController uiController) {
+		super(extension, uiController);
+	}
+
+	/**
+	 * Returns an icon to display with the extension's name.
+	 *
+	 * @return an icon with style
+	 */
+	public Icon getIcon() {
 //		if (icon == null) {
 //			icon = new ImageIcon(ShareExtension.class.getResource("res/img/share.png"));
 //		}
 //		return icon;
-        return null;
-    }
-    
-    /**
-     * Returns a side bar that gives access to extension-specific functionality.
-     *
-     * @return a component, or null if the extension does not provide one
-     */
-    public JComponent getSideBar() {
-        if (sideBar == null) {
-            if (shareController == null) {
-                shareController = new SecureCommunicationsController();
-            }
-            sideBar = new SecureCommunicationsPanel(uiController, shareController);
-        }
-        return sideBar;
-    }
+		return null;
+	}
+
+	/**
+	 * Returns a side bar that gives access to extension-specific functionality.
+	 *
+	 * @return a component, or null if the extension does not provide one
+	 */
+	public JComponent getSideBar() {
+		if (sideBarSecureCommunications == null) {
+			if (shareController == null) {
+				shareController = new SecureCommunicationsController();
+			}
+			sideBarSecureCommunications = new SecureCommunicationsUI(uiController, shareController);
+		}
+		return sideBarSecureCommunications;
+	}
 
 }
