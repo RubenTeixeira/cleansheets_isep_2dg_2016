@@ -80,9 +80,10 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
         subjectCellText = new javax.swing.JTextField();
         changeSubjectButton = new javax.swing.JToggleButton();
         bodyjLabel = new javax.swing.JLabel();
-        bodyCellText = new javax.swing.JTextField();
         changeBodyButton = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        bodyCellText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -112,8 +113,6 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 
         bodyjLabel.setText("Body");
 
-        bodyCellText.setEditable(false);
-
         changeBodyButton.setText("change");
         changeBodyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,42 +120,48 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
             }
         });
 
-        jButton1.setText("SEND");
+        jButton1.setForeground(new java.awt.Color(51, 153, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/ext/email/res/img/paperfly-512.png"))); // NOI18N
+        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.setBorderPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        bodyCellText.setEditable(false);
+        bodyCellText.setColumns(20);
+        bodyCellText.setRows(5);
+        jScrollPane1.setViewportView(bodyCellText);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(subjectjLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(subjectCellText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeSubjectButton))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(destinationjLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(destinationCellText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeDestinationButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(bodyjLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(bodyCellText, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(changeBodyButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(destinationjLabel)
+                            .addComponent(subjectjLabel)
+                            .addComponent(bodyjLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(destinationCellText)
+                            .addComponent(subjectCellText)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(changeDestinationButton)
+                            .addComponent(changeSubjectButton)
+                            .addComponent(changeBodyButton))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,11 +178,12 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
                     .addComponent(subjectCellText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(changeSubjectButton))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bodyjLabel)
-                    .addComponent(bodyCellText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeBodyButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bodyjLabel)
+                        .addComponent(changeBodyButton))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -190,9 +196,7 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 55, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -214,18 +218,24 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
     }//GEN-LAST:event_changeBodyButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		//SendingEmailDialog sendingEmailDialog = new SendingEmailDialog(null, true);
 		try {
+			//sendingEmailDialog.setVisible(true);
+
 			this.controller.sendEmail(this.mail, this.destinationCellText.
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
-			JOptionPane.
-				showMessageDialog(this, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
+			//sendingEmailDialog.setVisible(false);
 			uiController.removeSelectionListener(EmailTestDialog.this);
 			this.setModal(false);
 			this.dispose();
-		} catch (Exception ex) {
 			JOptionPane.
-				showMessageDialog(this, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
+				showMessageDialog(null, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+		} catch (Exception ex) {
+			//sendingEmailDialog.setVisible(false);
+			JOptionPane.
+				showMessageDialog(null, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -277,7 +287,7 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField bodyCellText;
+    private javax.swing.JTextArea bodyCellText;
     private javax.swing.JLabel bodyjLabel;
     private javax.swing.JToggleButton changeBodyButton;
     private javax.swing.JToggleButton changeDestinationButton;
@@ -286,6 +296,7 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
     private javax.swing.JLabel destinationjLabel;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField subjectCellText;
     private javax.swing.JLabel subjectjLabel;
     // End of variables declaration//GEN-END:variables

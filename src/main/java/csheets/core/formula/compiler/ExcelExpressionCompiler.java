@@ -40,6 +40,7 @@ import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.RangeReference;
 import csheets.core.formula.lang.ReferenceOperation;
 import csheets.core.formula.lang.UnknownElementException;
+import csheets.core.formula.lang.VariableGlobalReference;
 import csheets.core.formula.lang.VariableLocalReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -148,11 +149,11 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 							println("VART_REF " + cell.getAddress() + " " + node.
 								getText());
 						return new VariableLocalReference(cell, node.getText());
-					/*case FormulaParserTokenTypes.NAME:
-					return cell.getSpreadsheet().getWorkbook().
-						case FormulaParserTokenTypes.NAME:
-					return cell.getSpreadsheet().getWorkbook().
-					 getRange(node.getText()) (Reference)*/
+					case FormulaLexer.VARG_REF:
+						System.out.
+							println("VARG_REF " + cell.getAddress() + " " + node.
+								getText());
+						return new VariableGlobalReference(cell, node.getText());
 				}
 			} catch (ParseException e) {
 				throw new FormulaCompilationException(e);
@@ -164,7 +165,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 		try {
 			if (node.getText() != null) {
 				function = Language.getInstance().getFunction(node.getText());
-                                System.out.println(function.getIdentifier());
+				System.out.println(function.getIdentifier());
 			}
 		} catch (UnknownElementException e) {
 		}

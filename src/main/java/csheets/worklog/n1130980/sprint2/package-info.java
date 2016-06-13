@@ -104,6 +104,8 @@
  *
  * -Describe new or existing design patterns used in the issue-
  * <p>
+ * There is the pattern Value Object - Comment</p>
+ * <p>
  * -You can also add other artifacts to document the design, for instance,
  * database models or updates to the domain model-
  * </p>

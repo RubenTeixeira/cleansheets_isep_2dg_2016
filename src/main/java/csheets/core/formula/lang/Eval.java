@@ -20,12 +20,15 @@
  */
 package csheets.core.formula.lang;
 
+import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.ui.FormEditor.ui.FormEditor;
+import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.core.formula.compiler.FormulaCompiler;
+import csheets.ui.ctrl.UIController;
 
 /**
  * A function that returns the numeric sum of its arguments.
@@ -49,12 +52,23 @@ public class Eval implements Function {
 	}
 
 	public String getIdentifier() {
-		return "EVAL";
+		return "Eval";
 	}
 
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		new FormEditor();
-		return new Value();
+		try {
+			String content = arguments[0].toString();
+			if (content.charAt(0) == '"' && content.charAt(content.length() - 1) == '"') {
+				content = content.substring(1, content.length() - 1);
+			}
+			content = "=" + content;
+			Cell cell = UIController.getUIController().getActiveWorkbook().
+				getSpreadsheet(0).getCell(0, 0);
+			return FormulaCompiler.getInstance().compile(cell, content).
+				evaluate();
+		} catch (FormulaCompilationException ex) {
+			return new Value();
+		}
 	}
 
 	public FunctionParameter[] getParameters() {
