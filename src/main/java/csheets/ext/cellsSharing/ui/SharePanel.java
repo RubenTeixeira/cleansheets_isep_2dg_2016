@@ -271,8 +271,8 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 		if (evt.getValueIsAdjusting() == false) {
 			if (instancesList.getSelectedIndex() == -1) {
 				//No selection.
-				sendButton.setEnabled(false);
-				connectButton.setEnabled(false);
+				sendButton.setEnabled(true);
+				connectButton.setEnabled(true);
 			} else {
 				//Selection.
 				cells = uiController.focusOwner.getSelectedCells();

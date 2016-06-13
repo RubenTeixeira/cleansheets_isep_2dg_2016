@@ -21,9 +21,9 @@ public class ShareCellsController {
 	 */
 	private TcpService tcpService;
 
-        public ShareCellsController(){
-        }
-        
+	public ShareCellsController() {
+	}
+
 	/**
 	 * Starts the UDP service.
 	 *
@@ -147,7 +147,7 @@ public class ShareCellsController {
 		message += ";" + stylableCell.getAddress().getColumn() + ";"
 			+ stylableCell.getAddress().getRow() + ";" + stylableCell.getValue().
 			getType()
-			+ ";" + stylableCell.getValue().toString() + ";" + stylableCell.
+			+ ";" + stylableCell.getContent() + ";" + stylableCell.
 			getFont().getName()
 			+ ";" + stylableCell.getFont().getStyle() + ";" + stylableCell.
 			getFont().getSize()
@@ -193,8 +193,8 @@ public class ShareCellsController {
 				} else {
 					value = "";
 				}
-                                
-                                // Sets the cell's style
+
+				// Sets the cell's style
 				StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().
 					getCell(column, row).getExtension(StyleExtension.NAME);
 				cell.setContent(value);
@@ -230,17 +230,18 @@ public class ShareCellsController {
 		tcpService.continuousSending(message);
 	}
 
-        /**
-         * Sets the target instance for a continuous sending of messages.
-         * @param target Targeted instance
-         */
+	/**
+	 * Sets the target instance for a continuous sending of messages.
+	 *
+	 * @param target Targeted instance
+	 */
 	public void setContinuousTarget(String target) {
 		tcpService.setContinuousTarget(target);
 	}
 
-        /**
-         * Stops the continuous sending of messages.
-         */
+	/**
+	 * Stops the continuous sending of messages.
+	 */
 	public void stopConnection() {
 		tcpService.stopContinuousSending();
 	}
