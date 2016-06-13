@@ -119,7 +119,7 @@
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -127,15 +127,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Analysis use case and design.</p>
  * <p>
  * Today:
  * <p>
- * 1.</p>
+ * 1. Update UI's</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -143,15 +143,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Update UI's</p>
  * <p>
  * Today:
  * <p>
- * 1.</p>
+ * 1. Creates a Script manager. UC implementation.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  * <p>
  * <b>Tuesday</b>
