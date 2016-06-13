@@ -50,6 +50,16 @@
  * Lang01.1 the first week and I'm comfortable with it.
  *
  * <h2>5. Design</h2>
+ * You need to create three new classes in csheets.core.formula.lang packget to
+ * represent the three new functions. The first is the Eval basically it gets a
+ * variable of type Value.Type.TEXT that contain the expression to run as a
+ * formula, implementation will be done using the FormulaCompiler.getInstance ()
+ * method. Compile (Cell cell, String source ); and the value is obtained to
+ * evaluate () method instantiates the Formula class. The DoWhile and WhileDo
+ * functions will be made just as it was made For function, what changes will be
+ * the order of the cycle, but the proposal is to set the first parameter as the
+ * expression to be executed and the second as the expression to be checked for
+ * continuing the cycle.
  *
  * <h3>6. Tests</h3>
  *
