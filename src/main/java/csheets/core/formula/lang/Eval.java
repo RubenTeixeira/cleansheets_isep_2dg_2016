@@ -32,24 +32,24 @@ import csheets.ui.FormEditor.ui.FormEditor;
  *
  * @author Einar Pehrson
  */
-public class Form implements Function {
+public class Eval implements Function {
 
 	/**
 	 * The only (but repeatable) parameter: a numeric term
 	 */
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.NUMERIC, "Term", true,
-							  "A number to be included in the sum")
+		new FunctionParameter(Value.Type.TEXT, "Formula", false,
+							  "Expression to be executed by the function as formula")
 	};
 
 	/**
 	 * Creates a new instance of the SUM function.
 	 */
-	public Form() {
+	public Eval() {
 	}
 
 	public String getIdentifier() {
-		return "FORM";
+		return "EVAL";
 	}
 
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {

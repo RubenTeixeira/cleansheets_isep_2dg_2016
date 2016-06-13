@@ -1,2 +1,2 @@
-[EL Info]: 2016-06-04 19:36:09.402--ServerSession(794891081)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
-[EL Info]: connection: 2016-06-04 19:36:09.82--ServerSession(794891081)--file:/Users/valhalla/Documents/LAPR4/lapr4-2016-2dg/target/csheets-1.0-SNAPSHOT.jar_lapr4.CleanSheetsPU login successful
+[EL Info]: 2016-06-09 15:23:55.189--ServerSession(1262288130)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
+[EL Info]: connection: 2016-06-09 15:23:55.523--ServerSession(1262288130)--file:/Users/valhalla/Documents/LAPR4/lapr4-2016-2dg/target/csheets-1.0-SNAPSHOT.jar_lapr4.CleanSheetsPU login successful

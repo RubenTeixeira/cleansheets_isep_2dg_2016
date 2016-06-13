@@ -11,7 +11,7 @@ import csheets.core.formula.FunctionParameter;
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-public class For implements Function {
+public class DoWhile implements Function {
 
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
 		new FunctionParameter(Value.Type.UNDEFINED, "Term1", false,
@@ -22,7 +22,7 @@ public class For implements Function {
 							  "A number to be included in the sum")
 	};
 
-	public For() {
+	public DoWhile() {
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class For implements Function {
 	 */
 	@Override
 	public String getIdentifier() {
-		return "FOR";
+		return "DoWhile";
 	}
 
 	/**
@@ -51,6 +51,29 @@ public class For implements Function {
 			System.out.println(args[2].evaluate());
 		}
 		return value;
+		/*
+		Expression assignment = args[0];
+		Expression limiter = args[1];
+		//expressions[] for instructionblock.
+		Expression[] expBlock = new Expression[args.length - 2];
+		int j = 0;
+		for (int i = 2; i < args.length; i++) {
+			expBlock[j] = args[i];
+			j++;
+		}
+		InstructionBlock block = new InstructionBlock(expBlock);
+		//starting point.
+		assignment.evaluate();
+		//limiter validation
+		Value flag = limiter.evaluate();
+		if (flag.toBoolean() == false) {
+			throw new IllegalValueTypeException(flag, flag.getType());
+		}
+		Value value = new Value();
+		while (args[1].evaluate().toBoolean()) {
+			value = block.evaluate();
+		}
+		return value;*/
 	}
 
 	public FunctionParameter[] getParameters() {

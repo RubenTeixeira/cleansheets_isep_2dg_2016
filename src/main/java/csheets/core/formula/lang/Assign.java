@@ -42,7 +42,7 @@ public class Assign implements BinaryOperator {
 				((CellImpl) var.getCell()).addVariable(var.getVariable(), value);
 			} else if (leftOperand instanceof CellReference) {
 				CellReference cell = (CellReference) leftOperand;
-				((CellImpl) cell.getCell()).setContent(value.toNumber() + "");
+				((CellImpl) cell.getCell()).setContent(value.toString());
 			}
 		} catch (Exception ex) {
 			Logger.getLogger(Assign.class.getName()).
