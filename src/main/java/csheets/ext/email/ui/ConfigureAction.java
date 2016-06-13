@@ -32,7 +32,7 @@ class ConfigureAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		new Login(controller).setVisible(true);
+		new Login(controller, uiController).setVisible(true);
 	}
 
 }

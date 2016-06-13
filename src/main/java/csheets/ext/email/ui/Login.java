@@ -1,6 +1,8 @@
 package csheets.ext.email.ui;
 
+import csheets.ext.email.Email;
 import csheets.ext.email.EmailController;
+import csheets.ui.ctrl.UIController;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.FileReader;
@@ -16,13 +18,15 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
 	private EmailController controller;
+	private UIController uiController;
+	private Email mail;
 
 	/**
 	 * Creates new form Login
 	 *
 	 * @param controller
 	 */
-	public Login(EmailController controller) {
+	public Login(EmailController controller, UIController uiController) {
 
 		initComponents();
 
@@ -35,10 +39,16 @@ public class Login extends javax.swing.JFrame {
 		this.setAlwaysOnTop(true);
 		this.setResizable(false);
 		this.controller = controller;
+		this.uiController = uiController;
+		this.mail = null;
 		Properties props = new Properties();
 		try {
 			Reader r = new FileReader("mail.properties");
 			props.load(r);
+			this.mail = this.controller.
+				configureEmail(props.getProperty("mail.username"), props.
+							   getProperty("mail.password"), props.
+							   getProperty("mail.smtp.host"));
 			this.mailTextField.setText(props.getProperty("mail.username"));
 			this.serverTextField.setText(props.getProperty("mail.smtp.host"));
 			this.TestEmailButton.setEnabled(true);
@@ -159,7 +169,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TestEmailButton, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TestEmailButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -190,10 +200,11 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
 		try {
-			controller.configureEmail(this.mailTextField.getText(), String.
-									  valueOf(this.passwordField.
-										  getPassword()), this.serverTextField.
-									  getText());
+			this.mail = controller.
+				configureEmail(this.mailTextField.getText(), String.
+							   valueOf(this.passwordField.
+								   getPassword()), this.serverTextField.
+							   getText());
 
 			JOptionPane.
 				showMessageDialog(this, "Welcome!!!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
@@ -208,7 +219,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void TestEmailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestEmailButtonActionPerformed
-
+		this.setAlwaysOnTop(false);
+		dispose();
+		new EmailTestDialog(null, true, this.controller, this.uiController, mail).
+			setVisible(true);
     }//GEN-LAST:event_TestEmailButtonActionPerformed
 
 	/**
@@ -252,7 +266,7 @@ public class Login extends javax.swing.JFrame {
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				new Login(null).setVisible(true);
+				new Login(null, null).setVisible(true);
 			}
 		});
 	}
