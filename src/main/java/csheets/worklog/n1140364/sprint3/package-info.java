@@ -208,9 +208,15 @@
  *
  * <p>
  * <b>Evidences:</b>
+ * </p>
+ *
  * <p>
- * - url of commit: - description: this commit is related to the implementation
- * of the design pattern-</p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d337176f5a593fd0ce47b731f73f50268650898">Script
+ * Manager UI created</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b4359804da29e3115c99d1a20449587721923665">Integration
+ * of scripts from formulas</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *
