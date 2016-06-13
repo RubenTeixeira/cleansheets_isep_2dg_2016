@@ -24,6 +24,7 @@ package csheets.ext.style;
 import csheets.core.Cell;
 import csheets.core.Value;
 import csheets.ext.CellExtension;
+import csheets.notification.Notification;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.DateFormat;
@@ -232,6 +233,7 @@ public class StylableCell extends CellExtension {
 	 */
 	public void setFormat(Format format) {
 		this.format = format;
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -241,6 +243,7 @@ public class StylableCell extends CellExtension {
 	 */
 	public void setFont(Font font) {
 		this.font = font;
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -256,6 +259,7 @@ public class StylableCell extends CellExtension {
 		} else {
 			throw new IllegalArgumentException("Illegal alignment");
 		}
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -271,6 +275,7 @@ public class StylableCell extends CellExtension {
 		} else {
 			throw new IllegalArgumentException("Illegal alignment");
 		}
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -280,6 +285,7 @@ public class StylableCell extends CellExtension {
 	 */
 	public void setForegroundColor(Color fgColor) {
 		this.fgColor = fgColor;
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -289,6 +295,7 @@ public class StylableCell extends CellExtension {
 	 */
 	public void setBackgroundColor(Color bgColor) {
 		this.bgColor = bgColor;
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -298,6 +305,7 @@ public class StylableCell extends CellExtension {
 	 */
 	public void setBorder(Border border) {
 		this.border = border;
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	/**
@@ -311,7 +319,6 @@ public class StylableCell extends CellExtension {
 		this.fgColor = FOREGROUND;
 		this.bgColor = BACKGROUND;
 		this.border = BORDER;
-
 	}
 
 	/**
@@ -342,6 +349,7 @@ public class StylableCell extends CellExtension {
 			this.fgColor = stylableSource.fgColor;
 			this.bgColor = stylableSource.bgColor;
 			this.border = stylableSource.border;
+			Notification.cellInformer().notifyChange(this);
 		}
 	}
 }

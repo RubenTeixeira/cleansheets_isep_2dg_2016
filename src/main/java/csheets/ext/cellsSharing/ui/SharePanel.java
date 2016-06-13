@@ -9,6 +9,7 @@ import csheets.core.Cell;
 import csheets.core.CellListener;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.cellsSharing.ShareExtension;
+import csheets.notification.Notification;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -100,6 +101,7 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 		this.controller = controller;
 		this.controller.startUdpService(this, defaultSeconds);
 		this.controller.startTcpService(this, defaultPort);
+		Notification.cellInformer().addObserver(this);
 	}
 
 	/**
@@ -496,7 +498,10 @@ public class SharePanel extends javax.swing.JPanel implements CellListener, Sele
 
 	@Override
 	public void update(Observable o, Object object) {
-		if (object instanceof Map) {
+		if (object instanceof Cell) {
+			Cell cell = (Cell) object;
+			this.controller.continuousSending(cell);
+		} else if (object instanceof Map) {
 			Map<String, String> mapCells = (Map<String, String>) object;
 
 			Map.Entry<String, String> entry = mapCells.entrySet().iterator().

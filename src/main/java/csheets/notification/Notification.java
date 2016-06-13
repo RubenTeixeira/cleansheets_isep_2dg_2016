@@ -31,6 +31,8 @@ public class Notification {
 	};
 	private static Notifier gamerInformer = new Notifier() {
 	};
+	private static Notifier cellInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -70,6 +72,10 @@ public class Notification {
 
 	public static Notifier gameInformer() {
 		return Notification.gamerInformer;
+	}
+
+	public static Notifier cellInformer() {
+		return Notification.cellInformer;
 	}
 
 }
