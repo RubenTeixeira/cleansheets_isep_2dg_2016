@@ -5,24 +5,28 @@
  */
 package csheets.ext.email.ui;
 
-import javax.mail.Session;
+import csheets.ext.email.Email;
+import csheets.ext.email.EmailController;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos
  */
 public class Mail extends javax.swing.JFrame {
 
-	private final String user;
-	private final Session session;
+	private final Email email;
+	private final EmailController controller;
 
 	/**
 	 * Creates new form Mail
+	 *
+	 * @param email email account
+	 * @param controller email controller
 	 */
-	public Mail(String user, Session session) {
+	public Mail(Email email, EmailController controller) {
 		initComponents();
-		this.session = session;
-		this.user = user;
+		this.email = email;
+		this.controller = controller;
 	}
 
 	/**

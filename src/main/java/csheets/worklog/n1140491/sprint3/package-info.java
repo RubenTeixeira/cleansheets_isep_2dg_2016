@@ -110,7 +110,22 @@
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
+ * To resolve this issue, we decided to create the class Email, assigning all
+ * the responsabilities of email functionalities to it.
+ *
+ * public Email(Session session) { this.session = session; } The class has one
+ * attribute(Session), that contains the user authentication and the properties
+ * of the email account.
+ *
+ * We added to methods to this class:
+ *
+ * public void connect(String server, String email, String password) public void
+ * sendMessage(String to, String subject, String body)
+ *
+ * The method connect tries to authenticate to the email account. if not
+ * successfull it throws an exception. The method sendMessage tries to send a
+ * message to another email account. If this email is not sent, the method
+ * throws an exception.
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
  * where used in this issue. As far as possible you should use links to the
@@ -138,20 +153,18 @@
  *
  * <h2>9. Work Log</h2>
  *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
  * <p>
- * Example
+ * <b>Saturday</b>
+ * <p>
+ * Understanding JavaMail library.
+ * <p>
+ * <b>Sunday</b>
+ * <p>
+ * Analisys, design and beggining of user interface implementation
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Analysis of the...
+ * Implementation of controller, more user interfaces and unit tests
  * <p>
  * Blocking:
  * <p>

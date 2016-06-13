@@ -24,7 +24,8 @@ public class Login extends javax.swing.JFrame {
 	/**
 	 * Creates new form Login
 	 *
-	 * @param controller
+	 * @param controller email contoller
+	 * @param uiController ui controller
 	 */
 	public Login(EmailController controller, UIController uiController) {
 

@@ -31,11 +31,11 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 	/**
 	 * Creates new form EmailTestDialog
 	 *
-	 * @param parent
-	 * @param modal
-	 * @param controller
-	 * @param uiController
-	 * @param mail
+	 * @param parent Parent frame
+	 * @param modal Modal
+	 * @param controller email controller
+	 * @param uiController ui controller
+	 * @param mail email account
 	 */
 	public EmailTestDialog(java.awt.Frame parent, boolean modal,
 						   EmailController controller, UIController uiController,
