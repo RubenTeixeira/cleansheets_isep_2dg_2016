@@ -60,6 +60,7 @@ WhileDo
 # Others functions
 Form
 Eval
+Script
 
 # # # Numeric functions reflected from java.lang.Math
 #

@@ -73,7 +73,8 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 */
 	public Workbook(int sheets) {
 		for (int i = 0; i < sheets; i++) {
-			spreadsheets.add(new SpreadsheetImpl(this, getNextSpreadsheetTitle()));
+			spreadsheets.
+				add(new SpreadsheetImpl(this, getNextSpreadsheetTitle()));
 		}
 	}
 
@@ -265,6 +266,24 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 
 	public void addVariable(String name, Value value) {
 		this.variables.put(name, value);
+	}
+
+	private Map<String, String> scripts = new HashMap();
+
+	public void clearScripts() {
+		this.scripts.clear();
+	}
+
+	public String getScript(String name) {
+		return this.scripts.get(name);
+	}
+
+	public Map<String, String> getScripts() {
+		return this.scripts;
+	}
+
+	public void addScript(String name, String value) {
+		this.scripts.put(name, value);
 	}
 
 }

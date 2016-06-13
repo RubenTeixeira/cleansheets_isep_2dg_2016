@@ -13,22 +13,21 @@ import csheets.ui.ctrl.UIController;
  */
 public class Macro implements Script {
 
-    public final static String NAME = "Macro";
-    
-    private UIController uiController;
-    
-    public Macro(UIController uiController) {
-        this.uiController = uiController;
-    }
+	public final static String NAME = "Macro";
 
-    @Override
-    public String getExample() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    @Override
-    public String run(String code) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+	private UIController uiController;
+
+	public Macro(UIController uiController) {
+		this.uiController = uiController;
+	}
+
+	@Override
+	public String getExample() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public String run(String code) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 }

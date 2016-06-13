@@ -11,7 +11,7 @@ package csheets.ext.macro_beanshell;
  */
 public interface Script {
 
-    public String getExample();
-    public String run(String code);
-    
+	public String getExample();
+
+	public String run(String code);
 }
