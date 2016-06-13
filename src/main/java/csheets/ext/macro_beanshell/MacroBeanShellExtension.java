@@ -11,27 +11,28 @@ import csheets.ui.ext.UIExtension;
  */
 public class MacroBeanShellExtension extends Extension {
 
-    /**
-     * The name of the extension
-     */
-    public static final String NAME = "Marco/BeanShell";
+	/**
+	 * The name of the extension
+	 */
+	public static final String NAME = "Macro/BeanShell";
 
-    /**
-     * Creates a new MacroBeanShellExtension extension.
-     */
-    public MacroBeanShellExtension() {
-        super(NAME);
-    }
+	/**
+	 * Creates a new MacroBeanShellExtension extension.
+	 */
+	public MacroBeanShellExtension() {
+		super(NAME);
+	}
 
-    /**
-     * Returns the user interface extension of this extension (an instance of
-     * the class
-     * {@link csheets.ext.macro_beanshell.ui.UIExtensionMacroBeanShell}).
-     *
-     * @param uiController the user interface controller
-     * @return a user interface extension, or null if none is provided
-     */
-    public UIExtension getUIExtension(UIController uiController) {
-        return new UIExtensionMacroBeanShell(this, uiController);
-    }
+	/**
+	 * Returns the user interface extension of this extension (an instance of
+	 * the class
+	 * {@link csheets.ext.macro_beanshell.ui.UIExtensionMacroBeanShell}).
+	 *
+	 * @param uiController the user interface controller
+	 * @return a user interface extension, or null if none is provided
+	 */
+	@Override
+	public UIExtension getUIExtension(UIController uiController) {
+		return new UIExtensionMacroBeanShell(this, uiController);
+	}
 }
