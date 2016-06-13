@@ -275,7 +275,7 @@
  * <p>
  * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
  * 
- * <h3>10.2. Teamwork: ...</h3>
+ * <h3>10.2. Teamwork: Helped out colleague in IPC07.1 (https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/c81b8ce76da4eed4e4cfe4cead9f1bb6f502d0bc)</h3>
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 

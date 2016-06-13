@@ -57,7 +57,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 */
 	private int createdSpreadsheets;
 
-	private String parentFileName;
+	private String parentFileName = "";
 
 	/**
 	 * Creates a new empty workbook.
@@ -73,8 +73,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 */
 	public Workbook(int sheets) {
 		for (int i = 0; i < sheets; i++) {
-			spreadsheets.add(new SpreadsheetImpl(this,
-												 getNextSpreadsheetTitle()));
+			spreadsheets.add(new SpreadsheetImpl(this, getNextSpreadsheetTitle()));
 		}
 	}
 
