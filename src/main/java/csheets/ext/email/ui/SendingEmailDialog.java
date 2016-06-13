@@ -16,6 +16,9 @@ public class SendingEmailDialog extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form SendingEmailDialog
+	 *
+	 * @param parent parent frame
+	 * @param modal modal
 	 */
 	public SendingEmailDialog(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
