@@ -19,6 +19,8 @@ public class SearchToolsPanel extends javax.swing.JFrame {
     
     private Map<String, Value.Type> types;
     
+    private boolean formulas = false;
+    
     private boolean comments = false;
     
     /**
@@ -56,6 +58,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         commentsRadioButton = new javax.swing.JRadioButton();
+        formulasRadioButton = new javax.swing.JRadioButton();
 
         numericCheckBox.setText("Numeric");
         numericCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +135,13 @@ public class SearchToolsPanel extends javax.swing.JFrame {
             }
         });
 
+        formulasRadioButton.setText("Search formulas");
+        formulasRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                formulasRadioButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -146,6 +156,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(formulasRadioButton)
                             .addComponent(commentsRadioButton)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +198,9 @@ public class SearchToolsPanel extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(booleanCheckBox)
                     .addComponent(moneyCheckBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(formulasRadioButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(commentsRadioButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,7 +282,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_moneyCheckBoxActionPerformed
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-        panel.setAdvancedSearch(types, comments);
+        panel.setAdvancedSearch(types, formulas, comments);
         setVisible(false);
     }//GEN-LAST:event_applyButtonActionPerformed
 
@@ -285,6 +298,14 @@ public class SearchToolsPanel extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_commentsRadioButtonActionPerformed
 
+    private void formulasRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formulasRadioButtonActionPerformed
+        if (formulasRadioButton.isSelected()) {
+            formulas = true;
+        } else {
+            formulas = false;
+        }
+    }//GEN-LAST:event_formulasRadioButtonActionPerformed
+
     
     
     
@@ -296,6 +317,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
     private javax.swing.JRadioButton commentsRadioButton;
     private javax.swing.JCheckBox dateCheckBox;
     private javax.swing.JCheckBox errorCheckBox;
+    private javax.swing.JRadioButton formulasRadioButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

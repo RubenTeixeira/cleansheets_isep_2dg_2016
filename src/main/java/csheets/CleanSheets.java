@@ -79,7 +79,7 @@ public class CleanSheets {
 	/**
 	 * The open workbooks
 	 */
-	private Map<Workbook, File> workbooks = new HashMap<Workbook, File>();
+	private Map<Workbook, File> workbooks = new HashMap<>();
 
 	/**
 	 * The application's properties

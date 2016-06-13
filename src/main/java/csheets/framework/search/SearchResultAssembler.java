@@ -7,6 +7,10 @@ package csheets.framework.search;
 
 import csheets.core.Cell;
 import csheets.core.Spreadsheet;
+import csheets.ext.comments.Comment;
+import csheets.ext.comments.CommentableCell;
+import csheets.ext.comments.CommentsExtension;
+import java.util.List;
 
 /**
  * This class serves as the assembler to Search Results
@@ -29,7 +33,10 @@ public class SearchResultAssembler {
         String cellAddress = cell.getAddress().toString().trim();
         String cellContent = cell.getContent().trim();
         String cellValue = cell.getValue().toString().trim();
-        return new SearchResultDTO(workBookFileName, sheetName, cellAddress, cellContent, cellValue);
+        List<Comment> cellComments = ((CommentableCell) 
+                cell.getExtension(CommentsExtension.NAME)).getCommentsList();
+        return new SearchResultDTO(workBookFileName, sheetName, cellAddress,
+                cellContent, cellValue, cellComments);
     }
 
 }

@@ -36,6 +36,8 @@ public class SearchPanel extends JPanel {
     private final SearchController searchController = new SearchController();
 
     private Map<String, Value.Type> types = new HashMap<>();
+    
+    private boolean formulas = false;
 
     private boolean comments = false;
 
@@ -220,9 +222,10 @@ public class SearchPanel extends JPanel {
         searchTools.setLocationRelativeTo(this);
     }//GEN-LAST:event_jSearchToolsButtonActionPerformed
 
-    public void setAdvancedSearch(Map<String, Value.Type> types,
-            boolean comments) {
+    public void setAdvancedSearch(Map<String, Value.Type> types, 
+            boolean formulas, boolean comments) {
         this.types = types;
+        this.formulas = formulas;
         this.comments = comments;
     }
 
@@ -236,7 +239,7 @@ public class SearchPanel extends JPanel {
 
             List<SearchResultDTO> results = searchController.
                     searchWorkBook(uiController.workbooks(), searchstring, types,
-                            comments);
+                            formulas, comments);
             int found = results.size();
             jStatusLabel.setText(found + " search results");
             if (found > 0) {

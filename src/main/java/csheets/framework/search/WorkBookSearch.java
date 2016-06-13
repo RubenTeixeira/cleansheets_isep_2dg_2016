@@ -50,7 +50,7 @@ public class WorkBookSearch {
      * @param comments
      * @return list of matching results
      */
-    public List<SearchResultDTO> getMatches(String pattern, Map<String, Value.Type> types, boolean comments) throws PatternSyntaxException {
+    public List<SearchResultDTO> getMatches(String pattern, Map<String, Value.Type> types, boolean formulas, boolean comments) throws PatternSyntaxException {
 
         // This is a stub, will be needed later and serves as test
         // for the pattern syntax
@@ -61,7 +61,7 @@ public class WorkBookSearch {
         for (Workbook workBook : this.workBooks) {
             for (int i = 0; i < workBook.getSpreadsheetCount(); i++) {
                 Spreadsheet sheet = workBook.getSpreadsheet(i);
-                results.addAll(getMatches(pattern, types, comments, sheet));
+                results.addAll(getMatches(pattern, types, formulas, comments, sheet));
             }
         }
 
@@ -76,7 +76,8 @@ public class WorkBookSearch {
      * @return list of matching results
      */
     private List<SearchResultDTO> getMatches(String pattern,
-            Map<String, Value.Type> types, boolean comments, Spreadsheet sheet) {
+            Map<String, Value.Type> types, boolean formulas, boolean comments,
+            Spreadsheet sheet) {
         List<SearchResultDTO> results = new ArrayList<>();
         int columns = sheet.getColumnCount();
         int rows = sheet.getRowCount();
@@ -88,16 +89,24 @@ public class WorkBookSearch {
                 String content = cell.getContent();
                 String value = cell.getValue().toString();
 
+                if (formulas == true && cell.getFormula() != null) {
+                    String formula = cell.getFormula().toString();
+                    if (formula.matches(pattern)) {
+                        results.add(SearchResultAssembler.
+                                getResultInformation(sheet, cell));
+                    }
+                }
+
                 if (comments == true) {
                     CommentableCell commentableCell = (CommentableCell) cell.
-				getExtension(CommentsExtension.NAME);
-                    
+                            getExtension(CommentsExtension.NAME);
+
                     List<Comment> commentList = commentableCell.getCommentsList();
-                    
+
                     for (Comment comment : commentList) {
                         if (comment.text().matches(pattern)) {
                             results.add(SearchResultAssembler.
-                                        getResultInformation(sheet, cell));
+                                    getResultInformation(sheet, cell));
                         }
                     }
                 }
@@ -116,7 +125,7 @@ public class WorkBookSearch {
                         }
                     } else {
                         results.add(SearchResultAssembler.
-                            getResultInformation(sheet, cell));
+                                getResultInformation(sheet, cell));
                     }
                 }
             }

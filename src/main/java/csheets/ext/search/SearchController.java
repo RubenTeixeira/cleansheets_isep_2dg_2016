@@ -37,11 +37,11 @@ public class SearchController {
      * @return result list
      */
     public List<SearchResultDTO> searchWorkBook(Stack<Workbook> workBooks,
-            String searchstring, Map<String, Value.Type> types, 
+            String searchstring, Map<String, Value.Type> types, boolean formulas,
             boolean comments) throws PatternSyntaxException {
         WorkBookSearch workBookSearch = new WorkBookSearch(workBooks);
         List<SearchResultDTO> results = workBookSearch.getMatches(searchstring,
-                types, comments);
+                types, formulas, comments);
         return results;
     }
 

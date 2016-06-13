@@ -5,7 +5,9 @@
  */
 package csheets.framework.search;
 
+import csheets.ext.comments.Comment;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * This is a Data Transfer Object class which sole purpose is to gather all
@@ -16,89 +18,103 @@ import java.io.Serializable;
  */
 public class SearchResultDTO implements Serializable {
 
-        
-        private final String workbook;
-    
-	/**
-	 * The workbook (uneeded atm)
-	 */
-	//private final String workBook;
-	/**
-	 * The SpreadSheet of the result
-	 */
-	private final String spreadSheet;
+    private final String workbook;
 
-	/**
-	 * The cell
-	 */
-	private final String cell;
+    /**
+     * The workbook (uneeded atm)
+     */
+    //private final String workBook;
+    /**
+     * The SpreadSheet of the result
+     */
+    private final String spreadSheet;
 
-	/**
-	 * Formula if applicable
-	 */
-	private final String formula;
+    /**
+     * The cell
+     */
+    private final String cell;
 
-	/**
-	 * Value
-	 */
-	private final String value;
+    /**
+     * Formula if applicable
+     */
+    private final String formula;
 
-	public SearchResultDTO(String workbookFileName, String spreadSheet, String cell, String formula,
-						   String value) {
-                this.workbook = workbookFileName;
-		this.spreadSheet = spreadSheet;
-		this.cell = cell;
-		this.formula = formula;
-		this.value = value;
-	}
+    /**
+     * Comments in the cell
+     */
+    private final List<Comment> comments;
 
-        public String getWorkBook() {
-            return workbook;
+    /**
+     * Value
+     */
+    private final String value;
+
+    public SearchResultDTO(String workbookFileName, String spreadSheet, String cell, String formula,
+            String value, List<Comment> comments) {
+        this.workbook = workbookFileName;
+        this.spreadSheet = spreadSheet;
+        this.cell = cell;
+        this.formula = formula;
+        this.value = value;
+        this.comments = comments;
+    }
+
+    public String getWorkBook() {
+        return workbook;
+    }
+
+    public String getSpreadSheet() {
+        return spreadSheet;
+    }
+
+    public String getCell() {
+        return cell;
+    }
+
+    public String getFormula() {
+        return formula;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    @Override
+    public String toString() {
+        String description = "";
+        description += workbook + " - ";
+        description += spreadSheet;
+        description += " [" + cell + "]\n";
+        if (formula != null && !"".equals(formula)) {
+            description += " Formula: " + formula;
         }
-        
-	public String getSpreadSheet() {
-		return spreadSheet;
-	}
+        description += " Value: " + value;
+        if (!comments.isEmpty()) {
+            for (Comment comment : comments) {
+                description += " Comment: " + comment.userName() + "-> " + comment.text();
+            }
+        }
+        return description;
+    }
 
-	public String getCell() {
-		return cell;
-	}
-
-	public String getFormula() {
-		return formula;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	@Override
-	public String toString() {
-		String description = "";
-                description += workbook + " - ";
-		description += spreadSheet;
-		description += " [" + cell + "]\n";
-		if (formula != null && !"".equals(formula)) {
-			description += " Formula: " + formula;
-		}
-		description += " Value: " + value;
-		return description;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final SearchResultDTO other = (SearchResultDTO) obj;
-		return !(!other.workbook.equals(this.workbook)
-                        || !other.spreadSheet.equals(this.spreadSheet)
-			|| !other.cell.equals(this.cell)
-			|| !other.formula.equals(this.formula)
-			|| !other.value.equals(this.value));
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SearchResultDTO other = (SearchResultDTO) obj;
+        return !(!other.workbook.equals(this.workbook)
+                || !other.spreadSheet.equals(this.spreadSheet)
+                || !other.cell.equals(this.cell)
+                || !other.formula.equals(this.formula)
+                || !other.value.equals(this.value));
+    }
 
 }
