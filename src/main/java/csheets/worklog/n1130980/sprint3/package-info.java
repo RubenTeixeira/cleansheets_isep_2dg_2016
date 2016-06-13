@@ -23,15 +23,20 @@
  *
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-70">LPFOURDG-4</a>
- * Sub-Task in Jira:
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-212">LPFOURDG-144</a></p>
+ * Sub-Task in Jira:</p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-213">LPFOURDG-147</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-212">Analysis -
+ * LPFOURDG-144</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-214">LPFOURDG-149</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-213">Design -
+ * LPFOURDG-147</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-215">LPFOURDG-150</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-214">Implementation
+ * - LPFOURDG-149</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-215">Tests -
+ * LPFOURDG-150</a></p>
  *
  * <h2>3. Requirement</h2>
  * This feature Tic-tac-toe is my responsibility
@@ -49,35 +54,37 @@
  *
  * <h2>4. Analysis</h2>
  * <p>
- * <img src="doc-files/core02_2_Analysis.png" alt="image">
+ * <img src="doc-files/IPC07_2_Analysis.png" alt="image">
  * </p>
  * <p>
- * In this use case it is intended that when you make a comment in a cell, it
- * must be captured and registered the user name logged on the machine /
- * computer. It is also intended that a cell may have several comments. When the
- * user puts the mouse on a cell should be displayed as a "tooltip", all
- * comments of the cell and their authors. Comments should be stored / persisted
- * in the workbook.</p>
- *
- * <b>CommentController Class:</b>
+ * The user starts Cleansheets, and right sidebar choose the option Play Games,
+ * edit profile picture, then choose an opponent in the Online Users pane of
+ * segida choose the TicTacToe game in the Available Games panel, select Options
+ * panel the connect option and confirm the link, and start the game with the
+ * Play option.</p>
  * <p>
- * In this class we have a method (cellSellected) receiving the selected cell,
- * where checks are reviewed, and if you are going to seek their comment. There
- * is another method (SetComment) receiving a cell and a String, which checks
- * whether the comment is null or empty, and if it is empty holds, but adds the
- * new comment and records the change in their workbook</p>
- *
- * <b>CommentableCell Class:</b>
+ * After these steps, the game panel is displayed and the option to choose the
+ * symbol game one of the players.</p>
  * <p>
- * In this class we have a method (hasComment) that checks whether the cell is
- * discussed. There is another method (setUserComment) that takes a String,
- * which is made the allocation of the String variable userComment, and is
- * called then the fireCommentsChanged() method notifies all registered
- * listeners that the cell's comments changed. There is also the getUserComment
- * () method that returns the comment
- *
- * <b>In the analysis of this feature, we chose to register the user name logged
- * on the machine.</b>
+ * The player chooses and shows the symbol (X | O) corresponding to each
+ * player.</p>
+ * <p>
+ * The user who escolhhe X is the first to play, and the other sees a message
+ * asking to wait your turn. Player X satisfies one of the game board cells with
+ * an X and that cell is automatically sent to the player, and so this already
+ * You can make your move while the player X is waiting.</p>
+ * <p>
+ * While the number of moves is less than 9, the system lets you play and when
+ * some player has made 3 or more moves checks if any of the players completed a
+ * sequence of 3 identical symbols.</p>
+ * <p>
+ * If any of the players complete the sequence, players are informed of the
+ * winner. If no complete a sequence are informed that drew.</p>
+ * <p>
+ * At the end they are asked whether to make a new game, or leave.</p>
+ * <p>
+ * In this feature you will need to make a reuse some existing code, Sharing
+ * feature on Cells</p>
  *
  *
  * <h3>Domain Model</h3>
@@ -86,7 +93,7 @@
  *
  * <h2>5. Design</h2>
  * <p>
- * <img src="doc-files/core02_2_Design.png" alt="image">
+ * <img src="doc-files/ipc07_2_Design.png" alt="image">
  * </p>
  * <h3>5.1. Functional Tests</h3>
  *
