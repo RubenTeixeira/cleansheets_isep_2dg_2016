@@ -218,22 +218,39 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
     }//GEN-LAST:event_changeBodyButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		//SendingEmailDialog sendingEmailDialog = new SendingEmailDialog(null, true);
-		try {
-			//sendingEmailDialog.setVisible(true);
+		Thread thread = new Thread() {
+			private SendingEmailDialog sendingEmailDialog;
 
+			public void run() {
+				this.sendingEmailDialog = new SendingEmailDialog(null, true);
+				this.sendingEmailDialog.setVisible(true);
+				this.sendingEmailDialog.
+					setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
+				sendingEmailDialog.setAlwaysOnTop(true);
+			}
+
+			public void interrupt() {
+				sendingEmailDialog.setModal(false);
+				sendingEmailDialog.dispose();
+			}
+		};
+
+		try {
+			this.setAlwaysOnTop(false);
+			this.setVisible(false);
+			this.setModal(false);
+			thread.start();
 			this.controller.sendEmail(this.mail, this.destinationCellText.
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
-			//sendingEmailDialog.setVisible(false);
+			thread.interrupt();
 			uiController.removeSelectionListener(EmailTestDialog.this);
-			this.setModal(false);
 			this.dispose();
 			JOptionPane.
 				showMessageDialog(null, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
-			//sendingEmailDialog.setVisible(false);
+			thread.interrupt();
 			JOptionPane.
 				showMessageDialog(null, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
