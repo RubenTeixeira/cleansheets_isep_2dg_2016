@@ -53,7 +53,7 @@
  * them to the UIController. UIController is in charge of managing the Interface
  * and therefore it returns all UIExtensions from their corresponding
  * Extensions. The ExtensionManager is the link to all Extensions and
- * Cleansheets application.</p>
+ * Cleansheets application.
  *
  * <b>ExtensionManager Class:</b>
  * <p>
@@ -148,61 +148,41 @@
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to implement 
  * The following diagrams illustrate core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical documentation the elements depicted in these design diagrams exist in the code!
- * 
- * <h3>User selects to connect to another instance (Automatic Cell Update)</h3>
- * The following diagram shows the setup of the local connection when the user selects to connect to another instance, and how the updates are made.
+ * <h3>User starts a search (Global Search)</h3>
+ * The following diagram shows how the search is made.
  * <p>
  * <img src="doc-files/core07_02_design_2.png" alt="image">
  * 
  * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "share" extension when cleansheets is running.
+ * The following diagram shows the setup of the "search" extension when cleansheets is running.
  * <p>
  * <img src="doc-files/core07_02_design_1.png" alt="image">
  *  
  * <h3>5.3. Classes</h3>
  * <p>
  * <b>Class Diagram</b>
- * 
  * <p>
- * * <b>Sequence Diagrams</b> illustrating the setup of the extension
- * <p>
- * The following sequence diagram illustrates the creation of the share
- * extension. All the extensions are loaded dynamically by the ExtensionManager
- * at application startup.
- * <img src="doc-files/ipc01_2_design_part1.png" alt="image">
- * <img src="doc-files/ipc01_2_design_part2.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the user interface
- * extension. All the UI extensions are loaded by the UIController at
- * application startup.
- * <img src="doc-files/ipc_extension_image3.png" alt="image">
- *
- * <p>
- * The following sequence diagram illustrates the creation of the menu
- * extension. All the menu extensions are loaded by the MenuBar at application
- * startup.
- * <img src="doc-files/ipc_extension_image4.png" alt="image">
- * <p>
- * <b>Sequence Diagrams</b> illustrating use cases of the extension
- * <p>
- * <img src="doc-files/ipc_extension_image5.png" alt="image">
- *
- * -Document the implementation with class diagrams illustrating the new and the modified classes-
+ * <img src="doc-files/core07_02_class_diagram.png" alt="image">
  * 
  * <h3>5.4. Design Patterns and Best Practices</h3>
- * 
- * -Describe new or existing design patterns used in the issue-
- * 
- * Observer: This Pattern is used to notify SharePanel with new instances in local network and received cells.
+ * <p>
+ * Singleton Pattern implemented by ExtensionManager.</p>
+ * <p>
+ * Data Transfer Object implemented by SearchResultDTO.</p>
+ * <p>
+ * Low Cowpling - High Cohesion.</p>
  * 
  * <h2>6. Implementation</h2>
  * 
- * -Reference the code elements that where updated or added-
- * 
- * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
+ * Updated the SearchPanel, SearchController, Workbook, WorkBookSearch and
+ * Cleansheets (Added temporary names for unsaved Workbooks. Also added the
+ * respective parent file's name to the Workbook's attributes. Made it so 
+ * WorkbookSearch now searches in more than one workbook.) Added 
+ * SearchToolsPanel:
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e9cbaf5762c6bf8cbb0fbc1c94dcc427c2770360</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/32c89623b03a40318a3a1deb816b113817b6ad15</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/593be0458a8e98f81cfdd1c14eae3597296a276d</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6aeb0b137ee8cdf6017fa2bfffff1cb8698269ce</p>
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 
@@ -218,7 +198,7 @@
  * <p>
  * Today
  * <p>
- * 1. Started analysis of IPC07.2
+ * 1. Started analysis of Core07.2
  * <p>
  * 2. Studied the program's code to help with the analysis.
  * <p>
@@ -230,26 +210,56 @@
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. Started analysis of IPC07.2
+ * 1. Started analysis of Core07.2
  * <p>
  * 2. Studied the program's code to help with the analysis.
  * <p>
  * Today
  * <p>
- * 1. Working on analysis of IPC07.2
+ * 1. Working on analysis of Core07.2
  * <p>
- * 2. Working on design of IPC07.2
+ * 2. Working on design of Core07.2
  * <p>
- * 3. Working on the implementation of IPC07.2
+ * 3. Working on the implementation of Core07.2
  * <p>
  * Blocking:
  * <p>
  * 1. -nothing-
  * <p>
  * <b>Sunday</b>
- * 
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Working on analysis of Core07.2
+ * <p>
+ * 2. Working on design of Core07.2
+ * <p>
+ * 3. Working on the implementation of Core07.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Working on the implementation of Core07.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
  * <b>Monday</b>
-
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Working on the implementation of Core07.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Finishing the analysis of Core07.2
+ * <p>
+ * 2. Working on the implementation of Core07.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
  * <b>Tuesday</b>
 
  * <b>Wednesday</b>
@@ -261,9 +271,6 @@
  * <h2>10. Self Assessment</h2> 
  * 
  * <h3>10.1. Design and Implementation: 3</h3>
- * 
- * 3- Good. My Use Case's implementation worked out fine but could be severely improved. 
- * The Unit Tests were scarce because I wasn't really sure how to test a Use Case that was very network dependent (broadcasts and TCP connections).
  * 
  * <b>Evidences:</b>
  * <p>
