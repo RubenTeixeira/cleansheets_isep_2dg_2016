@@ -22,7 +22,6 @@ package csheets.core.formula.lang;
 
 import csheets.core.Address;
 import csheets.core.Cell;
-import csheets.core.CellImpl;
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import csheets.core.formula.Reference;
@@ -96,7 +95,7 @@ public class VariableGlobalReference implements Reference {
 	 * @param rowAbsolute if the column is denoted with an absolute reference
 	 */
 	public VariableGlobalReference(Cell cell, boolean columnAbsolute,
-								  boolean rowAbsolute) {
+								   boolean rowAbsolute) {
 		this.cell = cell;
 		this.columnAbsolute = columnAbsolute;
 		this.rowAbsolute = rowAbsolute;
@@ -134,7 +133,8 @@ public class VariableGlobalReference implements Reference {
 	}
 
 	public Value evaluate() {
-		return ((CellImpl) cell).getVariable(this.variable);
+		return this.getCell().getSpreadsheet().getWorkbook().
+			getVariable(this.variable);
 	}
 
 	public Object accept(ExpressionVisitor visitor) throws ExpressionVisitorException {
