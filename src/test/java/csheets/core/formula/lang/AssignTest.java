@@ -11,6 +11,7 @@ import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.ExcelExpressionCompiler;
 import csheets.core.formula.compiler.FormulaCompilationException;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
@@ -23,15 +24,14 @@ public class AssignTest {
 	private ExcelExpressionCompiler compiler;
 	private Workbook workBook;
 	private Spreadsheet spreadSheet;
-	private Cell targetCell1;
-	private Cell targetCell2;
+	private Cell cellA1;
+	private Cell cellB1;
 
 	public AssignTest() {
-		this.compiler = new ExcelExpressionCompiler();
 		this.workBook = new Workbook(1);
 		this.spreadSheet = this.workBook.getSpreadsheet(0);
-		this.targetCell1 = this.spreadSheet.getCell(0, 0);
-		this.targetCell2 = this.spreadSheet.getCell(1, 0);
+		this.cellA1 = this.spreadSheet.getCell(0, 0);
+		this.cellB1 = this.spreadSheet.getCell(1, 0);
 	}
 
 	/**
@@ -42,29 +42,29 @@ public class AssignTest {
 	@Test
 	public void testApplyTo() throws Exception {
 		System.out.println("testApplyTo");
-		this.targetCell1.setContent("={A1:=2}");
-		//assertEquals(this.targetCell1.getValue().toString(), "2");
+		this.cellA1.setContent("={B1:=2}");
+		assertEquals(this.cellB1.getValue().toString(), "2");
 	}
 
 	@Test
 	public void testGetCellTemporaryVariable() throws FormulaCompilationException {
 		System.out.println("testGetCellTemporaryVariable");
-		this.targetCell1.setContent("={_temp:=11}");
-		CellImpl cell = (CellImpl) this.targetCell1;
-		//assertEquals(cell.getVariable("_temp").toString(), "11");
+		this.cellA1.setContent("={_temp:=11}");
+		CellImpl cell = (CellImpl) this.cellA1;
+		assertEquals(cell.getVariable("_temp").toString(), "11");
 	}
 
 	@Test
 	public void testAssignTemporaryVariable() throws FormulaCompilationException {
 		System.out.println("testAssignTemporaryVariable");
-		this.targetCell1.setContent("={_temp:=10; B1:=_temp}");
-		//assertEquals(this.targetCell2.getValue().toString(), "10");
+		this.cellA1.setContent("={_temp:=10; B1:=_temp}");
+		assertEquals(this.cellB1.getValue().toString(), "10");
 	}
 
-	@Test//(expected = NullPointerException.class)
+	@Test(expected = NullPointerException.class)
 	public void testLastNameNotAcceptNull() throws FormulaCompilationException {
 		System.out.println("testLastNameNotAcceptNull");
-		targetCell1.setContent("={B1:=_algo}");
+		cellA1.setContent("={B1:=_algo}");
 	}
 
 }

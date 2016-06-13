@@ -123,9 +123,7 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 	 * exception
 	 */
 	protected Expression convert(Cell cell, Tree node) throws FormulaCompilationException {
-		System.out.
-			println("Converting node '" + node.getText() + "' of tree '" + node.
-				toStringTree() + "' with " + node.getChildCount() + " children.");
+		//System.out.println("Converting node '" + node.getText() + "' of tree '" + node.toStringTree() + "' with " + node.getChildCount() + " children.");
 		if (node.getChildCount() == 0) {
 			try {
 				switch (node.getType()) {
@@ -136,20 +134,11 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 						return new Literal(Value.
 							parseValue(node.getText(), Value.Type.BOOLEAN, Value.Type.DATE));
 					case FormulaLexer.CELL_REF:
-						System.out.
-							println("CELL_REF " + cell.getAddress() + " " + node.
-								getText());
 						return new CellReference(cell.getSpreadsheet(), node.
 												 getText());
 					case FormulaLexer.VART_REF:
-						System.out.
-							println("VART_REF " + cell.getAddress() + " " + node.
-								getText());
 						return new VariableLocalReference(cell, node.getText());
 					case FormulaLexer.VARG_REF:
-						System.out.
-							println("VARG_REF " + cell.getAddress() + " " + node.
-								getText());
 						return new VariableGlobalReference(cell, node.getText());
 				}
 			} catch (ParseException e) {

@@ -43,13 +43,9 @@ public class For implements Function {
 	@Override
 	public Value applyTo(Expression[] args) throws IllegalValueTypeException {
 		Value value = new Value();
-		for (Expression expression : args) {
-			System.out.println(expression);
-		}
 		args[0].evaluate();
 		while (args[1].evaluate().toBoolean()) {
 			value = args[2].evaluate();
-			System.out.println(value);
 		}
 		return value;
 	}
