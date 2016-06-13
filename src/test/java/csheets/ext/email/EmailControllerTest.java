@@ -84,13 +84,13 @@ public class EmailControllerTest {
 	 */
 	@Test
 	public void testSendEmail() throws Exception {
-		String email = "lapr4_2dg@outlook.pt";
-		String password = "LAPR42dg";
-		String server = "smtp.live.com";
-		Email mail = instance.configureEmail(email, password, server);
-		String to = "lapr4_2dg@outlook.pt";
-		String subject = "Unit test";
-		String body = "Unit test";
-		instance.sendEmail(mail, to, subject, body);
+//		String email = "lapr4_2dg@outlook.pt";
+//		String password = "LAPR42dg";
+//		String server = "smtp.live.com";
+//		Email mail = instance.configureEmail(email, password, server);
+//		String to = "lapr4_2dg@outlook.pt";
+//		String subject = "Unit test";
+//		String body = "Unit test";
+//		instance.sendEmail(mail, to, subject, body);
 	}
 }
