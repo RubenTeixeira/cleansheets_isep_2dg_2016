@@ -14,12 +14,12 @@ import csheets.core.formula.FunctionParameter;
 public class For implements Function {
 
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.UNDEFINED, "Term1", false,
-							  "A number to be included in the sum"),
+		new FunctionParameter(Value.Type.UNDEFINED, "Initial", false,
+							  "Initial expression of FOR"),
 		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
-							  "A condition to evaluate before proceeding"),
+							  "A condition to evaluate in process"),
 		new FunctionParameter(Value.Type.UNDEFINED, "Term3", false,
-							  "A number to be included in the sum")
+							  "Expression for execute in process")
 	};
 
 	public For() {
@@ -48,7 +48,8 @@ public class For implements Function {
 		}
 		args[0].evaluate();
 		while (args[1].evaluate().toBoolean()) {
-			System.out.println(args[2].evaluate());
+			value = args[2].evaluate();
+			System.out.println(value);
 		}
 		return value;
 	}

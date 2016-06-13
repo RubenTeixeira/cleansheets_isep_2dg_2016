@@ -162,7 +162,7 @@ public class CellImpl implements Cell {
 	/**
 	 * Updates the cell's value, and fires an event if it changed.
 	 */
-	private void reevaluate() {
+	private void reevaluate(boolean dependence) {
 		Value oldValue = value;
 
 		// Fetches the new value
@@ -182,7 +182,34 @@ public class CellImpl implements Cell {
 
 		// Checks for change
 		if (!newValue.equals(oldValue)) {
-			fireValueChanged();
+			fireValueChanged(dependence);
+		}
+	}
+
+	/**
+	 * Updates the cell's value, and fires an event if it changed.
+	 */
+	private void reevaluate() {
+		this.reevaluate(true);
+	}
+
+	/**
+	 * Notifies all registered listeners that the value of the cell changed.
+	 */
+	private void fireValueChanged(boolean dependence) {
+		for (CellListener listener : listeners) {
+			listener.valueChanged(this);
+		}
+		for (CellExtension extension : extensions.values()) {
+			extension.valueChanged(this);
+		}
+		if (dependence) {
+			// Notifies dependents of the changed value
+			for (Cell dependent : dependents) {
+				if (dependent instanceof CellImpl) {
+					((CellImpl) dependent).reevaluate();
+				}
+			}
 		}
 	}
 
@@ -190,19 +217,7 @@ public class CellImpl implements Cell {
 	 * Notifies all registered listeners that the value of the cell changed.
 	 */
 	private void fireValueChanged() {
-		for (CellListener listener : listeners) {
-			listener.valueChanged(this);
-		}
-		for (CellExtension extension : extensions.values()) {
-			extension.valueChanged(this);
-		}
-
-		// Notifies dependents of the changed value
-		for (Cell dependent : dependents) {
-			if (dependent instanceof CellImpl) {
-				((CellImpl) dependent).reevaluate();
-			}
-		}
+		this.fireValueChanged(true);
 	}
 
 	/*
@@ -224,12 +239,16 @@ public class CellImpl implements Cell {
 		fireCellCleared();
 	}
 
-	public void setContent(String content) throws FormulaCompilationException {
+	public void setContent(String content, boolean dependence) throws FormulaCompilationException {
 		if (!this.content.equals(content)) {
 			storeContent(content);
 			fireContentChanged();
-			reevaluate();
+			reevaluate(dependence);
 		}
+	}
+
+	public void setContent(String content) throws FormulaCompilationException {
+		this.setContent(content, true);
 	}
 
 	/**

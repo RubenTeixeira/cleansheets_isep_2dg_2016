@@ -34,7 +34,6 @@ import csheets.core.formula.InstructionBlock;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
-import csheets.core.formula.lang.Assign;
 import csheets.core.formula.lang.CellReference;
 import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.RangeReference;
@@ -45,8 +44,6 @@ import csheets.core.formula.lang.VariableLocalReference;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -210,17 +207,6 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					(RangeReference) operator,
 					(Reference) convert(cell, node.getChild(1))
 				);
-			} else if (operator instanceof Assign) {
-				try {
-					Value value = new BinaryOperation(
-						convert(cell, node.getChild(0)),
-						operator,
-						convert(cell, node.getChild(1))).evaluate();
-					return new Literal(value);
-				} catch (Exception ex) {
-					Logger.getLogger(ExcelExpressionCompiler.class.getName()).
-						log(Level.SEVERE, null, ex);
-				}
 			} else {
 				return new BinaryOperation(
 					convert(cell, node.getChild(0)),
