@@ -31,9 +31,10 @@ public class SearchController {
      * Searches given Workbook for given pattern
      *
      * @param workBooks All the open workbooks
-     * @param searchstring the string to match
-     * @param types
-     * @param comments
+     * @param searchstring The string to match
+     * @param types Value Types to take in consideration
+     * @param formulas true, if the text in the formulas should be considered
+     * @param comments true, if the text in the comments should be considered
      * @return result list
      */
     public List<SearchResultDTO> searchWorkBook(Stack<Workbook> workBooks,

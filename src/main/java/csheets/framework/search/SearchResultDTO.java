@@ -12,18 +12,17 @@ import java.util.List;
 /**
  * This is a Data Transfer Object class which sole purpose is to gather all
  * information of a search result (SpreadSheet, cell, cell content/value, search
- * pattern and even WorkBook if needed in the future).
+ * pattern, comments, and WorkBook).
  *
  * @author Rúben Teixeira 1140780@isep.ipp.pt
  */
 public class SearchResultDTO implements Serializable {
 
+    /**
+     * The respective cell's WorkBook
+     */
     private final String workbook;
 
-    /**
-     * The workbook (uneeded atm)
-     */
-    //private final String workBook;
     /**
      * The SpreadSheet of the result
      */

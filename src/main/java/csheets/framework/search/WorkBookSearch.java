@@ -46,8 +46,9 @@ public class WorkBookSearch {
      * method
      *
      * @param pattern regex pattern
-     * @param types
-     * @param comments
+     * @param types value types to be taken into consideration
+     * @param formulas true, if the text in the formulas should be considered
+     * @param comments true, if the text in the comments should be considered
      * @return list of matching results
      */
     public List<SearchResultDTO> getMatches(String pattern, Map<String, Value.Type> types, boolean formulas, boolean comments) throws PatternSyntaxException {
@@ -72,6 +73,9 @@ public class WorkBookSearch {
      * Private method, called for each Spreadsheet in the Workbook
      *
      * @param pattern regex pattern
+     * @param types value types to be taken into consideration
+     * @param formulas true, if the text in the formulas should be considered
+     * @param comments true, if the text in the comments should be considered
      * @param sheet the Spreadsheet
      * @return list of matching results
      */

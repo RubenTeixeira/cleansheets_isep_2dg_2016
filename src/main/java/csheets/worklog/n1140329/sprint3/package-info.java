@@ -274,6 +274,8 @@
  * <p>
  * 2. Finishing tests of Core07.2
  * <p>
+ * 3. Helping out my colleague with the implementation of Core02.3
+ * <p>
  * Blocking:
  * <p>
  * 1. -nothing-
