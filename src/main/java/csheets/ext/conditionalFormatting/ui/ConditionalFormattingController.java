@@ -52,6 +52,10 @@ public class ConditionalFormattingController {
 
 	}
 
+	public Cell[][] getAllSelectcells() {
+		return this.uiController.focusOwner.getSelectedCells();
+	}
+
 	/**
 	 * This method returns one cell from the created workbook
 	 *
