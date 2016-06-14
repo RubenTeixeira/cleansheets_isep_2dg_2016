@@ -57,9 +57,9 @@
  *
  * <h3>5.2. UC Realization</h3>
  *
- * <h3>Insert Function Intermediate Wizard:</h3>
+ * <h3>Use Functions Intermediate Wizard:</h3>
  * <p>
- * <img src="doc-files/crm06_01_design_add_reminder.png" alt="image">
+ * <img src="doc-files/lang04_02_design1.png" alt="image">
  * </p>
  * 
  * <h3>5.3. Classes</h3>
