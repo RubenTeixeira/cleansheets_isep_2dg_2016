@@ -203,15 +203,8 @@ public class ExportDialog extends javax.swing.JDialog {
 				if (JOptionPane.
 					showConfirmDialog(this, "Do you want to save the file here?",
 									  "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					if (controller.
-						exportFile(path, cells, this.separatorTextField1.
-								   getText())) {
-						JOptionPane.
-							showMessageDialog(null, "The file was saved", "Sucess", JOptionPane.INFORMATION_MESSAGE);
-					} else {
-						JOptionPane.
-							showMessageDialog(null, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
-					}
+					Thread t = createThread(path);
+					t.start();
 					dispose();
 				}
 			}
@@ -228,4 +221,23 @@ public class ExportDialog extends javax.swing.JDialog {
     private javax.swing.JTextField rangeOfCellsExportText;
     private javax.swing.JTextField separatorTextField1;
     // End of variables declaration//GEN-END:variables
+
+	private Thread createThread(String path) {
+		return new Thread() {
+
+			@Override
+			public void run() {
+				if (controller.
+					exportFile(path, cells, ExportDialog.this.separatorTextField1.
+							   getText())) {
+					JOptionPane.
+						showMessageDialog(null, "The file was saved", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.
+						showMessageDialog(null, "Something went wrong", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+
+		};
+	}
 }
