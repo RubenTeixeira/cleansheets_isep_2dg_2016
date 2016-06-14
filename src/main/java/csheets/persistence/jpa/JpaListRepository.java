@@ -7,7 +7,6 @@ package csheets.persistence.jpa;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
-import csheets.domain.Note;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ListRepository;
 import javax.persistence.Query;
@@ -26,7 +25,7 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
     @Override
     public Iterable<List> listsByContact(Contact contact) {
         final Query query = entityManager().
-                createQuery("select * from List l where l.contact.id = :contact", List.class);
+                createQuery("SELECT l FROM List l where l.contact.id = :contact", List.class);
         query.setParameter("contact", contact.id());
         Iterable<List> tmp = query.getResultList();
         return tmp;
