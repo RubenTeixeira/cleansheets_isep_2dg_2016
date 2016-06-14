@@ -1,17 +1,18 @@
 package csheets.ext.cellsSharing.ui;
 
+import csheets.core.Cell;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.Volt;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
+import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
@@ -26,7 +27,7 @@ public class TcpService extends Notifier {
 	String continuousTarget;
 
 	List<String> connectedInstances;
-	Set<String> targets = new HashSet();
+	Map<String, int[]> targets = new HashMap();
 
 	SharePanel panel;
 
@@ -202,21 +203,37 @@ public class TcpService extends Notifier {
 	 */
 	public void setContinuousTarget(String target) {
 		continuousTarget = target;
-		this.targets.add(target);
+		Cell[][] cells = UIController.getUIController().focusOwner.
+			getSelectedCells();
+		int c1 = cells[0][0].getAddress().getColumn();
+		int r1 = cells[0][0].getAddress().getRow();
+		int c2 = cells[cells.length - 1][cells[0].length - 1].getAddress().
+			getColumn();
+		int r2 = cells[cells.length - 1][cells[0].length - 1].getAddress().
+			getRow();
+		this.targets.put(target, new int[]{c1, r1, c2, r2});
 	}
 
 	/**
 	 * Sends a message identified as part of a continuous sending.
 	 *
 	 * @param message Message to be sent
+	 * @param cell cell
 	 */
-	public void continuousSending(String message) {
+	public void continuousSending(String message, Cell cell) {
 		ThreadManager.create("ipc.continuousTcpClient", new Thread() {
 							 @Override
 							 public void run() {
-								 for (String target : targets) {
-									 new TcpClient(0).
-										 send(":continuous-share-cells", target, message);
+								 for (Map.Entry<String, int[]> entry : targets.
+									 entrySet()) {
+									 int[] vetor = entry.getValue();
+									 int column = cell.getAddress().getColumn();
+									 int row = cell.getAddress().getRow();
+									 if (vetor[0] <= column && column <= vetor[2] && vetor[1] <= row && row <= vetor[3]) {
+										 new TcpClient(0).
+											 send(":continuous-share-cells", entry.
+												  getKey(), message);
+									 }
 								 }
 							 }
 						 });

@@ -227,7 +227,7 @@ public class ShareCellsController {
 
 		message = message.substring(1);
 
-		tcpService.continuousSending(message);
+		tcpService.continuousSending(message, cell);
 	}
 
 	/**
