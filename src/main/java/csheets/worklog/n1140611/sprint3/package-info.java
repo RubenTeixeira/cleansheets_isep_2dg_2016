@@ -48,7 +48,7 @@
  * <h3>Analysis of Core Technical Problem</h3>
  * The core of import data is to made it open to other formats to import
  * <p>
- * <img src="" alt="image">
+ * <img src="doc-files/core_of_lang08.2.png" alt="image">
  *
  *
  * <h2>5. Design</h2>
@@ -60,22 +60,17 @@
  * see: <code>csheets</code>
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.chatApp</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
+ * The following diagrams illustrate core aspects of the design of the solution
+ * for this use case.
  * <p>
  * <b>Note:</b> It is very important that in the final version of this technical
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>Chat send Message</h3>
- * The following diagram shows the setup of the local connection when
- * cleansheets's user select share.
+ * <h3>Import XML</h3>
+ * The following diagram shows how import data from xml format
  * <p>
- * <img src="doc-files/ipc05.1_design.png" alt="image">
+ * <img src="doc-files/lang08.2_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  * <p>
@@ -92,8 +87,6 @@
  *
  * -Describe new or existing design patterns used in the issue-
  *
- * Observer: This Pattern is used to notify SharePanel with new instances in
- * local network and received cells.
  *
  * <h2>6. Implementation</h2>
  *
