@@ -2,16 +2,18 @@ package csheets.ext.wizard.ui;
 
 import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
-import javax.swing.JMenu;
+import javax.swing.JButton;
 
 /**
  * Representes the UI extension menu of the simple extension.
  *
  * @author Alexandre Braganca
  */
-public class WizardMenu extends JMenu {
+public class WizardButton extends JButton {
 
 	/**
 	 * Creates a new simple menu. This constructor creates and adds the menu
@@ -20,12 +22,15 @@ public class WizardMenu extends JMenu {
 	 *
 	 * @param uiController the user interface controller
 	 */
-	public WizardMenu(UIController uiController) {
-		super("Wizard");
-		setMnemonic(KeyEvent.VK_E);
-		this.setIcon(new ImageIcon(CleanSheets.class.
-			getResource("ext/wizard/wizard-icon.png")));
+	public WizardButton(UIController uiController) {
+		super("Functions");
 		// Adds font actions
-		add(new WizardAction(uiController));
+                this.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        WizardFrame f = new WizardFrame(uiController);
+                        
+                    }
+                });
 	}
 }
