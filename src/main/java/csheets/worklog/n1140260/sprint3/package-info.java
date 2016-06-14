@@ -105,6 +105,61 @@
  * Blocking :Nothing
  * </p>
  *
+ * <b>Sunday</b>
+ *
+ * <p>
+ * Analysis and begginng of Design
+ *
+ * <p>
+ * Blocking :Nothing
+ * </p>
+ *
+ *
+ * <b>Monday</b>
+ *
+ * <p>
+ * Start implemmentation UI and update on Design
+ *
+ * <p>
+ * Blocking :Trying to understand JFreeChart
+ * </p>
+ *
+ *
+ * <b>Tuesday</b>
+ *
+ * <p>
+ * Update on Design and continue on implemmentation
+ *
+ * <p>
+ * Blocking :Still trying to work with JFreeChart
+ * </p>
+ *
+ *
+ *
+ * <b>Wednesday</b>
+ *
+ * <p>
+ * TODO
+ *
+ * <p>
+ * Blocking :
+ * </p>
+ *
+ *
+ *
+ *
+ * <b>Thursday</b>
+ *
+ * <p>
+ * TODO
+ *
+ * <p>
+ * Blocking :
+ * </p>
+ *
+ *
+ *
+ *
  * <h2>10. Self Assessment</h2>
  *
  *
