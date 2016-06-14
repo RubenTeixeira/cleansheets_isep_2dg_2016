@@ -6,6 +6,7 @@ csheets.ext.contacts.ContactsExtension;1.0;Enables_contacts v1
 csheets.ext.events.EventsExtension;1.0;Setup_an_event
 csheets.ext.cellsSharing.ShareExtension;1.0;Share_data_to_others
 csheets.ext.distributedWorkbook.WorkbookSearchExtension;1.0;Allow_workbook_search
+#csheets.ext.distributedWorkbook.WorkbookSearchExtension_1_2;1.2;Allow_workbook_search_on_all_found_instances
 csheets.ext.wizard.WizardExtension;1.0;Wizard
 csheets.ext.importExportData.ImportExportDataExtension;1.0;Enables_data_import_and_export
 csheets.ext.sort.SortExtension;1.0;Enables_cell_sorting

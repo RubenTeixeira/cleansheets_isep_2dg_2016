@@ -191,20 +191,24 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
 		//this is only for testing purposes
+		//byte[] a = this.controller.messageBytes(messageText.getText());
+		int unsecureIncomming = this.controller.
+			messageBytesUnsecureIncomming(messageText.getText());
+		int secureIncomming = this.controller.
+			messageBytesSecureIncomming(messageText.getText());
+		int unsecureOutgoing = this.controller.
+			messageBytesUnsecureOutgoing(messageText.getText());
+		int secureOutgoing = this.controller.
+			messageBytesSecureOutgoing(messageText.getText());
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.setValue(80, "Size", "Unsecure Incomming");
-		dataset.setValue(70, "Size", "Secure Incomming ");
-		dataset.setValue(60, "Size", "Unsecure Outgoing");
-		dataset.setValue(100, "Size", "Secure Outgoing");
+		dataset.setValue(unsecureIncomming, "Size", "Unsecure Incomming");
+		dataset.setValue(secureIncomming, "Size", "Secure Incomming ");
+		dataset.setValue(unsecureOutgoing, "Size", "Unsecure Outgoing");
+		dataset.setValue(secureOutgoing, "Size", "Secure Outgoing");
 
-		JFreeChart chart = ChartFactory.
-			createBarChart("Network Analizer", "Network traffic", "Size", dataset, PlotOrientation.VERTICAL, false, true, false);
-		CategoryPlot p = chart.getCategoryPlot();
-		p.setRangeGridlinePaint(Color.BLACK);
-		ChartPanel frame = new ChartPanel(chart);
-		frame.setVisible(true);
-		frame.setSize(450, 350);
+		createChart(dataset);
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -226,6 +230,18 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
 	@Override
 	public void selectionChanged(SelectionEvent event) {
+
+	}
+
+	public void createChart(DefaultCategoryDataset dataset) {
+
+		JFreeChart chart = ChartFactory.
+			createBarChart("Network Analizer", "Network traffic", "Size", dataset, PlotOrientation.VERTICAL, false, true, false);
+		CategoryPlot p = chart.getCategoryPlot();
+		p.setRangeGridlinePaint(Color.BLACK);
+		ChartPanel frame = new ChartPanel(chart);
+		frame.setVisible(true);
+		frame.setSize(450, 350);
 
 	}
 

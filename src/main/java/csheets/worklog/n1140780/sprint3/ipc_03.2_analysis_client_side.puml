@@ -1,0 +1,34 @@
+@startuml doc-files/ipc_03.1_analysis_client_side.png
+
+actor System
+participant "<<analysis>>\nDistributedWorkbookSearchController" as Control
+participant "<<analysis>>\nSearchWorkBook" as swb
+participant "<<analysis>>\nVolt.TCPClient" as TCPClient
+participant "<<analysis>>\nVolt.TCPServer" as TCPServer
+
+System->Control: new()
+activate Control
+note right of System: On extension loading...
+
+Control->TCPServer: new()
+activate TCPServer
+Control->TCPServer: expect(":requestsearch", Action)
+
+note left of TCPServer: On action performed...
+
+TCPServer->Control: replySearch(String target, String pattern)
+deactivate TCPServer
+activate swb
+Control -> swb: new()
+Control -> swb: List<String> res = findWorkBook(pattern)
+deactivate swb
+Control -> TCPClient: new()
+loop for String r : res
+activate TCPClient
+Control -> TCPClient: send(":replysearch", target, res)
+deactivate Control
+deactivate TCPClient
+end
+
+@enduml
+

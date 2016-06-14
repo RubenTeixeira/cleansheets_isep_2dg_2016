@@ -60,6 +60,14 @@
  *
  * <h2>5. Design</h2>
  *
+ * <p>
+ * Initial design:
+ * </p>
+ * 
+ * <p>
+ * <img src="doc-files/initial_design.png" alt="Initial design.">
+ * </p>
+ * 
  * <h3>Sequence Diagram:</h3>
  *
  *
@@ -79,8 +87,22 @@
  * <p>
  * Today</p>
  * <p>
- * Worked on Volt (optmizations and general improvements).
+ * Worked on Volt (optimizations and general improvements).
  * Started the analysis of the feature Core03.2.
+ * </p>
+ * <p>
+ * Blocking</p>
+ * <p>
+ * Nothing.</p>
+ * 
+ * <p>
+ * 14/06/2016
+ * </p>
+ * <b>Tuesday</b>
+ * <p>
+ * Today</p>
+ * <p>
+ * Working on my feature. Tinkering with some implementations and trying to finish it.
  * </p>
  * <p>
  * Blocking</p>

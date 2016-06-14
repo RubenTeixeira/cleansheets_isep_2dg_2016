@@ -269,7 +269,10 @@
  * <h3>10.1. Design and Implementation: 3</h3>
  * 
  * 3- Good. My Use Case's implementation worked out fine but could be severely improved. 
- * The Unit Tests were scarce because I wasn't really sure how to test a Use Case that was very network dependent (broadcasts and TCP connections).
+ * The Unit Tests were scarce because I wasn't really sure how to test a Use Case
+ * that was very network dependent (broadcasts and TCP connections). Nonetheless
+ * there is a test for ThreadManager that addresses a very important part of my
+ * use case.
  * 
  * <b>Evidences:</b>
  * <p>

@@ -40,6 +40,7 @@ public class SecureCommunicationsController {
 		tcp.expect(":secure-communication", new Action() {
 			@Override
 			public void run(Map<String, Object> args) {
+
 			}
 		});
 	}
@@ -63,6 +64,30 @@ public class SecureCommunicationsController {
 		}
 		client.send(":secure-communication", "all:" + AppSettings.instance().
 					get("UDP_PORT"), message);
+	}
+
+	public int messageBytesUnsecureIncomming(String message) {
+
+		return message.getBytes().length;
+
+	}
+
+	public int messageBytesSecureIncomming(String message) {
+
+		return message.getBytes().length;
+
+	}
+
+	public int messageBytesUnsecureOutgoing(String message) {
+
+		return message.getBytes().length;
+
+	}
+
+	public int messageBytesSecureOutgoing(String message) {
+
+		return message.getBytes().length;
+
 	}
 
 }
