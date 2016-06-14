@@ -2,11 +2,6 @@
  * Technical documentation regarding the work of the team member (1141042) Hicham Abahri during week3.
  *
  * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
@@ -21,11 +16,12 @@
  * <h2>2. Use Case/Feature: IPC04.2</h2>
  *
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-61">LPFOURDG-60</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-61">LPFOURDG-61</a>
  *
  * <h2>3. Requirement</h2>
  * -The responsibility that was assignedto me, was to resolve the feature of
- * import/export a text file.-
+ * import/export a text file, and update the content if the file has changed on disk.
+
  *
  * <p>
  * <b>Use Case "Import/Export Text":</b> A sidebar window that provides
@@ -42,6 +38,7 @@
  * separator, if the first line is an header or not and the cells to add the
  * file text. The system gets the information and add the text to the cells.
  *
+ * desableLink_analysis.png
  * <h3>Export File</h3>
  * The user selects the path to export the file. System exports the file to the
  * wanted path.
@@ -50,11 +47,10 @@
  *
  * <h4>Import file Content proposal analysis</h4>
  * <p>
- * <img src="doc-files/import_file_image.png" alt="image">
- *
- * <h4>Export File proposal analysis</h4>
+ * 
+ * <h4>Deseble link to File proposal analysis</h4>
  * <p>
- * <img src="doc-files/export_file_image.png" alt="image">
+ * <img src="doc-files/desableLink_analysis.png" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
@@ -79,7 +75,9 @@
  * <p>
  * <img src="doc-files/export_file_design_image.png" alt="image">
  *
- *
+ * <h4>Disable the link</h4>
+ * <img src="doc-files/desableLink_analysis_design.png" alt="image">
+ *  *
  * <h3>5.3. Classes</h3>
  *
  * <h3>Class Diagram of the feature</h3>
