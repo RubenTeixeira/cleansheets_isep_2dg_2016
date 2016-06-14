@@ -5,6 +5,8 @@
  */
 package csheets.ext.game.ui;
 
+import csheets.core.Spreadsheet;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.game.Battleships;
 import csheets.ext.game.GameExtension;
 import csheets.ext.game.TicTacToe;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.imageio.ImageIO;
@@ -49,6 +52,13 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * UI controller.
 	 */
 	private final UIController uiController;
+
+	private Spreadsheet sheet;
+
+	/**
+	 * Cells
+	 */
+	private Map<String, String> cells;
 
 	/**
 	 * Instance of the controller.
@@ -86,7 +96,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * @param uiController uiController
 	 * @param gameController gameController
 	 */
-	public GamePanel(UIController uiController, GameController gameController) {
+	public GamePanel(UIController uiController, GameController gameController) throws FormulaCompilationException {
 		this.uiController = uiController;
 
 		setName(GameExtension.NAME);
@@ -386,7 +396,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(endButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, Short.MAX_VALUE)
+                    .addComponent(endButton, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                     .addComponent(playButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -509,13 +519,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
 		// TODO add your handling code here:
+		new TictactoeController(uiController);
     }//GEN-LAST:event_playButtonActionPerformed
 
 	/**
 	 * Fill the list with the available games. Dummy classes.
 	 */
-	private void updateListOfGames() {
-		TicTacToe ticTacToe = new TicTacToe();
+	private void updateListOfGames() throws FormulaCompilationException {
+		TicTacToe ticTacToe = new TicTacToe(sheet);//new TicTacToe(uiController, gameController, cells);
 		this.instanceListModelGames.add(0, ticTacToe.toString());
 
 		Battleships battleships = new Battleships();
