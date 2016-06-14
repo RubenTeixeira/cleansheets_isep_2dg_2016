@@ -21,38 +21,50 @@ import java.util.List;
  */
 public class AgendaController {
 
-    UIController uicontroller;
+	UIController uicontroller;
 
-    public AgendaController(UIController uicontroller) {
-        this.uicontroller = uicontroller;
-    }
+	public AgendaController(UIController uicontroller) {
+		this.uicontroller = uicontroller;
+	}
 
-    /**
-     * Returns a list model with the contacts on teh database
-     * @return ContactListModel 
-     */
-    public ContactListModel getContacts() {
-        ArrayList<Contact> list = new ArrayList();
-        for (Contact contact : PersistenceContext.repositories().contacts().
-                all()) {
-            list.add(contact);
-        }
-        return new ContactListModel(list);
-    }
+	/**
+	 * Returns a list model with the contacts on teh database
+	 *
+	 * @return ContactListModel
+	 */
+	public ContactListModel getContacts() {
+		ArrayList<Contact> list = new ArrayList();
+		for (Contact contact : PersistenceContext.repositories().contacts().
+			all()) {
+			list.add(contact);
+		}
+		return new ContactListModel(list);
+	}
 
-    /**
-     * Returns a list of events for a given date and contact
-     *
-     * @param date date
-     * @param contact contact
-     * @return list of events
-     */
-    public List<Event> updateEvents(Calendar date, Contact contact) {
-        ArrayList<Event> list = new ArrayList<Event>();
-        for (Event event : PersistenceContext.repositories().events().eventsContactPerDay(contact, date)) {
-            list.add(event);
-        }
-        return list;
-    }
+	/**
+	 * Returns a list of events for a given date and contact
+	 *
+	 * @param date date
+	 * @param contact contact
+	 * @return list of events
+	 */
+	public List<Event> updateEvents(Calendar date, Contact contact) {
+		ArrayList<Event> list = new ArrayList<Event>();
+		for (Event event : PersistenceContext.repositories().events().
+			eventsContactPerDay(contact, date)) {
+			list.add(event);
+		}
+		return list;
+	}
+
+	public Calendar nextDay(Calendar calendar) {
+		calendar.add(Calendar.DATE, 1);
+		return calendar;
+	}
+
+	public Calendar previousDay(Calendar calendar) {
+		calendar.add(Calendar.DATE, -1);
+		return calendar;
+	}
 
 }
