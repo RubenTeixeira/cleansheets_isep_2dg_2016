@@ -5,9 +5,9 @@
  */
 package csheets.persistence.jpa;
 
-import csheets.domain.ContactCalendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Note;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
@@ -77,7 +77,8 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 
 	@Override
 	public void delete(Contact entity) {
-		for (ContactCalendar calendar : PersistenceContext.repositories().calendars().
+		for (ContactCalendar calendar : PersistenceContext.repositories().
+			calendars().
 			calendarsContact(entity)) {
 			PersistenceContext.repositories().calendars().delete(calendar);
 		}
@@ -90,4 +91,18 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 		}
 		super.delete(entity);
 	}
+
+	@Override
+	public Iterable<Contact> getContactByTag(String tag) {
+		List<Contact> contacts = new ArrayList();
+		for (Contact contact : this.all()) {
+			for (String tagName : contact.tags()) {
+				if (tagName.matches(tag)) {
+					contacts.add(contact);
+				}
+			}
+		}
+		return contacts;
+	}
+
 }

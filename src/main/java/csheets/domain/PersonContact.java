@@ -169,7 +169,8 @@ public class PersonContact extends Contact {
 			return false;
 		}
 		PersonContact instance = (PersonContact) obj;
-		return this.firstName.equals(instance.firstName) && this.lastName.equals(instance.lastName);
+		return this.firstName.equals(instance.firstName) && this.lastName.
+			equals(instance.lastName);
 	}
 
 	@Override

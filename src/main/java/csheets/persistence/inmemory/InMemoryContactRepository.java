@@ -62,4 +62,17 @@ class InMemoryContactRepository extends InMemoryRepository<Contact, Long>
 		return list;
 	}
 
+	@Override
+	public Iterable<Contact> getContactByTag(String tag) {
+		List<Contact> contacts = new ArrayList();
+		for (Contact contact : this.all()) {
+			for (String tagName : contact.tags()) {
+				if (tagName.equalsIgnoreCase(tag)) {
+					contacts.add(contact);
+				}
+			}
+		}
+		return contacts;
+	}
 }
+
