@@ -25,7 +25,8 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
     @Override
     public Iterable<List> listsByContact(Contact contact) {
         final Query query = entityManager().
-                createQuery("SELECT l FROM List l where l.contact.id = :contact", List.class);
+                createQuery("SELECT l FROM List l where l.contact.id = :contact "
+                        + "and l.deleted = false", List.class);
         query.setParameter("contact", contact.id());
         Iterable<List> tmp = query.getResultList();
         return tmp;

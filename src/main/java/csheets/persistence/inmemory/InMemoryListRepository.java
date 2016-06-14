@@ -27,10 +27,10 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 
     @Override
     public Iterable<List> listsByContact(Contact contact) {
-
         java.util.List<List> lists = new ArrayList<>();
         for (List l : this.all()) {
-            if (l.getContact().equals(contact)) {
+            if (l.getContact().equals(contact)
+                    && !l.isDeleted()) {
                 lists.add(l);
             }
         }
