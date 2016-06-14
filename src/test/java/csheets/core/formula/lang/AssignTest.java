@@ -67,4 +67,18 @@ public class AssignTest {
 		cellA1.setContent("={B1:=_algo}");
 	}
 
+        @Test
+	public void testGetCellGlobalVariable() throws FormulaCompilationException {
+		System.out.println("testGetCellGlobalVariable");
+		this.cellA1.setContent("={@temp:=11}");
+                this.cellB1.setContent("={@temp}");
+		assertEquals(this.cellB1.getValue().toString(), "11");
+	}
+        @Test
+	public void testAssignGlobalVariable() throws FormulaCompilationException {
+		System.out.println("testAssignGlobalVariable");
+		this.cellA1.setContent("={@temp:=10");
+                this.cellB1.setContent("={@temp}");
+		assertEquals(this.cellB1.getValue().toString(), "10");
+	}
 }
