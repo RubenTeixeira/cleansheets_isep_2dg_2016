@@ -113,15 +113,15 @@ public class ImportXMLTest {
 		expResult.add("f");
 		expResult.add("coisa");
 		expResult.add("g");
-		//expResult.add("vamos ver");
+		expResult.add("vamos ver");
 
 		ImportXML.
 			importSpreadsheet(path, tagSpreadSheet, tagRow, tagColumn, spreadsheet);
 
 		List<String> result = new ArrayList<>();
 
-		for (int i = 0; i < spreadsheet.getRowCount(); i++) {
-			for (int j = 0; j < spreadsheet.getColumnCount(); j++) {
+		for (int i = 0; i <= spreadsheet.getRowCount(); i++) {
+			for (int j = 0; j <= spreadsheet.getColumnCount(); j++) {
 				if (!spreadsheet.getCell(j, i).getContent().isEmpty()) {
 					result.add(spreadsheet.getCell(j, i).getContent());
 				}
