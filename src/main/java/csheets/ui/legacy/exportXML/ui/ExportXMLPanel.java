@@ -242,6 +242,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 													  getText());
 						break;
 				}
+				this.dispose();
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

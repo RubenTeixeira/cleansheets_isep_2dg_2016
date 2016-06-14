@@ -216,4 +216,8 @@ public class Comment {
 		this.border = newComment.getBorder();
 		this.bgColor = newComment.getBackgroundColor();
 	}
+
+	public List<Comment> commentHistory() {
+		return this.history;
+	}
 }

@@ -2,6 +2,8 @@ package csheets.ext.secureCommunications.ui;
 
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
+import csheets.ext.secureCommunications.IncomingChannel;
+import csheets.ext.secureCommunications.OutgoingChannel;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.channels.MessageEncryptionChannel;
 import csheets.framework.volt.channels.MessageReceivedChannel;
@@ -43,6 +45,8 @@ public class SecureCommunicationsController {
 
 			}
 		});
+
+		analyser(observer);
 	}
 
 	/**
@@ -66,28 +70,73 @@ public class SecureCommunicationsController {
 					get("UDP_PORT"), message);
 	}
 
-	public int messageBytesUnsecureIncomming(String message) {
+	public void analyser(Observer observer) {
 
-		return message.getBytes().length;
+		UdpServer udp = NetworkManager.udp();
+
+		udp.channel("*", new IncomingChannel(AppSettings.
+					instance().getApplicationKey(), "Incoming from ", observer),
+					new OutgoingChannel(AppSettings.
+						instance().getApplicationKey(), "Sent from ", observer));
+		udp.expect(":Network Analyser", new Action() {
+			@Override
+			public void run(Map<String, Object> args) {
+				checkChannel(args);
+			}
+		});
+
+		TcpServer tcp = NetworkManager.tcp();
+
+		tcp.
+			channel(":Network Analyser", new IncomingChannel(AppSettings.
+						instance().getApplicationKey(), "Incoming from ", observer),
+					new OutgoingChannel(AppSettings.
+						instance().getApplicationKey(), "Sent from ", observer));
+
+		tcp.expect(":Network Analyser", new Action() {
+			@Override
+			public void run(Map<String, Object> args) {
+				// S -> Sent
+				// SE -> Sent Encrypted
+				// R -> Received
+				// RE -> Received Encrypted
+				String[] tmp = args.toString().split(":");
+
+				switch (tmp[0]) {
+					case "SE":
+						int se = updateSecureIncomming(tmp[1]);
+						break;
+					case "S":
+						break;
+					case "R":
+						break;
+					case "RE":
+						break;
+				}
+			}
+		});
 
 	}
 
-	public int messageBytesSecureIncomming(String message) {
-
-		return message.getBytes().length;
+	public void checkChannel(Map<String, Object> args) {
 
 	}
 
-	public int messageBytesUnsecureOutgoing(String message) {
-
-		return message.getBytes().length;
+	public int updateSecureIncomming(String message) {
+		return message.length();
 
 	}
 
-	public int messageBytesSecureOutgoing(String message) {
+	public int updateSecureOutgoing(String message) {
+		return message.length();
+	}
 
-		return message.getBytes().length;
+	public int updateUnsecureIncomming(String message) {
+		return message.length();
+	}
 
+	public int updateUnsecureOutgoing(String message) {
+		return message.length();
 	}
 
 }

@@ -81,8 +81,7 @@
  * Besides the UI and controller simple methods this is the most important
  * design option, since I choose to get the values every time the user hits a
  * different date I needed to be fast so I implemented a jpql querie so it would
- * be fast
- * <code>
+ * be fast  <code>
  *
  * @Override public Iterable<Event> eventsContactPerDay(Contact contact,
  * Calendar date) { final Query q = entityManager().createQuery("SELECT e " +
@@ -144,6 +143,15 @@
  * </p>
  * <p>
  * Tomorrow: Help the team
+ * <b>Tuesday</b>
+ * <p>
+ * Spent the whole afternoon helping the tictactoe feature, after design
+ * delibterations was decided to split use implementatoin part in 2 and tomorrow
+ * integrate Also finished testing the whole use case,was pretty happy with the
+ * final tests results
+ * </p>
+ * <p>
+ * Tomorrow: Keep working on IPC tictactoe feature
  * </p>
  * <h2>10. Self Assessment</h2>
  *
@@ -170,6 +178,9 @@
  * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
+ *
+ * Helped on the dedign of IPc tictactoe Done some of the implementation of IPc
+ * tictactoe
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *

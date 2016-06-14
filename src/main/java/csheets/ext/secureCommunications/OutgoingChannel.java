@@ -1,4 +1,4 @@
-package csheets.ext.secureCommunications.ui;
+package csheets.ext.secureCommunications;
 
 import csheets.framework.volt.Channel;
 import csheets.framework.volt.encryption.Encrypter;

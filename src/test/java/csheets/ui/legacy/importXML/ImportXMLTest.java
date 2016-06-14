@@ -64,6 +64,9 @@ public class ImportXMLTest {
 			+ "</Row>"
 			+ "</SpreadSheet>"
 			+ "<SpreadSheet name=\"Sheet  2\" >"
+			+ "<Row index=\"3\">"
+			+ "<Column index=\"0\">aeae</Column>"
+			+ "</Row>"
 			+ "</SpreadSheet>"
 			+ "<SpreadSheet name=\"Sheet  3\" >"
 			+ "</SpreadSheet>"
@@ -131,20 +134,4 @@ public class ImportXMLTest {
 
 	}
 
-	/**
-	 * Test of importSpreadsheetSelected method, of class ImportXML.
-	 */
-//	@Test
-//	public void testImportSpreadsheetSelected() throws Exception {
-//		System.out.println("importSpreadsheetSelected");
-//		String path = "";
-//		String tagSpreadSheet = "";
-//		String tagRow = "";
-//		String tagColumn = "";
-//		UIController uiController = null;
-//		ImportXML.
-//			importSpreadsheetSelected(path, tagSpreadSheet, tagRow, tagColumn, uiController);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
-//	}
 }

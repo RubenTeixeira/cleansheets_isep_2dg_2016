@@ -20,6 +20,8 @@
  */
 package csheets.core;
 
+import csheets.ext.game.ui.TictactoeController;
+import csheets.ext.macro_beanshell.Code;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -102,6 +104,16 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	}
 
 	/**
+	 * Adds a blank Tictactoe spreadsheet to the end of the workbook.
+	 */
+	public void addTictactoeSpreadsheet() {
+		Spreadsheet spreadsheet = new SpreadsheetImpl(this,
+													  getNextTictactoeSpreadsheetTitle());
+		spreadsheets.add(spreadsheet);
+		fireSpreadsheetInserted(spreadsheet, spreadsheets.size() - 1);
+	}
+
+	/**
 	 * Adds a new spreadsheet to the workbook, in which cells are initialized
 	 * with data from the given content matrix.
 	 *
@@ -129,6 +141,15 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 */
 	private String getNextSpreadsheetTitle() {
 		return SpreadsheetImpl.BASE_TITLE + " " + (createdSpreadsheets++ + 1);
+	}
+
+	/**
+	 * Returns the title to be used for the next spreadsheet added.
+	 *
+	 * @return the title to be used for the next spreadsheet added
+	 */
+	private String getNextTictactoeSpreadsheetTitle() {
+		return TictactoeController.Name;
 	}
 
 	/**
@@ -268,22 +289,49 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 		this.variables.put(name, value);
 	}
 
-	private Map<String, String> scripts = new HashMap();
+	/**
+	 * The list of workbook scripts
+	 */
+	private List<Code> scripts = new ArrayList<>();
 
+	/**
+	 * Clears all scripts of workbook
+	 */
 	public void clearScripts() {
 		this.scripts.clear();
 	}
 
-	public String getScript(String name) {
-		return this.scripts.get(name);
+	/**
+	 * Returns the corresponding script to the name
+	 *
+	 * @param name Script name
+	 * @return code of script
+	 */
+	public Code getScript(String name) {
+		for (Code code : scripts) {
+			if (code.getName().equals(name)) {
+				return code;
+			}
+		}
+		return null;
 	}
 
-	public Map<String, String> getScripts() {
+	/**
+	 * Returns a script list
+	 *
+	 * @return list of scripts
+	 */
+	public List<Code> getScripts() {
 		return this.scripts;
 	}
 
-	public void addScript(String name, String value) {
-		this.scripts.put(name, value);
+	/**
+	 * Adds a script to the list
+	 *
+	 * @param code Code of script
+	 */
+	public void addScript(Code code) {
+		this.scripts.add(code);
 	}
 
 }

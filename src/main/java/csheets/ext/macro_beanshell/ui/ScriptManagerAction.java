@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.macro_beanshell.ui;
 
 import csheets.CleanSheets;
@@ -14,7 +9,7 @@ import javax.swing.ImageIcon;
 
 /**
  *
- * @author Rui Bento
+ * @author José Barros
  */
 public class ScriptManagerAction extends BaseAction {
 

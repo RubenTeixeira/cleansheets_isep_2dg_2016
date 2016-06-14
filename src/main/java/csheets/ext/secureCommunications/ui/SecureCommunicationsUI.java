@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -53,11 +54,17 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 		this.controller = controller;
 		this.controller.startServices(this);
 
+		jPanelNetworkAnalizer.add("Network Analyser", createPane(this));
+		JFrame frame = new JFrame("Network Analyser");
+		frame.add(jPanelNetworkAnalizer);
+		frame.setVisible(true);
+
 		Task clean = new Task() {
 			@Override
 			public void fire() {
 				messagesListModel.clear();
 				messagesList.setModel(messagesListModel);
+
 			}
 		};
 
@@ -81,13 +88,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         sendButton = new javax.swing.JButton();
         secureCheckBox = new javax.swing.JCheckBox();
         messageText = new javax.swing.JTextField();
-        jTabbedPaneNetworkAnalizer = new javax.swing.JTabbedPane();
-
-        jTabbedPaneSecureCommunications.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPaneSecureCommunicationsMouseClicked(evt);
-            }
-        });
+        jPanelNetworkAnalizer = new javax.swing.JPanel();
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Messages", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
         jPanel2.setName(""); // NOI18N
@@ -152,7 +153,19 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         );
 
         jTabbedPaneSecureCommunications.addTab("Messages", jPanelMessages);
-        jTabbedPaneSecureCommunications.addTab("NetworkAnalizer", jTabbedPaneNetworkAnalizer);
+
+        javax.swing.GroupLayout jPanelNetworkAnalizerLayout = new javax.swing.GroupLayout(jPanelNetworkAnalizer);
+        jPanelNetworkAnalizer.setLayout(jPanelNetworkAnalizerLayout);
+        jPanelNetworkAnalizerLayout.setHorizontalGroup(
+            jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 395, Short.MAX_VALUE)
+        );
+        jPanelNetworkAnalizerLayout.setVerticalGroup(
+            jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneSecureCommunications.addTab("NetworkAnalizer", jPanelNetworkAnalizer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -166,9 +179,13 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void messagesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_messagesListValueChanged
-
-    }//GEN-LAST:event_messagesListValueChanged
+    private void messageTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageTextKeyReleased
+		if (messageText.getText().trim().isEmpty()) {
+			sendButton.setEnabled(false);
+		} else {
+			sendButton.setEnabled(true);
+		}
+    }//GEN-LAST:event_messageTextKeyReleased
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
 		if (secureCheckBox.isSelected()) {
@@ -181,43 +198,15 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 		sendButton.setEnabled(false);
     }//GEN-LAST:event_sendButtonActionPerformed
 
-    private void messageTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_messageTextKeyReleased
-		if (messageText.getText().trim().isEmpty()) {
-			sendButton.setEnabled(false);
-		} else {
-			sendButton.setEnabled(true);
-		}
-    }//GEN-LAST:event_messageTextKeyReleased
+    private void messagesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_messagesListValueChanged
 
-    private void jTabbedPaneSecureCommunicationsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPaneSecureCommunicationsMouseClicked
-		//this is only for testing purposes
-		//byte[] a = this.controller.messageBytes(messageText.getText());
-		String unit = changeUnits(jTabbedPaneNetworkAnalizer.getHeight());
-
-		int unsecureIncomming = this.controller.
-			messageBytesUnsecureIncomming(messageText.getText());
-		int secureIncomming = this.controller.
-			messageBytesSecureIncomming(messageText.getText());
-		int unsecureOutgoing = this.controller.
-			messageBytesUnsecureOutgoing(messageText.getText());
-		int secureOutgoing = this.controller.
-			messageBytesSecureOutgoing(messageText.getText());
-
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.setValue(unsecureIncomming, unit, "Unsecure Incomming");
-		dataset.setValue(secureIncomming, unit, "Secure Incomming ");
-		dataset.setValue(unsecureOutgoing, unit, "Unsecure Outgoing");
-		dataset.setValue(secureOutgoing, unit, "Secure Outgoing");
-
-		createChart(dataset);
-
-    }//GEN-LAST:event_jTabbedPaneSecureCommunicationsMouseClicked
+    }//GEN-LAST:event_messagesListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelMessages;
+    private javax.swing.JPanel jPanelNetworkAnalizer;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPaneNetworkAnalizer;
     private javax.swing.JTabbedPane jTabbedPaneSecureCommunications;
     private javax.swing.JTextField messageText;
     private javax.swing.JList<String> messagesList;
@@ -235,15 +224,21 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
 	}
 
-	public void createChart(DefaultCategoryDataset dataset) {
+	private ChartPanel createPane(Observer observer) {
+		this.controller.analyser(observer);
+		String unit = changeUnits(jTabbedPaneSecureCommunications.getHeight());
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+//		dataset.setValue(unsecureIncomming, unit, "Unsecure Incomming");
+//		dataset.setValue(secureIncomming, unit, "Secure Incomming ");
+//		dataset.setValue(unsecureOutgoing, unit, "Unsecure Outgoing");
+//		dataset.setValue(secureOutgoing, unit, "Secure Outgoing");
 
 		JFreeChart chart = ChartFactory.
 			createBarChart("Network Analizer", "Network traffic", "Size", dataset, PlotOrientation.VERTICAL, false, true, false);
 		CategoryPlot p = chart.getCategoryPlot();
 		p.setRangeGridlinePaint(Color.BLACK);
-		ChartPanel frame = new ChartPanel(chart);
-		frame.setVisible(true);
-		frame.setSize(450, 350);
+		return new ChartPanel(chart);
 
 	}
 

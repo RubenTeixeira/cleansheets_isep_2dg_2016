@@ -117,7 +117,8 @@ public class CommentPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
-		// TODO add your handling code here:
+		CommentHistoryUI commentHistory = new CommentHistoryUI(uiController, comment);
+		commentHistory.setVisible(true);
     }//GEN-LAST:event_historyButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

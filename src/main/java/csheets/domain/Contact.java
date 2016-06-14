@@ -6,6 +6,8 @@
 package csheets.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -47,15 +49,19 @@ public abstract class Contact implements Serializable {
 	@Basic(fetch = FetchType.EAGER)
 	private byte[] photo = null;
 
+	Set<String> tags;
+
 	/**
 	 *
 	 * @param photo photo
+	 * @param tags tags
 	 */
 	public Contact(byte[] photo) {
 		if (photo == null) {
 			throw new IllegalArgumentException();
 		}
 		this.photo = photo;
+		this.tags = new HashSet();
 	}
 
 	/**
@@ -89,6 +95,14 @@ public abstract class Contact implements Serializable {
 	 */
 	public long id() {
 		return id;
+	}
+
+	public Set<String> tags() {
+		return this.tags;
+	}
+
+	public void addTag(String tagName) {
+		this.tags.add(tagName);
 	}
 
 	/**

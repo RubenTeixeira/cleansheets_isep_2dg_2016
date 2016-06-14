@@ -11,7 +11,8 @@ import javax.swing.JMenu;
 
 /**
  *
- * @author yur
+ * @author Rui Bento
+ * @author José Barros
  */
 public class UIExtensionMacroBeanShell extends UIExtension {
 

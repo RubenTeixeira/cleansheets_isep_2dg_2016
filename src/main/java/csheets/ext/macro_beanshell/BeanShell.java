@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.macro_beanshell;
 
 import bsh.EvalError;
@@ -13,11 +8,12 @@ import csheets.ui.ctrl.UIController;
 /**
  *
  * @author Rui Bento
+ * @author José Barros
  */
 public class BeanShell implements Script {
 
 	/**
-	 * consola do interpreter
+	 * Interpreter console
 	 */
 	private static final JConsole console = new JConsole();
 
@@ -26,10 +22,21 @@ public class BeanShell implements Script {
 	 */
 	public final static String NAME = "BeanShell";
 
+	/**
+	 * The user interface controller
+	 */
 	private UIController uiController;
 
+	/**
+	 * Interpreter
+	 */
 	private Interpreter interpreter;
 
+	/**
+	 * Beanshell constructor
+	 *
+	 * @param uiController The user interface controller
+	 */
 	public BeanShell(UIController uiController) {
 		this.interpreter = new Interpreter(console);  // Construct an interpreter
 		this.uiController = uiController;
@@ -86,10 +93,22 @@ public class BeanShell implements Script {
 		return result;
 	}
 
+	/**
+	 * Returns a error message
+	 *
+	 * @param error Error message
+	 * @return message
+	 */
 	private String createErrorMessage(String error) {
 		return String.format("Error: %s\n", error);
 	}
 
+	/**
+	 * Separates the code instructions
+	 *
+	 * @param code
+	 * @return instructions
+	 */
 	private String[] separateInstructions(String code) {
 		return code.split("\n");
 	}

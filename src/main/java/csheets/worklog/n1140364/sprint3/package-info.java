@@ -53,7 +53,6 @@
  *
  *
  * <h2>4. Analysis</h2>
- * Analysis description...
  *
  * <h3>First Analysis sequence diagram</h3>
  *
@@ -67,20 +66,58 @@
  * <h3>Analysis of Core Technical Problem</h3>
  *
  * <h2>5. Design</h2>
- * ...
  *
  * <h3>5.1. Functional Tests</h3>
- * Test description...
+ * For this user story , we can start by coding a unit test to verify that the
+ * new function can invoke and execute the beanshell script from a formula /
+ * macro. No less important is the test of the script execution, ie , check that
+ * is made (synchronous or asynchronous) according to user criteria. Lastly we
+ * have to test the new features present in the script manager, on that, verify
+ * if the script is created , edited properly, eliminated and if runs.
  *
  * <p>
  * see: <code>#</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
- * UC Realization description...
+ *
+ * To realize this user story we will need to create a Script manager on that
+ * enables us to create new scripts so that they can be used later on formulas /
+ * macros. For this we created a new function in package Lang.
+ *
+ * <h3>Extension Setup</h3>
+ *
+ * The following sequence diagram illustrates the creation of the user interface
+ * extension. All the UI extensions are loaded by the UIController at
+ * application startup.
+ *
+ * <p>
+ * <img src="doc-files/lang07.2_extension_image2.png" alt="image">
+ *
+ * <p>
+ * The following sequences diagrams illustrates the creation of the menu
+ * extension. All the menu extensions are loaded by the MenuBar at application
+ * startup.
+ *
+ * <p>
+ * <img src="doc-files/lang07.2_extension_image3.png" alt="image">
+ *
  *
  * <h3>5.3. Classes</h3>
- * ...
+ *
+ * The following diagram shows the setup of the Script Manager when cleansheets
+ * is run.
+ *
+ * <p>
+ * <img src="doc-files/lang07.2_class_manager.png" alt="image">
+ * <p>
+ *
+ * The following diagram shows the setup of the "macroBeanShell" extension when
+ * cleansheets is run.
+ *
+ * <p>
+ * <img src="doc-files/lang07.2_extension_image1.png" alt="image">
+ *
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -158,15 +195,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Creates a Script manager. UC implementation.</p>
  * <p>
  * Today:
  * <p>
- * 1.</p>
+ * 1. Analisys organization. Tests.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>

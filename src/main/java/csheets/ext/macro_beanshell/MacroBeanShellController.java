@@ -3,26 +3,46 @@ package csheets.ext.macro_beanshell;
 import csheets.ui.ctrl.UIController;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.activation.UnsupportedDataTypeException;
 
 /**
  * Macro/BeanShell Controller.
  *
  * @author Rui Bento
+ * @author José Barros
  */
 public class MacroBeanShellController {
 
+	/**
+	 * The user interface controller
+	 */
 	private UIController uicontroller;
+
+	/**
+	 * Beanshell script
+	 */
 	private BeanShell beanShell;
 
+	/**
+	 * Controller constructor
+	 *
+	 * @param uicontroller The user interface controller
+	 */
 	public MacroBeanShellController(UIController uicontroller) {
 		this.uicontroller = uicontroller;
 		this.beanShell = new BeanShell(uicontroller);
 	}
 
+	/**
+	 * Executes a single code
+	 *
+	 * @param scriptType Type of script
+	 * @param code Script code
+	 * @return result
+	 */
 	public String executeCode(String scriptType, String code) {
 		Script script;
 		try {
@@ -37,6 +57,13 @@ public class MacroBeanShellController {
 		}
 	}
 
+	/**
+	 * Creates a macro or beanshell script
+	 *
+	 * @param scriptType Type of script
+	 * @return script
+	 * @throws UnsupportedDataTypeException
+	 */
 	private Script createScript(String scriptType) throws UnsupportedDataTypeException {
 		if (scriptType != null) {
 			switch (scriptType) {
@@ -51,6 +78,12 @@ public class MacroBeanShellController {
 		throw new UnsupportedDataTypeException("Unknown script type.");
 	}
 
+	/**
+	 * Creates a script example
+	 *
+	 * @param scriptType Type of script
+	 * @return example result
+	 */
 	public String createExample(String scriptType) {
 		Script script;
 		try {
@@ -65,44 +98,84 @@ public class MacroBeanShellController {
 		}
 	}
 
-	public void saveScript(String name, String code) {
+	/**
+	 * Saves or replace a script in workbook
+	 *
+	 * @param name Name of script
+	 * @param type Type of script
+	 * @param content Script code
+	 * @param synchronous Execution mode
+	 */
+	public void saveScript(String name, String type, String content,
+						   boolean synchronous) {
 
-		uicontroller.getActiveWorkbook().addScript(name, code);
-	}
+		Code oldCode = uicontroller.getActiveWorkbook().getScript(name);
 
-	public List<String> getSavedScripts() {
-
-		List<String> list = new ArrayList();
-
-		for (Map.Entry<String, String> entry : uicontroller.getActiveWorkbook().
-			getScripts().entrySet()) {
-			list.add(entry.getKey());
+		if (oldCode != null) {
+			uicontroller.getActiveWorkbook().getScripts().remove(oldCode);
 		}
 
-		return list;
+		Code code = new Code(name, type, content, synchronous);
+
+		uicontroller.getActiveWorkbook().addScript(code);
 	}
 
-	public void editScript(String new_code, String script) {
+	/**
+	 * Returns a script list of workbook
+	 *
+	 * @return scripts
+	 */
+	public List<Code> getSavedScripts() {
 
-		String old_code = uicontroller.getActiveWorkbook().getScripts().
-			get(script);
-		uicontroller.getActiveWorkbook().getScripts().
-			replace(script, old_code, new_code);
+		return uicontroller.getActiveWorkbook().getScripts();
 	}
 
+	/**
+	 * Returns a code of script
+	 *
+	 * @param script Script
+	 * @return Script code
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public String getScriptContent(String script) throws FileNotFoundException, IOException {
 
-		return uicontroller.getActiveWorkbook().getScripts().get(script);
+		return uicontroller.getActiveWorkbook().getScript(script).getContent();
 	}
 
+	/**
+	 * Removes a script of list
+	 *
+	 * @param script Script
+	 * @return Delete result
+	 */
 	public boolean deleteScript(String script) {
 
-		return uicontroller.getActiveWorkbook().getScripts().remove(script) != null;
+		Code code = uicontroller.getActiveWorkbook().getScript(script);
+		return uicontroller.getActiveWorkbook().getScripts().remove(code);
 	}
 
-	public void executeScript(String script) {
+	/**
+	 * Executes a full script
+	 *
+	 * @param script_name Name of script
+	 */
+	public void executeScript(String script_name) {
 
-		String code = uicontroller.getActiveWorkbook().getScripts().get(script);
-		executeCode(BeanShell.NAME, code);
+		Code code = uicontroller.getActiveWorkbook().getScript(script_name);
+
+		Script script;
+
+		try {
+			script = createScript(code.getType());
+			script.run(code.getContent());
+
+		} catch (UnsupportedOperationException ex) {
+			System.out.println(ex.getMessage());
+
+		} catch (UnsupportedDataTypeException ex) {
+			Logger.getLogger(MacroBeanShellController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 	}
 }

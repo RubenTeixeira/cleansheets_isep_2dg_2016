@@ -5,6 +5,7 @@
  */
 package csheets.ui.legacy.importXML;
 
+import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
@@ -95,7 +96,31 @@ public class ImportXML {
 												 String tagSpreadSheet,
 												 String tagRow,
 												 String tagColumn,
-												 UIController uiController) {
+												 UIController uiController) throws FileNotFoundException, FormulaCompilationException {
 
+		String data = getFileData(path);
+		Cell[][] cells = uiController.focusOwner.getSelectedCells();
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[0].length; j++) {
+				Cell cell = cells[i][j];
+				String[] rows = data.split("<" + tagRow + "");
+				for (int k = 1; k < rows.length; k++) {
+					String row = rows[k];
+					String[] auxRowIndex = row.split("\"");
+					int rowIndex = Integer.parseInt(auxRowIndex[1]);
+					String[] columns = row.split("<" + tagColumn + "");
+					for (int l = 1; l < columns.length; l++) {
+						String column = columns[l];
+						String[] value = column.split(">|<");
+						String[] auxColumIndex = column.split("\"");
+						int columnIndex = Integer.parseInt(auxColumIndex[1]);
+						if (cell.getAddress().getColumn() == columnIndex && cell.
+							getAddress().getRow() == rowIndex) {
+							cell.setContent(value[1]);
+						}
+					}
+				}
+			}
+		}
 	}
 }

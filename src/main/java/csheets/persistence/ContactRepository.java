@@ -16,6 +16,8 @@ public interface ContactRepository extends Repository<Contact, Long> {
 
 	public Contact getByName(String name);
 
+	public Iterable<Contact> getContactByTag(String tag);
+
 	public Iterable<Contact> contactsCompany(Contact contact);
 
 	public Iterable<Contact> allCompanies();

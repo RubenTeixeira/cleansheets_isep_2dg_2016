@@ -25,7 +25,6 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.ext.macro_beanshell.BeanShell;
 import csheets.ext.macro_beanshell.MacroBeanShellController;
 import csheets.ui.ctrl.UIController;
 
@@ -41,7 +40,7 @@ public class Script implements Function {
 	 */
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
 		new FunctionParameter(Value.Type.TEXT, "Script", false,
-							  "Name of Script of Manege")
+							  "Name of Script of Manager")
 	};
 
 	/**
@@ -57,14 +56,11 @@ public class Script implements Function {
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
 
 		System.out.println("SCRIPT = " + arguments[0].evaluate().toText());
-		String script = UIController.getUIController().getActiveWorkbook().
-			getScript(arguments[0].evaluate().toText());
-		System.out.println("SCRIPT do WorkLoog = " + script);
 
 		MacroBeanShellController controller = new MacroBeanShellController(UIController.
 			getUIController());
 
-		controller.executeCode(BeanShell.NAME, script);
+		controller.executeScript(arguments[0].evaluate().toText());
 
 		return new Value();
 	}

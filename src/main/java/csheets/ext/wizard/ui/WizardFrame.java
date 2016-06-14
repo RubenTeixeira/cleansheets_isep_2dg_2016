@@ -5,8 +5,11 @@
  */
 package csheets.ext.wizard.ui;
 
+import com.toedter.calendar.JTextFieldDateEditor;
+import csheets.core.formula.FunctionParameter;
 import csheets.ui.ctrl.UIController;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -25,6 +28,7 @@ public class WizardFrame extends javax.swing.JFrame {
 		setLocationRelativeTo(this);
 		controller = new WizardController(uiController);
 		initComponents();
+                txtFieldsInvisibles();
 		loadFunctions();
                 setVisible(true);
                 setLocationRelativeTo(null);
@@ -47,6 +51,7 @@ public class WizardFrame extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        jTextField1 = new javax.swing.JTextField();
         resultTextBox = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -56,6 +61,11 @@ public class WizardFrame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         functionsList = new javax.swing.JList<>();
         helpButton = new javax.swing.JButton();
+        panelTextFieldsOfFunction = new javax.swing.JPanel();
+        txtFieldParameter1 = new javax.swing.JTextField();
+        txtFieldParameter2 = new javax.swing.JTextField();
+        txtFieldParameter3 = new javax.swing.JTextField();
+        txtFieldParameter4 = new javax.swing.JTextField();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -63,6 +73,8 @@ public class WizardFrame extends javax.swing.JFrame {
             public String getElementAt(int i) { return strings[i]; }
         });
         jScrollPane1.setViewportView(jList1);
+
+        jTextField1.setText("jTextField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -115,6 +127,59 @@ public class WizardFrame extends javax.swing.JFrame {
             }
         });
 
+        panelTextFieldsOfFunction.setForeground(new java.awt.Color(1, 0, 5));
+        panelTextFieldsOfFunction.setDoubleBuffered(false);
+
+        txtFieldParameter1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldParameter1ActionPerformed(evt);
+            }
+        });
+
+        txtFieldParameter2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldParameter2ActionPerformed(evt);
+            }
+        });
+
+        txtFieldParameter3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldParameter3ActionPerformed(evt);
+            }
+        });
+
+        txtFieldParameter4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtFieldParameter4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelTextFieldsOfFunctionLayout = new javax.swing.GroupLayout(panelTextFieldsOfFunction);
+        panelTextFieldsOfFunction.setLayout(panelTextFieldsOfFunctionLayout);
+        panelTextFieldsOfFunctionLayout.setHorizontalGroup(
+            panelTextFieldsOfFunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTextFieldsOfFunctionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtFieldParameter1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFieldParameter2, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFieldParameter3, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtFieldParameter4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        panelTextFieldsOfFunctionLayout.setVerticalGroup(
+            panelTextFieldsOfFunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelTextFieldsOfFunctionLayout.createSequentialGroup()
+                .addGroup(panelTextFieldsOfFunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFieldParameter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFieldParameter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFieldParameter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(txtFieldParameter3)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -139,19 +204,22 @@ public class WizardFrame extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resultTextBox)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                        .addComponent(resultTextBox))
+                    .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resultTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -184,6 +252,9 @@ public class WizardFrame extends javax.swing.JFrame {
 		String info = ((FunctionListModel) functionsList.getModel()).
 			getFunctionInfo(index, controller);
 		selectedFunctionTextBox.setText(info);
+                int i=this.controller.getParametersOfFunctionSelected().length;
+                System.out.println(i);
+                openTextFields(i);
     }//GEN-LAST:event_functionsListMouseClicked
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -214,6 +285,22 @@ public class WizardFrame extends javax.swing.JFrame {
 		JOptionPane.showMessageDialog(this, help);
     }//GEN-LAST:event_helpButtonActionPerformed
 
+    private void txtFieldParameter1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldParameter1ActionPerformed
+
+    private void txtFieldParameter2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldParameter2ActionPerformed
+
+    private void txtFieldParameter3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldParameter3ActionPerformed
+
+    private void txtFieldParameter4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtFieldParameter4ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
@@ -224,8 +311,43 @@ public class WizardFrame extends javax.swing.JFrame {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel panelTextFieldsOfFunction;
     private javax.swing.JTextField resultTextBox;
     private javax.swing.JTextField selectedFunctionTextBox;
+    private javax.swing.JTextField txtFieldParameter1;
+    private javax.swing.JTextField txtFieldParameter2;
+    private javax.swing.JTextField txtFieldParameter3;
+    private javax.swing.JTextField txtFieldParameter4;
     // End of variables declaration//GEN-END:variables
+
+    private void txtFieldsInvisibles() {
+        txtFieldParameter1.setVisible(false);
+        txtFieldParameter2.setVisible(false);
+        txtFieldParameter3.setVisible(false);
+        txtFieldParameter4.setVisible(false);
+    }
+
+    private void openTextFields(int i) {
+        System.out.println(i);
+        if(i==1){
+            txtFieldParameter1.setVisible(true);
+        }
+        if(i==2){
+            txtFieldParameter1.setVisible(true);
+            txtFieldParameter2.setVisible(true);
+        }
+        if(i==3){
+            txtFieldParameter1.setVisible(true);
+            txtFieldParameter2.setVisible(true);
+            txtFieldParameter3.setVisible(true);
+        }
+        if(i==1){
+            txtFieldParameter1.setVisible(true);
+            txtFieldParameter2.setVisible(true);
+            txtFieldParameter3.setVisible(true);
+            txtFieldParameter4.setVisible(true);
+        }
+    }
 
 }
