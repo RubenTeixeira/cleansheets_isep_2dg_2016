@@ -88,6 +88,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     controller.updateContactListsModel(contactListModel, e.getItem());
                     panelContactList.setVisible(true);
+                    panelCreateList.setVisible(true);
                     panelListVersion.setVisible(false);
                     panelListData.setVisible(false);
                     panelListActions.setVisible(false);
@@ -104,6 +105,13 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 panelListVersion.setVisible(true);
                 panelListData.setVisible(true);
                 panelListActions.setVisible(true);
+                if (checkboxEditList.isSelected()) {
+                    showListEdit();
+                    btnApply.setText("Edit");
+                } else {
+                    hideListEdit();
+                    btnApply.setText("Apply");
+                }
             }
         });
     }
@@ -126,9 +134,29 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         checkboxEditList.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.err.println(e.getStateChange());
+                if (e.getStateChange() == 1) {
+                    showListEdit();
+                    btnApply.setText("Edit");
+                } else {
+                    hideListEdit();
+                    btnApply.setText("Apply");
+                }
             }
         });
+    }
+
+    private void showListEdit() {
+        textAreadListData.setVisible(true);
+        textAreadListData.setEnabled(true);
+        tableListData.setVisible(false);
+        tableListData.setEnabled(false);
+    }
+
+    private void hideListEdit() {
+        textAreadListData.setVisible(false);
+        textAreadListData.setEnabled(false);
+        tableListData.setVisible(true);
+        tableListData.setEnabled(true);
     }
 
     @Override
@@ -207,23 +235,27 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListContact = new javax.swing.JPanel();
         lblListContact = new javax.swing.JLabel();
         cbListContact = new javax.swing.JComboBox<>();
+        panelCreateList = new javax.swing.JPanel();
+        btnCreateNewList = new javax.swing.JButton();
         panelListInfo = new javax.swing.JPanel();
         panelContactList = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lblContactLists = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         lstContactLists = new javax.swing.JList<>();
         panelListVersion = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lblListVersions = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         lstListVersions = new javax.swing.JList<>();
         panelListData = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lblList = new javax.swing.JLabel();
         checkboxEditList = new javax.swing.JCheckBox();
         jScrollPane6 = new javax.swing.JScrollPane();
         tableListData = new javax.swing.JTable();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        textAreadListData = new javax.swing.JTextArea();
         panelListActions = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnApply = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
 
         lblNoteContact.setText("Contact:");
 
@@ -422,7 +454,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblListContact.setText("Contact:");
 
         cbListContact.setModel(contactModel);
-        cbListContact.setSelectedIndex(-1);
 
         javax.swing.GroupLayout panelListContactLayout = new javax.swing.GroupLayout(panelListContact);
         panelListContact.setLayout(panelListContactLayout);
@@ -441,13 +472,31 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 .addComponent(cbListContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
+        btnCreateNewList.setText("Create New List");
+        btnCreateNewList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateNewListActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelCreateListLayout = new javax.swing.GroupLayout(panelCreateList);
+        panelCreateList.setLayout(panelCreateListLayout);
+        panelCreateListLayout.setHorizontalGroup(
+            panelCreateListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnCreateNewList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        panelCreateListLayout.setVerticalGroup(
+            panelCreateListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnCreateNewList)
+        );
+
         panelListInfo.setPreferredSize(new java.awt.Dimension(239, 200));
 
         panelContactList.setPreferredSize(new java.awt.Dimension(93, 139));
         panelContactList.setVisible(false);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Contact Lists");
+        lblContactLists.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblContactLists.setText("Contact Lists");
 
         lstContactLists.setModel(contactListModel);
         jScrollPane4.setViewportView(lstContactLists);
@@ -456,21 +505,21 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelContactList.setLayout(panelContactListLayout);
         panelContactListLayout.setHorizontalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblContactLists, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane4)
         );
         panelContactListLayout.setVerticalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelContactListLayout.createSequentialGroup()
-                .addComponent(jLabel2)
+                .addComponent(lblContactLists)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4))
         );
 
         panelListVersion.setPreferredSize(new java.awt.Dimension(120, 139));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("List Versions");
+        lblListVersions.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblListVersions.setText("List Versions");
 
         lstListVersions.setModel(listVersionModel);
         jScrollPane5.setViewportView(lstListVersions);
@@ -479,15 +528,15 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListVersion.setLayout(panelListVersionLayout);
         panelListVersionLayout.setHorizontalGroup(
             panelListVersionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(lblListVersions, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         panelListVersionLayout.setVerticalGroup(
             panelListVersionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListVersionLayout.createSequentialGroup()
-                .addComponent(jLabel1)
+                .addComponent(lblListVersions)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelListInfoLayout = new javax.swing.GroupLayout(panelListInfo);
@@ -501,42 +550,57 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         );
         panelListInfoLayout.setVerticalGroup(
             panelListInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelListVersion, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-            .addComponent(panelContactList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+            .addComponent(panelListVersion, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+            .addComponent(panelContactList, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
         );
 
         panelListData.setPreferredSize(new java.awt.Dimension(202, 188));
 
-        jLabel3.setText("List");
+        lblList.setText("List");
 
         checkboxEditList.setText("Enable Edit");
 
         tableListData.setModel(listDataModel);
         jScrollPane6.setViewportView(tableListData);
 
+        textAreadListData.setSize(panelListData.getWidth(), tableListData.getHeight());
+        textAreadListData.setColumns(10);
+        textAreadListData.setRows(5);
+        jScrollPane7.setViewportView(textAreadListData);
+
         javax.swing.GroupLayout panelListDataLayout = new javax.swing.GroupLayout(panelListData);
         panelListData.setLayout(panelListDataLayout);
         panelListDataLayout.setHorizontalGroup(
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListDataLayout.createSequentialGroup()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblList, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(checkboxEditList))
-            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(panelListDataLayout.createSequentialGroup()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panelListDataLayout.setVerticalGroup(
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addGroup(panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
+                    .addComponent(lblList)
                     .addComponent(checkboxEditList))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))
+                .addGroup(panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
+                    .addComponent(jScrollPane7)))
         );
 
-        jButton1.setText("Create");
+        btnApply.setText("Apply");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Delete");
+        btnDelete.setText("Delete");
 
         javax.swing.GroupLayout panelListActionsLayout = new javax.swing.GroupLayout(panelListActions);
         panelListActions.setLayout(panelListActionsLayout);
@@ -544,9 +608,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             panelListActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListActionsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panelListActionsLayout.setVerticalGroup(
@@ -554,8 +618,8 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             .addGroup(panelListActionsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelListActionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnApply)
+                    .addComponent(btnDelete))
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
@@ -569,9 +633,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                     .addComponent(panelListActions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelListContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelListsLayout.createSequentialGroup()
-                        .addGroup(panelListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelListData, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                            .addComponent(panelListInfo, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
+                        .addGroup(panelListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(panelCreateList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelListData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                            .addComponent(panelListInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         panelListsLayout.setVerticalGroup(
@@ -579,8 +644,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             .addGroup(panelListsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelListContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(panelListInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelCreateList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelListInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelListData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
@@ -634,25 +701,53 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         controller.createNote(textAreaNote.getText(), contact);
     }//GEN-LAST:event_btnNoteCreateActionPerformed
 
+    private void btnCreateNewListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewListActionPerformed
+        panelListVersion.setVisible(false);
+        showListEdit();
+        panelListData.setVisible(true);
+        panelListActions.setVisible(true);
+        checkboxEditList.setSelected(true);
+        btnApply.setText("Create");
+    }//GEN-LAST:event_btnCreateNewListActionPerformed
+
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
+        switch(evt.getActionCommand()) {
+            case "Create": {
+                controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText());
+                break;
+            }
+            case "Edit": {
+                controller.editList(lstContactLists.getSelectedValue(),textAreadListData.getText());
+                break;
+            }
+            case "Apply": {
+                controller.applyList(lstContactLists.getSelectedValue(),listDataModel);
+                break;
+            }
+        }
+    }//GEN-LAST:event_btnApplyActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApply;
+    private javax.swing.JButton btnCreateNewList;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNoteCreate;
     private javax.swing.JButton btnNoteDelete;
     private javax.swing.JButton btnNoteEdit;
     private javax.swing.JComboBox<Contact> cbListContact;
     private javax.swing.JComboBox<Contact> cbNoteContact;
     private javax.swing.JCheckBox checkboxEditList;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JLabel lblContactLists;
+    private javax.swing.JLabel lblList;
     private javax.swing.JLabel lblListContact;
+    private javax.swing.JLabel lblListVersions;
     private javax.swing.JLabel lblNote;
     private javax.swing.JLabel lblNoteContact;
     private javax.swing.JLabel lblNoteContactNotes;
@@ -663,6 +758,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JList<String> lstNoteVersions;
     private javax.swing.JPanel panelContactList;
     private javax.swing.JPanel panelContactNoteList;
+    private javax.swing.JPanel panelCreateList;
     private javax.swing.JPanel panelListActions;
     private javax.swing.JPanel panelListContact;
     private javax.swing.JPanel panelListData;
@@ -678,5 +774,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JTabbedPane tabPane;
     private javax.swing.JTable tableListData;
     private javax.swing.JTextArea textAreaNote;
+    private javax.swing.JTextArea textAreadListData;
     // End of variables declaration//GEN-END:variables
 }

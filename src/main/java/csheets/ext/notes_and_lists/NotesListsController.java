@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -85,12 +86,39 @@ public class NotesListsController {
     }
 
     public void updateContactListsModel(DefaultListModel<List> contactListModel, Object contactItem) {
-        if(contactItem instanceof Contact && contactItem != null) {
-            Contact contact = (Contact)contactItem;
+        if (contactItem instanceof Contact && contactItem != null) {
+            Contact contact = (Contact) contactItem;
             Iterable<List> contactLists = PersistenceContext.repositories().lists().listsByContact(contact);
             for (List list : contactLists) {
                 contactListModel.addElement(list);
             }
         }
+    }
+
+    public boolean createList(Object contactObj, String text) {
+        if (!(contactObj instanceof Contact)) {
+            return false;
+        }
+        Contact contact = (Contact) contactObj;
+        String data[] = text.split("\n", 2);
+        List newList = new List(data[0], data[1], contact);
+        if (PersistenceContext.repositories().lists().save(newList) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean editList(List list, String text) {
+        String data[] = text.split("\n", 2);
+        list.edit(data[0], data[1]);
+        if (PersistenceContext.repositories().lists().save(list) != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean applyList(List list, DefaultTableModel model) {
+        //model.ge
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
