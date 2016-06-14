@@ -50,14 +50,19 @@
  *
  * <h3>Send a Secure Message</h3>
  * <p>
- * User-System: Starts the process. System-User: Opens the window with options
- * add or remove a line. System-User: Presents the option to add remove a line.
- * User-System: Chooses an option. System-User: ask the name of the label and
- * the textbox description User-System: Answer. System-User: Adds a new line.
- * User-System: If the chosen option is to remove. System-User: Removes one line
- * in the window.
+ * User: Starts the process. 
+ * System: Opens the window with options add or remove a line. 
+ * System: Presents the option to add remove a line.
+ * User: Chooses an option. 
+ * System: ask the name of the label and the textbox description 
+ * User: Answer. 
+ * System: Adds a new line.
+ * User: If the chosen option is to remove. 
+ * System: Removes one line in the form.
  * </p>
+ * 
  * <h4>Analysis diagram:</h4>
+ * 
  * <img src="doc-files/forms_editor_analysis.png" alt="image">
  *
  *
@@ -65,7 +70,15 @@
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-42">LPFOURDG-42</a>.
  *
  * <h2>5. Design</h2>
- *  <img src="doc-files/forms_editor_design.png" alt="image">
+ * 
+ * <img src="doc-files/forms_editor_design.png" alt="image">
+ *
+ * <h2>5.1. Functional Tests</h3>
+ * <p>
+ * Tests were performed for Class AskContent, FormEdir anda Single Line to check if the search works as
+ * intended and for SearchResultAssembler to ensure the proper information was
+ * being gathered and displayed.</p>
+ *
  * <h2>8. Final Remarks</h2>
  *
  * <h2>9. Work Log</h2>
@@ -73,15 +86,12 @@
  * 06/06/2016</p>
  * <p>
  * Monday</p>
+ * <p> Start analysis and design  </p>
  * <p>
  * Today</p>
+  * Blocking</p>
  * <p>
- * Implemented Volt new features. Added base design.</p>
- * <p>
- * Blocking</p>
- * <p>
- * Nothing</p>
- *
+ * Nothing</p> *
  * <p>
  * 07/06/2016</p>
  * <p>
@@ -102,7 +112,7 @@
  * <p>
  * Yesterday</p>
  * <p>
- * Implemented the Volt static class and made some small improvements to it.</p>
+ * Implemented the static class and made some small improvements to it.</p>
  * <p>
  * Today</p>
  * <p>
@@ -125,12 +135,11 @@
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- * The implementation uses Volt, a package developed during the RCOMP course of
- * the current year (2015/2016), which aims to ease the development of
- * communication protocols with a expressive syntax. It has some nice features
- * such as Routing (Route cycling on UDP) and automatic management of multiple
- * UDP packets.
- *
+ *<p>The implementation of the use case was a simple form that allows the user to 
+ * add or remove a line consisting of a Label and a TextFiel before being added, 
+ * it is necessary that the user enters the name and content,
+ * then the line will be added to the form with the data entered.
+ * </p>
  * <p>
  * <b>Evidences:</b>
  * </p>

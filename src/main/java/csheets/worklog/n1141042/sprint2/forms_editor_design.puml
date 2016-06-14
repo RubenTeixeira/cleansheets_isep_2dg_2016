@@ -6,17 +6,23 @@ participant "<<analysis>>\nFormEditorUI" as FormEditorUI
 
 
 User->FormEditorUI: form().
-loop
 FormEditorUI->FormFrame: new()
+loop
 alt add
-FormFrame->AskContent: add()
-AskContent->SingleLine:add(name, description)
-SingleLine->FormFrame: added()
-FormFrame->FormFrame: refresh()
+FormFrame->AskContent: new()
+AskContent->FormFrame: showConfirmDialog()
+FormFrame->SingleLine: addSingleLine(new SingleLine( name,content))
+SingleLine->FormFrame: addSingleLine(SingleLine panel)
+FormFrame->FormFrame:  refreshUI()
 end
 alt remove
 FormFrame->SingleLine: remove()
-SingleLine->FormFrame: removed()
+SingleLine->FormFrame: showConfirmDialog()
+FormFrame->SingleLine: answer()
+SingleLine->Notification:formInformer() 
+Notification->Notifier: notifyChange(Object object)
+
+Notifier->FormFrame: notifyChange(this)
 FormFrame->FormFrame: refresh()
 end
 
