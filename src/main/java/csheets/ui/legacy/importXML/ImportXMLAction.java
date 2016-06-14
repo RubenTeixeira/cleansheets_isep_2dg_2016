@@ -45,7 +45,7 @@ public class ImportXMLAction extends AbstractAction {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		new ImportXMLPanel(this.controller);
+		new ImportXMLPanel(this.controller).show();
 	}
 
 }
