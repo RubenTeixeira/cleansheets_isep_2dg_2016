@@ -42,9 +42,8 @@ public class Email {
 							String subject, String body) throws MessagingException {
 		session.setDebug(true);
 		Message message = new MimeMessage(session);
-		message.
-			setFrom(new InternetAddress(this.session.
-					getProperty("mail.username"))); //Remetente
+		message.setFrom(new InternetAddress(this.session.getProperties().
+			getProperty("mail.username"))); //Remetente
 		message.setRecipients(Message.RecipientType.TO,
 							  InternetAddress.
 							  parse(to)); //Destinatário(s)
