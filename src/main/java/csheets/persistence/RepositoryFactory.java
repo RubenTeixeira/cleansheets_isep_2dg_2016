@@ -15,4 +15,6 @@ public interface RepositoryFactory {
 	CalendarRepository calendars();
 
 	NoteRepository notes();
+
+	ListRepository lists();
 }

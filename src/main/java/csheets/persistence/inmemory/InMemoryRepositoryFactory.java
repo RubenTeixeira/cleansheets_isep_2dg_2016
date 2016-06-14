@@ -3,6 +3,7 @@ package csheets.persistence.inmemory;
 import csheets.persistence.CalendarRepository;
 import csheets.persistence.ContactRepository;
 import csheets.persistence.EventRepository;
+import csheets.persistence.ListRepository;
 import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
@@ -18,6 +19,7 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 	private static ReminderRepository reminderRepository = null;
 	private static CalendarRepository calendarRepository = null;
 	private static NoteRepository noteRepository = null;
+	private static ListRepository listRepository = null;
 
 	@Override
 	public ContactRepository contacts() {
@@ -57,5 +59,13 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 			noteRepository = new InMemoryNoteRepository();
 		}
 		return noteRepository;
+	}
+
+	@Override
+	public ListRepository lists() {
+		if (listRepository == null) {
+			listRepository = new InMemoryListRepository();
+		}
+		return listRepository;
 	}
 }
