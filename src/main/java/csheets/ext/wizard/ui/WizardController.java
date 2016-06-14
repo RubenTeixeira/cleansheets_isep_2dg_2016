@@ -25,9 +25,12 @@ import java.util.ArrayList;
 public class WizardController {
 
     UIController uicontroller;
+    FunctionParameter[] parameters;
+    int i=0;
 
     public WizardController(UIController uicontroller) {
         this.uicontroller = uicontroller;
+        
     }
 
     public FunctionListModel getFunctions() {
@@ -39,8 +42,12 @@ public class WizardController {
     }
 
     public String getFunctionInfo(Function func) {
-        return func.getTemplate();
-
+        parameters = func.getParameters();
+        return func.getTemplate();   
+    }
+    
+    public FunctionParameter[] getParametersOfFunctionSelected() {
+        return this.parameters;   
     }
 
     public String executeFormula(String text) throws FormulaCompilationException, IllegalValueTypeException {
