@@ -6,9 +6,16 @@ import csheets.support.TaskManager;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 /*
  *
@@ -75,6 +82,12 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         secureCheckBox = new javax.swing.JCheckBox();
         messageText = new javax.swing.JTextField();
         jTabbedPane2 = new javax.swing.JTabbedPane();
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Messages", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
         jPanel2.setName(""); // NOI18N
@@ -175,6 +188,24 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 			sendButton.setEnabled(true);
 		}
     }//GEN-LAST:event_messageTextKeyReleased
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+		//this is only for testing purposes
+
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		dataset.setValue(80, "Size", "Unsecure Incomming");
+		dataset.setValue(70, "Size", "Secure Incomming ");
+		dataset.setValue(60, "Size", "Unsecure Outgoing");
+		dataset.setValue(100, "Size", "Secure Outgoing");
+
+		JFreeChart chart = ChartFactory.
+			createBarChart("Network Analizer", "Network traffic", "Size", dataset, PlotOrientation.VERTICAL, false, true, false);
+		CategoryPlot p = chart.getCategoryPlot();
+		p.setRangeGridlinePaint(Color.BLACK);
+		ChartPanel frame = new ChartPanel(chart);
+		frame.setVisible(true);
+		frame.setSize(450, 350);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

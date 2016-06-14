@@ -24,12 +24,7 @@ public class UIExtensionSecureCommunications extends UIExtension {
 	/**
 	 * A side bar that provides editing of comments
 	 */
-	private JComponent sideBarSecureCommunications;
-
-	/**
-	 * A side bar that provides editing of comments
-	 */
-	private JComponent sideBarNetworkAnalizer;
+	private JComponent sideBar;
 
 	/**
 	 * Controller.
@@ -66,13 +61,13 @@ public class UIExtensionSecureCommunications extends UIExtension {
 	 * @return a component, or null if the extension does not provide one
 	 */
 	public JComponent getSideBar() {
-		if (sideBarSecureCommunications == null) {
+		if (sideBar == null) {
 			if (shareController == null) {
 				shareController = new SecureCommunicationsController();
 			}
-			sideBarSecureCommunications = new SecureCommunicationsUI(uiController, shareController);
+			sideBar = new SecureCommunicationsUI(uiController, shareController);
 		}
-		return sideBarSecureCommunications;
+		return sideBar;
 	}
 
 }
