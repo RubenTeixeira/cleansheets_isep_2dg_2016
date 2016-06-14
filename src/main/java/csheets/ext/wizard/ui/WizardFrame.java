@@ -26,6 +26,8 @@ public class WizardFrame extends javax.swing.JFrame {
 		controller = new WizardController(uiController);
 		initComponents();
 		loadFunctions();
+                setVisible(true);
+                setLocationRelativeTo(null);
 	}
 
 	private void loadFunctions() {

@@ -18,7 +18,7 @@ import javax.swing.JMenu;
  * A UI interface extension must extend the UIExtension abstract class.
  *
  * @see UIExtension
- * @author José Barros
+ * @author Rui Bastos
  */
 public class UIExtensionImportExportTextFile extends UIExtension {
 

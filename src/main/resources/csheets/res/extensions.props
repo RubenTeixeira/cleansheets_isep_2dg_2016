@@ -22,3 +22,4 @@ csheets.ext.notes.NotesExtension;1.0;Enables_noting
 csheets.ext.secureCommunications.SecureCommunicationsExtension;1.0;Allow_to_setup_a_secure_communication_and_Display_a_real_time_chart
 csheets.ext.style.StyleExtension;1.0;Enables_font_style
 csheets.ext.agenda.AgendaExtension;1.0;Wizard
+csheets.ext.email.EmailExtension;1.0;Email

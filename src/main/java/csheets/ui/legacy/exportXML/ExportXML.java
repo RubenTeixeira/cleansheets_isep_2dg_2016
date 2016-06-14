@@ -46,9 +46,9 @@ final public class ExportXML {
 			stringBuilder.
 				append("\t<" + tagSpreadSheet + " name=\"" + spreadsheet.
 					getTitle() + "\" >\n");
-			for (int j = 0; j < spreadsheet.getRowCount(); j++) {
+			for (int j = 0; j <= spreadsheet.getRowCount(); j++) {
 				List<String> list = new ArrayList();
-				for (int k = 0; k < spreadsheet.getColumnCount(); k++) {
+				for (int k = 0; k <= spreadsheet.getColumnCount(); k++) {
 					Value value = spreadsheet.getCell(k, j).getValue();
 					if (value.toString().length() > 0) {
 						list.
@@ -89,9 +89,9 @@ final public class ExportXML {
 		stringBuilder.
 			append("<" + tagSpreadSheet + " name=\"" + spreadsheet.
 				getTitle() + "\" >\n");
-		for (int j = 0; j < spreadsheet.getRowCount(); j++) {
+		for (int j = 0; j <= spreadsheet.getRowCount(); j++) {
 			List<String> list = new ArrayList();
-			for (int k = 0; k < spreadsheet.getColumnCount(); k++) {
+			for (int k = 0; k <= spreadsheet.getColumnCount(); k++) {
 				Value value = spreadsheet.getCell(k, j).getValue();
 				if (value.toString().length() > 0) {
 					list.
