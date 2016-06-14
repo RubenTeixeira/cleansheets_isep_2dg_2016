@@ -46,10 +46,11 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.
 						getSize().height / 2);
 
-		this.setModal(modal);
+		this.setModal(false);
 		this.controller = controller;
 		this.uiController = uiController;
 		this.mail = mail;
+		this.jPanel1.setVisible(true);
 
 		uiController.addSelectionListener(this);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -179,11 +180,10 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
                     .addComponent(changeSubjectButton))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(bodyjLabel)
-                        .addComponent(changeBodyButton))
+                    .addComponent(changeBodyButton)
+                    .addComponent(bodyjLabel)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -218,39 +218,18 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
     }//GEN-LAST:event_changeBodyButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		Thread thread = new Thread() {
-			private SendingEmailDialog sendingEmailDialog;
-
-			public void run() {
-				this.sendingEmailDialog = new SendingEmailDialog(null, true);
-				this.sendingEmailDialog.setVisible(true);
-				this.sendingEmailDialog.
-					setModalExclusionType(ModalExclusionType.APPLICATION_EXCLUDE);
-				sendingEmailDialog.setAlwaysOnTop(true);
-			}
-
-			public void interrupt() {
-				sendingEmailDialog.setModal(false);
-				sendingEmailDialog.dispose();
-			}
-		};
 
 		try {
-			this.setAlwaysOnTop(false);
-			this.setVisible(false);
-			this.setModal(false);
-			thread.start();
+
 			this.controller.sendEmail(this.mail, this.destinationCellText.
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
-			thread.interrupt();
 			uiController.removeSelectionListener(EmailTestDialog.this);
-			this.dispose();
+			dispose();
 			JOptionPane.
 				showMessageDialog(null, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
-			thread.interrupt();
 			JOptionPane.
 				showMessageDialog(null, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
 		}

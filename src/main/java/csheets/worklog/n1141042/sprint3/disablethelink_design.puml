@@ -1,0 +1,16 @@
+@startuml doc-files/desableLink_analysis_design.png
+
+actor User
+participant "<<analysis>>\nDisabletheLinkUI" as DisabletheLinkUI
+participant "<<analysis>>\nImportTextFileController" as ImportTextFileController
+
+User->DisabletheLinkUI: choose the option
+DisabletheLinkUI->ImportTextFileController: new()
+
+activate ImportTextFileController
+DisabletheLinkUI->ImportTextFileController: disabletheLink(boolean option)
+
+deactivate ImportTextFileController
+
+
+@enduml

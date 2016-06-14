@@ -32,6 +32,8 @@ public class EmailController {
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "587");
+		props.put("mail.username", email);
+		props.put("mail.password", password);
 
 		// or use getDefaultInstance instance if desired...
 		Session session = Session.
@@ -46,8 +48,7 @@ public class EmailController {
 		Email mail = new Email(session);
 		mail.connect(server, email, password);
 
-		updateProperties(session.getProperties(), email, password);
-
+		//updateProperties(session.getProperties());
 		return mail;
 	}
 
@@ -57,10 +58,8 @@ public class EmailController {
 		email.sendMessage(to, subject, body);
 	}
 
-	private void updateProperties(Properties props, String email,
-								  String password) throws FileNotFoundException, IOException {
-		props.put("mail.username", email);
-		props.put("mail.password", password);
+	public void updateProperties(Properties props) throws FileNotFoundException, IOException {
+
 		File f = new File("mail.properties");
 		OutputStream out = new FileOutputStream(f);
 		props.store(out, "Email data");

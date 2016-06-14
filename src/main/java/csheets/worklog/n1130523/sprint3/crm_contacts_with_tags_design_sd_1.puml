@@ -1,0 +1,24 @@
+@startuml doc-files/crm_contacts_with_tags_design_sd_1.png
+
+User -> DefineTagUI : select contact to add tag
+DefineTagUI -> CreateTagController: getSelectedContact(contact)
+CreateTagController -> Persistence : repositoryFactory = repositories()
+Persistence -> AppSettings : instance()
+Persistence -> AppSettings : getRepositoryFactory()
+create RepositoryFactory
+AppSettings -> RepositoryFactory : create()
+AppSettings --> Persistence : RepositoryFactory
+Persistence --> CreateTagController : RepositoryFactory
+CreateTagController -> RepositoryFactory : contactsRepository()
+RepositoryFactory -> ContactsRepository: getSelectedContact(contact)
+CreateTagController <-- ContactsRepository: contact
+DefineTagUI --> User : asks for the tag for the specific contact
+User -> DefineTagUI : inserts data
+DefineTagUI -> CreateTagController : createTag(tag) : Contact
+CreateTagController -> ContactsFactory: createTag(tag) : Contact
+CreateTagController <-- ContactsFactory: Contact with tag
+CreateTagController -> ContactsRepository: saveTagToContact(Contact : tag)
+CreateTagController <--ContactsRepository: Contact with tag
+DefineTagUI <-- CreateTagController: Contact with tag
+User <--  DefineTagUI: Success of operation
+@enduml

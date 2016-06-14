@@ -45,6 +45,8 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	 */
 	private CommentController controller;
 
+	private final UIController uiController;
+
 	private JPanel jPanel2;
 	private BoxLayout layout;
 
@@ -75,6 +77,8 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 
 		// Creates comment components
 		CommentsPanel.ApplyAction applyAction = new CommentsPanel.ApplyAction();
+
+		this.uiController = uiController;
 
 		//comment.setPreferredSize(new Dimension(120, 240));		// width, height
 		//comment.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
@@ -206,8 +210,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 		cleanCommentsPanel();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
-			CommentPanel cmtPanel = new CommentPanel(comment.userName(), comment.
-													 text());
+			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
 
 			jPanel2.add(cmtPanel);
 			jTextField1.setText("");

@@ -32,8 +32,7 @@
  *
  * <h2>5. Design</h2>
  *
- *
- * Diagram of extention state change
+ * <img src="doc-files/Lang03.2-desing.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *

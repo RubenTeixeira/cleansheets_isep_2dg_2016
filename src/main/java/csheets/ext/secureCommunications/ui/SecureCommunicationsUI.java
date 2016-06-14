@@ -73,19 +73,19 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        jTabbedPaneSecureCommunications = new javax.swing.JTabbedPane();
+        jPanelMessages = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         messagesList = new javax.swing.JList<String>();
         sendButton = new javax.swing.JButton();
         secureCheckBox = new javax.swing.JCheckBox();
         messageText = new javax.swing.JTextField();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jTabbedPaneNetworkAnalizer = new javax.swing.JTabbedPane();
 
-        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTabbedPaneSecureCommunications.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTabbedPane1MouseClicked(evt);
+                jTabbedPaneSecureCommunicationsMouseClicked(evt);
             }
         });
 
@@ -140,29 +140,29 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
                 .addGap(4, 4, 4))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelMessagesLayout = new javax.swing.GroupLayout(jPanelMessages);
+        jPanelMessages.setLayout(jPanelMessagesLayout);
+        jPanelMessagesLayout.setHorizontalGroup(
+            jPanelMessagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelMessagesLayout.setVerticalGroup(
+            jPanelMessagesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        jTabbedPane1.addTab("Messages", jPanel1);
-        jTabbedPane1.addTab("NetworkAnalizer", jTabbedPane2);
+        jTabbedPaneSecureCommunications.addTab("Messages", jPanelMessages);
+        jTabbedPaneSecureCommunications.addTab("NetworkAnalizer", jTabbedPaneNetworkAnalizer);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPaneSecureCommunications)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPaneSecureCommunications)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -189,9 +189,11 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 		}
     }//GEN-LAST:event_messageTextKeyReleased
 
-    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+    private void jTabbedPaneSecureCommunicationsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPaneSecureCommunicationsMouseClicked
 		//this is only for testing purposes
 		//byte[] a = this.controller.messageBytes(messageText.getText());
+		String unit = changeUnits(jTabbedPaneNetworkAnalizer.getHeight());
+
 		int unsecureIncomming = this.controller.
 			messageBytesUnsecureIncomming(messageText.getText());
 		int secureIncomming = this.controller.
@@ -202,21 +204,21 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 			messageBytesSecureOutgoing(messageText.getText());
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		dataset.setValue(unsecureIncomming, "Size", "Unsecure Incomming");
-		dataset.setValue(secureIncomming, "Size", "Secure Incomming ");
-		dataset.setValue(unsecureOutgoing, "Size", "Unsecure Outgoing");
-		dataset.setValue(secureOutgoing, "Size", "Secure Outgoing");
+		dataset.setValue(unsecureIncomming, unit, "Unsecure Incomming");
+		dataset.setValue(secureIncomming, unit, "Secure Incomming ");
+		dataset.setValue(unsecureOutgoing, unit, "Unsecure Outgoing");
+		dataset.setValue(secureOutgoing, unit, "Secure Outgoing");
 
 		createChart(dataset);
 
-    }//GEN-LAST:event_jTabbedPane1MouseClicked
+    }//GEN-LAST:event_jTabbedPaneSecureCommunicationsMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelMessages;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JTabbedPane jTabbedPaneNetworkAnalizer;
+    private javax.swing.JTabbedPane jTabbedPaneSecureCommunications;
     private javax.swing.JTextField messageText;
     private javax.swing.JList<String> messagesList;
     private javax.swing.JCheckBox secureCheckBox;
@@ -242,6 +244,11 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 		ChartPanel frame = new ChartPanel(chart);
 		frame.setVisible(true);
 		frame.setSize(450, 350);
+
+	}
+
+	public String changeUnits(int height) {
+		return "";
 
 	}
 

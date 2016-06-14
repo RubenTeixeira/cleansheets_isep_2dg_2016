@@ -1,5 +1,5 @@
 /**
- * Provides an extension to support cell sharing.
+ * Provides an extension to support a chat system.
  *
  * @author Carlos Santos
  *

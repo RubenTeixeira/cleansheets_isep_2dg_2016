@@ -126,15 +126,38 @@
  * successfull it throws an exception. The method sendMessage tries to send a
  * message to another email account. If this email is not sent, the method
  * throws an exception.
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
+ *
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * <a href="../../../../csheets/ext/email/package-summary.html">csheets.ext.email</a><p>
+ * <a href="../../../../csheets/ext/email/ui/package-summary.html">csheets.ext.email.ui</a>
+ *
+ * <p>
+ * Commit Evidences:</p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/fbe15de453facc60bd0b7e78dc0830755bc013cc">Analysis</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e0022d44168c7e9246e949aa18bf945685e6c962#chg-src/main/java/csheets/worklog/n1140491/sprint3/email_configuration_extension_class_diagram.puml">Design
+ * commit 1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e0022d44168c7e9246e949aa18bf945685e6c962#chg-src/main/java/csheets/worklog/n1140491/sprint3/email_configuration_extension_design.puml">Design
+ * commit 2</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/1cb072d9529cb9aaf4b30597193f32207a18a4a5">Tests</a></p>
+ *
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1">Implementation
+ * coommit 1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6bcfcf9d8b2ab2dff19158071a4611091fd98dea">Implementation
+ * commit 2</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/81dcff57e323849e9379020a528136d161c73ebf">Implementation
+ * coommit 3</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/45bccc3dd48e13996c717027464e2dc6b9fd5992">Implementation
+ * commit 4</a></p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
