@@ -16,10 +16,10 @@
  * alterar</p>
  * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-66">LPFOURDG-66</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-67">LPFOURDG-67</a>
  * </p>
  * <p>
- * LPFOURDG-66
+ * LPFOURDG-67
  *
  * Cleansheets should now have a new sidebar window that displays a real time
  * chart of all incoming and outgoing network traffic. There should be four
@@ -61,7 +61,7 @@
  * <h2>5. Design</h2>
  *
  * <h3>Sequence Diagram:</h3>
- *
+ * <img src="doc-files/final_design.png" alt="Final Design">
  *
  * <p>
  * <strong>Note:</strong> It is also important to note that the Service is
