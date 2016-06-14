@@ -7,6 +7,7 @@ package csheets.persistence.inmemory;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
+import csheets.domain.Version;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.ListRepository;
 import java.util.ArrayList;
@@ -31,6 +32,17 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
         for (List l : this.all()) {
             if (l.getContact().equals(contact)
                     && !l.isDeleted()) {
+                lists.add(l);
+            }
+        }
+        return lists;
+    }
+
+    @Override
+    public Iterable<List> listVersions(List list) {
+        java.util.List<List> lists = new ArrayList<>();
+        for (List l : this.all()) {
+            if (l.sameNotation(list)) {
                 lists.add(l);
             }
         }

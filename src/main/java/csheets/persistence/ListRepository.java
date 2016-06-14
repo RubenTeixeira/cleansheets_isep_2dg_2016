@@ -15,4 +15,5 @@ import csheets.framework.persistence.repositories.Repository;
  */
 public interface ListRepository extends Repository <List, Long> {
     public Iterable<List> listsByContact(Contact contact);
+    public Iterable<List> listVersions(List list);
 }

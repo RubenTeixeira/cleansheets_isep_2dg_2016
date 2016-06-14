@@ -32,4 +32,13 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
         return tmp;
     }
 
+    @Override
+    public Iterable<List> listVersions(List list) {
+        final Query query = entityManager().
+                createQuery("SELECT l FROM List l where l.version.id = :version", List.class);
+        query.setParameter("version", list.version().id());
+        Iterable<List> tmp = query.getResultList();
+        return tmp;
+    }
+
 }
