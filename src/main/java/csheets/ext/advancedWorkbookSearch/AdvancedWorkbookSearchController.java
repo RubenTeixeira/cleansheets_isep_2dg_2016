@@ -31,7 +31,7 @@ public class AdvancedWorkbookSearchController {
 	 *
 	 * @param dir Search Directory.
 	 * @param pattern Search Pattern.
-	 * @return Workbook File List.
+	 * @return Results List.
 	 */
 	public List<File> search(File dir, String pattern) throws NullPointerException {
 
@@ -57,7 +57,7 @@ public class AdvancedWorkbookSearchController {
 		} catch (NullPointerException e) {
 			e.getMessage();
 		}
-		System.out.println("I'm on it!");
+		System.out.println("I'm on it! - CONTROLLER");
 		return workbookList;
 	}
 }

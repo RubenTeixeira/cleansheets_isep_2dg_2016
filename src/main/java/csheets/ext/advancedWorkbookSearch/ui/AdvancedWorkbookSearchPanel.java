@@ -13,7 +13,9 @@ import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
 
 /**
  *
@@ -52,10 +54,19 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	private DefaulListModel list = new DefaulListModel();
 
 	/**
+	 * Semaphore for synch processes.
+	 */
+	private CountDownLatch semaphore;
+
+	/**
+	 * Flare for synch processes.
+	 */
+	private boolean flare;
+
+	/**
 	 * Creates new form AdvancedWorkbookSearchPanel.
 	 *
 	 * @param uicontroller UIController.
-	 *
 	 */
 	public AdvancedWorkbookSearchPanel(UIController uicontroller) {
 		setName(AdvancedWorkbookSearchExtension.NAME);
@@ -91,23 +102,25 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         });
 
         jButton1.setText("...");
-        jButton1.setSize(23, 65);
+        jButton1.setSize(20, 50);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
+        jButton2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jButton2.setText("Search");
-        jButton2.setSize(23, 65);
+        jButton2.setSize(20, 50);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
+        jButton3.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jButton3.setText("Stop");
-        jButton3.setSize(23, 65);
+        jButton3.setSize(20, 50);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -138,87 +151,113 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         jScrollPane1.setViewportView(jPreviewTable);
 
         jResultList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = {""};
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jResultList);
 
         jPatternField.setText("pattern");
+        jPatternField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jPatternFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(jTextField)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton2)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 	/**
 	 * This button retrieves the search directory as a File. A Dialog will
-	 * retrieve the directory choosen by the user.
+	 * retrieve the directory choosen by the user. The "File" must be a
+	 * directory.
 	 *
-	 * @param evt evt
+	 * @param evt evt.
 	 */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
 		FileChooser dir = new FileChooser(null, null);
 		dir.setFileSelectionMode(FileChooser.DIRECTORIES_ONLY);
 		dir.showDialog(null, null);
 		directory = dir.getSelectedFile();
 		//System.out.println(directory.toString());
 		jTextField.setText(directory.toString());
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
 	/**
 	 * The Search directory is displayed on this field.
 	 *
-	 * @param evt
+	 * @param evt evt.
 	 */
     private void jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActionPerformed
 
     }//GEN-LAST:event_jTextFieldActionPerformed
 
+	/**
+	 * Begins the Searching for Files. Sets the internal semaphore to 1.
+	 *
+	 * @param evt evt.
+	 */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 		//Search Button
+		//semaphore = new CountDownLatch(1);
+		flare = true;
 		performSearch();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 		//Stop Button
+		flare = false;
+		String stop = "Searched Stopped.";
+		list.addElement(stop);
+		jResultList.setModel(list);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+	/**
+	 * Retrieves the pattern text.
+	 *
+	 * @param evt evt
+	 */
+    private void jPatternFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPatternFieldActionPerformed
+		pattern = jPatternField.getText();
+
+    }//GEN-LAST:event_jPatternFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -234,16 +273,32 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 
 	private void performSearch() {
 		//must validate dir and pattern.
+		//also must it clear the values?
+		list.clear(); //clear results
+		File dir = directory;
+		String patt = pattern;
 		Runnable newthread = new Runnable() {
 			@Override
 			public void run() {
-				System.out.println("I'm in it.");
-				files = controller.search(directory, pattern);
-				System.out.println("I'm still in it.");
+				do {
+					//controller.search(directory, pattern, files);
+					files = controller.search(dir, patt); //returns all files.
+					for (File f : files) {
+						if (!list.contains(f)) {
+							list.addElement(f);
+							jResultList.setModel(list);
+							jResultList.
+								setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						}
+					}
+					System.out.println("I'm still in it.");
+					if (flare == false) {
+						break;
+					}
+				} while (flare == true);
+				System.out.println("OUT");
 			}
 		};
 		new Thread(newthread).start();
-		System.out.println("I'm out of it.");
 	}
-
 }
