@@ -99,9 +99,10 @@
  * <img src="doc-files/ipc_03.1_analysis.png" alt="Send Request"></p>
  *
  * <p>
- * <b>For the seearch request however, re-engineering will be needed as we will
+ * <b>For the search request however, re-engineering will be needed as we will
  * now have to request search for all found instances, instead of just the one
- * instance chosen by the User.</b></p>
+ * instance chosen by the User. Aditionally, no input from the client instance
+ * user should be necessary until further discussion with the team.</b></p>
  *
  * <p>
  * <b>Updated Search request:</b></p>
