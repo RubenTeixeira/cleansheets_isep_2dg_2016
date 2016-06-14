@@ -20,6 +20,7 @@
  */
 package csheets.core;
 
+import csheets.ext.macro_beanshell.Code;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -268,22 +269,27 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 		this.variables.put(name, value);
 	}
 
-	private Map<String, String> scripts = new HashMap();
+	private List<Code> scripts = new ArrayList<>();
 
 	public void clearScripts() {
 		this.scripts.clear();
 	}
 
-	public String getScript(String name) {
-		return this.scripts.get(name);
+	public Code getScript(String name) {
+		for (Code code : scripts) {
+			if (code.getName().equals(name)) {
+				return code;
+			}
+		}
+		return null;
 	}
 
-	public Map<String, String> getScripts() {
+	public List<Code> getScripts() {
 		return this.scripts;
 	}
 
-	public void addScript(String name, String value) {
-		this.scripts.put(name, value);
+	public void addScript(Code code) {
+		this.scripts.add(code);
 	}
 
 }

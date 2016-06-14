@@ -1,5 +1,6 @@
 package csheets.ext.macro_beanshell.ui;
 
+import csheets.ext.macro_beanshell.Code;
 import csheets.ext.macro_beanshell.MacroBeanShellController;
 import csheets.ext.macro_beanshell.MacroBeanShellExtension;
 import csheets.ui.DefaulListModel;
@@ -34,8 +35,8 @@ public class ScriptManagerUI extends javax.swing.JFrame {
 
 	public void displayScripts() {
 		listModel = new DefaultListModel();
-		for (String script : controller.getSavedScripts()) {
-			listModel.addElement(script);
+		for (Code code : controller.getSavedScripts()) {
+			listModel.addElement(code.getName());
 		}
 		scriptList.setModel(listModel);
 		repaint();
@@ -182,13 +183,13 @@ public class ScriptManagerUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
-		new CreateScriptUI(this, uiController).run();
+		new CreateEditScriptUI(this, uiController, null).run();
     }//GEN-LAST:event_newButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
 		String script = scriptList.getSelectedValue();
 		if (script != null) {
-			new EditScriptUI(uiController, script).run();
+			new CreateEditScriptUI(this, uiController, script).run();
 		} else {
 			message();
 		}

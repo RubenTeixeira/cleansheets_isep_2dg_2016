@@ -3,15 +3,16 @@ package csheets.ext.macro_beanshell;
 import csheets.ui.ctrl.UIController;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.activation.UnsupportedDataTypeException;
 
 /**
  * Macro/BeanShell Controller.
  *
  * @author Rui Bento
+ * @author José Barros
  */
 public class MacroBeanShellController {
 
@@ -65,44 +66,52 @@ public class MacroBeanShellController {
 		}
 	}
 
-	public void saveScript(String name, String code) {
+	public void saveScript(String name, String type, String content,
+						   boolean synchronous) {
 
-		uicontroller.getActiveWorkbook().addScript(name, code);
-	}
+		Code oldCode = uicontroller.getActiveWorkbook().getScript(name);
 
-	public List<String> getSavedScripts() {
-
-		List<String> list = new ArrayList();
-
-		for (Map.Entry<String, String> entry : uicontroller.getActiveWorkbook().
-			getScripts().entrySet()) {
-			list.add(entry.getKey());
+		if (oldCode != null) {
+			uicontroller.getActiveWorkbook().getScripts().remove(oldCode);
 		}
 
-		return list;
+		Code code = new Code(name, type, content, synchronous);
+
+		uicontroller.getActiveWorkbook().addScript(code);
 	}
 
-	public void editScript(String new_code, String script) {
+	public List<Code> getSavedScripts() {
 
-		String old_code = uicontroller.getActiveWorkbook().getScripts().
-			get(script);
-		uicontroller.getActiveWorkbook().getScripts().
-			replace(script, old_code, new_code);
+		return uicontroller.getActiveWorkbook().getScripts();
 	}
 
 	public String getScriptContent(String script) throws FileNotFoundException, IOException {
 
-		return uicontroller.getActiveWorkbook().getScripts().get(script);
+		return uicontroller.getActiveWorkbook().getScript(script).getContent();
 	}
 
 	public boolean deleteScript(String script) {
 
-		return uicontroller.getActiveWorkbook().getScripts().remove(script) != null;
+		Code code = uicontroller.getActiveWorkbook().getScript(script);
+		return uicontroller.getActiveWorkbook().getScripts().remove(code);
 	}
 
-	public void executeScript(String script) {
+	public void executeScript(String script_name) {
 
-		String code = uicontroller.getActiveWorkbook().getScripts().get(script);
-		executeCode(BeanShell.NAME, code);
+		Code code = uicontroller.getActiveWorkbook().getScript(script_name);
+
+		Script script;
+
+		try {
+			script = createScript(code.getType());
+			script.run(code.getContent());
+
+		} catch (UnsupportedOperationException ex) {
+			System.out.println(ex.getMessage());
+
+		} catch (UnsupportedDataTypeException ex) {
+			Logger.getLogger(MacroBeanShellController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 	}
 }
