@@ -261,7 +261,23 @@
  * 1. -nothing-
  * <p>
  * <b>Tuesday</b>
-
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Finishing the analysis of Core07.2
+ * <p>
+ * 2. Working on the implementation of Core07.2
+ * <p>
+ * Today
+ * <p>
+ * 1. Finishing the implementation of Core07.2
+ * <p>
+ * 2. Finishing tests of Core07.2
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
  * <b>Wednesday</b>
 
  * <b>Thursday</b>
