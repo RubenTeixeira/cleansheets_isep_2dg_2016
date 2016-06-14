@@ -5,13 +5,14 @@
  */
 package csheets.ext.email;
 
-import javax.mail.AuthenticationFailedException;
+import com.icegreen.greenmail.util.GreenMail;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.jvnet.mock_javamail.Mailbox;
 
 /**
  *
@@ -42,55 +43,35 @@ public class EmailControllerTest {
 	}
 
 	/**
-	 * Test of configureEmail method, of class EmailController, when
-	 * authentication is wrong.
-	 */
-	@Test(expected = AuthenticationFailedException.class)
-	public void testConfigureEmailAuthenticationFailed() throws Exception {
-		String email = "lapr4_2dg@outlook.pt";
-		String password = "1234";
-		String server = "smtp.live.com";
-		instance.configureEmail(email, password, server);
-	}
-
-	/**
-	 * Test of configureEmail method, of class EmailController, when
-	 * authentication is wrong
+	 * Testing email sending.
 	 *
 	 * @throws java.lang.Exception
 	 */
-	@Test(expected = Exception.class)
-	public void testConfigureEmailWrongServer() throws Exception {
-		String email = "lapr4_2dg@outlook.pt";
-		String password = "LAPR42dg";
-		String server = "smtp.google.com";
-		instance.configureEmail(email, password, server);
-	}
-
-	/**
-	 * Test of configureEmail method, of class EmailController.
-	 */
 	@Test
-	public void testConfigureEmail() throws Exception {
+	public void test() throws Exception {
+
 		String email = "lapr4_2dg@outlook.pt";
 		String password = "LAPR42dg";
 		String server = "smtp.live.com";
-		Email result = instance.configureEmail(email, password, server);
-		assertNotEquals(null, result);
-	}
 
-	/**
-	 * Test of sendEmail method, of class EmailController.
-	 */
-	@Test
-	public void testSendEmail() throws Exception {
-		String email = "lapr4_2dg@outlook.pt";
-		String password = "LAPR42dg";
-		String server = "smtp.live.com";
+		final GreenMail mailServer = new GreenMail();
+		mailServer.start();
+
 		Email mail = instance.configureEmail(email, password, server);
-		String to = "lapr4_2dg@outlook.pt";
-		String subject = "Unit test";
-		String body = "Unit test";
-		instance.sendEmail(mail, to, subject, body);
+
+		Mailbox mailbox = Mailbox.get(email);
+		assertEquals(mailbox.size(), 0);
+
+		instance.sendEmail(mail, email, "", "");
+
+		mailbox = Mailbox.get(email);
+		assertEquals(mailbox.size(), 1);
+
+		instance.sendEmail(mail, email, "", "");
+
+		mailbox = Mailbox.get(email);
+		assertEquals(mailbox.size(), 2);
+
 	}
+
 }
