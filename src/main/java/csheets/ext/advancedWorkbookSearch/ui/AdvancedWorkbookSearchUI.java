@@ -5,7 +5,6 @@
  */
 package csheets.ext.advancedWorkbookSearch.ui;
 
-import csheets.ext.advancedWorkbookSearch.ui.AdvancedWorkbookSearchPanel;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
@@ -37,7 +36,7 @@ public class AdvancedWorkbookSearchUI extends UIExtension {
 	/**
 	 * Extension' side bar.
 	 *
-	 * @return JComponent
+	 * @return JComponent JComponent.
 	 */
 	@Override
 	public JComponent getSideBar() {

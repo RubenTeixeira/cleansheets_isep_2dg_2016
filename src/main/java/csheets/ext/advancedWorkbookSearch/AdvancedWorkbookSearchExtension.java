@@ -34,9 +34,8 @@ public class AdvancedWorkbookSearchExtension extends Extension {
 	/**
 	 * Creates Advanced Workbook Search Extension.
 	 *
-	 * @param name name
 	 */
-	public AdvancedWorkbookSearchExtension(String name) {
+	public AdvancedWorkbookSearchExtension() {
 		super(NAME);
 	}
 
@@ -44,7 +43,7 @@ public class AdvancedWorkbookSearchExtension extends Extension {
 	 * Returns the User Interface for this Extension.
 	 *
 	 * @param uicontroller UIController
-	 * @return UIExtension
+	 * @return UIExtension UIExtension
 	 */
 	@Override
 	public UIExtension getUIExtension(UIController uicontroller) {

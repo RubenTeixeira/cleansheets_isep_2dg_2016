@@ -5,14 +5,21 @@
  */
 package csheets.ext.advancedWorkbookSearch.ui;
 
+import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchController;
 import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchExtension;
+import csheets.ui.DefaulListModel;
+import csheets.ui.FileChooser;
 import csheets.ui.ctrl.UIController;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JPanel;
 
 /**
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-public class AdvancedWorkbookSearchPanel extends javax.swing.JPanel {
+public class AdvancedWorkbookSearchPanel extends JPanel {
 
 	/**
 	 * UIController.
@@ -20,7 +27,32 @@ public class AdvancedWorkbookSearchPanel extends javax.swing.JPanel {
 	private UIController uicontroller;
 
 	/**
-	 * Creates new form AdvancedWorkbookSearchPanel
+	 * AdvancedWorkbookSearchController.
+	 */
+	private AdvancedWorkbookSearchController controller = new AdvancedWorkbookSearchController();
+
+	/**
+	 * Current Search Directory. By default is set to common disk.
+	 */
+	private File directory = new File("C\\");
+
+	/**
+	 * Current Search Pattern. By default is set to common file extension.
+	 */
+	private String pattern = ".*.cls";
+
+	/**
+	 * Searched Files.
+	 */
+	private List<File> files = new ArrayList<>();
+
+	/**
+	 * Results List Model.
+	 */
+	private DefaulListModel list = new DefaulListModel();
+
+	/**
+	 * Creates new form AdvancedWorkbookSearchPanel.
 	 *
 	 * @param uicontroller UIController.
 	 *
@@ -28,6 +60,7 @@ public class AdvancedWorkbookSearchPanel extends javax.swing.JPanel {
 	public AdvancedWorkbookSearchPanel(UIController uicontroller) {
 		setName(AdvancedWorkbookSearchExtension.NAME);
 		this.uicontroller = uicontroller;
+		//this.jResultList = new JList(list);
 		initComponents();
 	}
 
@@ -40,18 +73,177 @@ public class AdvancedWorkbookSearchPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTextField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPreviewTable = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jResultList = new javax.swing.JList();
+        jPatternField = new javax.swing.JTextField();
+
+        jTextField.setText("C\\...");
+        jTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("...");
+        jButton1.setSize(23, 65);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Search");
+        jButton2.setSize(23, 65);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Stop");
+        jButton3.setSize(23, 65);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jPreviewTable.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 153, 204)));
+        jPreviewTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "cell", "cell", "cell", "cell", "cell"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jPreviewTable);
+
+        jResultList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(jResultList);
+
+        jPatternField.setText("pattern");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 293, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 551, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+	/**
+	 * This button retrieves the search directory as a File. A Dialog will
+	 * retrieve the directory choosen by the user.
+	 *
+	 * @param evt evt
+	 */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+		FileChooser dir = new FileChooser(null, null);
+		dir.setFileSelectionMode(FileChooser.DIRECTORIES_ONLY);
+		dir.showDialog(null, null);
+		directory = dir.getSelectedFile();
+		//System.out.println(directory.toString());
+		jTextField.setText(directory.toString());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+	/**
+	 * The Search directory is displayed on this field.
+	 *
+	 * @param evt
+	 */
+    private void jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActionPerformed
+
+    }//GEN-LAST:event_jTextFieldActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+		//Search Button
+		performSearch();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+		//Stop Button
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField jPatternField;
+    private javax.swing.JTable jPreviewTable;
+    private javax.swing.JList jResultList;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextField jTextField;
     // End of variables declaration//GEN-END:variables
+
+	private void performSearch() {
+		//must validate dir and pattern.
+		Runnable newthread = new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("I'm in it.");
+				files = controller.search(directory, pattern);
+				System.out.println("I'm still in it.");
+			}
+		};
+		new Thread(newthread).start();
+		System.out.println("I'm out of it.");
+	}
+
 }
