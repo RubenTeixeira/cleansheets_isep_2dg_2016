@@ -16,7 +16,11 @@ import csheets.ui.ctrl.UIController;
 public class TictactoeController {
 
 	private UIController uiController;
-	private static final String NAME = "TicTacToe";
+
+	/**
+	 * The base of the titles of new spreadsheets
+	 */
+	public static final String Name = "TicTacToe";
 
 	public TictactoeController(UIController uiController) {
 		this.uiController = uiController;
@@ -25,13 +29,15 @@ public class TictactoeController {
 
 	public void newSpreadsheet() {
 		Workbook activeBook = this.uiController.getActiveWorkbook();
-		activeBook.addSpreadsheet();
+		activeBook.addTictactoeSpreadsheet();
 
 		Spreadsheet sheet = activeBook.getSpreadsheet(activeBook.
 			getSpreadsheetCount() - 1);
 		System.out.println(sheet.getTitle());
-		sheet.setTitle(NAME);
+//		sheet.setTitle(NAME);
 		System.out.println(sheet.getTitle());
+		uiController.getActiveWorkbook().getSpreadsheet((activeBook.
+			getSpreadsheetCount() - 1));
 
 	}
 
