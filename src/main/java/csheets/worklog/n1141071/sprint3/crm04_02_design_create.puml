@@ -1,0 +1,22 @@
+@startuml doc-files/crm04_02_design_create.png
+actor Actor
+
+  participant "UI : ListUI" as UI 
+  participant "Controller : ListController" as controller
+  participant "List" as list
+  participant "ListPersistence" as persistence
+
+  note right of Actor
+    Main UC diagram can be found in crm04_02_design
+  end note 
+  note right of Actor
+    This is the Create List diagram
+  end note
+  Actor -> UI : Create List
+  UI -> controller : createNewList
+  create list
+  controller -> list : createList
+  note right of Actor
+    Start edit (can see crm04_02_design_edit)
+  end note
+@enduml
