@@ -6,19 +6,20 @@ import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import static javax.swing.Action.MNEMONIC_KEY;
+import static javax.swing.Action.SMALL_ICON;
 import javax.swing.ImageIcon;
 
 /**
- * Sort Extension Action that interacts with the Active SpreadSheet.
+ * Range Sort Extension Action that interacts with the Active SpreadSheet.
  */
-public class SortAction extends BaseAction {
+public class RangedSortAction extends BaseAction {
 
 	/**
 	 * User Interface Controller.
 	 */
 	protected UIController uiController;
 
-	public SortAction(UIController uiController) {
+	public RangedSortAction(UIController uiController) {
 		this.uiController = uiController;
 	}
 
@@ -27,7 +28,7 @@ public class SortAction extends BaseAction {
 	 */
 	@Override
 	protected String getName() {
-		return "Sorting a specific Column";
+		return "Sorting a range of selected columns";
 	}
 
 	@Override
