@@ -508,7 +508,7 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-		// TODO add your handling code here:
+		System.out.println(opponent);
     }//GEN-LAST:event_playButtonActionPerformed
 
 	/**
