@@ -6,6 +6,7 @@
     <class>csheets.domain.Event</class>
     <class>csheets.domain.Reminder</class>
     <class>csheets.domain.Note</class>
+    <class>csheets.domain.List</class>
     <class>csheets.domain.CompanyContact</class>
     <class>csheets.domain.PersonContact</class>
     <class>csheets.domain.ContactCalendar</class>
@@ -14,7 +15,6 @@
       <property name="javax.persistence.jdbc.user" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.password" value=""/>
-      
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
