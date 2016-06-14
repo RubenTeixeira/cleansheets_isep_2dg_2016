@@ -5,15 +5,14 @@
  */
 package csheets.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -25,20 +24,18 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"TITLE"})})
-public class List {
+public class List implements Notation<List>, Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "LISTID")
-    private java.util.List<List> versions;
+    @OneToOne
+    private Version version;
 
     private String title;
-    private java.util.List<Line> lines;
-    private int version;
-    private boolean deleted;
+    private java.util.List<ListLine> lines;
+    private int versionNum;
 
     @ManyToOne
     private Contact contact;
@@ -53,19 +50,29 @@ public class List {
         this.title = title;
         lines = new ArrayList<>();
         for (String line : text.split("\n")) {
-            lines.add(new Line(line));
+            lines.add(new ListLine(line));
         }
         this.contact = contact;
-        this.versions = new ArrayList<>();
-        this.version = 1;
+        this.versionNum = 0;
         this.time = Calendar.getInstance();
+        this.version = new Version();
+    }
+
+    protected List(String title, String text, Contact contact, Version version) {
+        this(title, text, contact);
+        this.version = version;
+        this.versionNum = version.addVersion();
+    }
+    
+    public Version version() {
+        return version;
     }
 
     public String getTitle() {
         return title;
     }
-    
-    public java.util.List<Line> getLines() {
+
+    public java.util.List<ListLine> getLines() {
         return lines;
     }
 
@@ -73,22 +80,11 @@ public class List {
         return contact;
     }
 
-    public void edit(String title, String text) {
-        versions.add(this);
-        this.title = title;
-        lines = new ArrayList<>();
-        for (String line : text.split("\n")) {
-            lines.add(new Line(line));
-        }
-        this.version++;
-        this.time = Calendar.getInstance();
-    }
-    
-    public void changeState(String text, boolean state){
-        for (Line line : lines) {
-            if(line.compareTo(text) == 0) {
-                if(line.getCheck() != state) {
-                    if(state) {
+    public void changeState(String text, boolean state) {
+        for (ListLine line : lines) {
+            if (line.compareTo(text) == 0) {
+                if (line.getCheck() != state) {
+                    if (state) {
                         line.check();
                     } else {
                         line.uncheck();
@@ -99,73 +95,35 @@ public class List {
         }
     }
 
-    public List getVersion(int versionNum) {
-        if (versionNum == this.version) {
-            return this;
-        }
-        for (List version : versions) {
-            if (versionNum == version.getVersion()) {
-                return version;
-            }
-        }
-        return null;
-    }
-    
-    public int getVersion() {
-        return version;
+    public int getVersionNumber() {
+        return this.versionNum;
     }
 
-    public int[] getAllVersions() {
-        int versions[] = new int[this.versions.size() + 1];
-        int i = 0;
-        for (List version : this.versions) {
-            versions[i] = version.getVersion();
-            i++;
-        }
-        return versions;
-    }
-    
-    public Calendar getTime() {
+    public Calendar getTimeCreated() {
         return time;
     }
 
+    public List newVersion(String title, String text) {
+        List newList = new List(title, text, this.contact, this.version);
+        return newList;
+    }
+    
     public boolean isDeleted() {
-        return deleted;
+        return this.version.isDeleted();
     }
 
     public void delete() {
-        deleted = true;
+        this.version.delete();
+    }
+    
+    @Override
+    public boolean sameNotation(List l) {
+        return l.version().equals(this.version);
     }
 
-    protected class Line implements Comparable<String> {
-
-        private boolean check;
-        private String text;
-
-        public Line(String text) {
-            this.text = text;
-            this.check = false;
-        }
-
-        public String getText() {
-            return text;
-        }
-
-        public boolean getCheck() {
-            return check;
-        }
-
-        public void check() {
-            check = true;
-        }
-
-        public void uncheck() {
-            check = false;
-        }
-
-        @Override
-        public int compareTo(String text) {
-            return this.text.compareTo(text);
-        }
+    @Override
+    public String toString() {
+        return title + " "
+                + "(" + time.toString() + ")";
     }
 }
