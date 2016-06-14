@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.macro_beanshell.ui;
 
 import csheets.CleanSheets;
@@ -18,33 +13,33 @@ import javax.swing.ImageIcon;
  */
 public class MacroBeanShellAction extends BaseAction {
 
-    /**
-     * The user interface controller
-     */
-    private UIController uiController;
+	/**
+	 * The user interface controller
+	 */
+	private UIController uiController;
 
-    /**
-     * Creates a new action.
-     *
-     * @param uiController the user interface controller
-     */
-    public MacroBeanShellAction(UIController uiController) {
-        this.uiController = uiController;
-    }
+	/**
+	 * Creates a new action.
+	 *
+	 * @param uiController the user interface controller
+	 */
+	public MacroBeanShellAction(UIController uiController) {
+		this.uiController = uiController;
+	}
 
-    @Override
-    protected String getName() {
-        return "Create Macro/BeanShell";
-    }
+	@Override
+	protected String getName() {
+		return "Create Macro/BeanShell";
+	}
 
-    protected void defineProperties() {
-        putValue(SMALL_ICON, new ImageIcon(CleanSheets.class.
-                getResource("ext/macro_beanshell/script_small.png")));
-    }
+	protected void defineProperties() {
+		putValue(SMALL_ICON, new ImageIcon(CleanSheets.class.
+				 getResource("ext/macro_beanshell/script_small.png")));
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        new MacroBeanShellPanel(uiController).setVisible(true);
-    }
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		new MacroBeanShellPanel(uiController).setVisible(true);
+	}
 
 }

@@ -20,8 +20,8 @@
  */
 package csheets.core;
 
-import csheets.ext.macro_beanshell.Code;
 import csheets.ext.game.ui.TictactoeController;
+import csheets.ext.macro_beanshell.Code;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -289,12 +289,24 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 		this.variables.put(name, value);
 	}
 
+	/**
+	 * The list of workbook scripts
+	 */
 	private List<Code> scripts = new ArrayList<>();
 
+	/**
+	 * Clears all scripts of workbook
+	 */
 	public void clearScripts() {
 		this.scripts.clear();
 	}
 
+	/**
+	 * Returns the corresponding script to the name
+	 *
+	 * @param name Script name
+	 * @return code of script
+	 */
 	public Code getScript(String name) {
 		for (Code code : scripts) {
 			if (code.getName().equals(name)) {
@@ -304,10 +316,20 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 		return null;
 	}
 
+	/**
+	 * Returns a script list
+	 *
+	 * @return list of scripts
+	 */
 	public List<Code> getScripts() {
 		return this.scripts;
 	}
 
+	/**
+	 * Adds a script to the list
+	 *
+	 * @param code Code of script
+	 */
 	public void addScript(Code code) {
 		this.scripts.add(code);
 	}
