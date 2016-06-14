@@ -22,6 +22,7 @@ package csheets.ui;
 
 import csheets.CleanSheets;
 import csheets.core.Workbook;
+import csheets.ext.wizard.ui.UIExtensionWizard;
 import csheets.ui.ctrl.AboutAction;
 import csheets.ui.ctrl.ActionManager;
 import csheets.ui.ctrl.AddSpreadsheetAction;
@@ -178,6 +179,11 @@ public class Frame extends JFrame implements SelectionListener {
 		JPanel cellPanel = new JPanel(new BorderLayout());
 		cellPanel.add(addressBox, BorderLayout.WEST);
 		cellPanel.add(cellEditor, BorderLayout.CENTER);
+                for(UIExtension extension : uiController.getExtensions()){
+                    if(extension instanceof UIExtensionWizard){
+                        cellPanel.add(((UIExtensionWizard) extension).getButton(), BorderLayout.EAST);
+                    }
+                }
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(toolBarPanel, BorderLayout.NORTH);
 		topPanel.add(cellPanel, BorderLayout.SOUTH);

@@ -6,8 +6,8 @@ import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.TableDecorator;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 /**
@@ -22,7 +22,7 @@ public class UIExtensionWizard extends UIExtension {
 	/**
 	 * The menu of the extension
 	 */
-	private WizardMenu menu;
+	private WizardButton button;
 
 	public UIExtensionWizard(Extension extension, UIController uiController) {
 		super(extension, uiController);
@@ -45,12 +45,11 @@ public class UIExtensionWizard extends UIExtension {
 	 *
 	 * @return a JMenu component
 	 */
-	@Override
-	public JMenu getMenu() {
-		if (menu == null) {
-			menu = new WizardMenu(uiController);
+	public JButton getButton() {
+		if (button == null) {
+			button = new WizardButton(uiController);
 		}
-		return menu;
+		return button;
 	}
 
 	/**
