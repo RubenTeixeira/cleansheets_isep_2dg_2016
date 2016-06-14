@@ -98,12 +98,12 @@
  * <p>
  * <b>Use Case 1 - "Associated tags to contacts"</b>
  *
- * IMG
+ * <img src="doc-files/crm_contacts_with_tags_design_sd_1.png" alt="contacts_with_tags_design_sd_1">
  *
  * <p>
  * <b>Use Case 2 - "Edit contact of Specific tag"</b>
  *
- * IMG
+ * <img src="doc-files/crm_contacts_with_tags_design_sd_2.png" alt="contacts_with_tags_design_sd_2">
  *
  * <p>
  *

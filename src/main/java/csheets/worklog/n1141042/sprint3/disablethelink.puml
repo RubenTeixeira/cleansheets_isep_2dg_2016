@@ -1,0 +1,9 @@
+@startuml doc-files/desableLink_analysis.png
+
+actor User
+
+User->System: Starts the process.
+System->User: Presents the options enable or disable the link.
+User->System: Chooses an option.
+System->User: enable or disable the link successfully.
+@enduml

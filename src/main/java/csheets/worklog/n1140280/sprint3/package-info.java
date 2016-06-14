@@ -15,7 +15,7 @@
  * -In this section you should register important notes regarding your work
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
- *
+ * </p>
  * <h2>2. Use Case/Feature: CRM5.2</h2>
  *
  * Issue in Jira:
@@ -41,44 +41,56 @@
  * <h2>4. Analysis</h2>
  * <p>
  * Mainly a visual use case, after reading how the code was structured found
- * that most of the owrk was already done, just need to change personViewUI to
- * AgendaUI and display a panel for each even for the given day</p>
- *
+ * that most of the work was already done, just need to add agenda UI to
+ * interact with the user and querie persistence to get results for the a given
+ * contact and date, it is also important to add a calendar library to ease the
+ * search for a particular day After some search I found jCalendar the best
+ * choice since it can be added to the netbeans pallete
+ * </p>
  *
  * <h3>Analysis sequence diagram</h3>
  * <p>
  * <img src="doc-files/analysis_CRM_5_2.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we need to a UI panel with the events
- * of the user
+ * </p>
  *
  * <h2>5. Design</h2>
- *
- * <h3>5.1. Functional Tests</h3>
- * Main test is to see if the data queries to database are correct
- * For unit tests regarding this is feature are basically to test if the
- * controller returns the correct events given a data and a contact, since this
- * has nothing to change in the domain model most of the testing will be manual,
- * also some unit tests can test if next and previous button are returning the
- * correct date
- * 
- * 
- * <h3>5.2. UC Realization</h3>
- * Uc completed as the design and tests were pointing, main setbacks were:
- * Understanding how to add a new jar to the maven project
- * Understand how to work with jCalendar
- * Understand how to querie the database correcly
- * <code>
  *
  * <h3>Design sequence diagram</h3>
  * <p>
  * <img src="doc-files/design_CRM_5_2.png" alt="image">
  * <p>
  *
- * <h2>6. Implementation</h2>
+ * <h3>5.1. Functional Tests</h3>
+ * <p>
+ * For unit tests regarding this is feature are basically to test if the
+ * controller returns the correct events given a data and a contact, since this
+ * has nothing to change in the domain model most of the testing will be manual,
+ * also some unit tests can test if next and previous button are returning the
+ * correct date
+ * </p>
  *
- * 
+ * <h3>5.2. UC Realization</h3>
+ * Uc completed as the design and tests were pointing, main setbacks were:
+ * Understanding how to add a new jar to the maven project Understand how to
+ * work with jCalendar and integrate it with the neatbeans pallette Understand
+ * how to querie the database correcly(learning about jpql since before i was
+ * using native sql queries)
+ *
+ *
+ * <h2>6. Implementation</h2>
+ * Besides the UI and controller simple methods this is the most important
+ * design option, since I choose to get the values every time the user hits a
+ * different date I needed to be fast so I implemented a jpql querie so it would
+ * be fast
+ * <code>
+ *
+ * @Override public Iterable<Event> eventsContactPerDay(Contact contact,
+ * Calendar date) { final Query q = entityManager().createQuery("SELECT e " +
+ * "FROM Event e " + "JOIN e.calendar cc " + "JOIN cc.contact c " + "where
+ * c.name=:name and :date between e.startDate and e.endDate", Event.class);
+ * q.setParameter("name", contact.name()); q.setParameter("date", date); return
+ * (List<Event>) q.getResultList(); }
+ * </code>
  * <h2>9. Work Log</h2>
  *
  * <b>Friday</b>
@@ -99,13 +111,11 @@
  * </p>
  * Today
  * <p>
- * 1. Stared and finished desiging the new window 
- * 2. Learned about jCalendar and
- * added jar to maven project 
- * 3. Started sprint 3 (Moving tasks from backlog to
- * sprint scope, atributing tasks and start it) 
- * 4. Started tests but had some
+ * 1. Stared and finished desiging the new window 2. Learned about jCalendar and
+ * added jar to maven project 3. Started sprint 3 (Moving tasks from backlog to
+ * sprint scope, atributing tasks and start it) 4. Started tests but had some
  * trouble on how to implement UI and list model tests
+ * </p>
  * <p>
  * Blocking:
  * <p>
@@ -113,33 +123,52 @@
  *
  * <b>Sunday</b>
  * <p>
- * Uc implementation completed as the design and tests were pointing, main setbacks were:
- * Understand how to work with jCalendar
- * Understand how to querie the database correcly
+ * Uc implementation completed as the design and tests were pointing, main
+ * setbacks were: Understand how to work with jCalendar Understand how to querie
+ * the database correcly
  * </p>
  * <p>
- * Blocking:
- * 1. How to implement unit test on queries to the database
+ * Blocking: 1. How to implement unit test on queries to the database
  * </p>
  * <p>
- * Tomorrow:
- * 1. Ask specialist on how to implement unit test on queries to the database
- * 2. Help all members having problems with their feature
+ * Tomorrow: 1. Ask specialist on how to implement unit test on queries to the
+ * database 2. Help all members having problems with their feature
  * </p>
- *
+ * <b>Monday</b>
+ * <p>
+ * Ask specialist on how to implement unit test on queries to the database and
+ * several other quesrtion regarding project managing and scrum master tasks.
+ * Helped Lang4.2 to understand the feature since last sprint I worked on
+ * Lang4.1 Spoke with team about this sprint and other topics. Finishing
+ * unfinished tests but didnt commited yet
+ * </p>
+ * <p>
+ * Tomorrow: Help the team
+ * </p>
  * <h2>10. Self Assessment</h2>
  *
  * <h3>10.1. Design and Implementation:3</h3>
  * <p>
- * Após a penalizaçao no Sprint 1 por nao tomar uma metodoliga TDD tentei alterar
- * a ordem de trabalho e pensar e implementar os testes antes de começar a implemetaçao do caso de use em si
- * Caso de uso funcional sem bugs detatados 
- * 100% de coverage em metodos de controller a tirar duvidas para ter 100% em todo o codigo á exepção da UI
+ * Após a penalizaçao no Sprint 1 por nao tomar uma metodoliga TDD tentei
+ * alterar a ordem de trabalho e pensar e implementar os testes antes de começar
+ * a implemetaçao do caso de use em si Caso de uso funcional sem bugs detatados
+ * 100% de coverage em metodos de controller a tirar duvidas para ter 100% em
+ * todo o codigo á exepção da UI
  * </p>
  * <b>Evidences:</b>
+ * Some commits were pushed referencing wrong issues Im manualy adding all
+ * relevant commits in here and commenting Jira issue with a link to the commits
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a1b927d93083c0cd659998bb5e2fea40855698dc">Analysis</a>
- * Commit was sent referencing th wrong issue
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/66f63fe1bc2a074dac5f8bf7d78986cd56c31496">Analysis
+ * fixing</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4936b3d267dbf70ea7b9c758ef2b9336d6d2dac2">Design</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e9b9270ae849aaefb2c8368d94dd74fdb3b9c35b">Design
+ * error fixing</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d87b0801e0c543832e82899227e2ecb34fa75d02">Testing</a>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/03f69d028a60bd8d4a0359167f48879b7be60211">Implementation</a>
+ * </p>
+ *
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>
