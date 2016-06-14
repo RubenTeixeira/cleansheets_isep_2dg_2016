@@ -71,10 +71,6 @@
  * the components to interact with the User to perform the implemented features
  * – Searching for a Workbook, open a preview or/and open the Workbook to the
  * current workspace. The first draft for the side bar panel:<li>
- *
- * <p>
- * <img src="http://i.imgur.com/ft3Uv3A.png" alt="Panel Draft"></p>
- *
  * <li><b>AWSController:</b> Class in charge of handling the Search results,
  * open the Preview for a specific Workbook or set the current workspace with an
  * opened Workbook.</li>
@@ -127,11 +123,28 @@
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
  * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
+ * This feature side bar provides the major interaction with the user and access
+ * to its functionalities.The user is able to specify a directory to perform the
+ * search and a pattern on how the search is based on. Two <b>Text Labels</b>
+ * will be implemented alongside with 3 buttons:<ul>
+ * <li><b>Search button</b> - Opens a Directory Dialog. The user chooses a
+ * directory on the machine.</li>
+ * <li><b>Go button</b> - Starts a background search based on the information
+ * provided. At this moment a second thread performs the search while all
+ * features are available - asynchronous operation.</li>
+ * <li><b>Stop button</b> - Stops the search. Useful for when the user already
+ * found the workbook required.</li>
+ * </ul>
+ * <p>
+ * Both Go and Stop buttons will work with auxiliar synchronization.</p>
+ * <p>
+ * A Grid will also be implemented on the side bar Extension. It will be a
+ * preview of one of the selected workbooks showing a group of cells. The list
+ * of possible selected workbooks will be displayed below the grid showing all
+ * workbooks found.</p>
+ *
+ *
  *
  * <h2>7. Integration/Demonstration</h2>
  *

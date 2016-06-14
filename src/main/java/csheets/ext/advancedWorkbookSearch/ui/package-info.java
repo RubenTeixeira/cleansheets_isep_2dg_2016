@@ -3,4 +3,4 @@
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-package csheets.ext.AdvancedWorkbookSearch.ui;
+package csheets.ext.advancedWorkbookSearch.ui;

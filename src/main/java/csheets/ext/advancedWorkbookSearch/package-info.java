@@ -1,6 +1,6 @@
 /**
- * Provides an Extension to support Sorting.
+ * Provides an Extension to support Workbook Searching.
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-package csheets.ext.sort;
+package csheets.ext.advancedWorkbookSearch;

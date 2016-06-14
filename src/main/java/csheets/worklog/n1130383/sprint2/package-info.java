@@ -11,9 +11,9 @@
  * <h2>1. Notes</h2>
  *
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature-</p>
+ * All work was done as planned. After being done with my feature I've helped to
+ * implement Core01.2 Auto-description of Extensions and also discussing
+ * Analysis and Design with my teammates and their respective feature.</p>
  *
  * <h2>2. Use Case/Feature: Core02.1</h2>
  *
@@ -247,16 +247,6 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0c55e41e41be9debb9cd4cea981d2b64c9c2717">Commit
  * concerning the fix described.</a></p>
  *
- * <p>
- * Durante this week, one day before project submission, my colegue in charge of
- * implementing LPFOURDG-2 feature - Auto-description of Extensions - was facing
- * dificulties. I've proceed to implement his analysis and design on this
- * subject. After ExtensionManagar reads "extensions.props" files a frame will
- * be presented to user. From that point he decides what Extensions will load.
- * The current implemented approach to solve this problem is to edit the current
- * "extensions.props" file. When adding a new path extension to this file the
- * developer must now introduce the number of the Extension version and a short
- * Description of what the version current does.</p>
  *
  *
  * <p>
@@ -285,15 +275,30 @@
  *
  *
  * <h2>7. Integration/Demonstration</h2>
+ * <p>
+ * Durante this week, one day before project submission, my colegue in charge of
+ * implementing Core01.2 feature - Auto-description of Extensions - was facing
+ * major dificulties. I've proceed to implement his previous analysis and design
+ * on this subject.</p>
+ * <p>
+ * How it was implemented:</p>
+ * <p>
+ * After loading the file "extensions.pros" to ExtensionMangar a Frame will be
+ * presented to user (ExtensionManagerFrame). From that frame the user decides
+ * what Extensions will load to the application. The current implemented
+ * approach to solve this problem implies the edition of the current
+ * "extensions.props" file by adding a version and a description next to path.
+ * When adding a new path extension the developer must also introduce the
+ * version and a short description of what the version current does.</p>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * <p>
+ * ExtensionManagerFrame will be disabled while implementing features for sprint
+ * 3 not only because it's more conveniente but also because it must suffer a
+ * crucial update. Sort v1 feature is ready to be extended my other team members
+ * on the next sprint.</p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -368,65 +373,36 @@
  * <p>
  * <b>Wednesday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
  * Today:</p>
  * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
+ * 1. Core01.2 Implementation - Auto-description of Extensions.</p>
  *
  * <p>
  * <b>Thursday</b>
  * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Demonstration.</p>
  * <p>
- * Blocking:
+ * 2. Sprint Review.</p>
  * <p>
- * 1.
- *
- *
- *
- * <p>
- * <b>Friday</b>
- * <p>
- * Yesterday I worked on:</p>
- * <p>
- * 1.</p>
- * <p>
- * Today:</p>
- * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
+ * 3. Code Submission - End of sprint.
  *
  * <h2>10. Self Assessment</h2>
- *
- * -Insert here your self-assessment of the work during this sprint.-
+ * <p>
+ * All features worked as expected.
  *
  * <h3>10.1. Design and Implementation</h3>
- *
  * <p>
- * <b>Evidences:</b>
- * <p>
- * - url of commit: - description: this commit is related to the implementation
- * of the design pattern-</p>
+ * 5.</p>
  *
  * <h3>10.2. Teamwork:</h3>
+ * <p>
+ * 5.</p>
  *
  * <h3>10.3. Technical Documentation:</h3>
+ * <p>
+ * 4.</p>
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
