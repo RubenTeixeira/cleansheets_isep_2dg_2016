@@ -131,20 +131,4 @@ public class ImportXMLTest {
 
 	}
 
-	/**
-	 * Test of importSpreadsheetSelected method, of class ImportXML.
-	 */
-//	@Test
-//	public void testImportSpreadsheetSelected() throws Exception {
-//		System.out.println("importSpreadsheetSelected");
-//		String path = "";
-//		String tagSpreadSheet = "";
-//		String tagRow = "";
-//		String tagColumn = "";
-//		UIController uiController = null;
-//		ImportXML.
-//			importSpreadsheetSelected(path, tagSpreadSheet, tagRow, tagColumn, uiController);
-//		// TODO review the generated test code and remove the default call to fail.
-//		fail("The test case is a prototype.");
-//	}
 }
