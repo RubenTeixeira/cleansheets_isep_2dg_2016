@@ -100,7 +100,12 @@ public class ImportXMLController {
 	public void importSpreadSheetSelected(String path,
 										  String tagSpreadSheet,
 										  String tagRow, String tagColumn) throws IOException {
-		ImportXML.
-			importSpreadsheetSelected(path, tagSpreadSheet, tagRow, tagColumn, uiController);
+		try {
+			ImportXML.
+				importSpreadsheetSelected(path, tagSpreadSheet, tagRow, tagColumn, uiController);
+		} catch (FileNotFoundException | FormulaCompilationException ex) {
+			Logger.getLogger(ImportXMLController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 	}
 }
