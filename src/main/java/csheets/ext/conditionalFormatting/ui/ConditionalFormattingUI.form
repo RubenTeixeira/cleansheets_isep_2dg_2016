@@ -125,18 +125,14 @@
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="labelForeground" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnTrueForeground" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnTrueForeground" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelForeground" min="-2" max="-2" attributes="0"/>
                       <Component id="btnFalseForeground" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="labelBackground" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="btnTrueBackground" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="btnTrueBackground" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelBackground" min="-2" max="-2" attributes="0"/>
                       <Component id="btnFalseBackground" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -148,10 +144,12 @@
                       <Component id="btnFalseBorder" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="labelAlign" alignment="1" min="-2" max="-2" attributes="0"/>
-                      <Component id="comboBoxTrueHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="comboBoxFalseHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="comboBoxTrueHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="comboBoxFalseHorizontalAlign" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">

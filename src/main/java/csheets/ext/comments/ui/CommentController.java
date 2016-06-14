@@ -2,8 +2,14 @@ package csheets.ext.comments.ui;
 
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
+import csheets.ext.style.ui.BorderChooser;
+import csheets.ext.style.ui.FontChooser;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.List;
+import javax.swing.JColorChooser;
+import javax.swing.border.Border;
 
 /**
  * A controller for updating the user-specified comment of a cell.
@@ -61,5 +67,60 @@ public class CommentController {
 //	}
 	public List<Comment> getCommentList(CommentableCell cell) {
 		return cell.getCommentsList();
+	}
+
+	/**
+	 * This method change the Font of the Comment
+	 *
+	 * @param comment Comment
+	 */
+	public void changeFont(Comment comment) {
+
+		Font font = FontChooser.showDialog(
+			null,
+			"Choose Font",
+			Comment.FONT);
+
+		if (font != null) {
+			comment.setFont(font);
+		}
+	}
+
+	/**
+	 * This method change the Background of the Comment
+	 *
+	 * @param comment Comment
+	 */
+	public void changeBackground(Comment comment) {
+
+		Color color = JColorChooser.showDialog(
+			null,
+			"Choose Background Color",
+			Comment.BACKGROUND);
+
+		if (color != null) {
+			comment.setBackgroundColor(color);
+		}
+	}
+
+	/**
+	 * This method change the Border of the Comment
+	 *
+	 * @param comment comment
+	 */
+	public void changeBorder(Comment comment) {
+
+		Border border = BorderChooser.showDialog(
+			null,
+			"Choose Border",
+			Comment.BORDER);
+
+		if (border != null) {
+			comment.setBorder(border);
+		}
+	}
+
+	public void apply(Comment comment) {
+		comment.setComment(comment);
 	}
 }
