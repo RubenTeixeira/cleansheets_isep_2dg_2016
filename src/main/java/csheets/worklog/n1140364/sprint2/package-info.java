@@ -48,14 +48,6 @@
  *
  *
  * <h2>4. Analysis</h2>
- * Search workbook in another instance will be supported in a new extension to
- * cleansheets we need to study how extensions are loaded by cleansheets and how
- * they work. The first sequence diagram in the section
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
- * abstract class and need to be registered in special files. The Extension
- * class has a method called getUIExtension that should be implemented and
- * return an instance of a class that is a subclass of UIExtension.
  *
  * <h3>First Analysis sequence diagram</h3>
  *
@@ -97,12 +89,7 @@
  *
  * <h3>5.2. UC Realization</h3>
  *
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension csheets.ext.style we can
- * find examples that illustrate how to implement these technical requirements.
- * The following diagrams illustrate core aspects of the design of the solution
- * for this use case.
+ * To realize this user story we will need to create a script manager to
  *
  * <h3>Extension Setup</h3>
  *

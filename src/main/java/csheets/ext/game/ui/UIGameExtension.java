@@ -6,9 +6,12 @@
 package csheets.ext.game.ui;
 
 import csheets.CleanSheets;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -63,7 +66,14 @@ public class UIGameExtension extends UIExtension {
 			if (this.gameController == null) {
 				this.gameController = new GameController();
 			}
-			this.sideBar = new GamePanel(this.uiController, this.gameController);
+
+			try {
+				this.sideBar = new GamePanel(this.uiController, this.gameController);
+			} catch (FormulaCompilationException ex) {
+				Logger.getLogger(UIGameExtension.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+
 		}
 		return this.sideBar;
 	}
