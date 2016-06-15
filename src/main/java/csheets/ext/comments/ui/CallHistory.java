@@ -9,7 +9,6 @@ import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
 import csheets.ui.ctrl.UIController;
-import java.awt.BorderLayout;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -56,25 +55,21 @@ public class CallHistory extends javax.swing.JDialog {
 		layout = new BoxLayout(jPanel2, BoxLayout.Y_AXIS);
 		jPanel2.setLayout(layout);
 
-		JScrollPane scrollPane = new JScrollPane(jPanel2);
+		JScrollPane scrollPane = new JScrollPane(jPanelVersions);
 		scrollPane.
 			setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.
 			setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		//scrollPane.setBounds(50, 30, 300, 50);
-		add(scrollPane, BorderLayout.CENTER);
+		//add(scrollPane, BorderLayout.CENTER);
 
 		// Creates controller
 		controller = new CommentController(uiController);
 		this.comment = comment;
-		// Creates comment components
-//		CommentHistoryUI.ApplyAction applyAction = new CommentHistoryUI.ApplyAction();
 		this.uiController = uiController;
 
 		paintCommentPanels();
 
-		//comment.setPreferredSize(new Dimension(120, 240));		// width, height
-		//comment.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
 	}
 
 	/**
@@ -90,6 +85,7 @@ public class CallHistory extends javax.swing.JDialog {
         jPanel3 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
+        jPanelVersions = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -102,6 +98,19 @@ public class CallHistory extends javax.swing.JDialog {
         jPanel3.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.add(jPanel3, java.awt.BorderLayout.PAGE_START);
+
+        javax.swing.GroupLayout jPanelVersionsLayout = new javax.swing.GroupLayout(jPanelVersions);
+        jPanelVersions.setLayout(jPanelVersionsLayout);
+        jPanelVersionsLayout.setHorizontalGroup(
+            jPanelVersionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 336, Short.MAX_VALUE)
+        );
+        jPanelVersionsLayout.setVerticalGroup(
+            jPanelVersionsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 428, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanelVersions, java.awt.BorderLayout.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,18 +140,18 @@ public class CallHistory extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanelVersions;
     private javax.swing.JSeparator jSeparator2;
     // End of variables declaration//GEN-END:variables
 
 	private void paintCommentPanels() {
 		cleanCommentsPanel();
-		jPanel2.setVisible(true);
+//		jPanel2.setVisible(true);
 		List<Comment> lstHistory = this.comment.commentHistory();
 		for (Comment comment : lstHistory) {
 			HistoryUI historyUI = new HistoryUI(uiController, comment);
 
-			jPanel2.add(historyUI);
-//			jTextField1.setText("");
+			jPanelVersions.add(historyUI);
 			historyUI.setVisible(true);
 		}
 		refreshUI();
@@ -157,82 +166,4 @@ public class CallHistory extends javax.swing.JDialog {
 		revalidate();
 		repaint();
 	}
-//	/**
-//	 * Updates the comments field
-//	 *
-//	 * @param event the selection event that was fired
-//	 */
-//	@Override
-//	public void selectionChanged(SelectionEvent event) {
-//		Cell selectedCell = event.getCell();
-//		if (selectedCell != null) {
-//			CommentableCell activeCell
-//				= (CommentableCell) selectedCell.
-//				getExtension(CommentsExtension.NAME);
-//			activeCell.addCommentableCellListener(this);
-//
-//			commentChanged(activeCell);
-//		}
-//
-//		// Stops listening to previous active cell
-//		if (event.getPreviousCell() != null) {
-//			((CommentableCell) event.getPreviousCell().
-//				getExtension(CommentsExtension.NAME))
-//				.removeCommentableCellListener(this);
-//		}
-//	}
-//
-//	/**
-//	 * Updates the comment field when the comments of the active cell is
-//	 * changed.
-//	 *
-//	 * @param cell the cell whose comments changed
-//	 */
-//	@Override
-//	public void commentChanged(CommentableCell cell) {
-//		// Stores the cell for use when applying comments
-//		this.cell = cell;
-//
-//		if (this.cell.hasComments()) {
-//			paintCommentPanels();
-//		} else {
-//			cleanCommentsPanel();
-//		}
-//
-//	}
-//
-//	private void paintCommentPanels() {
-//		cleanCommentsPanel();
-//		List<Comment> commentsList = controller.getCommentList(this.cell);
-//		for (Comment comment : commentsList) {
-//			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
-//
-//			jPanel2.add(cmtPanel);
-//			cmtPanel.setVisible(true);
-//		}
-//		refreshUI();
-//	}
-//
-//	private void cleanCommentsPanel() {
-//		jPanel2.removeAll();
-//		refreshUI();
-//	}
-//
-//	private void refreshUI() {
-//		revalidate();
-//		repaint();
-//	}
-//	protected class ApplyAction implements FocusListener {
-//
-//		@Override
-//		public void focusGained(FocusEvent e) {
-//
-//		}
-//
-//		@Override
-//		public void focusLost(FocusEvent e) {
-//			newComment();
-//		}
-//
-//	}
 }

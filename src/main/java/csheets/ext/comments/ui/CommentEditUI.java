@@ -20,6 +20,8 @@ public class CommentEditUI extends javax.swing.JFrame {
 
 	private Comment comment;
 
+	private Comment commentOrigin;
+
 	private CommentPanel panel;
 
 	/**
@@ -33,8 +35,13 @@ public class CommentEditUI extends javax.swing.JFrame {
 						 CommentPanel panel) {
 		initComponents();
 		this.commentController = new CommentController(uiController);
-		this.comment = comment;
+		this.comment = new Comment(comment.userName(), comment.text(), comment.
+								   getFont(), comment.getBackgroundColor(), comment.
+								   getBorder());
 		this.panel = panel;
+		this.commentOrigin = comment;
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.EditTextField.setText(comment.text());
 		this.uiController = uiController;
 	}
 
@@ -56,6 +63,7 @@ public class CommentEditUI extends javax.swing.JFrame {
         borderButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
         EditTextButton = new javax.swing.JButton();
+        EditTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,40 +114,62 @@ public class CommentEditUI extends javax.swing.JFrame {
             }
         });
 
+        EditTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditTextFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(applyButton)
-                            .addGap(57, 57, 57))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(EditTextButton)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel5))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(borderButton)
-                                    .addComponent(fontButton)
-                                    .addComponent(backgroundButton)))))
-                    .addComponent(jLabel1))
-                .addContainerGap(38, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(fontButton))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(backgroundButton))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(borderButton))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(EditTextButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(EditTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(87, 87, 87)
+                .addComponent(applyButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(EditTextButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(EditTextButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(EditTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(fontButton))
@@ -151,9 +181,9 @@ public class CommentEditUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(borderButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(applyButton)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,8 +198,9 @@ public class CommentEditUI extends javax.swing.JFrame {
     }//GEN-LAST:event_backgroundButtonActionPerformed
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-		commentController.apply(comment);
-		panel.applyStyle(comment);
+		this.comment.setText(EditTextField.getText());
+		commentController.apply(commentOrigin, comment);
+		panel.applyStyle(commentOrigin);
 		dispose();
     }//GEN-LAST:event_applyButtonActionPerformed
 
@@ -182,6 +213,10 @@ public class CommentEditUI extends javax.swing.JFrame {
 		call.setVisible(true);
 		commentController.changeText(comment);
     }//GEN-LAST:event_EditTextButtonActionPerformed
+
+    private void EditTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTextFieldActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_EditTextFieldActionPerformed
 //
 //	/**
 //	 * @param args the command line arguments
@@ -225,6 +260,7 @@ public class CommentEditUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton EditTextButton;
+    private javax.swing.JTextField EditTextField;
     private javax.swing.JButton applyButton;
     private javax.swing.JButton backgroundButton;
     private javax.swing.JButton borderButton;

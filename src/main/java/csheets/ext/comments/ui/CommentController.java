@@ -125,8 +125,8 @@ public class CommentController {
 
 	}
 
-	public void apply(Comment comment) {
-		comment.setComment(comment);
+	public void apply(Comment origin, Comment newComment) {
+		origin.setComment(newComment);
 	}
 
 }
