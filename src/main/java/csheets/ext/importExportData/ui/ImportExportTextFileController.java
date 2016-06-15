@@ -8,9 +8,14 @@ import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
+import csheets.support.Task;
+import csheets.support.TaskManager;
+import csheets.support.ThreadManager;
 import java.awt.Font;
 
 public class ImportExportTextFileController {
+
+    TaskManager tm = new TaskManager();
 
     /**
      * Checks if the selected cells are enough to the received content
@@ -136,19 +141,45 @@ public class ImportExportTextFileController {
         return false;
     }
 
-    public void exportFileAutomatically(boolean option) {
+    public void exportImportFileAutomaticallyEnable(boolean option) {
         if (option == true) {
-            System.out.println("export auto enable ");
-        } else {
-            System.out.println("export auto disable ");
+
+            Task verify = new Task() {
+                @Override
+                public void fire() {
+                    
+                    
+                    //ask modification
+
+                    //if the fille has modification return. 
+                    
+                    
+                    //else put null to file    
+                    
+                    
+                    //call the import metode, and set modified
+                    
+                    
+                    
+                    System.out.println("Threed a correr");
+                }
+
+            };
+            ThreadManager.create("ipc4.2", new Thread() {
+                public void run() {
+                    tm.every(5).fire(verify);
+                }
+            });
+            ThreadManager.run("ipc4.2");
+
         }
     }
 
-    public void importFileAutomatically(boolean option) {
-        if (option == true) {
-            System.out.println("import auto enable");
-        } else {
-            System.out.println("import auto disable ");
+    public void exportImportFileAutomaticallyDisable(boolean option) {
+        if (option == false) {
+            tm.destroy();
+            System.out.println("Threed has been distroy");
+
         }
     }
 

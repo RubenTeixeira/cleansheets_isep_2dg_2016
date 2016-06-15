@@ -54,6 +54,7 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Enable or Disabel automatically update");
 
+        EnableCheckBox1.setSelected(true);
         EnableCheckBox1.setText("Enable");
 
         jButton1.setText("Confirm");
@@ -131,29 +132,29 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
         //se a CheckBox nao foi selecionada. 
         if (this.EnableCheckBox1.isSelected()) {
             //ativar no importcontroller que vai verificar se há atualizaçoes no ficheiro do disco. 
-            
-            
+
             int option = JOptionPane.
                     showConfirmDialog(this, "The option automatically update has been Enable", "Warning", JOptionPane.WARNING_MESSAGE);
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
             //invocar o metedo de  que permite fazer os update automaticamente. 
-            this.controller.exportFileAutomatically(true);
-            this.controller.importFileAutomatically(true);
+            this.controller.exportImportFileAutomaticallyEnable(true);
             super.dispose();
-            
+
         } else {
             //Caso a CheckBox nao foi selecionada. 
             //desativar no importController. 
-            
+
             int option = JOptionPane.
                     showConfirmDialog(this, "The option automatically update has been Disabel", "Warning", JOptionPane.WARNING_MESSAGE);
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
-            this.controller.exportFileAutomatically(false);
-            this.controller.importFileAutomatically(false);
+
+            //invocar o metedo de  que permite fazer os update automaticamente. 
+            this.controller.exportImportFileAutomaticallyDisable(false);
+
             super.dispose();
         }
 
