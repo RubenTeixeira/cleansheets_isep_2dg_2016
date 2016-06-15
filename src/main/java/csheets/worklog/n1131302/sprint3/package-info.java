@@ -40,15 +40,8 @@
  * <p>
  * 
  * </p>
- * see: <code></code>
+ * see: <code>WizardControllerTest</code>
  *
- * <p>
- * Agenda has no information at this point. From our view of the requirements
- * there is no business rule to apply on this concept.
- * </p>
- *
- * Event MUST have a time and a description. So we have created a test that
- * represents this business rule.
  *
  * <p>
  * see: <code></code>
@@ -68,30 +61,16 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * In this issue we used some design patterns: -Persistence layer as an
- * abstraction for the domain or application layer. -Entity, AggregateRoot and
- * value object DDD concepts.
  * </p>
  *
  * <h2>6. Implementation</h2>
+ *Basically removed the menu option for the functions window, and for that window put a button.
+ *The window had a makeover since the function parameters must now be inserted into specific text boxes and not directly in the formula. Here, with special attention that should be loaded text boxes necessary depending on the selected function.
+ *Then I spent the implementation of a method in the controller to replace the parameters entered in the text boxes, the function parameters so that then with this formula you can calculate the result.
+ *You can also get a brief help on the selected function by pressing the button "help"
  *
- * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
- * <code>csheets.domain.Event</code>
- *
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * </p>
- * see:
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.ext.comments</a>
  *
  * <h2>7. Integration/Demonstration</h2>
- *
- * We are in the first week where the workflow of the project is a little bit
- * different from the rest of the weeks. Our functional area is very independent
- * from the others. The only that we had to talk with our work collegues was
- * related to the extensions part (Core functional area).
  *
  * <h2>8. Final Remarks</h2>
  *
@@ -100,7 +79,7 @@
  * <p>
  * <b>Monday</b>
  * </p>
- * 1. 
+ * 1. Analysis and design.
  * <p>
  * Blocking:
  * </p>
@@ -108,12 +87,12 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * 1.
+ * 1.Ajust the UI
  * <b>Evidences:</b>
  * </p>
  * <b>Wednesday:</b>
  * <p>
- * 1.
+ * 1.Tests and implementation
  * <b>Evidences:</b>
  * </p>
  * - url of commit: ... - description: this commit is related to the
