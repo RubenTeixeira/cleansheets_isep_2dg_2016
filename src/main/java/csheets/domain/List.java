@@ -19,7 +19,10 @@ import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 /**
- *
+ * List implements the Notation. List is where the user can set a List with Title
+ * and note lines. Each of this note lines has associated a boolean that can be
+ * checked or not depending on the use of the List.
+ * @see Notation
  * @author Rui Bento
  */
 @Entity
@@ -32,7 +35,7 @@ public class List implements Notation<List>, Serializable {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    private Version version;
+    private VersionControl version;
 
     private String title;
 
@@ -58,24 +61,26 @@ public class List implements Notation<List>, Serializable {
         }
         this.contact = contact;
         this.time = Calendar.getInstance();
-        this.version = new Version();
+        this.version = new VersionControl();
         this.versionNum = version.addVersion();
     }
 
-    public List(String title, String text, Contact contact, Version version) {
+    public List(String title, String text, Contact contact, VersionControl version) {
         this(title, text, contact);
         this.version = version;
         this.versionNum = version.addVersion();
     }
 
-    public Version version() {
+    public VersionControl version() {
         return version;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public String getText() {
         String text = "";
         for (ListLine line : lines) {
@@ -89,6 +94,7 @@ public class List implements Notation<List>, Serializable {
         return lines;
     }
 
+    @Override
     public Contact getContact() {
         return contact;
     }
@@ -108,23 +114,28 @@ public class List implements Notation<List>, Serializable {
         }
     }
 
+    @Override
     public int getVersionNumber() {
         return this.versionNum;
     }
 
+    @Override
     public Calendar getTimeCreated() {
         return time;
     }
 
+    @Override
     public List newVersion(String title, String text) {
         List newList = new List(title, text, this.contact, this.version);
         return newList;
     }
 
+    @Override
     public boolean isDeleted() {
         return this.version.isDeleted();
     }
 
+    @Override
     public void delete() {
         this.version.delete();
     }
@@ -153,7 +164,7 @@ public class List implements Notation<List>, Serializable {
         protected ListLine() {
         }
 
-        public ListLine(String text) {
+        protected ListLine(String text) {
             this.text = text;
             this.check = false;
         }
@@ -166,11 +177,11 @@ public class List implements Notation<List>, Serializable {
             return check;
         }
 
-        public void check() {
+        protected void check() {
             check = true;
         }
 
-        public void uncheck() {
+        protected void uncheck() {
             check = false;
         }
 
