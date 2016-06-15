@@ -218,9 +218,6 @@ public class ImportExportTextFileController {
                 System.out.println("Alterei o ficheiro");
             }
 
-            //if the fille has modification return. 
-            //else put null to file    
-            //call the import metode, and set modified
         }
 
         @Override
