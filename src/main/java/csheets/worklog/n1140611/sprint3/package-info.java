@@ -98,7 +98,7 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ui/legacy/importXML/package-summary.html">csheets.ui.legacy.importXML</a><p>
+ * <a href="../../../../csheets/ui/legacy/importXML/package-summary.html">csheets.ui.legacy.importXML</a>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -107,13 +107,16 @@
  * your work with the work of the other elements of the team and also your work
  * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
+ * <p>
+ * Test of import XML are presented on the next package
+ * <a href="../../../TestPackages/csheets/ui/legacy/importXML/package-summary.html">csheets.ui.legacy.importXML</a>
+ *
  * <h2>8. Final Remarks</h2>
  *
  * -In this section present your views regarding alternatives, extra work and
  * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
+ *
+ *
  *
  *
  * <h2>9. Work Log</h2>
@@ -187,7 +190,8 @@
  * <p>
  * Today
  * <p>
- * 1. finish analysis and start design lang08.2 importXML
+ * 1. finish analysis and start design lang08.2 importXML and start
+ * implementation
  * <p>
  * Blocking:
  * <p>
@@ -197,41 +201,48 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. ipc05.1 Chat Application implementation
+ * 1. finish analysis and start design lang08.2 importXML and start
+ * implementation
  * <p>
  * Today
  * <p>
- * 1. ipc05.1 Chat Application implementation
+ * 1. lang08.2 importXML implementation
  * <p>
  * Blocking:
  * <p>
- * 1. User interface
+ * 1.
  * <p>
  * <b>Thursday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. ipc05.1 Chat Application implementation
+ * 1.
  * <p>
  * Today
  * <p>
- * 1. ipc05.1 Chat Application implementation
+ * 1.
  * <p>
  * Blocking:
  * <p>
- * 1. how to do tests to a chat
+ * 1.
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- * 3- good: the design is implemented in same way of architecture of application
- * and extensions
+ * 3- good: the implmentation follows all requirements.
  * <p>
  * <b>Evidences:</b>
  * <p>
  * - url of commit:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/5c3fe0ac7503f741b43d3b12971e0bc23fafceca">commit
+ * 5c3fe0a</a>- description: this commit is related to th tests and
+ * implementation
+ *
+ * <p>
+ * The option to test was to test at first moment the import of data. After i
+ * test for each type of import if the cells are changed after import
  *
  *
  * <h3>10.2. Teamwork: ...</h3>
