@@ -161,10 +161,11 @@
  * against network packet trading can be a cumbersome and fail prone task, the
  * plan is to test the code performed by each side of the communication, so the
  * goal is to write down tests for <code>WorkbookDTOAssemblerTest</code> to
- * ensure valid DTO's are created, <code>ObjectSerializationTest</code> for
- * obvious reasons and <code>LocalWorkbookSearchTest</code> to assert searches
- * are correctly performed. These are subject to change.
- * </p>
+ * ensure valid DTO's are created and <code>ObjectSerializationTest</code> for
+ * obvious reasons. <code>LocalWorkbookSearchTest</code> was initially intended
+ * too but as it depends on active Workbooks being in the FileSystem i've chosen
+ * not to implement it as of this sprint until a proper yet simple way to test
+ * it comes to mind.</p>
  *
  * <h3>5.2. UC Realization</h3>
  *
