@@ -108,6 +108,29 @@
  * Blocking</p>
  * <p>
  * Nothing.</p>
+ * 
+ * <p>
+ * 15/06/2016
+ * </p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday
+ * </p>
+ * <p>
+ * I spent all of my time helping my colleagues on the IPC area by providing to them feedback
+ * and help them analyzing their use case in a more technical matter.
+ * </p>
+ * <p>
+ * Today</p>
+ * <p>
+ * Finishing my feature. Upgrading Volt to the current version that I've been working since this last weekend.
+ * And if able will finish easy Direct Connections over TCP protocol for Volt. Also will try to help my 
+ * colleagues as much as possible.
+ * </p>
+ * <p>
+ * Blocking</p>
+ * <p>
+ * Nothing.</p>
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -125,8 +148,11 @@
  * </p>
  *
  * <p>
- * <a href="#">#</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a072d40b0b3fbf89ce858d8f32416e67cf451e81">Started analysis.</a>
+ * </p>
  * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d3a55a3bfa25ed50b95089ac798fa82f18f6b75">Initial design and tinkering with implementation.</a>
+ * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
