@@ -19,6 +19,7 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -58,6 +59,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         initComponents();
         createActions();
         fetchContacts();
+        cbListContact.setSelectedIndex(-1);
         Notification.noteInformer().addObserver(this);
         Notification.contactInformer().addObserver(this);
         this.update(null, null);
@@ -78,15 +80,18 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }
 
     private void fetchContacts() {
-        controller.updateContacts(contactModel);
+        for (Contact contact : controller.getContacts()) {
+            contactModel.addElement(contact);
+        }
     }
 
     private void addContactsComboBoxAction() {
         cbListContact.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
+                System.out.println(e.getItem());
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    controller.updateContactListsModel(contactListModel, e.getItem());
+                    //controller.updateContactListsModel(contactListModel, e.getItem());
                     panelContactList.setVisible(true);
                     panelCreateList.setVisible(true);
                     panelListVersion.setVisible(false);
@@ -101,7 +106,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lstContactLists.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                controller.updateContactListsModel(contactListModel, e.getSource());
+                //controller.updateListVersionsModel(listVersionModel, e.getSource());
                 panelListVersion.setVisible(true);
                 panelListData.setVisible(true);
                 panelListActions.setVisible(true);
@@ -165,6 +170,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             this.cbNoteContact.removeAllItems();
             for (Contact c : controller.showContacts()) {
                 cbNoteContact.addItem(c);
+                contactModel.addElement(c);
             }
         } else if (arg instanceof Note) {
             this.NoteListModel.removeAllElements();
@@ -454,6 +460,8 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblListContact.setText("Contact:");
 
         cbListContact.setModel(contactModel);
+        cbListContact.setSelectedItem(null);
+        cbListContact.setSelectedIndex(-1);
 
         javax.swing.GroupLayout panelListContactLayout = new javax.swing.GroupLayout(panelListContact);
         panelListContact.setLayout(panelListContactLayout);
@@ -499,6 +507,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblContactLists.setText("Contact Lists");
 
         lstContactLists.setModel(contactListModel);
+        lstContactLists.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane4.setViewportView(lstContactLists);
 
         javax.swing.GroupLayout panelContactListLayout = new javax.swing.GroupLayout(panelContactList);
@@ -522,6 +531,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblListVersions.setText("List Versions");
 
         lstListVersions.setModel(listVersionModel);
+        lstListVersions.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane5.setViewportView(lstListVersions);
 
         javax.swing.GroupLayout panelListVersionLayout = new javax.swing.GroupLayout(panelListVersion);
@@ -601,6 +611,11 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelListActionsLayout = new javax.swing.GroupLayout(panelListActions);
         panelListActions.setLayout(panelListActionsLayout);
@@ -713,7 +728,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
         switch(evt.getActionCommand()) {
             case "Create": {
-                controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText());
+                contactListModel.addElement(controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText()));
                 break;
             }
             case "Edit": {
@@ -721,11 +736,28 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 break;
             }
             case "Apply": {
-                controller.applyList(lstContactLists.getSelectedValue(),listDataModel);
+                //controller.applyList(lstContactLists.getSelectedValue(),listDataModel);
                 break;
             }
         }
     }//GEN-LAST:event_btnApplyActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        List l = lstContactLists.getSelectedValue();
+        if(lstContactLists.getSelectedValue() != null) {
+            String title = "Delete List";
+            String message = "Are you sure you want to delete that list ?";
+            int reply = JOptionPane.showConfirmDialog(panelLists, message, title, JOptionPane.YES_NO_OPTION);
+            if (reply == JOptionPane.YES_OPTION) {
+                List list = controller.deleteList(l);
+                contactListModel.removeElement(list);
+            }
+        } else {
+            String title = "Error";
+            String message = "There is no list selected ...";
+            JOptionPane.showMessageDialog(panelLists, message, title, JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;

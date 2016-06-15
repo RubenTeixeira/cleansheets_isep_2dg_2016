@@ -78,47 +78,56 @@ public class NotesListsController {
         return note.versionByNote();
     }
 
-    public void updateContacts(DefaultComboBoxModel<Contact> contactModel) {
-        Iterable<Contact> allContacts = PersistenceContext.repositories().contacts().all();
-        for (Contact contact : allContacts) {
-            contactModel.addElement(contact);
-        }
+    public Iterable<Contact> getContacts() {
+        return PersistenceContext.repositories().contacts().all();
     }
 
-    public void updateContactListsModel(DefaultListModel<List> contactListModel, Object contactItem) {
-        if (contactItem instanceof Contact && contactItem != null) {
+    public Iterable<List> getContactLists(Object contactItem) {
+        if (contactItem != null && contactItem instanceof Contact) {
             Contact contact = (Contact) contactItem;
-            Iterable<List> contactLists = PersistenceContext.repositories().lists().listsByContact(contact);
-            for (List list : contactLists) {
-                contactListModel.addElement(list);
-            }
+            return PersistenceContext.repositories().lists().listsByContact(contact);
         }
+        return null;
     }
 
-    public boolean createList(Object contactObj, String text) {
+    public Iterable<List> getListVersions(Object listObj) {
+        if (listObj != null && listObj instanceof List) {
+            List list = (List) listObj;
+            return PersistenceContext.repositories().lists().listVersions(list);
+        }
+        return null;
+    }
+
+    public List createList(Object contactObj, String text) {
         if (!(contactObj instanceof Contact)) {
-            return false;
+            return null;
         }
         Contact contact = (Contact) contactObj;
         String data[] = text.split("\n", 2);
         List newList = new List(data[0], data[1], contact);
-        if (PersistenceContext.repositories().lists().save(newList) != null) {
-            return true;
-        }
-        return false;
+        return PersistenceContext.repositories().lists().save(newList);
     }
 
-    public boolean editList(List list, String text) {
+    public List editList(List list, String text) {
         String data[] = text.split("\n", 2);
-        list.edit(data[0], data[1]);
-        if (PersistenceContext.repositories().lists().save(list) != null) {
-            return true;
-        }
-        return false;
+        List newList = list.newVersion(data[0], data[1]);
+        return PersistenceContext.repositories().lists().save(newList);
     }
 
-    public boolean applyList(List list, DefaultTableModel model) {
-        //model.ge
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List applyList(List list, Object[][] listData) {
+        for (Object[] data : listData) {
+            if (data[0] instanceof Boolean
+                    && data[1] instanceof String) {
+                String text = (String)data[1];
+                boolean check = (boolean)data[0];
+                list.changeState(text, check);
+            }
+        }
+        return PersistenceContext.repositories().lists().save(list);
+    }
+    
+    public List deleteList(List list) {
+        list.delete();
+        return PersistenceContext.repositories().lists().save(list);
     }
 }
