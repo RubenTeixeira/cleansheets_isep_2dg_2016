@@ -23,14 +23,14 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"CONTACT_ID","TITLE"})})
+    @UniqueConstraint(columnNames = {"CONTACT_ID","TITLE","VERSIONNUM"})})
 public class List implements Notation<List>, Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Version version;
 
     private String title;
@@ -78,7 +78,7 @@ public class List implements Notation<List>, Serializable {
             text += line.getText()+"\n";
         }
         // to remove last "\n"
-        return text.substring(0, text.length()-2);
+        return text.substring(0, text.length()-1);
     }
 
     public java.util.List<ListLine> getLines() {
