@@ -6,12 +6,9 @@
 package csheets.ext.game.ui;
 
 import csheets.CleanSheets;
-import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -28,11 +25,6 @@ public class UIGameExtension extends UIExtension {
 	 * SideBar to choose player and game to paly.
 	 */
 	private JComponent sideBar;
-
-	/**
-	 * Controller of the game extension.
-	 */
-	private GameController gameController;
 
 	/**
 	 * The menu of the extension.
@@ -63,17 +55,7 @@ public class UIGameExtension extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (this.sideBar == null) {
-			if (this.gameController == null) {
-				this.gameController = new GameController();
-			}
-
-			try {
-				this.sideBar = new GamePanel(this.uiController, this.gameController);
-			} catch (FormulaCompilationException ex) {
-				Logger.getLogger(UIGameExtension.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-
+			this.sideBar = new GamePanel(uiController);
 		}
 		return this.sideBar;
 	}
