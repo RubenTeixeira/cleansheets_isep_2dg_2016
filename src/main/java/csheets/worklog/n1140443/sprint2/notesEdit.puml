@@ -1,4 +1,4 @@
-@startumldoc-files/notesEdit.png
+@startuml doc-files/notesEdit.png
 
 User->NotesUI : starts edit note process.
 NotesUI->NotesController:create()
