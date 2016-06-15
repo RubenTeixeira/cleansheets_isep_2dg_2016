@@ -28,6 +28,7 @@ import csheets.core.formula.util.ReferenceTransposer;
 import csheets.ext.CellExtension;
 import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
+import csheets.notification.Notification;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -245,6 +246,7 @@ public class CellImpl implements Cell {
 			fireContentChanged();
 			reevaluate(dependence);
 		}
+                Notification.cellInformer().notifyChange(this);
 	}
 
 	public void setContent(String content) throws FormulaCompilationException {

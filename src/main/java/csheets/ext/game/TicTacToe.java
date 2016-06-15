@@ -18,8 +18,7 @@ public class TicTacToe {
 	int ROW = 3;
 	int COLUMN = 3;
 
-	Cell[][] board;
-
+	private String[][] board;
 	/**
 	 * The workbook to which the spreadsheet belongs
 	 */
@@ -27,13 +26,12 @@ public class TicTacToe {
 		this.board = board;
 	}
 
-	public boolean validateRules(String move, Cell cell, String symbol) throws FormulaCompilationException {
-		int beginColumn = board[0][0].getAddress().getColumn();
-		int beginRow = board[0][0].getAddress().getRow();
-		int endColumn = board[board.length - 1][board[0].length - 1].
-			getAddress().getColumn();
-		int endRow = board[board.length - 1][board[0].length - 1].getAddress().
-			getRow();
+	public boolean validateRules(String move, Cell cell,
+								 String symbol) throws FormulaCompilationException {
+		int beginColumn = board.length;//.getAddress().getColumn();
+		int beginRow = board[1].length;//.getAddress().getRow();
+		int endColumn = board[board.length - 1][board[0].length - 1].length();//getAddress().getColumn();
+		int endRow = board[board.length - 1][board[0].length - 1].length();//getAddress().getRow();
 		int columnContent = cell.getAddress().getColumn();
 		int rowContent = cell.getAddress().getRow();
 		if (beginColumn <= columnContent && columnContent <= endColumn && beginRow <= rowContent && rowContent <= endRow) {
@@ -47,38 +45,52 @@ public class TicTacToe {
 		return false;
 	}
 
-	public boolean validateWin(String symbol, Cell[][] table) {
-		if (table[0][0].getContent().equalsIgnoreCase(symbol)
-			&& table[1][0].getContent().equalsIgnoreCase(symbol)
-			&& table[2][0].getContent().equalsIgnoreCase(symbol)) {
+	public boolean validateWin(String symbol) {
+
+//		int column = 4;
+//		int rows = 4;
+//		for (int col = 0; col < column; col++) {
+//			for (int row = 0; row < rows; row++) {
+//				if(board[col][row].getContent().equalsIgnoreCase(symbol)) {
+//					return true;
+//				}
+//			}
+//				if (!(col >= 1 && col <= 3 && row >= 1 && row <= 3)) {
+//
+//
+//				}
+//			}
+		if (board[0][0].equalsIgnoreCase(symbol)
+			&& board[1][0].equalsIgnoreCase(symbol)
+			&& board[2][0].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[0][1].getContent().equalsIgnoreCase(symbol)
-			&& table[1][1].getContent().equalsIgnoreCase(symbol)
-			&& table[2][1].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[0][1].equalsIgnoreCase(symbol)
+			&& board[1][1].equalsIgnoreCase(symbol)
+			&& board[2][1].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[0][2].getContent().equalsIgnoreCase(symbol)
-			&& table[1][2].getContent().equalsIgnoreCase(symbol)
-			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[0][2].equalsIgnoreCase(symbol)
+			&& board[1][2].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[0][0].getContent().equalsIgnoreCase(symbol)
-			&& table[0][1].getContent().equalsIgnoreCase(symbol)
-			&& table[0][2].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[0][0].equalsIgnoreCase(symbol)
+			&& board[0][1].equalsIgnoreCase(symbol)
+			&& board[0][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[1][0].getContent().equalsIgnoreCase(symbol)
-			&& table[1][1].getContent().equalsIgnoreCase(symbol)
-			&& table[1][2].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[1][0].equalsIgnoreCase(symbol)
+			&& board[1][1].equalsIgnoreCase(symbol)
+			&& board[1][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[2][0].getContent().equalsIgnoreCase(symbol)
-			&& table[2][1].getContent().equalsIgnoreCase(symbol)
-			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[2][0].equalsIgnoreCase(symbol)
+			&& board[2][1].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[0][0].getContent().equalsIgnoreCase(symbol)
-			&& table[1][1].getContent().equalsIgnoreCase(symbol)
-			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[0][0].equalsIgnoreCase(symbol)
+			&& board[1][1].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (table[0][2].getContent().equalsIgnoreCase(symbol)
-			&& table[1][1].getContent().equalsIgnoreCase(symbol)
-			&& table[2][0].getContent().equalsIgnoreCase(symbol)) {
+		} else if (board[0][2].equalsIgnoreCase(symbol)
+			&& board[1][1].equalsIgnoreCase(symbol)
+			&& board[2][0].equalsIgnoreCase(symbol)) {
 			return true;
 		}
 		return false;
