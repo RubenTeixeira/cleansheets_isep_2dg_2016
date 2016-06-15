@@ -10,6 +10,7 @@ import csheets.core.IllegalValueTypeException;
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ext.style.ui.BorderChooser;
@@ -42,6 +43,8 @@ public class ConditionalFormattingController {
 	 */
 	private boolean result;
 
+	private Cell cell;
+
 	/**
 	 * Constructor of Conditional Formatting Controller
 	 *
@@ -64,7 +67,8 @@ public class ConditionalFormattingController {
 	public Cell createConditionalCell() {
 		Workbook workbook = new Workbook(1);
 		Spreadsheet spreadsheet = workbook.getSpreadsheet(0);
-		return spreadsheet.getCell(0, 0);
+		this.cell = spreadsheet.getCell(0, 0);
+		return this.cell;
 	}
 
 	/**
@@ -109,8 +113,81 @@ public class ConditionalFormattingController {
 			}
 		}
 
-		uiController.setWorkbookModified(this.uiController.focusOwner.
-			getSpreadsheet().getWorkbook());
+		this.uiController.setWorkbookModified(this.uiController.
+			getActiveWorkbook());
+		this.uiController.focusOwner.repaint();
+
+	}
+
+	public void apply(String expression, StylableCell trueStyle,
+					  StylableCell falseStyle) {
+		if (expression.charAt(0) != '=') {
+			expression = "=" + expression;
+		}
+		if (!expression.matches(".*_cell.*")) {
+			try {
+				cell.setContent(expression);
+			} catch (FormulaCompilationException ex) {
+			}
+			if (cell.getValue().isOfType(Value.Type.BOOLEAN)) {
+				boolean test = false;
+				try {
+					test = cell.getValue().toBoolean();
+				} catch (IllegalValueTypeException ex) {
+					test = false;
+				}
+				if (test) {
+					this.apply(trueStyle);
+					return;
+				} else {
+					this.apply(falseStyle);
+					return;
+				}
+			}
+		}
+		for (Cell[] row : this.uiController.focusOwner.getSelectedCells()) {
+			for (Cell selectedCell : row) {
+				if (selectedCell.getValue().isOfType(Value.Type.NUMERIC)) {
+					String content = expression.replace("_cell", selectedCell.
+														getValue().toString());
+					try {
+						cell.setContent(content);
+						if (cell.getValue().isOfType(Value.Type.BOOLEAN)) {
+							boolean test = false;
+							try {
+								test = cell.getValue().toBoolean();
+							} catch (IllegalValueTypeException ex) {
+								test = false;
+							}
+							StylableCell style = null;
+							if (test) {
+								style = trueStyle;
+							} else {
+								style = falseStyle;
+							}
+							StylableCell stylableCell = (StylableCell) selectedCell.
+								getExtension(StyleExtension.NAME);
+							stylableCell.setFont(style.getFont());
+							stylableCell.setForegroundColor(style.
+								getForegroundColor());
+							stylableCell.setBackgroundColor(style.
+								getBackgroundColor());
+							stylableCell.setBorder(style.
+								getBorder());
+							stylableCell.setFormat(style.
+								getFormat());
+							stylableCell.setHorizontalAlignment(style.
+								getHorizontalAlignment());
+							stylableCell.setVerticalAlignment(style.
+								getVerticalAlignment());
+						}
+					} catch (FormulaCompilationException ex) {
+					}
+				}
+			}
+		}
+		this.uiController.setWorkbookModified(this.uiController.
+			getActiveWorkbook());
 		this.uiController.focusOwner.repaint();
 
 	}
