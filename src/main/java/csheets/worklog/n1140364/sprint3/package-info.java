@@ -76,7 +76,14 @@
  * if the script is created , edited properly, eliminated and if runs.
  *
  * <p>
- * see: <code>#</code>
+ * see: <code>csheets\core\WorkbookTest</code>
+ * </p>
+ * <p>
+ * see: <code>csheets\ext\macro_beanshell\CodeTest</code>
+ * </p>
+ * <p>
+ * see:
+ * <code>csheets\ext\macro_beanshell\MacroBeanShellControllerTest.java</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
@@ -211,15 +218,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Analisys organization. Tests.</p>
  * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Script execution mode implementation. Finish analysis and design.
+ * Tests</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  * <p>
  * <b>Thursday</b>
@@ -254,6 +262,11 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b4359804da29e3115c99d1a20449587721923665">Integration
  * of scripts from formulas</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/835c637dc4cfe9e19d32ed0a6dcc4f463b74154f">Script
+ * manager updated. Class that saves all the information on a script created.
+ * </a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *
