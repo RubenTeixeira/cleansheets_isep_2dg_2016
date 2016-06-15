@@ -44,8 +44,8 @@ public class WorkbookPreviewTest {
 	static final int FIRST_SPREADSHEET = 0;
 	static final int SECOND_SPREADSHEET = 1;
 	static final int SPREADSHEET_COUNT = 2;
-	static final int COLUMN = WorkbookPreview.getColumnPreviewSize();
-	static final int ROW = WorkbookPreview.getRowsPreviewSize();
+	static final int COLUMN = WorkbookPreview.COLUMNS;
+	static final int ROW = WorkbookPreview.ROWS;
 
 	WorkbookPreview wbpreview;
 
@@ -62,6 +62,7 @@ public class WorkbookPreviewTest {
 
 	/**
 	 * Set up elements required to performe tests.
+	 *
 	 */
 	@Before
 	public void setUp() {

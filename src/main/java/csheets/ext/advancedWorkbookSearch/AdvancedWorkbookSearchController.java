@@ -57,7 +57,6 @@ public class AdvancedWorkbookSearchController {
 		} catch (NullPointerException e) {
 			e.getMessage();
 		}
-		System.out.println("I'm on it! - CONTROLLER");
 		return workbookList;
 	}
 }

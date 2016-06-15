@@ -5,7 +5,6 @@
  */
 package csheets.ext.game;
 
-import csheets.core.Cell;
 import csheets.core.formula.compiler.FormulaCompilationException;
 
 /**
@@ -27,20 +26,17 @@ public class TicTacToe {
 		this.board = board;
 	}
 
-	public boolean validateRules(String move, Cell cell,
-								 String symbol) throws FormulaCompilationException {
+	public boolean validateRules(int column, int row, String symbol) throws FormulaCompilationException {
 		int beginColumn = board.length;//.getAddress().getColumn();
 		int beginRow = board[1].length;//.getAddress().getRow();
-		int endColumn = board[board.length - 1][board[0].length - 1].length();//getAddress().getColumn();
-		int endRow = board[board.length - 1][board[0].length - 1].length();//getAddress().getRow();
-		int columnContent = cell.getAddress().getColumn();
-		int rowContent = cell.getAddress().getRow();
+		int endColumn = board[board.length - 1][board[1].length - 1].length();//getAddress().getColumn();
+		int endRow = board[board.length - 1][board[1].length - 1].length();//getAddress().getRow();
+		int columnContent = column;//cell.getAddress().getColumn();
+		int rowContent = row;//cell.getAddress().getRow();
 		if (beginColumn <= columnContent && columnContent <= endColumn && beginRow <= rowContent && rowContent <= endRow) {
-			if (cell.getContent().isEmpty()) {
-				if (move.equalsIgnoreCase(symbol)) {
-					cell.setContent(move);
-					return true;
-				}
+			if (board[column][row].isEmpty()) {
+				board[column][row] = symbol;//cell.setContent(move);
+				return true;
 			}
 		}
 		return false;

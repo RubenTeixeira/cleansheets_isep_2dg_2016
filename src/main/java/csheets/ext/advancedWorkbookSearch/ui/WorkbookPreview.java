@@ -23,12 +23,12 @@ public class WorkbookPreview {
 	/**
 	 * Preview Columns.
 	 */
-	private static final int COLUMNS = 5;
+	public static final int COLUMNS = 5;
 
 	/**
 	 * Preview Rows.
 	 */
-	private static final int ROWS = 5;
+	public static final int ROWS = 5;
 
 	/**
 	 * Workbook.
@@ -68,17 +68,35 @@ public class WorkbookPreview {
 		outerloop:
 		for (int i = 0; i < this.workbook.getSpreadsheetCount(); i++) {
 			Spreadsheet ss = this.workbook.getSpreadsheet(i);
-			for (Cell c : ss) {
-				if (!c.getContent().equalsIgnoreCase("")) {
+			for (int j = 0; j < ss.getColumnCount() + 1; j++) {
+				Cell[] column = ss.getColumn(j); //buggy
+				if (checkColumn(column)) {
 					spreadsheet = ss;
-					this.cell = c;
 					break outerloop;
 				}
 			}
+//			for (Cell c : ss) { //will this iterate by order?
+//				//or it will catch a first random cell?
+//				if (!c.getContent().equalsIgnoreCase("")) {
+//					spreadsheet = ss;
+//					this.cell = c;
+//					break outerloop;
+//				}
+//			}
 		}
-		if (this.cell == null) {
-			throw new IllegalArgumentException();
+//		if (this.cell == null) {
+//			throw new IllegalArgumentException();
+//		}
+	}
+
+	private boolean checkColumn(Cell[] column) {
+		for (Cell c : column) {
+			if (!c.getContent().equalsIgnoreCase("") && c != null) {
+				cell = c;
+				return true;
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -109,12 +127,11 @@ public class WorkbookPreview {
 		return this.matrix;
 	}
 
-	public static int getColumnPreviewSize() {
-		return COLUMNS;
-	}
-
-	public static int getRowsPreviewSize() {
-		return ROWS;
-	}
-
+//	public static int getColumnPreviewSize() {
+//		return COLUMNS;
+//	}
+//
+//	public static int getRowsPreviewSize() {
+//		return ROWS;
+//	}
 }
