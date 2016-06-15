@@ -15,12 +15,12 @@ import csheets.ui.ext.UIExtension;
 public class EmailExtension extends Extension {
 
 	/**
-	 * The name of the extension
+	 * The name of extension
 	 */
-	public static final String NAME = "EMail";
+	public static final String NAME = "E-mail";
 
 	/**
-	 * Creates a new Example extension.
+	 * Creates a new extension.
 	 */
 	public EmailExtension() {
 		super(NAME);
@@ -32,7 +32,6 @@ public class EmailExtension extends Extension {
 	 * @param uiController the user interface controller
 	 * @return a user interface extension, or null if none is provided
 	 */
-	@Override
 	public UIExtension getUIExtension(UIController uiController) {
 		return new UIExtensionEmail(this, uiController);
 	}
