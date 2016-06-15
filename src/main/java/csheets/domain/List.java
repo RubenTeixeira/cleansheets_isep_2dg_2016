@@ -23,7 +23,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"CONTACT","TITLE"})})
+    @UniqueConstraint(columnNames = {"CONTACT_ID","TITLE"})})
 public class List implements Notation<List>, Serializable {
 
     @Id
