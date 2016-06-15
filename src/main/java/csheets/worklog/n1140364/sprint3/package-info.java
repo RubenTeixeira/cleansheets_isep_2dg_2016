@@ -56,12 +56,45 @@
  *
  * <h3>First Analysis sequence diagram</h3>
  *
- * <h3>#</h3>
- * Step description...
+ * <h3>Execute script function from formula/macro</h3>
+ * The users introduces a new script function in formula bar and the system
+ * executes that script.
  *
  * <p>
  * <img src="#" alt="image">
  *
+ * <p>
+ * <h3>Script Manager</h3>
+ * </p>
+ *
+ * <h4>Create Script</h4>
+ * The user selects create script. The system asks the user to enter a script
+ * name, the script type, the script code and the script execution mode. The
+ * users introduces all information and the system saves the script.
+ *
+ * <p>
+ * <img src="doc-files/lang07.2_manager_new.png" alt="image">
+ *
+ * <h4>Edit Script</h4>
+ * The user selects the script to edit and choose the edit button. The system
+ * asks he the information of script and allows edition. The user edits what he
+ * want and saves the new script information.
+ *
+ * <p>
+ * <img src="#" alt="image">
+ *
+ * <h4>Delete Script</h4>
+ * The user selects the script to delete and choose the delete button. The
+ * system asks for confirmation and the user confirms or not.
+ *
+ * <p>
+ * <img src="#" alt="image">
+ *
+ * <h4>Execute Script</h4>
+ * The user selects the script to execute and the system executes that script.
+ *
+ * <p>
+ * <img src="#" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
@@ -266,6 +299,11 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/835c637dc4cfe9e19d32ed0a6dcc4f463b74154f">Script
  * manager updated. Class that saves all the information on a script created.
+ * </a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/2fcf78ddb1360bc4088036ab7e8186e88f917976">Script
+ * execution mode implemented.
  * </a></p>
  *
  * <h3>10.2. Teamwork:</h3>
