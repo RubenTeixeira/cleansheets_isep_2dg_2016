@@ -45,7 +45,7 @@ public class Version implements Serializable{
     }
     
     protected int addVersion() {
-        return lastVersion++;
+        return ++lastVersion;
     }
     
     protected boolean isDeleted() {
