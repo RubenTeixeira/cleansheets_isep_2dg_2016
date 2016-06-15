@@ -7,6 +7,7 @@ import csheets.ext.secureCommunications.OutgoingChannel;
 import java.util.Observer;
 import vendor.volt.Action;
 import vendor.volt.Request;
+import vendor.volt.Volt;
 import vendor.volt.channels.MessageEncryptionChannel;
 import vendor.volt.channels.MessageReceivedChannel;
 import vendor.volt.channels.MessageSentChannel;
@@ -25,13 +26,12 @@ public class SecureCommunicationsController {
 
         UdpServer udp = NetworkManager.udp();
 
-        udp.channel("*", new MessageReceivedChannel("Incoming from ", observer),
+        Volt.channel("*", new MessageReceivedChannel("Incoming from ", observer),
                 new MessageSentChannel("Sent from ", observer));
         
         udp.expect(":secure-communication", new Action() {
             @Override
             public void run(Request request) {
-                System.out.println("asjkdaskd");
             }
         });
 
@@ -78,32 +78,9 @@ public class SecureCommunicationsController {
      * @param observer User Interface to observe the communications.
      */
     public void analyser(Observer observer) {
-        
-        UdpServer udp = NetworkManager.udp();
-
-        udp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
+        Volt.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
                 new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer)
         );
-        
-        udp.expect(":network-analyser", new Action() {
-            @Override
-            public void run(Request request) {
-
-            }
-        });
-
-        TcpServer tcp = NetworkManager.tcp();
-
-        tcp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
-                        new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer));
-
-        tcp.expect(":network-analyser", new Action() {
-            @Override
-            public void run(Request request) {
-
-            }
-        });
-
     }
 
 }
