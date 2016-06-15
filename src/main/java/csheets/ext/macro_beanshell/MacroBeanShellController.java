@@ -1,5 +1,8 @@
 package csheets.ext.macro_beanshell;
 
+import csheets.support.Task;
+import csheets.support.TaskManager;
+import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -168,7 +171,23 @@ public class MacroBeanShellController {
 
 		try {
 			script = createScript(code.getType());
-			script.run(code.getContent());
+			if (code.isSynchronous()) {
+				script.run(code.getContent());
+			} else {
+				TaskManager tm = new TaskManager();
+				Task verify;
+				verify = new Task() {
+					public void fire() {
+						script.run(code.getContent());
+					}
+				};
+				ThreadManager.create("lang.script", new Thread() {
+									 public void run() {
+										 tm.once(verify);
+									 }
+								 });
+				ThreadManager.run("lang.script");
+			}
 
 		} catch (UnsupportedOperationException ex) {
 			System.out.println(ex.getMessage());
