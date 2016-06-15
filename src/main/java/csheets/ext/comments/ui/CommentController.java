@@ -4,6 +4,7 @@ import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.style.ui.BorderChooser;
 import csheets.ext.style.ui.FontChooser;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import java.awt.Font;
@@ -49,6 +50,7 @@ public class CommentController {
 		// Stores the comment
 		cell.addComment(userName, commentString);
 		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		Notification.commentInformer().notifyChange();
 		return true;
 	}
 
@@ -121,12 +123,12 @@ public class CommentController {
 	}
 
 	public void changeText(Comment comment) {
-		EditTextUI edui = new EditTextUI(null, true, uiController, comment);
-
+		new CommentEditUI(uiController, comment).setVisible(true);
 	}
 
 	public void apply(Comment origin, Comment newComment) {
 		origin.setComment(newComment);
+		Notification.commentInformer().notifyChange();
 	}
 
 }

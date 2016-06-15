@@ -7,18 +7,22 @@ package csheets.ext.comments.ui;
 
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentsExtension;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Rafael
  */
-public class CommentPanel extends javax.swing.JPanel {
+public class CommentPanel extends javax.swing.JPanel implements Observer {
 
 	private final String userName;
 	private String commentText;
 	private Comment comment;
 	private final UIController uiController;
+	private CommentController controller;
 
 	/**
 	 * Creates new form Comment
@@ -32,10 +36,19 @@ public class CommentPanel extends javax.swing.JPanel {
 		this.commentText = comment.text();
 		this.comment = comment;
 		this.uiController = uiController;
+		this.controller = new CommentController(uiController);
+		this.initComponents();
+		this.update(null, null);
+		Notification.commentInformer().addObserver(this);
+	}
 
-		initComponents();
-		applyStyle(this.comment);
-		//jTextArea1.setMinimumSize(new Dimension(10, 10));
+	@Override
+	public void update(Observable o, Object arg) {
+		jTextArea1.setFont(this.comment.getFont());
+		jTextArea1.setBackground(this.comment.getBackgroundColor());
+		jTextArea1.setBorder(this.comment.getBorder());
+		jTextArea1.setText(this.comment.text());
+		repaint();
 	}
 
 	/**
@@ -112,13 +125,11 @@ public class CommentPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-		CommentEditUI commentEdit = new CommentEditUI(uiController, comment, this);
-		commentEdit.setVisible(true);
+		new CommentEditUI(uiController, comment).setVisible(true);
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
-		CallHistory call = new CallHistory(null, true, uiController, comment);
-		call.setVisible(true);
+		new HistoryFrame(this.controller, this.comment).setVisible(true);
     }//GEN-LAST:event_historyButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -129,13 +140,4 @@ public class CommentPanel extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
-
-	public void applyStyle(Comment comment) {
-		jTextArea1.setFont(comment.getFont());
-		jTextArea1.setBackground(comment.getBackgroundColor());
-		jTextArea1.setBorder(comment.getBorder());
-		jTextArea1.setText(comment.text());
-		repaint();
-	}
-
 }

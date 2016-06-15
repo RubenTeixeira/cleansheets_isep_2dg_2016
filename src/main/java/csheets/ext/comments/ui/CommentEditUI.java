@@ -6,13 +6,18 @@
 package csheets.ext.comments.ui;
 
 import csheets.ext.comments.Comment;
+import csheets.ext.comments.CommentableCell;
+import csheets.ext.comments.CommentsExtension;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Carlos Mateus
  */
-public class CommentEditUI extends javax.swing.JFrame {
+public class CommentEditUI extends javax.swing.JFrame implements Observer {
 
 	private final CommentController commentController;
 
@@ -22,27 +27,37 @@ public class CommentEditUI extends javax.swing.JFrame {
 
 	private Comment commentOrigin;
 
-	private CommentPanel panel;
+	private boolean newComment = false;
 
 	/**
 	 * Creates new form CommentEditUI
 	 *
 	 * @param uiController
 	 * @param comment
-	 * @param panel
 	 */
-	public CommentEditUI(UIController uiController, Comment comment,
-						 CommentPanel panel) {
-		initComponents();
+	public CommentEditUI(UIController uiController, Comment comment) {
+		this.initComponents();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.commentController = new CommentController(uiController);
 		this.comment = new Comment(comment.userName(), comment.text(), comment.
 								   getFont(), comment.getBackgroundColor(), comment.
 								   getBorder());
-		this.panel = panel;
 		this.commentOrigin = comment;
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.EditTextField.setText(comment.text());
 		this.uiController = uiController;
+		this.update(null, null);
+		Notification.commentInformer().addObserver(this);
+	}
+
+	public CommentEditUI(UIController uiController, Comment comment,
+						 boolean newComment) {
+		this(uiController, comment);
+		this.newComment = newComment;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.jTextAreaText.setText(comment.text());
 	}
 
 	/**
@@ -62,8 +77,8 @@ public class CommentEditUI extends javax.swing.JFrame {
         backgroundButton = new javax.swing.JButton();
         borderButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
-        EditTextButton = new javax.swing.JButton();
-        EditTextField = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextAreaText = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,18 +122,9 @@ public class CommentEditUI extends javax.swing.JFrame {
             }
         });
 
-        EditTextButton.setText("Edit Text");
-        EditTextButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditTextButtonActionPerformed(evt);
-            }
-        });
-
-        EditTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EditTextFieldActionPerformed(evt);
-            }
-        });
+        jTextAreaText.setColumns(20);
+        jTextAreaText.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaText);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -127,49 +133,41 @@ public class CommentEditUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addComponent(fontButton))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(backgroundButton))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(borderButton))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel3)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel5))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(16, 16, 16)
+                                                .addComponent(fontButton))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(backgroundButton))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(borderButton))))
+                                    .addComponent(jLabel1)))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(EditTextButton))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(EditTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(87, 87, 87)
+                                .addComponent(applyButton)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(87, 87, 87)
-                .addComponent(applyButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(EditTextButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(EditTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(23, 23, 23)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(fontButton))
@@ -198,9 +196,23 @@ public class CommentEditUI extends javax.swing.JFrame {
     }//GEN-LAST:event_backgroundButtonActionPerformed
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
-		this.comment.setText(EditTextField.getText());
-		commentController.apply(commentOrigin, comment);
-		panel.applyStyle(commentOrigin);
+		if (this.newComment) {
+			String comment = jTextAreaText.getText().trim();
+			if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
+				try {
+					CommentableCell activeCell = (CommentableCell) uiController.
+						getActiveCell().
+						getExtension(CommentsExtension.NAME);
+					commentController.addComment(activeCell, comment);
+				} catch (Exception ex) {
+					System.out.println("ERRO ----> " + ex);
+					// nothing to do here yet
+				}
+			}
+		} else {
+			this.comment.setText(this.jTextAreaText.getText());
+			commentController.apply(commentOrigin, comment);
+		}
 		dispose();
     }//GEN-LAST:event_applyButtonActionPerformed
 
@@ -208,59 +220,7 @@ public class CommentEditUI extends javax.swing.JFrame {
 		commentController.changeBorder(comment);
     }//GEN-LAST:event_borderButtonActionPerformed
 
-    private void EditTextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTextButtonActionPerformed
-		EditTextUI call = new EditTextUI(null, false, uiController, comment);
-		call.setVisible(true);
-		commentController.changeText(comment);
-    }//GEN-LAST:event_EditTextButtonActionPerformed
-
-    private void EditTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTextFieldActionPerformed
-		// TODO add your handling code here:
-    }//GEN-LAST:event_EditTextFieldActionPerformed
-//
-//	/**
-//	 * @param args the command line arguments
-//	 */
-//	public static void main(String args[]) {
-//		/* Set the Nimbus look and feel */
-//		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-//		 */
-//		try {
-//			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.
-//				getInstalledLookAndFeels()) {
-//				if ("Nimbus".equals(info.getName())) {
-//					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//					break;
-//				}
-//			}
-//		} catch (ClassNotFoundException ex) {
-//			java.util.logging.Logger.getLogger(CommentEditUI.class.getName()).
-//				log(java.util.logging.Level.SEVERE, null, ex);
-//		} catch (InstantiationException ex) {
-//			java.util.logging.Logger.getLogger(CommentEditUI.class.getName()).
-//				log(java.util.logging.Level.SEVERE, null, ex);
-//		} catch (IllegalAccessException ex) {
-//			java.util.logging.Logger.getLogger(CommentEditUI.class.getName()).
-//				log(java.util.logging.Level.SEVERE, null, ex);
-//		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//			java.util.logging.Logger.getLogger(CommentEditUI.class.getName()).
-//				log(java.util.logging.Level.SEVERE, null, ex);
-//		}
-//		//</editor-fold>
-//
-//		/* Create and display the form */
-//		java.awt.EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				new CommentEditUI(uiController).setVisible(true);
-//			}
-//		});
-//	}
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton EditTextButton;
-    private javax.swing.JTextField EditTextField;
     private javax.swing.JButton applyButton;
     private javax.swing.JButton backgroundButton;
     private javax.swing.JButton borderButton;
@@ -269,5 +229,7 @@ public class CommentEditUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextAreaText;
     // End of variables declaration//GEN-END:variables
 }
