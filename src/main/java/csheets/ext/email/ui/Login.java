@@ -220,9 +220,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void TestEmailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TestEmailButtonActionPerformed
-		this.setAlwaysOnTop(false);
 		dispose();
-		new EmailTestDialog(null, true, this.controller, this.uiController, mail).
+		new EmailTestDialog(null, false, this.controller, this.uiController, mail).
 			setVisible(true);
     }//GEN-LAST:event_TestEmailButtonActionPerformed
 

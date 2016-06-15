@@ -14,6 +14,7 @@ import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
+import javax.mail.SendFailedException;
 import javax.mail.Session;
 
 /**
@@ -54,7 +55,7 @@ public class EmailController {
 	}
 
 	public void sendEmail(Email email, String to,
-						  String subject, String body) throws MessagingException {
+						  String subject, String body) throws MessagingException, SendFailedException {
 
 		email.sendMessage(to, subject, body);
 	}
