@@ -207,6 +207,13 @@ public class SpreadsheetImpl implements Spreadsheet {
 		return cells;
 	}
 
+    @Override
+    public SortedSet<Cell> getCells() {
+        return this.getCells(new Address(0, 0), new Address(this.getColumnCount(), this.getRowCount()));
+    }
+        
+        
+
 	public Cell[] getColumn(int index) {
 		Cell[] column = new Cell[rows + 1];
 		for (int row = 0; row <= rows; row++) {
