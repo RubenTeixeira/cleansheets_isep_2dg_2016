@@ -5,8 +5,10 @@
  */
 package csheets.ext.game;
 
+import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.ext.SpreadsheetExtension;
+import java.util.SortedSet;
 
 /**
  *
@@ -39,4 +41,8 @@ public class TictactoeSpreadsheetExtension extends SpreadsheetExtension {
 //	public UIExtension getUIExtension(UIController uiController) {
 //		return new UIGameExtension(this, uiController);
 //	}
+	@Override
+	public SortedSet<Cell> getCells() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 }

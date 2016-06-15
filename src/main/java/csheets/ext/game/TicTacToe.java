@@ -19,6 +19,7 @@ public class TicTacToe {
 	int COLUMN = 3;
 
 	private String[][] board;
+
 	/**
 	 * The workbook to which the spreadsheet belongs
 	 */
@@ -105,6 +106,6 @@ public class TicTacToe {
 	}
 
 	public String getValueAt(int i, int j) {
-		return board[i][j].getContent();
+		return board[i][j];
 	}
 }
