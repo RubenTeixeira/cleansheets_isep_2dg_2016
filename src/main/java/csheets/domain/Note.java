@@ -30,7 +30,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"TITULO"})})
+    @UniqueConstraint(columnNames = {"TITLE"})})
 public class Note {
 
     @Id
