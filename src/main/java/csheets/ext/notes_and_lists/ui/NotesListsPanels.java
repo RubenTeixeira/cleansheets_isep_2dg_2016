@@ -7,6 +7,7 @@ package csheets.ext.notes_and_lists.ui;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
+import csheets.domain.ListLine;
 import csheets.domain.Note;
 import csheets.ext.notes_and_lists.NotesListsController;
 import csheets.ext.notes_and_lists.NotesListsExtension;
@@ -44,9 +45,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 
     private DefaultComboBoxModel<Contact> contactModel;
     private DefaultListModel<List> contactListModel;
-    private DefaultListModel<List> listVersionModel;
+    private DefaultListModel<Integer> listVersionModel;
     private DefaultTableModel listDataModel;
-
+    
     /**
      * Creates new form EventsPanel
      *
@@ -71,6 +72,24 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         listVersionModel = new DefaultListModel();
         listDataModel = new DefaultTableModel();
     }
+    
+    private void defineTableModel() {
+        listDataModel = new DefaultTableModel(){
+            public Class<?> getColumnClass(int column) {
+                switch (column) {
+                    case 0:
+                        return Boolean.class;
+                    case 1:
+                        return String.class;
+                    default:
+                        return String.class;
+                }
+            }
+        };
+        listDataModel.setColumnIdentifiers(new Object[]{"Done","Text"});
+        tableListData.setModel(listDataModel);
+        tableListData.repaint();
+    }
 
     private void createActions() {
         addContactsComboBoxAction();
@@ -89,9 +108,11 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         cbListContact.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                System.out.println(e.getItem());
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    //controller.updateContactListsModel(contactListModel, e.getItem());
+                    contactListModel.clear();
+                    for (List list : controller.getContactLists(e.getItem())) {
+                        contactListModel.addElement(list);
+                    }
                     panelContactList.setVisible(true);
                     panelCreateList.setVisible(true);
                     panelListVersion.setVisible(false);
@@ -106,16 +127,20 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lstContactLists.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                //controller.updateListVersionsModel(listVersionModel, e.getSource());
-                panelListVersion.setVisible(true);
-                panelListData.setVisible(true);
-                panelListActions.setVisible(true);
-                if (checkboxEditList.isSelected()) {
-                    showListEdit();
-                    btnApply.setText("Edit");
-                } else {
-                    hideListEdit();
-                    btnApply.setText("Apply");
+                List selectedValue = lstContactLists.getSelectedValue();
+                if(selectedValue != null) {
+                    panelListVersion.setVisible(true);
+                    panelListData.setVisible(true);
+                    panelListActions.setVisible(true);
+                    listVersionModel.clear();
+                    for (List version : controller.getListVersions(selectedValue).values()) {
+                        listVersionModel.addElement(version.getVersionNumber());
+                    }
+                    if (checkboxEditList.isSelected()) {
+                        showListEdit(controller.getVersion(selectedValue,-1));
+                    } else {
+                        hideListEdit(controller.getVersion(selectedValue,-1));
+                    }
                 }
             }
         });
@@ -125,12 +150,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lstListVersions.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                /*if(edit) {
-                    e.getSource(); // show on edit mode
-                } else {
-                    popup cannot show this version because not on edit mode
-                    showing only the last version.
-                }*/
+                List selectedList = lstContactLists.getSelectedValue();
+                if(checkboxEditList.isSelected() && selectedList != null) {
+                    showListEdit(controller.getVersion(selectedList, lstListVersions.getSelectedValue()));
+                }
             }
         });
     }
@@ -139,29 +162,45 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         checkboxEditList.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == 1) {
-                    showListEdit();
-                    btnApply.setText("Edit");
-                } else {
-                    hideListEdit();
-                    btnApply.setText("Apply");
+                if(!btnApply.getText().equals("Create") && lstContactLists.getSelectedValue() != null) {
+                    if (checkboxEditList.isSelected()) {
+                        if(!lstListVersions.isSelectionEmpty())
+                            showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
+                        else {
+                            showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
+                        }
+                        btnApply.setText("Edit");
+                    } else {
+                        if(!lstListVersions.isSelectionEmpty())
+                            hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
+                        else {
+                            hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
+                        }
+                        btnApply.setText("Apply");
+                    }
                 }
             }
         });
     }
 
-    private void showListEdit() {
-        textAreadListData.setVisible(true);
+    private void showListEdit(List l) {
         textAreadListData.setEnabled(true);
+        textAreadListData.setVisible(true);
         tableListData.setVisible(false);
         tableListData.setEnabled(false);
+        textAreadListData.setText(l.getTitle()+"\n"+l.getText());
     }
 
-    private void hideListEdit() {
+    private void hideListEdit(List l) {
         textAreadListData.setVisible(false);
         textAreadListData.setEnabled(false);
-        tableListData.setVisible(true);
         tableListData.setEnabled(true);
+        tableListData.setVisible(true);
+        btnApply.setText("Apply");
+        defineTableModel();
+        for (ListLine line : l.getLines()) {
+            listDataModel.addRow(new Object[]{line.getCheck(),line.getText()});
+        }
     }
 
     @Override
@@ -256,7 +295,15 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblList = new javax.swing.JLabel();
         checkboxEditList = new javax.swing.JCheckBox();
         jScrollPane6 = new javax.swing.JScrollPane();
-        tableListData = new javax.swing.JTable();
+        tableListData = new javax.swing.JTable() {
+            public boolean isCellEditable(int row, int column) {
+                switch(column) {
+                    case 0: return true;
+                    case 1: return false;
+                    default: return false;
+                }
+            };
+        };
         jScrollPane7 = new javax.swing.JScrollPane();
         textAreadListData = new javax.swing.JTextArea();
         panelListActions = new javax.swing.JPanel();
@@ -317,22 +364,14 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblNoteVersion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNoteVersion.setText("Note Versions");
 
-        lstNoteVersions.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(lstNoteVersions);
 
         javax.swing.GroupLayout panelNoteVersionListLayout = new javax.swing.GroupLayout(panelNoteVersionList);
         panelNoteVersionList.setLayout(panelNoteVersionListLayout);
         panelNoteVersionListLayout.setHorizontalGroup(
             panelNoteVersionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNoteVersionListLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panelNoteVersionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNoteVersion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(lblNoteVersion, javax.swing.GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
         );
         panelNoteVersionListLayout.setVerticalGroup(
             panelNoteVersionListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -515,7 +554,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelContactListLayout.setHorizontalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblContactLists, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane4)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
         panelContactListLayout.setVerticalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -584,12 +623,12 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addComponent(lblList, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(checkboxEditList))
             .addGroup(panelListDataLayout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
         );
         panelListDataLayout.setVerticalGroup(
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -717,10 +756,18 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_btnNoteCreateActionPerformed
 
     private void btnCreateNewListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewListActionPerformed
+        if(cbListContact.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(panelLists, "No contact selected", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         panelListVersion.setVisible(false);
-        showListEdit();
         panelListData.setVisible(true);
         panelListActions.setVisible(true);
+        textAreadListData.setEnabled(true);
+        textAreadListData.setVisible(true);
+        textAreadListData.setText("");
+        tableListData.setVisible(false);
+        tableListData.setEnabled(false);
         checkboxEditList.setSelected(true);
         btnApply.setText("Create");
     }//GEN-LAST:event_btnCreateNewListActionPerformed
@@ -728,15 +775,43 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
         switch(evt.getActionCommand()) {
             case "Create": {
-                contactListModel.addElement(controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText()));
+                List newList = controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText());
+                if(newList == null) {
+                    JOptionPane.showMessageDialog(panelLists, "Couldn't create new list.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+                contactListModel.addElement(newList);
+                lstContactLists.setSelectedValue(newList, true);
+                checkboxEditList.setSelected(false);
+                hideListEdit(newList);
                 break;
             }
             case "Edit": {
-                controller.editList(lstContactLists.getSelectedValue(),textAreadListData.getText());
+                List list = controller.editList(lstContactLists.getSelectedValue(),textAreadListData.getText());
+                if(list == null) {
+                    JOptionPane.showMessageDialog(panelLists, "Couldn't edit list.", "Error", JOptionPane.ERROR_MESSAGE);
+                    break;
+                }
+                contactListModel.removeElement(lstContactLists.getSelectedValue());
+                contactListModel.addElement(list);
+                lstContactLists.setSelectedValue(list, true);
+                checkboxEditList.setSelected(false);
                 break;
             }
             case "Apply": {
-                //controller.applyList(lstContactLists.getSelectedValue(),listDataModel);
+                String title;
+                String message;
+                int icon;
+                /*if(controller.applyList(lstContactLists.getSelectedValue(),listDataModel.getDataVector()) != null) {
+                    title = "Success";
+                    message = "Your changes were saved with success.";
+                    icon = JOptionPane.PLAIN_MESSAGE;
+                } else {*/
+                    title = "Error";
+                    message = "Something was wrong when saving the info.";
+                    icon = JOptionPane.ERROR_MESSAGE;
+                //}
+                JOptionPane.showMessageDialog(panelLists, message, title, icon);
                 break;
             }
         }
@@ -786,7 +861,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JLabel lblNoteVersion;
     private javax.swing.JList<List> lstContactLists;
     private javax.swing.JList<String> lstContactNotes;
-    private javax.swing.JList<List> lstListVersions;
+    private javax.swing.JList<Integer> lstListVersions;
     private javax.swing.JList<String> lstNoteVersions;
     private javax.swing.JPanel panelContactList;
     private javax.swing.JPanel panelContactNoteList;

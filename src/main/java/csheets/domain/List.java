@@ -8,11 +8,11 @@ package csheets.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -23,13 +23,14 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"TITLE"})})
+    @UniqueConstraint(columnNames = {"CONTACT","TITLE"})})
 public class List implements Notation<List>, Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Version version;
 
     private String title;
@@ -52,9 +53,9 @@ public class List implements Notation<List>, Serializable {
             lines.add(new ListLine(line));
         }
         this.contact = contact;
-        this.versionNum = 0;
         this.time = Calendar.getInstance();
         this.version = new Version();
+        this.versionNum = version.addVersion();
     }
 
     protected List(String title, String text, Contact contact, Version version) {
@@ -69,6 +70,15 @@ public class List implements Notation<List>, Serializable {
 
     public String getTitle() {
         return title;
+    }
+    
+    public String getText() {
+        String text = "";
+        for (ListLine line : lines) {
+            text += line.getText()+"\n";
+        }
+        // to remove last "\n"
+        return text.substring(0, text.length()-2);
     }
 
     public java.util.List<ListLine> getLines() {
@@ -122,7 +132,6 @@ public class List implements Notation<List>, Serializable {
 
     @Override
     public String toString() {
-        return title + " "
-                + "(" + time.toString() + ")";
+        return title;
     }
 }
