@@ -10,17 +10,30 @@
 	us -> ui : selects edit script
 	create controller
 	ui -> controller : new()
+  deactivate ui
 	us <-- ui : asks info
     us -> ui : introduces
+  activate ui
   activate controller
 	ui -> controller : saveScript()
   deactivate ui
-    create code
-	controller -> code : new(name, type, content, exec)
-	activate uicontrol
 	controller -> uicontrol : getUIController()
-	activate work
+  activate uicontrol
 	uicontrol -> work : getActiveWorkbook()
+  deactivate uicontrol
+  activate work
+	work-> work: getScript(name)
+	controller <- work : script
+	controller -> work : remove(script)
+  deactivate controller
+	work -> work : remove(script)
+  deactivate work
+    create code
+  activate controller
+	controller -> code : new(name, type, content, exec)
+	controller -> work : save(script)
+  deactivate controller
+	activate work
     deactivate uicontrol
 	work -> work : addScript()
   deactivate work
