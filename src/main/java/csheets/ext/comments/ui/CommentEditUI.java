@@ -5,6 +5,7 @@
  */
 package csheets.ext.comments.ui;
 
+import csheets.core.Cell;
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
@@ -26,6 +27,8 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 	private Comment comment;
 
 	private Comment commentOrigin;
+
+	private Cell cell;
 
 	private boolean newComment = false;
 
@@ -53,6 +56,13 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 	public CommentEditUI(UIController uiController, Comment comment,
 						 boolean newComment) {
 		this(uiController, comment);
+		this.newComment = newComment;
+	}
+
+	public CommentEditUI(UIController uiController, Comment comment,
+						 boolean newComment, Cell cell) {
+		this(uiController, comment);
+		this.cell = cell;
 		this.newComment = newComment;
 	}
 
@@ -199,9 +209,14 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 			String content = jTextAreaText.getText().trim();
 			if (!content.isEmpty() && !"".equalsIgnoreCase(content)) {
 				try {
-					CommentableCell activeCell = (CommentableCell) uiController.
-						getActiveCell().
-						getExtension(CommentsExtension.NAME);
+					CommentableCell activeCell;
+					if (uiController != null) {
+						activeCell = (CommentableCell) uiController.
+							getActiveCell().getExtension(CommentsExtension.NAME);
+					} else {
+						activeCell = (CommentableCell) cell.
+							getExtension(CommentsExtension.NAME);
+					}
 					commentController.
 						addComment(activeCell, content, this.comment.getFont(), this.comment.
 								   getBackgroundColor(), this.comment.

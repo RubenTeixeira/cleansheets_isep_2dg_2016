@@ -1,5 +1,6 @@
 package csheets.ext.comments.ui;
 
+import csheets.core.Cell;
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.style.ui.BorderChooser;
@@ -26,6 +27,8 @@ public class CommentController {
 	 */
 	private final UIController uiController;
 
+	private Cell cell;
+
 	/**
 	 * Creates a new comment controller.
 	 *
@@ -33,6 +36,11 @@ public class CommentController {
 	 */
 	public CommentController(UIController uiController) {
 		this.uiController = uiController;
+	}
+
+	public CommentController(UIController uiController, Cell cell) {
+		this.uiController = uiController;
+		this.cell = cell;
 	}
 
 	/**
@@ -52,7 +60,10 @@ public class CommentController {
 		String userName = System.getProperty("user.name");
 		// Stores the comment
 		cell.addComment(userName, commentString, font, bgColor, border);
-		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		if (uiController != null) {
+			uiController.
+				setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		}
 		Notification.commentInformer().notifyChange();
 		return true;
 	}
@@ -63,8 +74,11 @@ public class CommentController {
 		String userName = System.getProperty("user.name");
 		// Stores the comment
 		cell.addComment(userName, commentString);
-		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
-		Notification.commentInformer().notifyChange();
+		if (uiController != null) {
+			uiController.
+				setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		}
+		Notification.commentInformer().notifyChange(cell);
 		return true;
 	}
 
@@ -143,7 +157,12 @@ public class CommentController {
 	}
 
 	public void changeText(Comment comment) {
-		new CommentEditUI(uiController, comment).setVisible(true);
+		if (cell == null) {
+			new CommentEditUI(uiController, comment).setVisible(true);
+		} else {
+			new CommentEditUI(uiController, comment, false, cell).
+				setVisible(true);
+		}
 	}
 
 	public void apply(Comment origin, Comment newComment) {
