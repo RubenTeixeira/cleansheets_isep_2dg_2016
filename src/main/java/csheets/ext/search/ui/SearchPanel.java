@@ -208,7 +208,13 @@ public class SearchPanel extends JPanel {
             int column = cellAddress.charAt(0) - 'A';
 
             if (!uiController.getActiveWorkbook().getParentFileName().equals(cell.getWorkBook())) {
-                JOptionPane.showMessageDialog(this, "This cell is in another workbook.");
+                JOptionPane.showMessageDialog(this, "This cell is in a different workbook.");
+                return;
+            }
+            
+            if (!uiController.getActiveSpreadsheet().getTitle().trim().
+                    replaceAll("\\s+", " ").equals(cell.getSpreadSheet())) {
+                JOptionPane.showMessageDialog(this, "This cell is in a different spreadsheet.");
                 return;
             }
 
