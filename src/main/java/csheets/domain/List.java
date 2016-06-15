@@ -30,7 +30,6 @@ public class List implements Notation<List>, Serializable {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
     private Version version;
 
     private String title;
