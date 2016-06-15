@@ -1,7 +1,6 @@
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook_old.ui;
 
-import csheets.ext.distributedWorkbook.ui.*;
-import csheets.ext.distributedWorkbook.SearchWorkbook;
+import csheets.ext.distributedWorkbook_old.SearchWorkbook;
 import csheets.ui.ctrl.UIController;
 
 /**
@@ -131,10 +130,10 @@ public class DistributedWorkbookSearchController {
 	 * Set name of workbook to search.
 	 *
 	 * @param target host
-	 * @param workbookNamePattern name of workbook
+	 * @param workbookName name of workbook
 	 */
-	public void sendNameOfWorkbookToSearch(String target, String workbookNamePattern) {
-		tcpService.searchWorkbook(target, workbookNamePattern);
+	public void sendNameOfWorkbookToSearch(String target, String workbookName) {
+		tcpService.searchWorkbook(target, workbookName);
 	}
 
 	/**

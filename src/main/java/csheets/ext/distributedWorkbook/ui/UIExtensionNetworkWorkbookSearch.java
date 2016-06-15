@@ -1,10 +1,11 @@
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook.ui;
 
-import csheets.ext.distributedWorkbook.ui.*;
 import csheets.ext.Extension;
+import csheets.ext.distributedWorkbook.NetworkWorkbookSearchExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 
@@ -15,7 +16,7 @@ import javax.swing.JMenu;
  * @see UIExtension
  * @author José Barros
  */
-public class UIExtensionWorkbookSearch extends UIExtension {
+public class UIExtensionNetworkWorkbookSearch extends UIExtension {
 
 	/**
 	 * The icon to display with the extension's name
@@ -30,12 +31,12 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	/**
 	 * The menu of the extension
 	 */
-	private WorkbookSearchMenu menu;
+	private JComponent menu;
 
 	/**
 	 * Controller.
 	 */
-	private DistributedWorkbookSearchController distributedSearchController;
+	private NetworkWorkbookSearchController networkSearchController;
 
 	/**
 	 * The menu of the extension
@@ -43,8 +44,8 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 * @param extension extension
 	 * @param uiController ui controller
 	 */
-	public UIExtensionWorkbookSearch(Extension extension,
-									 UIController uiController) {
+	public UIExtensionNetworkWorkbookSearch(Extension extension,
+											UIController uiController) {
 		super(extension, uiController);
 	}
 
@@ -55,7 +56,12 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 */
 	@Override
 	public Icon getIcon() {
-		return null;
+		if (icon == null) {
+			icon = new ImageIcon(
+				NetworkWorkbookSearchExtension.class.
+				getResource("res/img/find.png"));
+		}
+		return icon;
 	}
 
 	/**
@@ -66,13 +72,7 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 */
 	@Override
 	public JMenu getMenu() {
-		if (menu == null) {
-			if (distributedSearchController == null) {
-				distributedSearchController = new DistributedWorkbookSearchController();
-			}
-			menu = new WorkbookSearchMenu(uiController, distributedSearchController);
-		}
-		return menu;
+		return null;
 	}
 
 	/**
@@ -82,7 +82,13 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 */
 	@Override
 	public JComponent getSideBar() {
-		return null;
+		if (sideBar == null) {
+			if (networkSearchController == null) {
+				networkSearchController = new NetworkWorkbookSearchController();
+			}
+			sideBar = new NetworkWorkbookSearchPanel(uiController, networkSearchController);
+		}
+		return sideBar;
 	}
 
 }

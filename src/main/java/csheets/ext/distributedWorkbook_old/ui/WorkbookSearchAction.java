@@ -1,6 +1,5 @@
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook_old.ui;
 
-import csheets.ext.distributedWorkbook.ui.*;
 import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
@@ -31,7 +30,7 @@ public class WorkbookSearchAction extends BaseAction {
 
 	@Override
 	protected String getName() {
-		return "Instance Workbook Search";
+		return "Network Workbook Search";
 	}
 
 	@Override

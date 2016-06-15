@@ -3,4 +3,4 @@
  *
  * @author José Barros
  */
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook_old.ui;

@@ -1,7 +1,7 @@
 package csheets.ext.distributedWorkbook;
 
-import csheets.ext.distributedWorkbook.ui.UIExtensionWorkbookSearch;
 import csheets.ext.Extension;
+import csheets.ext.distributedWorkbook.ui.UIExtensionNetworkWorkbookSearch;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 
@@ -13,17 +13,17 @@ import csheets.ui.ext.UIExtension;
  * @see Extension
  * @author José Barros
  */
-public class WorkbookSearchExtension extends Extension {
+public class NetworkWorkbookSearchExtension extends Extension {
 
 	/**
 	 * The name of extension
 	 */
-	public static final String NAME = "Distributed Workbook Search";
+	public static final String NAME = "Network Workbook Search";
 
 	/**
 	 * Creates a new workbook extension.
 	 */
-	public WorkbookSearchExtension() {
+	public NetworkWorkbookSearchExtension() {
 		super(NAME);
 	}
 
@@ -35,6 +35,6 @@ public class WorkbookSearchExtension extends Extension {
 	 */
 	@Override
 	public UIExtension getUIExtension(UIController uiController) {
-		return new UIExtensionWorkbookSearch(this, uiController);
+		return new UIExtensionNetworkWorkbookSearch(this, uiController);
 	}
 }

@@ -1,6 +1,5 @@
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook_old.ui;
 
-import csheets.ext.distributedWorkbook.ui.*;
 import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.KeyEvent;

@@ -2,18 +2,28 @@ package csheets.ext.distributedWorkbook.ui;
 
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
+import csheets.ext.distributedWorkbook.WorkBookDTO;
+import csheets.framework.ObjectSerialization;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.protocols.tcp.TcpClient;
 import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
+import java.io.IOException;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
  */
 public class TcpService extends Notifier {
+
+	private static final String PERMISSION_REQUEST_HEADER = ":distributed-permission-request";
+	private static final String PERMISSION_RESPONSE_HEADER = ":distributed-reply";
+	private static final String SEARCH_REQUEST_HEADER = ":distributed-search";
+	private static final String SEARCH_RESPONSE_HEADER = ":distributed-result";
 
 	/**
 	 * Server instance.
@@ -23,90 +33,115 @@ public class TcpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
+	 * @param pattern Workbook name pattern
 	 */
-	public void server() {
+	public void server(String pattern) {
 
 		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
-							 @Override
-							 public void run() {
-								 server = NetworkManager.tcp();
+			@Override
+			public void run() {
+				server = NetworkManager.tcp();
 
-								 server.
-									 expect(":distributed-request", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												String message = ((String) args.
-													get("message")) + " with " + args.
-													get("hostname");
+				// Expect permission request (YES/NO/DEFAULT)
+				server.
+					expect(PERMISSION_REQUEST_HEADER, new Action() {
+						@Override
+						public void run(
+							Map<String, Object> args) {
+								System.out.
+								println("Received permission REQUEST");
+								String message = ((String) args.
+								get("message")) + " with " + args.
+								get("hostname");
 
-												String destination = ((String) args.
-													get("from")).
-													split(":")[0] + ":" + AppSettings.
-													instance().get("TCP_PORT");
+								String destination = ((String) args.
+								get("from")).
+								split(":")[0] + ":" + AppSettings.
+								instance().get("TCP_PORT");
 
-												int reply = JOptionPane.
-													showConfirmDialog(null, message);
+								int reply = JOptionPane.
+								showConfirmDialog(null, message);
 
-												switch (reply) {
-													case JOptionPane.YES_OPTION: {
-														server.
-															send(":distributed-reply", destination, "TRUE");
-														break;
-													}
-													case JOptionPane.NO_OPTION: {
-														server.
-															send(":distributed-reply", destination, "FALSE");
-														break;
-													}
-													default:
-														server.
-															send(":distributed-reply", destination, "FALSE");
-														break;
-												}
-											}
-										});
+								switch (reply) {
+									case JOptionPane.YES_OPTION: {
+										server.
+										send(PERMISSION_RESPONSE_HEADER, destination, "TRUE");
+										break;
+									}
+									case JOptionPane.NO_OPTION: {
+										server.
+										send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+										break;
+									}
+									default:
+										server.
+										send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+										break;
+								}
+							}
+					});
 
-								 server.
-									 expect(":distributed-reply", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												notifyChange(args.
-													get("message"));
-											}
-										});
+				// expect permission response (TRUE/FALSE)
+				server.
+					expect(PERMISSION_RESPONSE_HEADER, new Action() {
+						@Override
+						public void run(
+							Map<String, Object> args) {
+								System.out.
+								println("Received permission RESPONSE");
+								if (((String) args.get("message")).
+								equalsIgnoreCase("TRUE")) {
+									// POSITIVE RESPONSE: initialize search
+									String target = ((String) args.get("from")).
+									split(":")[0] + ":" + AppSettings.
+									instance().get("TCP_PORT");
 
-								 server.
-									 expect(":distributed-search", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												String[] search = new String[3];
-												search[0] = "Search";
-												search[1] = ((String) args.
-													get("message"));
-												search[2] = ((String) args.
-													get("from")).
-													split(":")[0] + ":" + AppSettings.
-													instance().get("TCP_PORT");
+									searchWorkbookOnTarget(target, pattern);
+								}
+							}
+					});
 
-												notifyChange(search);
-											}
-										});
+				server.
+					expect(SEARCH_REQUEST_HEADER, new Action() {
+						@Override
+						public void run(
+							Map<String, Object> args) {
+								System.out.println("Received search REQUEST");
+								String[] search = new String[3];
+								search[0] = "Search";
+								search[1] = ((String) args.
+								get("message"));
+								search[2] = ((String) args.
+								get("from")).
+								split(":")[0] + ":" + AppSettings.
+								instance().get("TCP_PORT");
 
-								 server.
-									 expect(":distributed-result", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												notifyChange(args.
-													get("message"));
-											}
-										});
+								notifyChange(search);
+							}
+					});
 
-							 }
-						 }
+				server.
+					expect(SEARCH_RESPONSE_HEADER, new Action() {
+						@Override
+						public void run(
+							Map<String, Object> args) {
+								System.out.println("Received a new result");
+								String message = (String) args.get("message");
+								WorkBookDTO deSerializedObject;
+								try {
+									deSerializedObject = (WorkBookDTO) ObjectSerialization.
+									fromString(message);
+								} catch (IOException | ClassNotFoundException ex) {
+									Logger.getLogger(TcpService.class.getName()).
+									log(Level.SEVERE, null, ex);
+									return;
+								}
+								notifyChange(deSerializedObject);
+							}
+					});
+
+			}
+		}
 		);
 
 		ThreadManager.run(
@@ -114,21 +149,43 @@ public class TcpService extends Notifier {
 	}
 
 	/**
-	 * Initializes a client following the TCP protocol.
+	 * Asks for search permission to given target host.
 	 *
 	 * @param target The target IPv4:Port
 	 * @param message Message to send to the target.
 	 */
-	public void client(String target, String message) {
-		ThreadManager.create("ipc.distributed-tcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":distributed-request", target, message);
-							 }
-						 });
+	public void requestPermission(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-tcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending PERMISSION_REQUEST_HEADER");
+					new TcpClient(0).
+					send(PERMISSION_REQUEST_HEADER, target, message);
+				}
+			});
 
-		ThreadManager.run("ipc.distributed-tcpClient");
+		ThreadManager.run("ipc.distributed-tcpClient" + target);
+	}
+
+	/**
+	 * Sends search pattern to the target host
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void searchWorkbookOnTarget(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-searchTcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending SEARCH_REQUEST_HEADER");
+					new TcpClient(0).
+					send(SEARCH_REQUEST_HEADER, target, message);
+				}
+			});
+
+		ThreadManager.run("ipc.distributed-searchTcpClient" + target);
 	}
 
 	/**
@@ -137,43 +194,27 @@ public class TcpService extends Notifier {
 	 * @param target The target IPv4:Port
 	 * @param message Message to send to the target.
 	 */
-	public void searchWorkbook(String target, String message) {
-		ThreadManager.create("ipc.distributed-searchTcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":distributed-search", target, message);
-							 }
-						 });
+	public void sendSearchResult(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-resultTcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending SEARCH_RESPONSE_HEADER");
+					new TcpClient(0).
+					send(SEARCH_RESPONSE_HEADER, target, message);
+				}
+			});
 
-		ThreadManager.run("ipc.distributed-searchTcpClient");
-	}
-
-	/**
-	 * Initializes a client following the TCP protocol.
-	 *
-	 * @param target The target IPv4:Port
-	 * @param message Message to send to the target.
-	 */
-	public void searchResult(String target, String message) {
-		ThreadManager.create("ipc.distributed-resultTcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":distributed-result", target, message);
-							 }
-						 });
-
-		ThreadManager.run("ipc.distributed-resultTcpClient");
+		ThreadManager.run("ipc.distributed-resultTcpClient" + target);
 	}
 
 	/**
 	 * Stops all the TCP services.
 	 */
 	public void stop() {
-		ThreadManager.destroy("ipc.distributed-tcpServer");
-		ThreadManager.destroy("ipc.distributed-tcpClient");
-		ThreadManager.destroy("ipc.distributed-searchTcpClient");
-		ThreadManager.destroy("ipc.distributed-resultTcpClient");
+		ThreadManager.destroy("ipc.distributed-tcpServer*");
+		ThreadManager.destroy("ipc.distributed-tcpClient*");
+		ThreadManager.destroy("ipc.distributed-searchTcpClient*");
+		ThreadManager.destroy("ipc.distributed-resultTcpClient*");
 	}
 }

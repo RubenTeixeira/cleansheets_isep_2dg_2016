@@ -1,9 +1,11 @@
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbook_old.ui;
 
 import csheets.ext.Extension;
+import csheets.ext.distributedWorkbook.NetworkWorkbookSearchExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 
@@ -54,7 +56,11 @@ public class UIExtensionWorkbookSearch extends UIExtension {
 	 */
 	@Override
 	public Icon getIcon() {
-		return null;
+		if (icon == null) {
+			icon = new ImageIcon(
+				NetworkWorkbookSearchExtension.class.getResource("res/img/find.png"));
+		}
+		return icon;
 	}
 
 	/**

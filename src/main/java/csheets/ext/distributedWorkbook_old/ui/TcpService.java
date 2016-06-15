@@ -1,6 +1,5 @@
-package csheets.ext.distributedWorkbook_1_2.ui;
+package csheets.ext.distributedWorkbook_old.ui;
 
-import csheets.ext.distributedWorkbook.ui.*;
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.framework.volt.Action;
