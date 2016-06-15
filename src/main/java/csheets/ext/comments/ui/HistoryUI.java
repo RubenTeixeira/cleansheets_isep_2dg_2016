@@ -7,8 +7,6 @@ package csheets.ext.comments.ui;
 
 import csheets.ext.comments.Comment;
 import csheets.ui.ctrl.UIController;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 
 /**
  *
@@ -21,9 +19,6 @@ public class HistoryUI extends javax.swing.JPanel {
 	private final UIController uiController;
 
 	private Comment comment;
-
-	private JPanel jPanel2;
-	private BoxLayout layout;
 
 	/**
 	 * Creates new form HistoryUI

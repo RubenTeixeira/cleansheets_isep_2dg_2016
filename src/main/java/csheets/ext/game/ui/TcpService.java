@@ -1,206 +1,195 @@
 package csheets.ext.game.ui;
 
-import csheets.AppSettings;
 import csheets.ext.NetworkManager;
-import csheets.framework.volt.Action;
-import csheets.framework.volt.protocols.tcp.TcpClient;
-import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import vendor.volt.Action;
+import vendor.volt.Request;
+import vendor.volt.protocols.tcp.TcpClient;
+import vendor.volt.protocols.tcp.TcpServer;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
  */
 public class TcpService extends Notifier {
 
-	/**
-	 * Server instance.
-	 */
-	private TcpServer server;
+    /**
+     * Server instance.
+     */
+    private TcpServer server;
 
-	String continuousTarget;
+    String continuousTarget;
 
-	List<String> connectedInstances;
+    List<String> connectedInstances;
 
-	GamePanel panel;
+    GamePanel panel;
 
-	// Empty constructor
-	public TcpService() {
-	}
+    // Empty constructor
+    public TcpService() {
+    }
 
-	public TcpService(GamePanel ui) {
-		connectedInstances = new ArrayList<>();
-		this.panel = ui;
-	}
+    public TcpService(GamePanel ui) {
+        connectedInstances = new ArrayList<>();
+        this.panel = ui;
+    }
 
-	/**
-	 * Initializes a server following the UDP protocol.
-	 *
-	 * @param port The server port, customized by the user.
-	 */
-	public void server(int port) {
-		ThreadManager.create("ipc.game-tcpServer", new Thread() {
-							 @Override
-							 public void run() {
-								 server = NetworkManager.tcp();
+    /**
+     * Initializes a server following the UDP protocol.
+     *
+     * @param port The server port, customized by the user.
+     */
+    public void server(int port) {
+        ThreadManager.create("ipc.game-tcpServer", new Thread() {
+            @Override
+            public void run() {
+                server = NetworkManager.tcp();
 
-								 server.expect(":game-request", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   String message = ((String) args.
-													   get("message")) + " with " + args.
-													   get("hostname");
+                server.expect(":game-request", new Action() {
+                    @Override
+                    public void run(Request request) {
+                        String message = request.message() + " with " + request.hostname();
 
-												   String destination = ((String) args.
-													   get("from")).
-													   split(":")[0] + ":" + AppSettings.
-													   instance().
-													   get("TCP_PORT");
+                        String destination = server.target(request.from());
 
-												   int reply = JOptionPane.
-													   showConfirmDialog(null, message);
+                        int reply = JOptionPane.
+                                showConfirmDialog(null, message);
 
-												   switch (reply) {
-													   case JOptionPane.YES_OPTION: {
-														   server.
-															   send(":game-reply", destination, "TRUE");
-														   break;
-													   }
-													   case JOptionPane.NO_OPTION: {
-														   server.
-															   send(":game-reply", destination, "FALSE");
-														   break;
-													   }
-													   default:
-														   server.
-															   send(":game-reply", destination, "FALSE");
-														   break;
-												   }
-											   }
-										   });
-								 server.expect(":game-reply", new Action() {
-											   @Override
-											   public void run(
-												   Map<String, Object> args) {
-												   notifyChange(args.
-													   get("message"));
-											   }
-										   });
+                        switch (reply) {
+                            case JOptionPane.YES_OPTION: {
+                                server.
+                                        send(":game-reply", destination, "TRUE");
+                                break;
+                            }
+                            case JOptionPane.NO_OPTION: {
+                                server.
+                                        send(":game-reply", destination, "FALSE");
+                                break;
+                            }
+                            default:
+                                server.
+                                        send(":game-reply", destination, "FALSE");
+                                break;
+                        }
+                    }
+                });
+                server.expect(":game-reply", new Action() {
+                    @Override
+                    public void run(Request request) {
+                        notifyChange(request.message());
+                    }
+                });
 
-								 server.
-									 expect(":game-stopped", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												JOptionPane.
-													showMessageDialog(panel, "Game has been stopped.");
-											}
-										});
-								 server.
-									 expect(":game-update", new Action() {
-											@Override
-											public void run(
-												Map<String, Object> args) {
-												notifyChange(args.get("message"));
-											}
-										});
+                server.
+                        expect(":game-stopped", new Action() {
+                            @Override
+                            public void run(Request request) {
+                                JOptionPane.
+                                        showMessageDialog(panel, "Game has been stopped.");
+                            }
+                        });
+                server.
+                        expect(":game-update", new Action() {
+                            @Override
+                            public void run(Request request) {
+                                notifyChange(request.message());
+                            }
+                        });
 
-							 }
-						 });
+            }
+        });
 
-		ThreadManager.run("ipc.game-tcpServer");
-	}
+        ThreadManager.run("ipc.game-tcpServer");
+    }
 
-	public void setContinuousTarget(String target) {
-		continuousTarget = target;
-	}
+    public void setContinuousTarget(String target) {
+        continuousTarget = target;
+    }
 
-	/**
-	 * Initializes a client following the TCP protocol.
-	 *
-	 * @param target The target IPv4:Port
-	 * @param message Message to send to the target.
-	 */
-	public void client(String target, String message) {
-		ThreadManager.create("ipc.game-tcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":game-request", target, message);
-							 }
-						 });
+    /**
+     * Initializes a client following the TCP protocol.
+     *
+     * @param target The target IPv4:Port
+     * @param message Message to send to the target.
+     */
+    public void client(String target, String message) {
+        ThreadManager.create("ipc.game-tcpClient", new Thread() {
+            @Override
+            public void run() {
+                new TcpClient(0).
+                        send(":game-request", target, message);
+            }
+        });
 
-		ThreadManager.run("ipc.game-tcpClient");
-	}
+        ThreadManager.run("ipc.game-tcpClient");
+    }
 
-	public void continuousSending(String message) {
-		ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
-							 @Override
-							 public void run() {
+    public void continuousSending(String message) {
+        ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
+            @Override
+            public void run() {
 //								 new TcpClient(0).
 //									 send(":game-request", continuousTarget, message);
-								 int reply = JOptionPane.
-									 showConfirmDialog(panel, "::. Receive information .::\n"
-													   + "A host " + continuousTarget + " wants to play "
-													   + " with you.\n Game: " + message + " Do you wish to play with him ?");
+                int reply = JOptionPane.
+                        showConfirmDialog(panel, "::. Receive information .::\n"
+                                + "A host " + continuousTarget + " wants to play "
+                                + " with you.\n Game: " + message + " Do you wish to play with him ?");
 
-								 if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION) {
-									 return;
-								 }
+                if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION) {
+                    return;
+                }
 
-								 if (reply == JOptionPane.YES_OPTION) {
-									 JOptionPane.
-										 showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
-								 }
+                if (reply == JOptionPane.YES_OPTION) {
+                    JOptionPane.
+                            showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
+                }
 
-							 }
-						 });
-		ThreadManager.run("ipc.game-continuousTcpClient");
-	}
+            }
+        });
+        ThreadManager.run("ipc.game-continuousTcpClient");
+    }
 
-	/**
-	 * End game.
-	 */
-	public void stopContinuousSending() {
-		ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":game-stopped", continuousTarget, "STOP");
+    /**
+     * End game.
+     */
+    public void stopContinuousSending() {
+        ThreadManager.create("ipc.game-continuousTcpClient", new Thread() {
+            @Override
+            public void run() {
+                new TcpClient(0).
+                        send(":game-stopped", continuousTarget, "STOP");
 
-							 }
-						 });
-		ThreadManager.run("ipc.game-continuousTcpClient");
-	}
+            }
+        });
+        ThreadManager.run("ipc.game-continuousTcpClient");
+    }
 
-	/**
-	 * Update Active game list.
-	 *
-	 * @param target the target
-	 */
-	public void updateOpponent(String target) {
-		ThreadManager.create("ipc.game-opponetTcpClient", new Thread() {
-							 @Override
-							 public void run() {
-								 new TcpClient(0).
-									 send(":game-update", target, "update");
+    /**
+     * Update Active game list.
+     *
+     * @param target the target
+     */
+    public void updateOpponent(String target) {
+        ThreadManager.create("ipc.game-opponetTcpClient", new Thread() {
+            @Override
+            public void run() {
+                new TcpClient(0).
+                        send(":game-update", target, "update");
 
-							 }
-						 });
-		ThreadManager.run("ipc.game-opponentTcpClient");
-	}
+            }
+        });
+        ThreadManager.run("ipc.game-opponentTcpClient");
+    }
 
-	/**
-	 * Stops all the TCP services.
-	 */
-	public void stop() {
-		server.shutdown();
-		ThreadManager.destroy("ipc.game-tcpServer");
-		ThreadManager.destroy("ipc.game-tcpClient");
-	}
+    /**
+     * Stops all the TCP services.
+     */
+    public void stop() {
+        server.shutdown();
+        ThreadManager.destroy("ipc.game-tcpServer");
+        ThreadManager.destroy("ipc.game-tcpClient");
+    }
 }

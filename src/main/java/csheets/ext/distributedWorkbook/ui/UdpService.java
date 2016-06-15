@@ -2,16 +2,16 @@ package csheets.ext.distributedWorkbook.ui;
 
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;
-import csheets.framework.volt.Action;
-import csheets.framework.volt.protocols.udp.UdpClient;
-import csheets.framework.volt.protocols.udp.UdpServer;
 import csheets.notification.Notifier;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import vendor.volt.Action;
+import vendor.volt.Request;
+import vendor.volt.protocols.udp.UdpClient;
+import vendor.volt.protocols.udp.UdpServer;
 
 /**
  * This service allows to easily set up an run the UDP protocol.
@@ -41,47 +41,37 @@ public class UdpService extends Notifier {
 				server.
 					expect(BROADCAST_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-//
-//												if (server.same(args.
-//													get("from"))) {
-//													return;
-//												}
-								// Destination = Target's IP and Port
-								System.out.println("Received BROADCAST_HEADER");
-								String destination = ((String) args.
-								get("from")).split(":")[0] + ":" + AppSettings.
-								instance().get("UDP_PORT");
-
-								System.out.println("Sending PORT_HEADER");
-								server.
-								send(PORT_HEADER, destination, AppSettings.
-									 instance().
-									 get("TCP_PORT"));
-							}
+						public void run(Request request) {
+//							if (request.same()) {
+//								return;
+//							}
+							// Destination = Target's IP and Port
+							System.out.println("Received BROADCAST_HEADER");
+							String destination = server.target(request.from());
+							System.out.println("Sending PORT_HEADER");
+							server.
+							send(PORT_HEADER, destination, AppSettings.
+								 instance().
+								 get("TCP_PORT"));
+						}
 					});
 
 				server.
 					expect(PORT_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-								System.out.println("Received PORT_HEADER");
-								List<String> ports = (List<String>) args.
-								get("distributed-port");
+						public void run(Request request) {
+							System.out.println("Received PORT_HEADER");
+							List<String> ports = request.get("distributed-port");
 
-								List<String> addresses = new ArrayList<>();
+							List<String> addresses = new ArrayList<>();
 
-								for (String port : ports) {
-									addresses.
-									add((((String) args.
-										get("from")).
-										split(":")[0]) + ":" + port);
-								}
-
-								notifyChange(addresses);
+							for (String port : ports) {
+								addresses.
+								add(request.from() + ":" + port);
 							}
+
+							notifyChange(addresses);
+						}
 					});
 
 			}

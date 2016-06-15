@@ -1,12 +1,13 @@
 package csheets.ext.secureCommunications;
 
-import csheets.framework.volt.Channel;
-import csheets.framework.volt.encryption.Encrypter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Observer;
+import vendor.volt.Channel;
+import vendor.volt.Request;
+import vendor.volt.support.Encrypter;
 
 /**
  *
@@ -31,7 +32,7 @@ public class OutgoingChannel extends Channel {
 	}
 
 	@Override
-	public void after(Map<String, Object> args, Map<String, Object> dependencies) {
+	public void after(Request request, Map<String, Object> dependencies) {
 		// S -> Sent
 		// SE -> Sent Encrypted
 		// R -> Received
@@ -40,18 +41,20 @@ public class OutgoingChannel extends Channel {
 		String outgoing = "S";
 
 		try {
-			Encrypter.decrypt((String) args.get("message"), key);
+			Encrypter.decrypt(request.message(), key);
 
 			outgoing += "E";
 		} catch (Exception e) {
 			// Ignore the exception and don't do anything with the message.
 		}
 
-		outgoing += ":" + args.get("length");
-
-		for (Observer observer : this.observers) {
-			observer.update(null, outgoing);
-		}
+		outgoing += ":" + request.length();
+//
+//                synchronized (observers) {
+//                    for (Observer observer : this.observers) {
+//                            observer.update(null, outgoing);
+//                    }
+//                }
 	}
 
 }

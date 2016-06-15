@@ -348,7 +348,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
      * @return chartPanel User Interface to observe the communications.
      */
     private ChartPanel createPane(Observer observer) {
-        this.controller.analyser(observer);
+        //this.controller.analyser(observer);
         String unit = changeUnits(jTabbedPaneSecureCommunications.getHeight());
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

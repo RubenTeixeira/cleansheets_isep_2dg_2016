@@ -66,7 +66,7 @@ public class NetworkWorkbookSearchController {
 	 * @param permissionMessage the message the permission request shall carry
 	 */
 	public void initiateSearch(String target, String permissionMessage) {
-		this.tcpService.requestPermission(target, permissionMessage);
+		//this.tcpService.requestPermission(target, permissionMessage);
 	}
 
 	/**
@@ -144,7 +144,7 @@ public class NetworkWorkbookSearchController {
 	 */
 	private void startTcpService(String pattern) {
 		try {
-			this.tcpService.server(pattern);
+			//this.tcpService.server(pattern);
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -187,6 +187,6 @@ public class NetworkWorkbookSearchController {
 	 * @param result The string representation of the result
 	 */
 	void sendSearchResult(String target, String result) {
-		tcpService.sendSearchResult(target, result.replaceAll("\n", "|"));
+		//tcpService.sendSearchResult(target, result.replaceAll("\n", "|"));
 	}
 }

@@ -1,19 +1,18 @@
 package csheets.ext.distributedWorkbook.ui;
 
-import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.ext.distributedWorkbook.WorkBookDTO;
 import csheets.framework.ObjectSerialization;
-import csheets.framework.volt.Action;
-import csheets.framework.volt.protocols.tcp.TcpClient;
-import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vendor.volt.Action;
+import vendor.volt.Request;
+import vendor.volt.protocols.tcp.TcpClient;
+import vendor.volt.protocols.tcp.TcpServer;
 
 /**
  * This service allows to easily set up an run the TCP protocol.
@@ -46,98 +45,81 @@ public class TcpService extends Notifier {
 				server.
 					expect(PERMISSION_REQUEST_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-								System.out.
-								println("Received permission REQUEST");
-								String message = ((String) args.
-								get("message")) + " with " + args.
-								get("hostname");
+						public void run(Request request) {
+							System.out.
+							println("Received permission REQUEST");
+							String message = request.message() + " with " + request.
+							hostname();
+							String destination = server.target(request.from());
 
-								String destination = ((String) args.
-								get("from")).
-								split(":")[0] + ":" + AppSettings.
-								instance().get("TCP_PORT");
+							int reply = JOptionPane.
+							showConfirmDialog(null, message);
 
-								int reply = JOptionPane.
-								showConfirmDialog(null, message);
-
-								switch (reply) {
-									case JOptionPane.YES_OPTION: {
-										server.
-										send(PERMISSION_RESPONSE_HEADER, destination, "TRUE");
-										break;
-									}
-									case JOptionPane.NO_OPTION: {
-										server.
-										send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
-										break;
-									}
-									default:
-										server.
-										send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
-										break;
+							switch (reply) {
+								case JOptionPane.YES_OPTION: {
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "TRUE");
+									break;
 								}
+								case JOptionPane.NO_OPTION: {
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+									break;
+								}
+								default:
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+									break;
 							}
+						}
 					});
 
 				// expect permission response (TRUE/FALSE)
 				server.
 					expect(PERMISSION_RESPONSE_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-								System.out.
-								println("Received permission RESPONSE");
-								if (((String) args.get("message")).
-								equalsIgnoreCase("TRUE")) {
-									// POSITIVE RESPONSE: initialize search
-									String target = ((String) args.get("from")).
-									split(":")[0] + ":" + AppSettings.
-									instance().get("TCP_PORT");
-
-									searchWorkbookOnTarget(target, pattern);
-								}
+						public void run(Request request) {
+							System.out.
+							println("Received permission RESPONSE");
+							String response = request.message();
+							if (response.equalsIgnoreCase("TRUE")) {
+								// POSITIVE RESPONSE: initialize search
+								String target = server.target(request.from());
+								searchWorkbookOnTarget(target, pattern);
 							}
+						}
 					});
 
 				server.
 					expect(SEARCH_REQUEST_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-								System.out.println("Received search REQUEST");
-								String[] search = new String[3];
-								search[0] = "Search";
-								search[1] = ((String) args.
-								get("message"));
-								search[2] = ((String) args.
-								get("from")).
-								split(":")[0] + ":" + AppSettings.
-								instance().get("TCP_PORT");
-
-								notifyChange(search);
-							}
+						public void run(Request request) {
+							System.out.println("Received search REQUEST");
+							String[] search = new String[3];
+							search[0] = "Search";
+							search[1] = request.message();
+							search[2] = server.target(request.from());
+							notifyChange(search);
+						}
 					});
 
 				server.
 					expect(SEARCH_RESPONSE_HEADER, new Action() {
 						@Override
-						public void run(
-							Map<String, Object> args) {
-								System.out.println("Received a new result");
-								String message = (String) args.get("message");
-								WorkBookDTO deSerializedObject;
-								try {
-									deSerializedObject = (WorkBookDTO) ObjectSerialization.
-									fromString(message);
-								} catch (IOException | ClassNotFoundException ex) {
-									Logger.getLogger(TcpService.class.getName()).
-									log(Level.SEVERE, null, ex);
-									return;
-								}
-								notifyChange(deSerializedObject);
+						public void run(Request request) {
+							System.out.println("Received a new result");
+							String message = request.message();
+							WorkBookDTO deSerializedObject;
+							try {
+								deSerializedObject = (WorkBookDTO) ObjectSerialization.
+								fromString(message);
+							} catch (IOException | ClassNotFoundException ex) {
+								Logger.getLogger(TcpService.class.getName()).
+								log(Level.SEVERE, null, ex);
+								return;
 							}
+							notifyChange(deSerializedObject);
+						}
 					});
 
 			}

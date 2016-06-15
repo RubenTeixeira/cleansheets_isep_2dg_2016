@@ -58,9 +58,9 @@
  * <p>
  * After <code>WorkbookSearchExtension</code> is dinamycally loaded (load flow
  * control analysed in the last sprint, see: see:
- * <a href="../sprint2/package-summary.html">4. Analysis</a></p> ), it will
- * return to the UI the <code>UIExtensionWorkbookSearch</code> which in turn
- * returns a <code>WorkbookSearchMenu</code> that contains a
+ * <a href="../sprint2/package-summary.html">4. Analysis</a></p>
+ * ), it will return to the UI the <code>UIExtensionWorkbookSearch</code> which
+ * in turn returns a <code>WorkbookSearchMenu</code> that contains a
  * <code>JMenuItem</code> associated with the <code>WorkbookSearchAction</code>,
  * the latter being the responsible for starting the flow of the Use Case.</p>
  *
@@ -141,10 +141,10 @@
  * I will suggest to the original main programmer of Volt (Renato Machado) the
  * addition of generic Object transfer support if possible. Nevertheless, the
  * current goal is to make do with what is currently available as time to
- * deliver is of upmost concern.</p>
+ * deliver is of utmost concern.</p>
  *
  * <p>
- * <b>UPDATE:</b></p>
+ * <b>UPDATE 2:</b></p>
  * <p>
  * After consulting with Volt owner who rejected the suggested changes to his
  * implementation I decided to implement <code>ObjectSerialization</code> class

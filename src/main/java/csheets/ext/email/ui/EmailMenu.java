@@ -23,6 +23,7 @@ public class EmailMenu extends JMenu {
 	 * @param controller The controller.
 	 */
 	public EmailMenu(UIController uiController, EmailController controller) {
+		super("E-Mail");
 		setMnemonic(KeyEvent.VK_E);
 
 		// Adds font actions

@@ -220,14 +220,17 @@ public class Comment implements Serializable {
 	/**
 	 * Method that modifies the comment
 	 *
-	 * @param newComment
+	 * @param comment
 	 */
-	public void setComment(Comment newComment) {
-		history.add(this);
-		this.font = newComment.getFont();
-		this.border = newComment.getBorder();
-		this.bgColor = newComment.getBackgroundColor();
-		this.text = newComment.text();
+	public void setComment(Comment comment) {
+		Comment version = new Comment(this.userName(), this.text(), this.
+									  getFont(), this.getBackgroundColor(), this.
+									  getBorder());
+		history.add(version);
+		this.font = comment.getFont();
+		this.border = comment.getBorder();
+		this.bgColor = comment.getBackgroundColor();
+		this.text = comment.text();
 	}
 
 	public List<Comment> commentHistory() {

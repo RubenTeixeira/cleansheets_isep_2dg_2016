@@ -1,7 +1,9 @@
-package csheets.framework.volt;
+package vendor.volt;
 
-import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +17,12 @@ public abstract class Server {
     /**
      * Dependency Injection.
      */
-    protected Map<String, Object> dependencies;
+    protected final Map<String, Object> dependencies;
     
     /**
      * Route channels.
      */
-    protected Map<String, List<Channel>> channels;
+    protected final Map<String, List<Channel>> channels;
     
     /**
      * Server connected port.
@@ -43,17 +45,21 @@ public abstract class Server {
      * Boots the server.
      *
      * @param port The port number.
-     * @throws IOException Should throw a IOException if any I/O operation fails.
      */
-    protected abstract void bootServer(int port) throws IOException;
+    protected abstract void boot(int port);
 
     /**
-     * Serves the server in the given port.
+     * Restarts the server.
+     * 
+     * @param port The port number.
+     */
+    protected abstract void restart(int port);
+    
+    /**
+     * Streams the server in the given port.
      *
      * @param port The port number.
      */
-    public abstract void serve(int port);
-    
     public abstract void stream(int port);
     
     public abstract void expect(String route, Action action);
@@ -121,9 +127,7 @@ public abstract class Server {
                 this.channels.put(route, new ArrayList<>());
             }
 
-            for (Channel channel : channels) {
-                this.channels.get(route).add(channel);
-            }
+            this.channels.get(route).addAll(Arrays.asList(channels));
         }
     }
     
@@ -141,7 +145,62 @@ public abstract class Server {
             }
         }
         
-        return new ArrayList<>();
+        return null;
+    }
+    
+    /**
+     * Executes all before channels.
+     * 
+     * @param request Request data.
+     */
+    protected void executeBeforeChannels(Request request)
+    {
+        synchronized (this.channels) {
+            List<Channel> allChannels = getRouteChannels("*");
+            
+            if (allChannels != null) {
+                // Execute all of the wildcard channels.
+                for (Channel channel : allChannels) {
+                    channel.before(request, dependencies);
+                }
+            }
+            
+            List<Channel> beforeChannels = getRouteChannels(request.route());
+            
+            if (beforeChannels != null) {
+                // Execute all the before channels.
+                for (Channel channel : beforeChannels) {
+                    channel.before(request, dependencies);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Executes all after channels.
+     *
+     * @param request Request data.
+     */
+    protected void executeAfterChannels(Request request) {
+        synchronized (this.channels) {
+            List<Channel> allChannels = getRouteChannels("*");
+
+            if (allChannels != null) {
+                // Execute all of the wildcard channels.
+                for (Channel channel : allChannels) {
+                    channel.after(request, dependencies);
+                }
+            }
+
+            List<Channel> afterChannels = getRouteChannels(request.route());
+
+            if (afterChannels != null) {
+                // Execute all the after channels.
+                for (Channel channel : afterChannels) {
+                    channel.after(request, dependencies);
+                }
+            }
+        }
     }
     
     /**
@@ -153,5 +212,29 @@ public abstract class Server {
     public int getPort()
     {
         return this.connectedPort;
-    }    
+    }
+    
+    /**
+     * Target the given IPv4 with the same port as this server.
+     * 
+     * @param target Target IPv4.
+     * @return IPv4:Port
+     */
+    public String target(String target)
+    {
+        return target + ":" + this.getPort();
+    }
+    
+    /**
+     * Returns the signature of the server.
+     *
+     * @return IPv4 and Port (separated by ":")
+     */
+    public String signature() {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            return "0.0.0.0";
+        }
+    }
 }
