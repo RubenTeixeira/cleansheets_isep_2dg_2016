@@ -128,6 +128,7 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //se a CheckBox nao foi selecionada. 
         if (this.EnableCheckBox1.isSelected()) {
             //ativar no importcontroller que vai verificar se há atualizaçoes no ficheiro do disco. 
             
@@ -137,9 +138,13 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
+            //invocar o metedo de  que permite fazer os update automaticamente. 
+            this.controller.exportFileAutomatically(true);
+            this.controller.importFileAutomatically(true);
             super.dispose();
-
+            
         } else {
+            //Caso a CheckBox nao foi selecionada. 
             //desativar no importController. 
             
             int option = JOptionPane.
@@ -147,6 +152,8 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
+            this.controller.exportFileAutomatically(false);
+            this.controller.importFileAutomatically(false);
             super.dispose();
         }
 
