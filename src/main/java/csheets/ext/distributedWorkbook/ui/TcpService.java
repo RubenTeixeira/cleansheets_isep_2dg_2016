@@ -1,5 +1,6 @@
 package csheets.ext.distributedWorkbook.ui;
 
+import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.ext.distributedWorkbook.WorkBookDTO;
 import csheets.framework.ObjectSerialization;
@@ -19,6 +20,7 @@ import vendor.volt.protocols.tcp.TcpServer;
  */
 public class TcpService extends Notifier {
 
+	private static final int PORT = 55000;
 	private static final String PERMISSION_REQUEST_HEADER = ":distributed-permission-request";
 	private static final String PERMISSION_RESPONSE_HEADER = ":distributed-reply";
 	private static final String SEARCH_REQUEST_HEADER = ":distributed-search";
@@ -35,22 +37,24 @@ public class TcpService extends Notifier {
 	 * @param pattern Workbook name pattern
 	 */
 	public void server(String pattern) {
+		System.out.println("Created TCPServer");
 
 		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
 			@Override
 			public void run() {
 				server = NetworkManager.tcp();
 
-				// Expect permission request (YES/NO/DEFAULT)
+				// Expect permission request (YES/NO)
 				server.
 					expect(PERMISSION_REQUEST_HEADER, new Action() {
 						@Override
 						public void run(Request request) {
 							System.out.
 							println("Received permission REQUEST");
-							String message = request.message() + " with " + request.
+							String message = request.message() + "\nFrom: " + request.
 							hostname();
-							String destination = server.target(request.from());
+							String destination = request.from() + ":" + AppSettings.
+							instance().get("TCP_PORT"); //server.target(request.from());
 
 							int reply = JOptionPane.
 							showConfirmDialog(null, message);
@@ -138,16 +142,17 @@ public class TcpService extends Notifier {
 	 */
 	public void requestPermission(String target, String message) {
 		ThreadManager.
-			create("ipc.distributed-tcpClient" + target, new Thread() {
+			create("ipc.distributed-tcpClient", new Thread() {
 				@Override
 				public void run() {
-					System.out.println("Sending PERMISSION_REQUEST_HEADER");
+					System.out.
+					println("Sending PERMISSION_REQUEST_HEADER to " + target);
 					new TcpClient(0).
 					send(PERMISSION_REQUEST_HEADER, target, message);
 				}
 			});
 
-		ThreadManager.run("ipc.distributed-tcpClient" + target);
+		ThreadManager.run("ipc.distributed-tcpClient");
 	}
 
 	/**
@@ -158,7 +163,7 @@ public class TcpService extends Notifier {
 	 */
 	public void searchWorkbookOnTarget(String target, String message) {
 		ThreadManager.
-			create("ipc.distributed-searchTcpClient" + target, new Thread() {
+			create("ipc.distributed-searchTcpClient", new Thread() {
 				@Override
 				public void run() {
 					System.out.println("Sending SEARCH_REQUEST_HEADER");
@@ -167,7 +172,7 @@ public class TcpService extends Notifier {
 				}
 			});
 
-		ThreadManager.run("ipc.distributed-searchTcpClient" + target);
+		ThreadManager.run("ipc.distributed-searchTcpClient");
 	}
 
 	/**
@@ -178,7 +183,7 @@ public class TcpService extends Notifier {
 	 */
 	public void sendSearchResult(String target, String message) {
 		ThreadManager.
-			create("ipc.distributed-resultTcpClient" + target, new Thread() {
+			create("ipc.distributed-resultTcpClient", new Thread() {
 				@Override
 				public void run() {
 					System.out.println("Sending SEARCH_RESPONSE_HEADER");
@@ -187,16 +192,16 @@ public class TcpService extends Notifier {
 				}
 			});
 
-		ThreadManager.run("ipc.distributed-resultTcpClient" + target);
+		ThreadManager.run("ipc.distributed-resultTcpClient");
 	}
 
 	/**
 	 * Stops all the TCP services.
 	 */
 	public void stop() {
-		ThreadManager.destroy("ipc.distributed-tcpServer*");
-		ThreadManager.destroy("ipc.distributed-tcpClient*");
-		ThreadManager.destroy("ipc.distributed-searchTcpClient*");
-		ThreadManager.destroy("ipc.distributed-resultTcpClient*");
+		ThreadManager.destroy("ipc.distributed-tcpServer");
+		ThreadManager.destroy("ipc.distributed-tcpClient");
+		ThreadManager.destroy("ipc.distributed-searchTcpClient");
+		ThreadManager.destroy("ipc.distributed-resultTcpClient");
 	}
 }

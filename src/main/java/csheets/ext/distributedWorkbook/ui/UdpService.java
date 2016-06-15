@@ -22,6 +22,8 @@ public class UdpService extends Notifier {
 	private static final String PORT_HEADER = ":distributed-port";
 	private static final int BROADCAST_TIMEOUT = 20;
 
+	private List<String> foundInstances;
+
 	/**
 	 * Server instance.
 	 */
@@ -32,11 +34,12 @@ public class UdpService extends Notifier {
 	 *
 	 */
 	public void server() {
-		System.out.println("creating server");
+		System.out.println("Created UDPServer");
 		ThreadManager.create("ipc.distributed-udpServer", new Thread() {
 			@Override
 			public void run() {
 				server = NetworkManager.udp();
+				foundInstances = new ArrayList<>();
 
 				server.
 					expect(BROADCAST_HEADER, new Action() {
@@ -46,8 +49,9 @@ public class UdpService extends Notifier {
 //								return;
 //							}
 							// Destination = Target's IP and Port
-							System.out.println("Received BROADCAST_HEADER");
 							String destination = server.target(request.from());
+							System.out.
+							println("Received BROADCAST_HEADER from " + destination);
 							System.out.println("Sending PORT_HEADER");
 							server.
 							send(PORT_HEADER, destination, AppSettings.
@@ -62,12 +66,16 @@ public class UdpService extends Notifier {
 						public void run(Request request) {
 							System.out.println("Received PORT_HEADER");
 							List<String> ports = request.get("distributed-port");
-
 							List<String> addresses = new ArrayList<>();
-
+							System.out.println("Addresses that i got are:");
 							for (String port : ports) {
-								addresses.
-								add(request.from() + ":" + port);
+								String address = request.from() + ":" + port;
+								System.out.println(address);
+								if (foundInstances.contains(address)) {
+									break;
+								}
+								foundInstances.add(address);
+								addresses.add(address);
 							}
 
 							notifyChange(addresses);

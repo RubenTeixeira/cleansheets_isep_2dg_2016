@@ -52,9 +52,6 @@ public class WorkBookDTO implements Serializable {
 			}
 			SpreadSheetIndex++;
 		}
-
-		System.out.println("This DTO looks like this:\n\n");
-		System.out.println(builder.toString());
 		return builder.toString();
 	}
 
