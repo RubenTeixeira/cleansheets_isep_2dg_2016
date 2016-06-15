@@ -61,9 +61,6 @@
  * executes that script.
  *
  * <p>
- * <img src="#" alt="image">
- *
- * <p>
  * <h3>Script Manager</h3>
  * </p>
  *
@@ -81,20 +78,20 @@
  * want and saves the new script information.
  *
  * <p>
- * <img src="#" alt="image">
+ * <img src="doc-files/lang07.2_manager_edit.png" alt="image">
  *
  * <h4>Delete Script</h4>
  * The user selects the script to delete and choose the delete button. The
  * system asks for confirmation and the user confirms or not.
  *
  * <p>
- * <img src="#" alt="image">
+ * <img src="doc-files/lang07.2_manager_delete.png" alt="image">
  *
  * <h4>Execute Script</h4>
  * The user selects the script to execute and the system executes that script.
  *
  * <p>
- * <img src="#" alt="image">
+ * <img src="doc-files/lang07.2_manager_execute.png" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
