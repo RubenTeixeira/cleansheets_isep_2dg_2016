@@ -53,8 +53,7 @@
  *
  * <h3>Network Analizer</h3>
  * <p>
- * We'll use rtcharts that is a lightweight library for plotting data with a
- * high sampling rate in real time.
+ * We'll use JFreechart displaying data in real time.
  * </p>
  *
  *
@@ -85,7 +84,7 @@
  *
  *
  * <p>
- * As for displaying a real time char, Volt uses rtcharts
+ * As for displaying a real time char, Volt uses JFreechart
  * </p>
  * <h2>7. Integration/Demonstration</h2>
  *

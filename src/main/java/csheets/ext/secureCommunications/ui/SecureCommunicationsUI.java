@@ -110,6 +110,8 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
+        jTabbedPaneSecureCommunications.setBackground(new java.awt.Color(255, 255, 255));
+
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Messages", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
         jPanel2.setName(""); // NOI18N
 
@@ -144,7 +146,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(secureCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 337, Short.MAX_VALUE)
                 .addComponent(sendButton))
             .addComponent(messageText)
         );
@@ -174,11 +176,15 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
         jTabbedPaneSecureCommunications.addTab("Messages", jPanelMessages);
 
+        jPanelNetworkAnalizer.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanelChart.setBackground(new java.awt.Color(255, 255, 255));
+
         javax.swing.GroupLayout jPanelChartLayout = new javax.swing.GroupLayout(jPanelChart);
         jPanelChart.setLayout(jPanelChartLayout);
         jPanelChartLayout.setHorizontalGroup(
             jPanelChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGap(0, 308, Short.MAX_VALUE)
         );
         jPanelChartLayout.setVerticalGroup(
             jPanelChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,6 +192,8 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setToolTipText("");
+        jPanel1.setPreferredSize(new java.awt.Dimension(450, 350));
 
         jLabel1.setText("I :Incomming");
 
@@ -200,7 +208,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
@@ -218,7 +226,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelNetworkAnalizerLayout = new javax.swing.GroupLayout(jPanelNetworkAnalizer);
@@ -226,26 +234,22 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         jPanelNetworkAnalizerLayout.setHorizontalGroup(
             jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNetworkAnalizerLayout.createSequentialGroup()
-                .addGap(322, 322, 322)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(143, 143, 143)))
-        );
-        jPanelNetworkAnalizerLayout.setVerticalGroup(
-            jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(331, 331, 331)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanelChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addContainerGap(147, Short.MAX_VALUE)))
+        );
+        jPanelNetworkAnalizerLayout.setVerticalGroup(
+            jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+            .addGroup(jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         jTabbedPaneSecureCommunications.addTab("NetworkAnalizer", jPanelNetworkAnalizer);
@@ -284,7 +288,10 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
     private void messagesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_messagesListValueChanged
 		jPanelChart = createPane(this);
 		jPanelChart.setVisible(true);
-		jPanelChart.setSize(450, 350);
+		jPanelChart.
+			setSize(jPanelNetworkAnalizer.getHeight(), jPanelNetworkAnalizer.
+					getWidth());
+
 		jPanelNetworkAnalizer.add(jPanelChart);
     }//GEN-LAST:event_messagesListValueChanged
 
@@ -364,11 +371,11 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 	 */
 	public String changeUnits(int height) {
 
-		if (height <= 465) {
+		if (height <= 450) {
 			return "bytes";
-		} else if (height > 465 || height <= 565) {
+		} else if (height > 450 || height <= 500) {
 			return "kilobytes";
-		} else if (height > 565 || height <= 665) {
+		} else if (height > 500 || height <= 550) {
 			return "megabytes";
 		} else {
 			return "gigabytes";
