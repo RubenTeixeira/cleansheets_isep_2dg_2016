@@ -54,10 +54,6 @@
  * <p>
  * <img src="doc-files/lang04_02_design1.png" alt="image">
  * </p>
- * 
- * <h3>5.3. Classes</h3>
- *
- * TODO: class diagram!
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
