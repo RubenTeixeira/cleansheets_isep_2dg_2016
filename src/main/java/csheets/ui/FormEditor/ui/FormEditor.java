@@ -110,7 +110,7 @@ public class FormEditor extends javax.swing.JFrame implements Observer {
 			Widget widget = controller.getWidget(contentPanel.name());
 
 			if (widget != null) {
-				addSingleLine(widget.getPanel(controller.getValue(contentPanel.
+				addPanel(widget.getPanel(controller.getValue(contentPanel.
 					content())));
 			} else {
 				JOptionPane.showMessageDialog(this, "Widget not found.");
@@ -130,7 +130,7 @@ public class FormEditor extends javax.swing.JFrame implements Observer {
 	 *
 	 * @param panel
 	 */
-	private void addSingleLine(JPanel panel) {
+	private void addPanel(JPanel panel) {
 		this.mainPanel.add(panel);
 		addGridRow();
 	}
@@ -140,7 +140,7 @@ public class FormEditor extends javax.swing.JFrame implements Observer {
 	 *
 	 * @param panel
 	 */
-	private void removeSingleLine(JPanel panel) {
+	private void removePanel(JPanel panel) {
 		this.mainPanel.remove(panel);
 		removeGridRow();
 	}
@@ -183,8 +183,8 @@ public class FormEditor extends javax.swing.JFrame implements Observer {
 
 	@Override
 	public void update(Observable o, Object o1) {
-		if (o1 instanceof SingleLine) {
-			removeSingleLine((SingleLine) o1);
+		if (o1 instanceof JPanel) {
+			removePanel((JPanel) o1);
 			refreshUI();
 		}
 	}

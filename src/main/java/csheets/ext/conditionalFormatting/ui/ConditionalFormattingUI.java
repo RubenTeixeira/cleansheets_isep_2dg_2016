@@ -330,8 +330,9 @@ public class ConditionalFormattingUI extends JPanel {
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 		if (!this.textFieldFormula.getText().trim().isEmpty()) {
-			conditionalFormattingController.
-				apply((result ? trueStyle : falseStyle));
+			//conditionalFormattingController.apply((result ? trueStyle : falseStyle));
+			conditionalFormattingController.apply(this.textFieldFormula.
+				getText(), trueStyle, falseStyle);
 		}
     }//GEN-LAST:event_btnApplyActionPerformed
 

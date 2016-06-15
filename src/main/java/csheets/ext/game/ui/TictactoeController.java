@@ -7,6 +7,7 @@ package csheets.ext.game.ui;
 
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
 
 /**
@@ -16,13 +17,12 @@ import csheets.ui.ctrl.UIController;
 public class TictactoeController {
 
 	private UIController uiController;
-
 	/**
 	 * The base of the titles of new spreadsheets
 	 */
 	public static final String Name = "TicTacToe";
 
-	public TictactoeController(UIController uiController) {
+	public TictactoeController(UIController uiController) throws FormulaCompilationException {
 		this.uiController = uiController;
 		newSpreadsheet();
 	}
@@ -33,16 +33,5 @@ public class TictactoeController {
 
 		Spreadsheet sheet = activeBook.getSpreadsheet(activeBook.
 			getSpreadsheetCount() - 1);
-		System.out.println(sheet.getTitle());
-//		sheet.setTitle(NAME);
-		System.out.println(sheet.getTitle());
-		uiController.getActiveWorkbook().getSpreadsheet((activeBook.
-			getSpreadsheetCount() - 1));
-
 	}
-
-//	public void newTictactoeSpreadsheetExtension() {
-//		TictactoeSpreadsheetExtension sheetExt = new TictactoeSpreadsheetExtension();
-//
-//	}
 }

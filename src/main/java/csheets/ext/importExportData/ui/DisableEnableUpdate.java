@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author hichampt
  */
 public class DisableEnableUpdate extends javax.swing.JDialog {
-
+    
     private final ImportExportTextFileController controller;
     private final UIController uiController;
     //  private Cell[][] cells;
@@ -21,11 +21,11 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
     public DisableEnableUpdate(java.awt.Frame parent, boolean modal,
             UIController uiController,
             ImportExportTextFileController controller) {
-
+        
         super(parent, modal);
-
+        
         initComponents();
-
+        
         this.controller = controller;
         this.uiController = uiController;
         super.setAlwaysOnTop(true);
@@ -54,6 +54,7 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Enable or Disabel automatically update");
 
+        EnableCheckBox1.setSelected(true);
         EnableCheckBox1.setText("Enable");
 
         jButton1.setText("Confirm");
@@ -128,25 +129,29 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //se a CheckBox nao foi selecionada. 
         if (this.EnableCheckBox1.isSelected()) {
             //ativar no importcontroller que vai verificar se há atualizaçoes no ficheiro do disco. 
-            
-            
+
             int option = JOptionPane.
                     showConfirmDialog(this, "The option automatically update has been Enable", "Warning", JOptionPane.WARNING_MESSAGE);
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
+            //invocar o metedo de  que permite fazer os update automaticamente. 
+            this.controller.exportImportFileOption(true);
             super.dispose();
-
-        } else {
-            //desativar no importController. 
             
+        } else {
+            //Caso a CheckBox nao foi selecionada. 
+            //desativar no importController. 
+
             int option = JOptionPane.
                     showConfirmDialog(this, "The option automatically update has been Disabel", "Warning", JOptionPane.WARNING_MESSAGE);
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
+            this.controller.exportImportFileOption(false);
             super.dispose();
         }
 

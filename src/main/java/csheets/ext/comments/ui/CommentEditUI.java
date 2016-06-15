@@ -16,6 +16,8 @@ public class CommentEditUI extends javax.swing.JFrame {
 
 	private final CommentController commentController;
 
+	private final UIController uiController;
+
 	private Comment comment;
 
 	private CommentPanel panel;
@@ -33,6 +35,7 @@ public class CommentEditUI extends javax.swing.JFrame {
 		this.commentController = new CommentController(uiController);
 		this.comment = comment;
 		this.panel = panel;
+		this.uiController = uiController;
 	}
 
 	/**
@@ -52,6 +55,7 @@ public class CommentEditUI extends javax.swing.JFrame {
         backgroundButton = new javax.swing.JButton();
         borderButton = new javax.swing.JButton();
         applyButton = new javax.swing.JButton();
+        EditTextButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,6 +99,13 @@ public class CommentEditUI extends javax.swing.JFrame {
             }
         });
 
+        EditTextButton.setText("Edit Text");
+        EditTextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditTextButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -102,26 +113,33 @@ public class CommentEditUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(54, 54, 54)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel5))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(borderButton)
-                    .addComponent(fontButton)
-                    .addComponent(backgroundButton))
-                .addContainerGap(45, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(applyButton)
-                .addGap(102, 102, 102))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(applyButton)
+                            .addGap(57, 57, 57))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(EditTextButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel5))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(borderButton)
+                                    .addComponent(fontButton)
+                                    .addComponent(backgroundButton)))))
+                    .addComponent(jLabel1))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(EditTextButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(fontButton))
@@ -135,7 +153,7 @@ public class CommentEditUI extends javax.swing.JFrame {
                     .addComponent(borderButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(applyButton)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
@@ -158,6 +176,12 @@ public class CommentEditUI extends javax.swing.JFrame {
     private void borderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borderButtonActionPerformed
 		commentController.changeBorder(comment);
     }//GEN-LAST:event_borderButtonActionPerformed
+
+    private void EditTextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTextButtonActionPerformed
+		EditTextUI call = new EditTextUI(null, false, uiController, comment);
+		call.setVisible(true);
+		commentController.changeText(comment);
+    }//GEN-LAST:event_EditTextButtonActionPerformed
 //
 //	/**
 //	 * @param args the command line arguments
@@ -200,6 +224,7 @@ public class CommentEditUI extends javax.swing.JFrame {
 //	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton EditTextButton;
     private javax.swing.JButton applyButton;
     private javax.swing.JButton backgroundButton;
     private javax.swing.JButton borderButton;

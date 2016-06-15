@@ -1,10 +1,8 @@
 package csheets.ext.distributedWorkbook.ui;
 
-import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
-import java.util.Map;
 import javax.swing.JOptionPane;
 import vendor.volt.Action;
 import vendor.volt.Request;
@@ -161,4 +159,5 @@ public class TcpService extends Notifier {
         ThreadManager.destroy("ipc.distributed-searchTcpClient");
         ThreadManager.destroy("ipc.distributed-resultTcpClient");
     }
+
 }

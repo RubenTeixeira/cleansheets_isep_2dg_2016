@@ -73,5 +73,5 @@ public interface Function {
      *
      * @return a string template to use the function.
      */
-    public String getTemplate();
+        public String getTemplate();
 }
