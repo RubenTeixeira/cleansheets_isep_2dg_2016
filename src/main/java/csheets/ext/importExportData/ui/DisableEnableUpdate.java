@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  * @author hichampt
  */
 public class DisableEnableUpdate extends javax.swing.JDialog {
-
+    
     private final ImportExportTextFileController controller;
     private final UIController uiController;
     //  private Cell[][] cells;
@@ -21,11 +21,11 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
     public DisableEnableUpdate(java.awt.Frame parent, boolean modal,
             UIController uiController,
             ImportExportTextFileController controller) {
-
+        
         super(parent, modal);
-
+        
         initComponents();
-
+        
         this.controller = controller;
         this.uiController = uiController;
         super.setAlwaysOnTop(true);
@@ -139,9 +139,9 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
                 return;
             }
             //invocar o metedo de  que permite fazer os update automaticamente. 
-            this.controller.exportImportFileAutomaticallyEnable(true);
+            this.controller.exportImportFileOption(true);
             super.dispose();
-
+            
         } else {
             //Caso a CheckBox nao foi selecionada. 
             //desativar no importController. 
@@ -151,10 +151,7 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
             if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
                 return;
             }
-
-            //invocar o metedo de  que permite fazer os update automaticamente. 
-            this.controller.exportImportFileAutomaticallyDisable(false);
-
+            this.controller.exportImportFileOption(false);
             super.dispose();
         }
 
