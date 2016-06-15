@@ -12,10 +12,12 @@ import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.NetworkManager;
+import csheets.ext.game.TicTacToe;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import vendor.volt.Action;
 import vendor.volt.Request;
 import vendor.volt.protocols.tcp.TcpClient;
@@ -25,12 +27,14 @@ import vendor.volt.protocols.tcp.TcpServer;
  *
  * @author AB
  */
-public class TestController implements CellListener {
+public class TestController implements CellListener, SpecificGameController {
 
 	private TcpServer server;
 	UIController uiController;
 	Spreadsheet sheet;
 	String connection;
+	String symbol;
+	TicTacToe tictactoe;
 	boolean otherPlay;
 	boolean turn;
 
@@ -40,8 +44,18 @@ public class TestController implements CellListener {
 		connection = "127.0.0.1" + ":" + Integer.
 			parseInt(AppSettings.instance().
 				get("TCP_PORT"));
+	}
+
+	public void stop() {
+		stopThis();
+		removeListeners();
+		diplayVictory();
+	}
+
+	public void start() {
 		startServer();
 		newSpreadsheet();
+		this.tictactoe = new TicTacToe();
 	}
 
 	public void newSpreadsheet() {
@@ -51,15 +65,19 @@ public class TestController implements CellListener {
 	}
 
 	public void addListeners() {
-		sheet.getCell(0, 0).addCellListener(this);
-		sheet.getCell(0, 1).addCellListener(this);
-		sheet.getCell(0, 2).addCellListener(this);
-		sheet.getCell(1, 0).addCellListener(this);
-		sheet.getCell(1, 1).addCellListener(this);
-		sheet.getCell(1, 2).addCellListener(this);
-		sheet.getCell(2, 0).addCellListener(this);
-		sheet.getCell(2, 1).addCellListener(this);
-		sheet.getCell(2, 2).addCellListener(this);
+		for (int i = 0; i < tictactoe.getRowCount(); i++) {
+			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
+				sheet.getCell(i, j).addCellListener(this);
+			}
+		}
+	}
+
+	public void removeListeners() {
+		for (int i = 0; i < tictactoe.getRowCount(); i++) {
+			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
+				sheet.getCell(i, j).removeCellListener(this);
+			}
+		}
 	}
 
 	private void startServer() {
@@ -82,7 +100,7 @@ public class TestController implements CellListener {
 												   try {
 													   otherPlay = true;
 													   spreadcheetCell.
-														   setContent("XXX");
+														   setContent(params[2]);
 
 													   System.out.
 														   println("Jogada do outro");
@@ -115,8 +133,7 @@ public class TestController implements CellListener {
 															   getName()).
 														   log(Level.SEVERE, null, ex);
 												   }
-												   diplayLoss();
-												   stopThis();
+												   stop();
 											   }
 										   });
 
@@ -136,8 +153,7 @@ public class TestController implements CellListener {
 		String message = cell.getAddress().getColumn() + ";" + cell.
 			getAddress().getRow() + ";" + cell.getContent();
 		new TcpClient(0).send(":game-lost", connection, message);
-		stopThis();
-		diplayVictory();
+		stop();
 		return true;
 	}
 
@@ -154,46 +170,61 @@ public class TestController implements CellListener {
 	}
 
 	private void diplayLoss() {
-		System.out.println("lost");
+		JOptionPane.showMessageDialog(null, "Perdeste");
 	}
 
 	private void diplayVictory() {
-		System.out.println("Won");
+		JOptionPane.showMessageDialog(null, "Ganhaste");
 	}
 
 	private boolean validate() {
 		return true;
 	}
 
+	public void repaintBoard() {
+		for (int i = 0; i < tictactoe.getRowCount(); i++) {
+			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
+				try {
+					sheet.getCell(i, j).setContent(tictactoe.getValueAt(i, j));
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(TestController.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+			}
+		}
+	}
+
 	@Override
 	public void contentChanged(Cell cell) {
-		if (!cell.getSpreadsheet().equals(sheet)) {
+		if (!cell.getContent().equalsIgnoreCase(symbol)) {
+			repaintBoard();
 			return;
 		}
-
-		if (turn) {
-			System.out.println("Joguei na minha vez");
-			if (validate()) {
-				String message = cell.getAddress().getColumn() + ";" + cell.
-					getAddress().getRow() + ";" + cell.getContent();
-				if (winningPlay(cell)) {
-					return;
-				}
-				new TcpClient(0).send(":game-play", connection, message);
-				turn = false;
-				System.out.println("Deixou de ser a minha vez");
+		if (!turn) {
+			if (otherPlay) {
+				System.out.println("Deixou de ser a vez do outro");
+				System.out.println("Passou a ser a minha vez");
+				otherPlay = false;
+				turn = true;
 			} else {
-				cell.clear();
+				repaintBoard();
 			}
-		} else if (otherPlay) {
-			System.out.println("Deixou de ser a vez do outro");
-			System.out.println("Passou a ser a minha vez");
-			otherPlay = false;
-			turn = true;
+			return;
+		}
+		System.out.println("Joguei na minha vez");
+		if (validate()) {
+			String message = cell.getAddress().getColumn() + ";" + cell.
+				getAddress().getRow() + ";" + cell.getContent();
+			if (winningPlay(cell)) {
+				return;
+			}
+			new TcpClient(0).send(":game-play", connection, message);
+			turn = false;
+			System.out.println("Deixou de ser a minha vez");
 		} else {
-			System.out.println("Eu joguei fora da minha vez");
 			cell.clear();
 		}
+
 	}
 
 	@Override

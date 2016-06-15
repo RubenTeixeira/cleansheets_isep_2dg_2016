@@ -2,10 +2,13 @@ package vendor.volt;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import vendor.volt.protocols.tcp.TcpServer;
 import vendor.volt.protocols.udp.UdpServer;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +34,11 @@ public class Volt {
      * Print Stream to output debug information.
      */
     private static PrintStream output = null;
+    
+    /**
+     * Volt global channels.
+     */
+    private final static Map<String, List<Channel>> channels = new HashMap<>();
     
     /**
      * Puts Volt in debug mode.
@@ -314,5 +322,51 @@ public class Volt {
             print("Volt is removing the port " + port + " of the server: " + instances.get(port).toString());
             instances.remove(port);
         }
+    }
+    
+    /**
+     * Creates a new global channel for a given route.
+     *
+     * @param route Route that will trigger the channel. If given a '*', the
+     * channels will be applied to every route.
+     * @param channels Channels to be executed.
+     */
+    public static void channel(String route, Channel... channels)
+    {
+        synchronized (Volt.channels) {
+            if (!Volt.channels.containsKey(route)) {
+                Volt.channels.put(route, new ArrayList<>());
+            }
+
+            Volt.channels.get(route).addAll(Arrays.asList(channels));
+        }
+    }
+    
+    /**
+     * Drops all the global channels of a given route.
+     * 
+     * @param route Route that have channels associated.
+     */
+    public static void dropChannels(String route)
+    {
+        if (Volt.channels.containsKey(route)) {
+            Volt.channels.remove(route);
+        }
+    }
+    
+    /**
+     * Gets the global channels of Volt.
+     *
+     * @param route Route.
+     * @return Route channels, or null if no route was found.
+     */
+    public static List<Channel> getRouteChannels(String route) {
+        synchronized (Volt.channels) {
+            if (Volt.channels.containsKey(route)) {
+                return Volt.channels.get(route);
+            }
+        }
+
+        return null;
     }
 }

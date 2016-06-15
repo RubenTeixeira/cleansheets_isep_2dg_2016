@@ -2,9 +2,12 @@ package csheets.ext.comments;
 
 import csheets.core.Cell;
 import csheets.ext.CellExtension;
+import java.awt.Color;
+import java.awt.Font;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.border.Border;
 
 /**
  * An extension of a cell in a spreadsheet, with support for comments.
@@ -87,7 +90,24 @@ public class CommentableCell extends CellExtension {
 		commentsList.add(newComment);
 		// Notifies listeners
 		fireCommentsChanged();
+	}
 
+	public void addComment(String userName, String text, Font font,
+						   Color bgColor, Border border)
+		throws IllegalArgumentException {
+		if (font == null || bgColor == null || border == null) {
+			throw new IllegalArgumentException("Unable to get the date.");
+		}
+		if (userName == null || userName.isEmpty()) {
+			throw new IllegalArgumentException("Unable to get the username.");
+		}
+		if (text == null || text.isEmpty()) {
+			throw new IllegalArgumentException("Comment string is empty or null.");
+		}
+		Comment newComment = new Comment(userName, text, font, bgColor, border);
+		commentsList.add(newComment);
+		// Notifies listeners
+		fireCommentsChanged();
 	}
 
 

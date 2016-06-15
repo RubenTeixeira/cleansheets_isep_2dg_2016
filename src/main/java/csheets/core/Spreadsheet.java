@@ -96,6 +96,8 @@ public interface Spreadsheet extends Iterable<Cell>, Extensible<Spreadsheet>,
 	 * @return a sorted set of the cells in the range
 	 */
 	public SortedSet<Cell> getCells(Address address1, Address address2);
+        
+        public SortedSet<Cell> getCells();
 
 	/**
 	 * Returns the cells in the given column.

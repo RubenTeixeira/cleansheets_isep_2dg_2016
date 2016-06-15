@@ -24,19 +24,6 @@ public class WorkBookDTOAssembler {
 	/**
 	 * Return new DTO
 	 *
-	 * @param wbFileName workbook filename
-	 * @param spreadsheets list of spreadsheets of the workbook
-	 * @param cells list of matrices of cell values/content
-	 * @return WorkBookDTO
-	 */
-	public static WorkBookDTO getWorkbookDTO(
-		String wbFileName, List<String> spreadsheets, List<String[][]> cells) {
-		return new WorkBookDTO(wbFileName, spreadsheets, cells);
-	}
-
-	/**
-	 * Return new DTO
-	 *
 	 * @param workbook The workbook
 	 * @return WorkBookDTO
 	 */
@@ -63,10 +50,6 @@ public class WorkBookDTOAssembler {
 
 					matrix[j][k] = current_spreadsheet.getCell(k, j).getValue().
 						toString();
-					System.out.
-						printf("Adding matrix[%d][%d] -> %s\n", j, k, current_spreadsheet.
-							   getCell(k, j).getValue().
-							   toString());
 				}
 			}
 			cells.add(matrix.clone());

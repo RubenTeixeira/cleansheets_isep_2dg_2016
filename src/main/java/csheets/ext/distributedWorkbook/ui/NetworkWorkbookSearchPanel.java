@@ -270,14 +270,18 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
 		if (arg instanceof WorkBookDTO) {
 			//TODO Result received
 			System.out.println("Result received...");
-			System.out.println(((WorkBookDTO) arg).toString());
+			WorkBookDTO res = (WorkBookDTO) arg;
+			System.out.println(res);
+			this.jResultArea.setText(res.toString());
 		}
 
 		if (arg instanceof List) {
+			System.out.println("Got new address........");
 			// List<String> adresses changed!
 			List<String> addresses = (List<String>) arg;
 			for (String address : addresses) {
 				if (!this.instances.contains(address)) {
+					System.out.println("This is a new address: " + address);
 					this.instances.add(address);
 					this.controller.initiateSearch(address, REQUEST_MESSAGE);
 				} else {

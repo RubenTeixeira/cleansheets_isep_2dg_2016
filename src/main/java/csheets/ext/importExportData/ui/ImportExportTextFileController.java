@@ -9,13 +9,18 @@ import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
+import csheets.notification.Notification;
 import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
-import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.awt.Font;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.SortedSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,6 +33,10 @@ public class ImportExportTextFileController {
     String path;
     String separator;
     Cell[][] cells;
+
+    public ImportExportTextFileController() {
+
+    }
 
     /**
      * Checks if the selected cells are enough to the received content
@@ -104,12 +113,13 @@ public class ImportExportTextFileController {
      * @param cell cell to change
      */
     private void boldHeader(Cell cell) {
-        StylableCell stylableCell = (StylableCell) cell.
+        
+             StylableCell stylableCell = (StylableCell) cell.
                 getExtension(StyleExtension.NAME);
         stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
                 stylableCell.getFont().getStyle() ^ Font.BOLD, stylableCell.
                 getFont().getSize()));
-
+       
     }
 
     /**
@@ -167,16 +177,13 @@ public class ImportExportTextFileController {
         this.path = path;
         this.separator = separator;
 
-        System.out.println("antes do if");
-
         if (this.option == true) {
             System.out.println("entrei");
-
+            FileTask task = new FileTask(path, separator, cells);
             dataAtual = DateTime.now().getTimeInMillis();
             Task verify = new FileTask(path, separator, cells);
             tm.every(5).fire(verify);
-
-            System.out.println("Threed a correr");
+            // UIController.getUIController().getActiveSpreadsheet().addCellListener(task);
 
         } else {
             tm.destroy();
@@ -185,7 +192,7 @@ public class ImportExportTextFileController {
 
     }
 
-    class FileTask extends Task implements CellListener {
+    class FileTask extends Task implements Observer{
 
         private String path;
         private String separator;
@@ -195,6 +202,7 @@ public class ImportExportTextFileController {
             this.path = path;
             this.separator = separator;
             this.cells = cells;
+            Notification.cellInformer().addObserver(this);
         }
 
         @Override
@@ -211,35 +219,32 @@ public class ImportExportTextFileController {
                     Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                //Refresh Cells
-                UIController.getUIController().setWorkbookModified(UIController.getUIController().focusOwner.getSpreadsheet().getWorkbook());
-                UIController.getUIController().focusOwner.repaint();
-
-                System.out.println("Alterei o ficheiro");
             }
 
         }
 
         @Override
-        public void valueChanged(Cell cell) {
-            System.out.println("Vou exportar");
-            exportFile(path, cells, separator);
-        }
+        public void update(Observable o, Object object) {
+            System.out.println("observer");
+            if (object instanceof Cell) {
+                Cell cell = (Cell) object;
+                System.out.println("Vou exportar");
+                
 
-        @Override
-        public void contentChanged(Cell cell) {
-        }
-
-        @Override
-        public void dependentsChanged(Cell cell) {
-        }
-
-        @Override
-        public void cellCleared(Cell cell) {
-        }
-
-        @Override
-        public void cellCopied(Cell cell, Cell source) {
+          //  cells[cell.getAddress().getRow()][cell.getAddress().getColumn()] = cell;
+            UIController.getUIController().getActiveSpreadsheet().getCells(null, null);
+            SortedSet<Cell> cellsSort = UIController.getUIController().getActiveSpreadsheet().getCells();
+            List<Cell> list = new ArrayList();
+            for (Cell c : cellsSort) {
+                list.add(c);
+            }
+            cells = new Cell[cellsSort.size()][1];
+            for(int i = 0; i < list.size(); i++) {
+                cells[i][1] = list.get(i);
+            }
+           exportFile(path, cells, separator);
+            }
+            
         }
 
     }

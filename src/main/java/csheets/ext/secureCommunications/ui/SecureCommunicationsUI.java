@@ -23,6 +23,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class SecureCommunicationsUI extends javax.swing.JPanel implements SelectionListener, Observer {
 
+    DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
     private final UIController uiController;
 
     /**
@@ -70,6 +72,11 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         uiController.addSelectionListener(this);
         messagesList.setModel(messagesListModel);
 
+        dataset.setValue(0, "Amount of information", "I");
+        dataset.setValue(0, "Amount of information", "O");
+        dataset.setValue(0, "Amount of information", "SI");
+        dataset.setValue(0, "Amount of information", "SO");
+
         this.controller = controller;
         this.controller.startServices(this);
 
@@ -81,8 +88,17 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
             }
         };
-
-        manager.after(30).every(30).fire(clean);
+        
+        Task updateChart = new Task() {
+            @Override
+            public void fire() {
+                createPane();
+            }
+        };
+        
+        manager.after(30).every(30).fire(clean)
+                .after(1).every(5).fire(updateChart);
+        
     }
 
     /**
@@ -309,31 +325,31 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
     @Override
     public void update(Observable o, Object object) {
-        messagesListModel.addElement(object);
-
         String[] message = object.toString().split(":");
-        switch (message[0]) {
-            case "R":
-                sizeI = message[1].length();
-                break;
-            case "S":
-                sizeO = message[1].length();
-                break;
-            case "RE":
-                sizeSI = message[1].length();
-                break;
-            case "SE":
-                sizeSO = message[1].length();
-                break;
-        }
-
-        jPanelChart = createPane(this);
-        jPanelChart.setVisible(true);
-        jPanelChart.
-                setSize(jPanelNetworkAnalizer.getHeight(), jPanelNetworkAnalizer.
-                        getWidth());
-
-        jPanelNetworkAnalizer.add(jPanelChart);
+        
+        if (message.length == 0) return;
+        
+        if (message[0].isEmpty()) return;
+        
+        try {
+            if (message[0].equals("R")) {
+                sizeI += Integer.parseInt(message[1]);
+            } else {
+                if (message[0].equals("S")) {
+                    sizeO += Integer.parseInt(message[1]);
+                } else {
+                    if (message[0].equals("RE")) {
+                        sizeSI += Integer.parseInt(message[1]);
+                    } else {
+                        if (message[0].equals("SE")) {
+                            sizeSO += Integer.parseInt(message[1]);
+                        } else {
+                            messagesListModel.addElement(object);
+                        }
+                    } 
+                }
+            }
+        } catch (Exception e) {}
     }
 
     @Override
@@ -344,41 +360,62 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
     /**
      * Create a new chartPanel
      *
-     * @param observer
+     *
      * @return chartPanel User Interface to observe the communications.
      */
-    private ChartPanel createPane(Observer observer) {
-        //this.controller.analyser(observer);
-        String unit = changeUnits(jTabbedPaneSecureCommunications.getHeight());
+    private void createPane() {
 
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        dataset.setValue(sizeI, "Amount of information", "I");
-        dataset.setValue(sizeO, "Amount of information", "O ");
-        dataset.setValue(sizeSI, "Amount of information", "SI");
-        dataset.setValue(sizeSO, "Amount of information", "SO");
-
+        dataset.setValue(dataset.getValue("Amount of information", "I").intValue() + sizeI, "Amount of information", "I");
+        sizeI = 0;
+        
+        dataset.setValue(dataset.getValue("Amount of information", "O").intValue() + sizeO, "Amount of information", "O");
+        sizeO = 0;
+        
+        dataset.setValue(dataset.getValue("Amount of information", "SI").intValue() + sizeSI, "Amount of information", "SI");
+        sizeSI = 0;
+        
+        dataset.setValue(dataset.getValue("Amount of information", "SO").intValue() + sizeSO, "Amount of information", "SO");
+        sizeSO = 0;
+        
+        String unit = compareSize(dataset.getValue("Amount of information", "I").intValue(),
+                dataset.getValue("Amount of information", "O").intValue(),
+                dataset.getValue("Amount of information", "SI").intValue(),
+                dataset.getValue("Amount of information", "SO").intValue());
         JFreeChart chart = ChartFactory.
                 createBarChart("Network Analizer", "Network traffic", unit, dataset, PlotOrientation.VERTICAL, true, true, true);
+
         CategoryPlot p = chart.getCategoryPlot();
         p.setRangeGridlinePaint(Color.BLACK);
-        ChartPanel panel = new ChartPanel(chart);
+        
+        jPanelChart = new ChartPanel(chart);
 
-        return panel;
+        jPanelChart.
+                setSize(400, 400);
+        jPanelChart.setVisible(true);
+        
+        jPanelNetworkAnalizer.removeAll();
+        jPanelNetworkAnalizer.add(jPanelChart);
+
     }
 
     /**
      * Change the units base on window size
      *
-     * @param height window size
+     * @param sizeI
+     * @param sizeO
+     * @param sizeSI
+     * @param sizeSO
      * @return unit name
      */
-    public String changeUnits(int height) {
+    public String compareSize(int sizeI, int sizeO, int sizeSI, int sizeSO) {
 
-        if (height <= 450) {
+        int size = (sizeI + sizeO + sizeSI + sizeSO) / 4;
+
+        if (size < 50) {
             return "bytes";
-        } else if (height > 450 || height <= 500) {
+        } else if (size > 50 || size < 100) {
             return "kilobytes";
-        } else if (height > 500 || height <= 550) {
+        } else if (size > 100 || size < 150) {
             return "megabytes";
         } else {
             return "gigabytes";

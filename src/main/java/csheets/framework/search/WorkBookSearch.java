@@ -96,8 +96,11 @@ public class WorkBookSearch {
                 if (formulas == true && cell.getFormula() != null) {
                     String formula = cell.getFormula().toString();
                     if (formula.matches(pattern)) {
-                        results.add(SearchResultAssembler.
-                                getResultInformation(sheet, cell));
+                        if (!results.contains(SearchResultAssembler.
+                                getResultInformation(sheet, cell))) {
+                            results.add(SearchResultAssembler.
+                                    getResultInformation(sheet, cell));
+                        }
                     }
                 }
 
@@ -109,8 +112,11 @@ public class WorkBookSearch {
 
                     for (Comment comment : commentList) {
                         if (comment.text().matches(pattern)) {
-                            results.add(SearchResultAssembler.
-                                    getResultInformation(sheet, cell));
+                            if (!results.contains(SearchResultAssembler.
+                                    getResultInformation(sheet, cell))) {
+                                results.add(SearchResultAssembler.
+                                        getResultInformation(sheet, cell));
+                            }
                         }
                     }
                 }
@@ -123,11 +129,15 @@ public class WorkBookSearch {
                     if (!types.isEmpty()) {
                         for (Map.Entry<String, Value.Type> entry : types.entrySet()) {
                             if (cell.getValue().getType().equals(entry.getValue())) {
-                                results.add(SearchResultAssembler.
-                                        getResultInformation(sheet, cell));
+                                if (!results.contains(SearchResultAssembler.
+                                        getResultInformation(sheet, cell))) {
+                                    results.add(SearchResultAssembler.
+                                            getResultInformation(sheet, cell));
+                                }
                             }
                         }
-                    } else {
+                    } else if (!results.contains(SearchResultAssembler.
+                            getResultInformation(sheet, cell))) {
                         results.add(SearchResultAssembler.
                                 getResultInformation(sheet, cell));
                     }

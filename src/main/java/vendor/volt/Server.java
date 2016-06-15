@@ -135,7 +135,7 @@ public abstract class Server {
      * Gets the channels of a route.
      * 
      * @param route Route.
-     * @return Routes channels, or an empty list if no route was found.
+     * @return Routes channels, or null if no route was found.
      */
     public List<Channel> getRouteChannels(String route) 
     {
@@ -156,20 +156,38 @@ public abstract class Server {
     protected void executeBeforeChannels(Request request)
     {
         synchronized (this.channels) {
-            List<Channel> allChannels = getRouteChannels("*");
+            List<Channel> channels = getRouteChannels("*");
             
-            if (allChannels != null) {
+            if (channels != null) {
                 // Execute all of the wildcard channels.
-                for (Channel channel : allChannels) {
+                for (Channel channel : channels) {
                     channel.before(request, dependencies);
                 }
             }
             
-            List<Channel> beforeChannels = getRouteChannels(request.route());
+            channels = getRouteChannels(request.route());
             
-            if (beforeChannels != null) {
+            if (channels != null) {
                 // Execute all the before channels.
-                for (Channel channel : beforeChannels) {
+                for (Channel channel : channels) {
+                    channel.before(request, dependencies);
+                }
+            }
+            
+            channels = Volt.getRouteChannels("*");
+
+            if (channels != null) {
+                // Execute all of the global wildcard channels.
+                for (Channel channel : channels) {
+                    channel.before(request, dependencies);
+                }
+            }
+
+            channels = Volt.getRouteChannels(request.route());
+
+            if (channels != null) {
+                // Execute all the before global channels.
+                for (Channel channel : channels) {
                     channel.before(request, dependencies);
                 }
             }
@@ -183,20 +201,38 @@ public abstract class Server {
      */
     protected void executeAfterChannels(Request request) {
         synchronized (this.channels) {
-            List<Channel> allChannels = getRouteChannels("*");
+            List<Channel> channels = getRouteChannels("*");
 
-            if (allChannels != null) {
+            if (channels != null) {
                 // Execute all of the wildcard channels.
-                for (Channel channel : allChannels) {
+                for (Channel channel : channels) {
                     channel.after(request, dependencies);
                 }
             }
 
-            List<Channel> afterChannels = getRouteChannels(request.route());
+            channels = getRouteChannels(request.route());
 
-            if (afterChannels != null) {
+            if (channels != null) {
                 // Execute all the after channels.
-                for (Channel channel : afterChannels) {
+                for (Channel channel : channels) {
+                    channel.after(request, dependencies);
+                }
+            }
+            
+            channels = Volt.getRouteChannels("*");
+
+            if (channels != null) {
+                // Execute all of the global wildcard channels.
+                for (Channel channel : channels) {
+                    channel.after(request, dependencies);
+                }
+            }
+
+            channels = Volt.getRouteChannels(request.route());
+
+            if (channels != null) {
+                // Execute all the after global channels.
+                for (Channel channel : channels) {
                     channel.after(request, dependencies);
                 }
             }

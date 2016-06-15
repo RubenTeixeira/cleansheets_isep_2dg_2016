@@ -66,7 +66,7 @@ public class NetworkWorkbookSearchController {
 	 * @param permissionMessage the message the permission request shall carry
 	 */
 	public void initiateSearch(String target, String permissionMessage) {
-		//this.tcpService.requestPermission(target, permissionMessage);
+		this.tcpService.requestPermission(target, permissionMessage);
 	}
 
 	/**
@@ -93,8 +93,10 @@ public class NetworkWorkbookSearchController {
 	public void restartTcpService(NetworkWorkbookSearchPanel ui, String pattern) {
 		if (this.tcpService == null) {
 			startTcpService(ui, pattern);
+			System.out.println("Starting tcpserver from scratch");
 		} else {
 			startTcpService(pattern);
+			System.out.println("Restart tcp server");
 		}
 	}
 
@@ -144,7 +146,7 @@ public class NetworkWorkbookSearchController {
 	 */
 	private void startTcpService(String pattern) {
 		try {
-			//this.tcpService.server(pattern);
+			this.tcpService.server(pattern);
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -161,6 +163,7 @@ public class NetworkWorkbookSearchController {
 	 */
 	public void startTcpService(NetworkWorkbookSearchPanel ui, String pattern) {
 		if (ui == null) {
+			System.out.println("error");
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
@@ -175,9 +178,14 @@ public class NetworkWorkbookSearchController {
 	 * Stop both the UDP and TCP services.
 	 */
 	public void stopServices() {
-		this.tcpService.stop();
-		this.udpService.stop();
+		try {
+			this.tcpService.stop();
+			this.udpService.stop();
+		} catch (NullPointerException ex) {
+
+		}
 		this.udpService = null;
+		this.tcpService = null;
 	}
 
 	/**
@@ -187,6 +195,6 @@ public class NetworkWorkbookSearchController {
 	 * @param result The string representation of the result
 	 */
 	void sendSearchResult(String target, String result) {
-		//tcpService.sendSearchResult(target, result.replaceAll("\n", "|"));
+		tcpService.sendSearchResult(target, result);
 	}
 }

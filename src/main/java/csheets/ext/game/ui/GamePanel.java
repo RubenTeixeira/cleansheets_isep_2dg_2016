@@ -5,11 +5,8 @@
  */
 package csheets.ext.game.ui;
 
-import csheets.core.Spreadsheet;
-import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.game.Battleships;
 import csheets.ext.game.GameExtension;
-import csheets.ext.game.TicTacToe;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -23,7 +20,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.imageio.ImageIO;
@@ -31,12 +27,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
  * @author João Martins
  */
-public class GamePanel extends javax.swing.JPanel implements SelectionListener, Observer {
+public class GamePanel extends JPanel implements SelectionListener, Observer {
 
 	/**
 	 * Username of the system.
@@ -52,13 +49,6 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * UI controller.
 	 */
 	private final UIController uiController;
-
-	private Spreadsheet sheet;
-
-	/**
-	 * Cells
-	 */
-	private Map<String, String> cells;
 
 	/**
 	 * Instance of the controller.
@@ -96,9 +86,9 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 	 * @param uiController uiController
 	 * @param gameController gameController
 	 */
-	public GamePanel(UIController uiController, GameController gameController) throws FormulaCompilationException {
+	public GamePanel(UIController uiController) {
 		this.uiController = uiController;
-
+		this.gameController = new GameController(uiController);
 		setName(GameExtension.NAME);
 
 		initializeListsModel();
@@ -515,22 +505,21 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		} else {
 			JOptionPane.showMessageDialog(this, "Please choose a game to end.");
 		}
-		cont.stopThis();
-		cont = null;
+		gameController.stopCurrentGame();
+
     }//GEN-LAST:event_endButtonActionPerformed
-	TestController cont;
+
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
 		// TODO add your handling code here:
-		cont = new TestController(uiController, true, "192.168.1.105");
-		cont.addListeners();
+		gameController.startGame(this.gameList.getSelectedValue());
+
     }//GEN-LAST:event_playButtonActionPerformed
 
 	/**
 	 * Fill the list with the available games. Dummy classes.
 	 */
-	private void updateListOfGames() throws FormulaCompilationException {
-		TicTacToe ticTacToe = new TicTacToe(sheet);//new TicTacToe(uiController, gameController, cells);
-		this.instanceListModelGames.add(0, ticTacToe.toString());
+	private void updateListOfGames() {
+		this.instanceListModelGames.add(0, "TicTacToe");
 
 		Battleships battleships = new Battleships();
 		this.instanceListModelGames.add(1, battleships.toString());

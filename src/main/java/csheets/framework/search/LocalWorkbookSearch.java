@@ -10,7 +10,6 @@ import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -83,13 +82,13 @@ public class LocalWorkbookSearch {
 	private void search(File file) {
 
 		if (file.isDirectory()) {
-			System.out.println("Searching directory ... " + file.
-				getAbsoluteFile());
-			File file2 = new File(FileSystemView.getFileSystemView().
-				getDefaultDirectory().getPath());
-			System.out.println("Next try will be: " + file.getAbsolutePath());
-			File file3 = new File(System.getProperty("user.dir") + File.separator + "workspace");
-			System.out.println("Third try: " + file3.getAbsolutePath());
+//			System.out.println("Searching directory ... " + file.
+//				getAbsoluteFile());
+//			File file2 = new File(FileSystemView.getFileSystemView().
+//				getDefaultDirectory().getPath());
+//			System.out.println("Next try will be: " + file.getAbsolutePath());
+//			File file3 = new File(System.getProperty("user.dir") + File.separator + "workspace");
+//			System.out.println("Third try: " + file3.getAbsolutePath());
 
 			//do you have permission to read this directory?
 			if (file.canRead()) {
