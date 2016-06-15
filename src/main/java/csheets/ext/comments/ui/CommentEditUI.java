@@ -59,6 +59,10 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.jTextAreaText.setText(comment.text());
+		this.jTextAreaText.setFont(this.comment.getFont());
+		this.jTextAreaText.setBackground(this.comment.getBackgroundColor());
+		this.jTextAreaText.setBorder(this.comment.getBorder());
+		repaint();
 	}
 
 	/**
@@ -192,13 +196,16 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
 		if (this.newComment) {
-			String comment = jTextAreaText.getText().trim();
-			if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
+			String content = jTextAreaText.getText().trim();
+			if (!content.isEmpty() && !"".equalsIgnoreCase(content)) {
 				try {
 					CommentableCell activeCell = (CommentableCell) uiController.
 						getActiveCell().
 						getExtension(CommentsExtension.NAME);
-					commentController.addComment(activeCell, comment);
+					commentController.
+						addComment(activeCell, content, this.comment.getFont(), this.comment.
+								   getBackgroundColor(), this.comment.
+								   getBorder());
 				} catch (Exception ex) {
 					System.out.println("ERRO ----> " + ex);
 					// nothing to do here yet
