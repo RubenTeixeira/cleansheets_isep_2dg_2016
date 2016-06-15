@@ -20,9 +20,6 @@ public class Version implements Serializable{
     @Id
     @GeneratedValue
     private Long id;
-
-    //@ManyToOne(cascade = CascadeType.MERGE)
-    //private Map<Integer,List> versions;
     
     private int lastVersion;
     
@@ -38,6 +35,10 @@ public class Version implements Serializable{
 
     protected void id(Long id) {
         this.id = id;
+    }
+    
+    protected boolean isLastVersion(int versionNum) {
+        return lastVersion == versionNum;
     }
     
     protected int getLastVersion() {

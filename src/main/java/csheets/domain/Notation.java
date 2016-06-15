@@ -20,5 +20,6 @@ interface Notation<E> {
     public E newVersion(String title, String text);
     public boolean isDeleted();
     public void delete();
+    public boolean isLatestVersion();
     public boolean sameNotation(E e);
 }

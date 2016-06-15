@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,7 +24,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"CONTACT_ID","TITLE","VERSIONNUM"})})
+    @UniqueConstraint(columnNames = {"CONTACT_ID", "TITLE", "VERSIONNUM"})})
 public class List implements Notation<List>, Serializable {
 
     @Id
@@ -34,7 +35,10 @@ public class List implements Notation<List>, Serializable {
     private Version version;
 
     private String title;
+
+    //@ElementCollection
     private java.util.List<ListLine> lines;
+
     private int versionNum;
 
     @ManyToOne
@@ -58,12 +62,12 @@ public class List implements Notation<List>, Serializable {
         this.versionNum = version.addVersion();
     }
 
-    protected List(String title, String text, Contact contact, Version version) {
+    public List(String title, String text, Contact contact, Version version) {
         this(title, text, contact);
         this.version = version;
         this.versionNum = version.addVersion();
     }
-    
+
     public Version version() {
         return version;
     }
@@ -71,14 +75,14 @@ public class List implements Notation<List>, Serializable {
     public String getTitle() {
         return title;
     }
-    
+
     public String getText() {
         String text = "";
         for (ListLine line : lines) {
-            text += line.getText()+"\n";
+            text += line.getText() + "\n";
         }
         // to remove last "\n"
-        return text.substring(0, text.length()-1);
+        return text.substring(0, text.length() - 1);
     }
 
     public java.util.List<ListLine> getLines() {
@@ -116,7 +120,7 @@ public class List implements Notation<List>, Serializable {
         List newList = new List(title, text, this.contact, this.version);
         return newList;
     }
-    
+
     public boolean isDeleted() {
         return this.version.isDeleted();
     }
@@ -126,6 +130,11 @@ public class List implements Notation<List>, Serializable {
     }
     
     @Override
+    public boolean isLatestVersion() {
+        return version.isLastVersion(versionNum);
+    }
+
+    @Override
     public boolean sameNotation(List l) {
         return l.version().equals(this.version);
     }
@@ -133,5 +142,41 @@ public class List implements Notation<List>, Serializable {
     @Override
     public String toString() {
         return title;
+    }
+
+    @Embeddable
+    public class ListLine implements Comparable<String>, Serializable {
+
+        private boolean check;
+        private String text;
+
+        protected ListLine() {
+        }
+
+        public ListLine(String text) {
+            this.text = text;
+            this.check = false;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public boolean getCheck() {
+            return check;
+        }
+
+        public void check() {
+            check = true;
+        }
+
+        public void uncheck() {
+            check = false;
+        }
+
+        @Override
+        public int compareTo(String text) {
+            return this.text.compareTo(text);
+        }
     }
 }
