@@ -184,6 +184,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }
 
     private void showListEdit(List l) {
+        checkboxEditList.setSelected(true);
         textAreadListData.setEnabled(true);
         textAreadListData.setVisible(true);
         tableListData.setVisible(false);
@@ -192,6 +193,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }
 
     private void hideListEdit(List l) {
+        checkboxEditList.setSelected(false);
         textAreadListData.setVisible(false);
         textAreadListData.setEnabled(false);
         tableListData.setEnabled(true);
@@ -207,6 +209,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof Contact) {
             contactModel.addElement((Contact)arg);
+            cbListContact.setSelectedIndex(-1);
             this.cbNoteContact.removeAllItems();
             for (Contact c : controller.showContacts()) {
                 cbNoteContact.addItem(c);
@@ -227,6 +230,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 cbNoteContact.addItem(c);
                 contactModel.addElement(c);
             }
+            cbListContact.setSelectedIndex(-1);
             //NOTES
             this.NoteListModel.removeAllElements();
             if (cbNoteContact.getSelectedItem() != null) {
@@ -784,7 +788,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 }
                 contactListModel.addElement(newList);
                 lstContactLists.setSelectedValue(newList, true);
-                checkboxEditList.setSelected(false);
                 hideListEdit(newList);
                 break;
             }
@@ -797,22 +800,28 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 contactListModel.removeElement(lstContactLists.getSelectedValue());
                 contactListModel.addElement(list);
                 lstContactLists.setSelectedValue(list, true);
-                checkboxEditList.setSelected(false);
+                hideListEdit(list);
                 break;
             }
             case "Apply": {
                 String title;
                 String message;
                 int icon;
-                /*if(controller.applyList(lstContactLists.getSelectedValue(),listDataModel.getDataVector()) != null) {
+                Object data[][] = new Object[listDataModel.getRowCount()][listDataModel.getColumnCount()];
+                for (int i = 0; i < listDataModel.getRowCount(); i++) {
+                    for (int j = 0; j < listDataModel.getColumnCount(); j++) {
+                        data[i][j] = listDataModel.getValueAt(i, j);
+                    }
+                }
+                if(controller.applyList(lstContactLists.getSelectedValue(),data) != null) {
                     title = "Success";
                     message = "Your changes were saved with success.";
                     icon = JOptionPane.PLAIN_MESSAGE;
-                } else {*/
+                } else {
                     title = "Error";
                     message = "Something was wrong when saving the info.";
                     icon = JOptionPane.ERROR_MESSAGE;
-                //}
+                }
                 JOptionPane.showMessageDialog(panelLists, message, title, icon);
                 break;
             }

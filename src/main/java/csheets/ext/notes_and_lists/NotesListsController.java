@@ -110,7 +110,7 @@ public class NotesListsController {
             return null;
         }
         Contact contact = (Contact) contactObj;
-        String data[] = text.split("\n", 1);
+        String data[] = text.split("\n", 2);
         if (data.length != 2
                 || data[0].equals("")
                 || data[1].equals("")) {
@@ -121,7 +121,7 @@ public class NotesListsController {
     }
 
     public List editList(List list, String text) {
-        String data[] = text.split("\n", 1);
+        String data[] = text.split("\n", 2);
         if (data.length != 2
                 || data[0].equals("")
                 || data[1].equals("")) {
