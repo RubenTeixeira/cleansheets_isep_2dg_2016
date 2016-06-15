@@ -12,8 +12,6 @@ import csheets.ext.style.StyleExtension;
 import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
-import csheets.support.ThreadManager;
-import csheets.ui.ctrl.UIController;
 import java.awt.Font;
 import java.io.File;
 import java.util.logging.Level;
@@ -28,6 +26,10 @@ public class ImportExportTextFileController {
     String path;
     String separator;
     Cell[][] cells;
+
+    public ImportExportTextFileController() {
+
+    }
 
     /**
      * Checks if the selected cells are enough to the received content
@@ -167,16 +169,13 @@ public class ImportExportTextFileController {
         this.path = path;
         this.separator = separator;
 
-        System.out.println("antes do if");
-
         if (this.option == true) {
             System.out.println("entrei");
-
+            FileTask task = new FileTask(path, separator, cells);
             dataAtual = DateTime.now().getTimeInMillis();
             Task verify = new FileTask(path, separator, cells);
             tm.every(5).fire(verify);
-
-            System.out.println("Threed a correr");
+            // UIController.getUIController().getActiveSpreadsheet().addCellListener(task);
 
         } else {
             tm.destroy();
@@ -211,18 +210,16 @@ public class ImportExportTextFileController {
                     Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                //Refresh Cells
-                UIController.getUIController().setWorkbookModified(UIController.getUIController().focusOwner.getSpreadsheet().getWorkbook());
-                UIController.getUIController().focusOwner.repaint();
-
-                System.out.println("Alterei o ficheiro");
             }
 
         }
 
         @Override
         public void valueChanged(Cell cell) {
-            System.out.println("Vou exportar");
+            System.out.println("****************************************Vou exportar");
+
+            cells[cell.getAddress().getRow()][cell.getAddress().getColumn()] = cell;
+
             exportFile(path, cells, separator);
         }
 
