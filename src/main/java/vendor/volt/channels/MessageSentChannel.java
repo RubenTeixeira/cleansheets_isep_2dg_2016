@@ -35,6 +35,10 @@ public class MessageSentChannel extends Channel {
     
     @Override
     public void after(Request request, Map<String, Object> dependencies) {
+        if (request.target() == null) {
+            return;
+        }
+        
         String message = this.from + request.route() + ": " + request.message();
         
         for (Observer observer : this.observers) {

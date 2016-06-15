@@ -16,45 +16,56 @@ import vendor.volt.support.Encrypter;
  */
 public class IncomingChannel extends Channel {
 
-	/**
-	 * Encryption key.
-	 */
-	private final String key;
+    /**
+     * Encryption key.
+     */
+    private final String key;
 
-	/**
-	 * The observer that wants to know about the received messages.
-	 */
-	private final List<Observer> observers;
+    /**
+     * The observer that wants to know about the received messages.
+     */
+    private final List<Observer> observers;
 
-	public IncomingChannel(String key, String from, Observer... observers) {
-		this.key = key;
-		this.observers = new ArrayList<>();
-		this.observers.addAll(Arrays.asList(observers));
-	}
+    public IncomingChannel(String key, Observer... observers) {
+        this.key = key;
+        this.observers = new ArrayList<>();
+        this.observers.addAll(Arrays.asList(observers));
+    }
 
-	@Override
-	public void after(Request request, Map<String, Object> dependencies) {
-		// S -> Sent
-		// SE -> Sent Encrypted
-		// R -> Received
-		// RE -> Received Encrypted
+    @Override
+    public void before(Request request, Map<String, Object> dependencies) {
+        if (request.target() == null) {
+            return;
+        }
+    }
+    
+    @Override
+    public void after(Request request, Map<String, Object> dependencies) {
+        if (request.target() == null) {
+            return;
+        }
+        
+        // S -> Sent
+        // SE -> Sent Encrypted
+        // R -> Received
+        // RE -> Received Encrypted
 
-		String incoming = "R";
+        String incoming = "R";
 
-		try {
-			Encrypter.decrypt(request.message(), key);
+        try {
+            Encrypter.decrypt(request.message(), key);
 
-			incoming += "E";
-		} catch (Exception e) {
-			// Ignore the exception and don't do anything with the message.
-		}
+            incoming += "E";
+        } catch (Exception e) {
+            // Ignore the exception and don't do anything with the message.
+        }
 
-		incoming += ":" + request.message();
-                
-                synchronized (observers) {
-                    for (Observer observer : this.observers) {
-                            observer.update(null, incoming);
-                    }
-                }
-	}
+        incoming += ":" + request.length();
+
+        synchronized (observers) {
+            for (Observer observer : this.observers) {
+                observer.update(null, incoming);
+            }
+        }
+    }
 }

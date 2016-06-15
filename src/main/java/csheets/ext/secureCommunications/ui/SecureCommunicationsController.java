@@ -4,7 +4,6 @@ import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.ext.secureCommunications.IncomingChannel;
 import csheets.ext.secureCommunications.OutgoingChannel;
-import java.util.Map;
 import java.util.Observer;
 import vendor.volt.Action;
 import vendor.volt.Request;
@@ -32,6 +31,7 @@ public class SecureCommunicationsController {
         udp.expect(":secure-communication", new Action() {
             @Override
             public void run(Request request) {
+                System.out.println("asjkdaskd");
             }
         });
 
@@ -81,9 +81,8 @@ public class SecureCommunicationsController {
         
         UdpServer udp = NetworkManager.udp();
 
-        udp.channel("*", new IncomingChannel(AppSettings.
-                instance().getApplicationKey(), "Incoming from ", observer),
-                new OutgoingChannel(AppSettings.instance().getApplicationKey(), "Sent from ", observer)
+        udp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
+                new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer)
         );
         
         udp.expect(":network-analyser", new Action() {
@@ -95,8 +94,8 @@ public class SecureCommunicationsController {
 
         TcpServer tcp = NetworkManager.tcp();
 
-        tcp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), "Incoming from ", observer),
-                        new OutgoingChannel(AppSettings.instance().getApplicationKey(), "Sent from ", observer));
+        tcp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
+                        new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer));
 
         tcp.expect(":network-analyser", new Action() {
             @Override
