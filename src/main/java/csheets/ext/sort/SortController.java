@@ -122,53 +122,32 @@ public class SortController {
     }
     
     /**
-     * Sorts the currently selected cells with the information given.
+     * Sorts the given cells in ascending or descending order based on their value type.
      * 
+     * @param cells Cells to be sorted.
      * @param column Column to sort.
-     * @param type The sort type.
      * @param order The sort order.
+     * @return Sorted cells.
      */
-    public void sortRangeOfCells(int column, int type, boolean order) {
+    public Cell[][] sortRangeOfCells(Cell[][] cells, int column, boolean order) {
+        // If there is only one column with just one line, we don't have
+        // anything to sort.
+        if (cells.length == 1) {
+            if (cells[0].length == 1) {
+                return cells;
+            }
+        }
+        
+        // If there are multiple columns selected with only one line, then
+        // we don't have anything to sort.
+        if (cells[0].length == 1) {
+            return cells;
+        }
+        
         if (column < 0) {
             throw new IllegalArgumentException("A column can not have an index below 0.");
         }
         
-        if (type < 0) {
-            throw new IllegalArgumentException("A sort type can not have an index below 0.");
-        }
-        
-        Cell[][] cells = this.uiController.focusOwner.getSelectedCells();
-        SortStrategy strategy = this.getSortStrategy(type);
-        
-        new SortService().sortRangeOfCells(strategy, cells, column, order);
-    }
-    
-    private SortStrategy getSortStrategy(int type)
-    {
-        if (type < 0) {
-            throw new IllegalArgumentException("The given sort type is not a valid strategy.");
-        }
-        
-        String[] strategies = this.getSortTypes();
-        
-        if (type > strategies.length) {
-            throw new IllegalArgumentException("The given sort type is not a valid strategy.");
-        }
-        
-        String strategy = strategies[type];
-        
-        if (strategy.equalsIgnoreCase("Text")) {
-            return new TextSortStrategy();
-        }
-        
-        if (strategy.equalsIgnoreCase("Numeric")) {
-            return new NumericSortStrategy();
-        }
-        
-        if (strategy.equalsIgnoreCase("Date")) {
-            return new DateSortStrategy();
-        }
-        
-        throw new IllegalArgumentException("No strategy was found for the given sort type.");
+        return new SortService().sortRangeOfCells(cells, column, order);
     }
 }

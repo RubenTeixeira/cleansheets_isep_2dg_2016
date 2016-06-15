@@ -52,15 +52,19 @@
  * <h2>4. Analysis</h2>
  * Allow the user to create a form dynamically in it can insert or remove a line
  * with buttons or labels or textfields, which is composed of a name and
- * content. Use temporary variables. It is necessary to associate data with the
- * contents of the visual widgets. The user should be able to change the
- * contents of edit boxes. When closing the form window the contents of the
- * temporary variables should be updated from the contents of the corresponding
- * visual widgets.
+ * content. Use temporary variables ( p.e: ={_var:=30;FORM()} ). It is necessary
+ * to associate data with the contents of the visual widgets. The user should be
+ * able to change the contents of edit boxes. When closing the form window the
+ * contents of the temporary variables should be updated from the contents of
+ * the corresponding visual widgets. If the user writes "label"; "textfield";
+ * "button" it will be able to create the written type. If the system does not
+ * recognize them, return a message: "widget not found". If the user open the
+ * FORM with a variable and write the name of the variable in the content, the
+ * system must display the value of the created variable.
  *
  *
  * <h3>First "analysis" sequence diagram</h3>
- * imagem - ssd
+ * <img src="doc-files/forms_editor_analysis" alt="SD">
  *
  *
  * <h2>5. Design</h2>
@@ -80,63 +84,25 @@
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
- *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
- *
- *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
+ * <img src="doc-files/forms_editor_2_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
+ * Form; AskContent; ButtonPanel; ButtonWidget; FormEditor; LabelPanel;
+ * LabelWidget; SingleLine; TextFieldPanel; TextFieldWidget; (Interface) Widget
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * 1. Test Driven Design. 2. Layers - UI; Controller; Domain
+ *
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
+ * Creation of the classes of the three types of widgets: the user interface
+ * panel and the class with the "actions" - "NameType"Widget.java Interface:
+ * Widget with the methods that the "NameType"Widget.java will use to each type.
+ * "NameType"Widget.java - toString with the designation and the constructor
+ * with the creation of the "NameType"Panel.java to add to the FormEditor
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -146,8 +112,8 @@
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * The number of supported widget will increase. It is necessary to offer more
+ * options widget options to the form (or this 3 types are enough?)
  * <p>
  * As an extra this use case also implements a small cell visual decorator if
  * the cell has a comment. This "feature" is not documented in this page.
@@ -178,15 +144,29 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. ...
+ * 1. Analysis. 2. Think about design.
  * <p>
  * Today
  * <p>
- * 1. ...
+ * 1. Design. 2.Tests 3.Implementation
  * <p>
  * Blocking:
  * <p>
- * 1. ...
+ * 1. Nothing
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Design. 2.Tests 3.Implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. Tests. 2. Implementation.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
  *
  * <h2>10. Self Assessment</h2>
  *

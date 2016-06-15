@@ -66,14 +66,11 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to configure an email. We need to be able
- * to know if the email data is valid. Following this approach we can start by
- * coding a unit test that uses an email account and try to log in it. We
- * created an account to test this. We will also need a test that tells us if
- * the email got sent or not. A simple test can be sending an email from this
- * email account to itself. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
+ * functionality of this use case is to configure an email. We need to know if
+ * the email reaches the destination. For that i will use mock-javamail and
+ * green mail. It will be tested if the message is sent. As usual, in a test
+ * driven development approach tests normally fail in the beginning. The idea is
+ * that the tests will pass in the end.
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
@@ -146,7 +143,7 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e0022d44168c7e9246e949aa18bf945685e6c962#chg-src/main/java/csheets/worklog/n1140491/sprint3/email_configuration_extension_design.puml">Design
  * commit 2</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/1cb072d9529cb9aaf4b30597193f32207a18a4a5">Tests</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a5a84fb20c661307b36e92a8ce95d8cdff25c761">Tests</a></p>
  *
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1">Implementation
  * coommit 1</a></p>
@@ -195,9 +192,12 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on:
+ * Checking if all the features are correct. Updated tests using mock javamail
+ * and greenmail
  * <p>
- * 1. ...
+ * Blocking:
+ * <p>
+ * 1. -nothing-
  * <p>
  * Today
  * <p>

@@ -1,9 +1,14 @@
 package csheets.ext.sort.ui;
 
+import csheets.core.Cell;
+import csheets.core.Spreadsheet;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.sort.SortController;
 import csheets.ui.ctrl.UIController;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  * Core03.2 User Interface.
@@ -25,13 +30,12 @@ public class RangedSortDialog extends javax.swing.JDialog {
     /**
      * Creates new form RangeSortDialog
      * 
-     * @param parent Parent frame.
-     * @param modal Is Modal.
-     * @param uiController
+     * @param title Dialog title.
+     * @param uiController User Interface controller.
      */
-    public RangedSortDialog(java.awt.Frame parent, boolean modal, UIController uiController) {
-        super(parent, modal);
+    public RangedSortDialog(String title, UIController uiController) {
         initComponents();
+        this.setTitle(title);
         
         this.uiController = uiController;
         this.controller = new SortController(uiController);
@@ -65,6 +69,7 @@ public class RangedSortDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         orderGroup = new javax.swing.ButtonGroup();
+        jScrollPane1 = new javax.swing.JScrollPane();
         columnCombo = new javax.swing.JComboBox();
         typeCombo = new javax.swing.JComboBox();
         ascendingRadio = new javax.swing.JRadioButton();
@@ -76,6 +81,7 @@ public class RangedSortDialog extends javax.swing.JDialog {
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         columnCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -169,11 +175,40 @@ public class RangedSortDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        int column = columnCombo.getSelectedIndex();
+        int column = columnCombo.getSelectedIndex() + 1;
         int type = typeCombo.getSelectedIndex();
         boolean ascending = ascendingRadio.isSelected();
+        Cell[][] selectedCells = this.uiController.focusOwner.getSelectedCells();
         
-        this.controller.sortRangeOfCells(column, type, ascending);
+        Cell[][] cells = this.controller.sortRangeOfCells(selectedCells, column, ascending);
+        String[][] sorted = new String[cells.length][cells[0].length];
+        
+        // Brute-force copy.
+        for (int i = 0; i < cells.length; i++) {
+            for (int j = 0; j < cells[0].length; j++) {
+                sorted[i][j] = cells[i][j].getContent();
+            }
+        }
+        
+        int[] columns = uiController.focusOwner.getSelectedColumns();
+        int[] rows = uiController.focusOwner.getSelectedRows();
+        
+        Spreadsheet ss = uiController.getActiveSpreadsheet();
+        
+        for (int i = 0; i < columns.length; i++) {
+            for (int j = 0; j < rows.length; j++) {
+                try {
+                    ss.getCell(columns[i], rows[j]).setContent(sorted[j][i]);
+                } catch (FormulaCompilationException ex) {
+                    Logger.getLogger(RangedSortDialog.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        
+        repaint();
+        
+        JOptionPane.showMessageDialog(this, "The selected columns were successfuly sorted.");
+        this.dispose();
     }//GEN-LAST:event_okButtonActionPerformed
     
     private String getColumn(int column) {
@@ -196,6 +231,7 @@ public class RangedSortDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton okButton;
     private javax.swing.ButtonGroup orderGroup;
     private javax.swing.JComboBox typeCombo;

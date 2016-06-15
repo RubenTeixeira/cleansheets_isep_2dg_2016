@@ -14,6 +14,7 @@ import csheets.core.SpreadsheetImpl;
 import csheets.core.formula.Function;
 import csheets.core.formula.lang.And;
 import csheets.core.formula.lang.Language;
+import csheets.core.formula.lang.Sum;
 import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
 import org.junit.After;
@@ -42,7 +43,7 @@ public class WizardControllerTest {
 
     @Before
     public void setUp() {
-        f1 = new And();
+        f1 = new Sum();
         UIController uiController = UIController.getUIController();
         controller = new WizardController(uiController);
     }
@@ -69,8 +70,19 @@ public class WizardControllerTest {
      */
     @Test
     public void testGetFunctionInfo() {
-        String expected = "={AND(BOOLEAN)}";
+        String expected = "={SUM(NUMERIC)}";
         assertEquals(expected, controller.getFunctionInfo(f1));
+    }
+    
+    /**
+     * Test of getFunctionInfo method, of class WizardController.
+     */
+    @Test
+    public void testsetValuesOnExpression() {
+        String funcInfo = this.controller.getFunctionInfo(f1);
+        String expected = "={SUM(3;4;5)}";
+        String result = this.controller.setValuesOnExpression("3;4;5", null, null, null);
+        assertEquals(expected, result);
     }
 }
 //    /**

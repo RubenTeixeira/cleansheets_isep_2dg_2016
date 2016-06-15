@@ -179,11 +179,12 @@ public class Frame extends JFrame implements SelectionListener {
 		JPanel cellPanel = new JPanel(new BorderLayout());
 		cellPanel.add(addressBox, BorderLayout.WEST);
 		cellPanel.add(cellEditor, BorderLayout.CENTER);
-                for(UIExtension extension : uiController.getExtensions()){
-                    if(extension instanceof UIExtensionWizard){
-                        cellPanel.add(((UIExtensionWizard) extension).getButton(), BorderLayout.EAST);
-                    }
-                }
+		for (UIExtension extension : uiController.getExtensions()) {
+			if (extension instanceof UIExtensionWizard) {
+				cellPanel.
+					add(((UIExtensionWizard) extension).getButton(), BorderLayout.EAST);
+			}
+		}
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(toolBarPanel, BorderLayout.NORTH);
 		topPanel.add(cellPanel, BorderLayout.SOUTH);
@@ -205,7 +206,7 @@ public class Frame extends JFrame implements SelectionListener {
 
 		// Lays out split pane
 		workbookPane.setMinimumSize(new Dimension(300, 100));
-		sideBar.setMinimumSize(new Dimension(140, 100));
+		sideBar.setMinimumSize(new Dimension(250, 100));
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 											  workbookPane, sideBar);
 		splitPane.setOneTouchExpandable(true);
@@ -213,7 +214,7 @@ public class Frame extends JFrame implements SelectionListener {
 
 		// Configures layout and adds panels
 		Container pane = getContentPane();
-		pane.setPreferredSize(new Dimension(640, 480));
+		pane.setPreferredSize(new Dimension(800, 600));
 		pane.setLayout(new BorderLayout());
 		pane.add(topPanel, BorderLayout.NORTH);
 		pane.add(splitPane, BorderLayout.CENTER);

@@ -38,10 +38,14 @@ public class Code implements Serializable {
 	 * @param synchronous Execution mode
 	 */
 	public Code(String name, String type, String content, boolean synchronous) {
-		this.name = name;
-		this.type = type;
-		this.content = content;
-		this.synchronous = synchronous;
+		if (name != null && type != null && content != null) {
+			this.name = name;
+			this.type = type;
+			this.content = content;
+			this.synchronous = synchronous;
+		} else {
+			throw new IllegalArgumentException();
+		}
 	}
 
 	/**

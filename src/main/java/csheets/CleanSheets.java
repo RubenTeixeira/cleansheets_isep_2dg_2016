@@ -85,8 +85,8 @@ public class CleanSheets {
 	 * The application's properties
 	 */
 	private NamedProperties props;
-        
-        private int createdFiles = 0;
+
+	private int createdFiles = 0;
 
 	/**
 	 * The listeners registered to receive events
@@ -208,8 +208,8 @@ public class CleanSheets {
 	 */
 	public void create() {
 		Workbook workbook = new Workbook(3);
-                createdFiles++;
-                workbook.setParentFileName("* Unsaved File " +  createdFiles + " *");
+		createdFiles++;
+		workbook.setParentFileName("* Unsaved File " + createdFiles + " *");
 		workbooks.put(workbook, null);
 		fireSpreadsheetAppEvent(workbook, null, SpreadsheetAppEvent.Type.CREATED);
 	}
@@ -240,7 +240,7 @@ public class CleanSheets {
 			}
 
 			// Loads the workbook
-                        workbook.setParentFileName(file.getName());
+			workbook.setParentFileName(file.getName());
 			workbooks.put(workbook, file);
 			fireSpreadsheetAppEvent(workbook, file, SpreadsheetAppEvent.Type.LOADED);
 		} else {
@@ -297,8 +297,8 @@ public class CleanSheets {
 				} catch (IOException e) {
 				}
 			}
-                        
-                        workbook.setParentFileName(file.getName());
+
+			workbook.setParentFileName(file.getName());
 			workbooks.put(workbook, file);
 			fireSpreadsheetAppEvent(workbook, file, SpreadsheetAppEvent.Type.SAVED);
 		}

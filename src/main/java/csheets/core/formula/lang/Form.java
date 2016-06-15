@@ -26,6 +26,7 @@ import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
 import csheets.ui.FormEditor.ui.FormEditor;
+import csheets.ui.ctrl.UIController;
 
 /**
  * A function that returns the numeric sum of its arguments.
@@ -38,7 +39,7 @@ public class Form implements Function {
 	 * The only (but repeatable) parameter: a numeric term
 	 */
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.NUMERIC, "Term", true,
+		new FunctionParameter(Value.Type.TEXT, "Expression", true,
 							  "A number to be included in the sum")
 	};
 
@@ -53,7 +54,8 @@ public class Form implements Function {
 	}
 
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		new FormEditor();
+
+		new FormEditor(UIController.getUIController().getActiveCell());
 		return new Value();
 	}
 
@@ -86,7 +88,7 @@ public class Form implements Function {
 		FunctionParameter[] param = getParameters();
 		for (int i = 0; i < param.length; i++) {
 			if (i != 0) {
-				result += ",";
+				result += ";";
 			}
 			result += param[i].getValueType().toString();
 		}
