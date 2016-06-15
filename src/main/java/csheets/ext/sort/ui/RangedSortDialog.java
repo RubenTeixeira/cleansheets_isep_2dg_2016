@@ -23,8 +23,6 @@ public class RangedSortDialog extends javax.swing.JDialog {
     
     private final DefaultComboBoxModel columnModel;
     
-    private final DefaultComboBoxModel typeModel;
-    
     private final int[] selectedColumns;
     
     /**
@@ -48,15 +46,6 @@ public class RangedSortDialog extends javax.swing.JDialog {
         for (int i = 0; i < selectedColumns.length; i++) {
             columnModel.addElement(getColumn(selectedColumns[i]));
         }
-        
-        String[] types = this.controller.getSortTypes();
-        
-        this.typeModel = new DefaultComboBoxModel();
-        typeCombo.setModel(typeModel);
-        
-        for (int i = 0; i < types.length; i++) {
-            typeModel.addElement(types[i]);
-        }
     }
 
     /**
@@ -71,11 +60,9 @@ public class RangedSortDialog extends javax.swing.JDialog {
         orderGroup = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         columnCombo = new javax.swing.JComboBox();
-        typeCombo = new javax.swing.JComboBox();
         ascendingRadio = new javax.swing.JRadioButton();
         descendingRadio = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
@@ -84,8 +71,6 @@ public class RangedSortDialog extends javax.swing.JDialog {
         setResizable(false);
 
         columnCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        typeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         orderGroup.add(ascendingRadio);
         ascendingRadio.setSelected(true);
@@ -96,8 +81,6 @@ public class RangedSortDialog extends javax.swing.JDialog {
         descendingRadio.setText("Descending");
 
         jLabel1.setText("Column");
-
-        jLabel2.setText("Type");
 
         jLabel3.setText("Order");
 
@@ -121,37 +104,32 @@ public class RangedSortDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(cancelButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(okButton))
+                        .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(ascendingRadio)
                             .addComponent(descendingRadio)
-                            .addComponent(typeCombo, 0, 115, Short.MAX_VALUE)
-                            .addComponent(columnCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                            .addComponent(columnCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(columnCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(typeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ascendingRadio)
@@ -160,11 +138,11 @@ public class RangedSortDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel3)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
-                .addGap(19, 19, 19))
+                .addContainerGap())
         );
 
         pack();
@@ -176,7 +154,6 @@ public class RangedSortDialog extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         int column = columnCombo.getSelectedIndex() + 1;
-        int type = typeCombo.getSelectedIndex();
         boolean ascending = ascendingRadio.isSelected();
         Cell[][] selectedCells = this.uiController.focusOwner.getSelectedCells();
         
@@ -229,11 +206,9 @@ public class RangedSortDialog extends javax.swing.JDialog {
     private javax.swing.JComboBox columnCombo;
     private javax.swing.JRadioButton descendingRadio;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton okButton;
     private javax.swing.ButtonGroup orderGroup;
-    private javax.swing.JComboBox typeCombo;
     // End of variables declaration//GEN-END:variables
 }
