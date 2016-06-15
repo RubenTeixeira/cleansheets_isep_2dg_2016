@@ -28,6 +28,7 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
                 createQuery("SELECT l FROM List l where l.contact.id = :contact "
                         + "and l.version.deleted = false", List.class);
         query.setParameter("contact", contact.id());
+        //query.setParameter("deleted", false);
         Iterable<List> tmp = query.getResultList();
         return tmp;
     }
