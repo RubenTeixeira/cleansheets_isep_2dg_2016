@@ -123,23 +123,30 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 	 * exception
 	 */
 	protected Expression convert(Cell cell, Tree node) throws FormulaCompilationException {
-		//System.out.println("Converting node '" + node.getText() + "' of tree '" + node.toStringTree() + "' with " + node.getChildCount() + " children.");
+		System.out.
+			println("Converting node '" + node.getText() + "' of tree '" + node.
+				toStringTree() + "' with " + node.getChildCount() + " children.");
 		if (node.getChildCount() == 0) {
 			try {
 				switch (node.getType()) {
-					case FormulaLexer.NUMBER:
-						return new Literal(Value.parseNumericValue(node.
-							getText()));
-					case FormulaLexer.STRING:
-						return new Literal(Value.
-							parseValue(node.getText(), Value.Type.BOOLEAN, Value.Type.DATE));
 					case FormulaLexer.CELL_REF:
+						System.out.println("CELL_REF " + node.getText());
 						return new CellReference(cell.getSpreadsheet(), node.
 												 getText());
 					case FormulaLexer.VART_REF:
+						System.out.println("VART_REF " + node.getText());
 						return new VariableLocalReference(cell, node.getText());
 					case FormulaLexer.VARG_REF:
+						System.out.println("VARG_REF " + node.getText());
 						return new VariableGlobalReference(cell, node.getText());
+					case FormulaLexer.NUMBER:
+						System.out.println("NUMBER " + node.getText());
+						return new Literal(Value.parseNumericValue(node.
+							getText()));
+					case FormulaLexer.STRING:
+						System.out.println("STRING " + node.getText());
+						return new Literal(Value.
+							parseValue(node.getText(), Value.Type.BOOLEAN, Value.Type.DATE));
 				}
 			} catch (ParseException e) {
 				throw new FormulaCompilationException(e);
@@ -151,7 +158,6 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 		try {
 			if (node.getText() != null) {
 				function = Language.getInstance().getFunction(node.getText());
-				System.out.println(function.getIdentifier());
 			}
 		} catch (UnknownElementException e) {
 		}

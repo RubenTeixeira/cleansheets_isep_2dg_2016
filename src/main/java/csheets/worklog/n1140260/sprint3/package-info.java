@@ -69,9 +69,6 @@
  * represented as the "Service" in the sequence diagram can be either UdpService
  * or TcpService.
  * </p>
- * <p>
- * alterar</p>
- * <img src="doc-files/final_design.png" alt="Final Design">
  *
  * <h3>Tests:</h3>
  * <p>

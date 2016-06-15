@@ -20,7 +20,7 @@ public class OutgoingChannel extends Channel {
 	private final String key;
 
 	/**
-	 * The observer that wants to know about the received messages.
+	 * The observer that wants to know about the sent messages.
 	 */
 	private final List<Observer> observers;
 

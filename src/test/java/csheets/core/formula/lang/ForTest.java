@@ -5,6 +5,9 @@
  */
 package csheets.core.formula.lang;
 
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
 /**
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
@@ -12,6 +15,12 @@ package csheets.core.formula.lang;
 public class ForTest {
 
 	public ForTest() {
+	}
+
+	@Test
+	public void testApplyTo() throws Exception {
+		System.out.println("ApplyTo");
+		assertEquals(true, true);
 	}
 
 	/**

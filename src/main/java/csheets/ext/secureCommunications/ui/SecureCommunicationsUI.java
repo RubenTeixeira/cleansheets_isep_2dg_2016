@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -37,6 +36,26 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 	private final DefaultListModel messagesListModel;
 
 	/**
+	 * Incomming message size
+	 */
+	private int sizeI;
+
+	/**
+	 * Secure Incomming message size
+	 */
+	private int sizeSI;
+
+	/**
+	 * Outgoing message size
+	 */
+	private int sizeO;
+
+	/**
+	 * Secure outgoing message size
+	 */
+	private int sizeSO;
+
+	/**
 	 * Task Manager
 	 */
 	private final TaskManager manager = new TaskManager();
@@ -53,11 +72,6 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
 		this.controller = controller;
 		this.controller.startServices(this);
-
-		jPanelNetworkAnalizer.add("Network Analyser", createPane(this));
-		JFrame frame = new JFrame("Network Analyser");
-		frame.add(jPanelNetworkAnalizer);
-		frame.setVisible(true);
 
 		Task clean = new Task() {
 			@Override
@@ -89,6 +103,12 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
         secureCheckBox = new javax.swing.JCheckBox();
         messageText = new javax.swing.JTextField();
         jPanelNetworkAnalizer = new javax.swing.JPanel();
+        jPanelChart = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Messages", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 13))); // NOI18N
         jPanel2.setName(""); // NOI18N
@@ -124,7 +144,7 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addComponent(secureCheckBox)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 267, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 332, Short.MAX_VALUE)
                 .addComponent(sendButton))
             .addComponent(messageText)
         );
@@ -154,15 +174,78 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
         jTabbedPaneSecureCommunications.addTab("Messages", jPanelMessages);
 
+        javax.swing.GroupLayout jPanelChartLayout = new javax.swing.GroupLayout(jPanelChart);
+        jPanelChart.setLayout(jPanelChartLayout);
+        jPanelChartLayout.setHorizontalGroup(
+            jPanelChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 307, Short.MAX_VALUE)
+        );
+        jPanelChartLayout.setVerticalGroup(
+            jPanelChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 295, Short.MAX_VALUE)
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setText("I :Incomming");
+
+        jLabel2.setText("O:Outgoing");
+
+        jLabel3.setText("SI:Secure Incomming");
+
+        jLabel4.setText("SO:Secure Outgoing");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addContainerGap(174, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanelNetworkAnalizerLayout = new javax.swing.GroupLayout(jPanelNetworkAnalizer);
         jPanelNetworkAnalizer.setLayout(jPanelNetworkAnalizerLayout);
         jPanelNetworkAnalizerLayout.setHorizontalGroup(
             jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelNetworkAnalizerLayout.createSequentialGroup()
+                .addGap(322, 322, 322)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanelChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(143, 143, 143)))
         );
         jPanelNetworkAnalizerLayout.setVerticalGroup(
             jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanelNetworkAnalizerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelNetworkAnalizerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanelChart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jTabbedPaneSecureCommunications.addTab("NetworkAnalizer", jPanelNetworkAnalizer);
@@ -199,11 +282,20 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void messagesListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_messagesListValueChanged
-
+		jPanelChart = createPane(this);
+		jPanelChart.setVisible(true);
+		jPanelChart.setSize(450, 350);
+		jPanelNetworkAnalizer.add(jPanelChart);
     }//GEN-LAST:event_messagesListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelChart;
     private javax.swing.JPanel jPanelMessages;
     private javax.swing.JPanel jPanelNetworkAnalizer;
     private javax.swing.JScrollPane jScrollPane1;
@@ -217,6 +309,21 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 	@Override
 	public void update(Observable o, Object object) {
 		messagesListModel.addElement(object);
+		String[] message = object.toString().split(":");
+		switch (message[0]) {
+			case "R":
+				sizeI = message[1].length();
+				break;
+			case "S":
+				sizeO = message[1].length();
+				break;
+			case "RE":
+				sizeSI = message[1].length();
+				break;
+			case "SE":
+				sizeSO = message[1].length();
+				break;
+		}
 	}
 
 	@Override
@@ -224,26 +331,48 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 
 	}
 
+	/**
+	 * Create a new chartPanel
+	 *
+	 * @param observer
+	 * @return chartPanel User Interface to observe the communications.
+	 */
 	private ChartPanel createPane(Observer observer) {
 		this.controller.analyser(observer);
 		String unit = changeUnits(jTabbedPaneSecureCommunications.getHeight());
 
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-//		dataset.setValue(unsecureIncomming, unit, "Unsecure Incomming");
-//		dataset.setValue(secureIncomming, unit, "Secure Incomming ");
-//		dataset.setValue(unsecureOutgoing, unit, "Unsecure Outgoing");
-//		dataset.setValue(secureOutgoing, unit, "Secure Outgoing");
+		dataset.setValue(sizeI, "Amount of information", "I");
+		dataset.setValue(sizeO, "Amount of information", "O ");
+		dataset.setValue(sizeSI, "Amount of information", "SI");
+		dataset.setValue(sizeSO, "Amount of information", "SO");
 
 		JFreeChart chart = ChartFactory.
-			createBarChart("Network Analizer", "Network traffic", "Size", dataset, PlotOrientation.VERTICAL, false, true, false);
+			createBarChart("Network Analizer", "Network traffic", unit, dataset, PlotOrientation.VERTICAL, true, true, true);
 		CategoryPlot p = chart.getCategoryPlot();
 		p.setRangeGridlinePaint(Color.BLACK);
-		return new ChartPanel(chart);
+		ChartPanel panel = new ChartPanel(chart);
 
+		return panel;
 	}
 
+	/**
+	 * Change the units base on window size
+	 *
+	 * @param height window size
+	 * @return unit name
+	 */
 	public String changeUnits(int height) {
-		return "";
+
+		if (height <= 465) {
+			return "bytes";
+		} else if (height > 465 || height <= 565) {
+			return "kilobytes";
+		} else if (height > 565 || height <= 665) {
+			return "megabytes";
+		} else {
+			return "gigabytes";
+		}
 
 	}
 

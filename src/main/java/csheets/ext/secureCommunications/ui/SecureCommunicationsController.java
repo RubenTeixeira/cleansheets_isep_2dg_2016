@@ -70,6 +70,12 @@ public class SecureCommunicationsController {
 					get("UDP_PORT"), message);
 	}
 
+	/**
+	 * Checks if the message is Incomming,Outgoing,Incomming Secure or Outgoing
+	 * Segure
+	 *
+	 * @param observer User Interface to observe the communications.
+	 */
 	public void analyser(Observer observer) {
 
 		UdpServer udp = NetworkManager.udp();
@@ -81,7 +87,7 @@ public class SecureCommunicationsController {
 		udp.expect(":Network Analyser", new Action() {
 			@Override
 			public void run(Map<String, Object> args) {
-				checkChannel(args);
+
 			}
 		});
 
@@ -96,47 +102,10 @@ public class SecureCommunicationsController {
 		tcp.expect(":Network Analyser", new Action() {
 			@Override
 			public void run(Map<String, Object> args) {
-				// S -> Sent
-				// SE -> Sent Encrypted
-				// R -> Received
-				// RE -> Received Encrypted
-				String[] tmp = args.toString().split(":");
 
-				switch (tmp[0]) {
-					case "SE":
-						int se = updateSecureIncomming(tmp[1]);
-						break;
-					case "S":
-						break;
-					case "R":
-						break;
-					case "RE":
-						break;
-				}
 			}
 		});
 
-	}
-
-	public void checkChannel(Map<String, Object> args) {
-
-	}
-
-	public int updateSecureIncomming(String message) {
-		return message.length();
-
-	}
-
-	public int updateSecureOutgoing(String message) {
-		return message.length();
-	}
-
-	public int updateUnsecureIncomming(String message) {
-		return message.length();
-	}
-
-	public int updateUnsecureOutgoing(String message) {
-		return message.length();
 	}
 
 }
