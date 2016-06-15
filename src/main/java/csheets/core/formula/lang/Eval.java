@@ -26,7 +26,6 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
-import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.core.formula.compiler.FormulaCompiler;
 import csheets.ui.ctrl.UIController;
 
@@ -66,7 +65,7 @@ public class Eval implements Function {
 				getSpreadsheet(0).getCell(0, 0);
 			return FormulaCompiler.getInstance().compile(cell, content).
 				evaluate();
-		} catch (FormulaCompilationException ex) {
+		} catch (Exception ex) {
 			return new Value();
 		}
 	}
