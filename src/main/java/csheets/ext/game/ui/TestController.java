@@ -6,6 +6,7 @@
 package csheets.ext.game.ui;
 
 import csheets.core.Cell;
+import csheets.core.CellListener;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.framework.volt.Action;
 import csheets.framework.volt.Volt;
@@ -14,8 +15,6 @@ import csheets.framework.volt.protocols.tcp.TcpServer;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author AB
  */
-public class TestController implements Observer {
+public class TestController implements CellListener {
 
 	private TcpServer server;
 	UIController uiController;
@@ -34,8 +33,21 @@ public class TestController implements Observer {
 	public TestController(UIController uiController, boolean turn, String ip) {
 		this.turn = turn;
 		this.uiController = uiController;
-		connection = ip + ":9449";
+		connection = "192.168.1.105" + ":9449";
 		startServer();
+
+	}
+
+	public void addListeners() {
+		uiController.getActiveSpreadsheet().getCell(0, 0).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(0, 1).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(0, 2).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(1, 0).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(1, 1).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(1, 2).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(2, 0).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(2, 1).addCellListener(this);
+		uiController.getActiveSpreadsheet().getCell(2, 2).addCellListener(this);
 	}
 
 	private void startServer() {
@@ -103,43 +115,6 @@ public class TestController implements Observer {
 		ThreadManager.run("ipc.tictactoe-tcpServer");
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		if (!(arg instanceof Cell)) {
-			return;
-		}
-		Cell cell = (Cell) arg;
-		if (!cell.getSpreadsheet().equals(uiController.getActiveSpreadsheet())) {
-			return;
-		}
-
-		if (turn) {
-			if (validate()) {
-				String message = cell.getAddress().getColumn() + ";" + cell.
-					getAddress().getRow() + ";" + cell.getContent();
-				new TcpClient(0).send(":game-play", connection, message);
-				turn = false;
-			} else {
-				try {
-					cell.setContent("");
-				} catch (FormulaCompilationException ex) {
-					Logger.getLogger(TestController.class.getName()).
-						log(Level.SEVERE, null, ex);
-				}
-			}
-		} else if (otherPlay) {
-			otherPlay = false;
-			turn = true;
-		} else {
-			try {
-				cell.setContent("");
-			} catch (FormulaCompilationException ex) {
-				Logger.getLogger(TestController.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-		}
-	}
-
 	/**
 	 * Stops all the TCP services.
 	 */
@@ -178,4 +153,44 @@ public class TestController implements Observer {
 	private boolean validate() {
 		return true;
 	}
+
+	@Override
+	public void contentChanged(Cell cell) {
+		if (!cell.getSpreadsheet().equals(uiController.getActiveSpreadsheet())) {
+			return;
+		}
+
+		if (turn) {
+			if (validate()) {
+				String message = cell.getAddress().getColumn() + ";" + cell.
+					getAddress().getRow() + ";" + cell.getContent();
+				new TcpClient(0).send(":game-play", connection, message);
+				turn = false;
+			} else {
+				cell.clear();
+			}
+		} else if (otherPlay) {
+			otherPlay = false;
+			turn = true;
+		} else {
+			cell.clear();
+		}
+	}
+
+	@Override
+	public void dependentsChanged(Cell cell) {
+	}
+
+	@Override
+	public void cellCleared(Cell cell) {
+	}
+
+	@Override
+	public void cellCopied(Cell cell, Cell source) {
+	}
+
+	@Override
+	public void valueChanged(Cell cell) {
+	}
+
 }

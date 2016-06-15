@@ -515,11 +515,14 @@ public class GamePanel extends javax.swing.JPanel implements SelectionListener, 
 		} else {
 			JOptionPane.showMessageDialog(this, "Please choose a game to end.");
 		}
+		cont.stopThis();
+		cont = null;
     }//GEN-LAST:event_endButtonActionPerformed
-
+	TestController cont;
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
 		// TODO add your handling code here:
-		new TictactoeController(uiController);
+		cont = new TestController(uiController, true, "192.168.1.105");
+		cont.addListeners();
     }//GEN-LAST:event_playButtonActionPerformed
 
 	/**
