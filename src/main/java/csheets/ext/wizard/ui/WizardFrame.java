@@ -5,11 +5,8 @@
  */
 package csheets.ext.wizard.ui;
 
-import com.toedter.calendar.JTextFieldDateEditor;
-import csheets.core.formula.FunctionParameter;
 import csheets.ui.ctrl.UIController;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -28,10 +25,10 @@ public class WizardFrame extends javax.swing.JFrame {
 		setLocationRelativeTo(this);
 		controller = new WizardController(uiController);
 		initComponents();
-                txtFieldsInvisibles();
+		openTextFields(0);
 		loadFunctions();
-                setVisible(true);
-                setLocationRelativeTo(null);
+		setVisible(true);
+		setLocationRelativeTo(null);
 	}
 
 	private void loadFunctions() {
@@ -116,6 +113,11 @@ public class WizardFrame extends javax.swing.JFrame {
         functionsList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 functionsListMouseClicked(evt);
+            }
+        });
+        functionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                functionsListValueChanged(evt);
             }
         });
         jScrollPane2.setViewportView(functionsList);
@@ -248,13 +250,7 @@ public class WizardFrame extends javax.swing.JFrame {
 	 * @param evt
 	 */
     private void functionsListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_functionsListMouseClicked
-		int index = functionsList.getSelectedIndex();
-		String info = ((FunctionListModel) functionsList.getModel()).
-			getFunctionInfo(index, controller);
-		selectedFunctionTextBox.setText(info);
-                int i=this.controller.getParametersOfFunctionSelected().length;
-                System.out.println(i);
-                openTextFields(i);
+
     }//GEN-LAST:event_functionsListMouseClicked
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
@@ -286,20 +282,29 @@ public class WizardFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_helpButtonActionPerformed
 
     private void txtFieldParameter1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter1ActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_txtFieldParameter1ActionPerformed
 
     private void txtFieldParameter2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter2ActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_txtFieldParameter2ActionPerformed
 
     private void txtFieldParameter3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter3ActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_txtFieldParameter3ActionPerformed
 
     private void txtFieldParameter4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFieldParameter4ActionPerformed
-        // TODO add your handling code here:
+		// TODO add your handling code here:
     }//GEN-LAST:event_txtFieldParameter4ActionPerformed
+
+    private void functionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_functionsListValueChanged
+		int index = functionsList.getSelectedIndex();
+		String info = ((FunctionListModel) functionsList.getModel()).
+			getFunctionInfo(index, controller);
+		selectedFunctionTextBox.setText(info);
+		int i = this.controller.getParametersOfFunctionSelected().length;
+		this.openTextFields(i);
+    }//GEN-LAST:event_functionsListValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -321,33 +326,40 @@ public class WizardFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtFieldParameter4;
     // End of variables declaration//GEN-END:variables
 
-    private void txtFieldsInvisibles() {
-        txtFieldParameter1.setVisible(false);
-        txtFieldParameter2.setVisible(false);
-        txtFieldParameter3.setVisible(false);
-        txtFieldParameter4.setVisible(false);
-    }
-
-    private void openTextFields(int i) {
-        System.out.println(i);
-        if(i==1){
-            txtFieldParameter1.setVisible(true);
-        }
-        if(i==2){
-            txtFieldParameter1.setVisible(true);
-            txtFieldParameter2.setVisible(true);
-        }
-        if(i==3){
-            txtFieldParameter1.setVisible(true);
-            txtFieldParameter2.setVisible(true);
-            txtFieldParameter3.setVisible(true);
-        }
-        if(i==1){
-            txtFieldParameter1.setVisible(true);
-            txtFieldParameter2.setVisible(true);
-            txtFieldParameter3.setVisible(true);
-            txtFieldParameter4.setVisible(true);
-        }
-    }
+	private void openTextFields(int i) {
+		switch (i) {
+			case 1:
+				txtFieldParameter1.setVisible(true);
+				txtFieldParameter2.setVisible(false);
+				txtFieldParameter3.setVisible(false);
+				txtFieldParameter4.setVisible(false);
+				break;
+			case 2:
+				txtFieldParameter1.setVisible(true);
+				txtFieldParameter2.setVisible(true);
+				txtFieldParameter3.setVisible(false);
+				txtFieldParameter4.setVisible(false);
+				break;
+			case 3:
+				txtFieldParameter1.setVisible(true);
+				txtFieldParameter2.setVisible(true);
+				txtFieldParameter3.setVisible(true);
+				txtFieldParameter4.setVisible(false);
+				break;
+			case 4:
+				txtFieldParameter1.setVisible(true);
+				txtFieldParameter2.setVisible(true);
+				txtFieldParameter3.setVisible(true);
+				txtFieldParameter4.setVisible(true);
+				break;
+			default:
+				txtFieldParameter1.setVisible(false);
+				txtFieldParameter2.setVisible(false);
+				txtFieldParameter3.setVisible(false);
+				txtFieldParameter4.setVisible(false);
+		}
+		this.revalidate();
+		this.repaint();
+	}
 
 }
