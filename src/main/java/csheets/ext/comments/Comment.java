@@ -7,6 +7,7 @@ package csheets.ext.comments;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +20,7 @@ import javax.swing.border.Border;
  *
  * @author Rafael
  */
-public class Comment {
+public class Comment implements Serializable {
 
 	/**
 	 * The username that made the comment
@@ -78,6 +79,7 @@ public class Comment {
 		this.userName = userName;
 		this.text = text;
 		this.history = new ArrayList<>();
+		history.add(this);
 		resetStyle();
 	}
 
@@ -95,6 +97,12 @@ public class Comment {
 				   Color bgColor, Border border) {
 		this.userName = userName;
 		this.text = text;
+		this.font = font;
+		this.bgColor = bgColor;
+		this.border = border;
+		this.history = new ArrayList<>();
+		history.add(this);
+
 	}
 
 	/**
@@ -169,6 +177,10 @@ public class Comment {
 		this.border = border;
 	}
 
+	public void setText(String text) {
+		this.text = text;
+	}
+
 	/**
 	 * Resets the style of the comment.
 	 */
@@ -215,6 +227,7 @@ public class Comment {
 		this.font = newComment.getFont();
 		this.border = newComment.getBorder();
 		this.bgColor = newComment.getBackgroundColor();
+		this.text = newComment.text();
 	}
 
 	public List<Comment> commentHistory() {

@@ -77,7 +77,7 @@ public class Pound implements Function {
 		FunctionParameter[] param = getParameters();
 		for (int i = 0; i < param.length; i++) {
 			if (i != 0) {
-				result += ",";
+				result += ";";
 			}
 			result += param[i].getValueType().toString();
 		}

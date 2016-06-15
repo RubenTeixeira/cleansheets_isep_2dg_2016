@@ -247,11 +247,7 @@ public class CreateEditScriptUI extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(nameLabel)
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(execLabel)
                                 .addGap(18, 18, 18)
@@ -262,6 +258,10 @@ public class CreateEditScriptUI extends javax.swing.JFrame {
                         .addGap(22, 22, 22)
                         .addComponent(jScrollPane1)))
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +314,9 @@ public class CreateEditScriptUI extends javax.swing.JFrame {
 		String name = txtName.getText();
 		String content = txtAreaCode.getText();
 
-		if (!name.equals("") && !content.equals("") && !script_type.equals("")) {
+		if (!name.equals("") && !content.equals("") && buttonGroup1.
+			getSelection() != null && buttonGroup2.getSelection() != null) {
+
 			controller.saveScript(name, script_type, content, sync);
 			managerUI.displayScripts();
 			txtAreaCode.setText(null);
@@ -327,6 +329,9 @@ public class CreateEditScriptUI extends javax.swing.JFrame {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
 		txtAreaCode.setText(null);
+		txtName.setText(null);
+		buttonGroup1.clearSelection();
+		buttonGroup2.clearSelection();
     }//GEN-LAST:event_btnClearActionPerformed
 
 	public void run() {

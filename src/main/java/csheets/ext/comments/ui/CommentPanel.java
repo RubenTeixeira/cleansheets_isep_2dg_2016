@@ -117,8 +117,8 @@ public class CommentPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void historyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_historyButtonActionPerformed
-		CommentHistoryUI commentHistory = new CommentHistoryUI(uiController, comment);
-		commentHistory.setVisible(true);
+		CallHistory call = new CallHistory(null, true, uiController, comment);
+		call.setVisible(true);
     }//GEN-LAST:event_historyButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -134,6 +134,7 @@ public class CommentPanel extends javax.swing.JPanel {
 		jTextArea1.setFont(comment.getFont());
 		jTextArea1.setBackground(comment.getBackgroundColor());
 		jTextArea1.setBorder(comment.getBorder());
+		jTextArea1.setText(comment.text());
 		repaint();
 	}
 

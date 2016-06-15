@@ -18,6 +18,7 @@ import javax.swing.JRadioButton;
 public class MacroBeanShellPanel extends javax.swing.JPanel {
 
 	private MacroBeanShellController controller;
+	private final UIController uiController;
 
 	/**
 	 * Creates new form MacroShellBeanPanel
@@ -26,6 +27,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 	 */
 	public MacroBeanShellPanel(UIController uiController) {
 		this.controller = new MacroBeanShellController(uiController);
+		this.uiController = uiController;
 		setName(MacroBeanShellExtension.NAME);
 		initComponents();
 		txtAreaResult.setEnabled(false);
@@ -79,6 +81,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaResult = new javax.swing.JTextArea();
         btnExecute = new javax.swing.JButton();
+        managerButton = new javax.swing.JButton();
 
         radioGroupScript.add(radioBtnMacro);
         radioBtnMacro.setText("Macro");
@@ -95,7 +98,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
                 .addComponent(radioBtnMacro)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(radioBtnBeanShell)
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -126,6 +129,14 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
             }
         });
 
+        managerButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/settings.png"))); // NOI18N
+        managerButton.setFocusable(false);
+        managerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                managerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,23 +144,28 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2)
-                    .addComponent(btnExecute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnExecute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(managerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(managerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnExecute)
                 .addGap(11, 11, 11)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -161,11 +177,16 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 		txtAreaResult.setText(result);
     }//GEN-LAST:event_btnExecuteActionPerformed
 
+    private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
+		new ScriptManagerUI(uiController).run();
+    }//GEN-LAST:event_managerButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExecute;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton managerButton;
     private javax.swing.JRadioButton radioBtnBeanShell;
     private javax.swing.JRadioButton radioBtnMacro;
     private javax.swing.ButtonGroup radioGroupScript;

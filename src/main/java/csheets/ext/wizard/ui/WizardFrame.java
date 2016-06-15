@@ -5,6 +5,7 @@
  */
 package csheets.ext.wizard.ui;
 
+import csheets.core.formula.FunctionParameter;
 import csheets.ui.ctrl.UIController;
 import javax.swing.JOptionPane;
 
@@ -25,6 +26,7 @@ public class WizardFrame extends javax.swing.JFrame {
 		setLocationRelativeTo(this);
 		controller = new WizardController(uiController);
 		initComponents();
+                selectedFunctionTextBox.setEnabled(false);
 		openTextFields(0);
 		loadFunctions();
 		setVisible(true);
@@ -63,6 +65,7 @@ public class WizardFrame extends javax.swing.JFrame {
         txtFieldParameter2 = new javax.swing.JTextField();
         txtFieldParameter3 = new javax.swing.JTextField();
         txtFieldParameter4 = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -177,10 +180,12 @@ public class WizardFrame extends javax.swing.JFrame {
                 .addGroup(panelTextFieldsOfFunctionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFieldParameter1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFieldParameter2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtFieldParameter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFieldParameter4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFieldParameter3))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(txtFieldParameter3)
         );
+
+        jLabel3.setText("Insert the values:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -195,19 +200,24 @@ public class WizardFrame extends javax.swing.JFrame {
                 .addComponent(cancelButton)
                 .addGap(61, 61, 61))
             .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
-                        .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resultTextBox))
+                            .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                                .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resultTextBox))
-                    .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(124, 124, 124)
+                        .addComponent(jLabel3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -219,13 +229,15 @@ public class WizardFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelTextFieldsOfFunction, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resultTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addGap(42, 42, 42)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(confirmButton)
                     .addComponent(cancelButton)
@@ -266,8 +278,11 @@ public class WizardFrame extends javax.swing.JFrame {
 	 */
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
 		try {
-			String result = controller.executeFormula(selectedFunctionTextBox.
-				getText());
+                    
+                        String fun = this.controller.setValuesOnExpression(txtFieldParameter1.getText(),txtFieldParameter2.getText()
+                                ,txtFieldParameter3.getText(),txtFieldParameter4.getText());
+                        System.out.println(fun);
+                        String result = controller.executeFormula(fun);
 			resultTextBox.setText(result);
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Ocorreu um erro" + ex.
@@ -302,6 +317,7 @@ public class WizardFrame extends javax.swing.JFrame {
 		String info = ((FunctionListModel) functionsList.getModel()).
 			getFunctionInfo(index, controller);
 		selectedFunctionTextBox.setText(info);
+                
 		int i = this.controller.getParametersOfFunctionSelected().length;
 		this.openTextFields(i);
     }//GEN-LAST:event_functionsListValueChanged
@@ -313,6 +329,7 @@ public class WizardFrame extends javax.swing.JFrame {
     private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -361,5 +378,4 @@ public class WizardFrame extends javax.swing.JFrame {
 		this.revalidate();
 		this.repaint();
 	}
-
 }
