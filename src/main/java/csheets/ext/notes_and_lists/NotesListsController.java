@@ -13,11 +13,10 @@ import csheets.framework.persistence.repositories.DataIntegrityViolationExceptio
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,6 +30,8 @@ public class NotesListsController {
      */
     private final UIController uiController;
 
+    private Map<Integer, List> listVersions;
+
     /**
      * Creates a new comment controller.
      *
@@ -38,7 +39,6 @@ public class NotesListsController {
      */
     public NotesListsController(UIController uiCtrl) {
         this.uiController = uiCtrl;
-
     }
 
     public Iterable<Contact> showContacts() {
@@ -90,12 +90,19 @@ public class NotesListsController {
         return null;
     }
 
-    public Iterable<List> getListVersions(Object listObj) {
-        if (listObj != null && listObj instanceof List) {
-            List list = (List) listObj;
-            return PersistenceContext.repositories().lists().listVersions(list);
+    public Map<Integer, List> getListVersions(List list) {
+        if (list != null) {
+            listVersions = new HashMap<>();
+            for (List version : PersistenceContext.repositories().lists().listVersions(list)) {
+                listVersions.put(version.getVersionNumber(), version);
+            }
+            return listVersions;
         }
         return null;
+    }
+
+    public List getVersion(List list, int version) {
+        return version != -1 ? listVersions.get(version) : listVersions.get(listVersions.size());
     }
 
     public List createList(Object contactObj, String text) {
@@ -104,12 +111,22 @@ public class NotesListsController {
         }
         Contact contact = (Contact) contactObj;
         String data[] = text.split("\n", 2);
+        if (data.length != 2
+                || data[0].equals("")
+                || data[1].equals("")) {
+            return null;
+        }
         List newList = new List(data[0], data[1], contact);
         return PersistenceContext.repositories().lists().save(newList);
     }
 
     public List editList(List list, String text) {
         String data[] = text.split("\n", 2);
+        if (data.length != 2
+                || data[0].equals("")
+                || data[1].equals("")) {
+            return null;
+        }
         List newList = list.newVersion(data[0], data[1]);
         return PersistenceContext.repositories().lists().save(newList);
     }
@@ -118,14 +135,14 @@ public class NotesListsController {
         for (Object[] data : listData) {
             if (data[0] instanceof Boolean
                     && data[1] instanceof String) {
-                String text = (String)data[1];
-                boolean check = (boolean)data[0];
+                String text = (String) data[1];
+                boolean check = (boolean) data[0];
                 list.changeState(text, check);
             }
         }
         return PersistenceContext.repositories().lists().save(list);
     }
-    
+
     public List deleteList(List list) {
         list.delete();
         return PersistenceContext.repositories().lists().save(list);

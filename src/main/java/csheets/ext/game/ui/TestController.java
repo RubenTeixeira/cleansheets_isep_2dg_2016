@@ -20,6 +20,11 @@ import csheets.ui.ctrl.UIController;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vendor.volt.Action;
+import vendor.volt.Request;
+import vendor.volt.Volt;
+import vendor.volt.protocols.tcp.TcpClient;
+import vendor.volt.protocols.tcp.TcpServer;
 
 /**
  *
@@ -122,11 +127,11 @@ public class TestController implements CellListener {
 											   }
 										   });
 
-							 }
-						 });
+            }
+        });
 
-		ThreadManager.run("ipc.tictactoe-tcpServer");
-	}
+        ThreadManager.run("ipc.tictactoe-tcpServer");
+    }
 
 	/**
 	 * Stops all the TCP services.
@@ -143,29 +148,29 @@ public class TestController implements CellListener {
 		return true;
 	}
 
-	/**
-	 * Stops all the TCP services.
-	 */
-	public void stopThis() {
-		server.shutdown();
-		ThreadManager.destroy("ipc.tictactoe-tcpServer");
-	}
+    /**
+     * Stops all the TCP services.
+     */
+    public void stopThis() {
+        server.shutdown();
+        ThreadManager.destroy("ipc.tictactoe-tcpServer");
+    }
 
-	private boolean isWinningPlay() {
-		return false;
-	}
+    private boolean isWinningPlay() {
+        return false;
+    }
 
-	private void diplayLoss() {
-		System.out.println("lost");
-	}
+    private void diplayLoss() {
+        System.out.println("lost");
+    }
 
-	private void diplayVictory() {
-		System.out.println("Won");
-	}
+    private void diplayVictory() {
+        System.out.println("Won");
+    }
 
-	private boolean validate() {
-		return true;
-	}
+    private boolean validate() {
+        return true;
+    }
 
 	@Override
 	public void contentChanged(Cell cell) {
@@ -198,20 +203,20 @@ public class TestController implements CellListener {
 		}
 	}
 
-	@Override
-	public void dependentsChanged(Cell cell) {
-	}
+    @Override
+    public void dependentsChanged(Cell cell) {
+    }
 
-	@Override
-	public void cellCleared(Cell cell) {
-	}
+    @Override
+    public void cellCleared(Cell cell) {
+    }
 
-	@Override
-	public void cellCopied(Cell cell, Cell source) {
-	}
+    @Override
+    public void cellCopied(Cell cell, Cell source) {
+    }
 
-	@Override
-	public void valueChanged(Cell cell) {
-	}
+    @Override
+    public void valueChanged(Cell cell) {
+    }
 
 }

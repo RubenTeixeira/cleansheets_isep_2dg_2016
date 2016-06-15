@@ -57,11 +57,12 @@
  *
  * <p>
  * After <code>WorkbookSearchExtension</code> is dinamycally loaded (load flow
- * control analysed in the last sprint), it will return to the UI the
- * <code>UIExtensionWorkbookSearch</code> which in turn returns a
- * <code>WorkbookSearchMenu</code> that contains an <code>JMenuItem</code>
- * associated with the <code>WorkbookSearchAction</code>, the latter being the
- * responsible for starting the flow of the Use Case.</p>
+ * control analysed in the last sprint, see: see:
+ * <a href="../sprint2/package-summary.html">4. Analysis</a></p> ), it will
+ * return to the UI the <code>UIExtensionWorkbookSearch</code> which in turn
+ * returns a <code>WorkbookSearchMenu</code> that contains a
+ * <code>JMenuItem</code> associated with the <code>WorkbookSearchAction</code>,
+ * the latter being the responsible for starting the flow of the Use Case.</p>
  *
  * <b>WorkbookSearchExtension Class:</b>
  * <p>
@@ -79,9 +80,6 @@
  * <p>
  * This Action will be associated with the JMenu component above.</p>
  *
- * <b>At this point there was no intention to alter the current classes and
- * their associations</b>
- *
  * <h3>4.1 Current Design</h3>
  *
  * <p>
@@ -90,8 +88,14 @@
  * <img src="doc-files/ipc_03.2_extension_image4.png" alt="Action performed"></p>
  *
  * <p>
- * <b>The design for when the JMenuItem is selected seems apropiate for this
- * functional increment and need not re-engineering.</b></p>
+ * <b>Since the requirements now specify the need for a Sidebar this will be the
+ * updated design:</b></p>
+ *
+ * <p>
+ * <b>Updated diagram of the loading process:</b></p>
+ * <p>
+ * <img src="doc-files/ipc_03.2_class_diagram_updated.png" alt="CD updated"></p>
+ *
  *
  * <p>
  * <b>Search request:</b></p>
@@ -122,6 +126,31 @@
  * <p>
  * Perhaps this is time for another Data Transfer object... But first, one
  * should take care of the networking flow of this functional increment.</p>
+ * <p>
+ * <b>UPDATE:</b></p>
+ * <p>
+ * After further analysis of the current implementation, one may come to the
+ * conclusion that the Volt network implementation might not be the most
+ * appropriate solution to this application, as an Object Oriented one, as we
+ * quickly come to the conclusion that the Volt Interfaces and protocol don't
+ * even support the transfer of objects other than String ones.</p>
+ * <p>
+ * This almost defeats the purpose of using DTO's as serializable and
+ * lightweight objects to send through the network.</p>
+ * <p>
+ * I will suggest to the original main programmer of Volt (Renato Machado) the
+ * addition of generic Object transfer support if possible. Nevertheless, the
+ * current goal is to make do with what is currently available as time to
+ * deliver is of upmost concern.</p>
+ *
+ * <p>
+ * <b>UPDATE:</b></p>
+ * <p>
+ * After consulting with Volt owner who rejected the suggested changes to his
+ * implementation I decided to implement <code>ObjectSerialization</code> class
+ * with static methods <code>toString()</code> and <code>fromString()</code> in
+ * order to accomplish the same objective by serializing the objects into a
+ * Base64 string and the other way around on the other end of the network.
  *
  *
  * <h2>5. Design</h2>
@@ -129,32 +158,45 @@
  * <h3>5.1. Functional Tests</h3>
  * <p>
  * Currently, there aren't any acceptable tests for the feature. Since testing
- * against network packet trading can be a cumbersome task, the plan is to test
- * the code performed by each side of the communication, so the goal is to write
- * down DistributedWorkbookSearchControllerTest which will assert correctedness
- * of testSearchWorkbook() and testGetWorkbookSummary() as both methods are ran
- * locally. For network related methods, if enough time is available, perhaps a
- * localhost way of testing them may be devised.
+ * against network packet trading can be a cumbersome and fail prone task, the
+ * plan is to test the code performed by each side of the communication, so the
+ * goal is to write down tests for <code>WorkbookDTOAssemblerTest</code> to
+ * ensure valid DTO's are created, <code>ObjectSerializationTest</code> for
+ * obvious reasons and <code>LocalWorkbookSearchTest</code> to assert searches
+ * are correctly performed. These are subject to change.
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
  * The following Diagrams are useful to understand the UC Realization:</p>
+ *
  * <p>
- * <img src="doc-files/search_extension_sd.png" alt="Sequence Diagram Design"></p>
+ * <b>Main Flow:</b></p>
+ * <p>
+ * <img src="doc-files/ipc_03.2_sequence_diagram.png" alt="Sequence Diagram Design"></p>
+ *
+ * <p>
+ * <b>UDPService:</b></p>
+ * <p>
+ * <img src="doc-files/ipc_03.2_udp.png" alt="Sequence Diagram UDP"></p>
+ *
+ * <p>
+ * <b>TCPService:</b></p>
+ * <p>
+ * <img src="doc-files/ipc_03.2_tcp.png" alt="Sequence Diagram TCP"></p>
  *
  * <h3>5.3. Extension Setup</h3>
  * <p>
  * The Search Extention is loaded as per the following:</p>
  * <p>
- * <img src="doc-files/core07_01_design.png" alt="Sequence Diagram Design"></p>
+ * <img src="doc-files/ipc03.2_extension_load_sd.png" alt="Extension Load"></p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
  * Singleton Pattern implemented by ExtensionManager.</p>
  * <p>
- * Data Transfer Object implemented by SearchResultDTO.</p>
+ * Data Transfer Object implemented by WorkbookDTO.</p>
  * <p>
  * Low Cowpling - High Cohesion.</p>
  *

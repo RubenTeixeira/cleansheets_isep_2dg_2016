@@ -6,7 +6,6 @@
 package csheets.domain;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  *
@@ -14,7 +13,7 @@ import java.util.List;
  */
 interface Notation<E> {
     public String getTitle();
-    public List getLines();
+    public String getText();
     public Contact getContact();
     public int getVersionNumber();
     public Calendar getTimeCreated();

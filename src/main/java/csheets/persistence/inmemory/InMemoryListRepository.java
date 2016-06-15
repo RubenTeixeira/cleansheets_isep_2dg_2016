@@ -7,7 +7,6 @@ package csheets.persistence.inmemory;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
-import csheets.domain.Version;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.ListRepository;
 import java.util.ArrayList;

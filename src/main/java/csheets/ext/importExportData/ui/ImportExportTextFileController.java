@@ -1,6 +1,7 @@
 package csheets.ext.importExportData.ui;
 
 import csheets.core.Cell;
+import csheets.core.CellListener;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.importExportData.parsers.FileHandler;
 import csheets.ext.importExportData.parsers.TxtParser;
@@ -8,14 +9,25 @@ import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
+import csheets.support.DateTime;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
+import csheets.ui.ctrl.UIController;
 import java.awt.Font;
+import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ImportExportTextFileController {
 
     TaskManager tm = new TaskManager();
+    TxtParser txtParser = new TxtParser(new FileHandler());
+    private long dataAtual;
+    boolean option = true;
+    String path;
+    String separator;
+    Cell[][] cells;
 
     /**
      * Checks if the selected cells are enough to the received content
@@ -28,7 +40,6 @@ public class ImportExportTextFileController {
     public boolean hasEnoughCells(String path, String separator,
             Cell[][] cells) {
 
-        TxtParser txtParser = new TxtParser(new FileHandler());
         String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
                 with(path).
                 parse());
@@ -55,7 +66,6 @@ public class ImportExportTextFileController {
             return null;
         }
 
-        TxtParser txtParser = new TxtParser(new FileHandler());
         String[] lines = ((String[]) txtParser.use(new ImportTextFileStrategy()).
                 with(path).parse());
         if (lines == null) {
@@ -141,46 +151,97 @@ public class ImportExportTextFileController {
         return false;
     }
 
-    public void exportImportFileAutomaticallyEnable(boolean option) {
-        if (option == true) {
+    public void exportImportFileOption(boolean option) {
 
-            Task verify = new Task() {
-                @Override
-                public void fire() {
-                    
-                    
-                    //ask modification
-
-                    //if the fille has modification return. 
-                    
-                    
-                    //else put null to file    
-                    
-                    
-                    //call the import metode, and set modified
-                    
-                    
-                    
-                    System.out.println("Threed a correr");
-                }
-
-            };
-            ThreadManager.create("ipc4.2", new Thread() {
-                public void run() {
-                    tm.every(5).fire(verify);
-                }
-            });
-            ThreadManager.run("ipc4.2");
-
+        this.option = option;
+        if (path != null && separator != null && cells != null) {
+            exportImportFileAutomaticallyEnable(path, separator, cells);
         }
+
     }
 
-    public void exportImportFileAutomaticallyDisable(boolean option) {
-        if (option == false) {
+    public void exportImportFileAutomaticallyEnable(String path, String separator,
+            Cell[][] cells) {
+
+        this.cells = cells;
+        this.path = path;
+        this.separator = separator;
+
+        System.out.println("antes do if");
+
+        if (this.option == true) {
+            System.out.println("entrei");
+
+            dataAtual = DateTime.now().getTimeInMillis();
+            Task verify = new FileTask(path, separator, cells);
+            tm.every(5).fire(verify);
+
+            System.out.println("Threed a correr");
+
+        } else {
             tm.destroy();
             System.out.println("Threed has been distroy");
+        }
+
+    }
+
+    class FileTask extends Task implements CellListener {
+
+        private String path;
+        private String separator;
+        private Cell[][] cells;
+
+        public FileTask(String path, String separator, Cell[][] cells) {
+            this.path = path;
+            this.separator = separator;
+            this.cells = cells;
+        }
+
+        @Override
+        public void fire() {
+            //ask modification
+            File f = new File(path);
+            f.lastModified();
+
+            if (f.lastModified() > dataAtual) {
+                dataAtual = f.lastModified();
+                try {
+                    parse(path, separator, option, cells);
+                } catch (FormulaCompilationException ex) {
+                    Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                //Refresh Cells
+                UIController.getUIController().setWorkbookModified(UIController.getUIController().focusOwner.getSpreadsheet().getWorkbook());
+                UIController.getUIController().focusOwner.repaint();
+
+                System.out.println("Alterei o ficheiro");
+            }
 
         }
+
+        @Override
+        public void valueChanged(Cell cell) {
+            System.out.println("Vou exportar");
+            exportFile(path, cells, separator);
+        }
+
+        @Override
+        public void contentChanged(Cell cell) {
+        }
+
+        @Override
+        public void dependentsChanged(Cell cell) {
+        }
+
+        @Override
+        public void cellCleared(Cell cell) {
+        }
+
+        @Override
+        public void cellCopied(Cell cell, Cell source) {
+        }
+
     }
 
 }
