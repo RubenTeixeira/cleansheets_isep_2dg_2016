@@ -58,7 +58,8 @@ public class TagController {
 
 	public Iterable<Contact> allContactsTag() {
 		if (this.tag == null || this.tag.isEmpty()) {
-			return this.allContacts();
+			return PersistenceContext.repositories().contacts().
+				getContactByTag(null);
 		}
 		return PersistenceContext.repositories().contacts().
 			getContactByTag(this.tag);
