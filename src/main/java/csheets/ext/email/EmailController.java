@@ -30,6 +30,7 @@ public class EmailController {
 		props.put("mail.smtp.socketFactory.port", "587");
 		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.quitwait", "false");
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.port", "587");
 		props.put("mail.username", email);

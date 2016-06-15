@@ -206,7 +206,7 @@ public class Login extends javax.swing.JFrame {
 							   valueOf(this.passwordField.
 								   getPassword()), this.serverTextField.
 							   getText());
-
+			controller.updateProperties(this.mail.session().getProperties());
 			JOptionPane.
 				showMessageDialog(this, "Welcome!!!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
 			this.TestEmailButton.setEnabled(true);

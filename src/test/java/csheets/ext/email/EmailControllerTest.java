@@ -72,6 +72,7 @@ public class EmailControllerTest {
 		mailbox = Mailbox.get(email);
 		assertEquals(mailbox.size(), 2);
 
+		mailServer.stop();
 	}
 
 }

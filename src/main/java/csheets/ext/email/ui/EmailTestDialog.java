@@ -50,7 +50,6 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 		this.controller = controller;
 		this.uiController = uiController;
 		this.mail = mail;
-		this.jPanel1.setVisible(true);
 
 		uiController.addSelectionListener(this);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -219,17 +218,23 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+		super.setModal(false);
+		SendingEmailPanel sendingEmailPanel = new SendingEmailPanel();
+		sendingEmailPanel.setVisible(true);
 		try {
 
 			this.controller.sendEmail(this.mail, this.destinationCellText.
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
+			sendingEmailPanel.setVisible(false);
 			uiController.removeSelectionListener(EmailTestDialog.this);
 			dispose();
 			JOptionPane.
 				showMessageDialog(null, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
+			super.setModal(true);
+			sendingEmailPanel.setVisible(false);
 			JOptionPane.
 				showMessageDialog(null, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
