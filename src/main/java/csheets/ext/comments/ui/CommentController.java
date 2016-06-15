@@ -120,7 +120,13 @@ public class CommentController {
 		}
 	}
 
+	public void changeText(Comment comment) {
+		EditTextUI edui = new EditTextUI(null, true, uiController, comment);
+
+	}
+
 	public void apply(Comment comment) {
 		comment.setComment(comment);
 	}
+
 }
