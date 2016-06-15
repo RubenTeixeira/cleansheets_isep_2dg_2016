@@ -206,10 +206,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Contact) {
+            contactModel.addElement((Contact)arg);
             this.cbNoteContact.removeAllItems();
             for (Contact c : controller.showContacts()) {
                 cbNoteContact.addItem(c);
-                contactModel.addElement(c);
             }
         } else if (arg instanceof Note) {
             this.NoteListModel.removeAllElements();
@@ -222,8 +222,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             }
         } else if (arg == null) {
             this.cbNoteContact.removeAllItems();
+            contactModel.removeAllElements();
             for (Contact c : controller.showContacts()) {
                 cbNoteContact.addItem(c);
+                contactModel.addElement(c);
             }
             //NOTES
             this.NoteListModel.removeAllElements();
