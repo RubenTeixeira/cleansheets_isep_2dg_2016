@@ -1,8 +1,13 @@
 package csheets.ext.distributedWorkbook.ui;
 
 import csheets.ext.NetworkManager;
+import csheets.ext.distributedWorkbook.WorkBookDTO;
+import csheets.framework.ObjectSerialization;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vendor.volt.Action;
 import vendor.volt.Request;
@@ -14,150 +19,184 @@ import vendor.volt.protocols.tcp.TcpServer;
  */
 public class TcpService extends Notifier {
 
-    /**
-     * Server instance.
-     */
-    private TcpServer server;
+	private static final String PERMISSION_REQUEST_HEADER = ":distributed-permission-request";
+	private static final String PERMISSION_RESPONSE_HEADER = ":distributed-reply";
+	private static final String SEARCH_REQUEST_HEADER = ":distributed-search";
+	private static final String SEARCH_RESPONSE_HEADER = ":distributed-result";
 
-    /**
-     * Initializes a server following the UDP protocol.
-     *
-     */
-    public void server() {
-        ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
-            @Override
-            public void run() {
-                server = NetworkManager.tcp();
+	/**
+	 * Server instance.
+	 */
+	private TcpServer server;
 
-                server.
-                        expect(":distributed-request", new Action() {
-                            @Override
-                            public void run(Request request) {
-                                String message = request.message() + " with " + request.hostname();
+	/**
+	 * Initializes a server following the UDP protocol.
+	 *
+	 * @param pattern Workbook name pattern
+	 */
+	public void server(String pattern) {
 
-                                String destination = server.target(request.from());
+		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
+			@Override
+			public void run() {
+				server = NetworkManager.tcp();
 
-                                int reply = JOptionPane.
-                                        showConfirmDialog(null, message);
+				// Expect permission request (YES/NO/DEFAULT)
+				server.
+					expect(PERMISSION_REQUEST_HEADER, new Action() {
+						@Override
+						public void run(Request request) {
+							System.out.
+							println("Received permission REQUEST");
+							String message = request.message() + " with " + request.
+							hostname();
+							String destination = server.target(request.from());
 
-                                switch (reply) {
-                                    case JOptionPane.YES_OPTION: {
-                                        server.
-                                                send(":distributed-reply", destination, "TRUE");
-                                        break;
-                                    }
-                                    case JOptionPane.NO_OPTION: {
-                                        server.
-                                                send(":distributed-reply", destination, "FALSE");
-                                        break;
-                                    }
-                                    default:
-                                        server.
-                                                send(":distributed-reply", destination, "FALSE");
-                                        break;
-                                }
-                            }
-                        });
+							int reply = JOptionPane.
+							showConfirmDialog(null, message);
 
-                server.
-                        expect(":distributed-reply", new Action() {
-                            @Override
-                            public void run(Request request) {
-                                notifyChange(request.message());
-                            }
-                        });
+							switch (reply) {
+								case JOptionPane.YES_OPTION: {
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "TRUE");
+									break;
+								}
+								case JOptionPane.NO_OPTION: {
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+									break;
+								}
+								default:
+									server.
+									send(PERMISSION_RESPONSE_HEADER, destination, "FALSE");
+									break;
+							}
+						}
+					});
 
-                server.
-                        expect(":distributed-search", new Action() {
-                            @Override
-                            public void run(Request request) {
-                                String[] search = new String[3];
-                                search[0] = "Search";
-                                search[1] = request.message();
-                                search[2] = server.target(request.from());
+				// expect permission response (TRUE/FALSE)
+				server.
+					expect(PERMISSION_RESPONSE_HEADER, new Action() {
+						@Override
+						public void run(Request request) {
+							System.out.
+							println("Received permission RESPONSE");
+							String response = request.message();
+							if (response.equalsIgnoreCase("TRUE")) {
+								// POSITIVE RESPONSE: initialize search
+								String target = server.target(request.from());
+								searchWorkbookOnTarget(target, pattern);
+							}
+						}
+					});
 
-                                notifyChange(search);
-                            }
-                        });
+				server.
+					expect(SEARCH_REQUEST_HEADER, new Action() {
+						@Override
+						public void run(Request request) {
+							System.out.println("Received search REQUEST");
+							String[] search = new String[3];
+							search[0] = "Search";
+							search[1] = request.message();
+							search[2] = server.target(request.from());
+							notifyChange(search);
+						}
+					});
 
-                server.
-                        expect(":distributed-result", new Action() {
-                            @Override
-                            public void run(Request request) {
-                                notifyChange(request.message());
-                            }
-                        });
+				server.
+					expect(SEARCH_RESPONSE_HEADER, new Action() {
+						@Override
+						public void run(Request request) {
+							System.out.println("Received a new result");
+							String message = request.message();
+							WorkBookDTO deSerializedObject;
+							try {
+								deSerializedObject = (WorkBookDTO) ObjectSerialization.
+								fromString(message);
+							} catch (IOException | ClassNotFoundException ex) {
+								Logger.getLogger(TcpService.class.getName()).
+								log(Level.SEVERE, null, ex);
+								return;
+							}
+							notifyChange(deSerializedObject);
+						}
+					});
 
-            }
-        }
-        );
+			}
+		}
+		);
 
-        ThreadManager.run(
-                "ipc.distributed-tcpServer");
-    }
+		ThreadManager.run(
+			"ipc.distributed-tcpServer");
+	}
 
-    /**
-     * Initializes a client following the TCP protocol.
-     *
-     * @param target The target IPv4:Port
-     * @param message Message to send to the target.
-     */
-    public void client(String target, String message) {
-        ThreadManager.create("ipc.distributed-tcpClient", new Thread() {
-            @Override
-            public void run() {
-                new TcpClient(0).
-                        send(":distributed-request", target, message);
-            }
-        });
+	/**
+	 * Asks for search permission to given target host.
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void requestPermission(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-tcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending PERMISSION_REQUEST_HEADER");
+					new TcpClient(0).
+					send(PERMISSION_REQUEST_HEADER, target, message);
+				}
+			});
 
-        ThreadManager.run("ipc.distributed-tcpClient");
-    }
+		ThreadManager.run("ipc.distributed-tcpClient" + target);
+	}
 
-    /**
-     * Initializes a client following the TCP protocol.
-     *
-     * @param target The target IPv4:Port
-     * @param message Message to send to the target.
-     */
-    public void searchWorkbook(String target, String message) {
-        ThreadManager.create("ipc.distributed-searchTcpClient", new Thread() {
-            @Override
-            public void run() {
-                new TcpClient(0).
-                        send(":distributed-search", target, message);
-            }
-        });
+	/**
+	 * Sends search pattern to the target host
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void searchWorkbookOnTarget(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-searchTcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending SEARCH_REQUEST_HEADER");
+					new TcpClient(0).
+					send(SEARCH_REQUEST_HEADER, target, message);
+				}
+			});
 
-        ThreadManager.run("ipc.distributed-searchTcpClient");
-    }
+		ThreadManager.run("ipc.distributed-searchTcpClient" + target);
+	}
 
-    /**
-     * Initializes a client following the TCP protocol.
-     *
-     * @param target The target IPv4:Port
-     * @param message Message to send to the target.
-     */
-    public void searchResult(String target, String message) {
-        ThreadManager.create("ipc.distributed-resultTcpClient", new Thread() {
-            @Override
-            public void run() {
-                new TcpClient(0).
-                        send(":distributed-result", target, message);
-            }
-        });
+	/**
+	 * Initializes a client following the TCP protocol.
+	 *
+	 * @param target The target IPv4:Port
+	 * @param message Message to send to the target.
+	 */
+	public void sendSearchResult(String target, String message) {
+		ThreadManager.
+			create("ipc.distributed-resultTcpClient" + target, new Thread() {
+				@Override
+				public void run() {
+					System.out.println("Sending SEARCH_RESPONSE_HEADER");
+					new TcpClient(0).
+					send(SEARCH_RESPONSE_HEADER, target, message);
+				}
+			});
 
-        ThreadManager.run("ipc.distributed-resultTcpClient");
-    }
+		ThreadManager.run("ipc.distributed-resultTcpClient" + target);
+	}
 
-    /**
-     * Stops all the TCP services.
-     */
-    public void stop() {
-        ThreadManager.destroy("ipc.distributed-tcpServer");
-        ThreadManager.destroy("ipc.distributed-tcpClient");
-        ThreadManager.destroy("ipc.distributed-searchTcpClient");
-        ThreadManager.destroy("ipc.distributed-resultTcpClient");
-    }
-
+	/**
+	 * Stops all the TCP services.
+	 */
+	public void stop() {
+		ThreadManager.destroy("ipc.distributed-tcpServer*");
+		ThreadManager.destroy("ipc.distributed-tcpClient*");
+		ThreadManager.destroy("ipc.distributed-searchTcpClient*");
+		ThreadManager.destroy("ipc.distributed-resultTcpClient*");
+	}
 }
