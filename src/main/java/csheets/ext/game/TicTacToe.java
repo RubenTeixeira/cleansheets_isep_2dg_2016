@@ -5,8 +5,10 @@
  */
 package csheets.ext.game;
 
+import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.SpreadsheetExtension;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
@@ -21,17 +23,70 @@ public class TicTacToe extends SpreadsheetExtension {
 	private UIController uiController;
 
 	/**
-	 * The base of the titles of new spreadsheets
-	 */
-	public static final String BASE_TITLE = "Sheet ";
-
-	/**
 	 * The workbook to which the spreadsheet belongs
 	 */
 	private Workbook workbook;
 
 	public TicTacToe(Spreadsheet sheet) {
 		super(sheet, StyleExtension.NAME);
+	}
+
+	public boolean validateRules(Cell[][] table, String move, Cell cell,
+								 String symbol) throws FormulaCompilationException {
+		int beginColumn = table[0][0].getAddress().getColumn();
+		int beginRow = table[0][0].getAddress().getRow();
+		int endColumn = table[table.length - 1][table[0].length - 1].
+			getAddress().getColumn();
+		int endRow = table[table.length - 1][table[0].length - 1].getAddress().
+			getRow();
+		int columnContent = cell.getAddress().getColumn();
+		int rowContent = cell.getAddress().getRow();
+		if (beginColumn <= columnContent && columnContent <= endColumn && beginRow <= rowContent && rowContent <= endRow) {
+			if (cell.getContent().isEmpty()) {
+				if (move.equalsIgnoreCase(symbol)) {
+					cell.setContent(move);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public boolean validateWin(String symbol, Cell[][] table) {
+		if (table[0][0].getContent().equalsIgnoreCase(symbol)
+			&& table[1][0].getContent().equalsIgnoreCase(symbol)
+			&& table[2][0].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[0][1].getContent().equalsIgnoreCase(symbol)
+			&& table[1][1].getContent().equalsIgnoreCase(symbol)
+			&& table[2][1].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[0][2].getContent().equalsIgnoreCase(symbol)
+			&& table[1][2].getContent().equalsIgnoreCase(symbol)
+			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[0][0].getContent().equalsIgnoreCase(symbol)
+			&& table[0][1].getContent().equalsIgnoreCase(symbol)
+			&& table[0][2].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[1][0].getContent().equalsIgnoreCase(symbol)
+			&& table[1][1].getContent().equalsIgnoreCase(symbol)
+			&& table[1][2].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[2][0].getContent().equalsIgnoreCase(symbol)
+			&& table[2][1].getContent().equalsIgnoreCase(symbol)
+			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[0][0].getContent().equalsIgnoreCase(symbol)
+			&& table[1][1].getContent().equalsIgnoreCase(symbol)
+			&& table[2][2].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (table[0][2].getContent().equalsIgnoreCase(symbol)
+			&& table[1][1].getContent().equalsIgnoreCase(symbol)
+			&& table[2][0].getContent().equalsIgnoreCase(symbol)) {
+			return true;
+		}
+		return false;
 	}
 
 //	public void addNewWorkbook() {
