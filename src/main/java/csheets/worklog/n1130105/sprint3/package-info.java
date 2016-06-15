@@ -68,6 +68,9 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
+ * The tests verifies if the list is empty, after create a comment and verifies
+ * if list have the comment. Next verifies if comment is added to the history
+ *
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -147,7 +150,7 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on: Analysis and Start of design
+ * Yesterday I worked on: Analysis and Start of design</p>
  *
  *
  * Today:
@@ -162,11 +165,11 @@
  * <p>
  * <b>Wednesday</b>
  * <p>
- *
+ * Yesterday I worked on: Design and start implementation</p>
  * <p>
  * 1.</p>
  * <p>
- * Today:</p>
+ * Today:</p>Finish implementation and star tests</p>
  * <p>
  * Blocking:
  * <p>
@@ -175,7 +178,7 @@
  * <p>
  * <b>Thursday</b>
  * <p>
- * Yesterday I worked on:
+ * Yesterday I worked on: Finish implementation and star tests</p>
  * <p>
  * 1.</p>
  * <p>
@@ -186,9 +189,6 @@
  * Blocking:
  * <p>
  * 1.
- *
- *
- *
  * <p>
  * <b>Friday</b>
  * <p>
