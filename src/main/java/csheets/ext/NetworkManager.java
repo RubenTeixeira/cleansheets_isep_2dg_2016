@@ -1,9 +1,9 @@
 package csheets.ext;
 
 import csheets.AppSettings;
-import csheets.framework.volt.Volt;
-import csheets.framework.volt.protocols.tcp.TcpServer;
-import csheets.framework.volt.protocols.udp.UdpServer;
+import vendor.volt.Volt;
+import vendor.volt.protocols.tcp.TcpServer;
+import vendor.volt.protocols.udp.UdpServer;
 
 public class NetworkManager {
 

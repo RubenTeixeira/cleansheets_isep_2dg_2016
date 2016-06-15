@@ -145,7 +145,7 @@ public abstract class Server {
             }
         }
         
-        return new ArrayList<>();
+        return null;
     }
     
     /**
@@ -155,14 +155,24 @@ public abstract class Server {
      */
     protected void executeBeforeChannels(Request request)
     {
-        // Execute all of the wildcard channels.
-        for (Channel channel : getRouteChannels("*")) {
-            channel.before(request, dependencies);
-        }
-
-        // Execute all the before channels.
-        for (Channel channel : getRouteChannels(request.route())) {
-            channel.before(request, dependencies);
+        synchronized (this.channels) {
+            List<Channel> allChannels = getRouteChannels("*");
+            
+            if (allChannels != null) {
+                // Execute all of the wildcard channels.
+                for (Channel channel : allChannels) {
+                    channel.before(request, dependencies);
+                }
+            }
+            
+            List<Channel> beforeChannels = getRouteChannels(request.route());
+            
+            if (beforeChannels != null) {
+                // Execute all the before channels.
+                for (Channel channel : beforeChannels) {
+                    channel.before(request, dependencies);
+                }
+            }
         }
     }
     
@@ -172,14 +182,24 @@ public abstract class Server {
      * @param request Request data.
      */
     protected void executeAfterChannels(Request request) {
-        // Execute all of the wildcard channels.
-        for (Channel channel : getRouteChannels("*")) {
-            channel.after(request, dependencies);
-        }
+        synchronized (this.channels) {
+            List<Channel> allChannels = getRouteChannels("*");
 
-        // Execute all the after channels.
-        for (Channel channel : getRouteChannels(request.route())) {
-            channel.after(request, dependencies);
+            if (allChannels != null) {
+                // Execute all of the wildcard channels.
+                for (Channel channel : allChannels) {
+                    channel.after(request, dependencies);
+                }
+            }
+
+            List<Channel> afterChannels = getRouteChannels(request.route());
+
+            if (afterChannels != null) {
+                // Execute all the after channels.
+                for (Channel channel : afterChannels) {
+                    channel.after(request, dependencies);
+                }
+            }
         }
     }
     

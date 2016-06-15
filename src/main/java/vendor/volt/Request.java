@@ -51,7 +51,7 @@ public class Request {
      */
     public int length()
     {
-        return (int) this.args.get("volt-length");
+        return (Integer) this.args.get("volt-length");
     }
     
     /**
