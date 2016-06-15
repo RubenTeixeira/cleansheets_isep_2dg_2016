@@ -60,7 +60,7 @@
  *
  *
  * <h3>First "analysis" sequence diagram</h3>
- * imagem - ssd
+ * <img src="doc-files/forms_editor_analysis" alt="SD">
  *
  *
  * <h2>5. Design</h2>
@@ -80,38 +80,7 @@
  * see: <code>csheets.ext.comments.CommentableCellTest</code>
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
- *
- * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
- *
- *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
+ * <img src="doc-files/forms_editor_2_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
@@ -127,16 +96,6 @@
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -178,15 +137,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. ...
+ * 1. Analysis. 2. Think about design.
  * <p>
  * Today
  * <p>
- * 1. ...
+ * 1. Design. 2.Tests 3.Implementation
  * <p>
  * Blocking:
  * <p>
- * 1. ...
+ * 1. Nothing
  *
  * <h2>10. Self Assessment</h2>
  *
