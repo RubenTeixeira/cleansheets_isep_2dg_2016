@@ -35,9 +35,8 @@ public class TcpService extends Notifier {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-	 * @param pattern Workbook name pattern
 	 */
-	public void server(String pattern) {
+	public void server() {
 		System.out.println("Created TCPServer");
 
 		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
@@ -89,7 +88,8 @@ public class TcpService extends Notifier {
 							if (response.equalsIgnoreCase("TRUE")) {
 								// POSITIVE RESPONSE: initialize search
 								String target = server.target(request.from());
-								searchWorkbookOnTarget(target, pattern);
+								notifyChange(target);
+								//searchWorkbookOnTarget(target, pattern);
 							}
 						}
 					});
@@ -196,6 +196,15 @@ public class TcpService extends Notifier {
 			});
 
 		ThreadManager.run("ipc.distributed-resultTcpClient");
+	}
+
+	/**
+	 * Returns if the server is currently working.
+	 *
+	 * @return True if the server is active, false otherwise.
+	 */
+	public boolean isActive() {
+		return server.isActive();
 	}
 
 	/**
