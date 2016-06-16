@@ -32,9 +32,10 @@ public class ChatUserCard extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ChatUserCard
-         * @param user Chat User
-         * @param parent Parent Component
-         */
+	 *
+	 * @param user Chat User
+	 * @param parent Parent Component
+	 */
 	public ChatUserCard(ChatUser user, Component parent) {
 		this.parent = parent;
 		this.theUser = user;
@@ -70,19 +71,11 @@ public class ChatUserCard extends javax.swing.JPanel {
             }
         });
 
-        statusPanel.setMaximumSize(new java.awt.Dimension(20, 20));
-        statusPanel.setMinimumSize(new java.awt.Dimension(20, 20));
-
-        javax.swing.GroupLayout statusPanelLayout = new javax.swing.GroupLayout(statusPanel);
-        statusPanel.setLayout(statusPanelLayout);
-        statusPanelLayout.setHorizontalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
-        statusPanelLayout.setVerticalGroup(
-            statusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 20, Short.MAX_VALUE)
-        );
+        statusPanel.setMaximumSize(new java.awt.Dimension(35, 35));
+        statusPanel.setMinimumSize(new java.awt.Dimension(35, 35));
+        statusPanel.setPreferredSize(new java.awt.Dimension(35, 35));
+        statusPanel.setRequestFocusEnabled(false);
+        statusPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel2.setMaximumSize(new java.awt.Dimension(40, 40));
         jPanel2.setMinimumSize(new java.awt.Dimension(40, 40));
@@ -103,9 +96,9 @@ public class ChatUserCard extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addContainerGap()
+                .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nicknameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -114,17 +107,15 @@ public class ChatUserCard extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(statusPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(nicknameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(statusPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(nicknameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -155,7 +146,7 @@ public class ChatUserCard extends javax.swing.JPanel {
 	private void generateStateUI(boolean state) {
 		this.statusPanel.removeAll();
 		this.statusPanel.add(CirclePanel.
-			createCircle(new Dimension(20, 20), state ? ONLINE_COLOR : OFFLINE_COLOR));
+			createCircle(new Dimension(30, 30), state ? ONLINE_COLOR : OFFLINE_COLOR));
 		this.statusPanel.revalidate();
 		this.statusPanel.repaint();
 	}
@@ -165,7 +156,10 @@ public class ChatUserCard extends javax.swing.JPanel {
 			generateStateUI(state);
 			theUser.changeState(state);
 		}
+	}
 
+	public boolean state() {
+		return theUser.state();
 	}
 
 	public String nickname() {

@@ -184,7 +184,7 @@ public class CreateChatUserProfileUI extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 		// TODO add your handling code here:
 		if (!nameTF.getText().trim().isEmpty() && !nickTF.getText().trim().
-			isEmpty()) {
+			isEmpty() && this.photoFile != null) {
 			try {
 				this.theController.
 					persistChatUser(this.nameTF.getText(), this.nickTF.getText(), Converter.
@@ -204,7 +204,7 @@ public class CreateChatUserProfileUI extends javax.swing.JDialog {
 			return scaledImageIcon(img);
 		} catch (IOException ex) {
 			JOptionPane.
-				showMessageDialog(this, "Error opening file!", "Contact photo", JOptionPane.ERROR_MESSAGE);
+				showMessageDialog(this, "Error opening file!", "Chat user photo", JOptionPane.ERROR_MESSAGE);
 			return null;
 		}
 	}

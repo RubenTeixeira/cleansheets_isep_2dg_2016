@@ -154,6 +154,8 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
             }
         });
 
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
         usersPanel.setLayout(new java.awt.GridLayout(5, 1));
         jScrollPane1.setViewportView(usersPanel);
 
@@ -175,17 +177,17 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtMessage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnSend, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,22 +228,24 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
 			return;
 		}
 		if (this.seletectUser != null) {
-			host = seletectUser.nickname();
+			if (this.seletectUser.state()) {
+				host = seletectUser.nickname();
 
-			for (String hostIP : hosts.keySet()) {
-				if (hosts.get(hostIP).nickname().equals(host)) {
-					ipDestino = hostIP;
-					break;
+				for (String hostIP : hosts.keySet()) {
+					if (hosts.get(hostIP).nickname().equals(host)) {
+						ipDestino = hostIP;
+						break;
+					}
 				}
+
+				receiveListModel.
+					addElement(theUser.nickname() + ": " + message);
+
+				chatAppController.
+					sendMessage(theUser.nickname(), ipDestino, message, seletectUser.
+								nickname());
+				txtMessage.setText("");
 			}
-
-			receiveListModel.
-				addElement(theUser.nickname() + ": " + message);
-
-			chatAppController.
-				sendMessage(theUser.nickname(), ipDestino, message, seletectUser.
-							nickname());
-			txtMessage.setText("");
 		}
 	}
 
