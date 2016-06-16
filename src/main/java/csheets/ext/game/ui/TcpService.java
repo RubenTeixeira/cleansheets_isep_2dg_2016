@@ -144,10 +144,12 @@ public class TcpService extends Notifier {
 								 if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION) {
 									 return;
 								 }
-
+								 
 								 if (reply == JOptionPane.YES_OPTION) {
 									 JOptionPane.
 										 showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
+									 String[] attr = continuousTarget.split(":");
+									 setContinuousTarget(attr[2]);
 								 }
 
 							 }
