@@ -34,7 +34,7 @@ public class FormEditorController {
 	/**
 	 * Form editor controller.
 	 *
-	 * @param cell
+	 * @param cell Cell
 	 */
 	public FormEditorController(Cell cell) {
 		if (cell instanceof CellImpl) {

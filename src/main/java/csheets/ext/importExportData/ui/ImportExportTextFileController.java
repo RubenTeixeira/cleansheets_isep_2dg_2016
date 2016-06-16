@@ -247,7 +247,7 @@ public class ImportExportTextFileController {
 
     /**
      * Unlinking spreadsheet to file
-     * @param spreadsheet 
+     * @param spreadsheet Spreadsheet
      */
     public void unlinked(Spreadsheet spreadsheet) {
         ((SpreadsheetImpl) spreadsheet).destroyFileTask();
