@@ -80,8 +80,8 @@ public class TcpService extends Notifier {
 	 * Stops all the TCP services.
 	 */
 	public void stop() {
-		server.shutdown();
-		ThreadManager.destroy("ipc.chat-tcpServer");
+		server.neglect(":chat");
 		ThreadManager.destroy("ipc.chat-tcpClient");
+		ThreadManager.destroy("ipc.chat-tcpServer");
 	}
 }
