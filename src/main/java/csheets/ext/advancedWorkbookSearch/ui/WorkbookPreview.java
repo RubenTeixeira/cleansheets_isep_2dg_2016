@@ -64,7 +64,7 @@ public class WorkbookPreview {
 	/**
 	 * Search for Content.
 	 */
-	private void preview() {
+	private void preview() throws NullPointerException {
 		outerloop:
 		for (int i = 0; i < this.workbook.getSpreadsheetCount(); i++) {
 			Spreadsheet ss = this.workbook.getSpreadsheet(i);
@@ -75,20 +75,15 @@ public class WorkbookPreview {
 					break outerloop;
 				}
 			}
-//			for (Cell c : ss) { //will this iterate by order?
-//				//or it will catch a first random cell?
-//				if (!c.getContent().equalsIgnoreCase("")) {
-//					spreadsheet = ss;
-//					this.cell = c;
-//					break outerloop;
-//				}
-//			}
 		}
-//		if (this.cell == null) {
-//			throw new IllegalArgumentException();
-//		}
 	}
 
+	/**
+	 * Checks in the given Column is has a non-empty cell.
+	 *
+	 * @param column
+	 * @return true if Column has the non-empty cell.
+	 */
 	private boolean checkColumn(Cell[] column) {
 		for (Cell c : column) {
 			if (!c.getContent().equalsIgnoreCase("") && c != null) {
@@ -126,12 +121,4 @@ public class WorkbookPreview {
 	public Cell[][] getPreview() {
 		return this.matrix;
 	}
-
-//	public static int getColumnPreviewSize() {
-//		return COLUMNS;
-//	}
-//
-//	public static int getRowsPreviewSize() {
-//		return ROWS;
-//	}
 }
