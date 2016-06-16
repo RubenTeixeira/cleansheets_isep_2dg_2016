@@ -60,7 +60,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	public void stopGame() {
 		stopThis();
 		removeListeners();
-		diplayVictory();
 	}
 
 	public void start() {
@@ -216,12 +215,11 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	/**
 	 * Stops all the TCP services.
 	 */
-	public boolean winningPlay(Cell cell) {
-		if (!isWinningPlay()) {
+	public boolean winningPlay(int row, int column, String content) {
+		if (!tictactoe.validateWin(symbol)) {
 			return false;
 		}
-		String message = cell.getAddress().getColumn() + ";" + cell.
-			getAddress().getRow() + ";" + cell.getContent();
+		String message = column + ";" + row + ";" + content;
 		new TcpClient(0).send(":game-lost", connection, message);
 		diplayVictory();
 		stopGame();
@@ -236,14 +234,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		ThreadManager.destroy("ipc.tictactoe-tcpServer");
 	}
 
-//	int i = 0;
-	private boolean isWinningPlay() {
-//		i++;
-//		if(i==3){
-//			return true;
-//		}
-		return false;
-	}
+	int i = 0;
 
 	private void diplayLoss() {
 		JOptionPane.showMessageDialog(null, "Perdeste");
@@ -278,12 +269,12 @@ public class TicTacToeController implements CellListener, SpecificGameController
 			return;
 		}
 		if (turn) {
-			if (validate()) {
-				int column = cell.getAddress().getColumn();
-				int row = cell.getAddress().getRow();
+			int column = cell.getAddress().getColumn();
+			int row = cell.getAddress().getRow();
+			if (tictactoe.validatePlayerMove(column, row, symbol)) {
 				String message = column + ";" + row + ";" + cell.getContent();
 				tictactoe.play(column - 1, row - 1, cell.getContent());
-				if (winningPlay(cell)) {
+				if (winningPlay(column, row, cell.getContent())) {
 					return;
 				}
 				new TcpClient(0).send(":game-play", connection, message);

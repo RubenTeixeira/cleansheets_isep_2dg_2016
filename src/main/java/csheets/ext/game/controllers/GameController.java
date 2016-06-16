@@ -94,7 +94,7 @@ public class GameController {
 			throw new IllegalArgumentException("The user interface cannot be null.");
 		}
 
-		this.tcpService = new TcpService(panel);
+		this.tcpService = new TcpService(this);
 
 		this.startTcpService(port);
 
