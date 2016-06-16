@@ -16,6 +16,7 @@ public class TextFieldPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ButtonPanel
+         * @param content Content
 	 */
 	public TextFieldPanel(String content) {
 		initComponents();

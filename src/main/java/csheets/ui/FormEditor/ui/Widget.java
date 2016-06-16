@@ -16,7 +16,7 @@ public interface Widget {
 	/**
 	 * Get panel with content.
 	 *
-	 * @param content
+	 * @param content Content
 	 * @return Panel
 	 */
 	public JPanel getPanel(String content);
