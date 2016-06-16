@@ -46,7 +46,10 @@ public class WorkBookDTO implements Serializable {
 			String[][] matrix = cells.get(SpreadSheetIndex);
 			for (int i = 0; i < matrix.length; i++) {
 				for (int j = 0; j < matrix[i].length; j++) {
-					builder.append(matrix[i][j]).append(",");
+					//String aux = (!matrix[i][j].isEmpty()) ? matrix[i][j] : "_";
+					String temp = String.
+						format("%-3s%5s%3s", "[", matrix[i][j], "]");
+					builder.append(temp);
 				}
 				builder.append("\n");
 			}

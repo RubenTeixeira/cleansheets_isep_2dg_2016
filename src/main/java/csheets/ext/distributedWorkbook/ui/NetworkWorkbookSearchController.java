@@ -178,14 +178,8 @@ public class NetworkWorkbookSearchController {
 	 * Stop both the UDP and TCP services.
 	 */
 	public void stopServices() {
-		try {
-			this.tcpService.stop();
-			this.udpService.stop();
-		} catch (NullPointerException ex) {
-
-		}
-		this.udpService = null;
-		this.tcpService = null;
+		this.tcpService.stop();
+		this.udpService.stop();
 	}
 
 	/**
@@ -194,7 +188,8 @@ public class NetworkWorkbookSearchController {
 	 * @param search search pattern
 	 * @param result The string representation of the result
 	 */
-	void sendSearchResult(String target, String result) {
+	void sendSearchResult(String target, String result) throws NullPointerException {
 		tcpService.sendSearchResult(target, result);
+
 	}
 }

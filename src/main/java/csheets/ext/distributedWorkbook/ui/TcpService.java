@@ -1,12 +1,13 @@
 package csheets.ext.distributedWorkbook.ui;
 
-import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.ext.distributedWorkbook.WorkBookDTO;
 import csheets.framework.ObjectSerialization;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -53,9 +54,8 @@ public class TcpService extends Notifier {
 							println("Received permission REQUEST");
 							String message = request.message() + "\nFrom: " + request.
 							hostname();
-							String destination = request.from() + ":" + AppSettings.
-							instance().get("TCP_PORT"); //server.target(request.from());
-
+							String destination = server.target(request.from());
+							// request.from() + ":" + AppSettings.instance().get("TCP_PORT");
 							int reply = JOptionPane.
 							showConfirmDialog(null, message);
 
@@ -122,7 +122,10 @@ public class TcpService extends Notifier {
 								log(Level.SEVERE, null, ex);
 								return;
 							}
-							notifyChange(deSerializedObject);
+							Map<String, Object> searchResult = new HashMap<>();
+							searchResult.put("instance", request.hostname());
+							searchResult.put("dto", deSerializedObject);
+							notifyChange(searchResult);
 						}
 					});
 
