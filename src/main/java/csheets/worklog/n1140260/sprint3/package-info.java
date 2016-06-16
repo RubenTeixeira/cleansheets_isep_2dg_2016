@@ -53,7 +53,7 @@
  *
  * <h3>Network Analizer</h3>
  * <p>
- * We'll use JFreechart displaying data in real time.
+ * We'll use JFreechart to display data in real time,to do that we use threads.
  * </p>
  *
  *
@@ -124,7 +124,7 @@
  * <b>Tuesday</b>
  *
  * <p>
- * Update on Design and continue on implemmentation
+ * Update on Design and continue on implementation
  *
  * <p>
  * Blocking :Still trying to work with JFreeChart
@@ -135,10 +135,10 @@
  * <b>Wednesday</b>
  *
  * <p>
- * TODO
+ * Ending implementation and small changes 
  *
  * <p>
- * Blocking :
+ * Blocking : Small changes in VOLT delayed a bit the project implementation
  * </p>
  *
  *
@@ -147,17 +147,17 @@
  * <b>Thursday</b>
  *
  * <p>
- * TODO
+ * Minor changes,so the project can be more clean 
  *
  * <p>
- * Blocking :
+ * Blocking : nothing
  * </p>
  *
  *
  *
  *
  * <h2>10. Self Assessment</h2>
- *
+ * 4
  *
  * <h3>10.1. Design and Implementation:3</h3>
  * <p>

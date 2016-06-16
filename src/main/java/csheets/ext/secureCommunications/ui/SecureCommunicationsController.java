@@ -81,6 +81,25 @@ public class SecureCommunicationsController {
         Volt.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
                 new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer)
         );
+        
     }
+    
+    
+    
+    public String unitToBeUsed(int range){
+        if (range < 50) {
+            return "bytes";
+        } else if (range < 100) {
+            return "kilobytes";
+        } else if (range < 150) {
+            return "megabytes";
+        } else {
+            return "gigabytes";
+        }
+        
+        
+    }
+        
+    
 
 }
