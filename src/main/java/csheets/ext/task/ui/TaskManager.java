@@ -27,6 +27,8 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
 
 	/**
 	 * Creates new form EditTaskFrame
+         * @param controller Controller
+         * @param task Task
 	 */
 	public TaskManager(TaskController controller, Task task) {
 		this.controller = controller;

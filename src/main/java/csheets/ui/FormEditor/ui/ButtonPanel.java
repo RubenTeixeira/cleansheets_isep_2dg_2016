@@ -16,6 +16,7 @@ public class ButtonPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ButtonPanel
+         * @param content Content
 	 */
 	public ButtonPanel(String content) {
 		initComponents();

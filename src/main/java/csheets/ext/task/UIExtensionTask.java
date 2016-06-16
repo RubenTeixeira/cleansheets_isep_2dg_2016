@@ -56,7 +56,7 @@ public class UIExtensionTask extends UIExtension {
 	 * Returns an instance of a class that implements JMenu. In this simple case
 	 * this class only supplies one menu option.
 	 *
-	 * @see ExampleMenu
+	 * @see ExampleMenu menu
 	 * @return a JMenu component
 	 */
 	public JMenu getMenu() {

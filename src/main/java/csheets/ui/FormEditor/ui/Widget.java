@@ -17,14 +17,14 @@ public interface Widget {
 	 * Get panel with content.
 	 *
 	 * @param content
-	 * @return
+	 * @return Panel
 	 */
 	public JPanel getPanel(String content);
 
 	/**
 	 * Get name widget.
 	 *
-	 * @return
+	 * @return Widget Name
 	 */
 	public String getName();
 
