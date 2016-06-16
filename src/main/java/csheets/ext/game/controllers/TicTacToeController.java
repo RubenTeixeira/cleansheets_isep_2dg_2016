@@ -178,20 +178,13 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   String content = params[2];
 												   Cell spreadcheetCell = sheet.
 													   getCell(column, row);
-												   try {
-													   otherPlay = true;
-													   spreadcheetCell.
-														   setContent(params[2]);
-													   tictactoe.
-														   play(column, row, content);
-													   System.out.
-														   println("Jogada do outro");
-												   } catch (FormulaCompilationException ex) {
-													   Logger.
-														   getLogger(TicTacToeController.class.
-															   getName()).
-														   log(Level.SEVERE, null, ex);
-												   }
+												   otherPlay = true;
+												   tictactoe.
+													   play(column, row, content);
+												   repaintBoard();
+												   System.out.
+													   println("Jogada do outro");
+
 											   }
 										   });
 								 server.expect(":game-lost", new Action() {
