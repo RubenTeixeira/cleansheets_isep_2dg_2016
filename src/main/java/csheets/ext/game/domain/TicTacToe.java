@@ -51,6 +51,29 @@ public class TicTacToe {
 		return false;
 	}
 
+	public void validatePlayerMove(String player) {
+		int countX = 0;
+		int countO = 0;
+		for (int col = 1; col < board.length - 1; col++) {
+			for (int row = 1; row < board[col].length - 1; row++) {
+				if (!(board[col][row] == null)) {
+					if (!(board[col][row].isEmpty())) {
+						if (board[col][row].equalsIgnoreCase("x")) {
+							countX++;
+						} else if (board[col][row].equalsIgnoreCase("o")) {
+							countO++;
+						}
+					}
+				}
+			}
+		}
+		if (countX < countO && player.equalsIgnoreCase("x")) {
+			player = "o";
+		} else {
+			player = "x";
+		}
+	}
+
 	public boolean validateWin(String symbol) {
 
 //		int column = 4;
@@ -66,37 +89,37 @@ public class TicTacToe {
 //
 //				}
 //			}
-		if (board[0][0].equalsIgnoreCase(symbol)
-			&& board[1][0].equalsIgnoreCase(symbol)
-			&& board[2][0].equalsIgnoreCase(symbol)) {
-			return true;
-		} else if (board[0][1].equalsIgnoreCase(symbol)
-			&& board[1][1].equalsIgnoreCase(symbol)
-			&& board[2][1].equalsIgnoreCase(symbol)) {
-			return true;
-		} else if (board[0][2].equalsIgnoreCase(symbol)
-			&& board[1][2].equalsIgnoreCase(symbol)
-			&& board[2][2].equalsIgnoreCase(symbol)) {
-			return true;
-		} else if (board[0][0].equalsIgnoreCase(symbol)
-			&& board[0][1].equalsIgnoreCase(symbol)
-			&& board[0][2].equalsIgnoreCase(symbol)) {
-			return true;
-		} else if (board[1][0].equalsIgnoreCase(symbol)
-			&& board[1][1].equalsIgnoreCase(symbol)
-			&& board[1][2].equalsIgnoreCase(symbol)) {
-			return true;
-		} else if (board[2][0].equalsIgnoreCase(symbol)
+		if (board[1][1].equalsIgnoreCase(symbol)
 			&& board[2][1].equalsIgnoreCase(symbol)
-			&& board[2][2].equalsIgnoreCase(symbol)) {
+			&& board[3][1].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (board[0][0].equalsIgnoreCase(symbol)
-			&& board[1][1].equalsIgnoreCase(symbol)
-			&& board[2][2].equalsIgnoreCase(symbol)) {
+		} else if (board[1][2].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)
+			&& board[3][2].equalsIgnoreCase(symbol)) {
 			return true;
-		} else if (board[0][2].equalsIgnoreCase(symbol)
-			&& board[1][1].equalsIgnoreCase(symbol)
-			&& board[2][0].equalsIgnoreCase(symbol)) {
+		} else if (board[1][3].equalsIgnoreCase(symbol)
+			&& board[2][3].equalsIgnoreCase(symbol)
+			&& board[3][3].equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (board[1][1].equalsIgnoreCase(symbol)
+			&& board[1][2].equalsIgnoreCase(symbol)
+			&& board[1][3].equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (board[2][1].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)
+			&& board[2][3].equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (board[3][1].equalsIgnoreCase(symbol)
+			&& board[3][2].equalsIgnoreCase(symbol)
+			&& board[3][3].equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (board[1][1].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)
+			&& board[3][3].equalsIgnoreCase(symbol)) {
+			return true;
+		} else if (board[1][3].equalsIgnoreCase(symbol)
+			&& board[2][2].equalsIgnoreCase(symbol)
+			&& board[3][1].equalsIgnoreCase(symbol)) {
 			return true;
 		}
 		return false;
