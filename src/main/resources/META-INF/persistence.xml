@@ -11,12 +11,14 @@
 		<class>csheets.domain.PersonContact</class>
 		<class>csheets.domain.ContactCalendar</class>
 		<class>csheets.domain.Version</class>
+		<class>csheets.domain.Task</class>
+		<class>csheets.domain.VersionControl</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:./db/csheets;MV_STORE=FALSE"/>
 			<property name="javax.persistence.jdbc.user" value=""/>
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
 			<property name="javax.persistence.jdbc.password" value=""/>
-			<property name="javax.persistence.schema-generation.database.action" value="create"/>
+			<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 		</properties>
 	</persistence-unit>
 </persistence>
