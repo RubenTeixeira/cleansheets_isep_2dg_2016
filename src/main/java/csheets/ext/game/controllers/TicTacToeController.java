@@ -289,6 +289,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		}
 		System.out.println("Joguei na minha vez");
 		if (validate()) {
+			System.out.println("A jogada é valida");
 			int column = cell.getAddress().getColumn() - 1;
 			int row = cell.getAddress().getRow() - 1;
 			String message = column + ";" + row + ";" + cell.getContent();
