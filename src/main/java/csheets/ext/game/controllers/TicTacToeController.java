@@ -162,9 +162,9 @@ public class TicTacToeController implements CellListener, SpecificGameController
 													   parseInt(params[1]);
 												   String content = params[2];
 												   tictactoe.
-													   play(column, row, content);
+													   play(column - 1, row - 1, content);
 												   try {
-													   sheet.getCell(2, 7).
+													   sheet.getCell(1, 6).
 														   setContent("É a tua vez");
 													   repaintBoard();
 												   } catch (FormulaCompilationException ex) {
@@ -184,19 +184,25 @@ public class TicTacToeController implements CellListener, SpecificGameController
 													   message();
 												   String params[] = cellString.
 													   split(";");
-												   Cell spreadcheetCell = sheet.
-													   getCell(Integer.
-														   parseInt(params[0]), Integer.
-															   parseInt(params[0]));
+												   int column = Integer.
+													   parseInt(params[0]);
+												   int row = Integer.
+													   parseInt(params[1]);
+												   String content = params[2];
+												   tictactoe.
+													   play(column - 1, row - 1, content);
 												   try {
-													   spreadcheetCell.
-														   setContent(params[2]);
+													   sheet.getCell(1, 6).
+														   setContent("É a tua vez");
+													   repaintBoard();
 												   } catch (FormulaCompilationException ex) {
 													   Logger.
 														   getLogger(TicTacToeController.class.
 															   getName()).
 														   log(Level.SEVERE, null, ex);
 												   }
+												   repaintBoard();
+												   diplayLoss();
 												   stopGame();
 											   }
 										   });
@@ -217,6 +223,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		String message = cell.getAddress().getColumn() + ";" + cell.
 			getAddress().getRow() + ";" + cell.getContent();
 		new TcpClient(0).send(":game-lost", connection, message);
+		diplayVictory();
 		stopGame();
 		return true;
 	}
@@ -229,7 +236,12 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		ThreadManager.destroy("ipc.tictactoe-tcpServer");
 	}
 
+//	int i = 0;
 	private boolean isWinningPlay() {
+//		i++;
+//		if(i==3){
+//			return true;
+//		}
 		return false;
 	}
 
@@ -267,7 +279,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		}
 		if (turn) {
 			if (validate()) {
-				System.out.println("A jogada é valida");
 				int column = cell.getAddress().getColumn();
 				int row = cell.getAddress().getRow();
 				String message = column + ";" + row + ";" + cell.getContent();
