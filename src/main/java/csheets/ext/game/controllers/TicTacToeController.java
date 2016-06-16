@@ -76,7 +76,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 				log(Level.SEVERE, null, ex);
 		}
 		addListeners();
-
+		repaintBoard();
 	}
 
 	public void newSpreadsheet() throws FormulaCompilationException {
