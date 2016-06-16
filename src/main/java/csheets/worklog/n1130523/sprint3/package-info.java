@@ -16,18 +16,18 @@
  *
  * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-77">LPFOURDG-48</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-77">LPFOURDG-77</a>
  *
  * <p>
  * Sub-Task in Jira:
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-257">LPFOURDG-161</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-257">LPFOURDG-257</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-258">LPFOURDG-162</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-258">LPFOURDG-258</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-259">LPFOURDG-163</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-259">LPFOURDG-259</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-260">LPFOURDG-164</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-260">LPFOURDG-260</a>
  *
  * <h2>3.1 Contacts with Tags</h2>
  *
@@ -111,7 +111,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * High cohesion and low copling
+ * High cohesion, low copling and observer
  *
  * <h2>6. Implementation</h2>
  *
@@ -128,7 +128,7 @@
  * <p>
  * <b>Use Case 3 - "Delete tag of specific contact"</b>
  *
- * Text
+ * <img src="doc-files/crm_contacts_with_tags_design_sd_3.png" alt="contacts_with_tags_design_sd_3">
  * <p>
  *
  *
@@ -224,11 +224,11 @@
  * <p>
  * 1. Apresentation of Sprint 3
  * <p>
- *  * Blocking:
+ * Blocking:
  * <p>
  * 1. nothing
  * </p>
- *
+ * <p>
  * <b>Friday</b>
  * </p>
  * Yesterday I worked on:
@@ -263,6 +263,9 @@
  *
  * Implementation commits (links only open in new windows - select option
  * browser to open in new windows) :
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/8fc74cac13484fd526d44ed5dfc08c02950054f2">Implementation</a>
  *
  * <p>
  * TEXT
