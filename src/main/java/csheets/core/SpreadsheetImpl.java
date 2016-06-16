@@ -24,6 +24,8 @@ import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
 import csheets.ext.SpreadsheetExtension;
+import csheets.ext.importExportData.FileTask;
+import csheets.support.TaskManager;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -93,6 +95,26 @@ public class SpreadsheetImpl implements Spreadsheet {
 	 */
 	private transient Map<String, SpreadsheetExtension> extensions
 		= new HashMap<String, SpreadsheetExtension>();
+
+	private TaskManager taskManager = null;
+	private FileTask fileTask = null;
+
+	public void setFileTask(FileTask fileTask) {
+		this.fileTask = fileTask;
+		this.taskManager = new TaskManager();
+		this.taskManager.every(5).fire(this.fileTask);
+	}
+
+	public FileTask getFileTask() {
+		return fileTask;
+	}
+
+	public void destroyFileTask() {
+		this.fileTask.setSpreadsheet(null);
+		this.taskManager.destroy();
+		this.taskManager = null;
+		this.fileTask = null;
+	}
 
 	/**
 	 * Creates a new spreadsheet.
@@ -207,12 +229,11 @@ public class SpreadsheetImpl implements Spreadsheet {
 		return cells;
 	}
 
-    @Override
-    public SortedSet<Cell> getCells() {
-        return this.getCells(new Address(0, 0), new Address(this.getColumnCount(), this.getRowCount()));
-    }
-        
-        
+	@Override
+	public SortedSet<Cell> getCells() {
+		return this.getCells(new Address(0, 0), new Address(this.
+							 getColumnCount(), this.getRowCount()));
+	}
 
 	public Cell[] getColumn(int index) {
 		Cell[] column = new Cell[rows + 1];
@@ -365,4 +386,10 @@ public class SpreadsheetImpl implements Spreadsheet {
 			stream.writeObject(extension);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return this.title;
+	}
+
 }

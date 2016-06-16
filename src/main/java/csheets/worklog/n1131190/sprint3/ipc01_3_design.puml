@@ -1,4 +1,4 @@
-@startuml
+@startuml doc-files/ipc01_3_design.png
 
 actor User
 participant "SharePanel" as UI

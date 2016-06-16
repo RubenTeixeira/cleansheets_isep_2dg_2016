@@ -58,6 +58,7 @@ public class WorkbookPreviewTest {
 
 	@AfterClass
 	public static void tearDownClass() {
+
 	}
 
 	/**
@@ -108,6 +109,7 @@ public class WorkbookPreviewTest {
 	@Test
 	public void testGetPreview() {
 		System.out.println("getPreview");
+
 		/**
 		 * Setting up the Result expected.
 		 */

@@ -5,15 +5,22 @@
  */
 package csheets.ext.importExportData.ui;
 
+import csheets.core.Spreadsheet;
+import csheets.core.SpreadsheetImpl;
+import csheets.ext.importExportData.FileTask;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author hichampt
  */
-public class DisableEnableUpdate extends javax.swing.JDialog {
-    
+public class DisableEnableUpdate extends javax.swing.JDialog implements Observer {
+
     private final ImportExportTextFileController controller;
     private final UIController uiController;
     //  private Cell[][] cells;
@@ -21,17 +28,43 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
     public DisableEnableUpdate(java.awt.Frame parent, boolean modal,
             UIController uiController,
             ImportExportTextFileController controller) {
-        
+
         super(parent, modal);
-        
-        initComponents();
-        
+
+        this.initComponents();
+
         this.controller = controller;
         this.uiController = uiController;
         super.setAlwaysOnTop(true);
-        //this.cells = new Cell[0][0];
-        //initializeCellRangeText();
 
+        for (Spreadsheet spreadsheet : uiController.getActiveWorkbook()) {
+            this.jComboBoxSpreadSheet.addItem(spreadsheet);
+        }
+
+        this.update(null, null);
+        Notification.linkFileInformer().addObserver(this);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        SpreadsheetImpl spreadsheet = (SpreadsheetImpl) this.jComboBoxSpreadSheet.
+                getSelectedItem();
+        FileTask fileTask = spreadsheet.getFileTask();
+        if (fileTask == null) {
+            this.jButtonLink.setText("Link");
+            this.jTextFieldPathFile.setText("");
+            this.jTextFieldPathFile.setEnabled(true);
+            this.jTextFieldSeparator.setText("");
+            this.jTextFieldSeparator.setEnabled(true);
+            this.jButtonSearch.setEnabled(true);
+        } else {
+            this.jButtonLink.setText("Unlink");
+            this.jTextFieldPathFile.setText(fileTask.getFilePath());
+            this.jTextFieldPathFile.setEnabled(false);
+            this.jTextFieldSeparator.setText(fileTask.getSeparator());
+            this.jTextFieldSeparator.setEnabled(false);
+            this.jButtonSearch.setEnabled(false);
+        }
     }
 
     /**
@@ -45,62 +78,103 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        EnableCheckBox1 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonLink = new javax.swing.JButton();
+        jButtonCancel = new javax.swing.JButton();
+        jComboBoxSpreadSheet = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jTextFieldPathFile = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jButtonSearch = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jTextFieldSeparator = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setText("Enable or Disabel automatically update");
 
-        EnableCheckBox1.setSelected(true);
-        EnableCheckBox1.setText("Enable");
-
-        jButton1.setText("Confirm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonLink.setText("Link");
+        jButtonLink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonLinkActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCancel.setText("Cancel");
+        jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonCancelActionPerformed(evt);
             }
         });
+
+        jComboBoxSpreadSheet.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBoxSpreadSheetItemStateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("SpreadSheet:");
+
+        jLabel3.setText("Path File:");
+
+        jButtonSearch.setText("Search");
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Separator:");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(88, 88, 88)
-                        .addComponent(jButton1)
-                        .addGap(28, 28, 28)
-                        .addComponent(jButton2))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(EnableCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBoxSpreadSheet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldPathFile, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24)
+                                .addComponent(jButtonLink, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(EnableCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jComboBoxSpreadSheet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPathFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jButtonSearch))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButtonCancel)
+                    .addComponent(jButtonLink))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -108,61 +182,78 @@ public class DisableEnableUpdate extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButtonCancelActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //se a CheckBox nao foi selecionada. 
-        if (this.EnableCheckBox1.isSelected()) {
-            //ativar no importcontroller que vai verificar se há atualizaçoes no ficheiro do disco. 
-
-            int option = JOptionPane.
-                    showConfirmDialog(this, "The option automatically update has been Enable", "Warning", JOptionPane.WARNING_MESSAGE);
-            if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
+    private void jButtonLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLinkActionPerformed
+        SpreadsheetImpl spreadsheet = (SpreadsheetImpl) this.jComboBoxSpreadSheet.
+                getSelectedItem();
+        FileTask fileTask = spreadsheet.getFileTask();
+        if (fileTask == null) {
+            if (jTextFieldPathFile.getText().isEmpty()) {
+                JOptionPane.
+                        showMessageDialog(this, "You should choose the file to Linking", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
+            } else {
+                if (this.jTextFieldSeparator.getText().isEmpty()) {
+                    JOptionPane.
+                            showMessageDialog(this, "You should inserts the Separator to Linking", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+
+                }
+
+                this.controller.
+                        linked(this.jTextFieldPathFile.getText(), this.jTextFieldSeparator.
+                                getText(), spreadsheet);
             }
-            //invocar o metedo de  que permite fazer os update automaticamente. 
-            this.controller.exportImportFileOption(true);
-            super.dispose();
-            
         } else {
-            //Caso a CheckBox nao foi selecionada. 
-            //desativar no importController. 
-
-            int option = JOptionPane.
-                    showConfirmDialog(this, "The option automatically update has been Disabel", "Warning", JOptionPane.WARNING_MESSAGE);
-            if (option == JOptionPane.NO_OPTION || option == JOptionPane.CANCEL_OPTION) {
-                return;
-            }
-            this.controller.exportImportFileOption(false);
-            super.dispose();
+            this.controller.unlinked(spreadsheet);
+            JOptionPane. showMessageDialog(this, "The Unliking has been successfully", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
+        dispose();
+    }//GEN-LAST:event_jButtonLinkActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("File");
+        if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+            this.jTextFieldPathFile.setText(fileChooser.getSelectedFile().
+                    getAbsolutePath());
+        }
+    }//GEN-LAST:event_jButtonSearchActionPerformed
 
+    private void jComboBoxSpreadSheetItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxSpreadSheetItemStateChanged
+        this.update(null, null);
+    }//GEN-LAST:event_jComboBoxSpreadSheetItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox EnableCheckBox1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonCancel;
+    private javax.swing.JButton jButtonLink;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JComboBox<Spreadsheet> jComboBoxSpreadSheet;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextFieldPathFile;
+    private javax.swing.JTextField jTextFieldSeparator;
     // End of variables declaration//GEN-END:variables
 }

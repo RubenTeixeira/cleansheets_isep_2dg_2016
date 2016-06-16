@@ -12,6 +12,7 @@ import csheets.domain.Event;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.persistence.PersistenceContext;
+import csheets.support.DateTime;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import java.util.ArrayList;
@@ -42,9 +43,9 @@ public class AgendaControllerTest {
 	Calendar endDate;
 
 	public AgendaControllerTest() throws DataIntegrityViolationException {
-		startDate = Calendar.getInstance();
+		startDate = DateTime.newCalendar(2016, 5, 4);
 		startDate.add(Calendar.YEAR, 5);
-		endDate = Calendar.getInstance();
+		endDate = DateTime.newCalendar(2016, 5, 4);
 		endDate.add(Calendar.YEAR, 5);
 		endDate.add(Calendar.DAY_OF_MONTH, 5);
 		UIController uiController = UIController.getUIController();
@@ -60,16 +61,16 @@ public class AgendaControllerTest {
 		PersistenceContext.repositories().calendars().add(cal);
 		event1 = new Event(cal, "testeste", startDate, endDate);
 		PersistenceContext.repositories().events().add(event1);
-		event2 = new Event(cal, "teffsteste", Calendar.getInstance(), Calendar.
+		event2 = new Event(cal, "teffsteste", DateTime.newCalendar(2016, 5, 4), Calendar.
 						   getInstance());
 		PersistenceContext.repositories().events().add(event2);
-		Calendar date1 = Calendar.getInstance();
-		Calendar endDate2 = Calendar.getInstance();
+		Calendar date1 = DateTime.newCalendar(2016, 5, 4);
+		Calendar endDate2 = DateTime.newCalendar(2016, 5, 4);
 		endDate2.add(Calendar.YEAR, 5);
 		endDate2.add(Calendar.DAY_OF_MONTH, 10);
-		event3 = new Event(cal, "teffstesweete", Calendar.getInstance(), endDate2);
+		event3 = new Event(cal, "teffstesweete", DateTime.
+						   newCalendar(2016, 5, 4), endDate2);
 		PersistenceContext.repositories().events().add(event3);
-
 	}
 
 	@Before
@@ -84,7 +85,6 @@ public class AgendaControllerTest {
 		PersistenceContext.repositories().contacts().delete(contact1);
 		PersistenceContext.repositories().contacts().delete(contact2);
 		PersistenceContext.repositories().contacts().delete(c);
-
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class AgendaControllerTest {
 		ContactListModel list = controller.getContacts();
 		Iterable result = new ArrayList();
 		Iterable expected = PersistenceContext.repositories().events().
-			eventsContactPerDay(contact1, Calendar.getInstance());
+			eventsContactPerDay(contact1, DateTime.newCalendar(2016, 5, 4));
 		assertEquals(expected, result);
 	}
 
@@ -134,7 +134,7 @@ public class AgendaControllerTest {
 	 */
 	@Test
 	public void testGet1Events() {
-		Calendar date = Calendar.getInstance();
+		Calendar date = DateTime.newCalendar(2016, 5, 4);
 		date.add(Calendar.YEAR, 3);
 		ContactListModel list = controller.getContacts();
 		Iterable expected = new ArrayList();
@@ -149,7 +149,7 @@ public class AgendaControllerTest {
 	 */
 	@Test
 	public void testGet2Events() {
-		Calendar date = Calendar.getInstance();
+		Calendar date = DateTime.newCalendar(2016, 5, 4);
 		date.add(Calendar.YEAR, 5);
 		ContactListModel list = controller.getContacts();
 		Iterable expected = new ArrayList();
@@ -165,9 +165,9 @@ public class AgendaControllerTest {
 	 */
 	@Test
 	public void testNextDay() {
-		Calendar expected = Calendar.getInstance();
+		Calendar expected = DateTime.newCalendar(2016, 5, 4);
 		expected.add(Calendar.DAY_OF_MONTH, 1);
-		Calendar result = controller.nextDay(Calendar.getInstance());
+		Calendar result = controller.nextDay(DateTime.newCalendar(2016, 5, 4));
 		assertEquals(expected, result);
 	}
 
@@ -176,9 +176,10 @@ public class AgendaControllerTest {
 	 */
 	@Test
 	public void testPreviousDay() {
-		Calendar expected = Calendar.getInstance();
+		Calendar expected = DateTime.newCalendar(2016, 5, 4);
 		expected.add(Calendar.DAY_OF_MONTH, -1);
-		Calendar result = controller.previousDay(Calendar.getInstance());
+		Calendar result = controller.previousDay(DateTime.
+			newCalendar(2016, 5, 4));
 		assertEquals(expected, result);
 	}
 

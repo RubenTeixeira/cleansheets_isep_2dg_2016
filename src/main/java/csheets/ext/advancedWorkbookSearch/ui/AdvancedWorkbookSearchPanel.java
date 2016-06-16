@@ -6,7 +6,6 @@
 package csheets.ext.advancedWorkbookSearch.ui;
 
 import csheets.CleanSheets;
-import csheets.core.Cell;
 import csheets.core.Workbook;
 import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchController;
 import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchExtension;
@@ -21,12 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -38,10 +36,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdvancedWorkbookSearchPanel extends JPanel {
 
+	/**
+	 * Default Search Pattern.
+	 */
 	private static final String EXTENSION = "\\.cls";
+	private static final String DEFAULT = ".*\\.cls";
 
 	/**
-	 * UIController. Opens the giving Workbook if clicked twice over the result.
+	 * UIController.
 	 *
 	 */
 	private UIController uicontroller;
@@ -95,6 +97,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		setName(AdvancedWorkbookSearchExtension.NAME);
 		this.uicontroller = uicontroller;
 		jResultList = new JList(list);
+
 		jPreviewTable = new JTable(table);
 		initComponents();
 	}
@@ -154,6 +157,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 
         jResultList.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jResultList.setModel(new DefaulListModel());
+        jResultList.setPreferredSize(new java.awt.Dimension(300, 200));
         jResultList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jResultsListMouseClicked(evt);
@@ -190,6 +194,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         });
 
         jPreviewTable.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(51, 102, 255)));
+        jPreviewTable.setEnabled(false);
         jPreviewTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -224,17 +229,17 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jButton2))
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jButton1)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,11 +254,11 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -287,7 +292,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt evt.
 	 */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		jButton2.setEnabled(false);
 		performSearch();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -318,9 +322,11 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * Search and return the list of Workbook found.
 	 */
 	private void performSearch() {
+		jButton2.setEnabled(false);
 		if (validateDirectory()) { //checks directory.
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
+
 				Runnable newthread = new Runnable() {
 					/**
 					 * Thread Search method.
@@ -328,6 +334,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 					@Override
 					public void run() {
 						cont = 0; //sets counter to 0 on each search.
+						jImagePanel.setVisible(true);
 						files = controller.search(directory, pattern);
 						checkDuplicatedFiles(); //sets up a list without duplicated files.
 						postSearchUIOperations(); //required operations after each Search.
@@ -340,66 +347,62 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 			jTextField.setText("Invalid Directory.");
 			jButton2.setEnabled(true);
 		}
+//		String fix = "";
+//		list.addElement(fix);
+//		jResultList.setModel(list);
 	}
 
 	/**
-	 *
-	 */
-	private void setUpPreview() {
-		WorkbookPreview preview = new WorkbookPreview(wb); //one-click workbook.
-		String[] previewTitles = new String[5];
-
-		String[][] previewContent = new String[WorkbookPreview.COLUMNS][WorkbookPreview.ROWS];
-		Cell[][] matrix = preview.getPreview();
-		for (int i = 0; i < previewTitles.length; i++) {
-			String temp = matrix[i][0].getAddress().toString(); //String representation of the columns.
-			previewTitles[i] = "" + temp.charAt(0);
-		}
-		for (int i = 0; i < WorkbookPreview.COLUMNS; i++) {
-			for (int j = 0; j < WorkbookPreview.ROWS; j++) {
-				previewContent[j][i] = matrix[i][j].getContent();
-			}
-		}
-		table = new DefaultTableModel(previewContent, previewTitles);
-
-		jPreviewTable.setModel(table);
-		jPreviewTable.setEnabled(false);
-		jPreviewTable.setVisible(true);
-	}
-
-	/**
+	 * This method handles different behaviour associated with mouse
+	 * interaction. For one-click over the found Workbook the system shows a
+	 * preview of that Workbook. If pressed twice the result is also loaded to
+	 * the current workspace.
 	 *
 	 * @param evt mouse event.
 	 */
 	private void jResultsListMouseClicked(MouseEvent evt) {
-
-		if (evt.getClickCount() == 1) {
+		if (evt.getClickCount() == 1) { //clicked once.
 			File file = (File) jResultList.getSelectedValue();
-
-			//File file = new File(workbook);
-			CleanSheets instance = new CleanSheets();
+			CleanSheets instance = new CleanSheets(); //sets up a new instance of Cleansheets to load the information required.
 			try {
-				instance.load(file);
-
-			} catch (IOException | ClassNotFoundException ex) {
-				Logger.getLogger(AdvancedWorkbookSearchPanel.class
-					.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-			wb = instance.getWorkbook(file);
-			setUpPreview();
-
-		} else if (evt.getClickCount() == 2) { //Abrir o documento para o current WorkSpace
-			File file = (File) jResultList.getSelectedValue();
+				instance.load(file); //loads file.
+			} catch (IOException | ClassCastException | ClassNotFoundException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "This File is Corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
+			}//handling corrupted files.
+			wb = instance.getWorkbook(file); //saves workbook.
 			try {
-				uicontroller.getCleanSheets().load(file);
-			} catch (IOException | ClassNotFoundException ex) {
-				Logger.getLogger(AdvancedWorkbookSearchPanel.class.getName()).
-					log(Level.SEVERE, null, ex);
+				setUpPreview();
+			} catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "Couldn't load preview.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
+		} else if (evt.getClickCount() == 2) { //clicked twice.
+			File file = (File) jResultList.getSelectedValue();
+			try {
+				uicontroller.getCleanSheets().load(file); //UIController loads selected Workbook to current workspace.
+			} catch (IOException | ClassNotFoundException | ClassCastException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "This File is Corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+	}
 
+	/**
+	 * Sets up the Preview. Advanced Workbook Controller handles the preview
+	 * information.
+	 *
+	 * @throws NullPointerException
+	 */
+	private void setUpPreview() throws NullPointerException {
+		String[] previewTitles = new String[WorkbookPreview.COLUMNS];
+		String[][] previewContent = new String[WorkbookPreview.COLUMNS][WorkbookPreview.ROWS];
+		controller.setUpWorkbookPreview(wb, previewContent, previewTitles);
+		table = new DefaultTableModel(previewContent, previewTitles);
+		jPreviewTable.setModel(table); // sets the table for visualization.
+		jPreviewTable.setEnabled(false);
+		jPreviewTable.setVisible(true);
 	}
 
 	/**
@@ -424,6 +427,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		jResultList.setModel(list);
 		jResultList.
 			setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Single File Selection.
+		jResultList.setVisible(true);
 		jImagePanel.setVisible(false);
 		jPatternField.setEnabled(true);
 	}
@@ -434,8 +438,11 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @return true for valid pattern.
 	 */
 	private boolean validatePattern() {
-
 		jPatternField.setEnabled(false);
+
+		if (pattern.equalsIgnoreCase("")) {
+			pattern = DEFAULT;
+		}
 		if (!pattern.contains(EXTENSION)) {
 			pattern += EXTENSION;
 		}

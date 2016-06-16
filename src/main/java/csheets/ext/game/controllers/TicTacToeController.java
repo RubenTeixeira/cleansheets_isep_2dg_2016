@@ -86,6 +86,13 @@ public class TicTacToeController implements CellListener, SpecificGameController
 			getSpreadsheetCount() - 1);
 		Border border = BorderFactory.
 			createMatteBorder(2, 2, 2, 2, Color.ORANGE);
+		Border borderNull = null;
+		Font fontTicToe = new Font("Monospaced", Font.BOLD, 20);
+		Color fgTac = Color.LIGHT_GRAY;
+		Color bgTac = Color.BLUE;
+		Color bgTic = Color.LIGHT_GRAY;
+		Color fgTic = Color.BLUE;
+		Color bgGreen = Color.decode("#006400");
 		StylableCell cell;
 		int column = 5;
 		int rows = 5;
@@ -93,55 +100,34 @@ public class TicTacToeController implements CellListener, SpecificGameController
 			for (int row = 0; row < rows; row++) {
 				if (col == 1 && row == 0) {
 					sheet.getCell(1, 0).setContent("TIC");
-					cell = (StylableCell) uiController.
-						getActiveWorkbook().getSpreadsheet(activeBook.
-							getSpreadsheetCount() - 1).
-						getCell(col, row).getExtension(StyleExtension.NAME);
-					cell.setForegroundColor(Color.BLUE);
-					cell.setBackgroundColor(Color.LIGHT_GRAY);
-
-					Font font = new Font("Monospaced", Font.BOLD, 20);
-					cell.setFont(font);
+					styleTicTacToe(activeBook, col, row, fontTicToe, bgTic, fgTic, borderNull);
 				} else if (col == 2 && row == 0) {
 					sheet.getCell(2, 0).setContent("TAC");
-					cell = (StylableCell) uiController.
-						getActiveWorkbook().getSpreadsheet(activeBook.
-							getSpreadsheetCount() - 1).
-						getCell(col, row).getExtension(StyleExtension.NAME);
-					cell.setForegroundColor(Color.LIGHT_GRAY);
-					cell.setBackgroundColor(Color.BLUE);
-					Font font = new Font("Monospaced", Font.BOLD, 20);
-					cell.setFont(font);
+					styleTicTacToe(activeBook, col, row, fontTicToe, bgTac, fgTac, borderNull);
 				} else if (col == 3 && row == 0) {
 					sheet.getCell(3, 0).setContent("TOE");
-					cell = (StylableCell) uiController.
-						getActiveWorkbook().getSpreadsheet(activeBook.
-							getSpreadsheetCount() - 1).
-						getCell(col, row).getExtension(StyleExtension.NAME);
-					cell.setForegroundColor(Color.BLUE);
-					cell.setBackgroundColor(Color.LIGHT_GRAY);
-
-					Font font = new Font("Monospaced", Font.BOLD, 20);
-					cell.setFont(font);
+					styleTicTacToe(activeBook, col, row, fontTicToe, bgTic, fgTic, borderNull);
 				} else if (!(col >= 1 && col <= 3 && row >= 1 && row <= 3)) {
-//					sheet.getCell(col, row).setContent("X");
-					cell = (StylableCell) uiController.
-						getActiveWorkbook().getSpreadsheet(activeBook.
-							getSpreadsheetCount() - 1).
-						getCell(col, row).getExtension(StyleExtension.NAME);
-
-					cell.setBackgroundColor(Color.decode("#006400"));
-
+					styleTicTacToe(activeBook, col, row, fontTicToe, bgGreen, Color.BLACK, borderNull);
 				} else {
-
-					cell = (StylableCell) uiController.
-						getActiveWorkbook().getSpreadsheet(activeBook.
-							getSpreadsheetCount() - 1).
-						getCell(col, row).getExtension(StyleExtension.NAME);
-					cell.setBorder(border);
+					styleTicTacToe(activeBook, col, row, fontTicToe, Color.WHITE, Color.BLACK, border);
 				}
 			}
 		}
+	}
+
+	public void styleTicTacToe(Workbook activebook, int col, int row,
+							   Font fontTic,
+							   Color bg, Color fg, Border border) {
+		StylableCell cell = (StylableCell) uiController.
+			getActiveWorkbook().getSpreadsheet(activebook.
+				getSpreadsheetCount() - 1).
+			getCell(col, row).getExtension(StyleExtension.NAME);
+		cell.setForegroundColor(fg);
+		cell.setBackgroundColor(bg);
+		Font font = new Font("Monospaced", Font.BOLD, 20);
+		cell.setFont(font);
+		cell.setBorder(border);
 	}
 
 	public void addListeners() {

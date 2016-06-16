@@ -67,6 +67,7 @@ public class CommentableCellTest {
 
 	/**
 	 * A method that tests the property hasComment.
+	 *
 	 */
 	@Test
 	public void testHasComments() {

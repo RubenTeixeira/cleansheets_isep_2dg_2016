@@ -48,7 +48,6 @@
  * understand how antlr and grammars are integratd in the project
  * <p>
  *
- *
  * <b>Monday</b>
  * <p>
  * Analysis and design of the UC
@@ -58,10 +57,21 @@
  * <p>
  * Implmentation of the UC
  * <p>
+ * <p>
+ * Helping other collegues
+ * <p>
  *
  * <b>Wednesday</b>
  * <p>
  * Tests in the implementation
+ * <p>
+ * <p>
+ * Helping other collegues
+ * <p>
+ *
+ * <b>Thursday</b>
+ * <p>
+ * Presentation to the client
  * <p>
  *
  *

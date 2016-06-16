@@ -5,6 +5,8 @@
  */
 package csheets.ext.distributedWorkbook;
 
+import csheets.ext.distributedWorkbookSearch.WorkBookDTO;
+import csheets.ext.distributedWorkbookSearch.WorkBookDTOAssembler;
 import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;

@@ -18,8 +18,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -34,245 +32,257 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 
-    private NotesListsController controller;
+	private NotesListsController controller;
 
-    /**
-     * Default receive list
-     */
-    private DefaultListModel NoteListModel = new DefaulListModel();
-    /**
-     * Default receive list
-     */
-    private DefaultListModel VersionListModel = new DefaulListModel();
+	/**
+	 * Default receive list
+	 */
+	private DefaultListModel NoteListModel = new DefaulListModel();
+	/**
+	 * Default receive list
+	 */
+	private DefaultListModel VersionListModel = new DefaulListModel();
 
-    private DefaultComboBoxModel<Contact> contactModel;
-    private DefaultListModel<List> contactListModel;
-    private DefaultListModel<Integer> listVersionModel;
-    private DefaultTableModel listDataModel;
-    
-    /**
-     * Creates new form EventsPanel
-     *
-     * @param uiController The user interface controller.
-     */
-    public NotesListsPanels(UIController uiController) {
-        this.controller = new NotesListsController(uiController);
-        this.setName(NotesListsExtension.NAME);
-        createModels();
-        initComponents();
-        createActions();
-        fetchContacts();
-        cbListContact.setSelectedIndex(-1);
-        Notification.noteInformer().addObserver(this);
-        Notification.contactInformer().addObserver(this);
-        this.update(null, null);
-    }
+	private DefaultComboBoxModel<Contact> contactModel;
+	private DefaultListModel<List> contactListModel;
+	private DefaultListModel<Integer> listVersionModel;
+	private DefaultTableModel listDataModel;
 
-    private void createModels() {
-        contactModel = new DefaultComboBoxModel();
-        contactListModel = new DefaultListModel();
-        listVersionModel = new DefaultListModel();
-        listDataModel = new DefaultTableModel();
-    }
-    
-    private void defineTableModel() {
-        listDataModel = new DefaultTableModel(){
-            public Class<?> getColumnClass(int column) {
-                switch (column) {
-                    case 0:
-                        return Boolean.class;
-                    case 1:
-                        return String.class;
-                    default:
-                        return String.class;
-                }
-            }
-        };
-        listDataModel.setColumnIdentifiers(new Object[]{"Done","Text"});
-        tableListData.setModel(listDataModel);
-        int width = 50;
-        tableListData.getColumnModel().getColumn(0).setMinWidth(width);
-        tableListData.getColumnModel().getColumn(0).setMaxWidth(width);
-    }
+	/**
+	 * Creates new form EventsPanel
+	 *
+	 * @param uiController The user interface controller.
+	 */
+	public NotesListsPanels(UIController uiController) {
+		this.controller = new NotesListsController(uiController);
+		this.setName(NotesListsExtension.NAME);
+		createModels();
+		initComponents();
+		createActions();
+		fetchContacts();
+		cbListContact.setSelectedIndex(-1);
+		Notification.noteInformer().addObserver(this);
+		Notification.contactInformer().addObserver(this);
+		this.update(null, null);
+	}
 
-    private void createActions() {
-        addContactsComboBoxAction();
-        addListsAction();
-        addListVersionsAction();
-        addEditAction();
-    }
+	private void createModels() {
+		contactModel = new DefaultComboBoxModel();
+		contactListModel = new DefaultListModel();
+		listVersionModel = new DefaultListModel();
+		listDataModel = new DefaultTableModel();
+	}
 
-    private void fetchContacts() {
-        for (Contact contact : controller.getContacts()) {
-            contactModel.addElement(contact);
-        }
-        contactListModel.clear();
-    }
+	private void defineTableModel() {
+		listDataModel = new DefaultTableModel() {
+			public Class<?> getColumnClass(int column) {
+				switch (column) {
+					case 0:
+						return Boolean.class;
+					case 1:
+						return String.class;
+					default:
+						return String.class;
+				}
+			}
+		};
+		listDataModel.setColumnIdentifiers(new Object[]{"Done", "Text"});
+		tableListData.setModel(listDataModel);
+		int width = 50;
+		tableListData.getColumnModel().getColumn(0).setMinWidth(width);
+		tableListData.getColumnModel().getColumn(0).setMaxWidth(width);
+	}
 
-    private void addContactsComboBoxAction() {
-        cbListContact.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    contactListModel.clear();
-                    for (List list : controller.getContactLists(e.getItem())) {
-                        contactListModel.addElement(list);
-                    }
-                    panelContactList.setVisible(true);
-                    panelCreateList.setVisible(true);
-                    panelListVersion.setVisible(false);
-                    panelListData.setVisible(false);
-                    panelListActions.setVisible(false);
-                }
-            }
-        });
-    }
+	private void createActions() {
+		addContactsComboBoxAction();
+		addListsAction();
+		addListVersionsAction();
+		addEditAction();
+	}
 
-    private void addListsAction() {
-        lstContactLists.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                List selectedValue = lstContactLists.getSelectedValue();
-                if(selectedValue != null) {
-                    panelListVersion.setVisible(true);
-                    panelListData.setVisible(true);
-                    panelListActions.setVisible(true);
-                    listVersionModel.clear();
-                    for (List version : controller.getListVersions(selectedValue).values()) {
-                        listVersionModel.addElement(version.getVersionNumber());
-                    }
-                    if (checkboxEditList.isSelected()) {
-                        btnApply.setText("Edit");
-                        showListEdit(controller.getVersion(selectedValue,-1));
-                    } else {
-                        hideListEdit(controller.getVersion(selectedValue,-1));
-                    }
-                }
-            }
-        });
-    }
+	private void fetchContacts() {
+		for (Contact contact : controller.getContacts()) {
+			contactModel.addElement(contact);
+		}
+		contactListModel.clear();
+	}
 
-    private void addListVersionsAction() {
-        lstListVersions.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                List selectedList = lstContactLists.getSelectedValue();
-                if(checkboxEditList.isSelected() && selectedList != null) {
-                    Integer versionNum = lstListVersions.getSelectedValue();
-                    if(versionNum != null) {
-                        showListEdit(controller.getVersion(selectedList, versionNum));
-                    } else {
-                        showListEdit(controller.getVersion(selectedList, -1));
-                    }
-                }
-            }
-        });
-    }
+	private void addContactsComboBoxAction() {
+		cbListContact.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					contactListModel.clear();
+					for (List list : controller.getContactLists(e.getItem())) {
+						contactListModel.addElement(list);
+					}
+					panelContactList.setVisible(true);
+					panelCreateList.setVisible(true);
+					panelListVersion.setVisible(false);
+					panelListData.setVisible(false);
+					panelListActions.setVisible(false);
+				}
+			}
+		});
+	}
 
-    private void addEditAction() {
-        checkboxEditList.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if(!btnApply.getText().equals("Create") && lstContactLists.getSelectedValue() != null) {
-                    if (checkboxEditList.isSelected()) {
-                        if(!lstListVersions.isSelectionEmpty())
-                            showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
-                        else {
-                            showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
-                        }
-                        btnApply.setText("Edit");
-                    } else {
-                        if(!lstListVersions.isSelectionEmpty())
-                            hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
-                        else {
-                            hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
-                        }
-                        btnApply.setText("Apply");
-                    }
-                }
-            }
-        });
-    }
+	private void addListsAction() {
+		lstContactLists.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				List selectedValue = lstContactLists.getSelectedValue();
+				if (selectedValue != null) {
+					panelListVersion.setVisible(true);
+					panelListData.setVisible(true);
+					panelListActions.setVisible(true);
+					listVersionModel.clear();
+					for (List version : controller.
+						getListVersions(selectedValue).values()) {
+						listVersionModel.addElement(version.getVersionNumber());
+					}
+					if (checkboxEditList.isSelected()) {
+						btnApply.setText("Edit");
+						showListEdit(controller.getVersion(selectedValue, -1));
+					} else {
+						hideListEdit(controller.getVersion(selectedValue, -1));
+					}
+				}
+			}
+		});
+	}
 
-    private void showListEdit(List l) {
-        checkboxEditList.setSelected(true);
-        textAreadListData.setEnabled(true);
-        textAreadListData.setVisible(true);
-        tableListData.setVisible(false);
-        tableListData.setEnabled(false);
-        textAreadListData.setText(l.getTitle()+"\n"+l.getText());
-    }
+	private void addListVersionsAction() {
+		lstListVersions.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				List selectedList = lstContactLists.getSelectedValue();
+				if (checkboxEditList.isSelected() && selectedList != null) {
+					Integer versionNum = lstListVersions.getSelectedValue();
+					if (versionNum != null) {
+						showListEdit(controller.
+							getVersion(selectedList, versionNum));
+					} else {
+						showListEdit(controller.getVersion(selectedList, -1));
+					}
+				}
+			}
+		});
+	}
 
-    private void hideListEdit(List l) {
-        checkboxEditList.setSelected(false);
-        textAreadListData.setVisible(false);
-        textAreadListData.setEnabled(false);
-        tableListData.setEnabled(true);
-        tableListData.setVisible(true);
-        btnApply.setText("Apply");
-        defineTableModel();
-        for (List.ListLine line : l.getLines()) {
-            listDataModel.addRow(new Object[]{line.getCheck(),line.getText()});
-        }
-    }
+	private void addEditAction() {
+		checkboxEditList.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (!btnApply.getText().equals("Create") && lstContactLists.
+					getSelectedValue() != null) {
+					if (checkboxEditList.isSelected()) {
+						if (!lstListVersions.isSelectionEmpty()) {
+							showListEdit(controller.getVersion(lstContactLists.
+								getSelectedValue(), lstListVersions.
+															   getSelectedValue()));
+						} else {
+							showListEdit(controller.getVersion(lstContactLists.
+								getSelectedValue(), -1));
+						}
+						btnApply.setText("Edit");
+					} else {
+						if (!lstListVersions.isSelectionEmpty()) {
+							hideListEdit(controller.getVersion(lstContactLists.
+								getSelectedValue(), lstListVersions.
+															   getSelectedValue()));
+						} else {
+							hideListEdit(controller.getVersion(lstContactLists.
+								getSelectedValue(), -1));
+						}
+						btnApply.setText("Apply");
+					}
+				}
+			}
+		});
+	}
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof Contact) {
-            contactModel.addElement((Contact)arg);
-            cbListContact.setSelectedIndex(-1);
-            contactListModel.clear();
-            this.cbNoteContact.removeAllItems();
-            for (Contact c : controller.showContacts()) {
-                cbNoteContact.addItem(c);
-            }
-        } else if (arg instanceof Note) {
-            this.NoteListModel.removeAllElements();
-            if (cbNoteContact.getSelectedItem() != null) {
-                Contact c = (Contact) cbNoteContact.getSelectedItem();
-                for (Note note : controller.notesByContact(c)) {
-                    this.NoteListModel.addElement(note);
-                }
-                lstContactNotes.setModel(NoteListModel);
-            }
-        } else if (arg == null) {
-            this.cbNoteContact.removeAllItems();
-            contactModel.removeAllElements();
-            for (Contact c : controller.showContacts()) {
-                cbNoteContact.addItem(c);
-                contactModel.addElement(c);
-            }
-            cbListContact.setSelectedIndex(-1);
-            contactListModel.clear();
-            //NOTES
-            this.NoteListModel.removeAllElements();
-            if (cbNoteContact.getSelectedItem() != null) {
-                Contact c = (Contact) cbNoteContact.getSelectedItem();
-                for (Note note : controller.notesByContact(c)) {
-                    this.NoteListModel.addElement(note);
-                }
-                lstContactNotes.setModel(NoteListModel);
-            }
-        }
-        refreshUI();
-    }
+	private void showListEdit(List l) {
+		checkboxEditList.setSelected(true);
+		textAreadListData.setEnabled(true);
+		textAreadListData.setVisible(true);
+		tableListData.setVisible(false);
+		tableListData.setEnabled(false);
+		textAreadListData.setText(l.getTitle() + "\n" + l.getText());
+	}
 
-    private void refreshUI() {
-        lstContactNotes.revalidate();
-        lstContactNotes.repaint();
-        lstNoteVersions.revalidate();
-        lstNoteVersions.repaint();
-    }
+	private void hideListEdit(List l) {
+		checkboxEditList.setSelected(false);
+		textAreadListData.setVisible(false);
+		textAreadListData.setEnabled(false);
+		tableListData.setEnabled(true);
+		tableListData.setVisible(true);
+		btnApply.setText("Apply");
+		defineTableModel();
+		for (List.ListLine line : l.getLines()) {
+			listDataModel.addRow(new Object[]{line.getCheck(), line.getText()});
+		}
+	}
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof Contact) {
+			contactModel.addElement((Contact) arg);
+			cbListContact.setSelectedIndex(-1);
+			contactListModel.clear();
+			this.cbNoteContact.removeAllItems();
+			for (Contact c : controller.showContacts()) {
+				cbNoteContact.addItem(c);
+			}
+		} else if (arg instanceof Note) {
+			this.NoteListModel.removeAllElements();
+			if (cbNoteContact.getSelectedItem() != null) {
+				Contact c = (Contact) cbNoteContact.getSelectedItem();
+				for (Note note : controller.notesByContact(c)) {
+					this.NoteListModel.addElement(note);
+				}
+				lstContactNotes.setModel(NoteListModel);
+			}
+		} else if (arg == null) {
+			this.cbNoteContact.removeAllItems();
+			contactModel.removeAllElements();
+			for (Contact c : controller.showContacts()) {
+				cbNoteContact.addItem(c);
+				contactModel.addElement(c);
+			}
+			cbListContact.setSelectedIndex(-1);
+			contactListModel.clear();
+			//NOTES
+			this.NoteListModel.removeAllElements();
+			if (cbNoteContact.getSelectedItem() != null) {
+				Contact c = (Contact) cbNoteContact.getSelectedItem();
+				for (Note note : controller.notesByContact(c)) {
+					this.NoteListModel.addElement(note);
+				}
+				lstContactNotes.setModel(NoteListModel);
+			}
+		}
+		refreshUI();
+	}
+
+	private void refreshUI() {
+		lstContactNotes.revalidate();
+		lstContactNotes.repaint();
+		lstNoteVersions.revalidate();
+		lstNoteVersions.repaint();
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenu1 = new javax.swing.JMenu();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jEditorPane1 = new javax.swing.JEditorPane();
         tabPane = new javax.swing.JTabbedPane();
         panelNotes = new javax.swing.JPanel();
         panelNoteContact = new javax.swing.JPanel();
@@ -328,6 +338,10 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListActions = new javax.swing.JPanel();
         btnApply = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+
+        jMenu1.setText("jMenu1");
+
+        jScrollPane8.setViewportView(jEditorPane1);
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentResized(java.awt.event.ComponentEvent evt) {
@@ -610,7 +624,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             .addGroup(panelListVersionLayout.createSequentialGroup()
                 .addComponent(lblListVersions)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panelListInfoLayout = new javax.swing.GroupLayout(panelListInfo);
@@ -664,7 +678,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE)
-                    .addComponent(jScrollPane7)))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)))
         );
 
         btnApply.setText("Apply");
@@ -754,136 +768,158 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lstContactNotesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lstContactNotesMouseClicked
-        //VERSIONS
-        this.VersionListModel.removeAllElements();
-        if (lstContactNotes.getSelectedValue() != null) {
-            Note n = (Note) this.NoteListModel.getElementAt(this.lstContactNotes.getSelectedIndex());
-            for (Note note : n.versionByNote()) {
-                this.VersionListModel.addElement(note);
-            }
-            lstNoteVersions.setModel(VersionListModel);
-        }
-        refreshUI();
+		//VERSIONS
+		this.VersionListModel.removeAllElements();
+		if (lstContactNotes.getSelectedValue() != null) {
+			Note n = (Note) this.NoteListModel.
+				getElementAt(this.lstContactNotes.getSelectedIndex());
+			for (Note note : n.versionByNote()) {
+				this.VersionListModel.addElement(note);
+			}
+			lstNoteVersions.setModel(VersionListModel);
+		}
+		refreshUI();
     }//GEN-LAST:event_lstContactNotesMouseClicked
 
     private void btnNoteDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteDeleteActionPerformed
-        controller.deleteNote((Note) this.NoteListModel.getElementAt(this.lstContactNotes.getSelectedIndex()));
+		controller.deleteNote((Note) this.NoteListModel.
+			getElementAt(this.lstContactNotes.getSelectedIndex()));
     }//GEN-LAST:event_btnNoteDeleteActionPerformed
 
     private void btnNoteEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteEditActionPerformed
-        controller.editNote(textAreaNote.getText(), (Note) this.NoteListModel.getElementAt(this.lstContactNotes.getSelectedIndex()));
+		controller.editNote(textAreaNote.getText(), (Note) this.NoteListModel.
+							getElementAt(this.lstContactNotes.getSelectedIndex()));
     }//GEN-LAST:event_btnNoteEditActionPerformed
 
     private void btnNoteCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteCreateActionPerformed
-        Contact contact = (Contact) cbNoteContact.getSelectedItem();
-        System.out.println(contact.name());
-        controller.createNote(textAreaNote.getText(), contact);
+		Contact contact = (Contact) cbNoteContact.getSelectedItem();
+		System.out.println(contact.name());
+		controller.createNote(textAreaNote.getText(), contact);
     }//GEN-LAST:event_btnNoteCreateActionPerformed
 
     private void btnCreateNewListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewListActionPerformed
-        if(cbListContact.getSelectedItem() == null) {
-            JOptionPane.showMessageDialog(panelLists, "No contact selected", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        panelListVersion.setVisible(false);
-        panelListData.setVisible(true);
-        panelListActions.setVisible(true);
-        textAreadListData.setEnabled(true);
-        textAreadListData.setText("");
-        textAreadListData.setVisible(true);
-        tableListData.setVisible(false);
-        tableListData.setEnabled(false);
-        checkboxEditList.setSelected(true);
-        btnApply.setText("Create");
+		if (cbListContact.getSelectedItem() == null) {
+			JOptionPane.
+				showMessageDialog(panelLists, "No contact selected", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		panelListVersion.setVisible(false);
+		panelListData.setVisible(true);
+		panelListActions.setVisible(true);
+		textAreadListData.setEnabled(true);
+		textAreadListData.setText("");
+		textAreadListData.setVisible(true);
+		tableListData.setVisible(false);
+		tableListData.setEnabled(false);
+		checkboxEditList.setSelected(true);
+		btnApply.setText("Create");
     }//GEN-LAST:event_btnCreateNewListActionPerformed
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
-        switch(evt.getActionCommand()) {
-            case "Create": {
-                List newList;
-                try {
-                    newList = controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText());
-                } catch (DataIntegrityViolationException ex) {
-                    JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                } catch (ClassCastException ex) {
-                    JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-                if(newList == null) {
-                    JOptionPane.showMessageDialog(panelLists, "Couldn't create new list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-                contactListModel.addElement(newList);
-                lstContactLists.setSelectedValue(newList, true);
-                hideListEdit(newList);
-                break;
-            }
-            case "Edit": {
-                List list;
-                try {
-                    list = controller.editList(lstContactLists.getSelectedValue(),textAreadListData.getText());
-                } catch (DataIntegrityViolationException ex) {
-                    JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-                if(list == null) {
-                    JOptionPane.showMessageDialog(panelLists, "Couldn't edit list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
-                    break;
-                }
-                contactListModel.removeElement(lstContactLists.getSelectedValue());
-                contactListModel.addElement(list);
-                lstContactLists.setSelectedValue(list, true);
-                hideListEdit(list);
-                break;
-            }
-            case "Apply": {
-                String title;
-                String message;
-                int icon;
-                Object data[][] = new Object[listDataModel.getRowCount()][listDataModel.getColumnCount()];
-                for (int i = 0; i < listDataModel.getRowCount(); i++) {
-                    for (int j = 0; j < listDataModel.getColumnCount(); j++) {
-                        data[i][j] = listDataModel.getValueAt(i, j);
-                    }
-                }
-                if(controller.applyList(lstContactLists.getSelectedValue(),data) != null) {
-                    title = "Success";
-                    message = "Your changes were saved with success.";
-                    icon = JOptionPane.PLAIN_MESSAGE;
-                } else {
-                    title = "Error";
-                    message = "Something was wrong when saving the info.";
-                    icon = JOptionPane.ERROR_MESSAGE;
-                }
-                JOptionPane.showMessageDialog(panelLists, message, title, icon);
-                break;
-            }
-        }
+		switch (evt.getActionCommand()) {
+			case "Create": {
+				List newList;
+				try {
+					newList = controller.createList(cbListContact.
+						getSelectedItem(), textAreadListData.getText());
+				} catch (DataIntegrityViolationException ex) {
+					JOptionPane.
+						showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					break;
+				} catch (ClassCastException ex) {
+					JOptionPane.
+						showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					break;
+				}
+				if (newList == null) {
+					JOptionPane.
+						showMessageDialog(panelLists, "Couldn't create new list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
+					break;
+				}
+				contactListModel.addElement(newList);
+				lstContactLists.setSelectedValue(newList, true);
+				hideListEdit(newList);
+				break;
+			}
+			case "Edit": {
+				List list;
+				try {
+					list = controller.editList(lstContactLists.
+						getSelectedValue(), textAreadListData.getText());
+				} catch (DataIntegrityViolationException ex) {
+					JOptionPane.
+						showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+					break;
+				}
+				if (list == null) {
+					JOptionPane.
+						showMessageDialog(panelLists, "Couldn't edit list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
+					break;
+				}
+				contactListModel.removeElement(lstContactLists.
+					getSelectedValue());
+				contactListModel.addElement(list);
+				lstContactLists.setSelectedValue(list, true);
+				hideListEdit(list);
+				break;
+			}
+			case "Apply": {
+				String title;
+				String message;
+				int icon;
+				Object data[][] = new Object[listDataModel.getRowCount()][listDataModel.
+					getColumnCount()];
+				for (int i = 0; i < listDataModel.getRowCount(); i++) {
+					for (int j = 0; j < listDataModel.getColumnCount(); j++) {
+						data[i][j] = listDataModel.getValueAt(i, j);
+					}
+				}
+				if (controller.
+					applyList(lstContactLists.getSelectedValue(), data) != null) {
+					title = "Success";
+					message = "Your changes were saved with success.";
+					icon = JOptionPane.PLAIN_MESSAGE;
+				} else {
+					title = "Error";
+					message = "Something was wrong when saving the info.";
+					icon = JOptionPane.ERROR_MESSAGE;
+				}
+				JOptionPane.showMessageDialog(panelLists, message, title, icon);
+				break;
+			}
+		}
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        List l = lstContactLists.getSelectedValue();
-        if(lstContactLists.getSelectedValue() != null) {
-            String title = "Delete List";
-            String message = "Are you sure you want to delete that list ?";
-            int reply = JOptionPane.showConfirmDialog(panelLists, message, title, JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
-                List list = controller.deleteList(l);
-                contactListModel.removeElement(list);
-            }
-        } else {
-            String title = "Error";
-            String message = "There is no list selected ...";
-            JOptionPane.showMessageDialog(panelLists, message, title, JOptionPane.ERROR_MESSAGE);
-        }
+		List l = lstContactLists.getSelectedValue();
+		if (lstContactLists.getSelectedValue() != null) {
+			String title = "Delete List";
+			String message = "Are you sure you want to delete that list ?";
+			int reply = JOptionPane.
+				showConfirmDialog(panelLists, message, title, JOptionPane.YES_NO_OPTION);
+			if (reply == JOptionPane.YES_OPTION) {
+				List list = controller.deleteList(l);
+				contactListModel.removeElement(l);
+				panelContactList.setVisible(true);
+				panelCreateList.setVisible(true);
+				panelListVersion.setVisible(false);
+				panelListData.setVisible(false);
+				panelListActions.setVisible(false);
+			}
+		} else {
+			String title = "Error";
+			String message = "There is no list selected ...";
+			JOptionPane.
+				showMessageDialog(panelLists, message, title, JOptionPane.ERROR_MESSAGE);
+		}
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
-        int panelWidth = panelListData.getWidth();
-        int smallGap = 6;
-        textAreadListData.setSize(((panelWidth-6)/2), textAreadListData.getHeight());
-        tableListData.setSize(((panelWidth-6)/2), tableListData.getHeight());
+		int panelWidth = panelListData.getWidth();
+		int smallGap = 6;
+		textAreadListData.setSize(((panelWidth - 6) / 2), textAreadListData.
+								  getHeight());
+		tableListData.setSize(((panelWidth - 6) / 2), tableListData.getHeight());
     }//GEN-LAST:event_formComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -896,6 +932,8 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JComboBox<Contact> cbListContact;
     private javax.swing.JComboBox<Contact> cbNoteContact;
     private javax.swing.JCheckBox checkboxEditList;
+    private javax.swing.JEditorPane jEditorPane1;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -903,6 +941,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JLabel lblContactLists;
     private javax.swing.JLabel lblList;
     private javax.swing.JLabel lblListContact;

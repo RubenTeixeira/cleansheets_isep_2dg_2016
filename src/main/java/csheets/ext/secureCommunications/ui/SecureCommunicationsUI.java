@@ -409,17 +409,9 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
      */
     public String compareSize(int sizeI, int sizeO, int sizeSI, int sizeSO) {
 
-        int size = (sizeI + sizeO + sizeSI + sizeSO) / 4;
-
-        if (size < 50) {
-            return "bytes";
-        } else if (size > 50 || size < 100) {
-            return "kilobytes";
-        } else if (size > 100 || size < 150) {
-            return "megabytes";
-        } else {
-            return "gigabytes";
-        }
+        int size = sizeI + sizeO + sizeSI + sizeSO;
+        int media =size/4;
+        return controller.unitToBeUsed(media);
 
     }
 

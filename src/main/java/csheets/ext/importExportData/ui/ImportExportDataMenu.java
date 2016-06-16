@@ -35,6 +35,6 @@ public class ImportExportDataMenu extends JMenu {
 					getResource("res/img/export_txt.png")));
                 add(new DisableEnableUpdateAction(uiController, controller)).
 			setIcon(new ImageIcon(ImportExportDataExtension.class.
-					getResource("res/img/saveEdit.png")));
+					getResource("res/img/link.png")));
 	}
 }

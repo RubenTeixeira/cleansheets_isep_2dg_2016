@@ -143,4 +143,7 @@ public abstract class Contact implements Serializable {
 		return hashcode;
 	}
 
+	public void removeTag(String tag) {
+		this.tags.remove(tag);
+	}
 }

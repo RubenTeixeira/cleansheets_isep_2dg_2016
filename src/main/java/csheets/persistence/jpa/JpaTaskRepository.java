@@ -45,7 +45,7 @@ public class JpaTaskRepository extends JpaRepository<Task, Long> implements Task
 	public void delete(Task entity) {
 		for (Task task : this.all()) {
 			if (task.TaskName().equalsIgnoreCase(entity.TaskName())) {
-				this.delete(entity);
+				super.delete(entity);
 			}
 		}
 	}

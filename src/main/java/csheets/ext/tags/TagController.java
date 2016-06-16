@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import javax.swing.JPanel;
 
@@ -186,7 +187,16 @@ public class TagController {
 	public void addTag(Contact contact, String tag) {
 		contact.addTag(tag);
 		PersistenceContext.repositories().contacts().save(contact);
+		Notification.contactInformer()
+			.notifyChange();
+	}
+
+	public void remove(Contact contact, String tag) {
+		contact.removeTag(tag);
 		Notification.contactInformer().notifyChange();
 	}
 
+	public Map<String, Integer> tagFrequency() {
+		return PersistenceContext.repositories().contacts().tagFrequency();
+	}
 }
