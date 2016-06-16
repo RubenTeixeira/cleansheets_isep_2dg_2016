@@ -31,7 +31,7 @@ public class TcpService extends Notifier {
 							 public void run() {
 								 server = NetworkManager.tcp();
 
-								 server.expect(":nickname|:chat", new Action() {
+								 server.expect(":chat", new Action() {
 											   @Override
 											   public void run(Request request) {
 												   Map<String, String> mapMessage = new LinkedHashMap<>();
@@ -39,14 +39,13 @@ public class TcpService extends Notifier {
 													   put("reference", "chatMessage");
 												   mapMessage.
 													   put("nickname", request.
-														   get("nickname").
-														   get(0));
+														   message().split(";")[0]);
 												   mapMessage.
 													   put("from", request.
 														   from());
 												   mapMessage.
 													   put("message", request.
-														   message());
+														   message().split(";")[1]);
 
 												   Notification.
 													   chatMessageInformer().
@@ -70,7 +69,7 @@ public class TcpService extends Notifier {
 							 @Override
 							 public void run() {
 								 new TcpClient(0).
-									 send(":nickname|:chat", target, message);
+									 send(":chat", target, message);
 							 }
 						 });
 

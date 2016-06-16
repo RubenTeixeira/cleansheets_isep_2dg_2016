@@ -9,7 +9,22 @@
  * </p>
  *
  * <h2>1. Notes</h2>
+ * <p>
+ * My computer was disable for a few time so a ask for help of my class mates
+ * and i made commits in two of my class mates.In bitbucket everything is
+ * correct but in JIRA appears the names of my class mates The commit reference
+ * was:
+ * </p>
+ * <p>
+ * Commit in bitbucket:
+ * <a href="2efdb46">commit 1</a>
+ * </p>
  *
+ *
+ * <p>
+ * Commit in bitbucket:
+ * <a href="01bbf16">commit 2</a>
+ * </p>
  *
  * <h2>2. Use Case/Feature: IPC06.2</h2>
  * <p>
@@ -135,7 +150,7 @@
  * <b>Wednesday</b>
  *
  * <p>
- * Ending implementation and small changes 
+ * Ending implementation and small changes
  *
  * <p>
  * Blocking : Small changes in VOLT delayed a bit the project implementation
@@ -147,7 +162,7 @@
  * <b>Thursday</b>
  *
  * <p>
- * Minor changes,so the project can be more clean 
+ * Minor changes,so the project can be more clean
  *
  * <p>
  * Blocking : nothing

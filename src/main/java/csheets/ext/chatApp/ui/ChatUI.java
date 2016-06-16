@@ -239,7 +239,8 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
 				addElement(theUser.nickname() + ": " + message);
 
 			chatAppController.
-				sendMessage(theUser.nickname(), ipDestino, message);
+				sendMessage(theUser.nickname(), ipDestino, message, seletectUser.
+							nickname());
 			txtMessage.setText("");
 		}
 	}
@@ -318,7 +319,7 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
 		//Adicionar mensagem à história de um user.
 		int size = mapMessages.size() - 1;
 		String message = "";
-		message = mapMessages.get("hostname") + ": " + mapMessages.
+		message = mapMessages.get("nickname") + ": " + mapMessages.
 			get("message");
 
 		receiveListModel.addElement(message);

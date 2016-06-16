@@ -7,7 +7,6 @@ package csheets.domain;
 
 import java.io.Serializable;
 import javax.persistence.Embeddable;
-import javax.persistence.GeneratedValue;
 
 /**
  *
@@ -22,9 +21,6 @@ public class ChatMessage implements Serializable {
 	private String otherUserNickname;
 
 	private String messageText;
-
-	@GeneratedValue
-	private int messageIndex;
 
 	private MessageType type;
 
