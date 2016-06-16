@@ -115,12 +115,14 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		String chatMessage = "Received from " + from + ": " + msg;
 
 		inserirHost(from, chatMessage);
+		refreshUI();
 	}
 
 	private synchronized void sendMessage(String host, String msg) {
 
 		String chatMessage = "Sended to " + host + ": " + msg;
 		inserirHost(host, chatMessage);
+		refreshUI();
 	}
 
 	@Override
@@ -147,7 +149,6 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 				addMessage(sendMessage, nickname, MessageType.SENT);
 		}
 
-		refreshUI();
 	}
 
 	private synchronized void refreshUI() {

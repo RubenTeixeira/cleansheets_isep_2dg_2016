@@ -57,7 +57,6 @@
  * <p>
  * Implmentation of the UC
  * <p>
- * <p>
  * Helping other collegues
  * <p>
  *
@@ -65,14 +64,12 @@
  * <p>
  * Tests in the implementation
  * <p>
- * <p>
  * Helping other collegues
  * <p>
  *
  * <b>Thursday</b>
  * <p>
  * Presentation to the client
- * <p>
  *
  *
  * <h2>10. Self Assessment</h2>

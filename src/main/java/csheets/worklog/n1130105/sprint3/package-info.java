@@ -169,7 +169,7 @@
  * <p>
  * 1.</p>
  * <p>
- * Today:</p>Finish implementation and star tests</p>
+ * Today: Finish implementation and star tests</p>
  * <p>
  * Blocking:
  * <p>
