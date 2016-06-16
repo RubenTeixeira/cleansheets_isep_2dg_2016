@@ -23,8 +23,9 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
 
 	/**
 	 * Creates new form HistoryFram
-         * @param controller Comment Controller
-         * @param comment Comment
+	 *
+	 * @param controller Comment Controller
+	 * @param comment Comment
 	 */
 	public HistoryFrame(CommentController controller, Comment comment) {
 		this.controller = controller;
@@ -45,15 +46,18 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelVersions = new javax.swing.JPanel();
         jLabelTitle = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanelVersions = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(500, 500));
 
-        jPanelVersions.setLayout(new java.awt.GridLayout());
-
         jLabelTitle.setText("History..");
+
+        jPanelVersions.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanelVersions.setLayout(new java.awt.GridLayout(1, 0));
+        jScrollPane1.setViewportView(jPanelVersions);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,7 +66,7 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelVersions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelTitle)
                         .addGap(0, 329, Short.MAX_VALUE)))
@@ -74,7 +78,7 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
                 .addContainerGap()
                 .addComponent(jLabelTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelVersions, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -84,6 +88,7 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelTitle;
     private javax.swing.JPanel jPanelVersions;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
 	@Override
