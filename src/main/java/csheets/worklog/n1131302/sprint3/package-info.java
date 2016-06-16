@@ -37,16 +37,10 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Tests</h3>
- * <p>
- * 
- * </p>
  * see: <code>WizardControllerTest</code>
  *
  *
  * <p>
- * see: <code></code>
- *
- * </p>
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -56,8 +50,6 @@
  * </p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- * <p>
- * </p>
  *
  * <h2>6. Implementation</h2>
  *Basically removed the menu option for the functions window, and for that window put a button.

@@ -125,6 +125,15 @@ public class UdpService extends Notifier {
 	}
 
 	/**
+	 * Returns if the server is currently working.
+	 *
+	 * @return True if the server is active, false otherwise.
+	 */
+	public boolean isActive() {
+		return server.isActive();
+	}
+
+	/**
 	 * Stops all the UDP services.
 	 */
 	public void stop() {

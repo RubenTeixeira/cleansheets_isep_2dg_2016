@@ -111,10 +111,14 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
 		setName(NetworkWorkbookSearchExtension.NAME);
 		this.uiController = uiController;
 		this.controller = controller;
+
+		// Start the Search request listening service
+		this.controller.startUdpService(this, defaultSeconds);
+		this.controller.startTcpService(this);
+
 		tableModel = new DefaultTableModel(COLUMN_NAMES, ROW_COUNT);
 
 		initComponents();
-		//imgPanel.setVerticalAlignment(javax.swing.SwingConstants.CENTER);
 		instances = new ArrayList<>();
 		jList1.setModel(listModel);
 
@@ -376,8 +380,11 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 			switchToSpinnerView();
 			this.cancelButton.setEnabled(true);
 			this.searchButton.setEnabled(false);
+
 			this.controller.restartUdpService(this, defaultSeconds);
-			this.controller.restartTcpService(this, this.searchPattern);
+			this.controller.discoverInstances(defaultSeconds);
+			this.controller.restartTcpService(this);
+
 			manager.after(SEARCH_TIMEOUT).once(stopTask);
 		}
 	}
@@ -439,7 +446,14 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 	@Override
 	public void update(Observable o, Object arg) {
 
-		if (arg instanceof Map) {
+		if (arg instanceof String) { // Permission response received
+
+			String target = (String) arg;
+			System.out.
+				println("Resquesting search from " + target + " for '" + this.searchPattern + "'");
+			this.controller.initiateSearch(target, this.searchPattern);
+
+		} else if (arg instanceof Map) { // New search Result
 
 			System.out.println("Result received...");
 			HashMap<String, Object> result = (HashMap<String, Object>) arg;
@@ -449,9 +463,9 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 			if (!this.listModel.contains(instanceResult)) {
 				this.listModel.addElement(instanceResult);
 			}
-		}
 
-		if (arg instanceof List) {
+		} else if (arg instanceof List) { // New instance discovered
+
 			System.out.println("Got new address........");
 			// List<String> adresses changed!
 			List<String> addresses = (List<String>) arg;
@@ -459,20 +473,23 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 				if (!this.instances.contains(address)) {
 					System.out.println("This is a new address: " + address);
 					this.instances.add(address);
-					this.controller.initiateSearch(address, REQUEST_MESSAGE);
+					this.controller.requestPermission(address, REQUEST_MESSAGE);
 				} else {
 					System.out.println(address + " was already contacted!");
 				}
 			}
-		}
 
-		if (arg instanceof String[]) {
+		} else if (arg instanceof String[]) { // Search request received
 
 			String[] search = (String[]) arg;
-			System.out.println("Received search request: " + search[1]);
+			String pattern = search[1];
+			String from = search[2];
+			System.out.
+				println("Received search request from " + from + " to look for " + pattern);
 			List<WorkBookDTO> results = this.controller.
 				newLocalSearch(uiController, search[1]);
 			if (results == null || results.isEmpty()) {
+				System.out.println("No results on local search");
 				return;
 			}
 			for (WorkBookDTO result : results) {

@@ -1,6 +1,7 @@
 package csheets.ext.game.ui;
 
 import csheets.ext.NetworkManager;
+import csheets.ext.game.controllers.GameController;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import java.util.ArrayList;
@@ -25,15 +26,15 @@ public class TcpService extends Notifier {
 
 	List<String> connectedInstances;
 
-	GamePanel panel;
+	GameController controller;
 
 	// Empty constructor
 	public TcpService() {
 	}
 
-	public TcpService(GamePanel ui) {
+	public TcpService(GameController controller) {
 		connectedInstances = new ArrayList<>();
-		this.panel = ui;
+		this.controller = controller;
 	}
 
 	/**
@@ -94,7 +95,8 @@ public class TcpService extends Notifier {
 											@Override
 											public void run(Request request) {
 												JOptionPane.
-													showMessageDialog(panel, "Game has been stopped.");
+													showMessageDialog(null, "Game has been stopped.");
+												controller.stopCurrentGame();
 											}
 										});
 								 server.
@@ -140,7 +142,7 @@ public class TcpService extends Notifier {
 //								 new TcpClient(0).
 //									 send(":game-request", continuousTarget, message);
 								 int reply = JOptionPane.
-									 showConfirmDialog(panel, "::. Receive information .::\n"
+									 showConfirmDialog(null, "::. Receive information .::\n"
 													   + "A host " + continuousTarget + " wants to play "
 													   + " with you.\n Game: " + message + " Do you wish to play with him ?");
 
@@ -150,7 +152,7 @@ public class TcpService extends Notifier {
 
 								 if (reply == JOptionPane.YES_OPTION) {
 									 JOptionPane.
-										 showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
+										 showMessageDialog(null, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
 
 								 }
 
