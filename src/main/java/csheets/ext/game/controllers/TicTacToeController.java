@@ -284,7 +284,8 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	@Override
 	public void contentChanged(Cell cell) {
-		if (!cell.getContent().equalsIgnoreCase(symbol)) {
+		if (!(cell.getContent().equalsIgnoreCase("X") || cell.getContent().
+			equalsIgnoreCase("O"))) {
 			repaintBoard();
 			return;
 		}
