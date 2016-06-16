@@ -271,7 +271,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		if (turn) {
 			int column = cell.getAddress().getColumn();
 			int row = cell.getAddress().getRow();
-			if (tictactoe.validatePlayerMove(column, row, symbol)) {
+			if (tictactoe.validatePlayerMove(column - 1, row - 1, symbol)) {
 				String message = column + ";" + row + ";" + cell.getContent();
 				tictactoe.play(column - 1, row - 1, cell.getContent());
 				if (winningPlay(column, row, cell.getContent())) {
