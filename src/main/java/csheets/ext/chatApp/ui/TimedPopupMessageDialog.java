@@ -1,5 +1,6 @@
 package csheets.ext.chatApp.ui;
 
+import csheets.ext.chatApp.application.ChatAppController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
@@ -56,6 +57,7 @@ public class TimedPopupMessageDialog extends javax.swing.JDialog {
         lblMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         lblAlert.setFont(new java.awt.Font("Cantarell", 0, 14)); // NOI18N
         lblAlert.setForeground(new java.awt.Color(255, 0, 9));

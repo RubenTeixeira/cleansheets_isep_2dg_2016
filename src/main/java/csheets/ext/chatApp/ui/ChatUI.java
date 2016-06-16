@@ -6,13 +6,12 @@
 package csheets.ext.chatApp.ui;
 
 import com.sun.glass.events.KeyEvent;
+import csheets.domain.ChatUser;
+import csheets.ext.chatApp.application.ChatAppController;
 import csheets.notification.Notification;
-import csheets.support.Task;
-import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
-import csheets.ui.ctrl.SelectionEvent;
-import csheets.ui.ctrl.SelectionListener;
-import csheets.ui.ctrl.UIController;
+import java.awt.Component;
+import java.awt.GridLayout;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.LinkedHashMap;
@@ -22,26 +21,25 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JPanel;
+import org.eclipse.persistence.internal.oxm.conversion.Base64;
 
 /**
  *
  * @author scarl
  */
-public class ChatUI extends javax.swing.JFrame implements SelectionListener, Observer {
+public class ChatUI extends javax.swing.JFrame implements Observer {
 
 	private static ChatUI atualInstance = null;
-	/**
-	 * UI controller
-	 */
-	private UIController uiController;
+
+	private static final int defaultSeconds = 5;
+
+	private ChatUserCard seletectUser;
+
 	/**
 	 * Chat app controller
 	 */
 	private ChatAppController chatAppController;
-	/**
-	 * Default instance list
-	 */
-	private DefaultListModel instanceListModel;
 
 	/**
 	 * Default receive list
@@ -51,65 +49,72 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	/**
 	 * Received elements.
 	 */
-	private Map<String, String> hosts;
+	private Map<String, ChatUser> hosts;
+
 	/**
 	 * Message to send
 	 */
 	private String message;
+
 	/**
 	 * Hostname
 	 */
 	private String host;
+
 	/**
 	 * Ip of destination
 	 */
 	private String ipDestino;
-	/**
-	 * Name of local host
-	 */
-	private String localHost;
-	/**
-	 * Task Manager
-	 */
-	private final TaskManager manager = new TaskManager();
 
 	/**
 	 *
 	 * @param uiController User interface controller
 	 * @param chatAppController chat app controller
 	 */
-	private ChatUI(UIController uiController,
-				   ChatAppController chatAppController) {
-		this.uiController = uiController;
-		this.setTitle("Chat");
-		// Create default lists
-		instanceListModel = new DefaultListModel();
-		receiveListModel = new DefaulListModel();
-		hosts = new LinkedHashMap<>();
+	private ChatUI(ChatAppController chatAppController) {
 
-		initComponents();
-		this.setLocationRelativeTo(null);
-		uiController.addSelectionListener(this);
-		usersList.setModel(instanceListModel);
-		messagesList.setModel(receiveListModel);
+		this.seletectUser = null;
 
-		// @IMPROVEMENT: Needs to get the timer from the configuration.
-		// Maybe get it through a configuration file?
-		final int defaultSeconds = 10;
+		// Check if the current user has already a chat profile persisted
+		// If not, a window is prompted asking for the profile creation.
+		if (!chatAppController.isCurrentUserDefined()) {
+			new CreateChatUserProfileUI(this, chatAppController);
+		}
 
-		this.chatAppController = chatAppController;
-		this.chatAppController.startUdpService(this, defaultSeconds);
-		this.chatAppController.startTcpService(this);
-		addWindowListener(new java.awt.event.WindowAdapter() {
-			@Override
-			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				atualInstance = null;
-				dispose();
-			}
+		// Get the current chat user
+		ChatUser theUser = chatAppController.systemChatUser();
 
-		});
-		this.setVisible(true);
-		Notification.chatMessageInformer().addObserver(this);
+		// If not created, the window is closed. If yes, continues.
+		if (theUser != null) {
+			chatAppController.startUdpService(defaultSeconds, theUser);
+			this.chatAppController = chatAppController;
+			Notification.chatMessageInformer().addObserver(this);
+
+			this.chatAppController.startTcpService();
+
+			this.setTitle("Chat");
+
+			receiveListModel = new DefaulListModel();
+			hosts = new LinkedHashMap<>();
+
+			initComponents();
+			this.setLocationRelativeTo(null);
+			messagesList.setModel(receiveListModel);
+
+			addWindowListener(new java.awt.event.WindowAdapter() {
+				@Override
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					atualInstance = null;
+					chatAppController.stop();
+					dispose();
+				}
+
+			});
+			this.setVisible(true);
+		} else {
+			dispose();
+		}
+
 	}
 
 	/**
@@ -122,18 +127,16 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        usersList = new javax.swing.JList<>();
         btnSend = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         messagesList = new javax.swing.JList<>();
         txtMessage = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        usersPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-
-        jScrollPane2.setViewportView(usersList);
 
         btnSend.setText("Send");
         btnSend.addActionListener(new java.awt.event.ActionListener() {
@@ -150,6 +153,9 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
             }
         });
 
+        usersPanel.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane1.setViewportView(usersPanel);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -159,8 +165,8 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(txtMessage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -173,7 +179,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSend)
@@ -204,9 +210,16 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 		if (message.length() <= 0) {
 			return;
 		}
-		if (!usersList.isSelectionEmpty()) {
-			host = usersList.getSelectedValue().split(":")[0];
-			ipDestino = hosts.get(host);
+		if (this.seletectUser != null) {
+			host = seletectUser.nickname();
+
+			for (String hostIP : hosts.keySet()) {
+				if (hosts.get(hostIP).nickname().equals(host)) {
+					ipDestino = hostIP;
+					break;
+				}
+			}
+
 			try {
 				receiveListModel.
 					addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
@@ -218,6 +231,7 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 			txtMessage.setText("");
 		}
 	}
+
     private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 			sendMessage();
@@ -227,59 +241,63 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSend;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JList<String> messagesList;
     private javax.swing.JTextField txtMessage;
-    private javax.swing.JList<String> usersList;
+    private javax.swing.JPanel usersPanel;
     // End of variables declaration//GEN-END:variables
 
-	public void updateInstanceList(Map<String, String> hostMap) {
-		//MAYBE CHANGE FOR IP
-		for (String host : hostMap.keySet()) {
-			String chatHost = host.split(":")[0];
-
-			if (instanceListModel.contains(chatHost + ":(offline)")) {
-				instanceListModel.
-					removeElement(chatHost + ":(offline)");
-				instanceListModel.
-					addElement(chatHost + ":(online)");
-			} else if (!instanceListModel.
-				contains(chatHost + ":(online)")) {
-				hosts.put(chatHost, host);
-				if (hosts.containsValue(host)) {
-					instanceListModel.
-						addElement(chatHost + ":(online)");
-
-					manager.after(12).once(new Task() {
-						@Override
-						public void fire() {
-							while (true) {
-								if (instanceListModel.elements().nextElement().
-									equals(chatHost + ":(online)")) {
-									instanceListModel.
-										removeElement(chatHost + ":(online)");
-									instanceListModel.
-										addElement(chatHost + ":(offline)");
-								} else {
-									break;
-								}
-							}
-						}
-					});
+	private void updateInstanceState(Map<String, String> state) {
+		if (hosts.containsKey(state.get("requester"))) {
+			for (Component card : usersPanel.getComponents()) {
+				ChatUserCard tmpCard = ((ChatUserCard) card);
+				if (tmpCard.nickname().equals(hosts.get(state.get("requester")).
+					nickname())) {
+					tmpCard.changeState(false);
 				}
 			}
 		}
-		usersList.setModel(instanceListModel);
-		repaint();
+	}
+
+	public void updateInstanceList(Map<String, String> hostMap) {
+
+		String fromIP = hostMap.get("ip") + ":" + hostMap.get("port");
+
+		if (hosts.containsKey(fromIP)) {
+			for (Component card : usersPanel.getComponents()) {
+				ChatUserCard tmpCard = ((ChatUserCard) card);
+				if (tmpCard.nickname().equals(hostMap.get("nickname"))) {
+					tmpCard.changeState(true);
+				}
+			}
+
+		} else {
+			ChatUser tmp;
+			tmp = new ChatUser(hostMap.get("nickname"), Base64.
+							   base64Decode(hostMap.
+								   get("icon").getBytes()));
+
+			hosts.put(fromIP, tmp);
+			usersPanel.add(new ChatUserCard(tmp, this));
+			GridLayout layout = (GridLayout) this.usersPanel.
+				getLayout();
+			layout.setRows(layout.getRows() + 1);
+
+		}
+
+		usersPanel.revalidate();
+		usersPanel.repaint();
+
 	}
 
 	public void updateReceiveList(Map<String, String> mapMessages) {
+
+		//Adicionar mensagem à história de um user.
 		int size = mapMessages.size() - 1;
 		String message = "";
 		message = mapMessages.get("hostname") + ": " + mapMessages.
 			get("message");
-		usersList.setSelectedValue(mapMessages.get("from"), true);
 
 		receiveListModel.addElement(message);
 		messagesList.setModel(receiveListModel);
@@ -287,33 +305,43 @@ public class ChatUI extends javax.swing.JFrame implements SelectionListener, Obs
 	}
 
 	@Override
-	public void selectionChanged(SelectionEvent event) {
-		//
-	}
-
-	@Override
 	public void update(Observable o, Object arg) {
-		Map hostdata = new LinkedHashMap((Map) arg);
-		if (((Map) hostdata).get("reference").equals("hosts")) {
-			((Map) hostdata).remove("reference");
-			Map<String, String> chatHosts = (Map<String, String>) hostdata;
-			updateInstanceList(chatHosts);
+		Map<String, String> hostdata = new LinkedHashMap((Map) arg);
+		if ((hostdata).get("reference").equals("hosts")) {
+			(hostdata).remove("reference");
+			updateInstanceList(hostdata);
 		}
-		Map data = new LinkedHashMap((Map) arg);
-		if (((Map) data).get("reference").equals("chatMessage")) {
-			((Map) data).remove("reference");
-			Map<String, String> mapMessages = (Map<String, String>) data;
-			updateReceiveList(mapMessages);
+		Map<String, String> message = new LinkedHashMap((Map) arg);
+		if ((message).get("reference").equals("chatMessage")) {
+			(message).remove("reference");
+			updateReceiveList(message);
 		}
+		Map<String, String> state = new LinkedHashMap((Map) arg);
+		if ((state).get("reference").equals("state")) {
+			(state).remove("reference");
+			updateInstanceState(state);
+		}
+
 	}
 
-	public static ChatUI instance(UIController uiController,
-								  ChatAppController chatAppController) {
+	public static ChatUI instance(ChatAppController chatAppController) {
+
 		if (ChatUI.atualInstance == null) {
-			ChatUI.atualInstance = new ChatUI(uiController, chatAppController);
+			ChatUI.atualInstance = new ChatUI(chatAppController);
 		} else {
 			ChatUI.atualInstance.toFront();
 		}
 		return ChatUI.atualInstance;
+	}
+
+	public void updateSelectedPanel(ChatUserCard aThis) {
+		this.seletectUser = aThis;
+		for (Component panel : this.usersPanel.getComponents()) {
+			if (!((ChatUserCard) panel).equals(this.seletectUser)) {
+				((ChatUserCard) panel).setBorder(new JPanel().getBorder());
+			}
+		}
+		this.usersPanel.revalidate();
+		this.usersPanel.repaint();
 	}
 }

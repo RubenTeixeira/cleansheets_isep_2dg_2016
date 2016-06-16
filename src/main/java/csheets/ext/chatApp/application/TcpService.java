@@ -1,4 +1,4 @@
-package csheets.ext.chatApp.ui;
+package csheets.ext.chatApp.application;
 
 import csheets.ext.NetworkManager;
 import csheets.notification.Notification;

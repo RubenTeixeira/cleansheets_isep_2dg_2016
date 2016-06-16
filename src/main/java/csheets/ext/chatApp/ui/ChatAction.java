@@ -1,5 +1,6 @@
 package csheets.ext.chatApp.ui;
 
+import csheets.ext.chatApp.application.ChatAppController;
 import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
@@ -44,7 +45,7 @@ class ChatAction extends BaseAction {
 	 * @param event the event that was fired
 	 */
 	public void actionPerformed(ActionEvent event) {
-		ChatUI.instance(uiController, chatAppController);
+		ChatUI.instance(chatAppController);
 	}
 
 }

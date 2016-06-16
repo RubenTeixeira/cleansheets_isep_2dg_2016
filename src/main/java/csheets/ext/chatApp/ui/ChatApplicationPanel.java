@@ -6,6 +6,7 @@
 package csheets.ext.chatApp.ui;
 
 import csheets.ext.chatApp.ChatAppExtension;
+import csheets.ext.chatApp.application.ChatAppController;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.util.Enumeration;
@@ -186,7 +187,7 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
     private void MessagesTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MessagesTreeMouseClicked
 		if (SwingUtilities.isLeftMouseButton(evt)
 			&& evt.getClickCount() > 1) {
-			ChatUI.instance(uiController, chatAppController);
+			ChatUI.instance(chatAppController);
 		}
     }//GEN-LAST:event_MessagesTreeMouseClicked
 

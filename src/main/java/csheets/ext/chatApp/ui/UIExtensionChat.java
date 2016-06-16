@@ -5,6 +5,7 @@
  */
 package csheets.ext.chatApp.ui;
 
+import csheets.ext.chatApp.application.ChatAppController;
 import csheets.ext.Extension;
 import csheets.ext.chatApp.ChatAppExtension;
 import csheets.ui.ctrl.UIController;
