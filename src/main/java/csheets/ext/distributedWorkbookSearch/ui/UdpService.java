@@ -1,4 +1,4 @@
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbookSearch.ui;
 
 import csheets.AppSettings;
 import csheets.ext.NetworkManager;

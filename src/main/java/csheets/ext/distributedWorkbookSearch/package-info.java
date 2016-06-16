@@ -4,4 +4,4 @@
  * @author José Barros
  *
  */
-package csheets.ext.distributedWorkbook;
+package csheets.ext.distributedWorkbookSearch;

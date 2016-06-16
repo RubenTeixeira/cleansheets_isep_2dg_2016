@@ -1,7 +1,7 @@
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbookSearch.ui;
 
 import csheets.ext.NetworkManager;
-import csheets.ext.distributedWorkbook.WorkBookDTO;
+import csheets.ext.distributedWorkbookSearch.WorkBookDTO;
 import csheets.framework.ObjectSerialization;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;

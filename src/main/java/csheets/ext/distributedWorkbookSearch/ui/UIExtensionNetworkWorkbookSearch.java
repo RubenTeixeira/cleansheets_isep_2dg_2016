@@ -1,7 +1,7 @@
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbookSearch.ui;
 
 import csheets.ext.Extension;
-import csheets.ext.distributedWorkbook.NetworkWorkbookSearchExtension;
+import csheets.ext.distributedWorkbookSearch.NetworkWorkbookSearchExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbookSearch.ui;
 
 import csheets.core.Workbook;
-import csheets.ext.distributedWorkbook.WorkBookDTO;
-import csheets.ext.distributedWorkbook.WorkBookDTOAssembler;
+import csheets.ext.distributedWorkbookSearch.WorkBookDTO;
+import csheets.ext.distributedWorkbookSearch.WorkBookDTOAssembler;
 import csheets.framework.search.LocalWorkbookSearch;
 import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;

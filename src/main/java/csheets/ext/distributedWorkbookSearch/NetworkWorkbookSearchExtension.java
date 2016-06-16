@@ -1,7 +1,7 @@
-package csheets.ext.distributedWorkbook;
+package csheets.ext.distributedWorkbookSearch;
 
 import csheets.ext.Extension;
-import csheets.ext.distributedWorkbook.ui.UIExtensionNetworkWorkbookSearch;
+import csheets.ext.distributedWorkbookSearch.ui.UIExtensionNetworkWorkbookSearch;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 

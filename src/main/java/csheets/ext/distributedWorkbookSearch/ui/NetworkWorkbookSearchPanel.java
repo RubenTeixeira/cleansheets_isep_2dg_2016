@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.distributedWorkbook.ui;
+package csheets.ext.distributedWorkbookSearch.ui;
 
-import csheets.ext.distributedWorkbook.NetworkWorkbookSearchExtension;
-import csheets.ext.distributedWorkbook.WorkBookDTO;
-import csheets.ext.distributedWorkbook.ui.NetworkWorkbookSearchPanel.InstanceResult;
+import csheets.ext.distributedWorkbookSearch.NetworkWorkbookSearchExtension;
+import csheets.ext.distributedWorkbookSearch.WorkBookDTO;
+import csheets.ext.distributedWorkbookSearch.ui.NetworkWorkbookSearchPanel.InstanceResult;
 import csheets.framework.ObjectSerialization;
 import csheets.support.Task;
 import csheets.support.TaskManager;

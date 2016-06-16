@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.distributedWorkbook;
+package csheets.ext.distributedWorkbookSearch;
 
 import java.io.Serializable;
 import java.util.List;
