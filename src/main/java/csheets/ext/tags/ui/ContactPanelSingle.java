@@ -12,7 +12,6 @@ import java.awt.Image;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -73,7 +72,6 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
         labelName = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabelType = new javax.swing.JLabel();
-        jButtonDelete = new javax.swing.JButton();
         jButtonEdit = new javax.swing.JButton();
         jLabelPhoto = new javax.swing.JLabel();
         jButtonEdit1 = new javax.swing.JButton();
@@ -114,13 +112,6 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
             }
         });
 
-        jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/delete.gif"))); // NOI18N
-        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteActionPerformed(evt);
-            }
-        });
-
         jButtonEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/new.png"))); // NOI18N
         jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -154,19 +145,17 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addComponent(jLabelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabelType, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonEdit1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButtonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(6, Short.MAX_VALUE))
+                    .addComponent(jButtonEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(jButtonEdit1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,12 +169,11 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
                             .addComponent(jButtonEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonDelete)
                             .addComponent(jLabelType)
                             .addComponent(jButtonEdit1))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(6, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -196,19 +184,9 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_mouseClicked
 
     private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
-		String tag = JOptionPane.showInputDialog("Insert tag: ");
-		controller.addTag(contact, tag);
+		new TagManager(UIController.getUIController().getFrame(), this.controller, this.contact).
+			setVisible(true);
     }//GEN-LAST:event_jButtonEditActionPerformed
-
-    private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
-		int op = JOptionPane.
-			showConfirmDialog(this, "Do you want to remove " + this.jLabelType.
-							  getText() + " " + "?", "Remove Contact", JOptionPane.OK_CANCEL_OPTION);
-
-		if (JOptionPane.OK_OPTION == op) {
-			this.controller.removeContact(this.contact);
-		}
-    }//GEN-LAST:event_jButtonDeleteActionPerformed
 
     private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
 		if (this.contact instanceof CompanyContact) {
@@ -248,7 +226,6 @@ public class ContactPanelSingle extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_jButtonEdit1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonEdit;
     private javax.swing.JButton jButtonEdit1;
     private javax.swing.JLabel jLabelPhoto;

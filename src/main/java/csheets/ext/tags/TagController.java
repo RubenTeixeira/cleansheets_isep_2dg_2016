@@ -186,7 +186,12 @@ public class TagController {
 	public void addTag(Contact contact, String tag) {
 		contact.addTag(tag);
 		PersistenceContext.repositories().contacts().save(contact);
-		Notification.contactInformer().notifyChange();
+		Notification.contactInformer()
+			.notifyChange();
 	}
 
+	public void remove(Contact contact, String tag) {
+		contact.removeTag(tag);
+		Notification.contactInformer().notifyChange();
+	}
 }
