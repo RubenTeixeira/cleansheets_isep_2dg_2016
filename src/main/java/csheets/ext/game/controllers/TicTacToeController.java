@@ -161,24 +161,20 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   int row = Integer.
 													   parseInt(params[1]);
 												   String content = params[2];
-												   Cell spreadcheetCell = sheet.
-													   getCell(column, row);
-												   turn = true;
+												   tictactoe.
+													   play(column, row, content);
 												   try {
-													   sheet.
-														   getCell(column, row).
-														   setContent(content);
+													   sheet.getCell(2, 7).
+														   setContent("É a tua vez");
+													   repaintBoard();
 												   } catch (FormulaCompilationException ex) {
 													   Logger.
 														   getLogger(TicTacToeController.class.
 															   getName()).
 														   log(Level.SEVERE, null, ex);
 												   }
-												   tictactoe.
-													   play(column, row, content);
-												   System.out.
-													   println("Jogada do outro");
-
+												   repaintBoard();
+												   turn = true;
 											   }
 										   });
 								 server.expect(":game-lost", new Action() {
@@ -270,22 +266,36 @@ public class TicTacToeController implements CellListener, SpecificGameController
 			return;
 		}
 		if (turn) {
-			System.out.println("Joguei na minha vez");
 			if (validate()) {
 				System.out.println("A jogada é valida");
 				int column = cell.getAddress().getColumn() - 1;
 				int row = cell.getAddress().getRow() - 1;
 				String message = column + ";" + row + ";" + cell.getContent();
-				tictactoe.play(column, row, cell.getContent());
+				tictactoe.play(column + 1, row + 1, cell.getContent());
 				if (winningPlay(cell)) {
 					return;
 				}
 				new TcpClient(0).send(":game-play", connection, message);
 				turn = false;
-				System.out.println("Deixou de ser a minha vez");
+				repaintBoard();
+				try {
+					sheet.getCell(1, 6).
+						setContent("Esperando pela outra resposta");
+					repaintBoard();
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(TicTacToeController.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
 			} else {
-				cell.clear();
+				try {
+					sheet.getCell(1, 6).setContent("A tua jogada nao é valida");
+					repaintBoard();
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(TicTacToeController.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
 			}
+
 		}
 		repaintBoard();
 	}
