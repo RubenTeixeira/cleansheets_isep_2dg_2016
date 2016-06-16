@@ -49,7 +49,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private DefaultListModel<List> contactListModel;
     private DefaultListModel<Integer> listVersionModel;
     private DefaultTableModel listDataModel;
-    
+
     /**
      * Creates new form EventsPanel
      *
@@ -74,9 +74,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         listVersionModel = new DefaultListModel();
         listDataModel = new DefaultTableModel();
     }
-    
+
     private void defineTableModel() {
-        listDataModel = new DefaultTableModel(){
+        listDataModel = new DefaultTableModel() {
             public Class<?> getColumnClass(int column) {
                 switch (column) {
                     case 0:
@@ -88,7 +88,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 }
             }
         };
-        listDataModel.setColumnIdentifiers(new Object[]{"Done","Text"});
+        listDataModel.setColumnIdentifiers(new Object[]{"Done", "Text"});
         tableListData.setModel(listDataModel);
         int width = 50;
         tableListData.getColumnModel().getColumn(0).setMinWidth(width);
@@ -133,7 +133,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 List selectedValue = lstContactLists.getSelectedValue();
-                if(selectedValue != null) {
+                if (selectedValue != null) {
                     panelListVersion.setVisible(true);
                     panelListData.setVisible(true);
                     panelListActions.setVisible(true);
@@ -143,9 +143,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                     }
                     if (checkboxEditList.isSelected()) {
                         btnApply.setText("Edit");
-                        showListEdit(controller.getVersion(selectedValue,-1));
+                        showListEdit(controller.getVersion(selectedValue, -1));
                     } else {
-                        hideListEdit(controller.getVersion(selectedValue,-1));
+                        hideListEdit(controller.getVersion(selectedValue, -1));
                     }
                 }
             }
@@ -157,9 +157,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 List selectedList = lstContactLists.getSelectedValue();
-                if(checkboxEditList.isSelected() && selectedList != null) {
+                if (checkboxEditList.isSelected() && selectedList != null) {
                     Integer versionNum = lstListVersions.getSelectedValue();
-                    if(versionNum != null) {
+                    if (versionNum != null) {
                         showListEdit(controller.getVersion(selectedList, versionNum));
                     } else {
                         showListEdit(controller.getVersion(selectedList, -1));
@@ -173,18 +173,18 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         checkboxEditList.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
-                if(!btnApply.getText().equals("Create") && lstContactLists.getSelectedValue() != null) {
+                if (!btnApply.getText().equals("Create") && lstContactLists.getSelectedValue() != null) {
                     if (checkboxEditList.isSelected()) {
-                        if(!lstListVersions.isSelectionEmpty())
+                        if (!lstListVersions.isSelectionEmpty()) {
                             showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
-                        else {
+                        } else {
                             showListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
                         }
                         btnApply.setText("Edit");
                     } else {
-                        if(!lstListVersions.isSelectionEmpty())
+                        if (!lstListVersions.isSelectionEmpty()) {
                             hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), lstListVersions.getSelectedValue()));
-                        else {
+                        } else {
                             hideListEdit(controller.getVersion(lstContactLists.getSelectedValue(), -1));
                         }
                         btnApply.setText("Apply");
@@ -200,7 +200,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         textAreadListData.setVisible(true);
         tableListData.setVisible(false);
         tableListData.setEnabled(false);
-        textAreadListData.setText(l.getTitle()+"\n"+l.getText());
+        textAreadListData.setText(l.getTitle() + "\n" + l.getText());
     }
 
     private void hideListEdit(List l) {
@@ -212,14 +212,14 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         btnApply.setText("Apply");
         defineTableModel();
         for (List.ListLine line : l.getLines()) {
-            listDataModel.addRow(new Object[]{line.getCheck(),line.getText()});
+            listDataModel.addRow(new Object[]{line.getCheck(), line.getText()});
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof Contact) {
-            contactModel.addElement((Contact)arg);
+            contactModel.addElement((Contact) arg);
             cbListContact.setSelectedIndex(-1);
             contactListModel.clear();
             this.cbNoteContact.removeAllItems();
@@ -781,7 +781,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_btnNoteCreateActionPerformed
 
     private void btnCreateNewListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewListActionPerformed
-        if(cbListContact.getSelectedItem() == null) {
+        if (cbListContact.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(panelLists, "No contact selected", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -798,11 +798,11 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_btnCreateNewListActionPerformed
 
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
-        switch(evt.getActionCommand()) {
+        switch (evt.getActionCommand()) {
             case "Create": {
                 List newList;
                 try {
-                    newList = controller.createList(cbListContact.getSelectedItem(),textAreadListData.getText());
+                    newList = controller.createList(cbListContact.getSelectedItem(), textAreadListData.getText());
                 } catch (DataIntegrityViolationException ex) {
                     JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     break;
@@ -810,7 +810,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                     JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-                if(newList == null) {
+                if (newList == null) {
                     JOptionPane.showMessageDialog(panelLists, "Couldn't create new list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
@@ -822,12 +822,12 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             case "Edit": {
                 List list;
                 try {
-                    list = controller.editList(lstContactLists.getSelectedValue(),textAreadListData.getText());
+                    list = controller.editList(lstContactLists.getSelectedValue(), textAreadListData.getText());
                 } catch (DataIntegrityViolationException ex) {
                     JOptionPane.showMessageDialog(panelLists, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
-                if(list == null) {
+                if (list == null) {
                     JOptionPane.showMessageDialog(panelLists, "Couldn't edit list.\nError saving the list.", "Error", JOptionPane.ERROR_MESSAGE);
                     break;
                 }
@@ -847,7 +847,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                         data[i][j] = listDataModel.getValueAt(i, j);
                     }
                 }
-                if(controller.applyList(lstContactLists.getSelectedValue(),data) != null) {
+                if (controller.applyList(lstContactLists.getSelectedValue(), data) != null) {
                     title = "Success";
                     message = "Your changes were saved with success.";
                     icon = JOptionPane.PLAIN_MESSAGE;
@@ -864,13 +864,18 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         List l = lstContactLists.getSelectedValue();
-        if(lstContactLists.getSelectedValue() != null) {
+        if (lstContactLists.getSelectedValue() != null) {
             String title = "Delete List";
             String message = "Are you sure you want to delete that list ?";
             int reply = JOptionPane.showConfirmDialog(panelLists, message, title, JOptionPane.YES_NO_OPTION);
             if (reply == JOptionPane.YES_OPTION) {
                 List list = controller.deleteList(l);
-                contactListModel.removeElement(list);
+                contactListModel.removeElement(l);
+                panelContactList.setVisible(true);
+                panelCreateList.setVisible(true);
+                panelListVersion.setVisible(false);
+                panelListData.setVisible(false);
+                panelListActions.setVisible(false);
             }
         } else {
             String title = "Error";
@@ -882,8 +887,8 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private void formComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentResized
         int panelWidth = panelListData.getWidth();
         int smallGap = 6;
-        textAreadListData.setSize(((panelWidth-6)/2), textAreadListData.getHeight());
-        tableListData.setSize(((panelWidth-6)/2), tableListData.getHeight());
+        textAreadListData.setSize(((panelWidth - 6) / 2), textAreadListData.getHeight());
+        tableListData.setSize(((panelWidth - 6) / 2), tableListData.getHeight());
     }//GEN-LAST:event_formComponentResized
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
