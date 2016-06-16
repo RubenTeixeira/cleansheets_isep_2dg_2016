@@ -193,7 +193,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   }
 												   tictactoe.
 													   play(column, row, content);
-												   repaintBoard();
 												   System.out.
 													   println("Jogada do outro");
 
