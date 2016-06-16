@@ -110,8 +110,8 @@ public class SpreadsheetImpl implements Spreadsheet {
 	}
 
 	public void destroyFileTask() {
+		this.fileTask.setSpreadsheet(null);
 		this.taskManager.destroy();
-		this.fileTask.cancel();
 		this.taskManager = null;
 		this.fileTask = null;
 	}

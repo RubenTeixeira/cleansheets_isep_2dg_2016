@@ -48,10 +48,12 @@ public class FileTask extends Task implements Observer {
 
 	@Override
 	public void update(Observable o, Object object) {
+            if (this.spreadsheet != null) {
 		this.controller.
 			linkExport(this.getFilePath(), this.getSeparator(), this.
 					   getSpreadsheet());
-	}
+            }
+	}     
 
 	/**
 	 * @return the filePath
