@@ -32,7 +32,9 @@ public class ChatUserCard extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ChatUserCard
-	 */
+         * @param user Chat User
+         * @param parent Parent Component
+         */
 	public ChatUserCard(ChatUser user, Component parent) {
 		this.parent = parent;
 		this.theUser = user;

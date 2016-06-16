@@ -50,6 +50,9 @@ public class CommentController {
 	 *
 	 * @param cell the cell for which the comment should be set
 	 * @param commentString the comment, as entered by the user
+         * @param font Letter font
+         * @param bgColor Background color
+         * @param border Border
 	 * @return true if the cell's comment was changed
 	 */
 	public boolean addComment(CommentableCell cell, String commentString,

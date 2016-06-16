@@ -31,6 +31,7 @@ public class CommentsExtension extends Extension {
 	 * @param cell the cell to comment
 	 * @return a commentable cell
 	 */
+        @Override
 	public CommentableCell extend(Cell cell) {
 		return new CommentableCell(cell);
 	}

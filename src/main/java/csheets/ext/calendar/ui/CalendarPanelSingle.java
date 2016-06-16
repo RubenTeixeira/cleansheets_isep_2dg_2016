@@ -17,6 +17,8 @@ public class CalendarPanelSingle extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form CalendarPanelSingl
+         * @param controller Calendar Controller
+         * @param calendar Calendar
 	 */
 	public CalendarPanelSingle(CalendarController controller, ContactCalendar calendar) {
 		this.controller = controller;

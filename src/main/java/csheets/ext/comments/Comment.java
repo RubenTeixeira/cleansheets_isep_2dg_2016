@@ -220,7 +220,7 @@ public class Comment implements Serializable {
 	/**
 	 * Method that modifies the comment
 	 *
-	 * @param comment
+	 * @param comment Comment
 	 */
 	public void setComment(Comment comment) {
 		Comment version = new Comment(this.userName(), this.text(), this.

@@ -50,7 +50,6 @@ public class ChatAppController {
 	/**
 	 * Starts the TCP service.
 	 *
-	 * @param ui user interface od chat
 	 */
 	public void startTcpService() {
 		this.tcpService = new TcpService();
