@@ -8,6 +8,7 @@ package csheets.core.formula.lang;
 import csheets.core.CellImpl;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
+import csheets.core.Workbook;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 import java.util.logging.Level;
@@ -31,13 +32,20 @@ public class Assign implements BinaryOperator {
 	public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
 		Value value = new Value();
 		try {
-			if (rightOperand instanceof VariableLocalReference) {
+			if (rightOperand instanceof VariableGlobalReference) {
+				VariableGlobalReference var = (VariableGlobalReference) rightOperand;
+				value = var.evaluate();
+			} else if (rightOperand instanceof VariableLocalReference) {
 				VariableLocalReference var = (VariableLocalReference) rightOperand;
 				value = var.evaluate();
 			} else {
 				value = rightOperand.evaluate();
 			}
-			if (leftOperand instanceof VariableLocalReference) {
+			if (leftOperand instanceof VariableGlobalReference) {
+				VariableGlobalReference var = (VariableGlobalReference) leftOperand;
+				Workbook workbook = var.getCell().getSpreadsheet().getWorkbook();
+				workbook.addVariable(var.getVariable(), value);
+			} else if (leftOperand instanceof VariableLocalReference) {
 				VariableLocalReference var = (VariableLocalReference) leftOperand;
 				((CellImpl) var.getCell()).addVariable(var.getVariable(), value);
 			} else if (leftOperand instanceof CellReference) {
