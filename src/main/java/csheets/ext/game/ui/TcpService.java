@@ -53,7 +53,10 @@ public class TcpService extends Notifier {
 												   String message = request.
 													   message() + " with " + request.
 													   hostname();
-
+												   setContinuousTarget(request.
+													   hostname() + ":" + request.
+													   port() + ":" + request.
+													   from());
 												   String destination = server.
 													   target(request.from());
 
@@ -144,12 +147,11 @@ public class TcpService extends Notifier {
 								 if (reply == JOptionPane.NO_OPTION || reply == JOptionPane.CANCEL_OPTION) {
 									 return;
 								 }
-								 
+
 								 if (reply == JOptionPane.YES_OPTION) {
 									 JOptionPane.
 										 showMessageDialog(panel, "Opponent: " + continuousTarget + "\n" + "Game: " + message);
-									 String[] attr = continuousTarget.split(":");
-									 setContinuousTarget(attr[2]);
+
 								 }
 
 							 }
