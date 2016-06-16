@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.game.ui;
+package csheets.ext.game.controllers;
 
 import csheets.AppSettings;
 import csheets.core.Cell;
@@ -12,12 +12,18 @@ import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.NetworkManager;
-import csheets.ext.game.TicTacToe;
+import csheets.ext.game.domain.TicTacToe;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
+import javax.swing.border.Border;
 import vendor.volt.Action;
 import vendor.volt.Request;
 import vendor.volt.protocols.tcp.TcpClient;
@@ -27,7 +33,7 @@ import vendor.volt.protocols.tcp.TcpServer;
  *
  * @author AB
  */
-public class TestController implements CellListener, SpecificGameController {
+public class TicTacToeController implements CellListener, SpecificGameController {
 
 	private TcpServer server;
 	UIController uiController;
@@ -38,36 +44,108 @@ public class TestController implements CellListener, SpecificGameController {
 	boolean otherPlay;
 	boolean turn;
 
-	public TestController(UIController uiController, boolean turn, String ip) {
-		this.turn = true;
+	public TicTacToeController(UIController uiController, boolean turn,
+							   String opponentIP) {
+		this.turn = turn;
+		if (turn) {
+			this.symbol = "O";
+		} else {
+			this.symbol = "X";
+		}
 		this.uiController = uiController;
-		connection = "127.0.0.1" + ":" + Integer.
+		connection = opponentIP + ":" + Integer.
 			parseInt(AppSettings.instance().
 				get("TCP_PORT"));
 	}
 
-	public void stop() {
+	public void stopGame() {
 		stopThis();
 		removeListeners();
 		diplayVictory();
 	}
 
 	public void start() {
-		startServer();
-		newSpreadsheet();
 		this.tictactoe = new TicTacToe();
+		startServer();
+		try {
+			newSpreadsheet();
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(TicTacToeController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+		addListeners();
+
 	}
 
-	public void newSpreadsheet() {
+	public void newSpreadsheet() throws FormulaCompilationException {
 		Workbook activeBook = this.uiController.getActiveWorkbook();
 		activeBook.addTictactoeSpreadsheet();
-		sheet = activeBook.getSpreadsheet(activeBook.getSpreadsheetCount() - 1);
+		sheet = activeBook.getSpreadsheet(activeBook.
+			getSpreadsheetCount() - 1);
+		Border border = BorderFactory.
+			createMatteBorder(2, 2, 2, 2, Color.ORANGE);
+		StylableCell cell;
+		int column = 5;
+		int rows = 5;
+		for (int col = 0; col < column; col++) {
+			for (int row = 0; row < rows; row++) {
+				if (col == 1 && row == 0) {
+					sheet.getCell(1, 0).setContent("TIC");
+					cell = (StylableCell) uiController.
+						getActiveWorkbook().getSpreadsheet(activeBook.
+							getSpreadsheetCount() - 1).
+						getCell(col, row).getExtension(StyleExtension.NAME);
+					cell.setForegroundColor(Color.BLUE);
+					cell.setBackgroundColor(Color.LIGHT_GRAY);
+
+					Font font = new Font("Monospaced", Font.BOLD, 20);
+					cell.setFont(font);
+				} else if (col == 2 && row == 0) {
+					sheet.getCell(2, 0).setContent("TAC");
+					cell = (StylableCell) uiController.
+						getActiveWorkbook().getSpreadsheet(activeBook.
+							getSpreadsheetCount() - 1).
+						getCell(col, row).getExtension(StyleExtension.NAME);
+					cell.setForegroundColor(Color.LIGHT_GRAY);
+					cell.setBackgroundColor(Color.BLUE);
+					Font font = new Font("Monospaced", Font.BOLD, 20);
+					cell.setFont(font);
+				} else if (col == 3 && row == 0) {
+					sheet.getCell(3, 0).setContent("TOE");
+					cell = (StylableCell) uiController.
+						getActiveWorkbook().getSpreadsheet(activeBook.
+							getSpreadsheetCount() - 1).
+						getCell(col, row).getExtension(StyleExtension.NAME);
+					cell.setForegroundColor(Color.BLUE);
+					cell.setBackgroundColor(Color.LIGHT_GRAY);
+
+					Font font = new Font("Monospaced", Font.BOLD, 20);
+					cell.setFont(font);
+				} else if (!(col >= 1 && col <= 3 && row >= 1 && row <= 3)) {
+//					sheet.getCell(col, row).setContent("X");
+					cell = (StylableCell) uiController.
+						getActiveWorkbook().getSpreadsheet(activeBook.
+							getSpreadsheetCount() - 1).
+						getCell(col, row).getExtension(StyleExtension.NAME);
+
+					cell.setBackgroundColor(Color.decode("#006400"));
+
+				} else {
+
+					cell = (StylableCell) uiController.
+						getActiveWorkbook().getSpreadsheet(activeBook.
+							getSpreadsheetCount() - 1).
+						getCell(col, row).getExtension(StyleExtension.NAME);
+					cell.setBorder(border);
+				}
+			}
+		}
 	}
 
 	public void addListeners() {
 		for (int i = 0; i < tictactoe.getRowCount(); i++) {
 			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
-				sheet.getCell(i, j).addCellListener(this);
+				sheet.getCell(i + 1, j + 1).addCellListener(this);
 			}
 		}
 	}
@@ -75,7 +153,7 @@ public class TestController implements CellListener, SpecificGameController {
 	public void removeListeners() {
 		for (int i = 0; i < tictactoe.getRowCount(); i++) {
 			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
-				sheet.getCell(i, j).removeCellListener(this);
+				sheet.getCell(i + 1, j + 1).removeCellListener(this);
 			}
 		}
 	}
@@ -93,23 +171,20 @@ public class TestController implements CellListener, SpecificGameController {
 													   message();
 												   String params[] = cellString.
 													   split(";");
+												   int column = Integer.
+													   parseInt(params[0]);
+												   int row = Integer.
+													   parseInt(params[1]);
+												   String content = params[2];
 												   Cell spreadcheetCell = sheet.
-													   getCell(Integer.
-														   parseInt(params[0]), Integer.
-															   parseInt(params[1]));
-												   try {
-													   otherPlay = true;
-													   spreadcheetCell.
-														   setContent(params[2]);
+													   getCell(column, row);
+												   otherPlay = true;
+												   tictactoe.
+													   play(column, row, content);
+												   repaintBoard();
+												   System.out.
+													   println("Jogada do outro");
 
-													   System.out.
-														   println("Jogada do outro");
-												   } catch (FormulaCompilationException ex) {
-													   Logger.
-														   getLogger(TestController.class.
-															   getName()).
-														   log(Level.SEVERE, null, ex);
-												   }
 											   }
 										   });
 								 server.expect(":game-lost", new Action() {
@@ -129,11 +204,11 @@ public class TestController implements CellListener, SpecificGameController {
 													   otherPlay = true;
 												   } catch (FormulaCompilationException ex) {
 													   Logger.
-														   getLogger(TestController.class.
+														   getLogger(TicTacToeController.class.
 															   getName()).
 														   log(Level.SEVERE, null, ex);
 												   }
-												   stop();
+												   stopGame();
 											   }
 										   });
 
@@ -153,7 +228,7 @@ public class TestController implements CellListener, SpecificGameController {
 		String message = cell.getAddress().getColumn() + ";" + cell.
 			getAddress().getRow() + ";" + cell.getContent();
 		new TcpClient(0).send(":game-lost", connection, message);
-		stop();
+		stopGame();
 		return true;
 	}
 
@@ -185,9 +260,10 @@ public class TestController implements CellListener, SpecificGameController {
 		for (int i = 0; i < tictactoe.getRowCount(); i++) {
 			for (int j = 0; j < tictactoe.getColumnCount(); j++) {
 				try {
-					sheet.getCell(i, j).setContent(tictactoe.getValueAt(i, j));
+					String value = tictactoe.getValueAt(i, j);
+					sheet.getCell(i + 1, j + 1).setContent(value);
 				} catch (FormulaCompilationException ex) {
-					Logger.getLogger(TestController.class.getName()).
+					Logger.getLogger(TicTacToeController.class.getName()).
 						log(Level.SEVERE, null, ex);
 				}
 			}
@@ -213,8 +289,11 @@ public class TestController implements CellListener, SpecificGameController {
 		}
 		System.out.println("Joguei na minha vez");
 		if (validate()) {
-			String message = cell.getAddress().getColumn() + ";" + cell.
-				getAddress().getRow() + ";" + cell.getContent();
+			System.out.println("A jogada é valida");
+			int column = cell.getAddress().getColumn() - 1;
+			int row = cell.getAddress().getRow() - 1;
+			String message = column + ";" + row + ";" + cell.getContent();
+			tictactoe.play(column, row, cell.getContent());
 			if (winningPlay(cell)) {
 				return;
 			}

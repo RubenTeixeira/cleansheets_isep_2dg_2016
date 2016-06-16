@@ -5,8 +5,9 @@
  */
 package csheets.ext.game.ui;
 
-import csheets.ext.game.Battleships;
 import csheets.ext.game.GameExtension;
+import csheets.ext.game.controllers.GameController;
+import csheets.ext.game.domain.Battleships;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -448,7 +449,7 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
 									+ "A host " + this.opponent + " wants to play "
 									+ " with you. \n Game: " + this.gameList.
 									getSelectedValue() + " Do you wish to play with him ?");
-
+			this.gameController.startTurn();
 		} else {
 			JOptionPane.showMessageDialog(this, "It is impossible to connect");
 		}
@@ -497,6 +498,7 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
 			if (reply == JOptionPane.YES_OPTION) {
 
 				this.gameController.stopConnection();
+				gameController.stopCurrentGame();
 				instanceListModelOnlineGames.removeElement(gamingOpponents.
 					getSelectedValue());
 			} else if (reply == JOptionPane.NO_OPTION) {
@@ -505,8 +507,6 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
 		} else {
 			JOptionPane.showMessageDialog(this, "Please choose a game to end.");
 		}
-		gameController.stopCurrentGame();
-
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed

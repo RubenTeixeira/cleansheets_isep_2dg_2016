@@ -17,4 +17,6 @@ public interface RepositoryFactory {
 	NoteRepository notes();
 
 	ListRepository lists();
+
+	TaskRepository task();
 }

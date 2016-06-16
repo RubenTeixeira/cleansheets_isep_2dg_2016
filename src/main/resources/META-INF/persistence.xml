@@ -10,6 +10,7 @@
         <class>csheets.domain.CompanyContact</class>
         <class>csheets.domain.PersonContact</class>
         <class>csheets.domain.ContactCalendar</class>
+        <class>csheets.domain.Task</class>
         <class>csheets.domain.VersionControl</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:h2:./db/csheets;MV_STORE=FALSE"/>
