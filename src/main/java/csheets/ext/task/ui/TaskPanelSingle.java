@@ -22,7 +22,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 	 * Creates new form ContactPanel3
 	 *
 	 * @param controller controller of events
-	 * @param contact contact
+	 * @param task
 	 */
 	public TaskPanelSingle(TaskController controller, Task task) {
 		this.controller = controller;
@@ -34,6 +34,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (this.task != null) {
+			this.jLabelContact.setText(this.task.getContact().name());
 			this.labelName.setText(this.task.TaskName());
 			this.jLabelDescription.setText(this.task.Description());
 			this.jLabelPriority.setText(String.valueOf(this.task.Priority()));
@@ -59,6 +60,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
         jButtonEdit1 = new javax.swing.JButton();
         jLabelPriority = new javax.swing.JLabel();
         jLabelPercentage = new javax.swing.JLabel();
+        jLabelContact = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(250, 65));
         setMinimumSize(new java.awt.Dimension(250, 65));
@@ -114,50 +116,58 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 
         jLabelPercentage.setText("Percentage");
 
+        jLabelContact.setText("Contact");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(labelName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelPercentage)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabelPriority)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelContact)
+                                    .addComponent(jLabelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabelPriority))
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabelPercentage)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonEdit1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jSeparator1))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButtonEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(labelName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelDescription)
+                        .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabelPriority)
-                            .addComponent(jLabelPercentage)))
+                        .addComponent(labelName))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonEdit1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonDelete)))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonEdit1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabelDescription)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabelPriority)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelPercentage)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        add(jPanel1, java.awt.BorderLayout.CENTER);
+        add(jPanel1, java.awt.BorderLayout.LINE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
@@ -187,8 +197,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_jLabelDescriptionMouseClicked
 
     private void jButtonEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEdit1ActionPerformed
-		TaskManager manager = new TaskManager(this.controller, this.task, this.task.
-											  getContact());
+		TaskManager manager = new TaskManager(this.controller, this.task);
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (eventOption == JOptionPane.OK_OPTION) {
@@ -204,6 +213,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonEdit1;
+    private javax.swing.JLabel jLabelContact;
     private javax.swing.JLabel jLabelDescription;
     private javax.swing.JLabel jLabelPercentage;
     private javax.swing.JLabel jLabelPriority;

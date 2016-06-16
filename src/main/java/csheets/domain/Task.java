@@ -38,13 +38,11 @@ public class Task {
 
 	public Task(String taskName, String description, int priority,
 				float percentageofcompletion, Contact contact) {
-		/*
-		 if (taskName == null || description == null || percentageofcompletion < 0 || percentageofcompletion > 100 || contact == null) {
-		 throw new IllegalArgumentException("Illegal arguments!");
-		 } else if (taskName.isEmpty() || description.isEmpty()) {
-		 throw new IllegalArgumentException("Illegal arguments empty");
-		 }
-		 */
+		if (taskName == null || description == null || percentageofcompletion < 0 || percentageofcompletion > 100 || contact == null) {
+			throw new IllegalArgumentException("Illegal arguments!");
+		} else if (taskName.isEmpty() || description.isEmpty()) {
+			throw new IllegalArgumentException("Illegal arguments empty");
+		}
 		this.taskName = taskName;
 		this.contact = contact;
 		this.description = description;
@@ -54,6 +52,11 @@ public class Task {
 
 	public void defineTask(String name, String description, int priority,
 						   float percentage) {
+		if (name == null || description == null || percentage < 0 || percentage > 100) {
+			throw new IllegalArgumentException("Illegal arguments!");
+		} else if (name.isEmpty() || description.isEmpty()) {
+			throw new IllegalArgumentException("Illegal arguments empty");
+		}
 		this.taskName = name;
 		this.description = description;
 		this.priority = priority;

@@ -9,6 +9,8 @@ import csheets.domain.Contact;
 import csheets.domain.Task;
 import csheets.ext.task.TaskController;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -21,16 +23,16 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
 
 	private TaskController controller;
 	private Task task;
-	private Contact contact;
+	private List<Contact> listContacts = new ArrayList();
 
 	/**
 	 * Creates new form EditTaskFrame
 	 */
-	public TaskManager(TaskController controller, Task task, Contact contact) {
+	public TaskManager(TaskController controller, Task task) {
 		this.controller = controller;
 		this.task = task;
-		this.contact = contact;
 		initComponents();
+		initContact();
 		this.update(null, task);
 	}
 
@@ -53,6 +55,8 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         jTextFieldDescription = new javax.swing.JTextField();
         jComboBoxPriority = new javax.swing.JComboBox();
         jTextFieldPercentage = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxContact = new javax.swing.JComboBox<>();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -68,35 +72,45 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
 
         jComboBoxPriority.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5" }));
 
+        jLabel3.setText("Contact");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelPercentage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextFieldPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(jLabelPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabelPriority, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldDescription))))
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldName, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                            .addComponent(jComboBoxContact, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(0, 8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBoxContact, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -112,14 +126,16 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPercentage)
                     .addComponent(jTextFieldPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(11, 11, 11))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> jComboBoxContact;
     private javax.swing.JComboBox jComboBoxPriority;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabelPercentage;
     private javax.swing.JLabel jLabelPriority;
     private javax.swing.JScrollPane jScrollPane1;
@@ -137,33 +153,41 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
 			this.jComboBoxPriority.setSelectedIndex(this.task.Priority() - 1);
 			this.jTextFieldPercentage.setText(String.valueOf(this.task.
 				Percentage()));
+			this.jComboBoxContact.setEnabled(false);
+		}
+	}
+
+	private void initContact() {
+		for (Contact contact : this.controller.allContacts()) {
+			this.listContacts.add(contact);
+			this.jComboBoxContact.addItem(contact.toString());
 		}
 	}
 
 	public void createTask() throws DataIntegrityViolationException {
-		if (this.task == null) {
-			try {
+		try {
+			if (this.task == null) {
 				this.controller.
 					createTask(this.jTextFieldName.getText(), this.jTextFieldDescription.
 							   getText(), this.jComboBoxPriority.
 							   getSelectedIndex() + 1, Float.
-							   parseFloat(this.jTextFieldPercentage.getText()), contact);
+							   parseFloat(this.jTextFieldPercentage.getText()), (Contact) this.listContacts.
+							   get(this.jComboBoxContact.getSelectedIndex()));
 
-			} catch (DataIntegrityViolationException ex) {
-				JOptionPane.
-					showMessageDialog(null, "Task already exists!", "Create/Edit Task", JOptionPane.ERROR_MESSAGE);
-			} catch (IllegalArgumentException ex) {
-				JOptionPane.
-					showMessageDialog(null, "Illegal arguments", "Create/Edit Task", JOptionPane.ERROR_MESSAGE);
+			} else {
+				this.task.
+					defineTask(this.jTextFieldName.getText(), this.jTextFieldDescription.
+							   getText(), this.jComboBoxPriority.
+							   getSelectedIndex() + 1, Float.
+							   parseFloat(this.jTextFieldPercentage.getText()));
+				this.controller.editTask(this.task);
 			}
-
-		} else {
-			this.task.
-				defineTask(this.jTextFieldName.getText(), this.jTextFieldDescription.
-						   getText(), this.jComboBoxPriority.
-						   getSelectedIndex() + 1, Float.
-						   parseFloat(this.jTextFieldPercentage.getText()));
-			this.controller.editTask(this.task);
+		} catch (DataIntegrityViolationException ex) {
+			JOptionPane.
+				showMessageDialog(null, "Task already exists!", "Create/Edit Task", JOptionPane.ERROR_MESSAGE);
+		} catch (IllegalArgumentException ex) {
+			JOptionPane.
+				showMessageDialog(null, "Illegal arguments", "Create/Edit Task", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

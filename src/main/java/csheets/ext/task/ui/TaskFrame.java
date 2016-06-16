@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.task.ui;
 
-import csheets.domain.Contact;
 import csheets.domain.Task;
 import csheets.ext.task.TaskController;
 import csheets.ext.task.TaskExtension;
@@ -13,8 +7,6 @@ import csheets.framework.persistence.repositories.DataIntegrityViolationExceptio
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -23,17 +15,17 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Bruno
+ * @author Martins
  */
 public class TaskFrame extends javax.swing.JPanel implements Observer {
 
-	/**
-	 * Creates new form TaskFrame
-	 */
 	private final TaskController controller;
-	private Task task;
-	private List<Contact> listContact = new ArrayList();
 
+	/**
+	 * Creates new form EventsPanel
+	 *
+	 * @param uiController The user interface controller.
+	 */
 	public TaskFrame(UIController uiController) {
 		this.setName(TaskExtension.NAME);
 		this.controller = new TaskController(uiController);
@@ -43,27 +35,43 @@ public class TaskFrame extends javax.swing.JPanel implements Observer {
 		this.update(null, null);
 	}
 
+	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Contact || arg == null) {
-			this.jComboBoxContacts.removeAllItems();
-			for (Contact c : controller.showContacts()) {
-				jComboBoxContacts.addItem(c);
-				this.listContact.add(c);
-			}
-		} else if (arg instanceof Task) {
-			this.jPanelTasks.removeAll();
-			((GridLayout) this.jPanelTasks.getLayout()).setRows(5);
-			for (Task task : this.controller.
-				allTasksContact(this.listContact.get(this.jComboBoxContacts.
-						getSelectedIndex()))) {
-				TaskPanelSingle panel = new TaskPanelSingle(this.controller, task);
-				this.jPanelTasks.add(panel);
-				GridLayout layout = (GridLayout) this.jPanelTasks.getLayout();
-				layout.setRows(layout.getRows() + 1);
-			}
-			this.jPanelTasks.revalidate();
-			this.jPanelTasks.repaint();
+		clearTaskList();
+		for (Task task : this.controller.allTasks()) {
+			TaskPanelSingle panel = new TaskPanelSingle(this.controller, task);
+			this.addTaskPanel(panel);
 		}
+		this.jPanelTask.revalidate();
+		this.jPanelTask.repaint();
+	}
+
+	private void addTaskPanel(TaskPanelSingle panel) {
+		this.jPanelTask.add(panel);
+		addGridRow();
+	}
+
+	/*
+    * Deletes all information from event list.
+	 */
+	private void clearTaskList() {
+		this.jPanelTask.removeAll();
+		defaultGridRow();
+	}
+
+	/*
+    * Layout specific: set's the default number of rows (5)
+	 */
+	private void defaultGridRow() {
+		((GridLayout) this.jPanelTask.getLayout()).setRows(5);
+	}
+
+	/*
+    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
+	 */
+	private void addGridRow() {
+		GridLayout layout = (GridLayout) this.jPanelTask.getLayout();
+		layout.setRows(layout.getRows() + 1);
 	}
 
 	/**
@@ -75,25 +83,16 @@ public class TaskFrame extends javax.swing.JPanel implements Observer {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollBar1 = new javax.swing.JScrollBar();
-        jLabelContact = new javax.swing.JLabel();
-        jComboBoxContacts = new javax.swing.JComboBox();
-        jTextField2 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanelTask = new javax.swing.JPanel();
         jButtonAddTask = new javax.swing.JButton();
-        jPanelTasks = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
 
-        jLabelContact.setText("Contact");
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jComboBoxContacts.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxContactsItemStateChanged(evt);
-            }
-        });
-        jComboBoxContacts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxContactsActionPerformed(evt);
-            }
-        });
+        jPanelTask.setLayout(new java.awt.GridLayout(5, 1));
+        jScrollPane1.setViewportView(jPanelTask);
 
         jButtonAddTask.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/add_event.png"))); // NOI18N
         jButtonAddTask.addActionListener(new java.awt.event.ActionListener() {
@@ -101,8 +100,6 @@ public class TaskFrame extends javax.swing.JPanel implements Observer {
                 jButtonAddTaskActionPerformed(evt);
             }
         });
-
-        jPanelTasks.setLayout(new java.awt.GridLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -112,41 +109,31 @@ public class TaskFrame extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonAddTask))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelContact, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBoxContacts, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanelTasks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAddTask))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBoxContacts, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelContact))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButtonAddTask)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelTasks, javax.swing.GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBoxContactsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxContactsActionPerformed
-    }//GEN-LAST:event_jComboBoxContactsActionPerformed
-
     private void jButtonAddTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTaskActionPerformed
-		TaskManager manager = new TaskManager(this.controller, null, this.listContact.
-											  get(this.jComboBoxContacts.
-												  getSelectedIndex()));
+		TaskManager manager = new TaskManager(this.controller, null);
 		int eventOption = JOptionPane.
 			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (eventOption == JOptionPane.OK_OPTION) {
@@ -159,31 +146,11 @@ public class TaskFrame extends javax.swing.JPanel implements Observer {
 		}
     }//GEN-LAST:event_jButtonAddTaskActionPerformed
 
-    private void jComboBoxContactsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxContactsItemStateChanged
-		/*
-		 if (!listContact.isEmpty()) {
-		 this.jPanelTasks.removeAll();
-		 ((GridLayout) this.jPanelTasks.getLayout()).setRows(5);
-		 for (Task task : this.controller.
-		 allTasksContact(this.listContact.get(this.jComboBoxContacts.
-		 getSelectedIndex()))) {
-		 TaskPanelSingle panel = new TaskPanelSingle(this.controller, task);
-		 this.jPanelTasks.add(panel);
-		 GridLayout layout = (GridLayout) this.jPanelTasks.getLayout();
-		 layout.setRows(layout.getRows() + 1);
-		 }
-		 this.jPanelTasks.revalidate();
-		 this.jPanelTasks.repaint();
-		 }
-		 */
-    }//GEN-LAST:event_jComboBoxContactsItemStateChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAddTask;
-    private javax.swing.JComboBox jComboBoxContacts;
-    private javax.swing.JLabel jLabelContact;
-    private javax.swing.JPanel jPanelTasks;
-    private javax.swing.JScrollBar jScrollBar1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelTask;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

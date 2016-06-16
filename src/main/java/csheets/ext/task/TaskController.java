@@ -62,4 +62,13 @@ public class TaskController {
 	public List<Task> allTasksContact(Contact contact) {
 		return PersistenceContext.repositories().task().task(contact);
 	}
+
+	public List<Task> allTasks() {
+		return (List<Task>) PersistenceContext.repositories().task().all();
+	}
+
+	public Iterable<Contact> allContacts() {
+		return PersistenceContext.repositories().contacts().
+			all();
+	}
 }
