@@ -48,8 +48,8 @@ public class FormEditorController {
 	/**
 	 * Get the content of the cell.
 	 *
-	 * @param content
-	 * @return
+	 * @param content Content
+	 * @return String
 	 */
 	public String getValue(String content) {
 		Value value = this.cell.getVariable(content);
@@ -62,8 +62,8 @@ public class FormEditorController {
 	/**
 	 * Get the type of widget - label, button, textfield.
 	 *
-	 * @param name
-	 * @return
+	 * @param name name
+	 * @return Widget
 	 */
 	public Widget getWidget(String name) {
 		for (Widget widget : widgets) {

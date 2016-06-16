@@ -25,7 +25,7 @@ public class SearchToolsPanel extends javax.swing.JFrame {
     
     /**
      * Creates new form SearchToolsPanel
-     * @param panel
+     * @param panel Search Panel
      */
     public SearchToolsPanel(SearchPanel panel) {
         this.types = new HashMap<>();

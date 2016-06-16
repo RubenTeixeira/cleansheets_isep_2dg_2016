@@ -236,7 +236,7 @@ public class ImportExportTextFileController {
      *
      * @param filePath path to file
      * @param separator columns separator character
-     * @param spreadsheet
+     * @param spreadsheet Spreadsheet
      */
     public void linked(String filePath, String separator,
             Spreadsheet spreadsheet) {
@@ -246,7 +246,7 @@ public class ImportExportTextFileController {
     }
 
     /**
-     *  unlinking spreadsheet to file
+     * Unlinking spreadsheet to file
      * @param spreadsheet 
      */
     public void unlinked(Spreadsheet spreadsheet) {

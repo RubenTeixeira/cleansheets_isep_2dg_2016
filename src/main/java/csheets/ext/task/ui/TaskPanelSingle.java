@@ -22,7 +22,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 	 * Creates new form ContactPanel3
 	 *
 	 * @param controller controller of events
-	 * @param task
+	 * @param task Task
 	 */
 	public TaskPanelSingle(TaskController controller, Task task) {
 		this.controller = controller;

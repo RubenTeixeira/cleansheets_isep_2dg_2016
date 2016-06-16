@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 /**
  *
- * @author Hicham Abahri <1141042@isep.ipp.pt>
+ * @author Hicham Abahri 1141042@isep.ipp.pt
  */
 public class DisableEnableUpdateAction extends BaseAction {
 
