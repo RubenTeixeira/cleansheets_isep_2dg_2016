@@ -326,7 +326,8 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		if (validateDirectory()) { //checks directory.
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
-				java.awt.EventQueue.invokeLater(new Runnable() {
+
+				Runnable newthread = new Runnable() {
 					/**
 					 * Thread Search method.
 					 */
@@ -338,13 +339,18 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 						checkDuplicatedFiles(); //sets up a list without duplicated files.
 						postSearchUIOperations(); //required operations after each Search.
 					}
-				});
+				};
+				jImagePanel.setVisible(true); //enables search "indicator".
+				new Thread(newthread).start(); //starts the new Thread.
+
 			}
 		} else {
 			jTextField.setText("Invalid Directory.");
 			jButton2.setEnabled(true);
 		}
-
+//		String fix = "";
+//		list.addElement(fix);
+//		jResultList.setModel(list);
 	}
 
 	/**
