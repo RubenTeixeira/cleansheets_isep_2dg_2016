@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.game;
+package csheets.ext.game.domain;
 
+import csheets.core.Cell;
 import csheets.core.formula.compiler.FormulaCompilationException;
 
 /**
@@ -23,20 +24,28 @@ public class TicTacToe {
 	 * The workbook to which the spreadsheet belongs
 	 */
 	public TicTacToe() {
-		this.board = board;
+		this.board = new String[ROW][COLUMN];
+		for (int i = 0; i < getRowCount(); i++) {
+			for (int j = 0; j < getColumnCount(); j++) {
+				board[i][j] = "";
+			}
+		}
 	}
 
-	public boolean validateRules(int column, int row, String symbol) throws FormulaCompilationException {
+	public boolean validateRules(int rown, int column, String symbol, Cell cell,
+								 String move) throws FormulaCompilationException {
 		int beginColumn = board.length;//.getAddress().getColumn();
 		int beginRow = board[1].length;//.getAddress().getRow();
-		int endColumn = board[board.length - 1][board[1].length - 1].length();//getAddress().getColumn();
-		int endRow = board[board.length - 1][board[1].length - 1].length();//getAddress().getRow();
-		int columnContent = column;//cell.getAddress().getColumn();
-		int rowContent = row;//cell.getAddress().getRow();
+		int endColumn = board[board.length - 1][board[0].length - 1].length();//getAddress().getColumn();
+		int endRow = board[board.length - 1][board[0].length - 1].length();//getAddress().getRow();
+		int columnContent = cell.getAddress().getColumn();
+		int rowContent = cell.getAddress().getRow();
 		if (beginColumn <= columnContent && columnContent <= endColumn && beginRow <= rowContent && rowContent <= endRow) {
-			if (board[column][row].isEmpty()) {
-				board[column][row] = symbol;//cell.setContent(move);
-				return true;
+			if (cell.getContent().isEmpty()) {
+				if (move.equalsIgnoreCase(symbol)) {
+					cell.setContent(move);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -103,5 +112,9 @@ public class TicTacToe {
 
 	public String getValueAt(int i, int j) {
 		return board[i][j];
+	}
+
+	public void play(int column, int row, String content) {
+		board[column][row] = content;
 	}
 }

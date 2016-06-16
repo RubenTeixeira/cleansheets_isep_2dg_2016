@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.game.ui;
+package csheets.ext.game.controllers;
 
 /**
  *
@@ -11,7 +11,7 @@ package csheets.ext.game.ui;
  */
 public interface SpecificGameController {
 
-	public void stop();
+	public void stopGame();
 
 	public void start();
 
