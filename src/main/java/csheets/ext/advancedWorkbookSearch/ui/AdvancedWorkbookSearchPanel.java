@@ -326,7 +326,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		if (validateDirectory()) { //checks directory.
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
-
 				Runnable newthread = new Runnable() {
 					/**
 					 * Thread Search method.
@@ -342,14 +341,13 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 				};
 				jImagePanel.setVisible(true); //enables search "indicator".
 				new Thread(newthread).start(); //starts the new Thread.
+			} else {
+				jButton2.setEnabled(true);
 			}
 		} else {
 			jTextField.setText("Invalid Directory.");
 			jButton2.setEnabled(true);
 		}
-//		String fix = "";
-//		list.addElement(fix);
-//		jResultList.setModel(list);
 	}
 
 	/**
