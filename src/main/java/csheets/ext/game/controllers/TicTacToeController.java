@@ -286,8 +286,8 @@ public class TicTacToeController implements CellListener, SpecificGameController
 			} else {
 				cell.clear();
 			}
-
 		}
+		repaintBoard();
 	}
 
 	@Override
