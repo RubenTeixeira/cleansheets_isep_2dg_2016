@@ -49,8 +49,10 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		this.turn = turn;
 		if (turn) {
 			this.symbol = "O";
+			otherPlay = false;
 		} else {
 			this.symbol = "X";
+			otherPlay = true;
 		}
 		this.uiController = uiController;
 		connection = opponentIP + ":" + Integer.
@@ -179,6 +181,16 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   Cell spreadcheetCell = sheet.
 													   getCell(column, row);
 												   otherPlay = true;
+												   try {
+													   sheet.
+														   getCell(column, row).
+														   setContent(content);
+												   } catch (FormulaCompilationException ex) {
+													   Logger.
+														   getLogger(TicTacToeController.class.
+															   getName()).
+														   log(Level.SEVERE, null, ex);
+												   }
 												   tictactoe.
 													   play(column, row, content);
 												   repaintBoard();
@@ -272,7 +284,8 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	@Override
 	public void contentChanged(Cell cell) {
-		if (!cell.getContent().equalsIgnoreCase(symbol)) {
+		if (!(cell.getContent().equalsIgnoreCase("X") || cell.getContent().
+			equalsIgnoreCase("O"))) {
 			repaintBoard();
 			return;
 		}

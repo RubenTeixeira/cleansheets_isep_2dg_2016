@@ -6,7 +6,6 @@
 package csheets.ext.advancedWorkbookSearch.ui;
 
 import csheets.CleanSheets;
-import csheets.core.Cell;
 import csheets.core.Workbook;
 import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchController;
 import csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchExtension;
@@ -21,12 +20,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -38,10 +36,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdvancedWorkbookSearchPanel extends JPanel {
 
+	/**
+	 * Default Search Pattern.
+	 */
 	private static final String EXTENSION = "\\.cls";
 
 	/**
-	 * UIController. Opens the giving Workbook if clicked twice over the result.
+	 * UIController.
 	 *
 	 */
 	private UIController uicontroller;
@@ -343,63 +344,56 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	}
 
 	/**
-	 *
-	 */
-	private void setUpPreview() {
-		WorkbookPreview preview = new WorkbookPreview(wb); //one-click workbook.
-		String[] previewTitles = new String[5];
-
-		String[][] previewContent = new String[WorkbookPreview.COLUMNS][WorkbookPreview.ROWS];
-		Cell[][] matrix = preview.getPreview();
-		for (int i = 0; i < previewTitles.length; i++) {
-			String temp = matrix[i][0].getAddress().toString(); //String representation of the columns.
-			previewTitles[i] = "" + temp.charAt(0);
-		}
-		for (int i = 0; i < WorkbookPreview.COLUMNS; i++) {
-			for (int j = 0; j < WorkbookPreview.ROWS; j++) {
-				previewContent[j][i] = matrix[i][j].getContent();
-			}
-		}
-		table = new DefaultTableModel(previewContent, previewTitles);
-
-		jPreviewTable.setModel(table);
-		jPreviewTable.setEnabled(false);
-		jPreviewTable.setVisible(true);
-	}
-
-	/**
+	 * This method handles different behaviour associated with mouse
+	 * interaction. For one-click over the found Workbook the system shows a
+	 * preview of that Workbook. If pressed twice the result is also loaded to
+	 * the current workspace.
 	 *
 	 * @param evt mouse event.
 	 */
 	private void jResultsListMouseClicked(MouseEvent evt) {
-
-		if (evt.getClickCount() == 1) {
+		if (evt.getClickCount() == 1) { //clicked once.
 			File file = (File) jResultList.getSelectedValue();
-
-			//File file = new File(workbook);
-			CleanSheets instance = new CleanSheets();
+			CleanSheets instance = new CleanSheets(); //sets up a new instance of Cleansheets to load the information required.
 			try {
-				instance.load(file);
-
-			} catch (IOException | ClassNotFoundException ex) {
-				Logger.getLogger(AdvancedWorkbookSearchPanel.class
-					.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-			wb = instance.getWorkbook(file);
-			setUpPreview();
-
-		} else if (evt.getClickCount() == 2) { //Abrir o documento para o current WorkSpace
-			File file = (File) jResultList.getSelectedValue();
+				instance.load(file); //loads file.
+			} catch (IOException | ClassCastException | ClassNotFoundException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "This File is Corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
+			}//handling corrupted files.
+			wb = instance.getWorkbook(file); //saves workbook.
 			try {
-				uicontroller.getCleanSheets().load(file);
-			} catch (IOException | ClassNotFoundException ex) {
-				Logger.getLogger(AdvancedWorkbookSearchPanel.class.getName()).
-					log(Level.SEVERE, null, ex);
+				setUpPreview();
+			} catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "Couldn't load preview.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 
+		} else if (evt.getClickCount() == 2) { //clicked twice.
+			File file = (File) jResultList.getSelectedValue();
+			try {
+				uicontroller.getCleanSheets().load(file); //UIController loads selected Workbook to current workspace.
+			} catch (IOException | ClassNotFoundException | ClassCastException | ArrayIndexOutOfBoundsException ex) {
+				JOptionPane.
+					showMessageDialog(null, "This File is Corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
+	}
 
+	/**
+	 * Sets up the Preview. Advanced Workbook Controller handles the preview
+	 * information.
+	 *
+	 * @throws NullPointerException
+	 */
+	private void setUpPreview() throws NullPointerException {
+		String[] previewTitles = new String[WorkbookPreview.COLUMNS];
+		String[][] previewContent = new String[WorkbookPreview.COLUMNS][WorkbookPreview.ROWS];
+		controller.setUpWorkbookPreview(wb, previewContent, previewTitles);
+		table = new DefaultTableModel(previewContent, previewTitles);
+		jPreviewTable.setModel(table); // sets the table for visualization.
+		jPreviewTable.setEnabled(false);
+		jPreviewTable.setVisible(true);
 	}
 
 	/**
@@ -434,7 +428,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @return true for valid pattern.
 	 */
 	private boolean validatePattern() {
-
 		jPatternField.setEnabled(false);
 		if (!pattern.contains(EXTENSION)) {
 			pattern += EXTENSION;
