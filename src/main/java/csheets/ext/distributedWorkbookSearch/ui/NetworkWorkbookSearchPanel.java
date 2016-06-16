@@ -142,6 +142,7 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
 					switchToTableView();
 				} else if (ev.getStateChange() == ItemEvent.DESELECTED) {
 					jPanel3.setVisible(false);
+					jSpreadTitle.setText(" ");
 				}
 			}
 
@@ -173,6 +174,7 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPreviewTable = new javax.swing.JTable();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jSpreadTitle = new javax.swing.JLabel();
         imgPanel = new javax.swing.JLabel();
 
         setLayout(new java.awt.BorderLayout());
@@ -240,6 +242,8 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
     jToggleButton1.setText("Preview");
     jToggleButton1.setEnabled(false);
 
+    jSpreadTitle.setText(" ");
+
     javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
     jPanel2.setLayout(jPanel2Layout);
     jPanel2Layout.setHorizontalGroup(
@@ -248,18 +252,21 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
             .addContainerGap()
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addComponent(jSpreadTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jToggleButton1)))
             .addContainerGap())
     );
     jPanel2Layout.setVerticalGroup(
         jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         .addGroup(jPanel2Layout.createSequentialGroup()
-            .addComponent(jToggleButton1)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jSpreadTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap())
     );
 
     javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -354,6 +361,7 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jSearchPattern;
     private javax.swing.JLabel jSpinner;
+    private javax.swing.JLabel jSpreadTitle;
     private javax.swing.JLabel jStatusLabel;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JButton searchButton;
@@ -367,6 +375,7 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 			this.listModel.clear();
 			switchToSpinnerView();
 			this.cancelButton.setEnabled(true);
+			this.searchButton.setEnabled(false);
 			this.controller.restartUdpService(this, defaultSeconds);
 			this.controller.restartTcpService(this, this.searchPattern);
 			manager.after(SEARCH_TIMEOUT).once(stopTask);
@@ -378,14 +387,16 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 		this.controller.stopServices();
 		this.instances.clear();
 		this.cancelButton.setEnabled(false);
+		this.searchButton.setEnabled(true);
 		this.stopTask.kill();
 		if (listModel.isEmpty()) {
 			jStatusLabel.setForeground(Color.RED);
-			jStatusLabel.setText("No Results found");
+			jStatusLabel.setText("Search timeout");
 			switchToCleanView();
 		} else {
 			jStatusLabel.setText(this.listModel.size() + " Result(s) found");
 			jSpinner.setVisible(false);
+			imgPanel.setVisible(false);
 		}
 	}
 
@@ -398,7 +409,9 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 		InstanceResult selectedResult = (InstanceResult) jList1.
 			getSelectedValue();
 		generatePreviewTableModel(selectedResult.workbook.cells.get(0));
-
+		this.jSpreadTitle.
+			setText("<html><font color=\"rgb(128,128,128)\">SpreadSheet:</font>  " + selectedResult.workbook.spreadsheets.
+				get(0) + "</html>");
 	}
 
 	private void generatePreviewTableModel(String[][] cells) {
