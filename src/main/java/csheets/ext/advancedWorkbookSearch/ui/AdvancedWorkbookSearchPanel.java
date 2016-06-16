@@ -40,6 +40,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * Default Search Pattern.
 	 */
 	private static final String EXTENSION = "\\.cls";
+	private static final String DEFAULT = ".*\\.cls";
 
 	/**
 	 * UIController.
@@ -96,6 +97,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		setName(AdvancedWorkbookSearchExtension.NAME);
 		this.uicontroller = uicontroller;
 		jResultList = new JList(list);
+
 		jPreviewTable = new JTable(table);
 		initComponents();
 	}
@@ -191,6 +193,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         });
 
         jPreviewTable.setBorder(javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, new java.awt.Color(51, 102, 255)));
+        jPreviewTable.setEnabled(false);
         jPreviewTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -225,17 +228,17 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addGroup(layout.createSequentialGroup()
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addComponent(jButton2))
                 .addGroup(layout.createSequentialGroup()
                     .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                    .addComponent(jButton1)))
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,11 +253,12 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -288,7 +292,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt evt.
 	 */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		jButton2.setEnabled(false);
 		performSearch();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -319,28 +322,29 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * Search and return the list of Workbook found.
 	 */
 	private void performSearch() {
+		jButton2.setEnabled(false);
 		if (validateDirectory()) { //checks directory.
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
-				Runnable newthread = new Runnable() {
+				java.awt.EventQueue.invokeLater(new Runnable() {
 					/**
 					 * Thread Search method.
 					 */
 					@Override
 					public void run() {
 						cont = 0; //sets counter to 0 on each search.
+						jImagePanel.setVisible(true);
 						files = controller.search(directory, pattern);
 						checkDuplicatedFiles(); //sets up a list without duplicated files.
 						postSearchUIOperations(); //required operations after each Search.
 					}
-				};
-				jImagePanel.setVisible(true); //enables search "indicator".
-				new Thread(newthread).start(); //starts the new Thread.
+				});
 			}
 		} else {
 			jTextField.setText("Invalid Directory.");
 			jButton2.setEnabled(true);
 		}
+
 	}
 
 	/**
@@ -429,9 +433,14 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 */
 	private boolean validatePattern() {
 		jPatternField.setEnabled(false);
+
+		if (pattern.equalsIgnoreCase("")) {
+			pattern = DEFAULT;
+		}
 		if (!pattern.contains(EXTENSION)) {
 			pattern += EXTENSION;
 		}
+		System.out.println(pattern);
 		try {
 			Pattern temp = Pattern.compile(pattern);
 		} catch (PatternSyntaxException e) {
