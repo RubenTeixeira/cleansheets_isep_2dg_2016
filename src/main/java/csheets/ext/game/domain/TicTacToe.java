@@ -60,7 +60,7 @@ public class TicTacToe {
 			return true;
 		} else if (board[0][1].equalsIgnoreCase(symbol)
 			&& board[1][1].equalsIgnoreCase(symbol)
-			&& board[2][2].equalsIgnoreCase(symbol)) {
+			&& board[2][1].equalsIgnoreCase(symbol)) {
 			return true;
 		} else if (board[0][2].equalsIgnoreCase(symbol)
 			&& board[1][2].equalsIgnoreCase(symbol)

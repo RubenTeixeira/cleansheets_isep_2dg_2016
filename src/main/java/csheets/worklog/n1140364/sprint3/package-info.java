@@ -62,7 +62,7 @@
  *
  * <p>
  * <h3>Script Manager</h3>
- * </p>
+ * <p>
  *
  * <h4>Create Script</h4>
  * The user selects create script. The system asks the user to enter a script

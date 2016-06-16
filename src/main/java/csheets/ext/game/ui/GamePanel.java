@@ -511,7 +511,11 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
 		// TODO add your handling code here:
-		gameController.startGame(this.gameList.getSelectedValue());
+		if (this.gameList.getSelectedValue() != null) {
+			gameController.startGame(this.gameList.getSelectedValue());
+		} else {
+			JOptionPane.showMessageDialog(this, "Selecione o jogo");
+		}
 
     }//GEN-LAST:event_playButtonActionPerformed
 
