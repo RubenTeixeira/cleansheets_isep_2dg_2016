@@ -190,16 +190,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   String content = params[2];
 												   tictactoe.
 													   play(column - 1, row - 1, content);
-												   try {
-													   sheet.getCell(1, 6).
-														   setContent("É a tua vez");
-													   repaintBoard();
-												   } catch (FormulaCompilationException ex) {
-													   Logger.
-														   getLogger(TicTacToeController.class.
-															   getName()).
-														   log(Level.SEVERE, null, ex);
-												   }
 												   repaintBoard();
 												   diplayLoss();
 												   stopGame();
