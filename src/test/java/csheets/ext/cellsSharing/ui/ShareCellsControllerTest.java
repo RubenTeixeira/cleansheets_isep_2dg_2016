@@ -5,35 +5,47 @@
  */
 package csheets.ext.cellsSharing.ui;
 
-import csheets.CleanSheets;
 import csheets.core.Cell;
+import csheets.core.Spreadsheet;
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
+import java.awt.Font;
+import java.util.HashMap;
 import java.util.Map;
-import javax.swing.DefaultListModel;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
  *
- * @author Carlos Mateus
+ * @author João Martins
  */
 public class ShareCellsControllerTest {
 
-	Cell[][] cell;
-	ShareCellsController instance;
-	DefaultListModel receiveListModel;
-	String message;
-	TcpService tcpservice;
-
-	UIController ui;
-	Map<String, String> cells;
-	CleanSheets cleansheets;
-	Map<String, String> newcell;
+	private final Workbook workBook;
+	private final Spreadsheet spreadSheet;
+	private final Cell cell;
+	private final StylableCell stylableCell;
+	private final ShareCellsController controller;
+	private final UIController uiController;
+	private final Map<String, String> cells;
 
 	public ShareCellsControllerTest() {
+		this.controller = new ShareCellsController();
+		this.workBook = new Workbook(1);
+		this.spreadSheet = this.workBook.getSpreadsheet(0);
+		this.cell = this.spreadSheet.getCell(0, 0);
+		this.stylableCell = (StylableCell) cell.
+			getExtension(StyleExtension.NAME);
+		this.uiController = UIController.getUIController();
+		this.cells = new HashMap();
 	}
 
 	@BeforeClass
@@ -45,18 +57,11 @@ public class ShareCellsControllerTest {
 	}
 
 	@Before
-	public void setUp() {
-//		cell = new Cell[1][1];
-//		tcpservice = new TcpService();
-//		tcpservice.client("255.255.255.255", message);
-//
-//		message = ";" + cell[0][0].getAddress().getColumn() + ";" + cell[0][0].
-//			getAddress().getRow() + ";" + cell[0][0].getValue().getType() + ";" + cell[0][0].
-//			getValue().toString();
-//
-//		newcell.put("1", message);
-//		cleansheets = new CleanSheets();
-//		ui = new UIController(cleansheets);
+	public void setUp() throws FormulaCompilationException {
+		cell.setContent("={A1:=2}");
+		this.stylableCell.setBackgroundColor(new Color(24));
+		this.stylableCell.setFont(new Font("Arial", 10, 10));
+		this.stylableCell.setForegroundColor(new Color(250));
 
 	}
 
@@ -65,14 +70,13 @@ public class ShareCellsControllerTest {
 	}
 
 	/**
-	 * Test of updateCells method, of class ShareCellsController.
+	 * Test of buildMessage method, of class ShareCellsController.
+	 *
+	 * @throws java.lang.Exception exception
 	 */
 	@Test
-	public void testUpdateCells() throws Exception {
-//		instance.updateCells(ui, cells);
-//		Map<String, String> expResult = cells;
-//		Map<String, String> result = newcell;
-//
-//		assertEquals(expResult.get(0), cell);
+	public void testBuildMessage() throws Exception {
+		String expResult = ";0;0;ERROR;={A1:=2};Arial;0;10;0;0;-16776966;-16777192";
+		assertEquals(expResult, this.controller.buildMessage(cell));
 	}
 }
