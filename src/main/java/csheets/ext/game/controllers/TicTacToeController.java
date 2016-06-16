@@ -41,7 +41,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	String connection;
 	String symbol;
 	TicTacToe tictactoe;
-	boolean otherPlay;
 	boolean turn;
 
 	public TicTacToeController(UIController uiController, boolean turn,
@@ -49,10 +48,8 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		this.turn = turn;
 		if (turn) {
 			this.symbol = "O";
-			otherPlay = false;
 		} else {
 			this.symbol = "X";
-			otherPlay = true;
 		}
 		this.uiController = uiController;
 		connection = opponentIP + ":" + Integer.
@@ -166,7 +163,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   String content = params[2];
 												   Cell spreadcheetCell = sheet.
 													   getCell(column, row);
-												   otherPlay = true;
+												   turn = true;
 												   try {
 													   sheet.
 														   getCell(column, row).
@@ -198,7 +195,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   try {
 													   spreadcheetCell.
 														   setContent(params[2]);
-													   otherPlay = true;
 												   } catch (FormulaCompilationException ex) {
 													   Logger.
 														   getLogger(TicTacToeController.class.
@@ -269,55 +265,49 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	@Override
 	public void contentChanged(Cell cell) {
-		if (!(cell.getContent().equalsIgnoreCase("X") || cell.getContent().
-			equalsIgnoreCase("O"))) {
+		if (!cell.getContent().equalsIgnoreCase(symbol)) {
 			repaintBoard();
 			return;
 		}
-		if (!turn) {
-			if (otherPlay) {
-				System.out.println("Deixou de ser a vez do outro");
-				System.out.println("Passou a ser a minha vez");
-				otherPlay = false;
-				turn = true;
+		if (turn) {
+			System.out.println("Joguei na minha vez");
+			if (validate()) {
+				System.out.println("A jogada é valida");
+				int column = cell.getAddress().getColumn() - 1;
+				int row = cell.getAddress().getRow() - 1;
+				String message = column + ";" + row + ";" + cell.getContent();
+				tictactoe.play(column, row, cell.getContent());
+				if (winningPlay(cell)) {
+					return;
+				}
+				new TcpClient(0).send(":game-play", connection, message);
+				turn = false;
+				System.out.println("Deixou de ser a minha vez");
 			} else {
-				repaintBoard();
+				cell.clear();
 			}
-			return;
+
 		}
-		System.out.println("Joguei na minha vez");
-		if (validate()) {
-			System.out.println("A jogada é valida");
-			int column = cell.getAddress().getColumn() - 1;
-			int row = cell.getAddress().getRow() - 1;
-			String message = column + ";" + row + ";" + cell.getContent();
-			tictactoe.play(column, row, cell.getContent());
-			if (winningPlay(cell)) {
-				return;
-			}
-			new TcpClient(0).send(":game-play", connection, message);
-			turn = false;
-			System.out.println("Deixou de ser a minha vez");
-		} else {
-			cell.clear();
-		}
-
 	}
 
 	@Override
-	public void dependentsChanged(Cell cell) {
+	public void dependentsChanged(Cell cell
+	) {
 	}
 
 	@Override
-	public void cellCleared(Cell cell) {
+	public void cellCleared(Cell cell
+	) {
 	}
 
 	@Override
-	public void cellCopied(Cell cell, Cell source) {
+	public void cellCopied(Cell cell, Cell source
+	) {
 	}
 
 	@Override
-	public void valueChanged(Cell cell) {
+	public void valueChanged(Cell cell
+	) {
 	}
 
 }
