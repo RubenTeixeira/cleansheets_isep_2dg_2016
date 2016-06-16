@@ -39,6 +39,7 @@ import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.RangeReference;
 import csheets.core.formula.lang.ReferenceOperation;
 import csheets.core.formula.lang.UnknownElementException;
+import csheets.core.formula.lang.VariableGlobalReference;
 import csheets.core.formula.lang.VariableLocalReference;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -135,6 +136,9 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 					case FormulaLexer.VART_REF:
 						System.out.println("VART_REF " + node.getText());
 						return new VariableLocalReference(cell, node.getText());
+					case FormulaLexer.VARG_REF:
+						System.out.println("VARG_REF " + node.getText());
+						return new VariableGlobalReference(cell, node.getText());
 					case FormulaLexer.NUMBER:
 						System.out.println("NUMBER " + node.getText());
 						return new Literal(Value.parseNumericValue(node.
