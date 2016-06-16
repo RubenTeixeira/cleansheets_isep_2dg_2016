@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package csheets.ext.game.ui;
+package csheets.ext.game.controllers;
 
 import csheets.AppSettings;
-import csheets.core.Cell;
-import csheets.core.formula.compiler.FormulaCompilationException;
-import csheets.ext.style.StylableCell;
-import csheets.ext.style.StyleExtension;
+import csheets.ext.game.ui.GamePanel;
+import csheets.ext.game.ui.TcpService;
+import csheets.ext.game.ui.UdpService;
 import csheets.ui.ctrl.UIController;
-import java.awt.Color;
-import java.awt.Font;
-import java.util.Map;
 
 /**
  *
@@ -32,6 +28,8 @@ public class GameController {
 	private TcpService tcpService;
 
 	SpecificGameController currentGameController;
+
+	boolean startTurn;
 
 	UIController uiController;
 
@@ -134,106 +132,20 @@ public class GameController {
 		this.tcpService.updateOpponent(target);
 	}
 
-	public String buildMessage(Cell cell) {
-		StylableCell stylableCell = (StylableCell) cell.getExtension(
-			StyleExtension.NAME);
-
-		String message = "";
-
-		message += ";" + stylableCell.getAddress().getColumn() + ";"
-			+ stylableCell.getAddress().getRow() + ";" + stylableCell.getValue().
-			getType()
-			+ ";" + stylableCell.getValue().toString() + ";" + stylableCell.
-			getFont().getName()
-			+ ";" + stylableCell.getFont().getStyle() + ";" + stylableCell.
-			getFont().getSize()
-			+ ";" + stylableCell.getHorizontalAlignment() + ";" + stylableCell.
-			getVerticalAlignment()
-			+ ";" + stylableCell.getForegroundColor().getRGB() + ";" + stylableCell.
-			getBackgroundColor().getRGB();
-
-		return message;
-	}
-
-	/**
-	 * Updates the active spreadsheet with the received cells.
-	 *
-	 * @param ui The user interface controller.
-	 * @param cells Received cells information.
-	 * @throws csheets.core.formula.compiler.FormulaCompilationException Cells
-	 * can have the wrong value.
-	 */
-	public void updateCells(UIController ui, Map<String, String> cells) throws FormulaCompilationException {
-		for (Map.Entry<String, String> entry : cells.entrySet()) {
-			String[] addressData = entry.getKey().split(":");
-			int column = Integer.parseInt(addressData[0]);
-			int row = Integer.parseInt(addressData[1]);
-
-			try {
-				String value = "";
-				Font font = null;
-				int hAlignment = 0;
-				int vAlignment = 0;
-				Color fgColor = null;
-				Color bgColor = null;
-				String[] data = entry.getValue().split(";");
-
-				if (data.length > 1) {
-					value = data[1];
-					font = new Font(data[2], Integer.parseInt(data[3]), Integer.
-									parseInt(data[4]));
-					hAlignment = Integer.parseInt(data[5]);
-					vAlignment = Integer.parseInt(data[6]);
-					fgColor = new Color(Integer.parseInt(data[7]));
-					bgColor = new Color(Integer.parseInt(data[8]));
-				} else {
-					value = "";
-				}
-
-				// Sets the cell's style
-				StylableCell cell = (StylableCell) ui.getActiveSpreadsheet().
-					getCell(column, row).getExtension(StyleExtension.NAME);
-				cell.setContent(value);
-
-				cell.setFont(font);
-				cell.setHorizontalAlignment(hAlignment);
-				cell.setVerticalAlignment(vAlignment);
-				cell.setForegroundColor(fgColor);
-				cell.setBackgroundColor(bgColor);
-
-				ui.setWorkbookModified(ui.focusOwner.getSpreadsheet().
-					getWorkbook());
-				ui.focusOwner.repaint();
-
-			} catch (FormulaCompilationException ex) {
-				throw new FormulaCompilationException();
-			}
-		}
-	}
-
-	/**
-	 * Sends a Cell to the targeted host.
-	 *
-	 * @param cell Edited Cell
-	 */
-	public void continuousSending(Cell cell) {
-		String message = "";
-
-		message += buildMessage(cell);
-
-		message = message.substring(1);
-
-		tcpService.continuousSending(message);
-	}
-
 	public void startGame(String selectedValue) {
 		if (selectedValue.equalsIgnoreCase("TicTacToe")) {
-			currentGameController = new TestController(uiController, true, selectedValue);
+			currentGameController = new TicTacToeController(uiController, startTurn, tcpService.
+															getTargetIP());
+			currentGameController.start();
 		}
 	}
 
-	void stopCurrentGame() {
-		currentGameController.stop();
+	public void stopCurrentGame() {
+		currentGameController.stopGame();
+	}
+
+	public void startTurn() {
+		startTurn = true;
 	}
 
 }
