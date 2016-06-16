@@ -5,7 +5,6 @@
  */
 package csheets.ext.game.controllers;
 
-import csheets.ext.game.controllers.SpecificGameController;
 import csheets.AppSettings;
 import csheets.core.Cell;
 import csheets.core.CellListener;
@@ -47,10 +46,14 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	public TicTacToeController(UIController uiController, boolean turn,
 							   String opponentIP) {
-		this.turn = true;
-		this.symbol = "X";
+		this.turn = turn;
+		if (turn) {
+			this.symbol = "O";
+		} else {
+			this.symbol = "X";
+		}
 		this.uiController = uiController;
-		connection = "127.0.0.1" + ":" + Integer.
+		connection = opponentIP + ":" + Integer.
 			parseInt(AppSettings.instance().
 				get("TCP_PORT"));
 	}
