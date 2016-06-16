@@ -59,8 +59,7 @@ public class TagController {
 
 	public Iterable<Contact> allContactsTag() {
 		if (this.tag == null || this.tag.isEmpty()) {
-			return PersistenceContext.repositories().contacts().
-				getContactByTag(null);
+			return PersistenceContext.repositories().contacts().all();
 		}
 		return PersistenceContext.repositories().contacts().
 			getContactByTag(this.tag);
@@ -70,7 +69,7 @@ public class TagController {
 		List<String> list = new ArrayList();
 		try {
 			Scanner input = new Scanner(new File(CleanSheets.class.
-				getResource("res/profissions.props").getFile()));
+				getResource("profissions.props").getFile()));
 			while (input.hasNextLine()) {
 				list.add(input.nextLine());
 			}
@@ -167,6 +166,9 @@ public class TagController {
 	}
 
 	public Iterable<Contact> getContactByTag(String tag) {
+		if (tag == null || tag.isEmpty()) {
+			return PersistenceContext.repositories().contacts().all();
+		}
 		return PersistenceContext.repositories().contacts().getContactByTag(tag);
 	}
 

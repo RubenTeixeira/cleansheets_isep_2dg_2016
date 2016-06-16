@@ -33,6 +33,20 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 		this.update(null, null);
 	}
 
+	public void edit() {
+		TaskManager manager = new TaskManager(this.controller, this.task);
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+			try {
+				manager.createTask();
+			} catch (DataIntegrityViolationException ex) {
+				Logger.getLogger(TaskPanelSingle.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+		}
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,16 +67,46 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
         jButtonDelete = new javax.swing.JButton();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Task", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jLabelContact.setText("Contact");
+        jLabelContact.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelContactMouseClicked(evt);
+            }
+        });
 
         labelName.setText("Name");
+        labelName.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                labelNameMouseClicked(evt);
+            }
+        });
 
         jLabelDescription.setText("Description");
+        jLabelDescription.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelDescriptionMouseClicked(evt);
+            }
+        });
 
         jLabelPriority.setText("Priority");
+        jLabelPriority.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPriorityMouseClicked(evt);
+            }
+        });
 
         jLabelPercentage.setText("Percentage");
+        jLabelPercentage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPercentageMouseClicked(evt);
+            }
+        });
 
         jButtonEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/edit.png"))); // NOI18N
         jButtonEdit1.addActionListener(new java.awt.event.ActionListener() {
@@ -155,17 +199,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEdit1ActionPerformed
-		TaskManager manager = new TaskManager(this.controller, this.task);
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			try {
-				manager.createTask();
-			} catch (DataIntegrityViolationException ex) {
-				Logger.getLogger(TaskPanelSingle.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-		}
+		this.edit();
     }//GEN-LAST:event_jButtonEdit1ActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
@@ -177,6 +211,42 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 			this.controller.removeTask(this.task);
 		}
     }//GEN-LAST:event_jButtonDeleteActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jPanel1MouseClicked
+
+    private void jLabelContactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelContactMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelContactMouseClicked
+
+    private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_labelNameMouseClicked
+
+    private void jLabelDescriptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDescriptionMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelDescriptionMouseClicked
+
+    private void jLabelPriorityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPriorityMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelPriorityMouseClicked
+
+    private void jLabelPercentageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPercentageMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelPercentageMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;

@@ -1,9 +1,9 @@
 package csheets.ext.contacts;
 
 import csheets.CleanSheets;
-import csheets.domain.ContactCalendar;
 import csheets.domain.CompanyContact;
 import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Event;
 import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;

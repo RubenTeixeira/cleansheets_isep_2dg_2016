@@ -14,10 +14,12 @@ import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ContactRepository;
 import csheets.persistence.PersistenceContext;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Stream;
+import java.util.Map.Entry;
 
 /**
  *
@@ -98,10 +100,13 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 	@Override
 	public Iterable<Contact> getContactByTag(String tag) {
 		List<Contact> contacts = new ArrayList();
-		for (Contact contact : this.all()) {
-			for (String tagName : contact.tags()) {
-				if (tagName.matches(tag)) {
-					contacts.add(contact);
+		if (tag != null && !tag.isEmpty()) {
+			for (Contact contact : this.all()) {
+				for (String tagName : contact.tags()) {
+					if (tagName != null && !tagName.isEmpty() && tagName.
+						matches(tag)) {
+						contacts.add(contact);
+					}
 				}
 			}
 		}
@@ -110,21 +115,34 @@ public class JpaContactRepository extends JpaRepository<Contact, Long> implement
 
 	@Override
 	public Map<String, Integer> tagFrequency() {
-		Map<String, Integer> map = new HashMap();
+		Map<String, Integer> map = new LinkedHashMap();
 		for (Contact contact : this.all()) {
 			for (String contactTag : contact.tags()) {
 				Integer quantidade = map.get(contactTag);
 				if (quantidade != null) {
-					quantidade++;
+					map.put(contactTag, quantidade + 1);
 				} else {
 					map.put(contactTag, 1);
 				}
 			}
 		}
-		List<String> result = new ArrayList();
-		Stream<Map.Entry<String, Integer>> st = map.entrySet().stream();
-		st.sorted(Map.Entry.comparingByValue()).forEachOrdered(e -> result.
-			add((String) e.getKey()));
+		List<Entry<String, Integer>> sortedEntries = new ArrayList(map.
+			entrySet());
+
+		Collections.sort(sortedEntries,
+						 new Comparator<Entry<String, Integer>>() {
+						 @Override
+						 public int compare(Entry<String, Integer> e1,
+											Entry<String, Integer> e2) {
+							 return e2.getValue().compareTo(e1.getValue());
+						 }
+					 }
+		);
+		map.clear();
+		for (Entry<String, Integer> entry : sortedEntries) {
+			map.put(entry.getKey(), entry.getValue());
+		}
+
 		return map;
 	}
 
