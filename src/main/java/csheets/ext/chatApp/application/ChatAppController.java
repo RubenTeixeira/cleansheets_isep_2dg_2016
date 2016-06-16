@@ -69,14 +69,16 @@ public class ChatAppController {
 		udpService.sendOfflineState();
 	}
 
-	public void sendMessage(String nickname, String target, String message) {
+	public void sendMessage(String nickname, String target, String message,
+							String targetNickname) {
 		Map<String, String> sendMessage = new LinkedHashMap<>();
 		sendMessage.put("reference", "sendMessage");
 		sendMessage.put("nickname", nickname);
+		sendMessage.put("targetNickname", targetNickname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
 
-		new TcpService().client(target, nickname + "|" + message);
+		new TcpService().client(target, nickname + ";" + message);
 		Notification.chatMessageInformer().
 			notifyChange(sendMessage);
 	}
@@ -124,7 +126,7 @@ public class ChatAppController {
 	public void addMessage(String message, String fromIP, MessageType type) {
 		ChatUser tmp = systemChatUser();
 		if (tmp != null) {
-			tmp.newChatMessage(message, fromIP, type);
+			tmp.newChatMessage(fromIP, message, type);
 			PersistenceContext.repositories().chatUsers().save(tmp);
 		}
 	}

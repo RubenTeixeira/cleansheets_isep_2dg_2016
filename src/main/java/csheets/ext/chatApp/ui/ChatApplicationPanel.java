@@ -113,7 +113,6 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 
 	private synchronized void receivedMessage(String from, String msg) {
 		String chatMessage = "Received from " + from + ": " + msg;
-		new TimedPopupMessageDialog(null, chatMessage);
 
 		inserirHost(from, chatMessage);
 	}
@@ -130,16 +129,18 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		if (((Map) messageData).get("reference").equals("chatMessage")) {
 			((Map) messageData).remove("reference");
 			String message = (String) ((Map) messageData).get("message");
-			String fromIP = ((String) ((Map) messageData).get("from")).
+			String fromIP = ((String) ((Map) messageData).get("nickname")).
 				split(":")[0];
-			receivedMessage(message, fromIP);
+			String chatMessage = "Received from " + fromIP + ": " + message;
+			new TimedPopupMessageDialog(null, chatMessage);
+			receivedMessage(fromIP, message);
 			this.chatAppController.
 				addMessage(message, fromIP, MessageType.RECEIVED);
 		}
 		Map sendData = new LinkedHashMap((Map) arg);
 		if (((Map) sendData).get("reference").equals("sendMessage")) {
 			((Map) sendData).remove("reference");
-			String nickname = (String) ((Map) sendData).get("nickname");
+			String nickname = (String) ((Map) sendData).get("targetNickname");
 			String sendMessage = (String) ((Map) sendData).get("message");
 			sendMessage(nickname, sendMessage);
 			this.chatAppController.
