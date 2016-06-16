@@ -37,6 +37,8 @@ public class Notification {
 	};
 	private static Notifier taskInformer = new Notifier() {
 	};
+	private static Notifier linkFileInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -88,6 +90,10 @@ public class Notification {
 
 	public static Notifier taskInformer() {
 		return Notification.taskInformer;
+	}
+
+	public static Notifier linkFileInformer() {
+		return Notification.linkFileInformer;
 	}
 
 }
