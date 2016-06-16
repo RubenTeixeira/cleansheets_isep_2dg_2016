@@ -158,17 +158,14 @@
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * On this sprint i demonstrated my own feature individuall.
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
  * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
+ * I tried to make a jdialog with a loading bar while the message was being
+ * sent. I tried deifferent approaches but i couldn't finish it. So this may be
+ * something to do in the future.
  *
  *
  * <h2>9. Work Log</h2>
@@ -199,33 +196,35 @@
  * <p>
  * 1. -nothing-
  * <p>
- * Today
+ * Wednesday
  * <p>
- * 1. ...
- * <p>
- * Blocking:
- * <p>
- * 1. ...
+ * Helped my co-worker Carlos Mateus in his use case. Made final touches. 1. ...
  *
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-
  *
  * <h3>10.1. Design and Implementation:3</h3>
- *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
+ * To resolve this use case, we're using patterns learned in the courses of
+ * EAPLI and ESOFT, namely the GRASP and SOLID patterns. All the code is
+ * following the design made.
  * <p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * -
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1
+ * - description: this commit is related to the implementation of the design
+ * pattern ...-
  *
  * <h3>10.2. Teamwork: ...</h3>
+ * <p>
+ * We worked well as a team. We were a 4 element team which made our team work
+ * easier.
+ *
  *
  * <h3>10.3. Technical Documentation: ...</h3>
+ * This was my technical documentation on this sprint. I think that, comparing
+ * with the last sprint, this part of the work is way better.
  *
  * @author Rui Bastos
  */

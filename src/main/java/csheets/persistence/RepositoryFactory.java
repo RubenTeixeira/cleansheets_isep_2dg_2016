@@ -18,5 +18,7 @@ public interface RepositoryFactory {
 
 	ListRepository lists();
 
+	TaskRepository task();
+
 	ChatUserRepository chatUsers();
 }

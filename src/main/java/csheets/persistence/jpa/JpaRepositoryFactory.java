@@ -8,6 +8,7 @@ import csheets.persistence.ListRepository;
 import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
+import csheets.persistence.TaskRepository;
 
 /**
  *
@@ -47,5 +48,14 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public ChatUserRepository chatUsers() {
 		return new JpaChatUserRepository();
+	}
+	@Override
+	public ListRepository lists() {
+		return new JpaListRepository();
+	}
+
+	@Override
+	public TaskRepository task() {
+		return new JpaTaskRepository();
 	}
 }

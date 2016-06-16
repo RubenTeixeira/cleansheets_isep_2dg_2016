@@ -10,6 +10,7 @@ import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentableCellListener;
 import csheets.ext.comments.CommentsExtension;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
@@ -19,6 +20,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,7 +31,7 @@ import javax.swing.JScrollPane;
  * @author Rafael
  */
 public class CommentsPanel extends JPanel implements SelectionListener,
-	CommentableCellListener {
+	CommentableCellListener, Observer {
 
 	/**
 	 * The commentable cell currently being displayed in the panel
@@ -80,10 +83,25 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 
 		this.uiController = uiController;
 
-		//comment.setPreferredSize(new Dimension(120, 240));		// width, height
-		//comment.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
 		jTextField1.addFocusListener(applyAction);
 		jTextField1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.update(null, null);
+		Notification.commentInformer().addObserver(this);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		this.jPanel2.removeAll();
+		List<Comment> commentsList = controller.getCommentList(this.cell);
+		for (Comment comment : commentsList) {
+			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
+
+			jPanel2.add(cmtPanel);
+			jTextField1.setText("");
+			cmtPanel.setVisible(true);
+		}
+		this.revalidate();
+		this.repaint();
 	}
 
 	/**
@@ -207,7 +225,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	}
 
 	private void paintCommentPanels() {
-		cleanCommentsPanel();
+		this.jPanel2.removeAll();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
 			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
@@ -216,7 +234,8 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 			jTextField1.setText("");
 			cmtPanel.setVisible(true);
 		}
-		refreshUI();
+		this.revalidate();
+		this.repaint();
 	}
 
 	private void cleanCommentsPanel() {

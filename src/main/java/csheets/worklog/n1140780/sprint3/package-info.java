@@ -58,9 +58,9 @@
  * <p>
  * After <code>WorkbookSearchExtension</code> is dinamycally loaded (load flow
  * control analysed in the last sprint, see: see:
- * <a href="../sprint2/package-summary.html">4. Analysis</a></p> ), it will
- * return to the UI the <code>UIExtensionWorkbookSearch</code> which in turn
- * returns a <code>WorkbookSearchMenu</code> that contains a
+ * <a href="../sprint2/package-summary.html">4. Analysis</a></p>
+ * ), it will return to the UI the <code>UIExtensionWorkbookSearch</code> which
+ * in turn returns a <code>WorkbookSearchMenu</code> that contains a
  * <code>JMenuItem</code> associated with the <code>WorkbookSearchAction</code>,
  * the latter being the responsible for starting the flow of the Use Case.</p>
  *
@@ -141,10 +141,10 @@
  * I will suggest to the original main programmer of Volt (Renato Machado) the
  * addition of generic Object transfer support if possible. Nevertheless, the
  * current goal is to make do with what is currently available as time to
- * deliver is of upmost concern.</p>
+ * deliver is of utmost concern.</p>
  *
  * <p>
- * <b>UPDATE:</b></p>
+ * <b>UPDATE 2:</b></p>
  * <p>
  * After consulting with Volt owner who rejected the suggested changes to his
  * implementation I decided to implement <code>ObjectSerialization</code> class
@@ -161,10 +161,11 @@
  * against network packet trading can be a cumbersome and fail prone task, the
  * plan is to test the code performed by each side of the communication, so the
  * goal is to write down tests for <code>WorkbookDTOAssemblerTest</code> to
- * ensure valid DTO's are created, <code>ObjectSerializationTest</code> for
- * obvious reasons and <code>LocalWorkbookSearchTest</code> to assert searches
- * are correctly performed. These are subject to change.
- * </p>
+ * ensure valid DTO's are created and <code>ObjectSerializationTest</code> for
+ * obvious reasons. <code>LocalWorkbookSearchTest</code> was initially intended
+ * too but as it depends on active Workbooks being in the FileSystem i've chosen
+ * not to implement it as of this sprint until a proper yet simple way to test
+ * it comes to mind.</p>
  *
  * <h3>5.2. UC Realization</h3>
  *

@@ -4,6 +4,8 @@ actor Actor
   participant "UI : ListUI" as UI 
   participant "Controller : ListController" as controller
   participant "List" as list
+  participant "NewList : List" as newlist
+  participant "VersionControl" as version
   participant "ListPersistence" as persistence
 
   note right of Actor
@@ -22,9 +24,12 @@ actor Actor
     Actor -> UI : Edit Version data
   end loop
   Actor -> UI : Apply new data
-  UI -> controller : editList(List,newList)
-  controller -> list : editList(newList)
-  list -> list : createNewVersion(newVersion)
-  controller -> persistence : saveList(List)
+  UI -> controller : editList(List,title,text)
+  controller -> list : createNewVersion(title,text)
+  create newlist
+  list -> newlist : create(title,text,contact,versionControl)
+  newlist -> version : addVersion()
+  list -> controller : return newlist
+  controller -> persistence : saveList(newList)
   UI -> Actor : Show new version
 @enduml

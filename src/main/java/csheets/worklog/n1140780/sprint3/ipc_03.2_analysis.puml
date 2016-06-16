@@ -12,7 +12,9 @@ User->UI: search(String pattern)
 UI->Control: new()
 
 activate Control
+create UdpClient
 Control->UdpClient: new()
+create UdpServer
 Control->UdpServer: new()
 deactivate Control
 UI->Control: List<String> lst = getOtherInstances()

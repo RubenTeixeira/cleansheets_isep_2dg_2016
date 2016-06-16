@@ -5,11 +5,8 @@
  */
 package csheets.ext.email;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -21,23 +18,52 @@ import javax.mail.internet.MimeMessage;
  */
 public class Email {
 
+	/**
+	 * Email session
+	 */
 	private Session session;
 
+	/**
+	 * Email constructor
+	 *
+	 * @param session Email session
+	 */
 	public Email(Session session) {
 		this.session = session;
 	}
 
+	/**
+	 * Returns the email session
+	 *
+	 * @return email session
+	 */
 	public Session session() {
 		return this.session;
 	}
 
-	public void connect(String server, String email, String password) throws NoSuchProviderException, MessagingException, FileNotFoundException, IOException {
+	/**
+	 * Authenticates the email account.
+	 *
+	 * @param server smtp server
+	 * @param email email address
+	 * @param password account password
+	 * @throws MessagingException when data is incorrect
+	 */
+	public void connect(String server, String email, String password) throws MessagingException {
 		Transport transport = session.getTransport("smtp");
 		int port = 587;
 		transport.connect(server, port, email, password);
 		transport.close();
 	}
 
+	/**
+	 * Send an email message to another email account.
+	 *
+	 * @param to email address to receive message
+	 * @param subject subject of the message
+	 * @param body body of the message
+	 * @throws MessagingException when the message fails
+	 */
 	public void sendMessage(String to,
 							String subject, String body) throws MessagingException {
 		session.setDebug(true);

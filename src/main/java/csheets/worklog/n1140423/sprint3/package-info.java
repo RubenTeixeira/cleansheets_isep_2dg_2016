@@ -11,7 +11,8 @@
  * <h2>1. Notes</h2>
  *
  * Outside of the development of this use case, I've also been working on Volt - our IPC library that handles all communications.
- *
+ * During this week, I've also been helping a lot of colleagues in the IPC area.
+ * 
  * <h2>2. Use Case/Feature: Core03.2</h2>
  *
  * <p>
@@ -54,6 +55,14 @@
  * <p>For a Date type we'll evaluate the date in time and sort it accordingly.</p>
  * <p>For a Numeric type we'll evaluate its value and sort it accordingly.</p>
  * 
+ * <p>
+ * Since the Cell Implementation already compares values between cells, we can use that for our advantage.
+ * </p>
+ * 
+ * <p>
+ * For tests, we can test if the sort works correctly and if values are correctly passed to the use case methods.
+ * </p>
+ * 
  * <h4>Analysis diagram:</h4>
  *
  * <img src="doc-files/analysis.png" alt="Analysis">
@@ -68,16 +77,47 @@
  * <img src="doc-files/initial_design.png" alt="Initial design.">
  * </p>
  * 
- * <h3>Sequence Diagram:</h3>
- *
- *
+ * <p>
+ * Final design:
+ * </p>
+ * 
+ * <p>
+ * <img src="doc-files/final_design.png" alt="Final design">
+ * </p>
+ * 
  * <h3>Tests:</h3>
  *
+ * <p>
+ * The sort should be tested to check if it does sort correctly in ascendant and descendant order.
+ * </p>
+ * <p>
+ * The values passed through the methods as arguments should be correctly validated.
+ * </p>
+ * 
  * <h2>6. Implementation</h2>
  *
+ * <p>
+ * For the implementation we'll use the Cell Implementation compareTo() method, that handles comparison between cell values.
+ * </p>
+ * 
+ * <p>
+ * For sorting purposes, we'll use the java.util.Arrays class to handle sorting with the sort() method. As for descendant order, we'll combine the Arrays class with the java.util.Collections class, as it provides a reverseOrder method.
+ * </p>
+ * 
+ * <p>
+ * This sort functionality should be available in a Service in case any other feature needs its functionality or has the need to increment it.
+ * </p>
+ * 
  * <h2>7. Integration/Demonstration</h2>
  *
  * <h2>8. Final Remarks</h2>
+ * 
+ * <p>
+ * Due to some memory references problem, the sort is not able to sort cell extensions. 
+ * </p>
+ * <p>
+ * In a few commits, it's possible to see some tinkering with the implementation, however everything was wrapped up in the end.
+ * </p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -131,15 +171,37 @@
  * Blocking</p>
  * <p>
  * Nothing.</p>
+ * 
+ * <p>
+ * 16/06/2016
+ * </p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesterday
+ * </p>
+ * <p>
+ * I migrated Volt to its new version, and made a fix on a few IPC use cases.
+ * I've also implemented a new feature on Volt (Global Channels).
+ * And helped a few colleagues on the IPC area.
+ * </p>
+ * <p>
+ * Today</p>
+ * <p>
+ * Finishing my work log as well as closing all my issues. Updated documentation and made a few improvements to my feature (code in evidences).
+ * </p>
+ * <p>
+ * Blocking</p>
+ * <p>
+ * Nothing.</p>
  *
  * <h2>10. Self Assessment</h2>
  *
  * <p>
- * Outcome 3 ("Design and Implementation") - ?</p>
+ * Outcome 3 ("Design and Implementation") - 3</p>
  * <p>
- * Outcome 5 ("Teamwork") - ?</p>
+ * Outcome 5 ("Teamwork") - 3</p>
  * <p>
- * Outcome 6 ("Technical Documentation") - ?</p>
+ * Outcome 6 ("Technical Documentation") - 3</p>
  *
  * <h3>10.1. Design and Implementation:</h3>
  *
@@ -153,7 +215,26 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d3a55a3bfa25ed50b95089ac798fa82f18f6b75">Initial design and tinkering with implementation.</a>
  * </p>
- *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e079b17329878057193f1fb4990592ee0476b456">Implemented feature and tests. Updated worklog.</a>
+ * </p> 
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/083c00da192299038ca67be28d655b14b481c6f4">Migrating Volt to the newest version.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/569d0ddd68914b745b046acebf02ace440649388">Migrating Volt to the newest version.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d08de4f4b935c9c70e4deba66beda322772560b9">Improved feature. Implemented Global Channels on Volt.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3978eab9e433be07599861d8eeebf79b2d4cdbaa">Improved the user interface, and updated the controller.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/fa6db85c551304a70ff339c1f6efb36cd2771e2b">Added a few more tests.</a>
+ * </p>
+ * 
+ * 
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>

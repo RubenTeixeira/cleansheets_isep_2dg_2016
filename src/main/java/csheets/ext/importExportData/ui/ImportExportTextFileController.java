@@ -1,23 +1,23 @@
 package csheets.ext.importExportData.ui;
 
 import csheets.core.Cell;
-import csheets.core.CellListener;
+import csheets.core.Spreadsheet;
+import csheets.core.SpreadsheetImpl;
 import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ext.importExportData.FileTask;
 import csheets.ext.importExportData.parsers.FileHandler;
 import csheets.ext.importExportData.parsers.TxtParser;
 import csheets.ext.importExportData.parsers.encoders.TxtEncoder;
 import csheets.ext.importExportData.parsers.strategies.ImportTextFileStrategy;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
-import csheets.support.DateTime;
-import csheets.support.Task;
+import csheets.notification.Notification;
 import csheets.support.TaskManager;
-import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
 import java.awt.Font;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.FileWriter;
+import java.util.Scanner;
 
 public class ImportExportTextFileController {
 
@@ -28,6 +28,85 @@ public class ImportExportTextFileController {
     String path;
     String separator;
     Cell[][] cells;
+
+    /**
+     *
+     * @param filePath filePath
+     * @param separator separator
+     * @param spreadsheet spreadsheet
+     */
+    public void linkImport(String filePath, String separator,
+            Spreadsheet spreadsheet) {
+        try {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            if (spreadsheet == null) {
+                spreadsheet = UIController.getUIController().
+                        getActiveSpreadsheet();
+            }
+            Scanner fileScanner = new Scanner(file);
+            int row = 0;
+            while (fileScanner.hasNextLine()) {
+                String[] columns = fileScanner.nextLine().split(separator);
+                for (int i = 0; i < columns.length; i++) {
+                    spreadsheet.getCell(i, row).setContent(columns[i]);
+                }
+                row++;
+            }
+        } catch (Exception ex) {
+        }
+    }
+
+    /**
+     * 
+     * @param filePath filePath
+     * @param separator  separator
+     */
+    public void linkImport(String filePath, String separator) {
+        this.linkImport(filePath, separator, null);
+    }
+
+    /**
+     * 
+     * @param filePath path of file
+     * @param separator olums separator character
+     * @param spreadsheet  spreadsheet
+     */
+    public void linkExport(String filePath, String separator,
+            Spreadsheet spreadsheet) {
+        try {
+            String content = "";
+            if (spreadsheet == null) {
+                spreadsheet = UIController.getUIController().
+                        getActiveSpreadsheet();
+            }
+            for (int i = 0; i < spreadsheet.getColumnCount(); i++) {
+                for (int j = 0; j < spreadsheet.getRowCount(); j++) {
+                    content += spreadsheet.getCell(j, i).getValue().toString() + separator;
+                }
+                content += "\n";
+            }
+            File file = new File(filePath);
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(content);
+            fileWriter.close();
+        } catch (Exception ex) {
+        }
+    }
+
+    /**
+     * 
+     * @param filePath  path of file
+     * @param separator  colums separator character
+     */
+    public void linkExport(String filePath, String separator) {
+        this.linkExport(filePath, separator, null);
+    }
 
     /**
      * Checks if the selected cells are enough to the received content
@@ -104,6 +183,7 @@ public class ImportExportTextFileController {
      * @param cell cell to change
      */
     private void boldHeader(Cell cell) {
+
         StylableCell stylableCell = (StylableCell) cell.
                 getExtension(StyleExtension.NAME);
         stylableCell.setFont(new Font(stylableCell.getFont().getFamily(),
@@ -151,97 +231,27 @@ public class ImportExportTextFileController {
         return false;
     }
 
-    public void exportImportFileOption(boolean option) {
-
-        this.option = option;
-        if (path != null && separator != null && cells != null) {
-            exportImportFileAutomaticallyEnable(path, separator, cells);
-        }
-
+    /**
+     *  linking spreadsheet to file
+     *
+     * @param filePath path to file
+     * @param separator columns separator character
+     * @param spreadsheet
+     */
+    public void linked(String filePath, String separator,
+            Spreadsheet spreadsheet) {
+        FileTask fileTask = new FileTask(this, filePath, separator, spreadsheet);
+        ((SpreadsheetImpl) spreadsheet).setFileTask(fileTask);
+        Notification.linkFileInformer().notifyChange(spreadsheet);
     }
 
-    public void exportImportFileAutomaticallyEnable(String path, String separator,
-            Cell[][] cells) {
-
-        this.cells = cells;
-        this.path = path;
-        this.separator = separator;
-
-        System.out.println("antes do if");
-
-        if (this.option == true) {
-            System.out.println("entrei");
-
-            dataAtual = DateTime.now().getTimeInMillis();
-            Task verify = new FileTask(path, separator, cells);
-            tm.every(5).fire(verify);
-
-            System.out.println("Threed a correr");
-
-        } else {
-            tm.destroy();
-            System.out.println("Threed has been distroy");
-        }
-
-    }
-
-    class FileTask extends Task implements CellListener {
-
-        private String path;
-        private String separator;
-        private Cell[][] cells;
-
-        public FileTask(String path, String separator, Cell[][] cells) {
-            this.path = path;
-            this.separator = separator;
-            this.cells = cells;
-        }
-
-        @Override
-        public void fire() {
-            //ask modification
-            File f = new File(path);
-            f.lastModified();
-
-            if (f.lastModified() > dataAtual) {
-                dataAtual = f.lastModified();
-                try {
-                    parse(path, separator, option, cells);
-                } catch (FormulaCompilationException ex) {
-                    Logger.getLogger(ImportExportTextFileController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                //Refresh Cells
-                UIController.getUIController().setWorkbookModified(UIController.getUIController().focusOwner.getSpreadsheet().getWorkbook());
-                UIController.getUIController().focusOwner.repaint();
-
-                System.out.println("Alterei o ficheiro");
-            }
-
-        }
-
-        @Override
-        public void valueChanged(Cell cell) {
-            System.out.println("Vou exportar");
-            exportFile(path, cells, separator);
-        }
-
-        @Override
-        public void contentChanged(Cell cell) {
-        }
-
-        @Override
-        public void dependentsChanged(Cell cell) {
-        }
-
-        @Override
-        public void cellCleared(Cell cell) {
-        }
-
-        @Override
-        public void cellCopied(Cell cell, Cell source) {
-        }
-
+    /**
+     *  unlinking spreadsheet to file
+     * @param spreadsheet 
+     */
+    public void unlinked(Spreadsheet spreadsheet) {
+        ((SpreadsheetImpl) spreadsheet).destroyFileTask();
+        Notification.linkFileInformer().notifyChange(spreadsheet);
     }
 
 }

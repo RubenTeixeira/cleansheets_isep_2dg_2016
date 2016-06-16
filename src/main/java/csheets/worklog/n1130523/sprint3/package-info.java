@@ -16,18 +16,18 @@
  *
  * <p>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-77">LPFOURDG-48</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-77">LPFOURDG-77</a>
  *
  * <p>
  * Sub-Task in Jira:
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-257">LPFOURDG-161</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-257">LPFOURDG-257</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-258">LPFOURDG-162</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-258">LPFOURDG-258</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-259">LPFOURDG-163</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-259">LPFOURDG-259</a>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-260">LPFOURDG-164</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-260">LPFOURDG-260</a>
  *
  * <h2>3.1 Contacts with Tags</h2>
  *
@@ -45,7 +45,7 @@
  * <b>Use Case 1 - "Associated tags to contacts":</b>
  * <p>
  * The user selects option "Associated tags to contacts". The user selects
- * contact and Cleansheets shows a window for add tags to specific contact. The
+ * contact and Cleansheets shows a window for add tag to specific contact. The
  * user write tag. A tag is correctly associated the contact and Cleansheets
  * informs success of operation.
  *
@@ -57,15 +57,21 @@
  * The user edits contact if he wants. The system validates and imforms success
  * of operation.
  *
- *
+ * <p>
+ * <b>Use Case 3 - "Exclude a Specific tag":</b>
+ * <p>
+ * The user selects option "Exclude a Specific tag". The user write a specific
+ * tag. System shows a list with all contacts with the specific tag. The user
+ * selects a contact and the tag that he wants eliminate and press button to
+ * delete the tag. The system validates and imforms success of operation.
  *
  *
  * <h2>4.2 Analysis - Contacts with Tags</h2>
  * The user must have the option to associate tags to contacts, edit contact of
- * specific tag. The search should be based on regular expressions related to
- * tags. The window with a list of tags that is automatically sorted
- * (descending) based on the frequency of the tag utilization. The list should
- * display in each line the tag and its frequency.
+ * specific tag and delete a tag of specific contact. The search have to be base
+ * on regular expressions related to tags. The window with a list of tags that
+ * is automatically sorted (descending) based on the frequency of the tag
+ * utilization. The list should display in each line the tag and its frequency.
  *
  *
  * <h3> First "analysis" sequence diagram - Contacts with Tags</h3>
@@ -77,12 +83,26 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * TEXT
+ * I have to do tests for this specific use case of class tagController. Have
+ * the specific method addTag(), allContactsTag(), getContactByTag(). I test if
+ * a tag is properly added to a contact and if writing a regular expression or
+ * tag returns all contacts of the specific tag. I do some tests of
+ * TagController.
+ *
  *
  *
  * <h3>5.2. UC Realization</h3>
  *
- * TEXT
+ * A tag is a string list by contact, a contact will have a list of tags.
+ * related to add, edit and remove tags will be linked to use cases to add, edit
+ * and remove contacts. For this uc it´s necessary create a new sideBar "Tags",
+ * and use part of UI to add contacts. It´s essential create methods to add
+ * tags, get all contacts by tag and get contact by tag from repository. It´s
+ * necessary create classes UIExtension responsible to get the side bar that
+ * gives access to extension-specific functionality, and TagsExtension class
+ * that returns the user interface extension. In classes JPAContactRepository
+ * and InMemoryContactRepository it was necessary create a method to return all
+ * contacts from the specific tag.
  *
  *
  * *
@@ -91,7 +111,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * TEXT
+ * High cohesion, low copling and observer
  *
  * <h2>6. Implementation</h2>
  *
@@ -106,17 +126,23 @@
  * <img src="doc-files/crm_contacts_with_tags_design_sd_2.png" alt="contacts_with_tags_design_sd_2">
  *
  * <p>
+ * <b>Use Case 3 - "Delete tag of specific contact"</b>
+ *
+ * <img src="doc-files/crm_contacts_with_tags_design_sd_3.png" alt="contacts_with_tags_design_sd_3">
+ * <p>
  *
  *
  * <b>Created Classes</b>:
  *
  * <p>
- * TEXT
+ * TagController; TagsExtension; ContactManager; TagPanel; TagPanelSingle;
+ * UIExtensionTags;
  *
  * <b>Updated Classes/Files</b>:
  *
  * <p>
- * TEXT
+ * Contact; PersonContact; ContactRepository; InMemoryContactRepository;
+ * JpaContactRepository; extensions.props;
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -148,8 +174,8 @@
  * <p>
  * Today
  * </p>
- * 1. Analysis - CRM01.3- Contacts with Tags, 2. Part of design - CRM01.3-
- * Contacts with Tags
+ * 1. LPFOURDG-257 Analysis - CRM01.3- Contacts with Tags, 2. LPFOURDG-258 Part
+ * of Design
  * <p>
  * Blocking:
  * </p>
@@ -159,11 +185,12 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. LPFOURDG-257 Analysis - CRM01.3- Contacts with Tags, 2. LPFOURDG-258 Part
+ * of Design
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. LPFOURDG-259 Implementation;
  * </p>
  * Blocking:
  * <p>
@@ -174,11 +201,12 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. LPFOURDG-259 Implementation;
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. LPFOURDG-259 Implementation; 2. LPFOURDG-260 Tests; LPFOURDG-258 Design
+ * Update
  * </p>
  * Blocking:
  * <p>
@@ -189,15 +217,17 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. LPFOURDG-259 Implementation; 2. LPFOURDG-260 Tests; LPFOURDG-258 Design
+ * Update
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Apresentation of Sprint 3
+ * <p>
+ * Blocking:
  * <p>
  * 1. nothing
  * </p>
- *
  * <p>
  * <b>Friday</b>
  * </p>
@@ -233,6 +263,9 @@
  *
  * Implementation commits (links only open in new windows - select option
  * browser to open in new windows) :
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/8fc74cac13484fd526d44ed5dfc08c02950054f2">Implementation</a>
  *
  * <p>
  * TEXT

@@ -58,7 +58,7 @@
  * <img src="doc-files/ipc02.2_analysis.png" alt="Class Diagram Analysis"></p>
  *
  * The Classes to implement are similar to other Extensions that also use a Side
- * Bar:<ul>
+ * Bar plus Classes that handle this feature algorithms.<ul>
  * <li><b>AWSExtension:</b> This class contains data regarding the Extension:
  * Name, Version. It also provides access to this UIExtension, required to load
  * the Extension in the main User Interface of the application, and will extend
@@ -74,11 +74,11 @@
  * <li><b>AWSController:</b> Class in charge of handling the Search results,
  * open the Preview for a specific Workbook or set the current workspace with an
  * opened Workbook.</li>
- * <li><b>WorkbookPreviewPanel:</b> This Class will build a preview panel
- * according the Workbook it receives from AWSController. The preview is a 6*4
- * rectangular area delimited by an upper left corner and a lower right corner.
- * The first Cell with content will fulfil the position (0; 0) and will serve as
- * a reference for the other cells.</li>
+ * <li><b>WorkbookPreview:</b> This Class will build a preview panel according
+ * the Workbook it receives from AWSController. The preview is a 6*4 rectangular
+ * area delimited by an upper left corner and a lower right corner. The first
+ * Cell with content will fulfil the position (0; 0) and will serve as a
+ * reference for the other cells.</li>
  * </ul>
  *
  * <h3>Analysis of the core problem/functionality:</h3>
@@ -86,7 +86,7 @@
  * From the analysis made above, and the set of requirements needed for this
  * feature, the core functionality is to provide the user the ability to not
  * only search for workbooks in a specific directory but also to see a preview
- * of the found workbooks without performing the actual opening to the current
+ * of the found workbooks without performing the actual "opening" to the current
  * workspace. This feature will save time and will enhance the experience with
  * the application.</p>
  *
@@ -95,11 +95,11 @@
  *
  * <h3>Functional Tests</h3>
  * <p>
- * Tests can be made for class <code>WorkbookPreviewPanel</code> in order to
- * evaluate the Panel cells and if they correspond to the workbook. There can
- * also be tests for opening a searched workbook for the current work space. In
+ * Tests can be made for class <code>WorkbookPreview</code> in order to evaluate
+ * the previwed cells and if they correspond to the workbook. There can also be
+ * tests for the method that searchs for workbooks in the current machine. In
  * order to do so there must be a testing class for <code>AWSController</code>
- * and <code>WindowPreviewPanel.</code></p>
+ * and <code>WindowPreview.</code></p>
  *
  *
  * <h3>UC Realization</h3>
@@ -166,6 +166,45 @@
  * 1. Analysis.
  * <p>
  * 2. Design
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Monday</b>
+ * <p>
+ * Today:
+ * <p>
+ * 1. Test Solutions Implementation.
+ * <p>
+ * 2. Reunion with Product Owner.
+ * <p>
+ * 2. Reunion with Manager.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Today:
+ * <p>
+ * 1. Worked on Implementation.
+ * <p>
+ * 2. Reunion with Supervisor.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Today:
+ * <p>
+ * 1. Finished Implementation. Feature Deployment.
  * <p>
  * Blocking:
  * <p>

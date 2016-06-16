@@ -4,10 +4,10 @@ import csheets.AppSettings;
 import csheets.ext.NetworkManager;
 import csheets.ext.secureCommunications.IncomingChannel;
 import csheets.ext.secureCommunications.OutgoingChannel;
-import java.util.Map;
 import java.util.Observer;
 import vendor.volt.Action;
 import vendor.volt.Request;
+import vendor.volt.Volt;
 import vendor.volt.channels.MessageEncryptionChannel;
 import vendor.volt.channels.MessageReceivedChannel;
 import vendor.volt.channels.MessageSentChannel;
@@ -26,7 +26,7 @@ public class SecureCommunicationsController {
 
         UdpServer udp = NetworkManager.udp();
 
-        udp.channel("*", new MessageReceivedChannel("Incoming from ", observer),
+        Volt.channel("*", new MessageReceivedChannel("Incoming from ", observer),
                 new MessageSentChannel("Sent from ", observer));
         
         udp.expect(":secure-communication", new Action() {
@@ -78,33 +78,28 @@ public class SecureCommunicationsController {
      * @param observer User Interface to observe the communications.
      */
     public void analyser(Observer observer) {
-        
-        UdpServer udp = NetworkManager.udp();
-
-        udp.channel("*", new IncomingChannel(AppSettings.
-                instance().getApplicationKey(), "Incoming from ", observer),
-                new OutgoingChannel(AppSettings.instance().getApplicationKey(), "Sent from ", observer)
+        Volt.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), observer),
+                new OutgoingChannel(AppSettings.instance().getApplicationKey(), observer)
         );
         
-        udp.expect(":network-analyser", new Action() {
-            @Override
-            public void run(Request request) {
-
-            }
-        });
-
-        TcpServer tcp = NetworkManager.tcp();
-
-        tcp.channel("*", new IncomingChannel(AppSettings.instance().getApplicationKey(), "Incoming from ", observer),
-                        new OutgoingChannel(AppSettings.instance().getApplicationKey(), "Sent from ", observer));
-
-        tcp.expect(":network-analyser", new Action() {
-            @Override
-            public void run(Request request) {
-
-            }
-        });
-
     }
+    
+    
+    
+    public String unitToBeUsed(int range){
+        if (range < 50) {
+            return "bytes";
+        } else if (range < 100) {
+            return "kilobytes";
+        } else if (range < 150) {
+            return "megabytes";
+        } else {
+            return "gigabytes";
+        }
+        
+        
+    }
+        
+    
 
 }

@@ -7,6 +7,9 @@ package csheets.ext.wizard.ui;
 
 import csheets.core.formula.FunctionParameter;
 import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -344,29 +347,57 @@ public class WizardFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
 	private void openTextFields(int i) {
+            List<FunctionParameter> lista = new ArrayList<>();
+            if(i!=0){
+            
+            for(FunctionParameter fPar:this.controller.getParametersOfFunctionSelected()){
+                lista.add(fPar);
+            }
+            }
+            Iterator<FunctionParameter> it = lista.iterator();
 		switch (i) {
 			case 1:
+                                FunctionParameter a=it.next();
 				txtFieldParameter1.setVisible(true);
+                                txtFieldParameter1.setText(a.getValueType().toString());
 				txtFieldParameter2.setVisible(false);
 				txtFieldParameter3.setVisible(false);
 				txtFieldParameter4.setVisible(false);
 				break;
 			case 2:
+                                FunctionParameter b=it.next();
 				txtFieldParameter1.setVisible(true);
+                                txtFieldParameter1.setText(b.getValueType().toString());
+                                FunctionParameter c=it.next();
 				txtFieldParameter2.setVisible(true);
+                                txtFieldParameter2.setText(c.getValueType().toString());
 				txtFieldParameter3.setVisible(false);
 				txtFieldParameter4.setVisible(false);
 				break;
 			case 3:
+				FunctionParameter d=it.next();
 				txtFieldParameter1.setVisible(true);
+                                txtFieldParameter1.setText(d.getValueType().toString());
+                                FunctionParameter e=it.next();
 				txtFieldParameter2.setVisible(true);
+                                txtFieldParameter2.setText(e.getValueType().toString());
+                                FunctionParameter f=it.next();
+                                txtFieldParameter3.setText(f.getValueType().toString());
 				txtFieldParameter3.setVisible(true);
 				txtFieldParameter4.setVisible(false);
 				break;
 			case 4:
+				FunctionParameter g=it.next();
 				txtFieldParameter1.setVisible(true);
+                                txtFieldParameter1.setText(g.getValueType().toString());
+                                FunctionParameter h=it.next();
 				txtFieldParameter2.setVisible(true);
+                                txtFieldParameter2.setText(h.getValueType().toString());
+                                FunctionParameter j=it.next();
+                                txtFieldParameter3.setText(j.getValueType().toString());
 				txtFieldParameter3.setVisible(true);
+                                FunctionParameter l=it.next();
+                                txtFieldParameter4.setText(l.getValueType().toString());
 				txtFieldParameter4.setVisible(true);
 				break;
 			default:

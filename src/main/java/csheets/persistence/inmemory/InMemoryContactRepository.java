@@ -11,7 +11,10 @@ import csheets.domain.PersonContact;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.ContactRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
 
 /**
  *
@@ -74,5 +77,24 @@ class InMemoryContactRepository extends InMemoryRepository<Contact, Long>
 		}
 		return contacts;
 	}
-}
 
+	@Override
+	public Map<String, Integer> tagFrequency() {
+		Map<String, Integer> map = new HashMap();
+		for (Contact contact : this.all()) {
+			for (String contactTag : contact.tags()) {
+				Integer quantidade = map.get(contactTag);
+				if (quantidade != null) {
+					quantidade++;
+				} else {
+					map.put(contactTag, 1);
+				}
+			}
+		}
+		List<String> result = new ArrayList();
+		Stream<Map.Entry<String, Integer>> st = map.entrySet().stream();
+		st.sorted(Map.Entry.comparingByValue()).forEachOrdered(e -> result.
+			add((String) e.getKey()));
+		return map;
+	}
+}

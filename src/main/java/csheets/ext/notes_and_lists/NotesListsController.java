@@ -105,27 +105,31 @@ public class NotesListsController {
         return version != -1 ? listVersions.get(version) : listVersions.get(listVersions.size());
     }
 
-    public List createList(Object contactObj, String text) {
+    public List createList(Object contactObj, String text) throws DataIntegrityViolationException,ClassCastException {
         if (!(contactObj instanceof Contact)) {
-            return null;
+            throw new ClassCastException("Selected contact invalid.");
         }
         Contact contact = (Contact) contactObj;
         String data[] = text.split("\n", 2);
-        if (data.length != 2
-                || data[0].equals("")
+        if (data.length != 2) {
+            throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
+        }
+        if (data[0].equals("")
                 || data[1].equals("")) {
-            return null;
+            throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
         }
         List newList = new List(data[0], data[1], contact);
         return PersistenceContext.repositories().lists().save(newList);
     }
 
-    public List editList(List list, String text) {
+    public List editList(List list, String text) throws DataIntegrityViolationException {
         String data[] = text.split("\n", 2);
-        if (data.length != 2
-                || data[0].equals("")
+        if (data.length != 2) {
+            throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
+        }
+        if (data[0].equals("")
                 || data[1].equals("")) {
-            return null;
+            throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
         }
         List newList = list.newVersion(data[0], data[1]);
         return PersistenceContext.repositories().lists().save(newList);

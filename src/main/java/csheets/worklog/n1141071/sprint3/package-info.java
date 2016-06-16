@@ -11,7 +11,9 @@
  * <h2>1. Notes</h2>
  * <p>Seemed pointless to create another UI since the CRM04.1 has a UI similar to
  * the one that was needed. So, the previous UI was modified and improved.</p>
- * <p>Helped the IPC06.2 understanding the UC.</p>
+ * <p>Due to uncommitted changes and pulled team changes, i was unable to commit
+ * all my changes before Tuesday. I was obliged to clone another project and manually
+ * merge all my previous changes.</p>
  * 
  *
  * <h2>2. Use Case/Feature: CRM04.2 - Lists Edition</h2>
@@ -53,8 +55,12 @@
  * <h3>5.3. Classes</h3>
  * <ul>
  * <li>List</li>
- * <li>ListPersistence</li>
- * <li>NotesLists :
+ * <li>Notation</li>
+ * <li>Version</li>
+ * <li>ListRepository</li>
+ * <li>JpaListRepository</li>
+ * <li>InMemoryListRepository</li>
+ * <li>NotesLists Extension:
  *      <ul>
  *      <li>Extension</li>
  *      <li>Controller</li>
@@ -94,20 +100,25 @@
  *
  * <b>Tuesday</b>
  * <ul>
- * <li></li>
- * <li></li>
+ * <li>Changing UI.</li>
+ * <li>Implementing domain.</li>
  * </ul>
  * 
  * 
  * <b>Wednesday</b>
  * <ul>
- * <li></li>
+ * <li>Reformulate UC design.</li>
+ * <li>Changing UI.</li>
+ * <li>Changes to domain.</li>
+ * <li>Implementing persistence.</li>
  * </ul>
  * 
  * 
  * <b>Thursday</b>
  * <ul>
- * <li></li>
+ * <li>Changes to worklog.</li>
+ * <li>Changes to diagrams.</li>
+ * <li>Implementing tests.</li>
  * </ul>
  * 
  *
@@ -116,16 +127,19 @@
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
- *
  * <b>Evidences:</b>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-220">Analysis and requirements</a>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-221">Design</a>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-222">Code Implementation</a>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-223">Test Implementation</a>
  * 
- * <h3>10.2. Teamwork: ...</h3>
  * 
- * <h3>10.3. Technical Documentation: ...</h3>
+ * <h3>10.2. Teamwork:</h3>
+ * <p>Helped the IPC06.2 understanding the UC.</p>
+ * <p>Helped understand the previous code of last sprint</p>
+ * 
+ * <h3>10.3. Technical Documentation:</h3>
+ * <p></p>
  *
  * @author Rui Bento
  */

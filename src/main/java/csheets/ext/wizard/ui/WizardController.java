@@ -90,7 +90,7 @@ public class WizardController {
                                     lst1.add(par);
                                 }
                                 Iterator<FunctionParameter> it1=lst1.iterator();
-                                    FunctionParameter fPara1 = it1.next();
+                                FunctionParameter fPara1 = it1.next();
                                 String troca1 = fPara1.getValueType().toString();
                                 String aux=s.replaceFirst(troca1, text);
                                 fPara1 = it1.next();
@@ -101,12 +101,40 @@ public class WizardController {
 				if(text ==null||text.isEmpty()||text0 ==null||text0.isEmpty()||text1 ==null||text1.isEmpty()){
                                     throw new IllegalArgumentException("tem que preencher todos os parametros.");
                                 }
-				return null;
-			case 4:
-                                if(text ==null||text.isEmpty()||text0 ==null||text0.isEmpty()||text1 ==null||text1.isEmpty()||text2 ==null||text2.isEmpty()){
-                                    throw new IllegalArgumentException("tem que preencher todos os parametros.");
+                                ArrayList<FunctionParameter> lst2 = new ArrayList<>();
+                                for(FunctionParameter par:parameters){
+                                    lst2.add(par);
                                 }
-				return null;
+                                Iterator<FunctionParameter> it2=lst2.iterator();
+                                FunctionParameter fPara2 = it2.next();
+                                String troca3 = fPara2.getValueType().toString();
+                                String aux1=s.replaceFirst(troca3, text);
+                                fPara2 = it2.next();
+                                String troca4 = fPara2.getValueType().toString();
+                                String aux3 = aux1.replaceFirst(troca4, text0);
+                                fPara2 = it2.next();
+                                String troca5 = fPara2.getValueType().toString();
+                                String replaced2 = aux3.replaceFirst(troca5, text1);
+				return replaced2;
+			case 4:
+                                ArrayList<FunctionParameter> lst3 = new ArrayList<>();
+                                for(FunctionParameter par:parameters){
+                                    lst3.add(par);
+                                }
+                                Iterator<FunctionParameter> it3=lst3.iterator();
+                                FunctionParameter fPara3 = it3.next();
+                                String tr1 = fPara3.getValueType().toString();
+                                String auxi=s.replaceFirst(tr1, text);
+                                fPara3 = it3.next();
+                                String tr2 = fPara3.getValueType().toString();
+                                String auxi1 = auxi.replaceFirst(tr2, text0);
+                                fPara3 = it3.next();
+                                String tr3 = fPara3.getValueType().toString();
+                                String auxi2 = auxi1.replaceFirst(tr3, text1);
+                                fPara3 = it3.next();
+                                String tr4 = fPara3.getValueType().toString();
+                                String replaced3= auxi2.replaceFirst(tr4, text1);
+				return replaced3;
 		}
         return null;
         

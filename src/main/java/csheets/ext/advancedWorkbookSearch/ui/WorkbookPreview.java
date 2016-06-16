@@ -23,12 +23,12 @@ public class WorkbookPreview {
 	/**
 	 * Preview Columns.
 	 */
-	private static final int COLUMNS = 5;
+	public static final int COLUMNS = 5;
 
 	/**
 	 * Preview Rows.
 	 */
-	private static final int ROWS = 5;
+	public static final int ROWS = 5;
 
 	/**
 	 * Workbook.
@@ -64,21 +64,34 @@ public class WorkbookPreview {
 	/**
 	 * Search for Content.
 	 */
-	private void preview() {
+	private void preview() throws NullPointerException {
 		outerloop:
 		for (int i = 0; i < this.workbook.getSpreadsheetCount(); i++) {
 			Spreadsheet ss = this.workbook.getSpreadsheet(i);
-			for (Cell c : ss) {
-				if (!c.getContent().equalsIgnoreCase("")) {
+			for (int j = 0; j < ss.getColumnCount() + 1; j++) {
+				Cell[] column = ss.getColumn(j); //buggy
+				if (checkColumn(column)) {
 					spreadsheet = ss;
-					this.cell = c;
 					break outerloop;
 				}
 			}
 		}
-		if (this.cell == null) {
-			throw new IllegalArgumentException();
+	}
+
+	/**
+	 * Checks in the given Column is has a non-empty cell.
+	 *
+	 * @param column
+	 * @return true if Column has the non-empty cell.
+	 */
+	private boolean checkColumn(Cell[] column) {
+		for (Cell c : column) {
+			if (!c.getContent().equalsIgnoreCase("") && c != null) {
+				cell = c;
+				return true;
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -108,13 +121,4 @@ public class WorkbookPreview {
 	public Cell[][] getPreview() {
 		return this.matrix;
 	}
-
-	public static int getColumnPreviewSize() {
-		return COLUMNS;
-	}
-
-	public static int getRowsPreviewSize() {
-		return ROWS;
-	}
-
 }

@@ -7,6 +7,7 @@ package csheets.persistence;
 
 import csheets.domain.Contact;
 import csheets.framework.persistence.repositories.Repository;
+import java.util.Map;
 
 /**
  *
@@ -21,5 +22,7 @@ public interface ContactRepository extends Repository<Contact, Long> {
 	public Iterable<Contact> contactsCompany(Contact contact);
 
 	public Iterable<Contact> allCompanies();
+
+	public Map<String, Integer> tagFrequency();
 
 }

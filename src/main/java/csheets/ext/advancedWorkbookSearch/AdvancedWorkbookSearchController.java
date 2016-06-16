@@ -5,6 +5,9 @@
  */
 package csheets.ext.advancedWorkbookSearch;
 
+import csheets.core.Cell;
+import csheets.core.Workbook;
+import csheets.ext.advancedWorkbookSearch.ui.WorkbookPreview;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -57,7 +60,36 @@ public class AdvancedWorkbookSearchController {
 		} catch (NullPointerException e) {
 			e.getMessage();
 		}
-		System.out.println("I'm on it! - CONTROLLER");
+
 		return workbookList;
+	}
+
+	/**
+	 * Sets up a new Preview with the given information. The previewContent and
+	 * previewTitles will fill the table to present to the user.
+	 *
+	 *
+	 * @param wb workbook selected.
+	 * @param previewContent preview content.
+	 * @param previewTitles preview titles.
+	 */
+	public void setUpWorkbookPreview(Workbook wb, String[][] previewContent,
+									 String[] previewTitles) {
+
+		WorkbookPreview preview = new WorkbookPreview(wb); //WorkbookPreview instance.
+
+		Cell[][] matrix = preview.getPreview();
+
+		for (int i = 0; i < previewTitles.length; i++) {
+			String temp = matrix[i][0].getAddress().toString(); //Columns used.
+			previewTitles[i] = "" + temp.charAt(0);
+		}
+
+		for (int i = 0; i < WorkbookPreview.COLUMNS; i++) {
+			for (int j = 0; j < WorkbookPreview.ROWS; j++) {
+				previewContent[j][i] = matrix[i][j].getContent();
+			}
+		}
+
 	}
 }
