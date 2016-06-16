@@ -363,10 +363,10 @@ public class SecureCommunicationsUI extends javax.swing.JPanel implements Select
 	/**
 	 * Change the units base on window size
 	 *
-	 * @param sizeI Size I
-	 * @param sizeO Size O
-	 * @param sizeSI Size SI
-	 * @param sizeSO Size SO
+	 * @param sizeI size incomming
+	 * @param sizeO size outgoing
+	 * @param sizeSI size secure incomming
+	 * @param sizeSO size secure outgoing
 	 * @return unit name
 	 */
 	public String compareSize(int sizeI, int sizeO, int sizeSI, int sizeSO) {
