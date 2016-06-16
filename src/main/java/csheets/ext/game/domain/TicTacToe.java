@@ -90,6 +90,17 @@ public class TicTacToe {
 		return false;
 	}
 
+	public boolean isDraw() {
+		for (int col = 0; col < board.length; col++) {
+			for (int row = 0; row < board[col].length; row++) {
+				if (board[col][row].isEmpty()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
 	public int getColumnCount() {
 		return COLUMN;
 	}
