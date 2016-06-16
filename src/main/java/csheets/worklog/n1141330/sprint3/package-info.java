@@ -12,7 +12,8 @@
  * -Notes about the week's work.-
  *
  * First Day analyse the problem, SD Diagram. And debug the project for know
- * what class could give a lista of selected cell's
+ * what class could give a list of selected cell's. After know the class, i have
+ * to see if the cell and the expression should apply the true, or false style
  * <h2>2. Use Case/Feature: CRM5.1</h2>
  *
  * Issue in Jira:
@@ -38,30 +39,17 @@
  *
  * <h2>9. Work Log</h2>
  *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
- *
- * Example
- *
  * <b>Monday</b>
  *
  * Monday i worked on: Devoloped the analyse and know what class should we work
  * and how i get a value of a selected cell.
  * <b>Tuesday</b>
- *
- * Yesterday I worked on:
- * <h2>10. Self Assessment</h2>
- *
- *
- * <h3>10.1. Design and Implementation:3</h3>
+ * Study my classroom work, and try to improve it for working with all cells
+ * selected and change his style. Yesterday I worked on: Improve my code for
+ * check the value of the variable "_cell" and look for some errors.
  *
  *
- * <b>Evidences:</b>
- *
- *
- * <h3>10.2. Teamwork: ...</h3>
- *
- * <h3>10.3. Technical Documentation: ...</h3>
+ * <h2>10. Self Assessment</h2> 4
  *
  * @author Eduardo Marques
  */

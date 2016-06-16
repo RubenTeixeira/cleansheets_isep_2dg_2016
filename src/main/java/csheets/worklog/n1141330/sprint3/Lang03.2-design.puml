@@ -1,16 +1,20 @@
 @startuml doc-files/lang03.2-design.png
 User -> ConditionalFormattingUI: Initiate the process of conditional formatting
-User -> ConditionalFormattingUI: Introduce the value and select the cells.
-ConditionalFormattingUI -> ConditionalFormattingController:content
-ConditionalFormattingController -> Cell:setContents(contents)
-Cell -> Value:getValue()
-Value -> Value:toBoolean()
-User -> ConditionalFormattingUI: Introduce cell formattting style
-ConditionalFormattingUI -> ConditionalFormattingController:change formatting style
-create Workbook
+User -> ConditionalFormattingUI: Introduce the value.
+User -> ConditionalFormattingUI: Introduce the font.
+User -> ConditionalFormattingUI: Introduce the foreground.
+User -> ConditionalFormattingUI: Introduce the background.
+User -> ConditionalFormattingUI: Introduce the border.
+User -> ConditionalFormattingUI: Introduce the horizental align.
+User -> ConditionalFormattingUI: Introduce the vertical align.
+ConditionalFormattingUI -> ConditionalFormattingController:createStyableCells(cell)
 ConditionalFormattingController -> Workbook:new()
 ConditionalFormattingController -> Workbook:getSpreadsheet()
 Workbook -> Spreadsheet:getExtension(extensionName)
 Spreadsheet -> ConditionalFormattingController:stylableCell
-ConditionalFormattingController -> StylableCell:apply(stylableCell)
+ConditionalFormattingUI -> ConditionalFormattingController:content
+ConditionalFormattingController -> Cell:setContents(contents)
+Cell -> Value:getValue()
+Value -> Value:toBoolean()
+ConditionalFormattingController -> StylableCell:apply(expression,trueStyle,falseStyle)
 @enduml
