@@ -12,14 +12,10 @@ import csheets.notification.Notification;
 import csheets.ui.DefaulListModel;
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import org.eclipse.persistence.internal.oxm.conversion.Base64;
@@ -30,103 +26,103 @@ import org.eclipse.persistence.internal.oxm.conversion.Base64;
  */
 public class ChatUI extends javax.swing.JFrame implements Observer {
 
-    private ProfileUI profile;
+	private ProfileUI profile;
 
-    private ChatUser theUser;
+	private ChatUser theUser;
 
-    private static ChatUI atualInstance = null;
+	private static ChatUI atualInstance = null;
 
-    private static final int defaultSeconds = 5;
+	private static final int defaultSeconds = 5;
 
-    private ChatUserCard seletectUser;
+	private ChatUserCard seletectUser;
 
-    /**
-     * Chat app controller
-     */
-    private ChatAppController chatAppController;
+	/**
+	 * Chat app controller
+	 */
+	private ChatAppController chatAppController;
 
-    /**
-     * Default receive list
-     */
-    private DefaultListModel receiveListModel;
+	/**
+	 * Default receive list
+	 */
+	private DefaultListModel receiveListModel;
 
-    /**
-     * Received elements.
-     */
-    private Map<String, ChatUser> hosts;
+	/**
+	 * Received elements.
+	 */
+	private Map<String, ChatUser> hosts;
 
-    /**
-     * Message to send
-     */
-    private String message;
+	/**
+	 * Message to send
+	 */
+	private String message;
 
-    /**
-     * Hostname
-     */
-    private String host;
+	/**
+	 * Hostname
+	 */
+	private String host;
 
-    /**
-     * Ip of destination
-     */
-    private String ipDestino;
+	/**
+	 * Ip of destination
+	 */
+	private String ipDestino;
 
-    /**
-     *
-     * @param uiController User interface controller
-     * @param chatAppController chat app controller
-     */
-    private ChatUI(ChatAppController chatAppController) {
+	/**
+	 *
+	 * @param uiController User interface controller
+	 * @param chatAppController chat app controller
+	 */
+	private ChatUI(ChatAppController chatAppController) {
 
-        this.seletectUser = null;
+		this.seletectUser = null;
 
-        // Check if the current user has already a chat profile persisted
-        // If not, a window is prompted asking for the profile creation.
-        if (!chatAppController.isCurrentUserDefined()) {
-            new CreateChatUserProfileUI(this, chatAppController);
-        }
+		// Check if the current user has already a chat profile persisted
+		// If not, a window is prompted asking for the profile creation.
+		if (!chatAppController.isCurrentUserDefined()) {
+			new CreateChatUserProfileUI(this, chatAppController);
+		}
 
-        // Get the current chat user
-        theUser = chatAppController.systemChatUser();
+		// Get the current chat user
+		theUser = chatAppController.systemChatUser();
 
-        // If not created, the window is closed. If yes, continues.
-        if (theUser != null) {
-            chatAppController.startUdpService(defaultSeconds, theUser);
-            this.chatAppController = chatAppController;
-            Notification.chatMessageInformer().addObserver(this);
+		// If not created, the window is closed. If yes, continues.
+		if (theUser != null) {
+			chatAppController.startUdpService(defaultSeconds, theUser);
+			this.chatAppController = chatAppController;
+			Notification.chatMessageInformer().addObserver(this);
 
-            this.chatAppController.startTcpService();
+			this.chatAppController.startTcpService();
 
-            this.setTitle("Chat");
+			this.setTitle("Chat");
 
-            receiveListModel = new DefaulListModel();
-            hosts = new LinkedHashMap<>();
+			receiveListModel = new DefaulListModel();
+			hosts = new LinkedHashMap<>();
 
-            initComponents();
-            this.setLocationRelativeTo(null);
-            messagesList.setModel(receiveListModel);
+			initComponents();
+			this.setLocationRelativeTo(null);
+			messagesList.setModel(receiveListModel);
 
-            addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                    atualInstance = null;
-                    chatAppController.stop();
-                    dispose();
-                }
+			addWindowListener(new java.awt.event.WindowAdapter() {
+				@Override
+				public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+					atualInstance = null;
+					chatAppController.stop();
+					dispose();
+				}
 
-            });
-            this.setVisible(true);
-        } else {
-            dispose();
-        }
+			});
+			this.setVisible(true);
+		} else {
+			dispose();
+		}
 
-    }
+	}
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -221,49 +217,46 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendActionPerformed
-        sendMessage();
+		sendMessage();
     }//GEN-LAST:event_btnSendActionPerformed
 
-    private void sendMessage() {
-        message = txtMessage.getText();
-        if (message.length() <= 0) {
-            return;
-        }
-        if (this.seletectUser != null) {
-            host = seletectUser.nickname();
+	private void sendMessage() {
+		message = txtMessage.getText();
+		if (message.length() <= 0) {
+			return;
+		}
+		if (this.seletectUser != null) {
+			host = seletectUser.nickname();
 
-            for (String hostIP : hosts.keySet()) {
-                if (hosts.get(hostIP).nickname().equals(host)) {
-                    ipDestino = hostIP;
-                    break;
-                }
-            }
+			for (String hostIP : hosts.keySet()) {
+				if (hosts.get(hostIP).nickname().equals(host)) {
+					ipDestino = hostIP;
+					break;
+				}
+			}
 
-            try {
-                receiveListModel.
-                        addElement(InetAddress.getLocalHost().getHostName() + ": " + message);
-            } catch (UnknownHostException ex) {
-                Logger.getLogger(ChatUI.class.getName()).
-                        log(Level.SEVERE, null, ex);
-            }
-            chatAppController.sendMessage(host, ipDestino, message);
-            txtMessage.setText("");
-        }
-    }
+			receiveListModel.
+				addElement(theUser.nickname() + ": " + message);
+
+			chatAppController.
+				sendMessage(theUser.nickname(), ipDestino, message);
+			txtMessage.setText("");
+		}
+	}
 
     private void txtMessageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMessageKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            sendMessage();
-        }
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			sendMessage();
+		}
     }//GEN-LAST:event_txtMessageKeyPressed
 
     private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
-        profile = new ProfileUI(this, theUser);
-        profile.run();
+		profile = new ProfileUI(this, theUser);
+		profile.run();
     }//GEN-LAST:event_jButton1MouseEntered
 
     private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
-        profile.setVisible(false);
+		profile.setVisible(false);
     }//GEN-LAST:event_jButton1MouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -277,100 +270,100 @@ public class ChatUI extends javax.swing.JFrame implements Observer {
     private javax.swing.JPanel usersPanel;
     // End of variables declaration//GEN-END:variables
 
-    private void updateInstanceState(Map<String, String> state) {
-        if (hosts.containsKey(state.get("requester"))) {
-            for (Component card : usersPanel.getComponents()) {
-                ChatUserCard tmpCard = ((ChatUserCard) card);
-                if (tmpCard.nickname().equals(hosts.get(state.get("requester")).
-                        nickname())) {
-                    tmpCard.changeState(false);
-                }
-            }
-        }
-    }
+	private void updateInstanceState(Map<String, String> state) {
+		if (hosts.containsKey(state.get("requester"))) {
+			for (Component card : usersPanel.getComponents()) {
+				ChatUserCard tmpCard = ((ChatUserCard) card);
+				if (tmpCard.nickname().equals(hosts.get(state.get("requester")).
+					nickname())) {
+					tmpCard.changeState(false);
+				}
+			}
+		}
+	}
 
-    public void updateInstanceList(Map<String, String> hostMap) {
+	public void updateInstanceList(Map<String, String> hostMap) {
 
-        String fromIP = hostMap.get("ip") + ":" + hostMap.get("port");
+		String fromIP = hostMap.get("ip") + ":" + hostMap.get("port");
 
-        if (hosts.containsKey(fromIP)) {
-            for (Component card : usersPanel.getComponents()) {
-                ChatUserCard tmpCard = ((ChatUserCard) card);
-                if (tmpCard.nickname().equals(hostMap.get("nickname"))) {
-                    tmpCard.changeState(true);
-                }
-            }
+		if (hosts.containsKey(fromIP)) {
+			for (Component card : usersPanel.getComponents()) {
+				ChatUserCard tmpCard = ((ChatUserCard) card);
+				if (tmpCard.nickname().equals(hostMap.get("nickname"))) {
+					tmpCard.changeState(true);
+				}
+			}
 
-        } else {
-            ChatUser tmp;
-            tmp = new ChatUser(hostMap.get("nickname"), Base64.
-                    base64Decode(hostMap.
-                            get("icon").getBytes()));
+		} else {
+			ChatUser tmp;
+			tmp = new ChatUser(hostMap.get("nickname"), Base64.
+							   base64Decode(hostMap.
+								   get("icon").getBytes()));
 
-            hosts.put(fromIP, tmp);
-            usersPanel.add(new ChatUserCard(tmp, this));
-            GridLayout layout = (GridLayout) this.usersPanel.
-                    getLayout();
-            layout.setRows(layout.getRows() + 1);
+			hosts.put(fromIP, tmp);
+			usersPanel.add(new ChatUserCard(tmp, this));
+			GridLayout layout = (GridLayout) this.usersPanel.
+				getLayout();
+			layout.setRows(layout.getRows() + 1);
 
-        }
+		}
 
-        usersPanel.revalidate();
-        usersPanel.repaint();
+		usersPanel.revalidate();
+		usersPanel.repaint();
 
-    }
+	}
 
-    public void updateReceiveList(Map<String, String> mapMessages) {
+	public void updateReceiveList(Map<String, String> mapMessages) {
 
-        //Adicionar mensagem à história de um user.
-        int size = mapMessages.size() - 1;
-        String message = "";
-        message = mapMessages.get("hostname") + ": " + mapMessages.
-                get("message");
+		//Adicionar mensagem à história de um user.
+		int size = mapMessages.size() - 1;
+		String message = "";
+		message = mapMessages.get("hostname") + ": " + mapMessages.
+			get("message");
 
-        receiveListModel.addElement(message);
-        messagesList.setModel(receiveListModel);
-        repaint();
-    }
+		receiveListModel.addElement(message);
+		messagesList.setModel(receiveListModel);
+		repaint();
+	}
 
-    @Override
-    public void update(Observable o, Object arg) {
-        Map<String, String> hostdata = new LinkedHashMap((Map) arg);
-        if ((hostdata).get("reference").equals("hosts")) {
-            (hostdata).remove("reference");
-            updateInstanceList(hostdata);
-        }
-        Map<String, String> message = new LinkedHashMap((Map) arg);
-        if ((message).get("reference").equals("chatMessage")) {
-            (message).remove("reference");
-            updateReceiveList(message);
-        }
-        Map<String, String> state = new LinkedHashMap((Map) arg);
-        if ((state).get("reference").equals("state")) {
-            (state).remove("reference");
-            updateInstanceState(state);
-        }
+	@Override
+	public void update(Observable o, Object arg) {
+		Map<String, String> hostdata = new LinkedHashMap((Map) arg);
+		if ((hostdata).get("reference").equals("hosts")) {
+			(hostdata).remove("reference");
+			updateInstanceList(hostdata);
+		}
+		Map<String, String> message = new LinkedHashMap((Map) arg);
+		if ((message).get("reference").equals("chatMessage")) {
+			(message).remove("reference");
+			updateReceiveList(message);
+		}
+		Map<String, String> state = new LinkedHashMap((Map) arg);
+		if ((state).get("reference").equals("state")) {
+			(state).remove("reference");
+			updateInstanceState(state);
+		}
 
-    }
+	}
 
-    public static ChatUI instance(ChatAppController chatAppController) {
+	public static ChatUI instance(ChatAppController chatAppController) {
 
-        if (ChatUI.atualInstance == null) {
-            ChatUI.atualInstance = new ChatUI(chatAppController);
-        } else {
-            ChatUI.atualInstance.toFront();
-        }
-        return ChatUI.atualInstance;
-    }
+		if (ChatUI.atualInstance == null) {
+			ChatUI.atualInstance = new ChatUI(chatAppController);
+		} else {
+			ChatUI.atualInstance.toFront();
+		}
+		return ChatUI.atualInstance;
+	}
 
-    public void updateSelectedPanel(ChatUserCard aThis) {
-        this.seletectUser = aThis;
-        for (Component panel : this.usersPanel.getComponents()) {
-            if (!((ChatUserCard) panel).equals(this.seletectUser)) {
-                ((ChatUserCard) panel).setBorder(new JPanel().getBorder());
-            }
-        }
-        this.usersPanel.revalidate();
-        this.usersPanel.repaint();
-    }
+	public void updateSelectedPanel(ChatUserCard aThis) {
+		this.seletectUser = aThis;
+		for (Component panel : this.usersPanel.getComponents()) {
+			if (!((ChatUserCard) panel).equals(this.seletectUser)) {
+				((ChatUserCard) panel).setBorder(new JPanel().getBorder());
+			}
+		}
+		this.usersPanel.revalidate();
+		this.usersPanel.repaint();
+	}
 }

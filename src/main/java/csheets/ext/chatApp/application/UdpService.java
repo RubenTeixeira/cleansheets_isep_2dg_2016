@@ -26,8 +26,8 @@ public class UdpService {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
-         * @param chatUserNickname Username
-         * @param chatUserIcon User icon
+	 * @param chatUserNickname Username
+	 * @param chatUserIcon User icon
 	 */
 	public void server(String chatUserNickname, String chatUserIcon) {
 		ThreadManager.create("ipc.chat-udpServer", new Thread() {

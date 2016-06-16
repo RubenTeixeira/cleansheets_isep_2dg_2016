@@ -5,10 +5,13 @@
  */
 package csheets.ext.chatApp.ui;
 
+import csheets.domain.ChatMessage;
+import csheets.domain.ChatMessage.MessageType;
 import csheets.ext.chatApp.ChatAppExtension;
 import csheets.ext.chatApp.application.ChatAppController;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -50,6 +53,20 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		initComponents();
 		this.root = (DefaultMutableTreeNode) MessagesTree.getModel().getRoot();
 		Notification.chatMessageInformer().addObserver(this);
+		loadHistory();
+	}
+
+	private void loadHistory() {
+		ArrayList<ChatMessage> history = this.chatAppController.
+			chatUserHistory();
+		for (ChatMessage msg : history) {
+			if (msg.type() == MessageType.RECEIVED) {
+				receivedMessage(msg.nickname(), msg.text());
+			} else if (msg.type() == MessageType.SENT) {
+				sendMessage(msg.nickname(), msg.text());
+			}
+		}
+		refreshUI();
 	}
 
 	public synchronized void inserirHost(String chatUser, String message) {
@@ -94,38 +111,41 @@ public class ChatApplicationPanel extends javax.swing.JPanel implements Observer
 		}
 	}
 
-	private synchronized void receivedMessage(Map messageData) {
-		((Map) messageData).remove("reference");
-		String message = (String) ((Map) messageData).get("message");
-		String hostname = (String) ((Map) messageData).get("hostname");
-		String fromIP = ((String) ((Map) messageData).get("from")).
-			split(":")[0];
-		String chatMessage = "Received from " + fromIP + ": " + message;
+	private synchronized void receivedMessage(String from, String msg) {
+		String chatMessage = "Received from " + from + ": " + msg;
 		new TimedPopupMessageDialog(null, chatMessage);
 
-		inserirHost(fromIP, chatMessage);
+		inserirHost(from, chatMessage);
 	}
 
-	private synchronized void sendMessage(Map sendData) {
-		((Map) sendData).remove("reference");
-		String localHost = (String) ((Map) sendData).get("hostname");
-		String sendMessage = (String) ((Map) sendData).get("message");
-		//String target = (String) ((Map) sendData).get("target");
-		String chatMessage = "Sended to " + localHost + ": " + sendMessage;
+	private synchronized void sendMessage(String host, String msg) {
 
-		inserirHost(localHost, chatMessage);
+		String chatMessage = "Sended to " + host + ": " + msg;
+		inserirHost(host, chatMessage);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		Map messageData = new LinkedHashMap((Map) arg);
 		if (((Map) messageData).get("reference").equals("chatMessage")) {
-			receivedMessage(messageData);
+			((Map) messageData).remove("reference");
+			String message = (String) ((Map) messageData).get("message");
+			String fromIP = ((String) ((Map) messageData).get("from")).
+				split(":")[0];
+			receivedMessage(message, fromIP);
+			this.chatAppController.
+				addMessage(message, fromIP, MessageType.RECEIVED);
 		}
 		Map sendData = new LinkedHashMap((Map) arg);
 		if (((Map) sendData).get("reference").equals("sendMessage")) {
-			sendMessage(sendData);
+			((Map) sendData).remove("reference");
+			String nickname = (String) ((Map) sendData).get("nickname");
+			String sendMessage = (String) ((Map) sendData).get("message");
+			sendMessage(nickname, sendMessage);
+			this.chatAppController.
+				addMessage(sendMessage, nickname, MessageType.SENT);
 		}
+
 		refreshUI();
 	}
 

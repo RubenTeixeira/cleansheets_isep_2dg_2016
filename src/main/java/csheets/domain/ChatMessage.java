@@ -16,6 +16,9 @@ import javax.persistence.GeneratedValue;
 @Embeddable
 public class ChatMessage implements Serializable {
 
+	public enum MessageType {
+		RECEIVED, SENT
+	}
 	private String otherUserNickname;
 
 	private String messageText;
@@ -23,12 +26,27 @@ public class ChatMessage implements Serializable {
 	@GeneratedValue
 	private int messageIndex;
 
+	private MessageType type;
+
 	protected ChatMessage() {
 
 	}
 
-	public ChatMessage(String nickname, String text) {
+	public ChatMessage(String nickname, String text, MessageType type) {
 		this.otherUserNickname = nickname;
 		this.messageText = text;
+		this.type = type;
+	}
+
+	public String nickname() {
+		return this.otherUserNickname;
+	}
+
+	public String text() {
+		return this.messageText;
+	}
+
+	public MessageType type() {
+		return this.type;
 	}
 }
