@@ -26,9 +26,10 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
     public Iterable<List> listsByContact(Contact contact) {
         final Query query = entityManager().
                 createQuery("SELECT l FROM List l where l.contact.id = :contact "
-                        + "and l.version.deleted = false", List.class);
+                        + "and l.version.deleted = false "
+                        + "and l.version.lastVersion = l.versionNum",
+                        List.class);
         query.setParameter("contact", contact.id());
-        //query.setParameter("deleted", false);
         Iterable<List> tmp = query.getResultList();
         return tmp;
     }
@@ -36,7 +37,8 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
     @Override
     public Iterable<List> listVersions(List list) {
         final Query query = entityManager().
-                createQuery("SELECT l FROM List l where l.version.id = :version", List.class);
+                createQuery("SELECT l FROM List l where l.version.id = :version",
+                        List.class);
         query.setParameter("version", list.version().id());
         Iterable<List> tmp = query.getResultList();
         return tmp;

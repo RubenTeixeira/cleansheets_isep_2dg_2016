@@ -110,6 +110,11 @@ public class HistoryPanelSingle extends javax.swing.JPanel implements Observer {
 		if (this.comment != null) {
 			this.jLabelAuthor.setText(this.comment.userName());
 			this.jTextAreaContent.setText(this.comment.text());
+			this.jTextAreaContent.setFont(this.comment.getFont());
+			this.jTextAreaContent.setBackground(this.comment.
+				getBackgroundColor());
+			this.jTextAreaContent.setBorder(this.comment.getBorder());
+			repaint();
 		}
 	}
 

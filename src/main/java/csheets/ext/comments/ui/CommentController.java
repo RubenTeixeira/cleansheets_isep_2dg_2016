@@ -1,5 +1,6 @@
 package csheets.ext.comments.ui;
 
+import csheets.core.Cell;
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.style.ui.BorderChooser;
@@ -8,6 +9,7 @@ import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JColorChooser;
 import javax.swing.border.Border;
@@ -25,6 +27,8 @@ public class CommentController {
 	 */
 	private final UIController uiController;
 
+	private Cell cell;
+
 	/**
 	 * Creates a new comment controller.
 	 *
@@ -32,6 +36,11 @@ public class CommentController {
 	 */
 	public CommentController(UIController uiController) {
 		this.uiController = uiController;
+	}
+
+	public CommentController(UIController uiController, Cell cell) {
+		this.uiController = uiController;
+		this.cell = cell;
 	}
 
 	/**
@@ -43,14 +52,33 @@ public class CommentController {
 	 * @param commentString the comment, as entered by the user
 	 * @return true if the cell's comment was changed
 	 */
+	public boolean addComment(CommentableCell cell, String commentString,
+							  Font font,
+							  Color bgColor, Border border)
+		throws IllegalArgumentException {
+
+		String userName = System.getProperty("user.name");
+		// Stores the comment
+		cell.addComment(userName, commentString, font, bgColor, border);
+		if (uiController != null) {
+			uiController.
+				setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		}
+		Notification.commentInformer().notifyChange();
+		return true;
+	}
+
 	public boolean addComment(CommentableCell cell, String commentString)
 		throws IllegalArgumentException {
 
 		String userName = System.getProperty("user.name");
 		// Stores the comment
 		cell.addComment(userName, commentString);
-		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
-		Notification.commentInformer().notifyChange();
+		if (uiController != null) {
+			uiController.
+				setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		}
+		Notification.commentInformer().notifyChange(cell);
 		return true;
 	}
 
@@ -68,6 +96,9 @@ public class CommentController {
 //		}
 //	}
 	public List<Comment> getCommentList(CommentableCell cell) {
+		if (cell == null) {
+			return new ArrayList();
+		}
 		return cell.getCommentsList();
 	}
 
@@ -85,6 +116,7 @@ public class CommentController {
 
 		if (font != null) {
 			comment.setFont(font);
+			Notification.commentInformer().notifyChange(comment);
 		}
 	}
 
@@ -102,6 +134,7 @@ public class CommentController {
 
 		if (color != null) {
 			comment.setBackgroundColor(color);
+			Notification.commentInformer().notifyChange(comment);
 		}
 	}
 
@@ -119,16 +152,22 @@ public class CommentController {
 
 		if (border != null) {
 			comment.setBorder(border);
+			Notification.commentInformer().notifyChange(comment);
 		}
 	}
 
 	public void changeText(Comment comment) {
-		new CommentEditUI(uiController, comment).setVisible(true);
+		if (cell == null) {
+			new CommentEditUI(uiController, comment).setVisible(true);
+		} else {
+			new CommentEditUI(uiController, comment, false, cell).
+				setVisible(true);
+		}
 	}
 
 	public void apply(Comment origin, Comment newComment) {
 		origin.setComment(newComment);
-		Notification.commentInformer().notifyChange();
+		Notification.commentInformer().notifyChange(origin);
 	}
 
 }

@@ -15,6 +15,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.mail.SendFailedException;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -40,13 +41,14 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 	public EmailTestDialog(java.awt.Frame parent, boolean modal,
 						   EmailController controller, UIController uiController,
 						   Email mail) {
+		super(parent, modal);
+
 		initComponents();
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.
 			setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.
 						getSize().height / 2);
 
-		this.setModal(false);
 		this.controller = controller;
 		this.uiController = uiController;
 		this.mail = mail;
@@ -202,23 +204,19 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeDestinationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeDestinationButtonActionPerformed
-		this.setModal(false);
 		this.setVisible(false);
     }//GEN-LAST:event_changeDestinationButtonActionPerformed
 
     private void changeSubjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSubjectButtonActionPerformed
-		this.setModal(false);
 		this.setVisible(false);
     }//GEN-LAST:event_changeSubjectButtonActionPerformed
 
     private void changeBodyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeBodyButtonActionPerformed
-		this.setModal(false);
 		this.setVisible(false);
     }//GEN-LAST:event_changeBodyButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-		super.setModal(false);
 		SendingEmailPanel sendingEmailPanel = new SendingEmailPanel();
 		sendingEmailPanel.setVisible(true);
 		try {
@@ -227,17 +225,21 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
 			sendingEmailPanel.setVisible(false);
-			uiController.removeSelectionListener(EmailTestDialog.this);
-			dispose();
 			JOptionPane.
-				showMessageDialog(null, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
+				showMessageDialog(this, "Message sent successfully!!!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-		} catch (Exception ex) {
-			super.setModal(true);
+		} catch (SendFailedException ex) {
 			sendingEmailPanel.setVisible(false);
 			JOptionPane.
-				showMessageDialog(null, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
+				showMessageDialog(this, "Invalid Address!!!", "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (Exception ex) {
+			sendingEmailPanel.setVisible(false);
+			JOptionPane.
+				showMessageDialog(this, "There's been an error!!!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+
+		uiController.removeSelectionListener(EmailTestDialog.this);
+		dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 	/**
@@ -307,7 +309,6 @@ public class EmailTestDialog extends javax.swing.JDialog implements SelectionLis
 		Cell cell = event.getCell();
 		if (event.isCellChanged()) {
 			this.setVisible(true);
-			this.setModal(true);
 			if (this.changeDestinationButton.isSelected()) {
 				this.changeDestinationButton.setSelected(false);
 				this.destinationCellText.setText(cell.getContent());

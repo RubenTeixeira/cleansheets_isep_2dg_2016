@@ -11,7 +11,7 @@
  *
  * -Notes about the week's work.-
  * <p>
- * - notas se existiu ajuda aos colegas -
+ * - Problem discussion with Marcelo - Analysis and Design.
  *
  * <h2>2. Use Case/Feature: Core06.2Forms and variables</h2>
  *
@@ -66,22 +66,12 @@
  * <h3>First "analysis" sequence diagram</h3>
  * <img src="doc-files/forms_editor_analysis" alt="SD">
  *
- *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
- * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ *
+ * It is not possible to test this feature because this is essentially/totally
+ * UI. UI does not have tests.
  *
  * <h3>5.2. UC Realization</h3>
  * <img src="doc-files/forms_editor_2_design.png" alt="image">
@@ -106,18 +96,12 @@
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * Nothing.
  *
  * <h2>8. Final Remarks</h2>
  *
  * The number of supported widget will increase. It is necessary to offer more
  * options widget options to the form (or this 3 types are enough?)
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
  *
  * <h2>9. Work Log</h2>
  *

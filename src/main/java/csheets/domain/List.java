@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,23 +19,29 @@ import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 /**
- *
+ * List implements the Notation. List is where the user can set a List with Title
+ * and note lines. Each of this note lines has associated a boolean that can be
+ * checked or not depending on the use of the List.
+ * @see Notation
  * @author Rui Bento
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"CONTACT","TITLE"})})
+    @UniqueConstraint(columnNames = {"CONTACT_ID", "TITLE", "VERSIONNUM"})})
 public class List implements Notation<List>, Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private Version version;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private VersionControl version;
 
     private String title;
+
+    //@ElementCollection
     private java.util.List<ListLine> lines;
+
     private int versionNum;
 
     @ManyToOne
@@ -54,37 +61,40 @@ public class List implements Notation<List>, Serializable {
         }
         this.contact = contact;
         this.time = Calendar.getInstance();
-        this.version = new Version();
+        this.version = new VersionControl();
         this.versionNum = version.addVersion();
     }
 
-    protected List(String title, String text, Contact contact, Version version) {
+    public List(String title, String text, Contact contact, VersionControl version) {
         this(title, text, contact);
         this.version = version;
         this.versionNum = version.addVersion();
     }
-    
-    public Version version() {
+
+    public VersionControl version() {
         return version;
     }
 
+    @Override
     public String getTitle() {
         return title;
     }
-    
+
+    @Override
     public String getText() {
         String text = "";
         for (ListLine line : lines) {
-            text += line.getText()+"\n";
+            text += line.getText() + "\n";
         }
         // to remove last "\n"
-        return text.substring(0, text.length()-2);
+        return text.substring(0, text.length() - 1);
     }
 
     public java.util.List<ListLine> getLines() {
         return lines;
     }
 
+    @Override
     public Contact getContact() {
         return contact;
     }
@@ -104,27 +114,37 @@ public class List implements Notation<List>, Serializable {
         }
     }
 
+    @Override
     public int getVersionNumber() {
         return this.versionNum;
     }
 
+    @Override
     public Calendar getTimeCreated() {
         return time;
     }
 
+    @Override
     public List newVersion(String title, String text) {
         List newList = new List(title, text, this.contact, this.version);
         return newList;
     }
-    
+
+    @Override
     public boolean isDeleted() {
         return this.version.isDeleted();
     }
 
+    @Override
     public void delete() {
         this.version.delete();
     }
     
+    @Override
+    public boolean isLatestVersion() {
+        return version.isLastVersion(versionNum);
+    }
+
     @Override
     public boolean sameNotation(List l) {
         return l.version().equals(this.version);
@@ -133,5 +153,41 @@ public class List implements Notation<List>, Serializable {
     @Override
     public String toString() {
         return title;
+    }
+
+    @Embeddable
+    public class ListLine implements Comparable<String>, Serializable {
+
+        private boolean check;
+        private String text;
+
+        protected ListLine() {
+        }
+
+        protected ListLine(String text) {
+            this.text = text;
+            this.check = false;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        public boolean getCheck() {
+            return check;
+        }
+
+        protected void check() {
+            check = true;
+        }
+
+        protected void uncheck() {
+            check = false;
+        }
+
+        @Override
+        public int compareTo(String text) {
+            return this.text.compareTo(text);
+        }
     }
 }

@@ -30,7 +30,8 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
         java.util.List<List> lists = new ArrayList<>();
         for (List l : this.all()) {
             if (l.getContact().equals(contact)
-                    && !l.isDeleted()) {
+                    && !l.isDeleted()
+                    && l.isLatestVersion()) {
                 lists.add(l);
             }
         }

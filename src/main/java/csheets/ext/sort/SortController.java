@@ -109,19 +109,6 @@ public class SortController {
     }
     
     /**
-     * Gets the available sort types.
-     * 
-     * @return Sort Types.
-     */
-    public String[] getSortTypes() {
-        return new String[] {
-            "Text",
-            "Numeric",
-            "Date",
-        };
-    }
-    
-    /**
      * Sorts the given cells in ascending or descending order based on their value type.
      * 
      * @param cells Cells to be sorted.
@@ -130,6 +117,14 @@ public class SortController {
      * @return Sorted cells.
      */
     public Cell[][] sortRangeOfCells(Cell[][] cells, int column, boolean order) {
+        if (cells == null) {
+            throw new IllegalArgumentException("The selected cells cannot be set to null.");
+        }
+        
+        if (column < 0) {
+            throw new IllegalArgumentException("A column can not have an index below 0.");
+        }
+        
         // If there is only one column with just one line, we don't have
         // anything to sort.
         if (cells.length == 1) {
@@ -142,10 +137,6 @@ public class SortController {
         // we don't have anything to sort.
         if (cells[0].length == 1) {
             return cells;
-        }
-        
-        if (column < 0) {
-            throw new IllegalArgumentException("A column can not have an index below 0.");
         }
         
         return new SortService().sortRangeOfCells(cells, column, order);

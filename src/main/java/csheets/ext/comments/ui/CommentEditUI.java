@@ -5,6 +5,7 @@
  */
 package csheets.ext.comments.ui;
 
+import csheets.core.Cell;
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
@@ -26,6 +27,8 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 	private Comment comment;
 
 	private Comment commentOrigin;
+
+	private Cell cell;
 
 	private boolean newComment = false;
 
@@ -56,9 +59,20 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 		this.newComment = newComment;
 	}
 
+	public CommentEditUI(UIController uiController, Comment comment,
+						 boolean newComment, Cell cell) {
+		this(uiController, comment);
+		this.cell = cell;
+		this.newComment = newComment;
+	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		this.jTextAreaText.setText(comment.text());
+		this.jTextAreaText.setFont(this.comment.getFont());
+		this.jTextAreaText.setBackground(this.comment.getBackgroundColor());
+		this.jTextAreaText.setBorder(this.comment.getBorder());
+		repaint();
 	}
 
 	/**
@@ -192,13 +206,21 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 
     private void applyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applyButtonActionPerformed
 		if (this.newComment) {
-			String comment = jTextAreaText.getText().trim();
-			if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
+			String content = jTextAreaText.getText().trim();
+			if (!content.isEmpty() && !"".equalsIgnoreCase(content)) {
 				try {
-					CommentableCell activeCell = (CommentableCell) uiController.
-						getActiveCell().
-						getExtension(CommentsExtension.NAME);
-					commentController.addComment(activeCell, comment);
+					CommentableCell activeCell;
+					if (uiController != null) {
+						activeCell = (CommentableCell) uiController.
+							getActiveCell().getExtension(CommentsExtension.NAME);
+					} else {
+						activeCell = (CommentableCell) cell.
+							getExtension(CommentsExtension.NAME);
+					}
+					commentController.
+						addComment(activeCell, content, this.comment.getFont(), this.comment.
+								   getBackgroundColor(), this.comment.
+								   getBorder());
 				} catch (Exception ex) {
 					System.out.println("ERRO ----> " + ex);
 					// nothing to do here yet
