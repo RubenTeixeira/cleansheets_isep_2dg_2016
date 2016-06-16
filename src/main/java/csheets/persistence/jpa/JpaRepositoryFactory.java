@@ -1,7 +1,7 @@
 package csheets.persistence.jpa;
 
-import csheets.persistence.ChatUserRepository;
 import csheets.persistence.CalendarRepository;
+import csheets.persistence.ChatUserRepository;
 import csheets.persistence.ContactRepository;
 import csheets.persistence.EventRepository;
 import csheets.persistence.ListRepository;
@@ -48,10 +48,6 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public ChatUserRepository chatUsers() {
 		return new JpaChatUserRepository();
-	}
-	@Override
-	public ListRepository lists() {
-		return new JpaListRepository();
 	}
 
 	@Override
