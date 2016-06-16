@@ -195,6 +195,25 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   stopGame();
 											   }
 										   });
+								 server.expect(":game-draw", new Action() {
+											   @Override
+											   public void run(Request request) {
+												   String cellString = request.
+													   message();
+												   String params[] = cellString.
+													   split(";");
+												   int column = Integer.
+													   parseInt(params[0]);
+												   int row = Integer.
+													   parseInt(params[1]);
+												   String content = params[2];
+												   tictactoe.
+													   play(column - 1, row - 1, content);
+												   repaintBoard();
+												   diplayDraw();
+												   stopGame();
+											   }
+										   });
 
 							 }
 						 });
@@ -219,6 +238,20 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	/**
 	 * Stops all the TCP services.
 	 */
+	public boolean draw(int row, int column, String content) {
+		if (!tictactoe.isDraw()) {
+			return false;
+		}
+		String message = column + ";" + row + ";" + content;
+		new TcpClient(0).send(":game-draw", connection, message);
+		diplayDraw();
+		stopGame();
+		return true;
+	}
+
+	/**
+	 * Stops all the TCP services.
+	 */
 	public void stopThis() {
 		server.shutdown();
 		ThreadManager.destroy("ipc.tictactoe-tcpServer");
@@ -232,6 +265,10 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	private void diplayVictory() {
 		JOptionPane.showMessageDialog(null, "Ganhaste");
+	}
+
+	private void diplayDraw() {
+		JOptionPane.showMessageDialog(null, "Empate!");
 	}
 
 	private boolean validate() {
@@ -265,6 +302,9 @@ public class TicTacToeController implements CellListener, SpecificGameController
 				String message = column + ";" + row + ";" + cell.getContent();
 				tictactoe.play(column - 1, row - 1, cell.getContent());
 				if (winningPlay(column, row, cell.getContent())) {
+					return;
+				}
+				if (draw(column, row, cell.getContent())) {
 					return;
 				}
 				new TcpClient(0).send(":game-play", connection, message);
