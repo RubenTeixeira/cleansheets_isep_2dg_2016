@@ -7,7 +7,15 @@ package csheets.ext.conditionalFormatting.ui;
 
 import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
+import csheets.core.Spreadsheet;
+import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ext.comments.Comment;
+import csheets.ext.comments.CommentableCell;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
+import csheets.ui.ctrl.UIController;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -26,6 +34,21 @@ public class ConditionalFormattingControllerTest {
 
 	private Cell cell;
 	private ConditionalFormattingController controller;
+	private UIController m_controller;
+	private boolean isNotified = false;
+	// create a workbook with 2 sheets
+	Workbook wb;
+	Spreadsheet s;
+	// get the first cell
+	Cell c;
+	Comment cmt;
+	Comment cmt2;
+
+	// activate the comments on the first cell
+	CommentableCell cc;
+	String username, comment;
+	String username2, comment2;
+	List<Comment> lstCmt;
 
 	public ConditionalFormattingControllerTest() {
 	}
@@ -40,9 +63,10 @@ public class ConditionalFormattingControllerTest {
 
 	@Before
 	public void setUp() {
-		controller = new ConditionalFormattingController(null);
-		cell = controller.createConditionalCell();
 
+		m_controller = UIController.getUIController();
+		controller = new ConditionalFormattingController(m_controller);
+		cell = controller.createConditionalCell();
 	}
 
 	@After
@@ -116,6 +140,35 @@ public class ConditionalFormattingControllerTest {
 				getLogger(ConditionalFormattingControllerTest.class.getName()).
 				log(Level.SEVERE, null, ex);
 		}
+	}
+
+	@Test
+	public void testCreateConditionalCell() {
+		System.out.println("createConditionalCell");
+		Workbook workbook = new Workbook(1);
+		Spreadsheet spreadsheet = workbook.getSpreadsheet(0);
+		Cell expResult = spreadsheet.
+			getCell(0, 0);
+		Cell result = controller.createConditionalCell();
+		assertEquals(expResult.getContent(), result.getContent());
+	}
+
+	/**
+	 * Test of createStylableCells method, of class
+	 * ConditionalFormattingController.
+	 */
+	@Test
+	public void testCreateStylableCells() {
+		System.out.println("createStylableCells");
+		int nr = 0;
+		Workbook workbook = new Workbook(1);
+		Spreadsheet spreadsheet = workbook.getSpreadsheet(0);
+
+		StylableCell cell = (StylableCell) spreadsheet.getCell(0, nr).
+			getExtension(
+				StyleExtension.NAME);
+		StylableCell result = controller.createStylableCells(nr);
+		assertEquals(cell.getAddress(), result.getAddress());
 	}
 
 }
