@@ -141,8 +141,6 @@ public class UdpService {
 								 TaskManager manager = new TaskManager();
 
 								 manager.after(1).fire(broadcast);
-								 manager.after(1).fire(broadcast);
-								 manager.after(1).fire(broadcast);
 							 }
 						 });
 
@@ -183,9 +181,13 @@ public class UdpService {
 	 * Stops all the UDP services.
 	 */
 	public void stop() {
-		ThreadManager.destroy("ipc.*");
-		this.server.shutdown();
+		server.neglect(":chat-port|:chat-nickname|:chat-icon");
+		server.neglect(":chatbroadcast");
+		server.neglect(":offline");
 
+		ThreadManager.destroy("ipc.chat-udpClient");
+		ThreadManager.destroy("ipc.chat-offline");
+		ThreadManager.destroy("ipc.chat-udpServer");
 	}
 
 }

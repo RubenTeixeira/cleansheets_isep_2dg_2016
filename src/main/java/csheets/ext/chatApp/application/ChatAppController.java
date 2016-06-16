@@ -111,7 +111,10 @@ public class ChatAppController {
 
 	public void stop() {
 		udpService.sendOfflineState();
+
 		udpService.stop();
+		tcpService.stop();
+
 	}
 
 	public ArrayList<ChatMessage> chatUserHistory() {
