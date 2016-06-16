@@ -20,7 +20,6 @@
  */
 package csheets.core;
 
-import csheets.ext.game.ui.TictactoeController;
 import csheets.ext.macro_beanshell.Code;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -107,8 +106,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 * Adds a blank Tictactoe spreadsheet to the end of the workbook.
 	 */
 	public void addTictactoeSpreadsheet() {
-		Spreadsheet spreadsheet = new SpreadsheetImpl(this,
-													  getNextTictactoeSpreadsheetTitle());
+		Spreadsheet spreadsheet = new SpreadsheetImpl(this, "TicTacToe");
 		spreadsheets.add(spreadsheet);
 		fireSpreadsheetInserted(spreadsheet, spreadsheets.size() - 1);
 	}
@@ -141,15 +139,6 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 */
 	private String getNextSpreadsheetTitle() {
 		return SpreadsheetImpl.BASE_TITLE + " " + (createdSpreadsheets++ + 1);
-	}
-
-	/**
-	 * Returns the title to be used for the next spreadsheet added.
-	 *
-	 * @return the title to be used for the next spreadsheet added
-	 */
-	private String getNextTictactoeSpreadsheetTitle() {
-		return TictactoeController.Name;
 	}
 
 	/**
