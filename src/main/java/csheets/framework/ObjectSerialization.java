@@ -27,6 +27,10 @@ public class ObjectSerialization {
 
 	/**
 	 * Read the object from Base64 string.
+         * @param s String
+         * @return Object
+         * @throws java.io.IOException exception
+         * @throws java.lang.ClassNotFoundException exception
 	 */
 	public static Object fromString(String s) throws IOException,
 		ClassNotFoundException {
@@ -40,6 +44,9 @@ public class ObjectSerialization {
 
 	/**
 	 * Write the object to a Base64 string.
+         * @param o Object
+         * @return String
+         * @throws java.io.IOException exception
 	 */
 	public static String toString(Serializable o) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();

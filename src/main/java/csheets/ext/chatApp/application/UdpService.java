@@ -26,6 +26,8 @@ public class UdpService {
 	/**
 	 * Initializes a server following the UDP protocol.
 	 *
+	 * @param chatUserNickname Username
+	 * @param chatUserIcon User icon
 	 */
 	public void server(String chatUserNickname, String chatUserIcon) {
 		ThreadManager.create("ipc.chat-udpServer", new Thread() {
@@ -120,7 +122,6 @@ public class UdpService {
 	/**
 	 * Creates a udp client to send a "offline" status.
 	 *
-	 * @param seconds Time in seconds to send another request.
 	 */
 	public void sendOfflineState() {
 		ThreadManager.create("ipc.chat-offline", new Thread() {

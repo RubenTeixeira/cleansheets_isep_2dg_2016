@@ -18,8 +18,8 @@ public interface TaskRepository extends Repository<Task, Long> {
 
 	/**
 	 *
-	 * @param contact
-	 * @return
+	 * @param contact Contact
+	 * @return List of Tasks
 	 */
 	public List<Task> task(Contact contact);
 }

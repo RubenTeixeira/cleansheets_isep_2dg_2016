@@ -5,10 +5,13 @@
  */
 package csheets.ext.chatApp.application;
 
+import csheets.domain.ChatMessage;
+import csheets.domain.ChatMessage.MessageType;
 import csheets.domain.ChatUser;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.eclipse.persistence.internal.oxm.conversion.Base64;
@@ -66,14 +69,16 @@ public class ChatAppController {
 		udpService.sendOfflineState();
 	}
 
-	public void sendMessage(String hostname, String target, String message) {
+	public void sendMessage(String nickname, String target, String message,
+							String targetNickname) {
 		Map<String, String> sendMessage = new LinkedHashMap<>();
 		sendMessage.put("reference", "sendMessage");
-		sendMessage.put("hostname", hostname);
+		sendMessage.put("nickname", nickname);
+		sendMessage.put("targetNickname", targetNickname);
 		sendMessage.put("message", message);
 		sendMessage.put("target", target);
 
-		new TcpService().client(target, message);
+		new TcpService().client(target, nickname + ";" + message);
 		Notification.chatMessageInformer().
 			notifyChange(sendMessage);
 	}
@@ -107,6 +112,23 @@ public class ChatAppController {
 	public void stop() {
 		udpService.sendOfflineState();
 		udpService.stop();
+	}
+
+	public ArrayList<ChatMessage> chatUserHistory() {
+		ChatUser tmp = systemChatUser();
+		if (tmp != null) {
+			return tmp.history();
+		} else {
+			return new ArrayList();
+		}
+	}
+
+	public void addMessage(String message, String fromIP, MessageType type) {
+		ChatUser tmp = systemChatUser();
+		if (tmp != null) {
+			tmp.newChatMessage(fromIP, message, type);
+			PersistenceContext.repositories().chatUsers().save(tmp);
+		}
 	}
 
 }

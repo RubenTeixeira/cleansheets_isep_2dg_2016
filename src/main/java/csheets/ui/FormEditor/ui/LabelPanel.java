@@ -16,6 +16,7 @@ public class LabelPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form LabelPanel
+         * @param content Content
 	 */
 	public LabelPanel(String content) {
 		initComponents();

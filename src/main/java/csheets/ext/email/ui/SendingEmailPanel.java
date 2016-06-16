@@ -7,7 +7,7 @@ package csheets.ext.email.ui;
 
 /**
  *
- * @author Rui Bastos<1140491@isep.ipp.pt>
+ * @author Rui Bastos 1140491@isep.ipp.pt
  */
 public class SendingEmailPanel extends javax.swing.JPanel {
 

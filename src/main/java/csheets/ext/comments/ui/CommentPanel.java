@@ -28,7 +28,7 @@ public class CommentPanel extends javax.swing.JPanel implements Observer {
 	 * Creates new form Comment
 	 *
 	 * @param comment commentText
-	 * @param uiController
+	 * @param uiController UIController
 	 */
 	public CommentPanel(Comment comment, UIController uiController) {
 		setName(CommentsExtension.NAME);

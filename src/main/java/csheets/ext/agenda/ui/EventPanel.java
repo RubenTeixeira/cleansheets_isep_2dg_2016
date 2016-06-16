@@ -19,6 +19,7 @@ public class EventPanel extends JPanel {
 
     /**
      * Creates new form eventPanel
+     * @param event Event
      */
     public EventPanel(Event event) {
         initComponents();

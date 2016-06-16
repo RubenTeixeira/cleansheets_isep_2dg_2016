@@ -23,6 +23,8 @@ public class HistoryFrame extends javax.swing.JFrame implements Observer {
 
 	/**
 	 * Creates new form HistoryFram
+         * @param controller Comment Controller
+         * @param comment Comment
 	 */
 	public HistoryFrame(CommentController controller, Comment comment) {
 		this.controller = controller;

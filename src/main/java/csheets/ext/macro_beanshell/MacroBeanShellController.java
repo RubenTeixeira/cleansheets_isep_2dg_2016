@@ -138,8 +138,8 @@ public class MacroBeanShellController {
 	 *
 	 * @param script Script
 	 * @return Script code
-	 * @throws FileNotFoundException
-	 * @throws IOException
+	 * @throws FileNotFoundException exception
+	 * @throws IOException exception
 	 */
 	public String getScriptContent(String script) throws FileNotFoundException, IOException {
 
