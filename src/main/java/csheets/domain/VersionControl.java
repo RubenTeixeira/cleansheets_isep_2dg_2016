@@ -48,7 +48,7 @@ public class VersionControl implements Serializable{
 
     /**
      * Set Version Control id
-     * @param id 
+     * @param id ID
      */
     protected void id(Long id) {
         this.id = id;
@@ -56,7 +56,7 @@ public class VersionControl implements Serializable{
     
     /**
      * Check if versionNum is the last version
-     * @param versionNum
+     * @param versionNum Version Number
      * @return boolean
      */
     protected boolean isLastVersion(int versionNum) {

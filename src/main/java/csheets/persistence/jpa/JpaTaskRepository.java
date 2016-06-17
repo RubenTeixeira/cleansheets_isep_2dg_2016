@@ -10,6 +10,8 @@ import csheets.domain.Task;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.TaskRepository;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -49,4 +51,19 @@ public class JpaTaskRepository extends JpaRepository<Task, Long> implements Task
 			}
 		}
 	}
+
+	@Override
+	public List<Task> all() {
+		List<Task> list = super.all();
+		Collections.sort(list, new Comparator<Task>() {
+						 @Override
+						 public int compare(Task e1, Task e2) {
+							 return ((Integer) e1.Priority()).
+								 compareTo((Integer) e2.Priority());
+						 }
+					 }
+		);
+		return list;
+	}
+
 }

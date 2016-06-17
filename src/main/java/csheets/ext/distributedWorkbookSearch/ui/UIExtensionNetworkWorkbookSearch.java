@@ -67,7 +67,7 @@ public class UIExtensionNetworkWorkbookSearch extends UIExtension {
 	/**
 	 * Returns an instance of a class that implements JMenu.
 	 *
-	 * @see WorkbookSearchMenu
+	 * @see WorkbookSearchMenu menu
 	 * @return a JMenu component
 	 */
 	@Override

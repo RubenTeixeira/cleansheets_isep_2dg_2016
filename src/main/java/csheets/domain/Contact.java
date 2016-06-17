@@ -54,7 +54,6 @@ public abstract class Contact implements Serializable {
 	/**
 	 *
 	 * @param photo photo
-	 * @param tags tags
 	 */
 	public Contact(byte[] photo) {
 		if (photo == null) {

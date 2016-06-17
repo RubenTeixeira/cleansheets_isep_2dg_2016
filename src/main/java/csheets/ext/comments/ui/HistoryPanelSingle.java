@@ -17,6 +17,8 @@ public class HistoryPanelSingle extends javax.swing.JPanel implements Observer {
 
 	/**
 	 * Creates new form HistoryPanelSing
+         * @param controller Comment Controller
+         * @param comment Comment
 	 */
 	public HistoryPanelSingle(CommentController controller, Comment comment) {
 		this.controller = controller;

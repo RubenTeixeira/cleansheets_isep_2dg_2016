@@ -18,7 +18,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"TITULO"})})
+	@UniqueConstraint(columnNames = {"TASKNAME"})})
 public class Task {
 
 	@Id

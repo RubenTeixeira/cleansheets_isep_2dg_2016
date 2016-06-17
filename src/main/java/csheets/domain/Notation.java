@@ -46,8 +46,8 @@ interface Notation<E> {
     
     /**
      * Create new version of the Notation
-     * @param title
-     * @param text
+     * @param title Title
+     * @param text Text
      * @return new version
      */
     public E newVersion(String title, String text);
@@ -72,7 +72,7 @@ interface Notation<E> {
     /**
      * Compare Notations to check if it is the same Notation or another version
      * of the Notation
-     * @param notation
+     * @param notation Notation
      * @return boolean
      */
     public boolean sameNotation(E notation);

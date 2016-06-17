@@ -113,7 +113,7 @@ public class AskContent extends javax.swing.JPanel {
 	/**
 	 * Get content of textfield name.
 	 *
-	 * @return
+	 * @return name
 	 */
 	public String name() {
 		return txtname.getText();
@@ -122,7 +122,7 @@ public class AskContent extends javax.swing.JPanel {
 	/**
 	 * Get content of textfield contente.
 	 *
-	 * @return
+	 * @return content
 	 */
 	public String content() {
 		return txtcontent.getText();

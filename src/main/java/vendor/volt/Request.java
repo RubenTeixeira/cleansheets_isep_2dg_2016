@@ -222,7 +222,7 @@ public class Request {
      * Doing request.get("password") would return all passwords.
      * 
      * @param variable Variable name identified in the route (starts with :)
-     * @return 
+     * @return List of values from the variable name.
      */
     public List<String> get(String variable)
     {

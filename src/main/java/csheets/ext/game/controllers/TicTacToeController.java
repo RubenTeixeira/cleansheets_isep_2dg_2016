@@ -41,7 +41,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	String connection;
 	String symbol;
 	TicTacToe tictactoe;
-	boolean otherPlay;
 	boolean turn;
 
 	public TicTacToeController(UIController uiController, boolean turn,
@@ -49,10 +48,8 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		this.turn = turn;
 		if (turn) {
 			this.symbol = "O";
-			otherPlay = false;
 		} else {
 			this.symbol = "X";
-			otherPlay = true;
 		}
 		this.uiController = uiController;
 		connection = opponentIP + ":" + Integer.
@@ -63,7 +60,6 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	public void stopGame() {
 		stopThis();
 		removeListeners();
-		diplayVictory();
 	}
 
 	public void start() {
@@ -76,7 +72,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 				log(Level.SEVERE, null, ex);
 		}
 		addListeners();
-
+		repaintBoard();
 	}
 
 	public void newSpreadsheet() throws FormulaCompilationException {
@@ -164,25 +160,20 @@ public class TicTacToeController implements CellListener, SpecificGameController
 												   int row = Integer.
 													   parseInt(params[1]);
 												   String content = params[2];
-												   Cell spreadcheetCell = sheet.
-													   getCell(column, row);
-												   otherPlay = true;
+												   tictactoe.
+													   play(column - 1, row - 1, content);
 												   try {
-													   sheet.
-														   getCell(column, row).
-														   setContent(content);
+													   sheet.getCell(1, 6).
+														   setContent("É a tua vez");
+													   repaintBoard();
 												   } catch (FormulaCompilationException ex) {
 													   Logger.
 														   getLogger(TicTacToeController.class.
 															   getName()).
 														   log(Level.SEVERE, null, ex);
 												   }
-												   tictactoe.
-													   play(column, row, content);
 												   repaintBoard();
-												   System.out.
-													   println("Jogada do outro");
-
+												   turn = true;
 											   }
 										   });
 								 server.expect(":game-lost", new Action() {
@@ -192,20 +183,34 @@ public class TicTacToeController implements CellListener, SpecificGameController
 													   message();
 												   String params[] = cellString.
 													   split(";");
-												   Cell spreadcheetCell = sheet.
-													   getCell(Integer.
-														   parseInt(params[0]), Integer.
-															   parseInt(params[0]));
-												   try {
-													   spreadcheetCell.
-														   setContent(params[2]);
-													   otherPlay = true;
-												   } catch (FormulaCompilationException ex) {
-													   Logger.
-														   getLogger(TicTacToeController.class.
-															   getName()).
-														   log(Level.SEVERE, null, ex);
-												   }
+												   int column = Integer.
+													   parseInt(params[0]);
+												   int row = Integer.
+													   parseInt(params[1]);
+												   String content = params[2];
+												   tictactoe.
+													   play(column - 1, row - 1, content);
+												   repaintBoard();
+												   diplayLoss();
+												   stopGame();
+											   }
+										   });
+								 server.expect(":game-draw", new Action() {
+											   @Override
+											   public void run(Request request) {
+												   String cellString = request.
+													   message();
+												   String params[] = cellString.
+													   split(";");
+												   int column = Integer.
+													   parseInt(params[0]);
+												   int row = Integer.
+													   parseInt(params[1]);
+												   String content = params[2];
+												   tictactoe.
+													   play(column - 1, row - 1, content);
+												   repaintBoard();
+												   diplayDraw();
 												   stopGame();
 											   }
 										   });
@@ -219,13 +224,27 @@ public class TicTacToeController implements CellListener, SpecificGameController
 	/**
 	 * Stops all the TCP services.
 	 */
-	public boolean winningPlay(Cell cell) {
-		if (!isWinningPlay()) {
+	public boolean winningPlay(int row, int column, String content) {
+		if (!tictactoe.validateWin(symbol)) {
 			return false;
 		}
-		String message = cell.getAddress().getColumn() + ";" + cell.
-			getAddress().getRow() + ";" + cell.getContent();
+		String message = column + ";" + row + ";" + content;
 		new TcpClient(0).send(":game-lost", connection, message);
+		diplayVictory();
+		stopGame();
+		return true;
+	}
+
+	/**
+	 * Stops all the TCP services.
+	 */
+	public boolean draw(int row, int column, String content) {
+		if (!tictactoe.isDraw()) {
+			return false;
+		}
+		String message = column + ";" + row + ";" + content;
+		new TcpClient(0).send(":game-draw", connection, message);
+		diplayDraw();
 		stopGame();
 		return true;
 	}
@@ -238,9 +257,7 @@ public class TicTacToeController implements CellListener, SpecificGameController
 		ThreadManager.destroy("ipc.tictactoe-tcpServer");
 	}
 
-	private boolean isWinningPlay() {
-		return false;
-	}
+	int i = 0;
 
 	private void diplayLoss() {
 		JOptionPane.showMessageDialog(null, "Perdeste");
@@ -248,6 +265,10 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	private void diplayVictory() {
 		JOptionPane.showMessageDialog(null, "Ganhaste");
+	}
+
+	private void diplayDraw() {
+		JOptionPane.showMessageDialog(null, "Empate!");
 	}
 
 	private boolean validate() {
@@ -270,55 +291,65 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	@Override
 	public void contentChanged(Cell cell) {
-		if (!(cell.getContent().equalsIgnoreCase("X") || cell.getContent().
-			equalsIgnoreCase("O"))) {
+		if (!cell.getContent().equalsIgnoreCase(symbol)) {
 			repaintBoard();
 			return;
 		}
-		if (!turn) {
-			if (otherPlay) {
-				System.out.println("Deixou de ser a vez do outro");
-				System.out.println("Passou a ser a minha vez");
-				otherPlay = false;
-				turn = true;
-			} else {
+		if (turn) {
+			int column = cell.getAddress().getColumn();
+			int row = cell.getAddress().getRow();
+			if (tictactoe.validatePlayerMove(column - 1, row - 1, symbol)) {
+				String message = column + ";" + row + ";" + cell.getContent();
+				tictactoe.play(column - 1, row - 1, cell.getContent());
+				if (winningPlay(column, row, cell.getContent())) {
+					return;
+				}
+				if (draw(column, row, cell.getContent())) {
+					return;
+				}
+				new TcpClient(0).send(":game-play", connection, message);
+				turn = false;
 				repaintBoard();
+				try {
+					sheet.getCell(1, 6).
+						setContent("Esperando pela outra resposta");
+					repaintBoard();
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(TicTacToeController.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+			} else {
+				try {
+					sheet.getCell(1, 6).setContent("A tua jogada nao é valida");
+					repaintBoard();
+				} catch (FormulaCompilationException ex) {
+					Logger.getLogger(TicTacToeController.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
 			}
-			return;
+
 		}
-		System.out.println("Joguei na minha vez");
-		if (validate()) {
-			System.out.println("A jogada é valida");
-			int column = cell.getAddress().getColumn() - 1;
-			int row = cell.getAddress().getRow() - 1;
-			String message = column + ";" + row + ";" + cell.getContent();
-			tictactoe.play(column, row, cell.getContent());
-			if (winningPlay(cell)) {
-				return;
-			}
-			new TcpClient(0).send(":game-play", connection, message);
-			turn = false;
-			System.out.println("Deixou de ser a minha vez");
-		} else {
-			cell.clear();
-		}
-
+		repaintBoard();
 	}
 
 	@Override
-	public void dependentsChanged(Cell cell) {
+	public void dependentsChanged(Cell cell
+	) {
 	}
 
 	@Override
-	public void cellCleared(Cell cell) {
+	public void cellCleared(Cell cell
+	) {
 	}
 
 	@Override
-	public void cellCopied(Cell cell, Cell source) {
+	public void cellCopied(Cell cell, Cell source
+	) {
 	}
 
 	@Override
-	public void valueChanged(Cell cell) {
+	public void valueChanged(Cell cell
+	) {
 	}
 
 }

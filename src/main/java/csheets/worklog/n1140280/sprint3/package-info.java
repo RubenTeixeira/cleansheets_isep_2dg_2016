@@ -12,9 +12,8 @@
  *
  * -Notes about the week's work.
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * Finished my FI in tuesday spend the rest of the sprint helping in the
+ * implementation of the IPC tictactoe which in the end was functional
  * </p>
  * <h2>2. Use Case/Feature: CRM5.2</h2>
  *
@@ -152,10 +151,24 @@
  * </p>
  * <p>
  * Tomorrow: Keep working on IPC tictactoe feature
+ * <b>Wednsday</b>
+ * <p>
+ * Workning on the tictactoe implementation reading on IPC implementation and
+ * understanding how it should be done Programming the game logic implementing
+ * cell listeners and ipc connection
  * </p>
+ * <p>
+ * Tomorrow: Test and debug, scrum master related tasks
+ * </p>
+ * <b>Wednsday</b>
+ * <p>
+ * Testing the implementation and correcting bugs found Finishing version,
+ * ensuring everything was ready for presentation
+ * </p>
+ *
  * <h2>10. Self Assessment</h2>
  *
- * <h3>10.1. Design and Implementation:3</h3>
+ * <h3>10.1. Design and Implementation:</h3>
  * <p>
  * Após a penalizaçao no Sprint 1 por nao tomar uma metodoliga TDD tentei
  * alterar a ordem de trabalho e pensar e implementar os testes antes de começar
@@ -175,6 +188,7 @@
  * error fixing</a>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/d87b0801e0c543832e82899227e2ecb34fa75d02">Testing</a>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/03f69d028a60bd8d4a0359167f48879b7be60211">Implementation</a>
+ * A lot of other commits made to the IPC tictactoe use case
  * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>

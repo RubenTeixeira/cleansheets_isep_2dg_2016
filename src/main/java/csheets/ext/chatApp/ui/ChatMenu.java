@@ -1,5 +1,6 @@
 package csheets.ext.chatApp.ui;
 
+import csheets.ext.chatApp.application.ChatAppController;
 import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.KeyEvent;

@@ -8,6 +8,7 @@ import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
 import csheets.persistence.TaskRepository;
+import csheets.persistence.ChatUserRepository;
 
 /**
  *
@@ -22,6 +23,7 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 	private static NoteRepository noteRepository = null;
 	private static ListRepository listRepository = null;
 	private static TaskRepository taskRepository = null;
+	private static ChatUserRepository chatUserRepository = null;
 
 	@Override
 	public ContactRepository contacts() {
@@ -77,5 +79,13 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 			taskRepository = new InMemoryTaskRepository();
 		}
 		return taskRepository;
+	}
+
+	@Override
+	public ChatUserRepository chatUsers() {
+		if (chatUserRepository == null) {
+			chatUserRepository = new InMemoryChatUserRepository();
+		}
+		return chatUserRepository;
 	}
 }

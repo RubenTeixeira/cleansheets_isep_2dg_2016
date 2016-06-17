@@ -59,14 +59,37 @@ public class NetworkWorkbookSearchController {
 	}
 
 	/**
-	 * Initiates the transaction by requesting the user permission, and if
-	 * granted, the subsequent operations
+	 * Initiates Udp broadcast
+	 *
+	 * @param seconds Time in seconds to send another request.
+	 */
+	public void discoverInstances(int seconds) {
+		try {
+			this.udpService.client(seconds);
+		} catch (Exception ex) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * Requests the user permission of a discovered instance.
 	 *
 	 * @param target the target host
 	 * @param permissionMessage the message the permission request shall carry
 	 */
-	public void initiateSearch(String target, String permissionMessage) {
+	public void requestPermission(String target, String permissionMessage) {
 		this.tcpService.requestPermission(target, permissionMessage);
+	}
+
+	/**
+	 * Requests search results from an instance that previously gave searching
+	 * permission
+	 *
+	 * @param target the target host
+	 * @param pattern the Workbook name pattern to search for
+	 */
+	public void initiateSearch(String target, String pattern) {
+		this.tcpService.searchWorkbookOnTarget(target, pattern);
 	}
 
 	/**
@@ -79,7 +102,9 @@ public class NetworkWorkbookSearchController {
 		if (this.udpService == null) {
 			startUdpService(ui, seconds);
 		} else {
-			startUdpService(seconds);
+			if (!this.udpService.isActive()) {
+				startUdpService(seconds);
+			}
 		}
 
 	}
@@ -88,15 +113,14 @@ public class NetworkWorkbookSearchController {
 	 * Restarts the TCP service.
 	 *
 	 * @param ui UI of Workbook Search
-	 * @param pattern the Workbook name pattern.
 	 */
-	public void restartTcpService(NetworkWorkbookSearchPanel ui, String pattern) {
+	public void restartTcpService(NetworkWorkbookSearchPanel ui) {
 		if (this.tcpService == null) {
-			startTcpService(ui, pattern);
-			System.out.println("Starting tcpserver from scratch");
+			startTcpService(ui);
 		} else {
-			startTcpService(pattern);
-			System.out.println("Restart tcp server");
+			if (!this.tcpService.isActive()) {
+				startTcpService();
+			}
 		}
 	}
 
@@ -112,7 +136,8 @@ public class NetworkWorkbookSearchController {
 
 		try {
 			this.udpService.server();
-			this.udpService.client(seconds);
+			//this.udpService.client(seconds);  Start the broadcasts only when
+			// new search is initiated
 		} catch (IllegalArgumentException e) {
 			this.udpService.stop();
 
@@ -144,9 +169,9 @@ public class NetworkWorkbookSearchController {
 	 *
 	 * @param pattern the Workbook name pattern.
 	 */
-	private void startTcpService(String pattern) {
+	private void startTcpService() {
 		try {
-			this.tcpService.server(pattern);
+			this.tcpService.server();
 
 		} catch (IllegalArgumentException e) {
 			this.tcpService.stop();
@@ -159,9 +184,8 @@ public class NetworkWorkbookSearchController {
 	 * Starts the TCP service.
 	 *
 	 * @param ui Workbook Search ui
-	 * @param pattern the Workbook name pattern.
 	 */
-	public void startTcpService(NetworkWorkbookSearchPanel ui, String pattern) {
+	public void startTcpService(NetworkWorkbookSearchPanel ui) {
 		if (ui == null) {
 			System.out.println("error");
 			throw new IllegalArgumentException("The user interface cannot be null.");
@@ -169,7 +193,7 @@ public class NetworkWorkbookSearchController {
 
 		this.tcpService = new TcpService();
 
-		this.startTcpService(pattern);
+		this.startTcpService();
 
 		this.tcpService.addObserver(ui);
 	}

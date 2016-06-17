@@ -35,8 +35,8 @@ public class CommentEditUI extends javax.swing.JFrame implements Observer {
 	/**
 	 * Creates new form CommentEditUI
 	 *
-	 * @param uiController
-	 * @param comment
+	 * @param uiController UIController
+	 * @param comment Comment
 	 */
 	public CommentEditUI(UIController uiController, Comment comment) {
 		this.initComponents();

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package csheets.ext.task.ui;
 
 import csheets.domain.Task;
@@ -11,7 +16,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Marcelo Barroso 1131399
+ * @author José Barros
  */
 public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 
@@ -19,10 +24,7 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 	private TaskController controller;
 
 	/**
-	 * Creates new form ContactPanel3
-	 *
-	 * @param controller controller of events
-	 * @param task
+	 * Creates new form TaskPanelSing
 	 */
 	public TaskPanelSingle(TaskController controller, Task task) {
 		this.controller = controller;
@@ -31,15 +33,17 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 		this.update(null, null);
 	}
 
-	@Override
-	public void update(Observable o, Object arg) {
-		if (this.task != null) {
-			this.jLabelContact.setText(this.task.getContact().name());
-			this.labelName.setText(this.task.TaskName());
-			this.jLabelDescription.setText(this.task.Description());
-			this.jLabelPriority.setText(String.valueOf(this.task.Priority()));
-			this.jLabelPercentage.
-				setText(String.valueOf(this.task.Percentage()));
+	public void edit() {
+		TaskManager manager = new TaskManager(this.controller, this.task);
+		int eventOption = JOptionPane.
+			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if (eventOption == JOptionPane.OK_OPTION) {
+			try {
+				manager.createTask();
+			} catch (DataIntegrityViolationException ex) {
+				Logger.getLogger(TaskPanelSingle.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
 		}
 	}
 
@@ -53,44 +57,36 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabelContact = new javax.swing.JLabel();
         labelName = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         jLabelDescription = new javax.swing.JLabel();
-        jButtonDelete = new javax.swing.JButton();
-        jButtonEdit1 = new javax.swing.JButton();
         jLabelPriority = new javax.swing.JLabel();
         jLabelPercentage = new javax.swing.JLabel();
-        jLabelContact = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonEdit1 = new javax.swing.JButton();
+        jButtonDelete = new javax.swing.JButton();
 
-        setMaximumSize(new java.awt.Dimension(250, 65));
-        setMinimumSize(new java.awt.Dimension(250, 65));
-        setPreferredSize(new java.awt.Dimension(250, 65));
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TaskPanelSingle.this.mouseClicked(evt);
-            }
-        });
-        setLayout(new java.awt.BorderLayout());
-
-        jPanel1.setMaximumSize(new java.awt.Dimension(265, 65));
-        jPanel1.setMinimumSize(new java.awt.Dimension(265, 65));
-        jPanel1.setPreferredSize(new java.awt.Dimension(265, 65));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Task", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
             }
         });
 
-        labelName.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabelContact.setText("Contact");
+        jLabelContact.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelContactMouseClicked(evt);
+            }
+        });
+
         labelName.setText("Name");
-        labelName.setAutoscrolls(true);
         labelName.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 labelNameMouseClicked(evt);
             }
         });
 
-        jLabelDescription.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         jLabelDescription.setText("Description");
         jLabelDescription.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -98,10 +94,17 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
             }
         });
 
-        jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/delete.gif"))); // NOI18N
-        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonDeleteActionPerformed(evt);
+        jLabelPriority.setText("Priority");
+        jLabelPriority.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPriorityMouseClicked(evt);
+            }
+        });
+
+        jLabelPercentage.setText("Percentage");
+        jLabelPercentage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPercentageMouseClicked(evt);
             }
         });
 
@@ -112,67 +115,92 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
             }
         });
 
-        jLabelPriority.setText("Priority");
+        jButtonDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/delete.gif"))); // NOI18N
+        jButtonDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDeleteActionPerformed(evt);
+            }
+        });
 
-        jLabelPercentage.setText("Percentage");
-
-        jLabelContact.setText("Contact");
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButtonEdit1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 259, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelPercentage)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(labelName, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelContact)
-                                    .addComponent(jLabelDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabelPriority))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButtonEdit1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelPriority, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelDescription, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(labelName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabelPercentage, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabelContact)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelContact, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelName))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonEdit1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(labelName)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabelDescription)
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabelPriority)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelPercentage)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelPriority))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(jLabelPercentage)
+                .addContainerGap())
         );
 
-        add(jPanel1, java.awt.BorderLayout.LINE_START);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
-
-    }//GEN-LAST:event_mouseClicked
+    private void jButtonEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEdit1ActionPerformed
+		this.edit();
+    }//GEN-LAST:event_jButtonEdit1ActionPerformed
 
     private void jButtonDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDeleteActionPerformed
 		int op = JOptionPane.
@@ -184,31 +212,41 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
 		}
     }//GEN-LAST:event_jButtonDeleteActionPerformed
 
-    private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
-
-    }//GEN-LAST:event_labelNameMouseClicked
-
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
     }//GEN-LAST:event_jPanel1MouseClicked
 
-    private void jLabelDescriptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDescriptionMouseClicked
+    private void jLabelContactMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelContactMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelContactMouseClicked
 
+    private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_labelNameMouseClicked
+
+    private void jLabelDescriptionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelDescriptionMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
     }//GEN-LAST:event_jLabelDescriptionMouseClicked
 
-    private void jButtonEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEdit1ActionPerformed
-		TaskManager manager = new TaskManager(this.controller, this.task);
-		int eventOption = JOptionPane.
-			showConfirmDialog(null, manager, "Create/Edit Task", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-		if (eventOption == JOptionPane.OK_OPTION) {
-			try {
-				manager.createTask();
-			} catch (DataIntegrityViolationException ex) {
-				Logger.getLogger(TaskPanelSingle.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
+    private void jLabelPriorityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPriorityMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
 		}
-    }//GEN-LAST:event_jButtonEdit1ActionPerformed
+    }//GEN-LAST:event_jLabelPriorityMouseClicked
+
+    private void jLabelPercentageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPercentageMouseClicked
+		if (evt.getClickCount() == 2) {
+			this.edit();
+		}
+    }//GEN-LAST:event_jLabelPercentageMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonDelete;
@@ -218,7 +256,19 @@ public class TaskPanelSingle extends javax.swing.JPanel implements Observer {
     private javax.swing.JLabel jLabelPercentage;
     private javax.swing.JLabel jLabelPriority;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel labelName;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void update(Observable o, Object o1) {
+		if (this.task != null) {
+			this.jLabelContact.setText(this.task.getContact().name());
+			this.labelName.setText(this.task.TaskName());
+			this.jLabelDescription.setText(this.task.Description());
+			this.jLabelPriority.setText(String.valueOf(this.task.Priority()));
+			this.jLabelPercentage.
+				setText(String.valueOf(this.task.Percentage()));
+		}
+	}
 }

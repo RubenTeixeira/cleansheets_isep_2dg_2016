@@ -29,7 +29,7 @@ public class UIExtensionTags extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new ContactPanel(uiController);
+			sideBar = new TagPanel(uiController);
 		}
 		return sideBar;
 	}
