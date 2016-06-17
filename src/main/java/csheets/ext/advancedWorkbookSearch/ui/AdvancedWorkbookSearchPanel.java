@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -56,12 +57,12 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	/**
 	 * Current Search Directory.
 	 */
-	private File directory = new File("");
+	private File directory;
 
 	/**
 	 * Current Search Pattern. By default
 	 */
-	private String pattern = ".*\\.cls";
+	private String pattern = DEFAULT;
 
 	/**
 	 * Searched Files.
@@ -76,7 +77,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	/**
 	 * Preview Model table.
 	 */
-	private DefaultTableModel table;
+	private DefaultTableModel table = new DefaultTableModel();
 
 	/**
 	 * Workbook.
@@ -97,7 +98,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		setName(AdvancedWorkbookSearchExtension.NAME);
 		this.uicontroller = uicontroller;
 		jResultList = new JList(list);
-
 		jPreviewTable = new JTable(table);
 		initComponents();
 	}
@@ -204,7 +204,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
                 {null, null, null, null, null}
             },
             new String [] {
-                "", "", "", "", ""
+                " ", " ", " ", " ", " "
             }
         ) {
             Class[] types = new Class [] {
@@ -270,11 +270,23 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt evt.
 	 */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		FileChooser dir = new FileChooser(null, null);
+		jTextField.setEnabled(false);
+		JFileChooser dir = new JFileChooser();
 		dir.setFileSelectionMode(FileChooser.DIRECTORIES_ONLY);
-		dir.showDialog(null, null);
-		directory = dir.getSelectedFile();
-		jTextField.setText(directory.toString());
+		int option = dir.showDialog(null, null);
+		if (option == JFileChooser.APPROVE_OPTION) {//if a directory was chosen from dialog.
+			File _directory = dir.getSelectedFile();
+			if (validateDirectory(_directory)) { //checks if selected directory is valid.
+				directory = _directory;
+				jTextField.setText(directory.toString());
+			} else {//if dialog was closed/canceled.
+				directory = null;
+				jTextField.setText("Invalid Directory.");
+			}
+		} else if (option == JFileChooser.CANCEL_OPTION) {
+			directory = null;
+		}
+		jTextField.setEnabled(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
 	/**
@@ -292,7 +304,9 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt evt.
 	 */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+		jButton2.setEnabled(false);
 		performSearch();
+		jButton2.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
 	/**
@@ -301,8 +315,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt evt
 	 */
     private void jPatternFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPatternFieldActionPerformed
-		pattern = "";
-		pattern = jPatternField.getText();
+
     }//GEN-LAST:event_jPatternFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -322,8 +335,8 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * Search and return the list of Workbook found.
 	 */
 	private void performSearch() {
-		jButton2.setEnabled(false);
-		if (validateDirectory()) { //checks directory.
+		if (validateDirectory(directory)) { //checks directory.
+			pattern = jPatternField.getText();
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
 				Runnable newthread = new Runnable() {
@@ -341,12 +354,11 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 				};
 				jImagePanel.setVisible(true); //enables search "indicator".
 				new Thread(newthread).start(); //starts the new Thread.
-			} else {
-				jButton2.setEnabled(true);
+			} else { //invalid pattern.
+				jPatternField.setText("Invalid");
 			}
-		} else {
+		} else {//invalid dir.
 			jTextField.setText("Invalid Directory.");
-			jButton2.setEnabled(true);
 		}
 	}
 
@@ -359,7 +371,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @param evt mouse event.
 	 */
 	private void jResultsListMouseClicked(MouseEvent evt) {
-		if (evt.getClickCount() == 1) { //clicked once.
+		if (evt.getClickCount() == 1) { //if clicked once.
 			File file = (File) jResultList.getSelectedValue();
 			CleanSheets instance = new CleanSheets(); //sets up a new instance of Cleansheets to load the information required.
 			try {
@@ -368,15 +380,16 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 				JOptionPane.
 					showMessageDialog(null, "This File is Corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
 			}//handling corrupted files.
+
 			wb = instance.getWorkbook(file); //saves workbook.
+
 			try {
-				setUpPreview();
+				setUpPreview();//goes for preview.
 			} catch (NullPointerException | ArrayIndexOutOfBoundsException ex) {
 				JOptionPane.
 					showMessageDialog(null, "Couldn't load preview.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
-
-		} else if (evt.getClickCount() == 2) { //clicked twice.
+		} else if (evt.getClickCount() == 2) { //if clicked twice.
 			File file = (File) jResultList.getSelectedValue();
 			try {
 				uicontroller.getCleanSheets().load(file); //UIController loads selected Workbook to current workspace.
@@ -436,9 +449,8 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * @return true for valid pattern.
 	 */
 	private boolean validatePattern() {
-		jPatternField.setEnabled(false);
-
-		if (pattern.equalsIgnoreCase("")) {
+		if (pattern.equalsIgnoreCase("") || pattern.
+			equalsIgnoreCase("search pattern")) {
 			pattern = DEFAULT;
 		}
 		if (!pattern.contains(EXTENSION)) {
@@ -447,8 +459,6 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 		try {
 			Pattern temp = Pattern.compile(pattern);
 		} catch (PatternSyntaxException e) {
-			jPatternField.setEnabled(true);
-			jPatternField.setText("invalid pattern");
 			return false;
 		}
 		return true;
@@ -459,14 +469,17 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 *
 	 * @return true for valid directory.
 	 */
-	private boolean validateDirectory() {
-		if (!directory.exists()) { //checks if File exist.
+	private boolean validateDirectory(File _file) {
+		if (_file == null) {
 			return false;
 		}
-		if (!directory.isDirectory()) { //checks if File is a Directory.
+		if (!_file.exists()) { //checks if File exist.
 			return false;
 		}
-		if (directory.toString().equalsIgnoreCase("")) { //check if File is empty.
+		if (!_file.isDirectory()) { //checks if File is a Directory.
+			return false;
+		}
+		if (_file.toString().equalsIgnoreCase("")) { //check if File is empty.
 			return false;
 		}
 		return true;
