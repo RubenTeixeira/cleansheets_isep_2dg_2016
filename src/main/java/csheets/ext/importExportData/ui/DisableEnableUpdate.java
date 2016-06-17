@@ -203,15 +203,23 @@ public class DisableEnableUpdate extends javax.swing.JDialog implements Observer
     }//GEN-LAST:event_jButtonCancelActionPerformed
 
     private void jButtonLinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLinkActionPerformed
-        SpreadsheetImpl spreadsheet = (SpreadsheetImpl) this.jComboBoxSpreadSheet.
-                getSelectedItem();
+
+        SpreadsheetImpl spreadsheet = (SpreadsheetImpl) this.jComboBoxSpreadSheet.getSelectedItem();
+
         FileTask fileTask = spreadsheet.getFileTask();
+
         if (fileTask == null) {
+            /**
+             * validate Path Text file
+             */
             if (jTextFieldPathFile.getText().isEmpty()) {
                 JOptionPane.
                         showMessageDialog(this, "You should choose the file to Linking", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             } else {
+                /**
+                 * validate Separator Text file
+                 */
                 if (this.jTextFieldSeparator.getText().isEmpty()) {
                     JOptionPane.
                             showMessageDialog(this, "You should inserts the Separator to Linking", "Error", JOptionPane.ERROR_MESSAGE);
@@ -225,7 +233,7 @@ public class DisableEnableUpdate extends javax.swing.JDialog implements Observer
             }
         } else {
             this.controller.unlinked(spreadsheet);
-            JOptionPane. showMessageDialog(this, "The Unliking has been successfully", "Error", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "The Unliking has been successfully", "Error", JOptionPane.INFORMATION_MESSAGE);
         }
         dispose();
     }//GEN-LAST:event_jButtonLinkActionPerformed

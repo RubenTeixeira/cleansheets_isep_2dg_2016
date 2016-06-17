@@ -30,7 +30,7 @@ public class ImportExportTextFileController {
     Cell[][] cells;
 
     /**
-     *
+     * filter the file content
      * @param filePath filePath
      * @param separator separator
      * @param spreadsheet spreadsheet
