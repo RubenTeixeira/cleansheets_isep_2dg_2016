@@ -264,15 +264,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1.Script execution mode implementation. Finish analysis and design. Tests</p>
  * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Presentation to client</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <h2>10. Self Assessment</h2>
