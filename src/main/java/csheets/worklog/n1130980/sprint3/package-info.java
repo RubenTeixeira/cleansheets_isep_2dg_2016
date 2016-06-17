@@ -27,30 +27,31 @@
  * Sub-Task in Jira:</p>
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-212">Analysis -
- * LPFOURDG-144</a></p>
+ * LPFOURDG-212</a></p>
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-213">Design -
- * LPFOURDG-147</a></p>
+ * LPFOURDG-213</a></p>
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-214">Implementation
- * - LPFOURDG-149</a></p>
+ * - LPFOURDG-214</a></p>
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-215">Tests -
- * LPFOURDG-150</a></p>
+ * LPFOURDG-215</a></p>
  *
  * <h2>3. Requirement</h2>
  * This feature Tic-tac-toe is my responsibility
  *
  * <p>
- * <b>Use Case "Tic-tac-toe":</b> The tic-tac-toe game should be implemented.
- * The game should be implemented as described in
- * https://en.wikipedia.org/wiki/Tic-tac-toe . The board of the game should be
- * displayed in a range of cells. Each cell should correspond to a position in
- * the game board. Moves are performed by placing an "X" or an "O" in the cells.
- * The user should only be able to perform a move when its his turn. Boards are
- * updated on both instances. Cleansheets should automatically verify and
- * enforce the rules of the game.
- *
+ * <b>Use Case "Tic-tac-toe":</b>
+ * <p>
+ * The tic-tac-toe game should be implemented. The game should be implemented as
+ * described in https://en.wikipedia.org/wiki/Tic-tac-toe . The board of the
+ * game should be displayed in a range of cells. Each cell should correspond to
+ * a position in the game board. Moves are performed by placing an "X" or an "O"
+ * in the cells. The user should only be able to perform a move when its his
+ * turn. Boards are updated on both instances. Cleansheets should automatically
+ * verify and enforce the rules of the game.
+ * </p>
  *
  * <h2>4. Analysis</h2>
  * <p>
@@ -116,8 +117,17 @@
  * </p>
  * <h2>6. Implementation</h2>
  *
- * <code>csheets.domain.Contact</code> <code>csheets.domain.Agenda</code>
- * <code>csheets.domain.Event</code>
+ * <code>csheets.ext.game.controllers.GameController</code>
+ * <code>csheets.ext.game.controllers.SpecificGameController</code>
+ * <code>csheets.ext.game.controllers.TicTacToeController</code>
+ * <code>csheets.ext.game.domain.TicTacToe</code>
+ * <code>csheets.ext.game.ui.GamePanel</code>
+ * <code>csheets.ext.game.ui.TcpService</code>
+ * <code>csheets.ext.game.ui.UdpService</code>
+ * <code>csheets.ext.game.ui.ListOpponents</code>
+ * <code>csheets.ext.game.ui.ProfileOpponent</code>
+ * <code>csheets.ext.game.ui.UIGameExtension</code>
+ * <code>csheets.ext.game.GameExtension</code>
  *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
@@ -131,10 +141,9 @@
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * We are in the first week where the workflow of the project is a little bit
- * different from the rest of the weeks. Our functional area is very independent
- * from the others. The only that we had to talk with our work collegues was
- * related to the extensions part (Core functional area).
+ * This week my feature was to implement the tictactoe game. This feature
+ * belongs to IPC07.2 area and need to implement network communication so that
+ * it can be played on two machines over the network.
  *
  * <h2>8. Final Remarks</h2>
  *
@@ -143,7 +152,7 @@
  * <p>
  * <b>Monday</b>
  * </p>
- * 1. Analysis and early use case design
+ * 1. Analysis use case
  * <p>
  * Blocking:
  * </p>
@@ -151,7 +160,7 @@
  * <p>
  * <b>Tuesday</b>
  * </p>
- * 1. Complete Design and Starts Implementaton
+ * 1. Design and Starts Implementaton
  * <p>
  * Blocking:
  * </p>
@@ -174,8 +183,27 @@
  * <p>
  * <b>Evidences:</b>
  * </p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
+ * <p>
+ * <img src="doc-files/imagem1.png" alt="connect">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem2.png" alt="connect2">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem3.png" alt="choose game">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem4.png" alt="connect">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem5.png" alt="connect established">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem6.png" alt="play">
+ * </p>
+ * <p>
+ * <img src="doc-files/imagem7.png" alt="game">
+ * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
