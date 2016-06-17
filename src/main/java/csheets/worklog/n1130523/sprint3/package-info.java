@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1130523) Ruben
- * Santos during week2.
+ * Santos during week3.
  *
  * <p>
  * <b>Scrum Master: Antonio Bernardo Curado</b>
@@ -102,7 +102,10 @@
  * gives access to extension-specific functionality, and TagsExtension class
  * that returns the user interface extension. In classes JPAContactRepository
  * and InMemoryContactRepository it was necessary create a method to return all
- * contacts from the specific tag.
+ * contacts from the specific tag. The classe TagController call a method
+ * tagFrequency() where we can analyze the frequency of a specific tag order by
+ * descending. In this method counts the tags from a specific contact and it
+ * used the library collections to sorted.
  *
  *
  * *
@@ -136,7 +139,7 @@
  *
  * <p>
  * TagController; TagsExtension; ContactManager; TagPanel; TagPanelSingle;
- * UIExtensionTags;
+ * UIExtensionTags, TagManager;
  *
  * <b>Updated Classes/Files</b>:
  *
@@ -155,8 +158,7 @@
  * -In this section present your views regarding alternatives, extra work and
  * future work on the issue.-
  * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
+ * TEXT
  * </p>
  *
  * <h2>9. Work Log</h2>
@@ -222,7 +224,7 @@
  * </p>
  * Today
  * <p>
- * 1. Apresentation of Sprint 3
+ * 1. Apresentation of Sprint 3; 2. Worklog Update
  * <p>
  * Blocking:
  * <p>

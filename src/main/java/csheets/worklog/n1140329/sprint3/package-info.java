@@ -301,8 +301,21 @@
  * 1. -nothing-
  * <p>
  * <b>Thursday</b>
-
- * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on: 
+ * <p>
+ * 1. Finishing the implementation of Core07.2
+ * <p>
+ * 2. Helping out my colleague with the implementation of Core02.3
+ * <p>
+ * Today
+ * <p>
+ * 1. Fixing javadoc errors of the whole project.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
+ * <p>
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -310,9 +323,11 @@
  * 
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the implementation of the design pattern ...-
+ * url of commit:  - description: this commit is related to the implementation of the design pattern -
  * 
- * <h3>10.2. Teamwork: ...</h3>
+ * <h3>10.2. Teamwork: Throughout this week I've helped out my colleagues on the
+ * implementation of their Use Cases (specifically Core07.2), since I had already 
+ * finished most of my Use Case on the past weekend.</h3>
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 

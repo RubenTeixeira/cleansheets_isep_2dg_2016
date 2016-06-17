@@ -69,7 +69,7 @@ public class TagController {
 		List<String> list = new ArrayList();
 		try {
 			Scanner input = new Scanner(new File(CleanSheets.class.
-				getResource("profissions.props").getFile()));
+				getResource("res/profissions.props").getFile()));
 			while (input.hasNextLine()) {
 				list.add(input.nextLine());
 			}
