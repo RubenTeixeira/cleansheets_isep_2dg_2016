@@ -4,7 +4,6 @@ import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -23,7 +22,8 @@ public class WizardButton extends JButton {
 	 * @param uiController the user interface controller
 	 */
 	public WizardButton(UIController uiController) {
-		super("Functions");
+		super(new ImageIcon(CleanSheets.class.
+                        getResource("ext/wizard/wizard-icon.png")));
 		// Adds font actions
                 this.addActionListener(new ActionListener() {
                     @Override

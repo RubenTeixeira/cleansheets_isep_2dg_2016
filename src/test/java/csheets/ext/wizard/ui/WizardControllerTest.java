@@ -74,17 +74,19 @@ public class WizardControllerTest {
         assertEquals(expected, controller.getFunctionInfo(f1));
     }
     
-    /**
-     * Test of getFunctionInfo method, of class WizardController.
-     */
-    @Test
-    public void testsetValuesOnExpression() {
-        String funcInfo = this.controller.getFunctionInfo(f1);
-        String expected = "={SUM(3;4;5)}";
-        String result = this.controller.setValuesOnExpression("3;4;5", null, null, null);
-        assertEquals(expected, result);
-    }
 }
+     // Test of Lang04.2
+//    /**
+//     * Test of getFunctionInfo method, of class WizardController.
+//     */
+//    @Test
+//    public void testsetValuesOnExpression() {
+//        String funcInfo = this.controller.getFunctionInfo(f1);
+//        String expected = "={SUM(3;4;5)}";
+//        String result = this.controller.setValuesOnExpression("3;4;5", null, null, null);
+//        assertEquals(expected, result);
+//    }
+
 //    /**
 //     * Hard to test compile method without a valid cell, maybe someone smarter
 //     * can finish this test
