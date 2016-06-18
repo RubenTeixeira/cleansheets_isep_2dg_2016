@@ -12,6 +12,7 @@ import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
 
 /**
  *
@@ -28,6 +29,11 @@ public class UISearch extends UIExtension {
 	 * A side bar that provides search functionality
 	 */
 	private JComponent sideBar;
+
+	/**
+	 * A search and replace menu
+	 */
+	private SearchReplaceMenu menu;
 
 	/**
 	 * Creates UISearchExtension.
@@ -59,5 +65,20 @@ public class UISearch extends UIExtension {
 			sideBar = new SearchPanel(uiController);
 		}
 		return sideBar;
+	}
+
+	/**
+	 * Returns an instance of a class that implements JMenu. In this simple case
+	 * this class only supplies one menu option.
+	 *
+	 * @see SearchReplaceMenu
+	 * @return a JMenu component
+	 */
+	@Override
+	public JMenu getMenu() {
+		if (menu == null) {
+			menu = new SearchReplaceMenu(uiController);
+		}
+		return menu;
 	}
 }
