@@ -136,11 +136,11 @@
  * to its functionalities.The user is able to specify a directory to perform the
  * search and a pattern on how the search is based on. Two <b>Text Labels</b>
  * will be implemented alongside with 2 buttons:<ul>
- * <li><b>Search button</b> - Opens a Directory Dialog. The user chooses a
+ * <li><b>"..." button</b> - Opens a Directory Dialog. The user chooses a
  * directory on the machine.</li>
- * <li><b>Go button</b> - Starts a background search based on the information
- * provided. At this moment a second thread performs the search while all
- * features are available - asynchronous operation.</li>
+ * <li><b>"Search" button</b> - Starts a background search based on the
+ * information provided. At this moment a second thread performs the search
+ * while all features are available - asynchronous operation.</li>
  * <li><b>A Grid</b> - (DefaultTableModel) will be implemented on the side bar
  * Extension. It will be a preview of one of the selected workbooks showing a
  * group of cells. The list of possible selected workbooks will be displayed
