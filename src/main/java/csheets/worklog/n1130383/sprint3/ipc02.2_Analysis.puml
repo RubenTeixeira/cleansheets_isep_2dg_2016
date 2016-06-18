@@ -13,13 +13,13 @@
 
   class AWSController
 
-  class WorkbookPreviewPanel
+  class WorkbookPreview
 
 note "AWS:Advanced Workbook Search" as N1
 
   AWSExtension -> AWSUI : getUIExtension(UIController)
   AWSUI -> AWSPanel : getSideBar():JComponent
-  AWSPanel-> AWSController: new(UIController,Workbook)
-  AWSController->WorkbookPreviewPanel: new(Workbook)
+  AWSPanel-> AWSController
+  AWSController->WorkbookPreview: new(Workbook)
 
   @enduml

@@ -1,35 +1,44 @@
   @startuml doc-files/ipc02.2_sequence_diagram.png
 
-  actor User
+  actor user
 
   participant AWSExtension as ex
   participant AWSUI as ui
   participant AWSPanel as panel
   participant  AWSController as cont
-  participant  WorkbookPreviewPanel as p
+  participant  WorkbookPreview as p
 	participant UIController as uicont
 
-  User -> ex : selects extension.
-	ex-> ui : new(UIController uiController);
+
+ex-> ui : new(UIController uiController);
 ui -> panel : new(UIController uiController);
-User <-panel : show sidebar.
-User ->panel : selects directory.
-User ->panel : begin search.
+user -> panel : enables feature.
+user <-panel : show sidebar.
+user ->panel : selects directory.
+user ->panel : insert search pattern.
+user ->panel : begins search.
 panel -> panel : performSearch();
+panel -> cont : search(File dir, String pattern);
+panel <-- cont : list : List<File>
+user <--panel : show list.
 
 loop while (!stopButton)
 group one-click-mouse
-User->panel : selects workbook.
-panel -> cont : new(UIController uicontroller, Workbook workbook);
-cont -> cont : buildPreview();
+user->panel : one-click on workbook from list.
+panel -> panel : setUpPreview();
+panel -> cont : setUpWorkbookPreview(Workbook wb, String[][] previewContent, String[] previewTitles);
 cont -> p : new(Workbook workbook);
-p -> User : show preview.
-p -> p : dispose();
+cont -> p : getPreview();
+cont <-- p : preview : Cell[][]
+panel <-- cont:
+user <-- panel : show preview.
 end
+
 group two-click-mouse
-User->panel : selects workbook.
-panel -> cont : new(UIController uicontroller, Workbook workbook);
-cont -> uicont : open(Workbook workbook);
+user->panel : two-click on workbook from list.
+panel -> uicont : load(File file);
+panel <--uicont :
+user <- panel : sets up workspace.
 end
 end loop
 

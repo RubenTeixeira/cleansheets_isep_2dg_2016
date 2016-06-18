@@ -41,21 +41,41 @@ class JPanel{
 class AWSPanel{
 	-awsController : AWSController
 	-uiController : UIController
-	-resultsModel : DefaultModeList
+	-resultsModel : DefaultListModel
+	-table : DefaultTableModel
+	-file : File
+	-pattern : String
+	-files : List<File>
+	-workbook : Workbook
+	-cont : int
 	--
-	+AWSPanel(UIController uicontroller)
+	+AWSPanel(UIController uicontroller);
+	-performSearch();
+	-jResultsListMouseClicked(MouseEvent evt);
+	-setUpPreview();
+	-checkDuplicatedFiles();
+	-validatePattern();
+	-validateDirectory(File file);
 }
 
 
 class AWSController{
-
-	+AWSController(UIController uicontroller, Workbook workbook);
-
+	+AWSController();
+	+search(File dir,String pattern) : List<File>
+	+setUpWorkbookPreview(Workbook wb, String[][] previewContent, String[] previewTitles);
 }
 
-class WorkbookPreviewPanel{
+class WorkbookPreview{
 	-workbook : Workbook
-	+WorkbookPreviewPanel(Workbook workbook);
+	-cell : Cell
+	-spreadsheet : Spreadsheet
+	-preview : Cell[][]
+	--
+	+WorkbookPreview(Workbook workbook);
+	+getPreview() : Cell[][]
+	-preview();
+	-checkColumn() : boolean
+	-setUpPreview();
 }
 
 
@@ -64,13 +84,12 @@ class WorkbookPreviewPanel{
 JPanel <|-- AWSPanel
 Extension <|-- AWSExtension
 UIExtension <|-- AWSUI
-JPanel <|-- WorkbookPreviewPanel
 
 UIController --> ExtensionManager : getExtensions();
 ExtensionManager --> AWSExtension : load(Extension extension);
 AWSExtension --> AWSUI : new(UIController controller);
 AWSUI --> AWSPanel : new(UIController controller);
-AWSPanel --> AWSController : new(UIController controller, Workbook workbook);
-AWSController --> WorkbookPreviewPanel : new(Workbook workbook);
+AWSPanel --> AWSController : new(Workbook wb);
+AWSController --> WorkbookPreview : new(Workbook wb);
 
   @enduml
