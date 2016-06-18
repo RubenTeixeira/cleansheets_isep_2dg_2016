@@ -184,25 +184,32 @@
  * <b>Evidences:</b>
  * </p>
  * <p>
- * <img src="doc-files/imagem1.png" alt="connect">
+ * <b>User Profile</b>
+ * <img src="http://imgur.com/KjMAiPP.png" alt="connect">
  * </p>
  * <p>
- * <img src="doc-files/imagem2.png" alt="connect2">
+ * <b>Choose Opponent</b>
+ * <img src="http://imgur.com/lU1DKyc.png" alt="connect2">
  * </p>
  * <p>
- * <img src="doc-files/imagem3.png" alt="choose game">
+ * <b>Choose TicTacToe Game</b>
+ * <img src="http://imgur.com/JORXj49.png" alt="choose game">
  * </p>
  * <p>
- * <img src="doc-files/imagem4.png" alt="connect">
+ * <b>Connect Opponent</b>
+ * <img src="http://imgur.com/QRBRgbW.png" alt="connect">
  * </p>
  * <p>
- * <img src="doc-files/imagem5.png" alt="connect established">
+ * <b>Received invitation from opponent</b>
+ * <img src="http://imgur.com/ThgR6uB.png" alt="connect established">
  * </p>
  * <p>
- * <img src="doc-files/imagem6.png" alt="play">
+ * <b>Start Game</b>
+ * <img src="http://imgur.com/4xdMVMv.png" alt="play">
  * </p>
  * <p>
- * <img src="doc-files/imagem7.png" alt="game">
+ * <b>"O" is ever the first move</b>
+ * <img src="http://imgur.com/SatOArC.png" alt="game">
  * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
