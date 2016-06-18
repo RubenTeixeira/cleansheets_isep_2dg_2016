@@ -240,7 +240,7 @@
  * <p>
  * Today:
  * <p>
- * 1. Analysis and design the problem. Start implementation.</p>
+ * 1. Analysis and design the problem. Start implementation. Initial UI.</p>
  * <p>
  * Blocking:
  * <p>
@@ -336,7 +336,8 @@
  * </p>
  *
  * <p>
- * <a href="#">...</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/9a320788f6ee5387292a2eb15cc2eb1b1487fef1">Initial
+ * UI</a></p>
  *
  *
  * <h3>10.2. Teamwork:</h3>
