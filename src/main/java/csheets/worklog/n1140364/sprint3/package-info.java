@@ -60,10 +60,6 @@
  * The users introduces a new script function in formula bar and the system
  * executes that script.
  *
- * <p>
- * <h3>Script Manager</h3>
- * <p>
- *
  * <h4>Create Script</h4>
  * The user selects create script. The system asks the user to enter a script
  * name, the script type, the script code and the script execution mode. The

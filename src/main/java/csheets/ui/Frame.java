@@ -177,11 +177,13 @@ public class Frame extends JFrame implements SelectionListener {
 
 		// Creates and lays out top panel
 		JPanel cellPanel = new JPanel(new BorderLayout());
-		cellPanel.add(addressBox, BorderLayout.WEST);
+                JPanel cellPanelWest = new JPanel(new BorderLayout());
+		cellPanelWest.add(addressBox, BorderLayout.WEST);
+                cellPanel.add(cellPanelWest, BorderLayout.WEST);
 		cellPanel.add(cellEditor, BorderLayout.CENTER);
 		for (UIExtension extension : uiController.getExtensions()) {
 			if (extension instanceof UIExtensionWizard) {
-				cellPanel.
+				cellPanelWest.
 					add(((UIExtensionWizard) extension).getButton(), BorderLayout.EAST);
 			}
 		}

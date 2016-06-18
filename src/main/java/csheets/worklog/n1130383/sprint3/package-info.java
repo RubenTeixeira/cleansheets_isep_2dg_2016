@@ -136,19 +136,17 @@
  * to its functionalities.The user is able to specify a directory to perform the
  * search and a pattern on how the search is based on. Two <b>Text Labels</b>
  * will be implemented alongside with 2 buttons:<ul>
- * <li><b>Search button</b> - Opens a Directory Dialog. The user chooses a
+ * <li><b>"..." button</b> - Opens a Directory Dialog. The user chooses a
  * directory on the machine.</li>
- * <li><b>Go button</b> - Starts a background search based on the information
- * provided. At this moment a second thread performs the search while all
- * features are available - asynchronous operation.</li>
- * <li>
- * A Grid (DefaultTableModel) will be implemented on the side bar Extension. It
- * will be a preview of one of the selected workbooks showing a group of cells.
- * The list of possible selected workbooks will be displayed below the grid
- * showing all workbooks found.</li>
- * <li>
- * Also a List(DefaultListModel) that will contain all Files found from the
- * Search</li>
+ * <li><b>"Search" button</b> - Starts a background search based on the
+ * information provided. At this moment a second thread performs the search
+ * while all features are available - asynchronous operation.</li>
+ * <li><b>A Grid</b> - (DefaultTableModel) will be implemented on the side bar
+ * Extension. It will be a preview of one of the selected workbooks showing a
+ * group of cells. The list of possible selected workbooks will be displayed
+ * below the grid showing all workbooks found.</li>
+ * <li>Also a <b>List</b> - (DefaultListModel) that will contain all Files found
+ * from the Search</li>
  * </ul>
  *
  * <p>
@@ -163,6 +161,16 @@
  * <img src="http://i.imgur.com/nY7q5uw.png" alt="Side-Bar-Search-Indicator"></p>
  *
  * <p>
+ * By default, without providing any pattern, the application is set to search
+ * for all files that contain the extension ".cls".</p>
+ * <p>
+ * The Developing of this feature was mostly straight forward, after the
+ * Analysis and the Design, all code was implemented as expected and according
+ * to tests. There was no need to change any solutions or the taken path. Aside
+ * from an important update on a malfunction of the UI. Both Diagrams provide
+ * the full picture on how this feature Work.</p>
+ *
+ * <p>
  * The WorkbookPreview was implemented to set up a Preview for any non-corrupted
  * Workbook. The Algorithm makes use of Iteration to look for the first
  * non-empty cell in all Spreadsheets available. The cell is saved and used as a
@@ -174,6 +182,33 @@
  * and so on. For the pattern system the java.util.regex package was used for
  * matching the given pattern with regular expressions and to validate them.</p>
  *
+ * <p>
+ * Regarding the asynchronous Process the approach was to start a new Thread to
+ * handle the Search. The code presented below is the solution on how the
+ * problem was solved:</p>
+ * <pre>
+ * {@code
+ * 		private void performSearch() {
+ *		if (validateDirectory(directory)) { //validates directory.
+ *				pattern = jPatternField.getText();
+ *			if (validatePattern()) {//validates pattern.
+ *			list.clear(); //clears previous results.
+ *			Runnable newthread = new Runnable() { //new Thread
+ *				public void run() {
+ *					cont = 0;
+ *					jImagePanel.setVisible(true);
+ *					files = controller.search(directory, pattern);
+ *					checkDuplicatedFiles(); //sets up a list without duplicated files.
+ *					postSearchUIOperations(); //required operations after each Search.
+ *				}
+ *			};
+ *		new Thread(newthread).start(); //starts the new Thread.
+ *			}
+ * ...
+ *		} ...
+ *	 }
+ * }
+ * </pre>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -207,6 +242,10 @@
  * <p>
  * <b>Monday</b>
  * <p>
+ * Yesteday:
+ * <p>
+ * 1. Analysis and Design developed as expected.
+ * <p>
  * Today:
  * <p>
  * 1. Test Solutions Implementation.
@@ -222,6 +261,10 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
+ * Yesteday:
+ * <p>
+ * 1. Implemented First Test Solutions.
+ * <p>
  * Today:
  * <p>
  * 1. Worked on Implementation.
@@ -235,9 +278,15 @@
  * <p>
  * <b>Wednesday</b>
  * <p>
+ * Yesteday:
+ * <p>
+ * 1. Mid-developed Implementation as expected.
+ * <p>
  * Today:
  * <p>
  * 1. Finished Implementation. Feature Deployment.
+ * <p>
+ * 1. Updated Test Solutions.
  * <p>
  * Blocking:
  * <p>
@@ -245,6 +294,10 @@
  *
  * <p>
  * <b>Thurday</b>
+ * <p>
+ * Yesteday:
+ * <p>
+ * 1. Deployment of a fully available feature and Tests Updates.
  * <p>
  * Today:
  * <p>
@@ -264,8 +317,6 @@
  * <p>
  * A more viable TDD approach was used and all tests made cover 100% of the code
  * outside UI.</p>
- *
- *
  * <p>
  * <b>Evidences:</b><ul>
  * <li>
