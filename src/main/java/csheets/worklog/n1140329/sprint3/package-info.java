@@ -10,11 +10,10 @@
  * 
  * <h2>1. Notes</h2>
  * 
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work during the week.
- * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
- *
+ * In this sprint, I spent some significant time helping out a colleague with
+ * the implementation of Core02.3.
+ * 
  * <h2>2. Use Case/Feature: Core07.2</h2>
  * Issue in Jira: <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-19">LPFOURDG-19: Global Search</a>
  * <p>
@@ -315,7 +314,6 @@
  * Blocking:
  * <p>
  * 1. -nothing-
- * <p>
  * 
  * <h2>10. Self Assessment</h2> 
  * 
@@ -326,7 +324,7 @@
  * url of commit:  - description: this commit is related to the implementation of the design pattern -
  * 
  * <h3>10.2. Teamwork: Throughout this week I've helped out my colleagues on the
- * implementation of their Use Cases (specifically Core07.2), since I had already 
+ * implementation of their Use Cases (specifically Core02.3), since I had already 
  * finished most of my Use Case on the past weekend.</h3>
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
