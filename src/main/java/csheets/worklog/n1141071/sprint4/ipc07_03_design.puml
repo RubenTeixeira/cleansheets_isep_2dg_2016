@@ -43,12 +43,14 @@ actor Actor
     UI -> controller : shoot(cell)
     controller -> server : send(cellLocation)
     controller -> game : shoot(cellLocation)
-    game -> ship : onTopOf(location)
-    alt if location on top of ship
-        game -> ship : hit()
+    game -> ship : hit(cellLocation)
+    alt if hit is true
+        game -> ship : isDestroyed()
     end
-    controller -> game : win()
-    alt if win is true
+    alt if ship is destroyed
+        controller -> game : allShipsDestroyed()
+    end
+    alt if allShipsDestroyed is true
         note right of controller
             exit loop
         end note
