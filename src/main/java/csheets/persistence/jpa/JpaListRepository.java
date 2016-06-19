@@ -50,12 +50,19 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 	@Override
 	public Iterable<List> search(Calendar startDate, Calendar endDate,
 								 String expression) {
-		final Query query = entityManager().
-			createQuery("SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate AND l.version.deleted = false",
-						List.class);
-		query.setParameter("startDate", startDate, TemporalType.DATE);
-		query.setParameter("endDate", endDate, TemporalType.DATE);
-		Iterable<List> tmp = query.getResultList();
+		Iterable<List> tmp = null;
+		if (startDate == null) {
+			System.out.println("start date null");
+		} else if (endDate == null) {
+			System.out.println("end date null");
+		} else {
+			final Query query = entityManager().
+				createQuery("SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate AND l.version.deleted = false",
+							List.class);
+			query.setParameter("startDate", startDate, TemporalType.DATE);
+			query.setParameter("endDate", endDate, TemporalType.DATE);
+			tmp = query.getResultList();
+		}
 		if (expression == null || expression.isEmpty()) {
 			return tmp;
 		}

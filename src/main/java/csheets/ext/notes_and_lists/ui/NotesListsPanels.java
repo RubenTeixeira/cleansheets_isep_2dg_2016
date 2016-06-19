@@ -94,23 +94,17 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 
 	private void updateResultList() {
 		this.resultListModel.removeAllElements();
-		if (this.jStartDateChooser.getDate() == null) {
-
-		} else if (this.jEndDateChooser.getDate() == null) {
-
-		} else {
-			for (Note note : this.controller.searchNotes(this.jStartDateChooser.
-				getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
-														 getText())) {
-				this.resultListModel.addElement(note);
-			}
-			for (List list : this.controller.searchLists(this.jStartDateChooser.
-				getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
-														 getText())) {
-				this.resultListModel.addElement(list);
-			}
-			this.jListResults.setModel(this.resultListModel);
+		for (Note note : this.controller.searchNotes(this.jStartDateChooser.
+			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+													 getText())) {
+			this.resultListModel.addElement(note);
 		}
+		for (List list : this.controller.searchLists(this.jStartDateChooser.
+			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+													 getText())) {
+			this.resultListModel.addElement(list);
+		}
+		this.jListResults.setModel(this.resultListModel);
 	}
 
 	private void createModels() {
