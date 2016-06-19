@@ -20,7 +20,7 @@
  *
  * <h2>3. Requirement</h2>
  * -The responsibility that was assignedto me, was to resolve the feature of
- * import/export a text file, and update the content if the file has changed on disk.
+ * import/export a text file, and update the content if the file has changed on disk or as opposed.
 
  *
  * <p>
@@ -28,15 +28,16 @@
  * functionalities for importing/exporting a text fiel. Each line of this file
  * should be separeted by a special character. The user may choose if the first
  * line of the file is a header or not. He can choose the cells where the
- * content is displayed.
+ * content is displayed, and finally, the user has possobilidade have the link to the file, 
+ * trough this link changes will be made automatically, if the user makes a change in the file,
+ * updates are automatically updated in the application or otherwise.
  *
  *
  * <h2>4. Analysis</h2>
  * This feature will be supported in a new extension.
  * <h3>Import File</h3>
  * The user selects the file, choooses the special character to use as a column
- * separator, if the first line is an header or not and the cells to add the
- * file text. The system gets the information and add the text to the cells.
+ * separator,and choose if he wants linking or not the file. The system gets the information and add the text to the cells.
  *
  * desableLink_analysis.png
  * <h3>Export File</h3>
@@ -76,7 +77,7 @@
  * <img src="doc-files/export_file_design_image.png" alt="image">
  *
  * <h4>Disable the link</h4>
- * <img src="doc-files/desableLink_analysis_design.png" alt="image">
+ * <img src="doc-files/Link_desableLink_analysis_design.png" alt="image">
  *  *
  * <h3>5.3. Classes</h3>
  *
@@ -128,12 +129,15 @@
  * 1. Nothing.
  * <p>
  * <b>Tuesday</b>
+ * Ending design, and Starting tests.
  * </p>
  * <p>
- * <b>Wednesday</b>
+ * <b>Wednesday</b>  
+ * finishing the tests, and start implementation.
  * <p>
  * 1. Nothing.
- *
+
+ * 
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-
@@ -158,6 +162,6 @@
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author Rui Bastos
+ * @author Hicham Abahri 1141042@isep.ipp.pt
  */
 package csheets.worklog.n1141042.sprint3;
