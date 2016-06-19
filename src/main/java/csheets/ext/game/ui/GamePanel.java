@@ -6,8 +6,9 @@
 package csheets.ext.game.ui;
 
 import csheets.ext.game.GameExtension;
+import csheets.ext.game.controllers.BattleshipController;
 import csheets.ext.game.controllers.GameController;
-import csheets.ext.game.domain.Battleships;
+import csheets.ext.game.domain.Battleship;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -524,10 +525,7 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
 	 */
 	private void updateListOfGames() {
 		this.instanceListModelGames.add(0, "TicTacToe");
-
-		Battleships battleships = new Battleships();
-		this.instanceListModelGames.add(1, battleships.toString());
-
+		this.instanceListModelGames.add(1, BattleshipController.GAME_NAME);
 		this.gameList.setModel(this.instanceListModelGames);
 	}
 
