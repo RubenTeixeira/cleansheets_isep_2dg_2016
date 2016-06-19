@@ -70,42 +70,48 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to configure an email. We need to know if
- * the email reaches the destination. For that i will use mock-javamail and
- * green mail. It will be tested if the message is sent. As usual, in a test
- * driven development approach tests normally fail in the beginning. The idea is
- * that the tests will pass in the end.
+ * functionality of this use case is to create and execute macros. We need to
+ * check each line of the code and validate them. So i will do tests to validate
+ * and to not validate. As usual, in a test driven development approach tests
+ * normally fail in the beginning. The idea is that the tests will pass in the
+ * end.
  *
  * <h3>5.2. UC Realization</h3>
  * To realize this user story we will need to create a subclass of Extension. We
  * will also need to create a subclass of UIExtension. For the window we need to
  * implement a JDialog. The code of the extension will be in
- * <code>csheets.ext.email</code> package. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
+ * <code>csheets.ext.macro_beanshell</code> package. The following diagrams
+ * illustrate core aspects of the design of the solution for this use case.
  * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
  *
  * <h3>Use Case Sequence Diagram</h3>
- * The following diagram shows the steps needed for this use case. We decided
- * that the creation of the Email class would make sense, making all the actions
- * related to emails a responsability to this class.
+ * The following diagram shows the steps needed for this use case. My colleague
+ * Rui Bento has made a feature that follows the same steps as this. After
+ * studying is code and design, i thougth that would make sense if i followed is
+ * diagram, not only because it makes sense, but to keep the app cohesive as
+ * well.
  * <p>
- * <img src="doc-files/email_configuration_extension_design.png" alt="image">
+ * <img src="doc-files/macro_window_extension_design.png" alt="image">
  *
  *
  * <h3>5.3. Classes</h3>
  *
- * This is a really small class diagram. The only class we created to this task
- * was Email, because Session and Properties already existed.
- * <p>
- * <img src="doc-files/email_configuration_extension_class_diagram.png" alt="image">
+ * All the classes that i will use were already created:
+ * <li>Macro</li>
+ * <li>Script</li>
+ * <li>MacroBeanShell :
+ * <ul>
+ * <li>Extension</li>
+ * <li>Controller</li>
+ * <li>Panel</li>
+ * <li>UIExtension</li>
+ * </ul>
+ * </li>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -To resolve this use case, we're using patterns learned in the courses of
- * EAPLI and ESOFT, namely the GRASP and SOLID patterns-
+ * -To resolve this use case, i'm using patterns learned in the courses of EAPLI
+ * and ESOFT, namely the GRASP and SOLID patterns-
  * <p>
  * -...-
  *
