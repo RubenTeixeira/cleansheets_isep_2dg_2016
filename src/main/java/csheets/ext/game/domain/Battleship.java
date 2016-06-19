@@ -5,25 +5,147 @@
  */
 package csheets.ext.game.domain;
 
+import csheets.core.Address;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Dummy class
  *
- * @author João Martins
+ * @author Rui Bento
  */
-public class Battleships {
+public class Battleship {
 
-	public Battleships() {
+    public enum BoardSize {
+        GIANT(15),
+        BIG(12),
+        NORMAL(10),
+        SMALL(7);
 
-	}
+        private final int size;   // line count (square board)
 
-	/**
-	 * Battleships designation.
-	 *
-	 * @return "BATTLESHIPS"
-	 */
-	@Override
-	public String toString() {
-		return "BATTLESHIPS";
-	}
+        BoardSize(int size) {
+            this.size = size;
+        }
+
+        public int size() {
+            return size;
+        }
+    }
+
+    public enum BattleshipGameType {
+        TYPE_1(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
+            Ship.ShipType.Destroyer, Ship.ShipType.PatrolBoat}),
+        TYPE_2(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
+            Ship.ShipType.Destroyer, Ship.ShipType.SmallDestroyer}),
+        TYPE_3(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
+            Ship.ShipType.Cruiser, Ship.ShipType.PatrolBoat}),
+        TYPE_4(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
+            Ship.ShipType.Cruiser, Ship.ShipType.SmallDestroyer}),
+        TYPE_5(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Cruiser,
+            Ship.ShipType.SmallDestroyer, Ship.ShipType.SmallDestroyer,
+            Ship.ShipType.SmallSubmarine, Ship.ShipType.SmallSubmarine});
+        
+        private int totalShipCount;
+        private Map<Ship.ShipType, Integer> lstShipTypes;
+
+        BattleshipGameType(Ship.ShipType... shipTypes) {
+            lstShipTypes = new HashMap<Ship.ShipType, Integer>();
+            totalShipCount = 0;
+            for (Ship.ShipType shipType : shipTypes) {
+                int num = lstShipTypes.containsKey(shipType) ? lstShipTypes.get(shipType) : 0;
+                lstShipTypes.put(shipType, ++num);
+                totalShipCount++;
+            }
+        }
+        
+        private int getMaxShipTypeNum(Ship.ShipType st) {
+            return lstShipTypes.get(st);
+        }
+    }
+
+    public static final int SHOOT_SINK = 1;
+    public static final int SHOOT_HIT = 0;
+    public static final int SHOOT_FAIL = -1;
+
+    private Boolean[][] board;
+    private BattleshipGameType gameType;
+    private List<Ship> lstShips;
+
+    public List<Ship> getShips() {
+        return lstShips;
+    }
+
+    public Battleship(BoardSize boardSize, BattleshipGameType gameType) {
+        this.board = new Boolean[boardSize.size][boardSize.size];
+        this.gameType = gameType;
+        this.lstShips = new ArrayList<>();
+    }
+
+    public Ship addShip(Ship.ShipType shipType, List<Address> positions) {
+        Ship newShip = new Ship(shipType);
+        newShip.setLocation(positions);
+        int shipTypeCounter = 0;
+        for (Ship ship : lstShips) {
+            if (ship.onTopOf(newShip)) {
+                throw new VerifyError("Cannot override ship locations.");
+            }
+            if (ship.isShipType(shipType)) {
+                shipTypeCounter++;
+            }
+        }
+        if(gameType.getMaxShipTypeNum(shipType) >= shipTypeCounter) {
+            throw new VerifyError("Exceded this ShipTypes for the selected game"
+                    + " type.");
+        }
+        lstShips.add(newShip);
+        return newShip;
+    }
+    
+    public boolean isReadyToPlay() {
+        return lstShips.size() == gameType.totalShipCount;
+    }
+
+    public boolean allShipsDestroyed() {
+        for (Ship ship : lstShips) {
+            if (!ship.isDestroyed()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int shoot(Address address) {
+        if (board[address.getColumn()][address.getRow()]) {
+            throw new VerifyError("Already shoot that location.");
+        }
+        board[address.getColumn()][address.getRow()] = true;
+        for (Ship ship : lstShips) {
+            if (ship.hit(address)) {
+                if (ship.isDestroyed()) {
+                    return SHOOT_SINK;
+                }
+                return SHOOT_HIT;
+            }
+        }
+        return SHOOT_FAIL;
+    }
+
+    /**
+     * Battleship designation.
+     *
+     * @return "Battleship"
+     */
+    @Override
+    public String toString() {
+        return "Battleship";
+    }
 
 }
