@@ -4,7 +4,7 @@ import csheets.ui.ctrl.UIController;
 
 /**
  *
- * @author Rui Bento
+ * @author Rui Bento/ Rui Bastos
  */
 public class Macro implements Script {
 

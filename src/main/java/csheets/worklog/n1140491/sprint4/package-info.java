@@ -1,47 +1,52 @@
 /**
  * Technical documentation regarding the work of the team member (1140491) Rui
- * Bastos during week3.
+ * Bastos during week4.
  *
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
  * <p>
- * <b>Area Leader: -(yes/no)- no</b>
+ * <b>Area Leader: -(yes/no)- yes</b>
  *
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
  * <p>
- * -I spent most of the time working on my feature. In the last day of the
- * sprint(wednesday) i was helping my colleague Carlos Mateus in his use case.-
+ * -In this section you should register important notes regarding your work
+ * during the week. For instance, if you spend significant time helping a
+ * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Core05.1</h2>
+ * <h2>2. Use Case/Feature: Lang05.1</h2>
  *
- * Issue in Jira: -LPFOURDG-12-
+ * Issue in Jira: -LPFOURDG-39-
  *
  * <h2>3. Requirement</h2>
- * The new extension should have a window to setup email. This window should be
- * used to setup the required configurations for email. For instance, the
- * account data and server to be used to send emails. All the configuration data
- * should be saved in a proper file (used to save global data). The window
- * should have a button to send a test email. This test email should get its
- * contents (destination, subject and body) from the contents of specific cells
- * (to be selected when the user select the test email button). The window
- * should display a preview of the email and the result of the test.
+ * The new extension should add a menu option to open a window to edit and
+ * execute a single macro. Macros should be designed as a complete new language
+ * in Cleansheets. However, its initial grammar should be very simple and based
+ * on the formulas of Cleansheets. In particular, a macro is simply a sequence
+ * of formulas that are executed sequentially. The formulas are the same as
+ * those used in the cells. Each line of the macro may contain a formula or be a
+ * comment. A comment is a line that starts with the character ";". The lines of
+ * the macros must support all that is possible to do with the cell formulas
+ * that start with "=" (but in the macros the lines do not need to start the
+ * line with "="). The macro is to be associated with the current workbook (but,
+ * for the moment, it is not required to persist the macro). The result of
+ * executing a macro is the result of the last executed instruction. The new
+ * window should have an area to edit the text of the macro and button to run
+ * the macro. The result of the execution of the macro should also appear in the
+ * window.
  *
  * <p>
- * <b>Use Case "Email Configuration":</b> The user logs with is mail, entering
- * is e-mail, password and server. The system saves the data on a properties
- * file. The user selects the test mail button, selecting the destination,
- * subject and body of the message from the selected cells . The system sends
- * the message and shows a preview to the user.
+ * <b>Use Case "Macro Window":</b> The user opens the macro window. The system
+ * prints an example of the macro. The user writes is macro and runs it. The
+ * system validates it and executes it.
  *
  *
  * <h2>4. Analysis</h2>
- * A jDialog should be created to ask for the configuration data. Another
- * jDialog should be used to preview the e-mail. To complete this feature we
- * will need to understand how emails are sent and how we can adapte them in our
- * code.
+ * To do this use case i will use the side bar created by my colleague Rui
+ * Bento. To complete this feature we will need to understand how to adapte de
+ * formulas of Cleansheets in order to create the macros.
  *
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the
@@ -53,13 +58,13 @@
  * exists as such in the code of the application (at least at the moment that
  * this diagram was created).
  * <p>
- * <img src="doc-files/email_configuration_extension_uc_realization.png" alt="image">
+ * <img src="doc-files/macro_window_extension_uc_realization.png" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
- * It is possible to send email in java, using the javamail library. This
- * library allows us to communicate with the smtp protocol easily, almost
- * "abstracting" the problem. We will test this library to understand it better.
- * Therefore, we will start to implement tests for this use case.
+ * It's my responsability to create a new language: Macros. I must create it
+ * using the already existing formulas. I will check all the functions of
+ * Cleansheets and adapt them. Therefore, we will start to implement tests for
+ * this use case, testing the Macros.
  *
  * <h2>5. Design</h2>
  *
@@ -228,7 +233,7 @@
  *
  * @author Rui Bastos
  */
-package csheets.worklog.n1140491.sprint3;
+package csheets.worklog.n1140491.sprint4;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
