@@ -1,2 +1,7 @@
-[EL Info]: 2016-06-09 15:23:55.189--ServerSession(1262288130)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
-[EL Info]: connection: 2016-06-09 15:23:55.523--ServerSession(1262288130)--file:/Users/valhalla/Documents/LAPR4/lapr4-2016-2dg/target/csheets-1.0-SNAPSHOT.jar_lapr4.CleanSheetsPU login successful
+[EL Info]: 2016-06-16 13:09:10.869--ServerSession(1782954917)--EclipseLink, version: Eclipse Persistence Services - 2.5.2.v20140319-9ad6abd
+[EL Info]: connection: 2016-06-16 13:09:11.397--ServerSession(1782954917)--file:/Users/Martins/NetBeansProjects/lapr4-2016-2dg/target/csheets-1.0-SNAPSHOT.jar_lapr4.CleanSheetsPU login successful
+Created UDPServer
+Created TCPServer
+java.lang.IllegalArgumentException: Width (0) and height (0) must be non-zero
+java.lang.IllegalArgumentException: Width (0) and height (0) must be non-zero
+java.lang.IllegalArgumentException: Width (0) and height (0) must be non-zero

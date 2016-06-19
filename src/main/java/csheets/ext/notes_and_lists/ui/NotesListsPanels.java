@@ -16,6 +16,8 @@ import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
@@ -29,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Rui Bento
  * @author Diogo Azevedo
+ * @author João Martins
  */
 public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 
@@ -47,6 +50,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 	private DefaultListModel<List> contactListModel;
 	private DefaultListModel<Integer> listVersionModel;
 	private DefaultTableModel listDataModel;
+	private DefaultListModel resultListModel;
 
 	/**
 	 * Creates new form EventsPanel
@@ -61,9 +65,52 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		createActions();
 		fetchContacts();
 		cbListContact.setSelectedIndex(-1);
+		addListener();
 		Notification.noteInformer().addObserver(this);
 		Notification.contactInformer().addObserver(this);
 		this.update(null, null);
+	}
+
+	private void addListener() {
+		jStartDateChooser.getDateEditor().addPropertyChangeListener(
+			new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if ("date".equals(event.getPropertyName())) {
+					updateResultList();
+				}
+			}
+		});
+		jEndDateChooser.getDateEditor().addPropertyChangeListener(
+			new PropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				if ("date".equals(event.getPropertyName())) {
+					updateResultList();
+				}
+			}
+		});
+	}
+
+	private void updateResultList() {
+		this.resultListModel.removeAllElements();
+		if (this.jStartDateChooser.getDate() == null) {
+
+		} else if (this.jEndDateChooser.getDate() == null) {
+
+		} else {
+			for (Note note : this.controller.searchNotes(this.jStartDateChooser.
+				getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+														 getText())) {
+				this.resultListModel.addElement(note);
+			}
+			for (List list : this.controller.searchLists(this.jStartDateChooser.
+				getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+														 getText())) {
+				this.resultListModel.addElement(list);
+			}
+			this.jListResults.setModel(this.resultListModel);
+		}
 	}
 
 	private void createModels() {
@@ -71,6 +118,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		contactListModel = new DefaultListModel();
 		listVersionModel = new DefaultListModel();
 		listDataModel = new DefaultTableModel();
+		resultListModel = new DefaulListModel();
 	}
 
 	private void defineTableModel() {
@@ -338,6 +386,16 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListActions = new javax.swing.JPanel();
         btnApply = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        panelSearch = new javax.swing.JPanel();
+        panelDate = new javax.swing.JPanel();
+        jLabelStart = new javax.swing.JLabel();
+        jLabelEnd = new javax.swing.JLabel();
+        jEndDateChooser = new com.toedter.calendar.JDateChooser();
+        jStartDateChooser = new com.toedter.calendar.JDateChooser();
+        jTextFieldExpression = new javax.swing.JTextField();
+        jPanelResultsList = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jListResults = new javax.swing.JList<>();
 
         jMenu1.setText("jMenu1");
 
@@ -372,11 +430,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         lblNoteContactNotes.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblNoteContactNotes.setText("Contact Notes");
 
-        lstContactNotes.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         lstContactNotes.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lstContactNotesMouseClicked(evt);
@@ -388,7 +441,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelContactNoteList.setLayout(panelContactNoteListLayout);
         panelContactNoteListLayout.setHorizontalGroup(
             panelContactNoteListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(lblNoteContactNotes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelContactNoteListLayout.setVerticalGroup(
@@ -662,7 +715,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addComponent(lblList, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(checkboxEditList))
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -749,6 +802,105 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         );
 
         tabPane.addTab("Lists", panelLists);
+
+        jLabelStart.setText("start:");
+
+        jLabelEnd.setText("end:");
+
+        jEndDateChooser.setToolTipText("");
+        jEndDateChooser.setDoubleBuffered(false);
+
+        jStartDateChooser.setToolTipText("");
+        jStartDateChooser.setDoubleBuffered(false);
+
+        javax.swing.GroupLayout panelDateLayout = new javax.swing.GroupLayout(panelDate);
+        panelDate.setLayout(panelDateLayout);
+        panelDateLayout.setHorizontalGroup(
+            panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelDateLayout.createSequentialGroup()
+                        .addComponent(jLabelStart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDateLayout.createSequentialGroup()
+                        .addComponent(jLabelEnd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jEndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelDateLayout.setVerticalGroup(
+            panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDateLayout.createSequentialGroup()
+                        .addComponent(jStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelDateLayout.createSequentialGroup()
+                        .addComponent(jLabelStart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelEnd)
+                        .addContainerGap())))
+        );
+
+        jTextFieldExpression.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldExpressionActionPerformed(evt);
+            }
+        });
+        jTextFieldExpression.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldExpressionKeyReleased(evt);
+            }
+        });
+
+        jScrollPane9.setViewportView(jListResults);
+
+        javax.swing.GroupLayout jPanelResultsListLayout = new javax.swing.GroupLayout(jPanelResultsList);
+        jPanelResultsList.setLayout(jPanelResultsListLayout);
+        jPanelResultsListLayout.setHorizontalGroup(
+            jPanelResultsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelResultsListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanelResultsListLayout.setVerticalGroup(
+            jPanelResultsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelResultsListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
+        panelSearch.setLayout(panelSearchLayout);
+        panelSearchLayout.setHorizontalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanelResultsList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextFieldExpression, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelSearchLayout.setVerticalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSearchLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTextFieldExpression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelDate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelResultsList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 15, Short.MAX_VALUE))
+        );
+
+        tabPane.addTab("Search", panelSearch);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -922,6 +1074,15 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		tableListData.setSize(((panelWidth - 6) / 2), tableListData.getHeight());
     }//GEN-LAST:event_formComponentResized
 
+    private void jTextFieldExpressionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExpressionActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldExpressionActionPerformed
+
+    private void jTextFieldExpressionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldExpressionKeyReleased
+		this.controller.setText(this.jTextFieldExpression.getText());
+		updateResultList();
+    }//GEN-LAST:event_jTextFieldExpressionKeyReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
     private javax.swing.JButton btnCreateNewList;
@@ -933,7 +1094,12 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JComboBox<Contact> cbNoteContact;
     private javax.swing.JCheckBox checkboxEditList;
     private javax.swing.JEditorPane jEditorPane1;
+    private com.toedter.calendar.JDateChooser jEndDateChooser;
+    private javax.swing.JLabel jLabelEnd;
+    private javax.swing.JLabel jLabelStart;
+    private javax.swing.JList<String> jListResults;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JPanel jPanelResultsList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -942,6 +1108,9 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private com.toedter.calendar.JDateChooser jStartDateChooser;
+    private javax.swing.JTextField jTextFieldExpression;
     private javax.swing.JLabel lblContactLists;
     private javax.swing.JLabel lblList;
     private javax.swing.JLabel lblListContact;
@@ -957,6 +1126,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel panelContactList;
     private javax.swing.JPanel panelContactNoteList;
     private javax.swing.JPanel panelCreateList;
+    private javax.swing.JPanel panelDate;
     private javax.swing.JPanel panelListActions;
     private javax.swing.JPanel panelListContact;
     private javax.swing.JPanel panelListData;
@@ -969,6 +1139,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel panelNoteInfo;
     private javax.swing.JPanel panelNoteVersionList;
     private javax.swing.JPanel panelNotes;
+    private javax.swing.JPanel panelSearch;
     private javax.swing.JTabbedPane tabPane;
     private javax.swing.JTable tableListData;
     private javax.swing.JTextArea textAreaNote;

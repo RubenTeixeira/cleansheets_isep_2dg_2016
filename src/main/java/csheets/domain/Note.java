@@ -6,9 +6,6 @@
 package csheets.domain;
 
 import csheets.support.DateTime;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -30,76 +27,79 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"TITLE"})})
+	@UniqueConstraint(columnNames = {"TITLE"})})
 public class Note {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "NOTEID")
-    private List<Note> versions;
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "NOTEID")
+	private List<Note> versions;
 
-    private String title;
-    private String noteText;
-    private boolean versionState;
+	private String title;
+	private String noteText;
+	private boolean versionState;
 
-    @ManyToOne
-    private Contact contact;
+	@ManyToOne
+	private Contact contact;
 
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private java.util.Calendar timeStamp;
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private java.util.Calendar time;
 
-    protected Note() {
-    }
+	protected Note() {
+	}
 
-    public Note(String noteText, Contact contact, boolean noteState) {
-        String s[] = noteText.split("\\r?\\n");
-        ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-        System.out.println(arrList);
-        title = arrList.get(0);
-        this.noteText = noteText;
-        this.contact = contact;
-        this.timeStamp = DateTime.now();
-        this.versionState = noteState;
-    }
+	public Note(String noteText, Contact contact, boolean noteState) {
+		String s[] = noteText.split("\\r?\\n");
+		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
+		System.out.println(arrList);
+		title = arrList.get(0);
+		this.noteText = noteText;
+		this.contact = contact;
+		this.time = DateTime.now();
+		this.versionState = noteState;
+	}
 
-    private void updateNote() {
-        Note n = new Note(this.noteText, this.contact, false);
-        n.timeStamp(DateTime.now());
-        versions.add(n);
-    }
+	private void updateNote() {
+		Note n = new Note(this.noteText, this.contact, false);
+		n.timeStamp(DateTime.now());
+		versions.add(n);
+	}
 
-    public void editNote(String textNote) {
-        String s[] = noteText.split("\\r?\\n");
-        ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-        System.out.println(arrList);
-        title = arrList.get(0);
-        this.noteText = textNote;
-        
-        updateNote();
-    }
+	public void editNote(String textNote) {
+		String s[] = noteText.split("\\r?\\n");
+		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
+		System.out.println(arrList);
+		title = arrList.get(0);
+		this.noteText = textNote;
 
-    public Contact getContact() {
-        return this.contact;
-    }
+		updateNote();
+	}
 
-    private void timeStamp(Calendar now) {
-        this.timeStamp = now;
-    }
+	public Contact getContact() {
+		return this.contact;
+	}
 
-    public List<Note> versionByNote() {
-        return this.versions;
-    }
-    
-    public boolean noteState() {
-        return this.versionState;
-    }
+	private void timeStamp(Calendar now) {
+		this.time = now;
+	}
 
-    @Override
-    public String toString() {
-        return this.title;
-    }
+	public List<Note> versionByNote() {
+		return this.versions;
+	}
 
+	public boolean noteState() {
+		return this.versionState;
+	}
+
+	public Calendar date() {
+		return time;
+	}
+
+	@Override
+	public String toString() {
+		return this.title;
+	}
 }

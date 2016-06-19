@@ -13,6 +13,7 @@ import csheets.framework.persistence.repositories.DataIntegrityViolationExceptio
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -22,133 +23,156 @@ import java.util.logging.Logger;
  *
  * @author Diogo Azevedo
  * @author Rui Bento
+ * @author João Martins
  */
 public class NotesListsController {
 
-    /**
-     * The user interface controller
-     */
-    private final UIController uiController;
+	/**
+	 * The user interface controller
+	 */
+	private final UIController uiController;
 
-    private Map<Integer, List> listVersions;
+	private Map<Integer, List> listVersions;
 
-    /**
-     * Creates a new comment controller.
-     *
-     * @param uiCtrl the user interface controller
-     */
-    public NotesListsController(UIController uiCtrl) {
-        this.uiController = uiCtrl;
-    }
+	private String expression;
 
-    public Iterable<Contact> showContacts() {
-        return PersistenceContext.repositories().contacts().all();
-    }
+	/**
+	 * Creates a new comment controller.
+	 *
+	 * @param uiCtrl the user interface controller
+	 */
+	public NotesListsController(UIController uiCtrl) {
+		this.uiController = uiCtrl;
+	}
 
-    public Note createNote(String noteText, Contact contact) {
-        Note note = NoteFactory.createNote(noteText, contact, true);
-        try {
-            PersistenceContext.repositories().notes().add(note);
-            Notification.noteInformer().notifyChange();
+	public Iterable<Contact> showContacts() {
+		return PersistenceContext.repositories().contacts().all();
+	}
 
-        } catch (DataIntegrityViolationException ex) {
-            Logger.getLogger(NotesListsController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return note;
-    }
+	public Note createNote(String noteText, Contact contact) {
+		Note note = NoteFactory.createNote(noteText, contact, true);
+		try {
+			PersistenceContext.repositories().notes().add(note);
+			Notification.noteInformer().notifyChange();
 
-    public Note editNote(String noteText, Note note) {
-        note.editNote(noteText);
-        PersistenceContext.repositories().notes().save(note);
-        Notification.noteInformer().notifyChange();
+		} catch (DataIntegrityViolationException ex) {
+			Logger.getLogger(NotesListsController.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+		return note;
+	}
 
-        return note;
-    }
+	public Note editNote(String noteText, Note note) {
+		note.editNote(noteText);
+		PersistenceContext.repositories().notes().save(note);
+		Notification.noteInformer().notifyChange();
 
-    public void deleteNote(Note note) {
-        PersistenceContext.repositories().notes().delete(note);
-        Notification.noteInformer().notifyChange();
-    }
+		return note;
+	}
 
-    public Iterable<Note> notesByContact(Contact contact) {
-        return PersistenceContext.repositories().notes().principalNotes(contact);
-    }
+	public void deleteNote(Note note) {
+		PersistenceContext.repositories().notes().delete(note);
+		Notification.noteInformer().notifyChange();
+	}
 
-    public Iterable<Note> versionByNote(Note note) {
-        return note.versionByNote();
-    }
+	public Iterable<Note> notesByContact(Contact contact) {
+		return PersistenceContext.repositories().notes().principalNotes(contact);
+	}
 
-    public Iterable<Contact> getContacts() {
-        return PersistenceContext.repositories().contacts().all();
-    }
+	public Iterable<Note> versionByNote(Note note) {
+		return note.versionByNote();
+	}
 
-    public Iterable<List> getContactLists(Object contactItem) {
-        if (contactItem != null && contactItem instanceof Contact) {
-            Contact contact = (Contact) contactItem;
-            return PersistenceContext.repositories().lists().listsByContact(contact);
-        }
-        return null;
-    }
+	public Iterable<Contact> getContacts() {
+		return PersistenceContext.repositories().contacts().all();
+	}
 
-    public Map<Integer, List> getListVersions(List list) {
-        if (list != null) {
-            listVersions = new HashMap<>();
-            for (List version : PersistenceContext.repositories().lists().listVersions(list)) {
-                listVersions.put(version.getVersionNumber(), version);
-            }
-            return listVersions;
-        }
-        return null;
-    }
+	public Iterable<List> getContactLists(Object contactItem) {
+		if (contactItem != null && contactItem instanceof Contact) {
+			Contact contact = (Contact) contactItem;
+			return PersistenceContext.repositories().lists().
+				listsByContact(contact);
+		}
+		return null;
+	}
 
-    public List getVersion(List list, int version) {
-        return version != -1 ? listVersions.get(version) : listVersions.get(listVersions.size());
-    }
+	public Map<Integer, List> getListVersions(List list) {
+		if (list != null) {
+			listVersions = new HashMap<>();
+			for (List version : PersistenceContext.repositories().lists().
+				listVersions(list)) {
+				listVersions.put(version.getVersionNumber(), version);
+			}
+			return listVersions;
+		}
+		return null;
+	}
 
-    public List createList(Object contactObj, String text) throws DataIntegrityViolationException,ClassCastException {
-        if (!(contactObj instanceof Contact)) {
-            throw new ClassCastException("Selected contact invalid.");
-        }
-        Contact contact = (Contact) contactObj;
-        String data[] = text.split("\n", 2);
-        if (data.length != 2) {
-            throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
-        }
-        if (data[0].equals("")
-                || data[1].equals("")) {
-            throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
-        }
-        List newList = new List(data[0], data[1], contact);
-        return PersistenceContext.repositories().lists().save(newList);
-    }
+	public List getVersion(List list, int version) {
+		return version != -1 ? listVersions.get(version) : listVersions.
+			get(listVersions.size());
+	}
 
-    public List editList(List list, String text) throws DataIntegrityViolationException {
-        String data[] = text.split("\n", 2);
-        if (data.length != 2) {
-            throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
-        }
-        if (data[0].equals("")
-                || data[1].equals("")) {
-            throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
-        }
-        List newList = list.newVersion(data[0], data[1]);
-        return PersistenceContext.repositories().lists().save(newList);
-    }
+	public List createList(Object contactObj, String text) throws DataIntegrityViolationException, ClassCastException {
+		if (!(contactObj instanceof Contact)) {
+			throw new ClassCastException("Selected contact invalid.");
+		}
+		Contact contact = (Contact) contactObj;
+		String data[] = text.split("\n", 2);
+		if (data.length != 2) {
+			throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
+		}
+		if (data[0].equals("")
+			|| data[1].equals("")) {
+			throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
+		}
+		List newList = new List(data[0], data[1], contact);
+		return PersistenceContext.repositories().lists().save(newList);
+	}
 
-    public List applyList(List list, Object[][] listData) {
-        for (Object[] data : listData) {
-            if (data[0] instanceof Boolean
-                    && data[1] instanceof String) {
-                String text = (String) data[1];
-                boolean check = (boolean) data[0];
-                list.changeState(text, check);
-            }
-        }
-        return PersistenceContext.repositories().lists().save(list);
-    }
+	public List editList(List list, String text) throws DataIntegrityViolationException {
+		String data[] = text.split("\n", 2);
+		if (data.length != 2) {
+			throw new DataIntegrityViolationException("Text invalid !\nFirst line should be the title.\nEach other line should be the lines of the list.");
+		}
+		if (data[0].equals("")
+			|| data[1].equals("")) {
+			throw new DataIntegrityViolationException("Text invalid !\nText should contain info.");
+		}
+		List newList = list.newVersion(data[0], data[1]);
+		return PersistenceContext.repositories().lists().save(newList);
+	}
 
-    public List deleteList(List list) {
-        list.delete();
-        return PersistenceContext.repositories().lists().save(list);
-    }
+	public List applyList(List list, Object[][] listData) {
+		for (Object[] data : listData) {
+			if (data[0] instanceof Boolean
+				&& data[1] instanceof String) {
+				String text = (String) data[1];
+				boolean check = (boolean) data[0];
+				list.changeState(text, check);
+			}
+		}
+		return PersistenceContext.repositories().lists().save(list);
+	}
+
+	public List deleteList(List list) {
+		list.delete();
+		return PersistenceContext.repositories().lists().save(list);
+	}
+
+	public Iterable<Note> searchNotes(Calendar startDate, Calendar endDate,
+									  String expression) {
+		return PersistenceContext.repositories().notes().
+			search(startDate, endDate, expression);
+	}
+
+	public Iterable<List> searchLists(Calendar startDate, Calendar endDate,
+									  String expression) {
+		return PersistenceContext.repositories().lists().
+			search(startDate, endDate, expression);
+	}
+
+	public void setText(String text) {
+		this.expression = text;
+	}
 }
