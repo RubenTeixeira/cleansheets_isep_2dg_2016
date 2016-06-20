@@ -1,16 +1,45 @@
 package csheets.ext.search.ui;
 
+import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.framework.search.SearchResultDTO;
+import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author José Barros
  */
-public class SearchResultPanel extends javax.swing.JPanel {
+public class SearchResultsPanel extends javax.swing.JFrame {
+
+	private final UIController uiController;
+	private final SearchReplaceUI panel;
+	private final SearchResultDTO result;
+	private final String replacestring;
 
 	/**
 	 * Creates new form SearchResultPanel
+	 *
+	 * @param uiController UI Controller
+	 * @param ui ui panel
+	 * @param result search result
+	 * @param replacestring string to replace
 	 */
-	public SearchResultPanel() {
+	public SearchResultsPanel(UIController uiController, SearchReplaceUI ui,
+							  SearchResultDTO result, String replacestring) {
+		this.uiController = uiController;
+		this.panel = ui;
+		this.result = result;
+		this.replacestring = replacestring;
+		this.setLocationRelativeTo(ui);
 		initComponents();
+		initFields();
+	}
+
+	private void initFields() {
+		this.labelValueResult.setText(result.getValue());
+		this.labelInResult.setText(result.getCell());
+		this.labelReplaceTo.setText(replacestring);
 	}
 
 	/**
@@ -33,6 +62,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
         btnReplace = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Result", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
 
         labelValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -45,7 +76,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
 
         labelInResult.setText("info");
 
-        labelReplace.setText("After replace:");
+        labelReplace.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelReplace.setText("Value after replace:");
 
         labelReplaceTo.setText("info");
 
@@ -53,8 +85,18 @@ public class SearchResultPanel extends javax.swing.JPanel {
         jCheckBoxReplace.setFocusable(false);
 
         btnReplace.setText("REPLACE");
+        btnReplace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReplaceActionPerformed(evt);
+            }
+        });
 
         btnNext.setText(">>");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -68,13 +110,12 @@ public class SearchResultPanel extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(btnReplace)
                         .addGap(18, 18, 18)
-                        .addComponent(btnNext))
+                        .addComponent(btnNext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelReplace)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(labelIn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                .addComponent(labelValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(labelIn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelReplace, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelReplaceTo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -108,23 +149,49 @@ public class SearchResultPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplaceActionPerformed
+		try {
+
+			String cellAddress = result.getCell();
+			int row = Integer.parseInt(cellAddress.substring(1)) - 1;
+			int column = cellAddress.charAt(0) - 'A';
+
+			uiController.focusOwner.changeSelection(row, column, false, false);
+
+			uiController.getActiveSpreadsheet().getCell(column, row).
+				setContent(replacestring);
+			dispose();
+
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(SearchResultsPanel.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+
+    }//GEN-LAST:event_btnReplaceActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+		dispose();
+    }//GEN-LAST:event_btnNextActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNext;
@@ -138,4 +205,8 @@ public class SearchResultPanel extends javax.swing.JPanel {
     private javax.swing.JLabel labelValue;
     private javax.swing.JLabel labelValueResult;
     // End of variables declaration//GEN-END:variables
+
+	void run() {
+		this.setVisible(true);
+	}
 }
