@@ -2,10 +2,11 @@
 
 participant "User" as User
 participant "System" as System
+participant "BeanShell" as BeanShell
 
-User->System : Selects a range of cells and chooses to sort them.
-System->User: Asks for the column to sort and its order (ascending or descending).
-User->System: Inputs preferences and submits.
-System->User: Shows the sorted columns.
+User->System : Executes a BeanShell script, in which has invoked one or more API calls.
+System->BeanShell: Add the API object to the interpreter.
+System->BeanShell: Execute the script.
+System->User: Returns the output.
 
 @enduml
