@@ -23,24 +23,16 @@ package csheets.core.formula.lang;
 import csheets.core.Cell;
 import csheets.core.CellImpl;
 import csheets.core.Value;
-import csheets.core.formula.Reference;
-import csheets.core.formula.util.ExpressionVisitor;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * A reference to a cell in a spreadsheet.
  *
  * @author Einar Pehrson
  */
-public class VariableLocalReference implements Reference {
-
-	/**
-	 * The cell to which the reference points
-	 */
-	private Cell cell;
-
-	private String variable;
+public class VariableLocalReference extends VariableArrayReference {
+//
+//	private Cell cell;
+//	private String variable;
 
 	/**
 	 * Creates a new cell reference to the given address. By default, relative
@@ -50,42 +42,39 @@ public class VariableLocalReference implements Reference {
 	 * @param variable variable
 	 */
 	public VariableLocalReference(Cell cell, String variable) {
-		this.cell = cell;
-		this.variable = variable;
+		super(cell, variable);
+//		this.cell = cell;
+//		this.variable = variable;
 	}
 
+	@Override
 	public Value evaluate() {
-		return ((CellImpl) cell).getVariable(this.variable);
+		return ((CellImpl) this.getCell()).getVariable(this.getVariable());
+//		return ((CellImpl) cell).getVariable(this.variable);
 	}
 
-	/**
-	 * Returns the cell to which the reference points.
-	 *
-	 * @return the cell to which the reference points
-	 */
-	public Cell getCell() {
-		return cell;
-	}
-
-	String getVariable() {
-		return this.variable;
-	}
-
-	@Override
-	public SortedSet<Cell> getCells() {
-		SortedSet<Cell> cells = new TreeSet();
-		cells.add(this.cell);
-		return cells;
-	}
-
-	@Override
-	public int compareTo(Reference reference) {
-		return reference.getCells().first().compareTo(this.cell);
-	}
-
-	@Override
-	public Object accept(ExpressionVisitor visitor) {
-		return null;
-	}
-
+//	public Cell getCell() {
+//		return cell;
+//	}
+//
+//	String getVariable() {
+//		return this.variable;
+//	}
+//
+//	@Override
+//	public SortedSet<Cell> getCells() {
+//		SortedSet<Cell> cells = new TreeSet();
+//		cells.add(this.cell);
+//		return cells;
+//	}
+//
+//	@Override
+//	public int compareTo(Reference reference) {
+//		return reference.getCells().first().compareTo(this.cell);
+//	}
+//
+//	@Override
+//	public Object accept(ExpressionVisitor visitor) {
+//		return null;
+//	}
 }

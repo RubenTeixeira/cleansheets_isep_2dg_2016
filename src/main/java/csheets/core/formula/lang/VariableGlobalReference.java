@@ -22,25 +22,16 @@ package csheets.core.formula.lang;
 
 import csheets.core.Cell;
 import csheets.core.Value;
-import csheets.core.formula.Reference;
-import csheets.core.formula.util.ExpressionVisitor;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * A reference to a cell in a spreadsheet.
  *
  * @author Einar Pehrson
  */
-public class VariableGlobalReference implements Reference {
+public class VariableGlobalReference extends VariableArrayReference {
 
-	/**
-	 * The workbook to which the reference
-	 */
-	private Cell cell;
-
-	private String variable;
-
+//	private Cell cell;
+//	private String variable;
 	/**
 	 * Creates a new cell reference to the given address. By default, relative
 	 * addressing is used.
@@ -49,42 +40,45 @@ public class VariableGlobalReference implements Reference {
 	 * @param variable variable
 	 */
 	public VariableGlobalReference(Cell cell, String variable) {
-		this.cell = cell;
-		this.variable = variable;
-	}
-
-	public Value evaluate() {
-		return this.getCell().getSpreadsheet().getWorkbook().
-			getVariable(this.variable);
+		super(cell, variable);
+//		this.cell = cell;
+//		this.variable = variable;
 	}
 
 	/**
-	 * Returns the cell to which the reference points.
 	 *
-	 * @return the cell to which the reference points
+	 * @return Value.
 	 */
-	public Cell getCell() {
-		return cell;
-	}
-
-	String getVariable() {
-		return this.variable;
-	}
-
 	@Override
-	public SortedSet<Cell> getCells() {
-		SortedSet<Cell> cells = new TreeSet();
-		cells.add(this.cell);
-		return cells;
+	public Value evaluate() {
+		return this.getCell().getSpreadsheet().getWorkbook().
+			getVariable(this.getVariable());
+//		return this.getCell().getSpreadsheet().getWorkbook().
+//			getVariable(this.variable);
 	}
-
-	@Override
-	public int compareTo(Reference reference) {
-		return reference.getCells().first().compareTo(this.cell);
-	}
-
-	@Override
-	public Object accept(ExpressionVisitor visitor) {
-		return null;
-	}
+//
+//	public Cell getCell() {
+//		return cell;
+//	}
+//
+//	String getVariable() {
+//		return this.variable;
+//	}
+//
+//	@Override
+//	public SortedSet<Cell> getCells() {
+//		SortedSet<Cell> cells = new TreeSet();
+//		cells.add(this.cell);
+//		return cells;
+//	}
+//
+//	@Override
+//	public int compareTo(Reference reference) {
+//		return reference.getCells().first().compareTo(this.cell);
+//	}
+//
+//	@Override
+//	public Object accept(ExpressionVisitor visitor) {
+//		return null;
+//	}
 }
