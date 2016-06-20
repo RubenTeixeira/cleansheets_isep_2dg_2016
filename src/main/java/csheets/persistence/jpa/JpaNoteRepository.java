@@ -9,8 +9,11 @@ import csheets.domain.Contact;
 import csheets.domain.Note;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.NoteRepository;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -39,6 +42,29 @@ public class JpaNoteRepository extends JpaRepository<Note, Long> implements Note
 		query.setParameter("contact", contact.id());
 		List<Note> tmp = query.getResultList();
 		return tmp;
+	}
+
+	@Override
+	public List<Note> search(Calendar startDate, Calendar endDate,
+							 String expression) {
+		final Query query = entityManager().
+			createQuery("SELECT n FROM Note n where n.time BETWEEN :startDate AND :endDate",
+						Note.class);
+		query.setParameter("startDate", startDate, TemporalType.DATE);
+		query.setParameter("endDate", endDate, TemporalType.DATE);
+		List<Note> tmp = query.getResultList();
+		if (expression == null || expression.isEmpty()) {
+			return tmp;
+		}
+		ArrayList<Note> results = new ArrayList();
+		for (Note note : tmp) {
+			for (Note version : note.versionByNote()) {
+				if (version.toString().matches(expression)) {
+					results.add(version);
+				}
+			}
+		}
+		return results;
 	}
 
 }

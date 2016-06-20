@@ -8,12 +8,18 @@ package csheets.persistence;
 import csheets.domain.Contact;
 import csheets.domain.List;
 import csheets.framework.persistence.repositories.Repository;
+import java.util.Calendar;
 
 /**
  *
  * @author Rui Bento
  */
-public interface ListRepository extends Repository <List, Long> {
-    public Iterable<List> listsByContact(Contact contact);
-    public Iterable<List> listVersions(List list);
+public interface ListRepository extends Repository<List, Long> {
+
+	public Iterable<List> listsByContact(Contact contact);
+
+	public Iterable<List> listVersions(List list);
+
+	public Iterable<List> search(Calendar startdate, Calendar endDate,
+								 String expression);
 }

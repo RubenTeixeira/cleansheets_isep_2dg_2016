@@ -17,10 +17,10 @@ package csheets.core.formula.compiler;
 // Alter code generation so catch-clauses get replace with
 // this action.
 @rulecatch {
-catch (RecognitionException e) {
-reportError(e);
-throw e;
-}
+	catch (RecognitionException e) {
+		reportError(e);
+	throw e;
+	}
 }
 
 @members {
@@ -115,8 +115,8 @@ literal
 /* String literals, i.e. anything inside the delimiters */
 FUNCTION : ( LETTER )+ ;
 CELL_REF : ( ABS )? LETTER ( LETTER )? ( ABS )? ( DIGIT )+ ;
-VART_REF : UNDR ( LETTER | DIGIT )+ ;
-VARG_REF : ARRB ( LETTER | DIGIT )+ ;
+VART_REF : UNDR ( LETTER | DIGIT )+ (LSBRA DIGIT+ RSBRA)?;
+VARG_REF : ARRB ( LETTER | DIGIT )+ (LSBRA DIGIT+ RSBRA)?;
 
 /* String literals, i.e. anything inside the delimiters */
 fragment LETTER : ('a'..'z'|'A'..'Z') ;
@@ -161,6 +161,8 @@ LPAR	: '(' ;
 RPAR	: ')' ;
 LBRA    : '{' ;
 RBRA    : '}' ;
+LSBRA	: '[' ;
+RSBRA	: ']' ;
 
 /* White-space (ignored) */
 WS:

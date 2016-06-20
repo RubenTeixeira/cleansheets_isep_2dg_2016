@@ -3,15 +3,10 @@
  * Gomes during week4.
  *
  * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
- * <p>
  * <b>Scrum Master:</b>no.
  *
  * <p>
- * <b>Area Leader:</b>yes
+ * <b>Area Leader:</b>no.
  *
  * <h2>1. Notes</h2>
  *
@@ -52,243 +47,159 @@
  * variables are updated.</p>
  *
  * <p>
- * <b>Use Case "":</b>
+ * <b>Use Case: Array Variables Support</b>: Both temporal and global variables
+ * should now support an array of values. All values from one variable should be
+ * accessed by its position on the array. Both variable types should be
+ * initialized inside a opened Workbook. The Assign operations assign a value to
+ * one specific position of the Array. <code>=@global[2]:=3</code> - This will
+ * assign the value 3 into the second position of the global (@) variable
+ * '@global'. The token _ is used for local/temporal variables.</p>
+ *
+ * <p>
+ * <b>Use Case: Edit global Variables Side Bar</b>: Cleansheets application
+ * should have a side bar linked to the workbook opened in the current
+ * workspace. The side bar should provide access to its Global variables and
+ * allow the editing of its values in the used positions.</p>
  *
  *
  * <h2>4. Analysis</h2>
- * Since comments on cells will be supported in a new extension to cleansheets
- * we need to study how extensions are loaded by cleansheets and how they work.
- * The first sequence diagram in the section
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
- * Startup</a> tells us that extensions must be subclasses of the Extension
- * abstract class and need to be registered in special files. The Extension
- * class has a method called getUIExtension that should be implemented and
- * return an instance of a class that is a subclass of UIExtension. In this
- * subclass of UIExtension there is a method (getSideBar) that returns the
- * sidebar for the extension. A sidebar is a JPanel.
+ * <p>
+ * For the Analysis of this feature it’s important to perform and read both
+ * analysis of the previous features that led to this one. First one being
+ * <b>Support for Temporal Variables</b> and second being <b>Support for Global
+ * Variables</b>. It’s known that these tokens _ and @ allow to initialize these
+ * different Variables. But how does the process work?</p>
+ *
+ * <p>
+ * By analyzing the current class <code>ExcelExpressionCompiler</code>, when the
+ * method compile() is running and after the grammar interpretation, the
+ * Expression <code>=@global:=2</code> its recognized as a Binary Operation. The
+ * Parse Tree recognizes the node as an Assign Operator (':=') and the Childs
+ * that descend from this node are both '@global', as Left Operant, and '2' as
+ * Right Operant.</p>
+ *
+ * <p>
+ * The operation then proceeds to recursively detect the reference belonging to
+ * each Child. In this case, '@global' is recognized as a
+ * <code>FormulaLexer.VARG_REF</code> and the '2' as a
+ * <code>FormulaLexer.NUMBER CODE</code>. This excerpt of Code is important to
+ * understand how to implement the feature:
+ * <pre>
+ *
+ * {@code
+ *		if (node.getChildCount() == 0) {
+ *		try {
+ *			switch (node.getType()) {
+ *				case FormulaLexer.CELL_REF:
+ *					return new CellReference(cell.getSpreadsheet(), node.getText());
+ *				case FormulaLexer.VART_REF:
+ *					return new VariableLocalReference(cell, node.getText());
+ *				case FormulaLexer.VARG_REF:
+ *					return new VariableGlobalReference(cell, node.getText());
+ *				case FormulaLexer.NUMBER:
+ *					return new Literal(Value.parseNumericValue(node.getText()));
+ *				case FormulaLexer.STRING:
+ *					return new Literal(Value.
+ *					parseValue(node.getText(), Value.Type.BOOLEAN, Value.Type.DATE));
+ *				}
+ *			} catch (ParseException e) {
+ *			throw new FormulaCompilationException(e);
+ *			}
+ *		}
+ * }
+ * </pre>
+ *
+ * <p>
+ * For this feature, the main goal it’s to detect both variables as an
+ * <code>FormulaLexer.ARRAY_REF</code> when, in the Left Operant, there are
+ * Straight Brackets '[]' and one or more digits inside [{0,1,2,3,4,5,6,7,8,9}].
+ * This requires adding code to <code>FormulaLexer.java</code>.</p>
+ *
+ * <p>
+ * It’s also necessary to edit the grammar rules, <code>Formula.g</code> and add
+ * new tokens: <ul>
+ * <li>
+ * Left Straight Bracket - [;</li>
+ * <li>
+ * Right Straight Bracket - ];</li>
+ * </ul>
+ * Both under the Miscellaneous operators.
+ * <p>
+ * The new rules to add would be similar to this:<ul>
+ * <li>
+ * VART_REF (LSBRA DIGIT+ RSBRA)?; - Temporal Variable followed by [*digit*]
+ * VARG_REF</li>
+ * <li>
+ * (LSBRA DIGIT+ RSBRA)? – Global Variable followed by [*digit*]</li>
+ * </ul>
+ *
+ * <p>
+ * By performing this changes it should be possible to retrieve the correct
+ * reference and work with the retrieved text, such as '@global[2]'.</p>
+ * <p>
+ * From the previous Features two classes are important
+ * <code>VariableLocalReference</code> and <code>VariableGlobalReference</code>.
+ * Both classes create a reference from where the variable was initialized and
+ * its name. An object of <code>VariableLocalReference</code> is linked to a
+ * Cell, with no Serialization, which means that, at close-up, the variables and
+ * their correspondent Value would not be saved. However, an object of
+ * <code>VariableGlobalReference</code> is linked to a Workbook and saved with
+ * it. For as long as that Workbook prevails the variable and its correspondent
+ * value should also exist, the user should also be able to delete it.
+ * <p>
+ * A possible Solution would be to add at both this classes an ArrayList of
+ * Values to store the assign Values. This would led to a change in both Classes
+ * <code>Workbook.java</code> and <code>CellImpl.java</code> that are currently
+ * using an HashMap(String,Value) to assign to a variable (String) one and only
+ * one Value (Value). This solution would probably over-complicate the situation
+ * and promote Low cohesion among this classes. This will be the current
+ * solution:</p>
  *
  *
  * <h3>First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
- * <p>
- * <img src="doc-files/comments_extension_uc_realization1.png" alt="image">
- * <p>
  *
- * From the previous diagram we see that we need to add a new "attribute" to a
- * cell: "comment". Therefore, at this point, we need to study how to add this
- * new attribute to the class/interface "cell". This is the core technical
- * problem regarding this issue.
  * <h3>Analysis of Core Technical Problem</h3>
- * We can see a class diagram of the domain model of the application
- * <a href="../../../../overview-summary.html#modelo_de_dominio">here</a>
- * From the domain model we see that there is a Cell interface. This defines the
- * interface of the cells. We also see that there is a class CellImpl that must
- * implement the Cell interface. If we open the {@link csheets.core.Cell} code
- * we see that the interface is defined as:
- * <code>public interface Cell extends Comparable &lt;Cell&gt;, Extensible&lt;Cell&gt;, Serializable</code>.
- * Because of the <code>Extensible</code> it seams that a cell can be extended.
- * If we further investigate the hierarchy of {@link csheets.core.Cell} we see
- * that it has a subclass {@link csheets.ext.CellExtension} which has a subclass
- * {@link csheets.ext.style.StylableCell}.
- * {@link csheets.ext.style.StylableCell} seems to be an example of how to
- * extend cells. Therefore, we will assume that it is possible to extend cells
- * and start to implement tests for this use case.
- * <p>
- * The <a href="http://en.wikipedia.org/wiki/Delegation_pattern">delegation
- * design pattern</a> is used in the cell extension mechanism of cleansheets.
- * The following class diagram depicts the relations between classes in the
- * "Cell" hierarchy.
- * <p>
- * <img src="doc-files/core02_01_analysis_cell_delegate.png" alt="image">
- *
- * <p>
- * One important aspect is how extensions are dynamically created and returned.
- * The <code>Extensible</code> interface has only one method,
- * <code>getExtension</code>. Any class, to be extensible, must return a
- * specific extension by its name. The default (and base) implementation for the
- * <code>Cell</code> interface, the class <code>CellImpl</code>, implements the
- * method in the following manner:
- * <pre>
- * {@code
- * 	public Cell getExtension(String name) {
- *		// Looks for an existing cell extension
- *		CellExtension extension = extensions.get(name);
- *		if (extension == null) {
- *			// Creates a new cell extension
- *			Extension x = ExtensionManager.getInstance().getExtension(name);
- *			if (x != null) {
- *				extension = x.extend(this);
- *				if (extension != null)
- *					extensions.put(name, extension);
- *			}
- *		}
- *		return extension;
- *	}
- * }
- * </pre> As we can see from the code, if we are requesting a extension that is
- * not already present in the cell, it is applied at the moment and then
- * returned. The extension class (that implements the <code>Extension</code>
- * interface) what will do is to create a new instance of its cell extension
- * class (this will be the <b>delegator</b> in the pattern). The constructor
- * receives the instance of the cell to extend (the <b>delegate</b> in the
- * pattern). For instance, <code>StylableCell</code> (the delegator) will
- * delegate to <code>CellImpl</code> all the method invocations regarding
- * methods of the <code>Cell</code> interface. Obviously, methods specific to
- * <code>StylableCell</code> must be implemented by it. Therefore, to implement
- * a cell that can have a associated comment we need to implement a class
- * similar to <code>StylableCell</code>.
  *
  * <h2>5. Design</h2>
  *
- * <h3>5.1. Functional Tests</h3>
- * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to add an attribute to cells to
- * be used to store a comment/text. We need to be able to set and get its value.
- * Following this approach we can start by coding a unit test that uses a
- * subclass of <code>CellExtension</code> with a new attribute for user comments
- * with the corresponding method accessors (set and get). A simple test can be
- * to set this attribute with a simple string and to verify if the get method
- * returns the same string. As usual, in a test driven development approach
- * tests normally fail in the beginning. The idea is that the tests will pass in
- * the end.
- * <p>
- * see: <code>csheets.ext.comments.CommentableCellTest</code>
+ * <h3>Functional Tests</h3>
  *
- * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
+ *
+ * <h3>UC Realization</h3>
  *
  * <h3>Extension Setup</h3>
- * The following diagram shows the setup of the "comments" extension when
- * cleansheets is run.
- * <p>
- * <img src="doc-files/core02_01_design.png" alt="image">
  *
+ * <h3>Classes</h3>
  *
- * <h3>User Selects a Cell</h3>
- * The following diagram illustrates what happens when the user selects a cell.
- * The idea is that when this happens the extension must display in the sidebar
- * the comment of that cell (if it exists).
- * <p>
- * <img src="doc-files/core02_01_design2.png" alt="image">
- *
- * <h3>User Updates the Comment of a Cell</h3>
- * The following diagram illustrates what happens when the user updates the text
- * of the comment of the current cell. To be noticed that this diagram does not
- * depict the actual selection of a cell (that is illustrated in the previous
- * diagram).
- * <p>
- * <img src="doc-files/core02_01_design3.png" alt="image">
- *
- * <h3>5.3. Classes</h3>
- *
- * -Document the implementation with class diagrams illustrating the new and the
- * modified classes-
- *
- * <h3>5.4. Design Patterns and Best Practices</h3>
- *
- * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
+ * <h3>Design Patterns and Best Practices</h3>
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * <p>
- * see:
- * <p>
- * <a href="../../../../csheets/ext/comments/package-summary.html">csheets.ext.comments</a><p>
- * <a href="../../../../csheets/ext/comments/ui/package-summary.html">csheets.ext.comments.ui</a>
- *
  * <h2>7. Integration/Demonstration</h2>
- *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
- *
  * <h2>9. Work Log</h2>
- *
- * -Insert here a log of you daily work. This is in essence the log of your
- * daily standup meetings.-
  * <p>
- * Example
+ * <b>Sunday</b>
  * <p>
- * <b>Monday</b>
+ * Today:
  * <p>
- * Yesterday I worked on:
+ * 1. Starte Analysis.
  * <p>
- * 1. -nothing-
- * <p>
- * Today
- * <p>
- * 1. Analysis of the...
+ * 1. Updated Formula.g file according to new Tokens and Expressions.
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1. ...
- * <p>
- * Today
- * <p>
- * 1. ...
- * <p>
- * Blocking:
- * <p>
- * 1. ...
+ * 1. nothing.
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * <h3>Design and Implementation:</h3>
  *
- * <h3>10.1. Design and Implementation:3</h3>
+ * <h3>Teamwork:</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
- * <p>
- * <b>Evidences:</b>
- * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
- *
- * <h3>10.2. Teamwork: ...</h3>
- *
- * <h3>10.3. Technical Documentation: ...</h3>
+ * <h3>Technical Documentation:</h3>
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */

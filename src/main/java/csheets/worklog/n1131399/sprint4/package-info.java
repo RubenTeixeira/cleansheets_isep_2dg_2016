@@ -42,6 +42,12 @@
  * already implemented persistence framework.
  *
  * <h2>5. Design</h2>
+ * To realize this user story we will need to create a subclass of Extension. We
+ * will also need to create a subclass of UIExtension. For the sidebar we need
+ * to implement a JPanel. In the code of the extension
+ * <code>csheets.ext.style</code> we can find examples that illustrate how to
+ * implement these technical requirements. The following diagrams illustrate
+ * core aspects of the design of the solution for this use case.
  *
  * <h3>6. Tests</h3>
  *

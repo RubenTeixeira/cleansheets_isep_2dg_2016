@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Valhalla
+ * @author Marcelo Barroso 1131399
  */
 public class ReminderPanelSingle extends javax.swing.JPanel {
 

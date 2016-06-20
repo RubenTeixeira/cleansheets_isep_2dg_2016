@@ -8,14 +8,19 @@ package csheets.persistence;
 import csheets.domain.Contact;
 import csheets.domain.Note;
 import csheets.framework.persistence.repositories.Repository;
+import java.util.Calendar;
 import java.util.List;
 
 /**
  *
  * @author Diogo Azevedo
  */
-public interface NoteRepository extends Repository <Note, Long> {
-    public List<Note> notesByContact(Contact contact);
-    
-    public List<Note> principalNotes(Contact contact);
+public interface NoteRepository extends Repository<Note, Long> {
+
+	public List<Note> notesByContact(Contact contact);
+
+	public List<Note> principalNotes(Contact contact);
+
+	public List<Note> search(Calendar startdate, Calendar endDate,
+							 String expression);
 }
