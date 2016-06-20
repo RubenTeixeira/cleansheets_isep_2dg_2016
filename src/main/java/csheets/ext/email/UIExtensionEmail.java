@@ -29,6 +29,7 @@ public class UIExtensionEmail extends UIExtension {
 	 */
 	private EmailMenu menu;
 	private EmailController controller;
+	private Email email;
 
 	/**
 	 * The menu of the extension
@@ -67,7 +68,7 @@ public class UIExtensionEmail extends UIExtension {
 			if (this.controller == null) {
 				this.controller = new EmailController();
 			}
-			menu = new EmailMenu(uiController, controller);
+			menu = new EmailMenu(uiController, controller, email);
 		}
 		return menu;
 	}

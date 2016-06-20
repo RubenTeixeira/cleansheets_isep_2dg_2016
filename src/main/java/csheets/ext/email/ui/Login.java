@@ -170,7 +170,7 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(TestEmailButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TestEmailButton, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -208,7 +208,7 @@ public class Login extends javax.swing.JFrame {
 							   getText());
 			controller.updateProperties(this.mail.session().getProperties());
 			JOptionPane.
-				showMessageDialog(this, "Welcome!!!", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+				showMessageDialog(this, "Welcome to your session", "Sucess", JOptionPane.INFORMATION_MESSAGE);
 			this.TestEmailButton.setEnabled(true);
 		} catch (AuthenticationFailedException ex) {
 			JOptionPane.
@@ -231,7 +231,7 @@ public class Login extends javax.swing.JFrame {
 	public static void main(String args[]) {
 		/* Set the Nimbus look and feel */
 		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
 		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 		 */
 		try {

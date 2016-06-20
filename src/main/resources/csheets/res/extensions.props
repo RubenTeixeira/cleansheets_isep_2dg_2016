@@ -25,3 +25,4 @@ csheets.ext.email.EmailExtension;1.0;Email
 csheets.ext.tags.TagsExtension;1.0;Enables_contacts_tags v1
 csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchExtension;2.0;Search
 csheets.ext.task.TaskExtension;1.0;Task
+csheets.ext.findNotesLists.FindNotesListsExtension;1.0;Find

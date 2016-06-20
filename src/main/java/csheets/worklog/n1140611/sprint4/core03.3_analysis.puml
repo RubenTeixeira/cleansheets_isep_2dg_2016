@@ -1,0 +1,7 @@
+@startuml doc-files/core03.3_analysis.png
+participant "User" as User
+participant "RangedSortDialog" as UI
+participant "SortController" as Controller
+
+
+@enduml

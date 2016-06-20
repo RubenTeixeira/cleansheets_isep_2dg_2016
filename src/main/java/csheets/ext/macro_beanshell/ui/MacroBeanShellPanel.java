@@ -76,12 +76,12 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         radioBtnMacro = new javax.swing.JRadioButton();
         radioBtnBeanShell = new javax.swing.JRadioButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtAreaCode = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtAreaResult = new javax.swing.JTextArea();
         btnExecute = new javax.swing.JButton();
         managerButton = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        txtAreaCode = new javax.swing.JTextPane();
 
         radioGroupScript.add(radioBtnMacro);
         radioBtnMacro.setText("Macro");
@@ -110,10 +110,6 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtAreaCode.setColumns(20);
-        txtAreaCode.setRows(5);
-        jScrollPane1.setViewportView(txtAreaCode);
-
         txtAreaResult.setEditable(false);
         txtAreaResult.setBackground(new java.awt.Color(60, 63, 65));
         txtAreaResult.setColumns(20);
@@ -137,6 +133,8 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
             }
         });
 
+        jScrollPane3.setViewportView(txtAreaCode);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -144,7 +142,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane3)
                     .addComponent(jScrollPane2)
                     .addComponent(btnExecute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -160,9 +158,9 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(managerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(btnExecute)
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
@@ -184,13 +182,13 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExecute;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton managerButton;
     private javax.swing.JRadioButton radioBtnBeanShell;
     private javax.swing.JRadioButton radioBtnMacro;
     private javax.swing.ButtonGroup radioGroupScript;
-    private javax.swing.JTextArea txtAreaCode;
+    private javax.swing.JTextPane txtAreaCode;
     private javax.swing.JTextArea txtAreaResult;
     // End of variables declaration//GEN-END:variables
 }

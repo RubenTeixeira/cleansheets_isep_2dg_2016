@@ -83,9 +83,6 @@
  * winner. If no complete a sequence are informed that drew.</p>
  * <p>
  * At the end they are asked whether to make a new game, or leave.</p>
- * <p>
- * In this feature you will need to make a reuse some existing code, Sharing
- * feature on Cells</p>
  *
  *
  * <h3>Domain Model</h3>
@@ -184,31 +181,31 @@
  * <b>Evidences:</b>
  * </p>
  * <p>
- * <b>User Profile</b>
+ * <h3>Step 1 - </h3>User Profile<br/><br/>
  * <img src="http://imgur.com/KjMAiPP.png" alt="connect">
  * </p>
  * <p>
- * <b>Choose Opponent</b>
+ * <h3>Step 2 - </h3>Choose Opponent<br/><br/>
  * <img src="http://imgur.com/lU1DKyc.png" alt="connect2">
  * </p>
  * <p>
- * <b>Choose TicTacToe Game</b>
+ * <h3>Step 3 - </h3>Choose TicTacToe Game<br/><br/>
  * <img src="http://imgur.com/JORXj49.png" alt="choose game">
  * </p>
  * <p>
- * <b>Connect Opponent</b>
+ * <h3>Step 4 - </h3>Connect Opponent<br/><br/>
  * <img src="http://imgur.com/QRBRgbW.png" alt="connect">
  * </p>
  * <p>
- * <b>Received invitation from opponent</b>
+ * <h3>Step 5 - </h3>Received invitation from opponent<br/><br/>
  * <img src="http://imgur.com/ThgR6uB.png" alt="connect established">
  * </p>
  * <p>
- * <b>Start Game</b>
+ * <h3>Step 6 - </h3>Start Game<br/><br/>
  * <img src="http://imgur.com/4xdMVMv.png" alt="play">
  * </p>
  * <p>
- * <b>"O" is ever the first move</b>
+ * <h3>Step 7 - </h3>"O" is ever the first move<br/><br/>
  * <img src="http://imgur.com/SatOArC.png" alt="game">
  * </p>
  *

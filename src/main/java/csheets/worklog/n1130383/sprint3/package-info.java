@@ -105,6 +105,55 @@
  * be tests for the method that searchs for workbooks in the current machine. In
  * order to do so there must be a testing class for <code>AWSController</code>
  * and <code>WindowPreview.</code></p>
+ *
+ * <p>
+ * For the <code>WorkbookPreviewTest</code> there are tests created to all
+ * methods that handle internal behavior, no UI association. In the
+ * <code>setUp()</code> method a new Workbook (wb) and a new Spreadsheet(ss) is
+ * initialized and the <b>middle</b> of that spreadsheet (second spreadsheet of
+ * the workbook - position 2) will be filled with content equal to 1. It's
+ * important to fill the results in the middle to test the algorithm that
+ * searchs for the first non-empty cell. The WorkbookPreview provides a preview
+ * of the Workbook - a matrix (5*5) of cells - where the first position of this
+ * matrix will be the first non-empty cell from a workbook, even if the first
+ * cell with content isn't in the first Spreadsheet, it could be in the second,
+ * third... Therefore the first cell of the preview should have content equal to
+ * 1, according to the values used to test. After the spreadsheet setup, a
+ * different Workbook will be used to create a second Preview, in the method
+ * <code>testGetPreview()</code>, but this time from the its first spreadsheet.
+ * This new spreadsheet, unlike the first one used, will be filled from its
+ * first Cell, manually. The Preview obtained is the <b>expected result</b> and
+ * should have the same values as the other. If the values from both Previews
+ * match the tests are successful. This tests are essentially to test if, for
+ * the Workbook given, the algorithm is correctly looking for the first
+ * non-empty cell, no matter its place in the Workbook, and if the group of
+ * cells returned is a 5*5 matrix grouped by the first non-empty Cell.</p>
+ *
+ * <p>
+ * For the <code>AdvancedWorkbookSearchController</code> there are tests to all
+ * methods that handle searching features. By providing a temporary folder and a
+ * specific pattern - Default pattern in this test - the controller is able to
+ * search for all files in the giving directory.<pre>
+ * {@code
+ *		//Allow to set up a Temporary Folder for Testing.
+ *		'@Rule'
+ *		public TemporaryFolder temporaryFolder = new TemporaryFolder();
+ *
+ *		//File under the Temporary Folder.
+ *		public File file;
+ *}
+ * </pre>
+ * <p>
+ * In the method <code>testSearch()</code> the variable 'file' is initialized
+ * with a file with the ".cls" extension (the default pattern when no other is
+ * provided) from the TemporaryFolder. The search algorithm returns a List(File)
+ * with the found files. If the list returned contains the file under the
+ * TemporaryFolder then the tests are successful.</p>
+ * <p>
+ * The method <code>setUpWorkbookPreview()</code> is also tested to guarantee
+ * that the correct columns are being used to build the Preview. The first
+ * correct column should be where the first non-empty cell is located. The
+ * others should be the four next.</p>
  * <p>
  * Both classes were tested for this feature requirements and are fully
  * functional.</p>

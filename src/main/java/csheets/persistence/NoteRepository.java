@@ -21,6 +21,6 @@ public interface NoteRepository extends Repository<Note, Long> {
 
 	public List<Note> principalNotes(Contact contact);
 
-	public List<Note> search(Calendar startdate, Calendar endDate,
-							 String expression);
+	public Iterable<Note> search(Calendar startdate, Calendar endDate,
+								 String title, String content);
 }

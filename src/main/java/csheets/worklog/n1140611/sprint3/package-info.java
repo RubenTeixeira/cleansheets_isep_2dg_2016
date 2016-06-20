@@ -16,7 +16,7 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: IPC05.1</h2>
+ * <h2>2. Use Case/Feature: Lang08.2</h2>
  * Issue in Jira:
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-49">LPFOURDG-49</a>
  * <p>
@@ -214,14 +214,13 @@
  * <p>
  * <b>Thursday</b>
  * <p>
- * Yesterday I worked on:
+ * Yesterday I worked on: 
  * <p>
- * 1.
+ * 1.helped ipc05.2 feature
  * <p>
  * Today
  * <p>
- * 1.
- * <p>
+ * 1.helped ipc05.2 feature
  * Blocking:
  * <p>
  * 1.
