@@ -3,12 +3,16 @@ package csheets.ext.search.ui;
 import csheets.core.Value;
 import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
+import csheets.framework.search.SearchResultDTO;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.PatternSyntaxException;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -44,6 +48,8 @@ public class SearchReplaceUI extends javax.swing.JFrame {
 	 */
 	private boolean firstClick = true;
 
+	private boolean suspended = true;
+
 	/**
 	 * Creates new form SearchReplaceUI
 	 *
@@ -66,6 +72,42 @@ public class SearchReplaceUI extends javax.swing.JFrame {
 
 	private void performSearch() {
 
+		String searchstring = jSearchTextField.getText();
+		String replacestring = txtReplace.getText();
+
+		try {
+
+			if (!searchstring.equals("") && (!replacestring.equals("") && !replacestring.
+				equals("Type a text to replace..."))) {
+
+				List<SearchResultDTO> results = searchController.
+					searchWorkBook(uiController.workbooks(), searchstring, types,
+								   formulas, comments);
+				int found = results.size();
+
+				if (found > 0) {
+
+					results.stream().
+						forEach((result) -> {
+							new SearchResultsPanel(uiController, this, result, replacestring).
+								run();
+						});
+				} else {
+					JOptionPane.
+						showMessageDialog(this, "No results.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+					dispose();
+				}
+				dispose();
+
+			} else {
+				JOptionPane.
+					showMessageDialog(this, "Missing fields.", "Error", JOptionPane.ERROR_MESSAGE);
+			}
+
+		} catch (PatternSyntaxException ex) {
+			JOptionPane.
+				showMessageDialog(this, "Invalid pattern syntax!", "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
@@ -102,6 +144,11 @@ public class SearchReplaceUI extends javax.swing.JFrame {
         jLabel1.setText("Replace:");
 
         searchButton.setText("SEARCH AND REPLACE");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("CANCEL");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -194,6 +241,10 @@ public class SearchReplaceUI extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 		dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+		performSearch();
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 	public void run() {
 		this.setVisible(true);

@@ -96,17 +96,8 @@
  *
  * <h3>5.3. Classes</h3>
  *
- * All the classes that i will use were already created:
- * <li>Macro</li>
- * <li>Script</li>
- * <li>MacroBeanShell :
- * <ul>
- * <li>Extension</li>
- * <li>Controller</li>
- * <li>Panel</li>
- * <li>UIExtension</li>
- * </ul>
- * </li>
+ * This class diagram shows all the classes used and there relations.
+ * <img src="doc-files/macro_window_extension_class_diagram.png" alt="image">
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *

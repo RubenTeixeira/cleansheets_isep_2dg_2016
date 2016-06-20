@@ -1,15 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.io;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -34,10 +33,10 @@ public class PDFCodec {
 
 	/**
 	 *
-	 * Method used to write spreadsheet to the PDF file
+	 * Method used to write workbook into the PDF file
 	 *
-	 * @param workbook
-	 * @param file
+	 * @param workbook workbook
+	 * @param file file
 	 * @throws IOException
 	 */
 	public void writeWorkbook(Workbook workbook, File file) throws IOException {
@@ -47,24 +46,52 @@ public class PDFCodec {
 
 			PdfWriter.getInstance(document, new FileOutputStream(file));
 			document.open();
+			PdfPCell cell;
+
+			//added title workbook to pdf file
+			PdfPTable title = new PdfPTable(1);
+			cell = new PdfPCell(new Paragraph("Workbook", FontFactory.
+											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setBorder(Rectangle.NO_BORDER);
+			title.addCell(cell);
+			document.add(title);
+
 			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
+				PdfPTable subTitle = new PdfPTable(1);
 				Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
 
 				int row = spreadsheet.getRowCount();
 				int columm = spreadsheet.getColumnCount();
 				String value[][] = new String[row + 1][columm + 1];
 				PdfPTable table = new PdfPTable(columm + 1);
-				PdfPCell cell;
 
+				//added subTitle Spreadsheet to pdf file
+				cell = new PdfPCell(new Paragraph("Spreadsheet " + k + 1, FontFactory.
+												  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setBorder(Rectangle.NO_BORDER);
+				subTitle.addCell(cell);
+
+				//added subTitle Cells to pdf file
+				cell = new PdfPCell(new Paragraph("Cells", FontFactory.
+												  getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD, BaseColor.BLACK)));
+				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setBorder(Rectangle.NO_BORDER);
+				subTitle.addCell(cell);
+
+				document.add(subTitle);
+				//put information into table
 				Font f = new Font();
+				PdfPCell tableCell;
 				for (int i = 0; i < row; i++) {
 					for (int j = 0; j < columm + 1; j++) {
 						value[i][j] = spreadsheet.getCell(j, i).getValue().
 							toString();
 
-						cell = new PdfPCell(new Paragraph(value[i][j], f));
+						tableCell = new PdfPCell(new Paragraph(value[i][j], f));
 
-						table.addCell(cell);
+						table.addCell(tableCell);
 
 					}
 				}
@@ -76,9 +103,15 @@ public class PDFCodec {
 			System.err.println(de.getMessage());
 		}
 
-		System.out.println("Done!");
 	}
 
+	/**
+	 * Method used to write Spreadsheet into the PDF file
+	 *
+	 * @param spreadsheet Spreadsheet
+	 * @param file file
+	 * @throws IOException
+	 */
 	public void writeSpreadsheet(Spreadsheet spreadsheet, File file) throws IOException {
 		Document document = new Document(PageSize.A4);
 
@@ -93,15 +126,34 @@ public class PDFCodec {
 			PdfPTable table = new PdfPTable(columm + 1);
 			PdfPCell cell;
 
+			//added title Spreadsheet to pdf file
+			PdfPTable title = new PdfPTable(1);
+			cell = new PdfPCell(new Paragraph("Spreadsheet", FontFactory.
+											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setBorder(Rectangle.NO_BORDER);
+			title.addCell(cell);
+
+			//added subTitle Cells to pdf file
+			cell = new PdfPCell(new Paragraph("Cells", FontFactory.
+											  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
+			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+			cell.setBorder(Rectangle.NO_BORDER);
+			title.addCell(cell);
+
+			document.add(title);
+
+			//put information into table
 			Font f = new Font();
+			PdfPCell tableCell;
 			for (int i = 0; i < row; i++) {
 				for (int j = 0; j < columm + 1; j++) {
 					value[i][j] = spreadsheet.getCell(j, i).getValue().
 						toString();
 
-					cell = new PdfPCell(new Paragraph(value[i][j], f));
+					tableCell = new PdfPCell(new Paragraph(value[i][j], f));
 
-					table.addCell(cell);
+					table.addCell(tableCell);
 
 				}
 			}
@@ -112,9 +164,15 @@ public class PDFCodec {
 			System.err.println(de.getMessage());
 		}
 
-		System.out.println("Done!");
 	}
 
+	/**
+	 * Method used to write a range of cells into the PDF file
+	 *
+	 * @param cells range of cells
+	 * @param file File
+	 * @throws IOException
+	 */
 	public void writeSelectedCells(Cell[][] cells, File file) throws IOException {
 		Document document = new Document(PageSize.A4);
 
@@ -127,16 +185,28 @@ public class PDFCodec {
 			PdfPTable table = new PdfPTable(cells[0].length);
 			PdfPCell cell;
 
+			//added title Cells in pdf file
+			PdfPTable title = new PdfPTable(1);
+			cell = new PdfPCell(new Paragraph("Cells", FontFactory.
+											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
+			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cell.setBorder(Rectangle.NO_BORDER);
+			title.addCell(cell);
+
+			document.add(title);
+
+			//put information into table
 			Font f = new Font();
+			PdfPCell tableCell;
 			for (int i = 0; i < cells.length; i++) {
 				for (int j = 0; j < cells[0].length; j++) {
 
 					value[i][j] = cells[i][j].
 						getValue().toString();
 
-					cell = new PdfPCell(new Paragraph(value[i][j], f));
+					tableCell = new PdfPCell(new Paragraph(value[i][j], f));
 
-					table.addCell(cell);
+					table.addCell(tableCell);
 
 				}
 			}
@@ -147,6 +217,5 @@ public class PDFCodec {
 			System.err.println(de.getMessage());
 		}
 
-		System.out.println("Done!");
 	}
 }

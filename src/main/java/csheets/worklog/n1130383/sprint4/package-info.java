@@ -38,28 +38,28 @@
  * an array. When accessing a variable only by its name it should be inferred
  * the position 1 of the array. To explicitly access a position in a array
  * variable the position index should be specified inside brackets (following
- * the name of the variable). For example, the formula '=@abc[2]:=123' will set
- * the position 2 of the global variable @abc to the value 123. Each position of
- * an array can be of a different type. For instance it should be possible to
- * have an array with numeric and alphanumeric values. There should also be a
- * window in the sidebar to display and edit the value of global variables. The
- * values that appear in this window should be automatically updated when the
- * variables are updated.</p>
+ * the name of the variable). For example, the formula
+ * <code>=@abc[2]:=123</code> will set the position 2 of the global variable
+ * '@abc' to the value 123. Each position of an array can be of a different
+ * type. For instance it should be possible to have an array with numeric and
+ * alphanumeric values. There should also be a window in the sidebar to display
+ * and edit the value of global variables. The values that appear in this window
+ * should be automatically updated when the variables are updated.</p>
  *
  * <p>
  * <b>Use Case: Array Variables Support</b>: Both temporal and global variables
  * should now support an array of values. All values from one variable should be
  * accessed by its position on the array. Both variable types should be
- * initialized inside a opened Workbook. The Assign operations assign a value to
- * one specific position of the Array. <code>=@global[2]:=3</code> - This will
- * assign the value 3 into the second position of the global (@) variable
- * '@global'. The token _ is used for local/temporal variables.</p>
+ * initialized inside a opened Workbook. The Assign operations assigns a value
+ * to one specific position of the Array. <code>=@global[2]:=3</code> - This
+ * will assign the value 3 into the second position of the global (@) variable
+ * '@global'. The token '_' is used for local (temporal) variables.</p>
  *
  * <p>
  * <b>Use Case: Edit global Variables Side Bar</b>: Cleansheets application
- * should have a side bar linked to the workbook opened in the current
- * workspace. The side bar should provide access to its Global variables and
- * allow the editing of its values in the used positions.</p>
+ * should have a side bar linked to the workbook in the current workspace. The
+ * side bar should provide access to its Global variables and allow the editing
+ * of its values in the used positions.</p>
  *
  *
  * <h2>4. Analysis</h2>
@@ -67,25 +67,24 @@
  * For the Analysis of this feature it’s important to perform and read both
  * analysis of the previous features that led to this one. First one being
  * <b>Support for Temporal Variables</b> and second being <b>Support for Global
- * Variables</b>. It’s known that these tokens _ and @ allow to initialize these
- * different Variables. But how does the process work?</p>
+ * Variables</b>. It’s known that these tokens '_' and '@' allow to initialize
+ * these different Variables. But how does the process work?</p>
  *
  * <p>
  * By analyzing the current class <code>ExcelExpressionCompiler</code>, when the
  * method compile() is running and after the grammar interpretation, the
- * Expression <code>=@global:=2</code> its recognized as a Binary Operation. The
- * Parse Tree recognizes the node as an Assign Operator (':=') and the Childs
- * that descend from this node are both '@global', as Left Operant, and '2' as
- * Right Operant.</p>
+ * Expression <code>=@global:=2</code> its recognized as a <b>Binary
+ * Operation</b>. The Parse Tree recognizes the node as an Assign Operator
+ * (':=') and the Childs that descend from this node are both '@global', as Left
+ * Operant, and '2' as Right Operant.</p>
  *
  * <p>
  * The operation then proceeds to recursively detect the reference belonging to
  * each Child. In this case, '@global' is recognized as a
- * <code>FormulaLexer.VARG_REF</code> and the '2' as a
- * <code>FormulaLexer.NUMBER CODE</code>. This excerpt of Code is important to
+ * <code>FormulaLexer.VARG_REF</code> and the value '2' as a
+ * <code>FormulaLexer.NUMBER</code>. This excerpt of Code is important to
  * understand how to implement the feature:
  * <pre>
- *
  * {@code
  *		if (node.getChildCount() == 0) {
  *		try {
@@ -108,9 +107,8 @@
  *		}
  * }
  * </pre>
- *
  * <p>
- * For this feature, the main goal it’s to detect both variables as an
+ * For this feature, the main goal it’s to detect both variables as a
  * <code>FormulaLexer.ARRAY_REF</code> when, in the Left Operant, there are
  * Straight Brackets '[]' and one or more digits inside [{0,1,2,3,4,5,6,7,8,9}].
  * This requires adding code to <code>FormulaLexer.java</code>.</p>
@@ -127,20 +125,20 @@
  * <p>
  * The new rules to add would be similar to this:<ul>
  * <li>
- * VART_REF (LSBRA DIGIT+ RSBRA)?; - Temporal Variable followed by [*digit*]
- * VARG_REF</li>
+ * VART_REF (LSBRA DIGIT+ RSBRA)?; - Temporal Variable followed by
+ * [*digit*]</li>
  * <li>
- * (LSBRA DIGIT+ RSBRA)? – Global Variable followed by [*digit*]</li>
+ * VARG_REF (LSBRA DIGIT+ RSBRA)? – Global Variable followed by [*digit*]</li>
  * </ul>
  *
  * <p>
  * By performing this changes it should be possible to retrieve the correct
- * reference and work with the retrieved text, such as '@global[2]'.</p>
+ * reference and work with the expresiion - '@global[2]'.</p>
  * <p>
  * From the previous Features two classes are important
  * <code>VariableLocalReference</code> and <code>VariableGlobalReference</code>.
- * Both classes create a reference from where the variable was initialized and
- * its name. An object of <code>VariableLocalReference</code> is linked to a
+ * Both classes create a reference from where(Cell) the variable was initialized
+ * and its name. An object of <code>VariableLocalReference</code> is linked to a
  * Cell, with no Serialization, which means that, at close-up, the variables and
  * their correspondent Value would not be saved. However, an object of
  * <code>VariableGlobalReference</code> is linked to a Workbook and saved with
@@ -153,17 +151,23 @@
  * using an HashMap(String,Value) to assign to a variable (String) one and only
  * one Value (Value). This solution would probably over-complicate the situation
  * and promote Low cohesion among this classes. This will be the current
- * solution:</p>
+ * solution.</p>
  *
+ * <h3>First Analysis Diagram</h3>
  *
- * <h3>First "analysis" sequence diagram</h3>
+ * <p>
+ * <img src="http://i.imgur.com/ZZ2FQlV.jpg" alt="Class Diagram Analysis"></p>
+ *
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
  * <h2>5. Design</h2>
  *
  * <h3>Functional Tests</h3>
- *
+ * <p>
+ * Tests will be performed to test the used Grammar. If it recognizes all tokens
+ * and rules associated with an Array Reference. All <code>evaluate()</code>
+ * methods should also be tested for their specific behaviour.</p>
  *
  * <h3>UC Realization</h3>
  *

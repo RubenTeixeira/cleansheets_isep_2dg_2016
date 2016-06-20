@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ui.legacy.exportPDF;
 
 import csheets.ui.ctrl.UIController;
@@ -13,7 +8,7 @@ import javax.swing.AbstractAction;
 
 /**
  *
- * @author utilizador
+ * @author Diogo Leite
  */
 public class ExportPDFAction extends AbstractAction {
 
@@ -36,9 +31,9 @@ public class ExportPDFAction extends AbstractAction {
 
 	/**
 	 *
-	 * Creates actionPerformed to call ExportXMLPanel
+	 * Creates actionPerformed to call ExportPDFPanel
 	 *
-	 * @param ae e
+	 * @param ae event
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {

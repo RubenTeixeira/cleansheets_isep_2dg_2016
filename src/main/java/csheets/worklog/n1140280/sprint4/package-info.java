@@ -33,20 +33,25 @@
  * </p>
  *
  * <h2>4. Analysis</h2>
+ * Learning about JDBC and ODBC and how to connect and create tables on
+ * databases using it
  * <p>
  * During the first analysis some questions were raised to be asked in monday:
  * <p>
  * Should the user be able to specify the database driver?</p>
+ * Yes it should
  * <p>
  * Can the user choose a non existent file to export to?</p>
+ * No and it should return error
  * <p>
  * Should JPA be used in the use case?</p>
+ * No it is not apropriatte
  * <p>
  * A class to interact with new tables on different databases should be stored
- * in persistence?</p>
- *
+ * in persistence? No, different package
  * </p>
- *
+ * </p>
+ * After the questions were solved anylisis is complete and going for design
  * <h3>Analysis sequence diagram</h3>
  * <p>
  * </p>
@@ -107,7 +112,11 @@
  * to be asked in th afternoon Started test planning
  * </p>
  * <p>
- * Tomorrow:
+ * Afternoon: Got all analysis questions anwsered and did design
+ * </p>
+ * <p>
+ * Tomorrow: Finish test planing and test implementation, probably also starting
+ * implementation
  * <b>Tuesday</b>
  * <p>
  * </p>

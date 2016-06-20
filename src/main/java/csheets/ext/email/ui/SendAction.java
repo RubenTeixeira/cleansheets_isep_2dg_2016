@@ -5,6 +5,7 @@
  */
 package csheets.ext.email.ui;
 
+import csheets.ext.email.Email;
 import csheets.ext.email.EmailController;
 import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
@@ -18,11 +19,13 @@ class SendAction extends BaseAction {
 
 	private UIController uiController;
 	private EmailController controller;
+	private Email email;
 
 	public SendAction(UIController uiController,
-					  EmailController controller) {
+					  EmailController controller, Email email) {
 		this.uiController = uiController;
 		this.controller = controller;
+		this.email = email;
 	}
 
 	@Override
@@ -32,7 +35,7 @@ class SendAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		//new ExportDialog(null, true, uiController, controller).setVisible(true);
+		EmailDialog emailDialog = new EmailDialog(controller, uiController, email);
 	}
 
 }
