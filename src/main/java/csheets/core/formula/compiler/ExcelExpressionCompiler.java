@@ -113,6 +113,24 @@ public class ExcelExpressionCompiler implements ExpressionCompiler {
 		return convert(cell, tree);
 	}
 
+	public CommonTree compileTree(String source) throws FormulaCompilationException {
+		ANTLRStringStream input = new ANTLRStringStream(source);
+		FormulaLexer lexer = new FormulaLexer(input);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		FormulaParser parser = new FormulaParser(tokens);
+		CommonTree tree = null;
+		try {
+			tree = (CommonTree) parser.expression().getTree();
+		} catch (RecognitionException e) {
+			String message = parser.getErrorMessage(e, parser.tokenNames);
+			throw new FormulaCompilationException("At (" + e.line + ";" + e.charPositionInLine + "): " + message);
+		} catch (Exception e) {
+			String message = "Other exception : " + e.getMessage();
+			throw new FormulaCompilationException(message);
+		}
+		return tree;
+	}
+
 	/**
 	 * Converts the given ANTLR AST to an expression.
 	 *
