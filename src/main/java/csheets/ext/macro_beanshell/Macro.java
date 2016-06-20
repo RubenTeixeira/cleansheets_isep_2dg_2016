@@ -38,13 +38,15 @@ public class Macro implements Script {
 
 		MacroExpressionComplier compiler = new MacroExpressionComplier(this.uiController);
 
-		for (String instruction : instructions) {
-			if (instruction.charAt(0) != ';') {
+		for (int i = 0; i < instructions.length; i++) {
+			if (instructions[i].charAt(0) != ';') {
 				try {
-					Expression formula = compiler.compile(instruction);
+					Expression formula = compiler.compile(instructions[i]);
 					result = formula.evaluate();
 				} catch (Exception ex) {
-					return createErrorMessage(ex.getMessage());
+					String errorMessage = createErrorMessage(ex.getMessage());
+					errorMessage = errorMessage.replaceAll("1;", (i + 1) + ";");
+					return errorMessage;
 				}
 			}
 		}
