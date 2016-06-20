@@ -42,7 +42,7 @@
  *
  * <h4>Auto-Sorting</h4>
  * <p>
- * <img src="doc-files/lang08.2_analysis.png" alt="image">
+ * <img src="doc-files/core03.3_analysis.png" alt="image">
  *
  *
  * <h3>Analysis of Core Technical Problem</h3>
