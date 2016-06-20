@@ -1,5 +1,6 @@
 package csheets.io;
 
+import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -37,15 +38,47 @@ public class PDFCodec {
 	 *
 	 * @param workbook workbook
 	 * @param file file
+	 * @param showList boolean
 	 * @throws IOException
 	 */
-	public void writeWorkbook(Workbook workbook, File file) throws IOException {
+	public void writeWorkbook(Workbook workbook, File file, boolean showList) throws IOException {
 		Document document = new Document(PageSize.A4);
 
 		try {
 
-			PdfWriter.getInstance(document, new FileOutputStream(file));
+			PdfWriter writer = PdfWriter.
+				getInstance(document, new FileOutputStream(file));
 			document.open();
+			if (showList) {
+				PdfPTable titleSections = new PdfPTable(1);
+				PdfPCell cellSections;
+				cellSections = new PdfPCell(new Paragraph("List of Sections", FontFactory.
+														  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
+				cellSections.setHorizontalAlignment(Element.ALIGN_CENTER);
+				cellSections.setBorder(Rectangle.NO_BORDER);
+				titleSections.addCell(cellSections);
+				document.add(titleSections);
+				PdfPTable listSections = new PdfPTable(1);
+				for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
+
+					Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
+					Paragraph linkToSection = new Paragraph();
+					Anchor anchor = new Anchor("Spreadsheet title:" + spreadsheet.
+						getTitle());
+
+					anchor.setReference("#Spreadsheet title:" + spreadsheet.
+						getTitle());
+					linkToSection.add(anchor);
+					listSections.addCell(linkToSection);
+					listSections.setTotalWidth(700);
+					listSections.writeSelectedRows(0, 0, 36, 36, writer.
+												   getDirectContent());
+
+				}
+				document.add(listSections);
+				document.newPage();
+			}
+
 			PdfPCell cell;
 
 			//added title workbook to pdf file
@@ -55,6 +88,7 @@ public class PDFCodec {
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setBorder(Rectangle.NO_BORDER);
 			title.addCell(cell);
+			title.setSpacingAfter(10);
 			document.add(title);
 
 			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
@@ -63,35 +97,49 @@ public class PDFCodec {
 
 				int row = spreadsheet.getRowCount();
 				int columm = spreadsheet.getColumnCount();
-				String value[][] = new String[row + 1][columm + 1];
-				PdfPTable table = new PdfPTable(columm + 1);
+
+				PdfPTable table = new PdfPTable(1);
 
 				//added subTitle Spreadsheet to pdf file
-				cell = new PdfPCell(new Paragraph("Spreadsheet " + k + 1, FontFactory.
-												  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-				cell.setBorder(Rectangle.NO_BORDER);
-				subTitle.addCell(cell);
+//				cell = new PdfPCell(new Paragraph("Spreadsheet title: " + spreadsheet.
+//					getTitle(), FontFactory.
+//												  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
+//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+//				cell.setBorder(Rectangle.NO_BORDER);
+//				subTitle.addCell(cell);
+				Anchor target = new Anchor("Spreadsheet title:" + spreadsheet.
+					getTitle());
+
+				target.setName("Spreadsheet title:" + spreadsheet.
+					getTitle());
+
+				document.add(target);
 
 				//added subTitle Cells to pdf file
 				cell = new PdfPCell(new Paragraph("Cells", FontFactory.
 												  getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD, BaseColor.BLACK)));
-				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 				cell.setBorder(Rectangle.NO_BORDER);
-				subTitle.addCell(cell);
 
+				subTitle.addCell(cell);
+				subTitle.setSpacingAfter(100);
 				document.add(subTitle);
+
 				//put information into table
 				Font f = new Font();
 				PdfPCell tableCell;
-				for (int i = 0; i < row; i++) {
+				for (int i = 0; i < row + 1; i++) {
 					for (int j = 0; j < columm + 1; j++) {
-						value[i][j] = spreadsheet.getCell(j, i).getValue().
-							toString();
 
-						tableCell = new PdfPCell(new Paragraph(value[i][j], f));
+						if (!spreadsheet.getCell(j, i).getValue().
+							toString().isEmpty()) {
+							tableCell = new PdfPCell(new Paragraph(spreadsheet.
+								getCell(j, i).getAddress().toString() + ":" + spreadsheet.
+								getCell(j, i).getValue().
+								toString(), f));
 
-						table.addCell(tableCell);
+							table.addCell(tableCell);
+						}
 
 					}
 				}
@@ -122,13 +170,14 @@ public class PDFCodec {
 
 			int row = spreadsheet.getRowCount();
 			int columm = spreadsheet.getColumnCount();
-			String value[][] = new String[row + 1][columm + 1];
-			PdfPTable table = new PdfPTable(columm + 1);
+
+			PdfPTable table = new PdfPTable(1);
 			PdfPCell cell;
 
 			//added title Spreadsheet to pdf file
 			PdfPTable title = new PdfPTable(1);
-			cell = new PdfPCell(new Paragraph("Spreadsheet", FontFactory.
+			cell = new PdfPCell(new Paragraph("Spreadsheet title:" + spreadsheet.
+				getTitle(), FontFactory.
 											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
 			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
 			cell.setBorder(Rectangle.NO_BORDER);
@@ -146,15 +195,18 @@ public class PDFCodec {
 			//put information into table
 			Font f = new Font();
 			PdfPCell tableCell;
-			for (int i = 0; i < row; i++) {
+			for (int i = 0; i < row + 1; i++) {
 				for (int j = 0; j < columm + 1; j++) {
-					value[i][j] = spreadsheet.getCell(j, i).getValue().
-						toString();
 
-					tableCell = new PdfPCell(new Paragraph(value[i][j], f));
+					if (!spreadsheet.getCell(j, i).getValue().
+						toString().isEmpty()) {
+						tableCell = new PdfPCell(new Paragraph(spreadsheet.
+							getCell(j, i).getAddress().toString() + ":" + spreadsheet.
+							getCell(j, i).getValue().
+							toString(), f));
 
-					table.addCell(tableCell);
-
+						table.addCell(tableCell);
+					}
 				}
 			}
 			document.add(table);
@@ -181,8 +233,7 @@ public class PDFCodec {
 			PdfWriter.getInstance(document, new FileOutputStream(file));
 			document.open();
 
-			String value[][] = new String[cells.length][cells[0].length];
-			PdfPTable table = new PdfPTable(cells[0].length);
+			PdfPTable table = new PdfPTable(1);
 			PdfPCell cell;
 
 			//added title Cells in pdf file
@@ -201,13 +252,14 @@ public class PDFCodec {
 			for (int i = 0; i < cells.length; i++) {
 				for (int j = 0; j < cells[0].length; j++) {
 
-					value[i][j] = cells[i][j].
-						getValue().toString();
+					if (!cells[i][j].
+						getValue().toString().isEmpty()) {
+						tableCell = new PdfPCell(new Paragraph(cells[i][j].
+							getAddress().toString() + ":" + cells[i][j].
+							getValue().toString(), f));
 
-					tableCell = new PdfPCell(new Paragraph(value[i][j], f));
-
-					table.addCell(tableCell);
-
+						table.addCell(tableCell);
+					}
 				}
 			}
 			document.add(table);
