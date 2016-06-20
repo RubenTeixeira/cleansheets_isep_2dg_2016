@@ -198,7 +198,7 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author alexandrebraganca
+ * @author AB-1140280
  */
 package csheets.worklog.n1140280.sprint3;
 
@@ -206,7 +206,7 @@ package csheets.worklog.n1140280.sprint3;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author AB-1140280
  */
 class _Dummy_ {
 }
