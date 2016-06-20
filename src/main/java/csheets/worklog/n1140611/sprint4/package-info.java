@@ -16,31 +16,31 @@
  * during the week. For instance, if you spend significant time helping a
  * colleague or if you work in more than a feature.-
  *
- * <h2>2. Use Case/Feature: Lang08.2</h2>
+ * <h2>2. Use Case/Feature: Core03.3</h2>
  * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-49">LPFOURDG-49</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-8">LPFOURDG-8</a>
  * <p>
  * -Include the identification and description of the feature-
  *
  * <h2>3. Requirement</h2>
- * It should be possible to import data from an XML file.
+ * Automatically sort a range of cells.
  * <p>
- * <b>Use Case " Lang08.2- Import XML ":</b> It should be possible to import
- * data from an XML file (this operation is the 'inverse' of the previous FI).
- * Depending on the contents of the XML file, the data from the file can replace
- * the contents of a workbook, a worksheet or a range of a worksheet. This
- * option should appear in the File menu.
- *
+ * <b>Use Case "Auto-Sorting" :</b> Automatically sort a range of cells. After
+ * deﬁning a range of cells like in the previous FI Cleansheets should
+ * automatically maintain the order as the user updates the contents of the
+ * range. Visual marks should be displayed for the range of cells as well as
+ * visual indicators for the sorting column and sorting order. The user should
+ * be able to change the sorting column by clicking on a new column. Clicking on
+ * the sorting column should change the sorting order.
  *
  * <h2>4. Analysis</h2>
- * <h3>Import XML</h3>
- * The user selects in File Menu to import from XML file. The system read file
- * and put information on cell content. The workbook update and information are
- * shown on the user interface.
+ * <h3>Import XMLAuto-Sorting</h3>
+ * The user selects a range of cells. When a user updates the content of the
+ * range of cells sould maintain the order.
  *
  * <h3>First "analysis" sequence diagram</h3>
  *
- * <h4>Import XML</h4>
+ * <h4>Auto-Sorting</h4>
  * <p>
  * <img src="doc-files/lang08.2_analysis.png" alt="image">
  *
@@ -214,13 +214,14 @@
  * <p>
  * <b>Thursday</b>
  * <p>
- * Yesterday I worked on: 
+ * Yesterday I worked on:
  * <p>
- * 1.helped ipc05.2 feature
+ * 1.
  * <p>
  * Today
  * <p>
- * 1.helped ipc05.2 feature
+ * 1.
+ * <p>
  * Blocking:
  * <p>
  * 1.
@@ -250,7 +251,7 @@
  *
  * @author Carlos Santos
  */
-package csheets.worklog.n1140611.sprint3;
+package csheets.worklog.n1140611.sprint4;
 
 /**
  * This class is only here so that javadoc includes the documentation about this
