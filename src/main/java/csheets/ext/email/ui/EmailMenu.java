@@ -1,5 +1,6 @@
 package csheets.ext.email.ui;
 
+import csheets.ext.email.Email;
 import csheets.ext.email.EmailController;
 import csheets.ext.email.EmailExtension;
 import csheets.ui.ctrl.UIController;
@@ -22,16 +23,17 @@ public class EmailMenu extends JMenu {
 	 * @param uiController the user interface controller
 	 * @param controller The controller.
 	 */
-	public EmailMenu(UIController uiController, EmailController controller) {
+	public EmailMenu(UIController uiController, EmailController controller,
+					 Email email) {
 		super("E-Mail");
 		setMnemonic(KeyEvent.VK_E);
 
 		// Adds font actions
 		add(new ConfigureAction(uiController, controller)).
 			setIcon(new ImageIcon(EmailExtension.class.
-					getResource("res/img/configure.png")));
-		add(new SendAction(uiController, controller)).
+				getResource("res/img/configure.png")));
+		add(new SendAction(uiController, controller, email)).
 			setIcon(new ImageIcon(EmailExtension.class.
-					getResource("res/img/send.png")));
+				getResource("res/img/send.png")));
 	}
 }
