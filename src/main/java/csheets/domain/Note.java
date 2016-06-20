@@ -6,6 +6,7 @@
 package csheets.domain;
 
 import csheets.support.DateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,7 +29,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints = {
 	@UniqueConstraint(columnNames = {"TITLE"})})
-public class Note {
+public class Note implements Serializable {
 
 	@Id
 	@GeneratedValue
@@ -39,10 +40,11 @@ public class Note {
 	private List<Note> versions;
 
 	private String title;
-	private String noteText;
+	private String noteText = "";
+	private String info;
 	private boolean versionState;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private Contact contact;
 
 	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -52,11 +54,13 @@ public class Note {
 	}
 
 	public Note(String noteText, Contact contact, boolean noteState) {
+		this.info = noteText;
 		String s[] = noteText.split("\\r?\\n");
 		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-		System.out.println(arrList);
 		title = arrList.get(0);
-		this.noteText = noteText;
+		for (int i = 1; i < arrList.size(); i++) {
+			this.noteText += arrList.get(i) + "\n";
+		}
 		this.contact = contact;
 		this.time = DateTime.now();
 		this.versionState = noteState;
@@ -69,12 +73,13 @@ public class Note {
 	}
 
 	public void editNote(String textNote) {
+		this.info = noteText;
 		String s[] = noteText.split("\\r?\\n");
 		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-		System.out.println(arrList);
 		title = arrList.get(0);
-		this.noteText = textNote;
-
+		for (int i = 1; i < arrList.size(); i++) {
+			this.noteText += arrList.get(i) + "\n";
+		}
 		updateNote();
 	}
 
@@ -96,6 +101,18 @@ public class Note {
 
 	public Calendar date() {
 		return time;
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getNoteText() {
+		return noteText;
 	}
 
 	@Override

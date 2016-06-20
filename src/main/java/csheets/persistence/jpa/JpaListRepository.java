@@ -49,29 +49,66 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 
 	@Override
 	public Iterable<List> search(Calendar startDate, Calendar endDate,
-								 String expression) {
-		Iterable<List> tmp = null;
-		if (startDate == null) {
-			System.out.println("start date null");
-		} else if (endDate == null) {
-			System.out.println("end date null");
-		} else {
-			final Query query = entityManager().
-				createQuery("SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate AND l.version.deleted = false",
-							List.class);
-			query.setParameter("startDate", startDate, TemporalType.DATE);
-			query.setParameter("endDate", endDate, TemporalType.DATE);
-			tmp = query.getResultList();
+								 String title, String content) {
+		Iterable<List> tmp = searchDates(startDate, endDate);
+		Boolean cont = true;
+		if (content == null || content.isEmpty()) {
+			cont = false;
 		}
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
-		}
+		tmp = this.search(tmp, title, cont);
+		return tmp;
+	}
+
+	public Iterable<List> search(Iterable<List> lists, String expression,
+								 Boolean content) {
 		ArrayList<List> results = new ArrayList();
-		for (List list : tmp) {
-			if (list.getText().matches(expression)) {
+		for (List list : lists) {
+			if (list.getTitle().matches(expression)) {
+				results.add(list);
+			} else if (content && list.getText().matches(expression)) {
 				results.add(list);
 			}
 		}
 		return results;
 	}
+
+	public Iterable<List> searchContent(Iterable<List> lists, String content) {
+		ArrayList<List> results = new ArrayList();
+		for (List list : lists) {
+			if (list.getText().matches(content)) {
+				results.add(list);
+			}
+		}
+		return results;
+	}
+
+	public Iterable<List> searchTitle(Iterable<List> lists, String title) {
+		ArrayList<List> results = new ArrayList();
+		for (List list : lists) {
+			if (list.getTitle().matches(title)) {
+				results.add(list);
+			}
+		}
+		return results;
+	}
+
+	public Iterable<List> searchDates(Calendar startDate, Calendar endDate) {
+		String term = "SELECT l FROM List l where l.version.deleted = false";
+		if (startDate != null && endDate != null) {
+			term = "SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate AND l.version.deleted = false";
+		} else if (startDate != null) {
+			term = "SELECT l FROM List l where l.time > :startDate AND l.version.deleted = false";
+		} else if (endDate != null) {
+			term = "SELECT l FROM List l where l.time < :endDate AND l.version.deleted = false";
+		}
+		final Query query = entityManager().createQuery(term, List.class);
+		if (startDate != null) {
+			query.setParameter("startDate", startDate, TemporalType.DATE);
+		}
+		if (endDate != null) {
+			query.setParameter("endDate", endDate, TemporalType.DATE);
+		}
+		return (Iterable<List>) query.getResultList();
+	}
+
 }

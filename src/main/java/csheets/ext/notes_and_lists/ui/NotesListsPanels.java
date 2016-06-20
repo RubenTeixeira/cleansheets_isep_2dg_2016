@@ -16,8 +16,6 @@ import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultComboBoxModel;
@@ -46,11 +44,11 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 	 */
 	private DefaultListModel VersionListModel = new DefaulListModel();
 
-	private DefaultComboBoxModel<Contact> contactModel;
-	private DefaultListModel<List> contactListModel;
-	private DefaultListModel<Integer> listVersionModel;
-	private DefaultTableModel listDataModel;
-	private DefaultListModel resultListModel;
+	private DefaultComboBoxModel<Contact> contactModel = new DefaultComboBoxModel();
+	private DefaultListModel<Note> contactNoteModel = new DefaultListModel();
+	private DefaultListModel<List> contactListModel = new DefaultListModel();
+	private DefaultListModel<Integer> listVersionModel = new DefaultListModel();
+	private DefaultTableModel listDataModel = new DefaultTableModel();
 
 	/**
 	 * Creates new form EventsPanel
@@ -60,59 +58,16 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 	public NotesListsPanels(UIController uiController) {
 		this.controller = new NotesListsController(uiController);
 		this.setName(NotesListsExtension.NAME);
-		createModels();
 		initComponents();
 		createActions();
 		fetchContacts();
+		this.lstNoteVersions.setEnabled(false);
+		this.btnNoteEdit.setEnabled(false);
+		this.btnNoteDelete.setEnabled(false);
 		cbListContact.setSelectedIndex(-1);
-		addListener();
 		Notification.noteInformer().addObserver(this);
 		Notification.contactInformer().addObserver(this);
 		this.update(null, null);
-	}
-
-	private void addListener() {
-		jStartDateChooser.getDateEditor().addPropertyChangeListener(
-			new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if ("date".equals(event.getPropertyName())) {
-					updateResultList();
-				}
-			}
-		});
-		jEndDateChooser.getDateEditor().addPropertyChangeListener(
-			new PropertyChangeListener() {
-			@Override
-			public void propertyChange(PropertyChangeEvent event) {
-				if ("date".equals(event.getPropertyName())) {
-					updateResultList();
-				}
-			}
-		});
-	}
-
-	private void updateResultList() {
-		this.resultListModel.removeAllElements();
-		for (Note note : this.controller.searchNotes(this.jStartDateChooser.
-			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
-													 getText())) {
-			this.resultListModel.addElement(note);
-		}
-		for (List list : this.controller.searchLists(this.jStartDateChooser.
-			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
-													 getText())) {
-			this.resultListModel.addElement(list);
-		}
-		this.jListResults.setModel(this.resultListModel);
-	}
-
-	private void createModels() {
-		contactModel = new DefaultComboBoxModel();
-		contactListModel = new DefaultListModel();
-		listVersionModel = new DefaultListModel();
-		listDataModel = new DefaultTableModel();
-		resultListModel = new DefaulListModel();
 	}
 
 	private void defineTableModel() {
@@ -270,6 +225,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		if (arg instanceof Contact) {
 			contactModel.addElement((Contact) arg);
 			cbListContact.setSelectedIndex(-1);
+			cbNoteContact.setSelectedIndex(-1);
 			contactListModel.clear();
 			this.cbNoteContact.removeAllItems();
 			for (Contact c : controller.showContacts()) {
@@ -284,6 +240,16 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 				}
 				lstContactNotes.setModel(NoteListModel);
 			}
+			this.VersionListModel.removeAllElements();
+			if (lstContactNotes.getSelectedValue() != null) {
+				Note n = (Note) this.NoteListModel.
+					getElementAt(this.lstContactNotes.getSelectedIndex());
+				for (Note note : n.versionByNote()) {
+					this.VersionListModel.addElement(note);
+				}
+				lstNoteVersions.setModel(VersionListModel);
+			}
+			refreshUI();
 		} else if (arg == null) {
 			this.cbNoteContact.removeAllItems();
 			contactModel.removeAllElements();
@@ -380,16 +346,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListActions = new javax.swing.JPanel();
         btnApply = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        panelSearch = new javax.swing.JPanel();
-        panelDate = new javax.swing.JPanel();
-        jLabelStart = new javax.swing.JLabel();
-        jLabelEnd = new javax.swing.JLabel();
-        jEndDateChooser = new com.toedter.calendar.JDateChooser();
-        jStartDateChooser = new com.toedter.calendar.JDateChooser();
-        jTextFieldExpression = new javax.swing.JTextField();
-        jPanelResultsList = new javax.swing.JPanel();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        jListResults = new javax.swing.JList<>();
 
         jMenu1.setText("jMenu1");
 
@@ -402,6 +358,17 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         });
 
         lblNoteContact.setText("Contact:");
+
+        cbNoteContact.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbNoteContactItemStateChanged(evt);
+            }
+        });
+        cbNoteContact.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cbNoteContactKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelNoteContactLayout = new javax.swing.GroupLayout(panelNoteContact);
         panelNoteContact.setLayout(panelNoteContactLayout);
@@ -435,7 +402,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelContactNoteList.setLayout(panelContactNoteListLayout);
         panelContactNoteListLayout.setHorizontalGroup(
             panelContactNoteListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
             .addComponent(lblNoteContactNotes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panelContactNoteListLayout.setVerticalGroup(
@@ -595,7 +562,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             .addGroup(panelListContactLayout.createSequentialGroup()
                 .addComponent(lblListContact)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbListContact, 0, 252, Short.MAX_VALUE)
+                .addComponent(cbListContact, 0, 289, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelListContactLayout.setVerticalGroup(
@@ -640,7 +607,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelContactListLayout.setHorizontalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lblContactLists, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
         );
         panelContactListLayout.setVerticalGroup(
             panelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -679,7 +646,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
         panelListInfoLayout.setHorizontalGroup(
             panelListInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListInfoLayout.createSequentialGroup()
-                .addComponent(panelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+                .addComponent(panelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelListVersion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -709,7 +676,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
             panelListDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addComponent(lblList, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 158, Short.MAX_VALUE)
                 .addComponent(checkboxEditList))
             .addGroup(panelListDataLayout.createSequentialGroup()
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -775,8 +742,8 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelListsLayout.createSequentialGroup()
                         .addGroup(panelListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(panelCreateList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelListData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
-                            .addComponent(panelListInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE))
+                            .addComponent(panelListData, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                            .addComponent(panelListInfo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         panelListsLayout.setVerticalGroup(
@@ -790,126 +757,24 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
                 .addComponent(panelListInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelListData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(panelListActions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         tabPane.addTab("Lists", panelLists);
 
-        jLabelStart.setText("start:");
-
-        jLabelEnd.setText("end:");
-
-        jEndDateChooser.setToolTipText("");
-        jEndDateChooser.setDoubleBuffered(false);
-
-        jStartDateChooser.setToolTipText("");
-        jStartDateChooser.setDoubleBuffered(false);
-
-        javax.swing.GroupLayout panelDateLayout = new javax.swing.GroupLayout(panelDate);
-        panelDate.setLayout(panelDateLayout);
-        panelDateLayout.setHorizontalGroup(
-            panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelDateLayout.createSequentialGroup()
-                        .addComponent(jLabelStart)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDateLayout.createSequentialGroup()
-                        .addComponent(jLabelEnd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jEndDateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelDateLayout.setVerticalGroup(
-            panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelDateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelDateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelDateLayout.createSequentialGroup()
-                        .addComponent(jStartDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jEndDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelDateLayout.createSequentialGroup()
-                        .addComponent(jLabelStart)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelEnd)
-                        .addContainerGap())))
-        );
-
-        jTextFieldExpression.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldExpressionActionPerformed(evt);
-            }
-        });
-        jTextFieldExpression.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jTextFieldExpressionKeyReleased(evt);
-            }
-        });
-
-        jScrollPane9.setViewportView(jListResults);
-
-        javax.swing.GroupLayout jPanelResultsListLayout = new javax.swing.GroupLayout(jPanelResultsList);
-        jPanelResultsList.setLayout(jPanelResultsListLayout);
-        jPanelResultsListLayout.setHorizontalGroup(
-            jPanelResultsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelResultsListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanelResultsListLayout.setVerticalGroup(
-            jPanelResultsListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelResultsListLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
-        panelSearch.setLayout(panelSearchLayout);
-        panelSearchLayout.setHorizontalGroup(
-            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSearchLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanelResultsList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldExpression, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelDate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelSearchLayout.setVerticalGroup(
-            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSearchLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextFieldExpression, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelDate, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelResultsList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 15, Short.MAX_VALUE))
-        );
-
-        tabPane.addTab("Search", panelSearch);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(tabPane)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tabPane))
+            .addComponent(tabPane)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -919,28 +784,37 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		if (lstContactNotes.getSelectedValue() != null) {
 			Note n = (Note) this.NoteListModel.
 				getElementAt(this.lstContactNotes.getSelectedIndex());
+			this.textAreaNote.setText(n.getInfo());
 			for (Note note : n.versionByNote()) {
 				this.VersionListModel.addElement(note);
 			}
 			lstNoteVersions.setModel(VersionListModel);
 		}
+		this.btnNoteEdit.setEnabled(true);
+		this.btnNoteDelete.setEnabled(true);
 		refreshUI();
     }//GEN-LAST:event_lstContactNotesMouseClicked
 
     private void btnNoteDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteDeleteActionPerformed
 		controller.deleteNote((Note) this.NoteListModel.
 			getElementAt(this.lstContactNotes.getSelectedIndex()));
+		this.btnNoteDelete.setEnabled(false);
+		this.btnNoteEdit.setEnabled(false);
     }//GEN-LAST:event_btnNoteDeleteActionPerformed
 
     private void btnNoteEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteEditActionPerformed
 		controller.editNote(textAreaNote.getText(), (Note) this.NoteListModel.
 							getElementAt(this.lstContactNotes.getSelectedIndex()));
+		this.btnNoteEdit.setEnabled(false);
+		this.btnDelete.setEnabled(false);
     }//GEN-LAST:event_btnNoteEditActionPerformed
 
     private void btnNoteCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoteCreateActionPerformed
 		Contact contact = (Contact) cbNoteContact.getSelectedItem();
-		System.out.println(contact.name());
 		controller.createNote(textAreaNote.getText(), contact);
+		this.textAreaNote.setText("");
+		this.btnNoteEdit.setEnabled(false);
+		this.btnDelete.setEnabled(false);
     }//GEN-LAST:event_btnNoteCreateActionPerformed
 
     private void btnCreateNewListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateNewListActionPerformed
@@ -1068,14 +942,21 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
 		tableListData.setSize(((panelWidth - 6) / 2), tableListData.getHeight());
     }//GEN-LAST:event_formComponentResized
 
-    private void jTextFieldExpressionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldExpressionActionPerformed
-		// TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldExpressionActionPerformed
+    private void cbNoteContactKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbNoteContactKeyReleased
+    }//GEN-LAST:event_cbNoteContactKeyReleased
 
-    private void jTextFieldExpressionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldExpressionKeyReleased
-		this.controller.setText(this.jTextFieldExpression.getText());
-		updateResultList();
-    }//GEN-LAST:event_jTextFieldExpressionKeyReleased
+    private void cbNoteContactItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbNoteContactItemStateChanged
+		this.NoteListModel.removeAllElements();
+		if (cbNoteContact.getSelectedItem() != null) {
+			Contact c = (Contact) cbNoteContact.getSelectedItem();
+			for (Note note : controller.notesByContact(c)) {
+				this.NoteListModel.addElement(note);
+			}
+			lstContactNotes.setModel(NoteListModel);
+			this.textAreaNote.setText("");
+			refreshUI();
+		}
+    }//GEN-LAST:event_cbNoteContactItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;
@@ -1088,12 +969,7 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JComboBox<Contact> cbNoteContact;
     private javax.swing.JCheckBox checkboxEditList;
     private javax.swing.JEditorPane jEditorPane1;
-    private com.toedter.calendar.JDateChooser jEndDateChooser;
-    private javax.swing.JLabel jLabelEnd;
-    private javax.swing.JLabel jLabelStart;
-    private javax.swing.JList<String> jListResults;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JPanel jPanelResultsList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1102,9 +978,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
-    private com.toedter.calendar.JDateChooser jStartDateChooser;
-    private javax.swing.JTextField jTextFieldExpression;
     private javax.swing.JLabel lblContactLists;
     private javax.swing.JLabel lblList;
     private javax.swing.JLabel lblListContact;
@@ -1120,7 +993,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel panelContactList;
     private javax.swing.JPanel panelContactNoteList;
     private javax.swing.JPanel panelCreateList;
-    private javax.swing.JPanel panelDate;
     private javax.swing.JPanel panelListActions;
     private javax.swing.JPanel panelListContact;
     private javax.swing.JPanel panelListData;
@@ -1133,7 +1005,6 @@ public class NotesListsPanels extends javax.swing.JPanel implements Observer {
     private javax.swing.JPanel panelNoteInfo;
     private javax.swing.JPanel panelNoteVersionList;
     private javax.swing.JPanel panelNotes;
-    private javax.swing.JPanel panelSearch;
     private javax.swing.JTabbedPane tabPane;
     private javax.swing.JTable tableListData;
     private javax.swing.JTextArea textAreaNote;
