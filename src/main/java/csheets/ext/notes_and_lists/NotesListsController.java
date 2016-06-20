@@ -34,8 +34,6 @@ public class NotesListsController {
 
 	private Map<Integer, List> listVersions;
 
-	private String expression;
-
 	/**
 	 * Creates a new comment controller.
 	 *
@@ -53,7 +51,7 @@ public class NotesListsController {
 		Note note = NoteFactory.createNote(noteText, contact, true);
 		try {
 			PersistenceContext.repositories().notes().add(note);
-			Notification.noteInformer().notifyChange();
+			Notification.noteInformer().notifyChange(note);
 
 		} catch (DataIntegrityViolationException ex) {
 			Logger.getLogger(NotesListsController.class.getName()).
@@ -65,14 +63,13 @@ public class NotesListsController {
 	public Note editNote(String noteText, Note note) {
 		note.editNote(noteText);
 		PersistenceContext.repositories().notes().save(note);
-		Notification.noteInformer().notifyChange();
-
+		Notification.noteInformer().notifyChange(note);
 		return note;
 	}
 
 	public void deleteNote(Note note) {
 		PersistenceContext.repositories().notes().delete(note);
-		Notification.noteInformer().notifyChange();
+		Notification.noteInformer().notifyChange(note);
 	}
 
 	public Iterable<Note> notesByContact(Contact contact) {
@@ -161,18 +158,14 @@ public class NotesListsController {
 	}
 
 	public Iterable<Note> searchNotes(Calendar startDate, Calendar endDate,
-									  String expression) {
+									  String title, String content) {
 		return PersistenceContext.repositories().notes().
-			search(startDate, endDate, expression);
+			search(startDate, endDate, title, content);
 	}
 
 	public Iterable<List> searchLists(Calendar startDate, Calendar endDate,
-									  String expression) {
+									  String title, String content) {
 		return PersistenceContext.repositories().lists().
-			search(startDate, endDate, expression);
-	}
-
-	public void setText(String text) {
-		this.expression = text;
+			search(startDate, endDate, title, content);
 	}
 }

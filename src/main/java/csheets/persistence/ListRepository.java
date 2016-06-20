@@ -21,5 +21,6 @@ public interface ListRepository extends Repository<List, Long> {
 	public Iterable<List> listVersions(List list);
 
 	public Iterable<List> search(Calendar startdate, Calendar endDate,
-								 String expression);
+								 String title, String content);
+
 }

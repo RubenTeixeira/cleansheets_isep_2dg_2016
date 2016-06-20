@@ -45,26 +45,66 @@ public class JpaNoteRepository extends JpaRepository<Note, Long> implements Note
 	}
 
 	@Override
-	public List<Note> search(Calendar startDate, Calendar endDate,
-							 String expression) {
-		final Query query = entityManager().
-			createQuery("SELECT n FROM Note n where n.time BETWEEN :startDate AND :endDate",
-						Note.class);
-		query.setParameter("startDate", startDate, TemporalType.DATE);
-		query.setParameter("endDate", endDate, TemporalType.DATE);
-		List<Note> tmp = query.getResultList();
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
+	public Iterable<Note> search(Calendar startDate, Calendar endDate,
+								 String title, String content) {
+		Iterable<Note> tmp = searchDates(startDate, endDate);
+		Boolean cont = true;
+		if (content == null || content.isEmpty()) {
+			cont = false;
 		}
+		tmp = this.search(tmp, title, cont);
+		return tmp;
+	}
+
+	public Iterable<Note> search(Iterable<Note> lists, String expression,
+								 Boolean content) {
 		ArrayList<Note> results = new ArrayList();
-		for (Note note : tmp) {
-			for (Note version : note.versionByNote()) {
-				if (version.toString().matches(expression)) {
-					results.add(version);
-				}
+		for (Note note : lists) {
+			if (note.getTitle().matches(expression)) {
+				results.add(note);
+			} else if (content && note.getNoteText().matches(expression)) {
+				results.add(note);
 			}
 		}
 		return results;
 	}
 
+	public Iterable<Note> searchContent(Iterable<Note> notes, String content) {
+		ArrayList<Note> results = new ArrayList();
+		for (Note note : notes) {
+			if (note.getNoteText().matches(content)) {
+				results.add(note);
+			}
+		}
+		return results;
+	}
+
+	public Iterable<Note> searchTitle(Iterable<Note> notes, String title) {
+		ArrayList<Note> results = new ArrayList();
+		for (Note note : notes) {
+			if (note.getTitle().matches(title)) {
+				results.add(note);
+			}
+		}
+		return results;
+	}
+
+	public Iterable<Note> searchDates(Calendar startDate, Calendar endDate) {
+		String term = "SELECT n FROM Note n";
+		if (startDate != null && endDate != null) {
+			term = "SELECT n FROM Note n where n.time BETWEEN :startDate AND :endDate";
+		} else if (startDate != null) {
+			term = "SELECT n FROM Note n where n.time > :startDate";
+		} else if (endDate != null) {
+			term = "SELECT n FROM Note n where n.time < :endDate";
+		}
+		final Query query = entityManager().createQuery(term, Note.class);
+		if (startDate != null) {
+			query.setParameter("startDate", startDate, TemporalType.DATE);
+		}
+		if (endDate != null) {
+			query.setParameter("endDate", endDate, TemporalType.DATE);
+		}
+		return (Iterable<Note>) query.getResultList();
+	}
 }

@@ -11,6 +11,7 @@ import csheets.framework.persistence.repositories.impl.immemory.InMemoryReposito
 import csheets.persistence.ListRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 
 /**
  *
@@ -51,20 +52,55 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 	}
 
 	@Override
-	public Iterable<List> search(Calendar startDate, Calendar endDate,
-								 String expression) {
-		ArrayList<List> lists = new ArrayList();
+	public Iterable<List> search(Calendar startdate, Calendar endDate,
+								 String title, String content) {
+		ArrayList<List> tmp = new ArrayList();
+		if (title != null) {
+			tmp.addAll((Collection) this.searchTitle(startdate, endDate, title));
+		}
+		if (content != null) {
+			tmp.addAll((Collection) this.
+				searchContent(startdate, endDate, content));
+		}
+		return tmp;
+	}
+
+	public Iterable<List> searchContent(Calendar startDate, Calendar endDate,
+										String expression) {
+		ArrayList<List> tmp = new ArrayList();
 		for (List list : this.all()) {
-			if (list.getTimeCreated().after(startDate) && list.getTimeCreated().
-				before(endDate)) {
-				lists.add(list);
+			if (!list.isDeleted()) {
+				tmp.add(list);
+			}
+		}
+		if (startDate != null && endDate != null) {
+			for (List list : this.all()) {
+				tmp = new ArrayList();
+				if (list.getTimeCreated().after(startDate) && list.
+					getTimeCreated().before(endDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
+			}
+		} else if (startDate != null) {
+			tmp = new ArrayList();
+			for (List list : this.all()) {
+				if (list.getTimeCreated().after(startDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
+			}
+		} else if (endDate != null) {
+			tmp = new ArrayList();
+			for (List list : this.all()) {
+				if (list.getTimeCreated().before(endDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
 			}
 		}
 		if (expression == null || expression.isEmpty()) {
-			return lists;
+			return tmp;
 		}
 		ArrayList<List> results = new ArrayList();
-		for (List list : lists) {
+		for (List list : tmp) {
 			if (list.getText().matches(expression)) {
 				results.add(list);
 			}
@@ -72,4 +108,46 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 		return results;
 	}
 
+	public Iterable<List> searchTitle(Calendar startDate, Calendar endDate,
+									  String expression) {
+		ArrayList<List> tmp = new ArrayList();
+		for (List list : this.all()) {
+			if (!list.isDeleted()) {
+				tmp.add(list);
+			}
+		}
+		if (startDate != null && endDate != null) {
+			for (List list : this.all()) {
+				tmp = new ArrayList();
+				if (list.getTimeCreated().after(startDate) && list.
+					getTimeCreated().before(endDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
+			}
+		} else if (startDate != null) {
+			tmp = new ArrayList();
+			for (List list : this.all()) {
+				if (list.getTimeCreated().after(startDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
+			}
+		} else if (endDate != null) {
+			tmp = new ArrayList();
+			for (List list : this.all()) {
+				if (list.getTimeCreated().before(endDate) && !list.isDeleted()) {
+					tmp.add(list);
+				}
+			}
+		}
+		if (expression == null || expression.isEmpty()) {
+			return tmp;
+		}
+		ArrayList<List> results = new ArrayList();
+		for (List list : tmp) {
+			if (list.getTitle().matches(expression)) {
+				results.add(list);
+			}
+		}
+		return results;
+	}
 }
