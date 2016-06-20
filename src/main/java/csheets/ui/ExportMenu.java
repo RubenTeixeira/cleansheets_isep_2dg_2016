@@ -7,6 +7,7 @@ package csheets.ui;
 
 import csheets.CleanSheets;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.legacy.exportPDF.ExportPDFAction;
 import csheets.ui.legacy.exportXML.ExportXMLAction;
 import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
@@ -38,5 +39,6 @@ class ExportMenu extends JMenu {
 		this.uiController = uiController;
 		setMnemonic(KeyEvent.VK_E);
 		add(new ExportXMLAction(this.uiController));
+		add(new ExportPDFAction(this.uiController));
 	}
 }
