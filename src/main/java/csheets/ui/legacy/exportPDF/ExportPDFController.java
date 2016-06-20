@@ -25,7 +25,7 @@ public class ExportPDFController {
 	private UIController uiController;
 
 	/**
-	 * Creates a new comment controller.
+	 * Creates a new ExportPDFController controller.
 	 *
 	 * @param uiController the user interface controller
 	 */
@@ -35,15 +35,13 @@ public class ExportPDFController {
 
 	/**
 	 *
-	 * Method to create a file with format .xml, call method exportWorkbook to
+	 * Method to create a file with format .pdf, call method writeWorkbook to
 	 * export a workbook and write to file
 	 *
 	 * @param fileChooser fileChooser
 	 * @throws IOException exception
 	 */
 	public void exportWorkbook(JFileChooser fileChooser) throws IOException {
-		//fileChooser = new JFileChooser(fileChooser, uiController.
-		//getUserProperties());
 
 		File file = fileChooser.getSelectedFile();
 
@@ -59,8 +57,8 @@ public class ExportPDFController {
 
 	/**
 	 *
-	 * Method to create a file with format .xml, call method exportSpreadSheet
-	 * to export a spreadsheet and write to file
+	 * Method to create a file with format .pdf, call method writeSpreadsheet to
+	 * export a spreadsheet and write to file
 	 *
 	 * @param fileChooser fileChooser
 	 * @param spreadSheet spreadSheet
@@ -80,16 +78,15 @@ public class ExportPDFController {
 
 	/**
 	 *
-	 * Method to create a file with format .xml, call method
- exportSelectedCells to export a spreadsheetSelected and write to
- file
+	 * Method to create a file with format .pdf, call method writeSelectedCells
+	 * to export a range of cells and write to file
 	 *
 	 * @param fileChooser fileChooser
 	 * @param uiController uiController
 	 * @throws IOException exception
 	 */
 	public void exportSelectedCells(JFileChooser fileChooser,
-										  UIController uiController
+									UIController uiController
 	) throws IOException {
 		File file = fileChooser.getSelectedFile();
 
