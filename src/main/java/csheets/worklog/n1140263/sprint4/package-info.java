@@ -50,7 +50,7 @@
  *
  *
  * <h3>First "analysis" sequence diagram</h3>
- * <img src="doc-files/forms_editor_analysis" alt="SD">
+ * <img src="doc-files/doc-files/sendEmail.png" alt="SD">
  *
  * <h2>5. Design</h2>
  *
@@ -95,6 +95,16 @@
  * daily standup meetings.-
  * <p>
  * Example
+ * <p>
+ * <b>Weekend</b>
+ * <p>
+ * Today
+ * <p>
+ * 1. Analysis. 2. Design.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
  * <p>
  * <b>Monday</b>
  * <p>
