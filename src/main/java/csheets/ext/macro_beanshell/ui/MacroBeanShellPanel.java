@@ -25,6 +25,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 
 	private MacroBeanShellController controller;
 	private final UIController uiController;
+	private boolean listnerIsActive = true;
 
 	/**
 	 * Creates new form MacroShellBeanPanel
@@ -91,6 +92,11 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 
         radioGroupScript.add(radioBtnMacro);
         radioBtnMacro.setText("Macro");
+        radioBtnMacro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioBtnMacroActionPerformed(evt);
+            }
+        });
 
         radioGroupScript.add(radioBtnBeanShell);
         radioBtnBeanShell.setText("BeanShell Script");
@@ -139,6 +145,11 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
             }
         });
 
+        txtAreaCode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtAreaCodeMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(txtAreaCode);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -180,12 +191,47 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 		txtAreaResult.setEnabled(true);
 		txtAreaResult.setText(result);
 
+		if (result.startsWith("Error: At")) {
+			String line = result.split(";")[0];
+			line = String.valueOf(line.charAt(line.length() - 1));
+			showError(Integer.parseInt(line));
+		}
+		this.listnerIsActive = true;
 		format();
     }//GEN-LAST:event_btnExecuteActionPerformed
 
     private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
 		new ScriptManagerUI(uiController).run();
     }//GEN-LAST:event_managerButtonActionPerformed
+
+    private void radioBtnMacroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnMacroActionPerformed
+		format();
+    }//GEN-LAST:event_radioBtnMacroActionPerformed
+
+    private void txtAreaCodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtAreaCodeMouseClicked
+		if (!listnerIsActive) {
+			return;
+		}
+		Document document = this.txtAreaCode.getDocument();
+		String text = this.txtAreaCode.getText();
+		try {
+			document.
+				remove(0, document.getLength());
+		} catch (BadLocationException ex) {
+			Logger.getLogger(MacroBeanShellPanel.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+		SimpleAttributeSet font = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(font, "Tahoma 11 Plain");
+		StyleConstants.setForeground(font, Color.BLACK);
+		try {
+			document.insertString(0, text, font);
+
+			this.listnerIsActive = false;
+		} catch (Exception ex) {
+			this.listnerIsActive = false;
+		}
+    }//GEN-LAST:event_txtAreaCodeMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExecute;
@@ -213,6 +259,29 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 					StyleConstants.setFontFamily(green, "Courier New Italic");
 					StyleConstants.setForeground(green, Color.LIGHT_GRAY);
 					document.insertString(lineFirstCharacter, lines[i], green);
+				} catch (BadLocationException ex) {
+					Logger.getLogger(MacroBeanShellPanel.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+			}
+			lineFirstCharacter += lines[i].length() + 1;
+		}
+	}
+
+	private void showError(int line) {
+		Document document = this.txtAreaCode.getDocument();
+		String[] lines = this.txtAreaCode.getText().split("\n");
+		int lineFirstCharacter = 0;
+		for (int i = 0; i < lines.length; i++) {
+			if (i + 1 == line) {
+				try {
+					document.
+						remove(lineFirstCharacter, lines[i].length());
+					SimpleAttributeSet attributeSet = new SimpleAttributeSet();
+					StyleConstants.setUnderline(attributeSet, true);
+					StyleConstants.setForeground(attributeSet, Color.RED);
+					document.
+						insertString(lineFirstCharacter, lines[i], attributeSet);
 				} catch (BadLocationException ex) {
 					Logger.getLogger(MacroBeanShellPanel.class.getName()).
 						log(Level.SEVERE, null, ex);
