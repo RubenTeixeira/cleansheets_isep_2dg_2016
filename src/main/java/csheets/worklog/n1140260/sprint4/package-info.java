@@ -94,7 +94,31 @@
  *
  * <h2>6. Implementation</h2>
  *
+ * <p>
+ * <b>Use Case 1 - "Export the contents of an workbook to PDF file"</b>
+ *
+ * <img src="doc-files/core08.1_Export_pdf_sd_design_1.png" alt="Export_pdf_sd_design_1">
+ *
+ * <p>
+ * <b>Use Case 2 - "Export the contents of an Worksheet to PDF file"</b>
+ *
+ * <img src="doc-files/core08.1_Export_pdf_sd_design_2.png" alt="Export_pdf_sd_design_2">
+ *
+ * <p>
+ * <b>Use Case 3 - "Export range of cells of an worksheet to an PDF file"</b>
+ *
+ * <img src="doc-files/core08.1_Export_pdf_sd_design_3.png" alt="Export_pdf_sd_design_3">
+ *
  * <b>Created Classes</b>:
+ *
+ * <p>
+ * PDFCodec, ExportPDFAction, ExportPDFController, ExportPDFPanel
+ *
+ * <b>Updated Classes/Files</b>:
+ *
+ * <p>
+ * ExportMenu
+ *
  *
  * <h2>7. Integration/Demonstration</h2>
  *
