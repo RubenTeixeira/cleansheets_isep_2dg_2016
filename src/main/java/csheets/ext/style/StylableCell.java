@@ -31,6 +31,7 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.NumberFormat;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -43,313 +44,339 @@ import javax.swing.border.Border;
  */
 public class StylableCell extends CellExtension {
 
-	/**
-	 * The unique version identifier used for serialization
-	 */
-	private static final long serialVersionUID = -4860391005521272291L;
+    /**
+     * The unique version identifier used for serialization
+     */
+    private static final long serialVersionUID = -4860391005521272291L;
 
-	/**
-	 * The default number format
-	 */
-	public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance();
+    /**
+     * The default number format
+     */
+    public static final NumberFormat NUMBER_FORMAT = NumberFormat.getInstance();
 
-	/**
-	 * The default date format
-	 */
-	public static final DateFormat DATE_FORMAT
-		= DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
+    /**
+     * The default date format
+     */
+    public static final DateFormat DATE_FORMAT
+            = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 
-	/**
-	 * The default font
-	 */
-	public static final Font FONT = UIManager.getFont("Table.font");
+    /**
+     * The default font
+     */
+    public static final Font FONT = UIManager.getFont("Table.font");
 
-	/**
-	 * The default vertical alignment
-	 */
-	public static final int VERTICAL_ALIGNMENT = SwingConstants.CENTER;
+    /**
+     * The default vertical alignment
+     */
+    public static final int VERTICAL_ALIGNMENT = SwingConstants.CENTER;
 
-	/**
-	 * The default foreground color
-	 */
-	public static final Color FOREGROUND = UIManager.
-		getColor("Table.foreground");
+    /**
+     * The default foreground color
+     */
+    public static final Color FOREGROUND = UIManager.
+            getColor("Table.foreground");
 
-	/**
-	 * The default background color
-	 */
-	public static final Color BACKGROUND = UIManager.
-		getColor("Table.background");
+    /**
+     * The default background color
+     */
+    public static final Color BACKGROUND = UIManager.
+            getColor("Table.background");
 
-	/**
-	 * The default empty border
-	 */
-	public static final Border BORDER
-		= BorderFactory.createEmptyBorder(1, 1, 1, 1);
+    /**
+     * The default empty border
+     */
+    public static final Border BORDER
+            = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 
-	/**
-	 * The format applied to the cell's value before rendering
-	 */
-	private Format format;
+    public static final ImageIcon IMAGE
+            = null;
 
-	/**
-	 * The font used when rendering the cell's content
-	 */
-	private Font font;
+    /**
+     * The format applied to the cell's value before rendering
+     */
+    private Format format;
 
-	/**
-	 * The horizontal alignment of the cell's content
-	 */
-	private int hAlignment;
+    /**
+     * The font used when rendering the cell's content
+     */
+    private Font font;
 
-	/**
-	 * The vertical alignment of the cell's content
-	 */
-	private int vAlignment;
+    /**
+     * The horizontal alignment of the cell's content
+     */
+    private int hAlignment;
 
-	/**
-	 * The color used when rendering the cell's content
-	 */
-	private Color fgColor;
+    /**
+     * The vertical alignment of the cell's content
+     */
+    private int vAlignment;
 
-	/**
-	 * The background color of the cell
-	 */
-	private Color bgColor;
+    /**
+     * The color used when rendering the cell's content
+     */
+    private Color fgColor;
 
-	/**
-	 * The border of the cell
-	 */
-	private Border border;
+    /**
+     * The background color of the cell
+     */
+    private Color bgColor;
 
-	/**
-	 * Creates a stylable cell extension for the given cell.
-	 *
-	 * @param cell the cell to extend
-	 */
-	StylableCell(Cell cell) {
-		super(cell, StyleExtension.NAME);
-		resetStyle();
-	}
+    /**
+     * The border of the cell
+     */
+    private Border border;
 
-	/**
-	 * Returns whether a format can be applied to the cell's value.
-	 *
-	 * @return whether a format can be applied to the cell's value
-	 */
-	public boolean isFormattable() {
-		Value.Type valueType = getValue().getType();
-		return valueType == Value.Type.NUMERIC || valueType == Value.Type.DATE;
-	}
+    private ImageIcon image;
 
-	/**
-	 * Returns the format applied to the cell's value before rendering.
-	 *
-	 * @return the format applied to the cell's value before rendering
-	 */
-	public Format getFormat() {
-		switch (getValue().getType()) {
-			case NUMERIC:
-				return format instanceof NumberFormat ? format : NUMBER_FORMAT;
-			case DATE:
-				return format instanceof DateFormat ? format : DATE_FORMAT;
-			default:
-				return null;
-		}
-	}
+    /**
+     * Creates a stylable cell extension for the given cell.
+     *
+     * @param cell the cell to extend
+     */
+    StylableCell(Cell cell) {
+        super(cell, StyleExtension.NAME);
+        resetStyle();
+    }
 
-	/**
-	 * Returns the font used when rendering the cell's content.
-	 *
-	 * @return the font used when rendering the cell's content
-	 */
-	public Font getFont() {
-		return font;
-	}
+    /**
+     * Returns whether a format can be applied to the cell's value.
+     *
+     * @return whether a format can be applied to the cell's value
+     */
+    public boolean isFormattable() {
+        Value.Type valueType = getValue().getType();
+        return valueType == Value.Type.NUMERIC || valueType == Value.Type.DATE;
+    }
 
-	/**
-	 * Returns the horizontal alignment of the cell's content.
-	 *
-	 * @return the horizontal alignment of the cell's content
-	 */
-	public int getHorizontalAlignment() {
-		if (hAlignment == -1) // Returns default alignment
-		{
-			switch (getValue().getType()) {
-				case NUMERIC:
-				case DATE:
-					return SwingConstants.RIGHT;
-				case BOOLEAN:
-				case ERROR:
-					return SwingConstants.CENTER;
-				default:
-					return SwingConstants.LEFT;
-			}
-		} else {
-			return hAlignment;
-		}
-	}
+    /**
+     * Returns the format applied to the cell's value before rendering.
+     *
+     * @return the format applied to the cell's value before rendering
+     */
+    public Format getFormat() {
+        switch (getValue().getType()) {
+            case NUMERIC:
+                return format instanceof NumberFormat ? format : NUMBER_FORMAT;
+            case DATE:
+                return format instanceof DateFormat ? format : DATE_FORMAT;
+            default:
+                return null;
+        }
+    }
 
-	/**
-	 * Returns the vertical alignment of the cell's content.
-	 *
-	 * @return the vertical alignment of the cell's content
-	 */
-	public int getVerticalAlignment() {
-		return vAlignment;
-	}
+    /**
+     * Returns the font used when rendering the cell's content.
+     *
+     * @return the font used when rendering the cell's content
+     */
+    public Font getFont() {
+        return font;
+    }
 
-	/**
-	 * Returns the color used when rendering the cell's content.
-	 *
-	 * @return the color used when rendering the cell's content
-	 */
-	public Color getForegroundColor() {
-		return fgColor;
-	}
+    /**
+     * Returns the horizontal alignment of the cell's content.
+     *
+     * @return the horizontal alignment of the cell's content
+     */
+    public int getHorizontalAlignment() {
+        if (hAlignment == -1) // Returns default alignment
+        {
+            switch (getValue().getType()) {
+                case NUMERIC:
+                case DATE:
+                    return SwingConstants.RIGHT;
+                case BOOLEAN:
+                case ERROR:
+                    return SwingConstants.CENTER;
+                default:
+                    return SwingConstants.LEFT;
+            }
+        } else {
+            return hAlignment;
+        }
+    }
 
-	/**
-	 * Returns the background color of the cell.
-	 *
-	 * @return the background color of the cell
-	 */
-	public Color getBackgroundColor() {
-		return bgColor;
-	}
+    /**
+     * Returns the vertical alignment of the cell's content.
+     *
+     * @return the vertical alignment of the cell's content
+     */
+    public int getVerticalAlignment() {
+        return vAlignment;
+    }
 
-	/**
-	 * Returns the border of the cell.
-	 *
-	 * @return the border of the cell
-	 */
-	public Border getBorder() {
-		return border;
-	}
+    /**
+     * Returns the color used when rendering the cell's content.
+     *
+     * @return the color used when rendering the cell's content
+     */
+    public Color getForegroundColor() {
+        return fgColor;
+    }
 
-	/**
-	 * Sets the format applied to the cell's value before rendering.
-	 *
-	 * @param format the format applied to the cell's value before rendering
-	 */
-	public void setFormat(Format format) {
-		this.format = format;
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Returns the background color of the cell.
+     *
+     * @return the background color of the cell
+     */
+    public Color getBackgroundColor() {
+        return bgColor;
+    }
 
-	/**
-	 * Sets the font used when rendering the cell's content.
-	 *
-	 * @param font the font used when rendering the cell's content
-	 */
-	public void setFont(Font font) {
-		this.font = font;
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Returns the border of the cell.
+     *
+     * @return the border of the cell
+     */
+    public Border getBorder() {
+        return border;
+    }
 
-	/**
-	 * Sets the horizontal alignment of the cell's content.
-	 *
-	 * @param hAlignment the horizontal alignment of the cell's content
-	 */
-	public void setHorizontalAlignment(int hAlignment) {
-		if (hAlignment == SwingConstants.LEFT
-			|| hAlignment == SwingConstants.CENTER
-			|| hAlignment == SwingConstants.RIGHT) {
-			this.hAlignment = hAlignment;
-		} else {
-			throw new IllegalArgumentException("Illegal alignment");
-		}
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Returns the border of the cell.
+     *
+     * @return the border of the cell
+     */
+    public ImageIcon getImage() {
+        return image;
+    }
 
-	/**
-	 * Sets the vertical alignment of the cell's content.
-	 *
-	 * @param vAlignment the vertical alignment of the cell's content
-	 */
-	public void setVerticalAlignment(int vAlignment) {
-		if (vAlignment == SwingConstants.TOP
-			|| vAlignment == SwingConstants.CENTER
-			|| vAlignment == SwingConstants.BOTTOM) {
-			this.vAlignment = vAlignment;
-		} else {
-			throw new IllegalArgumentException("Illegal alignment");
-		}
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Sets the format applied to the cell's value before rendering.
+     *
+     * @param format the format applied to the cell's value before rendering
+     */
+    public void setFormat(Format format) {
+        this.format = format;
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Sets the color used when rendering the cell's content.
-	 *
-	 * @param fgColor the color used when rendering the cell's content
-	 */
-	public void setForegroundColor(Color fgColor) {
-		this.fgColor = fgColor;
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Sets the font used when rendering the cell's content.
+     *
+     * @param font the font used when rendering the cell's content
+     */
+    public void setFont(Font font) {
+        this.font = font;
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Sets the background color of the cell.
-	 *
-	 * @param bgColor the background color of the cell
-	 */
-	public void setBackgroundColor(Color bgColor) {
-		this.bgColor = bgColor;
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Sets the horizontal alignment of the cell's content.
+     *
+     * @param hAlignment the horizontal alignment of the cell's content
+     */
+    public void setHorizontalAlignment(int hAlignment) {
+        if (hAlignment == SwingConstants.LEFT
+                || hAlignment == SwingConstants.CENTER
+                || hAlignment == SwingConstants.RIGHT) {
+            this.hAlignment = hAlignment;
+        } else {
+            throw new IllegalArgumentException("Illegal alignment");
+        }
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Sets the border of the cell.
-	 *
-	 * @param border the border of the cell
-	 */
-	public void setBorder(Border border) {
-		this.border = border;
-		Notification.cellInformer().notifyChange(this);
-	}
+    /**
+     * Sets the vertical alignment of the cell's content.
+     *
+     * @param vAlignment the vertical alignment of the cell's content
+     */
+    public void setVerticalAlignment(int vAlignment) {
+        if (vAlignment == SwingConstants.TOP
+                || vAlignment == SwingConstants.CENTER
+                || vAlignment == SwingConstants.BOTTOM) {
+            this.vAlignment = vAlignment;
+        } else {
+            throw new IllegalArgumentException("Illegal alignment");
+        }
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Restes the style of the cell.
-	 */
-	public void resetStyle() {
-		this.format = null;
-		this.font = FONT;
-		this.hAlignment = -1;
-		this.vAlignment = VERTICAL_ALIGNMENT;
-		this.fgColor = FOREGROUND;
-		this.bgColor = BACKGROUND;
-		this.border = BORDER;
-	}
+    /**
+     * Sets the color used when rendering the cell's content.
+     *
+     * @param fgColor the color used when rendering the cell's content
+     */
+    public void setForegroundColor(Color fgColor) {
+        this.fgColor = fgColor;
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Removes the style from the cell.
-	 *
-	 * @param cell the cell that was modified
-	 */
-	public void cellCleared(Cell cell) {
-		if (this.getDelegate().equals(cell)) {
-			resetStyle();
-		}
-	}
+    /**
+     * Sets the background color of the cell.
+     *
+     * @param bgColor the background color of the cell
+     */
+    public void setBackgroundColor(Color bgColor) {
+        this.bgColor = bgColor;
+        Notification.cellInformer().notifyChange(this);
+    }
 
-	/**
-	 * Copies the style from the source cell to this one.
-	 *
-	 * @param cell the cell that was modified
-	 * @param source the cell from which data was copied
-	 */
-	public void cellCopied(Cell cell, Cell source) {
-		if (this.getDelegate().equals(cell)) {
-			StylableCell stylableSource = (StylableCell) source.getExtension(
-				StyleExtension.NAME);
-			this.format = stylableSource.format;
-			this.font = stylableSource.font;
-			this.hAlignment = stylableSource.hAlignment;
-			this.vAlignment = stylableSource.vAlignment;
-			this.fgColor = stylableSource.fgColor;
-			this.bgColor = stylableSource.bgColor;
-			this.border = stylableSource.border;
-			Notification.cellInformer().notifyChange(this);
-		}
-	}
+    /**
+     * Sets the border of the cell.
+     *
+     * @param border the border of the cell
+     */
+    public void setBorder(Border border) {
+        this.border = border;
+        Notification.cellInformer().notifyChange(this);
+    }
+
+    /**
+     * Sets the border of the cell.
+     *
+     * @param border the border of the cell
+     */
+    public void setImage(ImageIcon image) {
+        this.image = image;
+        Notification.cellInformer().notifyChange(this);
+    }
+
+    /**
+     * Restes the style of the cell.
+     */
+    public void resetStyle() {
+        this.format = null;
+        this.font = FONT;
+        this.hAlignment = -1;
+        this.vAlignment = VERTICAL_ALIGNMENT;
+        this.fgColor = FOREGROUND;
+        this.bgColor = BACKGROUND;
+        this.border = BORDER;
+        this.image = IMAGE;
+    }
+
+    /**
+     * Removes the style from the cell.
+     *
+     * @param cell the cell that was modified
+     */
+    public void cellCleared(Cell cell) {
+        if (this.getDelegate().equals(cell)) {
+            resetStyle();
+        }
+    }
+
+    /**
+     * Copies the style from the source cell to this one.
+     *
+     * @param cell the cell that was modified
+     * @param source the cell from which data was copied
+     */
+    public void cellCopied(Cell cell, Cell source) {
+        if (this.getDelegate().equals(cell)) {
+            StylableCell stylableSource = (StylableCell) source.getExtension(
+                    StyleExtension.NAME);
+            this.format = stylableSource.format;
+            this.font = stylableSource.font;
+            this.hAlignment = stylableSource.hAlignment;
+            this.vAlignment = stylableSource.vAlignment;
+            this.fgColor = stylableSource.fgColor;
+            this.bgColor = stylableSource.bgColor;
+            this.border = stylableSource.border;
+            this.image=stylableSource.image;
+            Notification.cellInformer().notifyChange(this);
+        }
+    }
 }
