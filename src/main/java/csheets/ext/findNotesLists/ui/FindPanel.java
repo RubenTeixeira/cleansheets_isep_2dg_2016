@@ -28,9 +28,10 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 	 */
 	public FindPanel(UIController uiController) {
 		this.setName(EventsExtension.NAME);
-		this.initComponents();
 		this.controller = new FindController(uiController, this);
-		addListener();
+		this.initComponents();
+		this.addListener();
+		this.jListResults.setModel(this.resultListModel);
 		this.update(null, null);
 	}
 
@@ -58,20 +59,20 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.resultListModel.removeAllElements();
-		String title = this.jTextFieldExpression.getText();
-		String content = null;
-		if (this.jCheckBoxContent.isEnabled()) {
-			content = this.jTextFieldExpression.getText();
-		}
 		for (Note note : this.controller.searchNotes(this.jStartDateChooser.
-			getCalendar(), this.jEndDateChooser.getCalendar(), title, content)) {
-			this.resultListModel.addElement(note);
+			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+													 getText(), this.jCheckBoxContent.
+													 isSelected())) {
+			this.resultListModel.addElement("(Note) " + note);
 		}
 		for (List list : this.controller.searchLists(this.jStartDateChooser.
-			getCalendar(), this.jEndDateChooser.getCalendar(), title, content)) {
-			this.resultListModel.addElement(list);
+			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
+													 getText(), this.jCheckBoxContent.
+													 isSelected())) {
+			this.resultListModel.addElement("(List) " + list);
 		}
-		this.jListResults.setModel(this.resultListModel);
+		this.revalidate();
+		this.repaint();
 	}
 
 	/**
@@ -294,7 +295,7 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
     }//GEN-LAST:event_jCheckBoxContentActionPerformed
 
     private void jButtonExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportActionPerformed
-		// TODO add your handling code here:
+		this.controller.export(this.resultListModel.toArray());
     }//GEN-LAST:event_jButtonExportActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

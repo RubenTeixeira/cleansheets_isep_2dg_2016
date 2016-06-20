@@ -20,7 +20,9 @@ public interface ListRepository extends Repository<List, Long> {
 
 	public Iterable<List> listVersions(List list);
 
+	public Iterable<List> allPrincipal();
+
 	public Iterable<List> search(Calendar startdate, Calendar endDate,
-								 String title, String content);
+								 String text, boolean content);
 
 }
