@@ -26,7 +26,7 @@
  * Automatically sort a range of cells.
  * <p>
  * <b>Use Case "Auto-Sorting" :</b> Automatically sort a range of cells. After
- * deﬁning a range of cells like in the previous FI Cleansheets should
+ * defining a range of cells like in the previous FI Cleansheets should
  * automatically maintain the order as the user updates the contents of the
  * range. Visual marks should be displayed for the range of cells as well as
  * visual indicators for the sorting column and sorting order. The user should

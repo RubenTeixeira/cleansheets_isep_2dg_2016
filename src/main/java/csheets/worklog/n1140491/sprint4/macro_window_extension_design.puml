@@ -12,7 +12,7 @@ actor Actor
   UI -> controller : create
   Actor -> UI : selects macro window option
   UI -> controller : createExampleScript(String codeType)
-  UI -> Actor : Show example script
+  UI --> Actor : Show example script
   Actor -> UI : Edit the script code
   UI -> controller : executeCode(String codeType, String scriptCode)
   controller -> script : run(String code)
@@ -21,15 +21,15 @@ actor Actor
     script -> macro : create
     script -> macro : run(String code)
     macro -> macro : separateInstructions(String scriptCode)
+    create MacroExpressionComplier
+    macro -> MacroExpressionComplier: create
     loop instructions
-      alt validateInstruction(String instuction)
-          note right of macro
-              continue
-          end note
-      else else
-        note right of macro
-            Has error and show error
-        end note
+      alt instruction.charAt(0) != ';'
+          macro -> MacroExpressionComplier : compile(instruction)
+          create Formula
+          MacroExpressionComplier -> Formula : create
+          macro -> Formula : evaluate()
+
       end
     end
     macro -> macro : executeScript()
@@ -40,5 +40,5 @@ actor Actor
     end note
   end
   controller -> UI : return result string
-  UI -> Actor : Show script result
+  UI --> Actor : Show script result
 @enduml

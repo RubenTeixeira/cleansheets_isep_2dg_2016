@@ -9,7 +9,13 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JRadioButton;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -173,6 +179,8 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 			getActionCommand(), txtAreaCode.getText());
 		txtAreaResult.setEnabled(true);
 		txtAreaResult.setText(result);
+
+		format();
     }//GEN-LAST:event_btnExecuteActionPerformed
 
     private void managerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_managerButtonActionPerformed
@@ -191,4 +199,26 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
     private javax.swing.JTextPane txtAreaCode;
     private javax.swing.JTextArea txtAreaResult;
     // End of variables declaration//GEN-END:variables
+
+	private void format() {
+		Document document = this.txtAreaCode.getDocument();
+		String[] lines = this.txtAreaCode.getText().split("\n");
+		int lineFirstCharacter = 0;
+		for (int i = 0; i < lines.length; i++) {
+			if (lines[i].startsWith(";")) {
+				try {
+					document.
+						remove(lineFirstCharacter, lines[i].length());
+					SimpleAttributeSet green = new SimpleAttributeSet();
+					StyleConstants.setFontFamily(green, "Courier New Italic");
+					StyleConstants.setForeground(green, Color.LIGHT_GRAY);
+					document.insertString(lineFirstCharacter, lines[i], green);
+				} catch (BadLocationException ex) {
+					Logger.getLogger(MacroBeanShellPanel.class.getName()).
+						log(Level.SEVERE, null, ex);
+				}
+			}
+			lineFirstCharacter += lines[i].length() + 1;
+		}
+	}
 }
