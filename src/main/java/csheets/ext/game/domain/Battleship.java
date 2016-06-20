@@ -82,6 +82,10 @@ public class Battleship {
     public List<Ship> getShips() {
         return lstShips;
     }
+    
+    public Map<Ship.ShipType, Integer> getShipCount() {
+        return gameType.lstShipTypes;
+    }
 
     public Battleship(BoardSize boardSize, BattleshipGameType gameType) {
         this.board = new Boolean[boardSize.size][boardSize.size];
