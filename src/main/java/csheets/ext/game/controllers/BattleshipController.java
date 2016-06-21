@@ -588,7 +588,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void startGame() {
-        if (!readyToPlay/* || !opponentReadyToPlay*/) {
+        if (!readyToPlay || !opponentReadyToPlay) {
             return;
         }
         // END WAITING
