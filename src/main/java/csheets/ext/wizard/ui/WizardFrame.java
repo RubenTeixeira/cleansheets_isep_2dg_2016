@@ -6,21 +6,14 @@
 package csheets.ext.wizard.ui;
 
 import csheets.core.IllegalValueTypeException;
-import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /**
  *
@@ -99,7 +92,7 @@ public class WizardFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         formulaTextArea = new javax.swing.JTextArea();
-        jButton1 = new javax.swing.JButton();
+        treeButton = new javax.swing.JButton();
 
         jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -157,10 +150,10 @@ public class WizardFrame extends javax.swing.JFrame {
         formulaTextArea.setRows(5);
         jScrollPane3.setViewportView(formulaTextArea);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        treeButton.setText("Draw Tree");
+        treeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                treeButtonActionPerformed(evt);
             }
         });
 
@@ -179,30 +172,29 @@ public class WizardFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resultTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(selectedFunctionTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(21, 21, 21)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(confirmButton)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(cancelButton))
-                                    .addComponent(resultTextBox, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 44, Short.MAX_VALUE)))
+                                .addGap(153, 153, 153)
+                                .addComponent(jLabel3))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addComponent(confirmButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(treeButton)
+                                .addGap(18, 18, 18)
+                                .addComponent(cancelButton)))
+                        .addGap(0, 30, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(148, 148, 148))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,7 +218,7 @@ public class WizardFrame extends javax.swing.JFrame {
                     .addComponent(confirmButton)
                     .addComponent(helpButton)
                     .addComponent(cancelButton)
-                    .addComponent(jButton1))
+                    .addComponent(treeButton))
                 .addGap(19, 19, 19))
         );
 
@@ -275,12 +267,15 @@ public class WizardFrame extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, help);
     }//GEN-LAST:event_helpButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        byte[] bytes = formulaTextArea.getText().getBytes();
-        InputStream in = new ByteArrayInputStream(bytes);
-        OutputStream out = new ByteArrayOutputStream();
-        controller.buildAST(in, out);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void treeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeButtonActionPerformed
+        try {
+            if (!formulaTextArea.getText().isEmpty() && !formulaTextArea.getText().equals("") && !resultTextBox.getText().startsWith("At")) {
+                controller.buildAST(formulaTextArea.getText(), this);
+            }
+        } catch (FormulaCompilationException ex) {
+            JOptionPane.showMessageDialog(this, ex.toString());
+        }
+    }//GEN-LAST:event_treeButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
@@ -288,7 +283,6 @@ public class WizardFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea formulaTextArea;
     private javax.swing.JList<String> functionsList;
     private javax.swing.JButton helpButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -299,6 +293,7 @@ public class WizardFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField resultTextBox;
     private javax.swing.JTextField selectedFunctionTextBox;
+    private javax.swing.JButton treeButton;
     // End of variables declaration//GEN-END:variables
 
     private void updateResultTextBox() {
@@ -311,6 +306,20 @@ public class WizardFrame extends javax.swing.JFrame {
             } catch (FormulaCompilationException | IllegalValueTypeException |
                     IllegalArgumentException ex) {
                 resultTextBox.setText(ex.getMessage());
+            }
+        }
+    }
+
+    protected void selectElement(String element) throws BadLocationException {
+        String text = formulaTextArea.getText();
+        int index = text.indexOf(element);
+        Highlighter hl = formulaTextArea.getHighlighter();
+        hl.removeAllHighlights();
+        while (index >= 0) {
+            try {
+                hl.addHighlight(index, index + element.length(), DefaultHighlighter.DefaultPainter);
+                index = text.indexOf(element, index + element.length());
+            } catch (BadLocationException ex) {
             }
         }
     }

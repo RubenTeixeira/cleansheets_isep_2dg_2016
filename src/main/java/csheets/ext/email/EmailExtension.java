@@ -32,6 +32,7 @@ public class EmailExtension extends Extension {
 	 * @param uiController the user interface controller
 	 * @return a user interface extension, or null if none is provided
 	 */
+	@Override
 	public UIExtension getUIExtension(UIController uiController) {
 		return new UIExtensionEmail(this, uiController);
 	}

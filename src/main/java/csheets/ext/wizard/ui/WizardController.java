@@ -5,6 +5,7 @@
  */
 package csheets.ext.wizard.ui;
 
+import antlr.ASTFactory;
 import antlr.collections.AST;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
@@ -33,8 +34,6 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.CommonTree;
-import org.antlr.runtime.tree.DOTTreeGenerator;
-import org.antlr.stringtemplate.StringTemplate;
 
 /**
  * Controller of the wizard process to simplify the WizardFrame code and use
@@ -71,7 +70,6 @@ public class WizardController {
     public FunctionParameter[] getParametersOfFunctionSelected() {
         return this.parameters;
     }*/
-
     public String executeFormula(String text) throws FormulaCompilationException, IllegalValueTypeException {
         Value result = null;
         try {
@@ -82,8 +80,8 @@ public class WizardController {
         }
         return result.toString();
     }
-    
-    public void setCellsFormula (String formula) {
+
+    public void setCellsFormula(String formula) {
         try {
             uicontroller.getActiveCell().setContent(formula);
         } catch (FormulaCompilationException ex) {
@@ -91,48 +89,15 @@ public class WizardController {
         }
     }
 
-    public void buildAST(InputStream in, OutputStream out) {
-        // Wraps the output stream
-        PrintStream printer;
-        if (out instanceof PrintStream) {
-            printer = (PrintStream) out;
-        } else {
-            printer = new PrintStream(out);
-        }
-
-        // Reads and compiles input
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                ANTLRStringStream input = new ANTLRStringStream(line);
-
-                // create the buffer of tokens between the lexer and parser
-                FormulaLexer lexer = new FormulaLexer(input);
-                CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-                FormulaParser parser = new FormulaParser(tokens);
-                try {
-                    CommonTree ast = (CommonTree) parser.expression().getTree();
-                    if (ast != null) {
-                        DOTTreeGenerator treeGenerator = new DOTTreeGenerator();
-                        StringTemplate str = treeGenerator.toDOT(ast);
-                        
-//                        System.out.println("AST: " + ast.toStringTree());
-//                        new antlr.debug.misc.ASTFrame("Formula Viewer", (AST) ast).setVisible(true);
-//						Expression expression = compiler.convert(uicontroller.getActiveCell(), ast);
-//						printer.println("Formula: " + expression + " = " + expression.
-//								evaluate());
-                    }
-                } catch (RecognitionException e) {
-                }
-            }
-        } catch (IOException e) {
-            System.err.println(e);
+    public void buildAST(String formula, WizardFrame frame) throws FormulaCompilationException {
+        CommonTree ast = new ExcelExpressionCompiler().compileTree(formula);
+        if (ast != null) {
+            new WizardTreeFrame(ast, frame).setVisible(true);
+            System.out.println("AST: " + ast.toStringTree());
         }
     }
 
-    /* Lang04.2
+/* Lang04.2
     public String setValuesOnExpression(String text, String text0, String text1, String text2) {
         String s = this.formulaSelected;
         String replaced;
@@ -216,5 +181,4 @@ public class WizardController {
         return null;
 
     }*/
-
 }

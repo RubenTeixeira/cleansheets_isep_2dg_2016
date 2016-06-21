@@ -30,8 +30,9 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
 	private void init() {
 		this.labelName.setText(this.reminder.name());
 		this.labelDescription.setText(this.reminder.description());
-		this.labelDate.setText(DateTime.
-			format(this.reminder.timeOfReminder(), "YYYY/MM/dd hh:mm"));
+		//this.labelDate.setText(DateTime.
+		//	format(this.reminder.timeOfReminder(), "YYYY/MM/dd hh:mm"));
+                this.labelDate.setText(this.reminder.timeOfRemider());
 	}
 
 	/**

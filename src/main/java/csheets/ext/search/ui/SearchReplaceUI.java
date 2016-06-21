@@ -1,15 +1,21 @@
 package csheets.ext.search.ui;
 
 import csheets.core.Value;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.search.SearchController;
 import csheets.ext.search.SearchExtension;
 import csheets.framework.search.SearchResultDTO;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -18,7 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author José Barros
  */
-public class SearchReplaceUI extends javax.swing.JFrame {
+public class SearchReplaceUI extends javax.swing.JFrame implements Observer {
 
 	/**
 	 * The SearchController
@@ -48,7 +54,7 @@ public class SearchReplaceUI extends javax.swing.JFrame {
 	 */
 	private boolean firstClick = true;
 
-	private boolean suspended = true;
+	private boolean replaceAll = false;
 
 	/**
 	 * Creates new form SearchReplaceUI
@@ -61,6 +67,7 @@ public class SearchReplaceUI extends javax.swing.JFrame {
 		setName(SearchExtension.NAME);
 		this.uiController = controller;
 		initComponents();
+		Notification.eventInformer().addObserver(this);
 	}
 
 	public void setAdvancedSearch(Map<String, Value.Type> types,
@@ -87,11 +94,14 @@ public class SearchReplaceUI extends javax.swing.JFrame {
 
 				if (found > 0) {
 
-					results.stream().
-						forEach((result) -> {
-							new SearchResultsPanel(uiController, this, result, replacestring).
-								run();
-						});
+					for (SearchResultDTO result : results) {
+						if (replaceAll) {
+							replace(result, replacestring);
+						} else {
+							SearchResultPanel panel = new SearchResultPanel(this, true, uiController, result, replacestring);
+						}
+					}
+
 				} else {
 					JOptionPane.
 						showMessageDialog(this, "No results.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
@@ -245,6 +255,30 @@ public class SearchReplaceUI extends javax.swing.JFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
 		performSearch();
     }//GEN-LAST:event_searchButtonActionPerformed
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof String) {
+			if (((String) arg).equals("REPLACE ALL")) {
+				this.replaceAll = true;
+			}
+		}
+	}
+
+	public void replace(SearchResultDTO result, String newstring) {
+		String cellAddress = result.getCell();
+		int row = Integer.parseInt(cellAddress.substring(1)) - 1;
+		int column = cellAddress.charAt(0) - 'A';
+
+		try {
+			uiController.getActiveSpreadsheet().
+				getCell(column, row).
+				setContent(newstring);
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(SearchReplaceUI.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+	}
 
 	public void run() {
 		this.setVisible(true);

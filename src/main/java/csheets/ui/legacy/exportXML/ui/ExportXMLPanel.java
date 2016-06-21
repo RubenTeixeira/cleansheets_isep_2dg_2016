@@ -73,6 +73,16 @@ public class ExportXMLPanel extends javax.swing.JFrame {
         jTextFieldTagSpreadSheet = new javax.swing.JTextField();
         jTextFieldTagRow = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        CellFontTextField = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        CommentTextField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        BackgroundTextField = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        BorderTextField = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        ValueTextField = new javax.swing.JTextField();
 
         checkbox1.setLabel("export selected");
 
@@ -113,6 +123,11 @@ public class ExportXMLPanel extends javax.swing.JFrame {
         jTextFieldTagColumn.setText("Column");
 
         jTextFieldTagWorkbook.setText("WorkBook");
+        jTextFieldTagWorkbook.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldTagWorkbookActionPerformed(evt);
+            }
+        });
 
         jTextFieldTagSpreadSheet.setText("SpreadSheet");
         jTextFieldTagSpreadSheet.addActionListener(new java.awt.event.ActionListener() {
@@ -125,14 +140,59 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 
         jLabel7.setText("Tags");
 
+        jLabel8.setText("Font");
+
+        CellFontTextField.setText("Font");
+        CellFontTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CellFontTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Comment");
+
+        CommentTextField.setText("Comment");
+        CommentTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CommentTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setText("Background");
+
+        BackgroundTextField.setText("Background");
+        BackgroundTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackgroundTextFieldActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Border");
+
+        BorderTextField.setText("Border");
+
+        jLabel12.setText("Value");
+
+        ValueTextField.setText("Value");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(129, 129, 129)
+                        .addComponent(jLabel7)
+                        .addGap(56, 56, 56))
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jButtonExport)
+                        .addGap(27, 27, 27)
+                        .addComponent(jToggleButtonCancel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
@@ -143,32 +203,45 @@ public class ExportXMLPanel extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jComboBoxSpreedSheet, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(40, 40, 40)
-                                .addComponent(jTextFieldTagColumn))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
                                 .addComponent(jTextFieldTagWorkbook))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(63, 63, 63)
-                                .addComponent(jTextFieldTagRow))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(13, 13, 13)
-                                .addComponent(jTextFieldTagSpreadSheet)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 19, Short.MAX_VALUE)
-                        .addComponent(jButtonExport)
-                        .addGap(27, 27, 27)
-                        .addComponent(jToggleButtonCancel)
-                        .addGap(32, 32, 32))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addGap(66, 66, 66))
+                                .addComponent(jTextFieldTagSpreadSheet))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel12))
+                                .addGap(40, 40, 40)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldTagRow)
+                                    .addComponent(jTextFieldTagColumn)
+                                    .addComponent(ValueTextField)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(CellFontTextField))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11))
+                                .addGap(23, 23, 23)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(BackgroundTextField)
+                                    .addComponent(BorderTextField)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(34, 34, 34)
+                                .addComponent(CommentTextField)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,7 +254,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBoxSpreedSheet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -200,6 +273,26 @@ public class ExportXMLPanel extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jTextFieldTagColumn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(ValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(CellFontTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
+                    .addComponent(BackgroundTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(BorderTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel9)
+                    .addComponent(CommentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jToggleButtonCancel)
                     .addComponent(jButtonExport))
@@ -222,6 +315,11 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 										   getText(), this.jTextFieldTagSpreadSheet.
 										   getText(), this.jTextFieldTagRow.
 										   getText(), this.jTextFieldTagColumn.
+										   getText(), this.ValueTextField.
+										   getText(), this.CellFontTextField.
+										   getText(), this.BackgroundTextField.
+										   getText(), this.BorderTextField.
+										   getText(), this.CommentTextField.
 										   getText());
 						break;
 					case 1:
@@ -229,6 +327,11 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 							exportSpreadSheet(fileChooser, this.jTextFieldTagSpreadSheet.
 											  getText(), this.jTextFieldTagRow.
 											  getText(), this.jTextFieldTagColumn.
+											  getText(), this.ValueTextField.
+											  getText(), this.CellFontTextField.
+											  getText(), this.BackgroundTextField.
+											  getText(), this.BorderTextField.
+											  getText(), this.CommentTextField.
 											  getText(), this.uiController.
 											  getActiveWorkbook().
 											  getSpreadsheet(this.jComboBoxSpreedSheet.
@@ -265,18 +368,44 @@ public class ExportXMLPanel extends javax.swing.JFrame {
 		// TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldTagSpreadSheetActionPerformed
 
+    private void CellFontTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CellFontTextFieldActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_CellFontTextFieldActionPerformed
+
+    private void jTextFieldTagWorkbookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldTagWorkbookActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldTagWorkbookActionPerformed
+
+    private void CommentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommentTextFieldActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_CommentTextFieldActionPerformed
+
+    private void BackgroundTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackgroundTextFieldActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_BackgroundTextFieldActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField BackgroundTextField;
+    private javax.swing.JTextField BorderTextField;
+    private javax.swing.JTextField CellFontTextField;
+    private javax.swing.JTextField CommentTextField;
+    private javax.swing.JTextField ValueTextField;
     private java.awt.Checkbox checkbox1;
     private javax.swing.JButton jButtonExport;
     private javax.swing.JComboBox<String> jComboBoxSpreedSheet;
     private javax.swing.JComboBox<String> jComboBoxType;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextFieldTagColumn;
     private javax.swing.JTextField jTextFieldTagRow;

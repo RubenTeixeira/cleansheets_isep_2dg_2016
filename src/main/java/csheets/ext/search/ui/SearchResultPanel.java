@@ -2,15 +2,16 @@ package csheets.ext.search.ui;
 
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.framework.search.SearchResultDTO;
+import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  *
- * @author José Barros
+ * @author user
  */
-public class SearchResultsPanel extends javax.swing.JFrame {
+public class SearchResultPanel extends javax.swing.JDialog {
 
 	private final UIController uiController;
 	private final SearchReplaceUI panel;
@@ -20,20 +21,24 @@ public class SearchResultsPanel extends javax.swing.JFrame {
 	/**
 	 * Creates new form SearchResultPanel
 	 *
-	 * @param uiController UI Controller
-	 * @param ui ui panel
+	 * @param parent ui parent
+	 * @param modal modal
+	 * @param uiController UI controller
 	 * @param result search result
-	 * @param replacestring string to replace
+	 * @param replacestring new string
 	 */
-	public SearchResultsPanel(UIController uiController, SearchReplaceUI ui,
-							  SearchResultDTO result, String replacestring) {
+	public SearchResultPanel(SearchReplaceUI parent, boolean modal,
+							 UIController uiController, SearchResultDTO result,
+							 String replacestring) {
+		super(parent, modal);
 		this.uiController = uiController;
-		this.panel = ui;
+		this.panel = parent;
 		this.result = result;
 		this.replacestring = replacestring;
-		this.setLocationRelativeTo(ui);
+		this.setLocationRelativeTo(null);
 		initComponents();
 		initFields();
+		this.setVisible(true);
 	}
 
 	private void initFields() {
@@ -155,8 +160,8 @@ public class SearchResultsPanel extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,13 +185,17 @@ public class SearchResultsPanel extends javax.swing.JFrame {
 
 			uiController.getActiveSpreadsheet().getCell(column, row).
 				setContent(replacestring);
+
+			if (jCheckBoxReplace.isSelected()) {
+				Notification.eventInformer().notifyChange("REPLACE ALL");
+			}
+
 			dispose();
 
 		} catch (FormulaCompilationException ex) {
-			Logger.getLogger(SearchResultsPanel.class.getName()).
+			Logger.getLogger(SearchResultPanel.class.getName()).
 				log(Level.SEVERE, null, ex);
 		}
-
     }//GEN-LAST:event_btnReplaceActionPerformed
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
@@ -206,7 +215,4 @@ public class SearchResultsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel labelValueResult;
     // End of variables declaration//GEN-END:variables
 
-	void run() {
-		this.setVisible(true);
-	}
 }

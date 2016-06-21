@@ -95,8 +95,16 @@ public class Reminder implements Serializable {
 	 * @return name
 	 */
 	public Calendar timeOfReminder() {
-		return this.timeStep;
+            return this.timeStep;
 	}
+        
+        public String timeOfRemider() {
+            String result="";
+            result += DateTime.format(timeStep);
+            result += " " + DateTime.hour(timeStep);
+            result += ":" + DateTime.min(timeStep);
+            return result;
+        }
 
 	/**
 	 * This method return the true if the alert is active.
