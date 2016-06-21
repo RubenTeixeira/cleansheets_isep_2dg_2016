@@ -110,11 +110,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Learn 6.1 Lang implementation.
+ * 1. Analysis. 2. Design
  * <p>
  * Today
  * <p>
- * 1. Analysis. 2. Think about design.
+ * 1. Design. 2. Implementation.
  * <p>
  * Blocking:
  * <p>
@@ -124,11 +124,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Analysis. 2. Think about design.
+ * 1. Design. 2. Implementation.
  * <p>
  * Today
  * <p>
- * 1. Design. 2.Tests 3.Implementation
+ * 1. Implementation. 2.Tests
  * <p>
  * Blocking:
  * <p>
