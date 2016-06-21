@@ -73,6 +73,7 @@ public class EmailDialog extends javax.swing.JFrame {
 		this.bodyCellText.setEditable(true);
 		this.destinationCellText.setEditable(true);
 		this.subjectCellText.setEditable(true);
+		this.bodyCellText.setLineWrap(true);
 	}
 
 	/**
@@ -262,7 +263,7 @@ public class EmailDialog extends javax.swing.JFrame {
 									  getText());
 			sendingEmailPanel.setVisible(false);
 			new EmailInstancePanel(this.destinationCellText.getText(), this.subjectCellText.
-								   getText());
+								   getText(), this.bodyCellText.getText());
 			JOptionPane.
 				showMessageDialog(this, "Message sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 

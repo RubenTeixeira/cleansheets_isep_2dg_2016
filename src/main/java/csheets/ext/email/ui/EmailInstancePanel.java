@@ -13,18 +13,31 @@ import csheets.notification.Notification;
  */
 public class EmailInstancePanel extends javax.swing.JPanel {
 
+	private String destination;
+
+	private String subject;
+
+	/**
+	 * Body of the email.
+	 */
+	private String body;
+
 	/**
 	 * Creates new form EmailInstancePanel
 	 *
 	 * @param destination
 	 * @param subject
+	 * @param body
 	 */
-	public EmailInstancePanel(String destination, String subject) {
+	public EmailInstancePanel(String destination, String subject, String body) {
 		initComponents();
 		this.destinationText.setText(destination);
 		this.destinationText.setEditable(false);
+		this.destination = destination;
 		this.subjectText.setText(subject);
 		this.subjectText.setEditable(false);
+		this.subject = subject;
+		this.body = body;
 		Notification.emailInformer().notifyChange(this);
 	}
 
@@ -43,6 +56,11 @@ public class EmailInstancePanel extends javax.swing.JPanel {
         subjectText = new javax.swing.JTextField();
 
         setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         destinationLabel.setText("Destination:");
 
@@ -77,6 +95,13 @@ public class EmailInstancePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+		if (evt.getClickCount() == 2) {
+			new PreviewSentEmailFrame(this.destination, this.subject, this.body).
+				setVisible(true);
+		}
+    }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel destinationLabel;
