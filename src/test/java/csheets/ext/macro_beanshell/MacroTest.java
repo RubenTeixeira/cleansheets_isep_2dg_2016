@@ -5,8 +5,6 @@
  */
 package csheets.ext.macro_beanshell;
 
-import csheets.CleanSheets;
-import csheets.ui.ctrl.UIController;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -35,8 +33,7 @@ public class MacroTest {
 
 	@Before
 	public void setUp() {
-		UIController uiController = new UIController(new CleanSheets());
-		instance = new Macro(uiController);
+		instance = new Macro(null);
 	}
 
 	@After

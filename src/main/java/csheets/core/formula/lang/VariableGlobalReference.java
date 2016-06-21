@@ -52,7 +52,7 @@ public class VariableGlobalReference extends VariableArrayReference {
 	@Override
 	public Value evaluate() {
 		return this.getCell().getSpreadsheet().getWorkbook().
-			getVariable(this.getVariable());
+			getVariableValue(this.getVariable(), this.getPosition());
 //		return this.getCell().getSpreadsheet().getWorkbook().
 //			getVariable(this.variable);
 	}

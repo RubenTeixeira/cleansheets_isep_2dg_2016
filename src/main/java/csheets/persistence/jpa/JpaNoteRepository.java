@@ -9,9 +9,10 @@ import csheets.domain.Contact;
 import csheets.domain.Note;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.NoteRepository;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
@@ -46,57 +47,42 @@ public class JpaNoteRepository extends JpaRepository<Note, Long> implements Note
 
 	@Override
 	public Iterable<Note> search(Calendar startDate, Calendar endDate,
-								 String title, String content) {
-		Iterable<Note> tmp = searchDates(startDate, endDate);
-		Boolean cont = true;
-		if (content == null || content.isEmpty()) {
-			cont = false;
+								 String text, boolean content) {
+		Iterable<Note> list = searchDates(startDate, endDate);
+		if (text != null && !text.isEmpty()) {
+			list = this.search(list, text, content);
 		}
-		tmp = this.search(tmp, title, cont);
-		return tmp;
+		return list;
 	}
 
 	public Iterable<Note> search(Iterable<Note> lists, String expression,
 								 Boolean content) {
-		ArrayList<Note> results = new ArrayList();
+		Set<Note> results = new HashSet();
 		for (Note note : lists) {
-			if (note.getTitle().matches(expression)) {
-				results.add(note);
-			} else if (content && note.getNoteText().matches(expression)) {
-				results.add(note);
-			}
-		}
-		return results;
-	}
-
-	public Iterable<Note> searchContent(Iterable<Note> notes, String content) {
-		ArrayList<Note> results = new ArrayList();
-		for (Note note : notes) {
-			if (note.getNoteText().matches(content)) {
-				results.add(note);
-			}
-		}
-		return results;
-	}
-
-	public Iterable<Note> searchTitle(Iterable<Note> notes, String title) {
-		ArrayList<Note> results = new ArrayList();
-		for (Note note : notes) {
-			if (note.getTitle().matches(title)) {
-				results.add(note);
+			if (!content) {
+				if (note.getTitle().matches(expression)) {
+					results.add(note);
+				}
+			} else {
+				for (String line : note.getInfo().split("\n")) {
+					if (line.matches(expression)) {
+						results.add(note);
+					}
+				}
 			}
 		}
 		return results;
 	}
 
 	public Iterable<Note> searchDates(Calendar startDate, Calendar endDate) {
-		String term = "SELECT n FROM Note n";
-		if (startDate != null && endDate != null) {
-			term = "SELECT n FROM Note n where n.time BETWEEN :startDate AND :endDate";
-		} else if (startDate != null) {
-			term = "SELECT n FROM Note n where n.time > :startDate";
-		} else if (endDate != null) {
-			term = "SELECT n FROM Note n where n.time < :endDate";
+		if (startDate == null && endDate == null) {
+			return this.allPrincipal();
+		}
+		String term = "SELECT n FROM Note n where n.time BETWEEN :startDate AND :endDate and n.versionState = true";
+		if (startDate == null) {
+			term = "SELECT n FROM Note n where n.time < :endDate and n.versionState = true";
+		} else if (endDate == null) {
+			term = "SELECT n FROM Note n where n.time > :startDate and n.versionState = true";
 		}
 		final Query query = entityManager().createQuery(term, Note.class);
 		if (startDate != null) {
@@ -105,6 +91,13 @@ public class JpaNoteRepository extends JpaRepository<Note, Long> implements Note
 		if (endDate != null) {
 			query.setParameter("endDate", endDate, TemporalType.DATE);
 		}
+		return (Iterable<Note>) query.getResultList();
+	}
+
+	@Override
+	public Iterable<Note> allPrincipal() {
+		final Query query = entityManager().
+			createQuery("SELECT n FROM Note n where n.versionState = true", Note.class);
 		return (Iterable<Note>) query.getResultList();
 	}
 }
