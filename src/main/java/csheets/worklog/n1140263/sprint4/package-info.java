@@ -49,20 +49,24 @@
  * click" and open a windows (frame) with the info of the double clicked email
  * of the outbox.
  *
+ * <h3> SSD </h3>
+ * <img src="doc-files/analysisProblem.png" alt="SD">
  *
- * <h3>First "analysis" sequence diagram</h3>
- * <img src="doc-files/doc-files/sendEmail.png" alt="SD">
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  *
+ * TODO !!!!!!!!!!!!!!!!!!!!!!!!
  *
  * <h3>5.2. UC Realization</h3>
- * <img src="doc-files/forms_editor_2_design.png" alt="image">
+ *
+ * <h3>Sequence diagram - basic send email</h3>
+ * <img src="doc-files/doc-files/sendEmail.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
- *
+ * Email, EmailController, EmailExtension, SendAction, EmailInstancePanel,
+ * EmailDialog, Mail, OutBoxPanel, PreviewSentEmailFram
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -70,8 +74,11 @@
  *
  *
  * <h2>6. Implementation</h2>
- *
- *
+ * Update: EmailExtension to add the sidebar option. New: Send email option.
+ * New: Email instance panel to add to the outbox New: OutboxPanel - list of
+ * send emails. New: PreviewSentEmailFrame - after double click in one send
+ * email of the outbox this window shows the email content. Update: SendAction -
+ * actionPerformed.
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -79,8 +86,7 @@
  *
  * <h2>8. Final Remarks</h2>
  *
- * The number of supported widget will increase. It is necessary to offer more
- * options widget options to the form (or this 3 types are enough?)
+ * Feature totally implemented and tested - done.
  *
  * <h2>9. Work Log</h2>
  *
@@ -121,7 +127,7 @@
  * <p>
  * Today
  * <p>
- * 1. Implementation. 2.Tests
+ * 1. Improvement Design. 2. Implementation. 3.Tests
  * <p>
  * Blocking:
  * <p>
@@ -143,15 +149,14 @@
  *
  * <h2>10. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint.-
+ * Analysis, planning, implemention without any problems. "Good" job as scrum
+ * master and area leader.
  *
  * <h3>10.1. Design and Implementation:3</h3>
  *
  * <p>
  * <b>Evidences:</b>
  * <p>
- * - url of commit: ... - description: this commit is related to the
- * implementation of the design pattern ...-
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
