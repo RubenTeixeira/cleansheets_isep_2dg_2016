@@ -591,6 +591,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         if (!readyToPlay || !opponentReadyToPlay) {
             return;
         }
+        new TcpClient(0).send(REQUEST_READY, connection, READY_MESSAGE);
         // END WAITING
         for (Cell cell : sheet.getCells()) {
             cell.clear();
