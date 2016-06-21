@@ -11,6 +11,7 @@ import csheets.core.Value;
 import csheets.core.Workbook;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
+import csheets.core.formula.VariableArray;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
  * Operand.
  *
  * @author Ruben Teixeira 1140780@isep.ipp.pt
+ *
  */
 public class Assign implements BinaryOperator {
 
@@ -41,13 +43,34 @@ public class Assign implements BinaryOperator {
 			} else {
 				value = rightOperand.evaluate();
 			}
-			if (leftOperand instanceof VariableGlobalReference) {
+			if (leftOperand instanceof VariableGlobalReference) { //LEFT OPERANT ASSIGNMENT FOR GLOBAL
 				VariableGlobalReference var = (VariableGlobalReference) leftOperand;
+
 				Workbook workbook = var.getCell().getSpreadsheet().getWorkbook();
-				workbook.addVariable(var.getVariable(), value);
-			} else if (leftOperand instanceof VariableLocalReference) {
+				if (!workbook.variableExist(var.getVariable())) {//if it doens't exist.
+					VariableArray newVar = new VariableArray(var.getVariable(), value, var.
+															 getPosition()); //creates a new VariableArray.
+					workbook.addVariable(newVar);
+				} else { // if it exists.
+					workbook.updateValue(var.getVariable(), value, var.
+										 getPosition());
+				}
+//				workbook.addVariable(var.getVariable(), value);
+			} else if (leftOperand instanceof VariableLocalReference) { //LEFT OPERANT ASSIGNMENT FOR LOCAL
+
 				VariableLocalReference var = (VariableLocalReference) leftOperand;
-				((CellImpl) var.getCell()).addVariable(var.getVariable(), value);
+				CellImpl c = (CellImpl) var.getCell();
+				if (!c.variableExist(var.getVariable())) {
+					VariableArray newVar = new VariableArray(var.getVariable(), value, var.
+															 getPosition());
+					((CellImpl) var.getCell()).addVariable(newVar);
+
+				} else {
+					((CellImpl) var.getCell()).
+						updateValue(var.getVariable(), value, var.getPosition());
+				}
+//				((CellImpl) var.getCell()).addVariable(var.getVariable(), value);
+
 			} else if (leftOperand instanceof CellReference) {
 				CellReference cell = (CellReference) leftOperand;
 				((CellImpl) cell.getCell()).setContent(value.toString(), false);
