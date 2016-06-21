@@ -1,4 +1,4 @@
-package csheets.io;
+package csheets.ui.legacy.exportPDF;
 
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
@@ -16,20 +16,76 @@ import com.itextpdf.text.pdf.PdfWriter;
 import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
+import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Diogo Leite
  */
-public class PDFCodec {
+public class ExportPDF {
 
 	/**
 	 * Creates a new PDF codec.
 	 */
-	public PDFCodec() {
+	public ExportPDF() {
+	}
+
+	/**
+	 * This method writes into the document the list of sections if user select
+	 * that option
+	 *
+	 * @param document Document
+	 * @param writer writer
+	 * @param showList boolean
+	 * @return PdfPTable
+	 */
+	public PdfPTable showListSections(Document document, PdfWriter writer,
+									  boolean showList) {
+		PdfPTable listSections = new PdfPTable(1);
+		//add list of sections
+		if (showList) {
+			PdfPTable titleSections = new PdfPTable(1);
+			PdfPCell cellSections;
+			cellSections = new PdfPCell(new Paragraph("List of Sections", FontFactory.
+													  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
+			cellSections.setHorizontalAlignment(Element.ALIGN_CENTER);
+			cellSections.setBorder(Rectangle.NO_BORDER);
+			titleSections.addCell(cellSections);
+			try {
+				document.add(titleSections);
+			} catch (DocumentException ex) {
+				Logger.getLogger(ExportPDF.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+
+			Workbook workbook = UIController.getUIController().
+				getActiveWorkbook();
+			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
+
+				Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
+				Paragraph linkToSection = new Paragraph();
+				Anchor anchor = new Anchor("Spreadsheet title:" + spreadsheet.
+					getTitle());
+
+				anchor.setReference("#Spreadsheet title:" + spreadsheet.
+					getTitle());
+				linkToSection.add(anchor);
+				listSections.addCell(linkToSection);
+				listSections.setTotalWidth(700);
+				listSections.writeSelectedRows(0, 0, 36, 36, writer.
+											   getDirectContent());
+
+			}
+
+			return listSections;
+
+		}
+		return listSections;
 	}
 
 	/**
@@ -49,33 +105,8 @@ public class PDFCodec {
 			PdfWriter writer = PdfWriter.
 				getInstance(document, new FileOutputStream(file));
 			document.open();
-			//add list of sections
-			if (showList) {
-				PdfPTable titleSections = new PdfPTable(1);
-				PdfPCell cellSections;
-				cellSections = new PdfPCell(new Paragraph("List of Sections", FontFactory.
-														  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-				cellSections.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cellSections.setBorder(Rectangle.NO_BORDER);
-				titleSections.addCell(cellSections);
-				document.add(titleSections);
-				PdfPTable listSections = new PdfPTable(1);
-				for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
-
-					Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
-					Paragraph linkToSection = new Paragraph();
-					Anchor anchor = new Anchor("Spreadsheet title:" + spreadsheet.
-						getTitle());
-
-					anchor.setReference("#Spreadsheet title:" + spreadsheet.
-						getTitle());
-					linkToSection.add(anchor);
-					listSections.addCell(linkToSection);
-					listSections.setTotalWidth(700);
-					listSections.writeSelectedRows(0, 0, 36, 36, writer.
-												   getDirectContent());
-
-				}
+			PdfPTable listSections = showListSections(document, writer, showList);
+			if (listSections.size() != 0) {
 				document.add(listSections);
 				document.newPage();
 			}
@@ -238,12 +269,14 @@ public class PDFCodec {
 			title.addCell(cell);
 
 			document.add(title);
+			int row = cells.length;
+			int columm = cells[0].length;
 
 			//put information into table
 			Font f = new Font();
 			PdfPCell tableCell;
-			for (int i = 0; i < cells.length; i++) {
-				for (int j = 0; j < cells[0].length; j++) {
+			for (int i = 0; i < row; i++) {
+				for (int j = 0; j < columm; j++) {
 
 					if (!cells[i][j].
 						getValue().toString().isEmpty()) {
