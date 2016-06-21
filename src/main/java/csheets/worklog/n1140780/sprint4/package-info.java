@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1140780) Ruben
- * Teixeira during week3.
+ * Teixeira during week4.
  *
  * <p>
  * <b>Scrum Master:</b> no
@@ -10,152 +10,93 @@
  *
  * <h2>1. Notes</h2>
  *
- * <p>
- * I created an extra task concerning the creation of an Installer for the
- * application found in
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-303">LPFOURDG-303</a></p>
- * <p>
- * It contains a link to the package in the comments section.</p>
+ * TODO
  *
- * <h2>2. Use Case/Feature: IPC03.2 - Search in the Network</h2>
+ * <h2>2. Use Case/Feature: Lang03.3- Tables and Filters</h2>
  *
  * <b>Issue in Jira:</b>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-58">LPFOURDG-58</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-35">LPFOURDG-35</a></p>
  * <b>Sub-tasks:</b>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-274">Analysis</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-317">Analysis</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-275">Design</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-318">Design</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-276">Tests</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-319">Tests</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-277">Implementation</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-320">Implementation</a></p>
  * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-273">Worklog</a></p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-321">Worklog</a></p>
  *
  *
  * <h2>3. Requirement</h2>
  * <p>
- * It should be possible to broadcast a workbook search request to all the
- * instances of Cleansheets in the same local network. The search should only
- * include the workbooks that are open. Cleansheets should have a sidebar window
- * to display - in a list - the results of the search. This window should be
- * updated as replies as received. The list of results should include the
- * identification of the instance where the workbook was found, the name of the
- * workbook and a summary of the contents of the workbook.</p>
+ * Add a new extension to support the concept of 'tables'. A table is
+ * essentially a range of cells. The first row of this range of cells can be
+ * used as header of the table columns (the contents of these cells become the
+ * name of the columns).
+ * <p>
+ * Once a table is defined it should be possible to filter its contents by using
+ * formulas. A formula that is used as a filter of a table is applied to each
+ * row of the table. If the result is true, the row is visible, if the result is
+ * false, the row should become invisible.</p>
+ * <p>
+ * To facilitate the writing of such formulas a new special variable should be
+ * added to formulas. This new variable should be an array variable that
+ * represents the value of the columns of the table for the current row. Lets
+ * consider, for instance, that the new variable is called '_col'. For example,
+ * it should be possible to use '_col[2]' to get the value of column 2 for the
+ * current row. It should also be possible to use the name of the column instead
+ * of the index. For instance, if the header of column 2 is 'cidade' it should
+ * be possible the get the value of this column for the current row by using
+ * '_col[“cidade“]'.</p>
+ * <p>
+ * An example of a filter for a table could be: '=or(_col[“idade“]>10;
+ * _col[3]=123)'. This extension should add a new sidebar window that should be
+ * used to edit tables and its filters.</p>
  *
  * <p>
- * <b>Use Case 1 - "Search networked instances for workbook pattern":</b> The
- * user enters a regular expression on a textbox, then presses a button to start
- * the search. The system will then display for each instance in the network
- * that have matching workbook's, its identification as well as a preview of the
- * first non-empty cells.</p>
+ * <b>Use Case 1 - "Create table":</b> The user selects a range of cells, then
+ * defines it as a table. The system validates if all the top cells of the
+ * selected range have content and if it does, a new table is defined.</p>
+ *
+ * <p>
+ * <b>Use Case 2 - "Filter table content":</b> The user selects an already
+ * existant table, defines an expression in a textbox and applies. The system
+ * validates if thje expression can be evaluated as a boolean and if so it will
+ * apply the filter to the rows of the table.</p>
  *
  *
  * <h2>4. Analysis</h2>
  * <p>
- * After analysis of the current implementation, it was found that this feature
- * is implemented following this class diagram design:</p>
- * <p>
- * <img src="doc-files/ipc_03.2_extension_image1.png" alt="Class Diagram"></p>
+ * After analysis of the requirements and the ConditionalFormatting
+ * implementation the course of action will be to first implement UC1 ("Create
+ * table") using the following approach:</p>
  *
  * <p>
- * After <code>WorkbookSearchExtension</code> is dinamycally loaded (load flow
- * control analysed in the last sprint, see: see:
- * <a href="../sprint2/package-summary.html">4. Analysis</a>
- * ), it will return to the UI the <code>UIExtensionWorkbookSearch</code> which
- * in turn returns a <code>WorkbookSearchMenu</code> that contains a
- * <code>JMenuItem</code> associated with the <code>WorkbookSearchAction</code>,
- * the latter being the responsible for starting the flow of the Use Case.</p>
- *
- * <b>WorkbookSearchExtension Class:</b>
+ * <b>Create Table:</b></p>
  * <p>
- * Returns the main UI for this extension.</p>
- *
- * <b>UIExtensionWorkbookSearch Class:</b>
- * <p>
- * Returns the <code>JMenu</code> component added to the main UI.</p>
- *
- * <b>WorkbookSearchMenu Class: </b>
- * <p>
- * The JMenu component added to the main UI.</p>
- *
- * <b>WorkbookSearchAction Class: </b>
- * <p>
- * This Action will be associated with the JMenu component above.</p>
- *
- * <h3>4.1 Current Design</h3>
- *
- * <p>
- * <b>ActionPerformed:</b></p>
- * <p>
- * <img src="doc-files/ipc_03.2_extension_image4.png" alt="Action performed"></p>
- *
- * <p>
- * <b>Since the requirements now specify the need for a Sidebar this will be the
- * updated design:</b></p>
- *
- * <p>
- * <b>Updated diagram of the loading process:</b></p>
- * <p>
- * <img src="doc-files/ipc_03.2_class_diagram_updated.png" alt="CD updated"></p>
+ * <img src="doc-files/lang_03.3_create_table_analysis.png" alt="UC1 Analysis"></p>
  *
  *
  * <p>
- * <b>Search request:</b></p>
+ * <b>And the Create filter:</b></p>
  * <p>
- * <img src="doc-files/ipc_03.1_analysis.png" alt="Send Request"></p>
- *
- * <p>
- * <b>For the search request however, re-engineering will be needed as we will
- * now have to request search for all found instances, instead of just the one
- * instance chosen by the User. Aditionally, no input from the client instance
- * user should be necessary until further discussion with the team.</b></p>
- *
- * <p>
- * <b>Updated Search request:</b></p>
- * <p>
- * <img src="doc-files/ipc_03.1_analysis_server_side.png" alt="First Approach SD"></p>
- *
- * <p>
- * <b>This is the first approach to the problem after the analysis, in which the
- * main difference is that all instances found after broadcast and reply
- * received, are then saved in-memory for later request for search.</b></p>
+ * <img src="doc-files/lang_03.3_create_filter_analysis.png" alt="UC2 Analysis"></p>
  *
  * <h3>Analysis of Core Technical Problem</h3>
- * <p>
- * The core technical problem is mainly how to refresh the UI with search
- * results which should contain instance identification as well as a preview of
- * their matching workbooks.</p>
- * <p>
- * Perhaps this is time for another Data Transfer object... But first, one
- * should take care of the networking flow of this functional increment.</p>
- * <p>
- * <b>UPDATE:</b></p>
- * <p>
- * After further analysis of the current implementation, one may come to the
- * conclusion that the Volt network implementation might not be the most
- * appropriate solution to this application, as an Object Oriented one, as we
- * quickly come to the conclusion that the Volt Interfaces and protocol don't
- * even support the transfer of objects other than String ones.</p>
- * <p>
- * This almost defeats the purpose of using DTO's as serializable and
- * lightweight objects to send through the network.</p>
- * <p>
- * I will suggest to the original main programmer of Volt (Renato Machado) the
- * addition of generic Object transfer support if possible. Nevertheless, the
- * current goal is to make do with what is currently available as time to
- * deliver is of utmost concern.</p>
  *
  * <p>
- * <b>UPDATE 2:</b></p>
+ * <b>This is the first approach to the problem after the analysis, in which a
+ * new SpreadsheetExtension must be created: <code>SpreadsheetWithTables</code>.
+ * </b></p>
  * <p>
- * After consulting with Volt owner who rejected the suggested changes to his
- * implementation I decided to implement <code>ObjectSerialization</code> class
- * with static methods <code>toString()</code> and <code>fromString()</code> in
- * order to accomplish the same objective by serializing the objects into a
- * Base64 string and the other way around on the other end of the network.
+ * <b>The plan to <code>_col[i]</code> or <code>_col["string"]</code>
+ * interpretation is to perform substitution sometime before dispatching the
+ * resulting string as an Expression to evaluation.</b></p>
+ *
+ *
  *
  *
  * <h2>5. Design</h2>
@@ -409,7 +350,7 @@
  *
  * @author Ruben Teixeira 1140780@isep.ipp.pt
  */
-package csheets.worklog.n1140780.sprint3;
+package csheets.worklog.n1140780.sprint4;
 
 /**
  *
