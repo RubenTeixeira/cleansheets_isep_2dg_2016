@@ -144,11 +144,13 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a5a84fb20c661307b36e92a8ce95d8cdff25c761">Tests</a></p>
  *
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1">Implementation
- * coommit 1</a></p>
+ * commit 1</a></p>
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6bcfcf9d8b2ab2dff19158071a4611091fd98dea">Implementation
  * commit 2</a></p>
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/81dcff57e323849e9379020a528136d161c73ebf">Implementation
  * coommit 3</a></p>
  * <p>
