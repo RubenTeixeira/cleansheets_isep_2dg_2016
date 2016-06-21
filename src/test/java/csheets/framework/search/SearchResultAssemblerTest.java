@@ -27,58 +27,58 @@ import org.junit.Test;
  */
 public class SearchResultAssemblerTest {
 
-    Spreadsheet spreadSheet;
-    List<Comment> comments;
-    CommentableCell commentableCell;
+	Spreadsheet spreadSheet;
+	List<Comment> comments;
+	CommentableCell commentableCell;
 
-    public SearchResultAssemblerTest() {
-    }
+	public SearchResultAssemblerTest() {
+	}
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+	@BeforeClass
+	public static void setUpClass() {
+	}
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
+	@AfterClass
+	public static void tearDownClass() {
+	}
 
-    @Before
-    public void setUp() {
-        Workbook workBook = new Workbook(1);
-        spreadSheet = workBook.getSpreadsheet(0);
-        Cell cell = spreadSheet.getCell(0, 0);
-        try {
-            cell.setContent("=2+2");
-        } catch (FormulaCompilationException ex) {
-        }
-        commentableCell = (CommentableCell) cell.
-                getExtension(CommentsExtension.NAME);
-        commentableCell.addComment("Test", "This is a test.");
-        Comment comment = new Comment("Test", "This is a test.");
-        comments = new ArrayList<>();
-        comments.add(comment);
-    }
+	@Before
+	public void setUp() {
+		Workbook workBook = new Workbook(1);
+		spreadSheet = workBook.getSpreadsheet(0);
+		Cell cell = spreadSheet.getCell(0, 0);
+		try {
+			cell.setContent("=2+2");
+		} catch (FormulaCompilationException ex) {
+		}
+		commentableCell = (CommentableCell) cell.
+			getExtension(CommentsExtension.NAME);
+		commentableCell.addComment("Test", "This is a test.");
+		Comment comment = new Comment("Test", "This is a test.");
+		comments = new ArrayList<>();
+		comments.add(comment);
+	}
 
-    @After
-    public void tearDown() {
-    }
+	@After
+	public void tearDown() {
+	}
 
-    @Test
-    public void ensureGetResultInformationWorksAsIntended() {
-        SearchResultDTO expResult = new SearchResultDTO(
-                "", "Sheet 1", "A1", "=2+2", "4", comments);
-        SearchResultDTO result = SearchResultAssembler.
-                getResultInformation(spreadSheet, commentableCell);
-        assertEquals(expResult, result);
-    }
+	@Test
+	public void ensureGetResultInformationWorksAsIntended() {
+		SearchResultDTO expResult = new SearchResultDTO(
+			"", "Sheet  1", "A1", "=2+2", "4", comments);
+		SearchResultDTO result = SearchResultAssembler.
+			getResultInformation(spreadSheet, commentableCell);
+		assertEquals(expResult, result);
+	}
 
-    @Test
-    public void resultInformationIsInvalid() {
-        SearchResultDTO expResult = new SearchResultDTO(
-                "* Unsaved File 1 *", "Sheet 1", "A1", "=2+2", "4", comments);
-        SearchResultDTO result = SearchResultAssembler.
-                getResultInformation(spreadSheet, commentableCell);
-        boolean validation = expResult.equals(result);
-        assertEquals(false, validation);
-    }
+	@Test
+	public void resultInformationIsInvalid() {
+		SearchResultDTO expResult = new SearchResultDTO(
+			"* Unsaved File 1 *", "Sheet 1", "A1", "=2+2", "4", comments);
+		SearchResultDTO result = SearchResultAssembler.
+			getResultInformation(spreadSheet, commentableCell);
+		boolean validation = expResult.equals(result);
+		assertEquals(false, validation);
+	}
 }
