@@ -7,6 +7,9 @@ package csheets.ext.wizard.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.antlr.runtime.tree.CommonTree;
 import org.antlr.runtime.tree.Tree;
@@ -14,16 +17,20 @@ import org.antlr.runtime.tree.TreeIterator;
 
 /**
  *
- * @author Rafa
  */
 public class WizardTreeFrame extends javax.swing.JFrame {
 
+    private WizardFrame frame;
+    
     /**
      * Creates new form WizardTreeFrame
      *
-     * @param ast
+     * @param ast Tree
+     * @param frame Wizard UI
      */
-    public WizardTreeFrame(CommonTree ast) {
+    public WizardTreeFrame(CommonTree ast, WizardFrame frame) {
+        this.frame = frame;
+        setLocationRelativeTo(frame);
         initComponents();
         fillTree(ast);
     }
@@ -65,6 +72,11 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                 case "EOF":
                     break OUTER;
                 default:
+                    if (newPrevNode == true) {
+                        parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
+                        prevNode = node;
+                        break;
+                    }
                     prevNode = node;
                     newPrevNode = true;
                     break;
@@ -92,6 +104,11 @@ public class WizardTreeFrame extends javax.swing.JFrame {
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Formula");
         wizardTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        wizardTree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                wizardTreeValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(wizardTree);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -113,6 +130,18 @@ public class WizardTreeFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void wizardTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_wizardTreeValueChanged
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) wizardTree.getLastSelectedPathComponent();
+        try {
+            if (!((String) node.getUserObject()).equals("Formula") &&
+                    !((String) node.getUserObject()).equals("{")) {
+                frame.selectElement((String) node.getUserObject());
+            }
+        } catch (BadLocationException ex) {
+            Logger.getLogger(WizardTreeFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_wizardTreeValueChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;

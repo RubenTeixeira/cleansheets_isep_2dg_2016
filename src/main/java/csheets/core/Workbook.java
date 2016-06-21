@@ -22,12 +22,15 @@ package csheets.core;
 
 import csheets.core.formula.VariableArray;
 import csheets.ext.macro_beanshell.Code;
+import csheets.ui.FormEditor.ui.FormE;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A workbook which can contain several spreadsheets.
@@ -346,6 +349,37 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 				var.addValueToVariable(value, position);
 			}
 		}
+	}
+
+	/**
+	 * Map of the FormE
+	 */
+	private Map<String, FormE> lstFormE = new HashMap();
+
+	/**
+	 * Clear all Forms of Workbook
+	 */
+	public void clearForms() {
+		this.lstFormE.clear();
+	}
+
+	/**
+	 *
+	 * @param name
+	 * @return Form Map
+	 */
+	public FormE getForm(String name) {
+		return lstFormE.get(name);
+	}
+
+	/**
+	 * Add FormE to Map
+	 *
+	 * @param name
+	 * @param formE
+	 */
+	public void addFormE(String name, FormE formE) {
+		lstFormE.put(name, formE);
 	}
 
 	/**

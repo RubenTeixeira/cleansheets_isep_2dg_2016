@@ -26,9 +26,9 @@ actor Actor
     loop instructions
       alt instruction.charAt(0) != ';'
           macro -> MacroExpressionComplier : compile(instruction)
-          create Formula
-          MacroExpressionComplier -> Formula : create
-          macro -> Formula : evaluate()
+          create Expression
+          MacroExpressionComplier -> Expression : create
+          macro -> Expression : evaluate()
 
       end
     end

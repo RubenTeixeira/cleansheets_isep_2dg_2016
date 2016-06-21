@@ -23,6 +23,8 @@ import javax.mail.Session;
  */
 public class EmailController {
 
+	private Email mail;
+
 	public Email configureEmail(String email, String password, String server) throws MessagingException, IOException {
 
 		Properties props = new Properties();
@@ -40,12 +42,12 @@ public class EmailController {
 		// or use getDefaultInstance instance if desired...
 		Session session = Session.
 			getInstance(props, new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(props.
-						getProperty("mail.username"), props.
-													  getProperty("mail.password"));
-				}
-			});
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(props.
+								getProperty("mail.username"), props.
+															  getProperty("mail.password"));
+						}
+					});
 
 		Email mail = new Email(session);
 		mail.connect(server, email, password);

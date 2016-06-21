@@ -1,6 +1,6 @@
 /**
- * Technical documentation regarding the work of the team member (1131399)
- * Marcelo Barroso during week2.
+ * Technical documentation regarding the work of the team member 1141042.
+ * Hicham Abahri during week4.
  *
  *
  * <b>Scrum Master: no</b>
@@ -22,22 +22,21 @@
  *
  *
  * <h2>3 Requirement</h2>
- * A contact may also be a company. If a contact is a company then it has a name
- * (no first and no last name). A person contact may now be related to a company
- * contact. A person contact may have also a profession. The profession should
- * be selected from a list. The list of professions should be loaded (and/or
- * updated) from a external xml file or an existing configuration file of
- * Cleansheets. The window for company contacts should display all the person
- * contacts that are related to it. The company window should also have an
- * agenda. The agenda of a company should be read only and display all the
- * events of the individual contacts that are related to it.
+ * Tasks may now have due dates. For tasks with due dates it should be possible to create reminders (one or
+ * more). The reminders should have a due date that is earlier than the due date of the task. It should also
+ * be possible to create an event in a calendar of the contact to mark the task deadline. For events, tasks,
+ * contacts and reminders that are related the user interface should also provide visual information of that
+ * relationships and it should be possible to "move" between linked elements (e.g., it should be possible to
+ * open a task window from an event that is associated with a task).
  *
  *
  *
  * <h2>4. Analysis</h2>
- * Since contacts will be supported in a new extension to cleansheets we need to
- * study how extensions are loaded by cleansheets and how they work. The first
- * sequence diagram in the section
+ * A task will have an end date.
+ * A TASK may have one or more reminders.
+ * The reminder must have end date before the end date of the task.
+ * Create an event in the calendar of the contact to dial the deadline for a task.
+ * Contact trough has access to events, the events have to show the tasks, and each task has to show their reminder.
  * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
  * Startup</a> tells us that extensions must be a subclass of the Extension
  * abstract class and need to be registered in special files. The Extension

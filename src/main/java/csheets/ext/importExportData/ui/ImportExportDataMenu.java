@@ -1,6 +1,8 @@
 package csheets.ext.importExportData.ui;
 
 import csheets.ext.importExportData.ImportExportDataExtension;
+import csheets.ext.importExportData.databaseExportImport.ExportDatabaseAction;
+import csheets.ext.importExportData.databaseExportImport.ImportDatabaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
@@ -29,12 +31,18 @@ public class ImportExportDataMenu extends JMenu {
 		// Adds font actions
 		add(new ImportAction(uiController, controller)).
 			setIcon(new ImageIcon(ImportExportDataExtension.class.
-					getResource("res/img/import_txt.png")));
+				getResource("res/img/import_txt.png")));
 		add(new ExportAction(uiController, controller)).
 			setIcon(new ImageIcon(ImportExportDataExtension.class.
-					getResource("res/img/export_txt.png")));
-                add(new DisableEnableUpdateAction(uiController, controller)).
+				getResource("res/img/export_txt.png")));
+		add(new ImportDatabaseAction(uiController)).
 			setIcon(new ImageIcon(ImportExportDataExtension.class.
-					getResource("res/img/link.png")));
+				getResource("res/img/importDatabase.png")));
+		add(new ExportDatabaseAction(uiController)).
+			setIcon(new ImageIcon(ImportExportDataExtension.class.
+				getResource("res/img/exportDatabase.png")));
+		add(new DisableEnableUpdateAction(uiController, controller)).
+			setIcon(new ImageIcon(ImportExportDataExtension.class.
+				getResource("res/img/link.png")));
 	}
 }

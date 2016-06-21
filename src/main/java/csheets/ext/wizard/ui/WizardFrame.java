@@ -6,28 +6,21 @@
 package csheets.ext.wizard.ui;
 
 import csheets.core.IllegalValueTypeException;
-import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /**
  *
  * @author AB-1140280
  */
 public class WizardFrame extends javax.swing.JFrame {
-    
+
     WizardController controller;
     UIController uiController;
 
@@ -46,33 +39,33 @@ public class WizardFrame extends javax.swing.JFrame {
         loadFunctions();
         setVisible(true);
         setLocationRelativeTo(null);
-        
+
         formulaTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
-            
+
             @Override
             public void removeUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
-            
+
             @Override
             public void changedUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
         });
-        
+
         if (!uiController.getActiveCell().getContent().equals("")) {
             formulaTextArea.setText(uiController.getActiveCell().getContent());
         }
     }
-    
+
     private void loadFunctions() {
         FunctionListModel model = controller.getFunctions();
         functionsList.setModel(model);
-        
+
     }
 
     /**
@@ -241,7 +234,7 @@ public class WizardFrame extends javax.swing.JFrame {
         int index = functionsList.getSelectedIndex();
         String info = ((FunctionListModel) functionsList.getModel()).
                 getFunctionInfo(index, controller);
-        
+
         if (evt.getClickCount() == 1) {
             selectedFunctionTextBox.setText(info);
         } else if (evt.getClickCount() > 1) {
@@ -276,8 +269,8 @@ public class WizardFrame extends javax.swing.JFrame {
 
     private void treeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeButtonActionPerformed
         try {
-            if (!formulaTextArea.getText().isEmpty() && !formulaTextArea.getText().equals("") && !resultTextBox.getText().startsWith("At")) {                
-                controller.buildAST(formulaTextArea.getText());
+            if (!formulaTextArea.getText().isEmpty() && !formulaTextArea.getText().equals("") && !resultTextBox.getText().startsWith("At")) {
+                controller.buildAST(formulaTextArea.getText(), this);
             }
         } catch (FormulaCompilationException ex) {
             JOptionPane.showMessageDialog(this, ex.toString());
@@ -313,6 +306,20 @@ public class WizardFrame extends javax.swing.JFrame {
             } catch (FormulaCompilationException | IllegalValueTypeException |
                     IllegalArgumentException ex) {
                 resultTextBox.setText(ex.getMessage());
+            }
+        }
+    }
+
+    protected void selectElement(String element) throws BadLocationException {
+        String text = formulaTextArea.getText();
+        int index = text.indexOf(element);
+        Highlighter hl = formulaTextArea.getHighlighter();
+        hl.removeAllHighlights();
+        while (index >= 0) {
+            try {
+                hl.addHighlight(index, index + element.length(), DefaultHighlighter.DefaultPainter);
+                index = text.indexOf(element, index + element.length());
+            } catch (BadLocationException ex) {
             }
         }
     }

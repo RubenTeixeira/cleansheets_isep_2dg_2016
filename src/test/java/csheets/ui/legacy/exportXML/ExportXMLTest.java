@@ -69,6 +69,12 @@ public class ExportXMLTest {
 		String tagSpreadSheet = this.spread1.getTitle();
 		String tagRow = "row";
 		String tagColumn = "column";
+		String tagValue = "value";
+		String tagFont = "font";
+		String tagBackground = "background";
+		String tagBorder = "border";
+		String tagComment = "comment";
+
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			+ "<workbook1>\n"
 			+ "	<sheet name=\"sheet\" >\n"
@@ -86,7 +92,7 @@ public class ExportXMLTest {
 			+ "</workbook1>\n";
 
 		String result = ExportXML.
-			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, this.workbook.
+			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, this.workbook.
 						   getSpreadsheet(0).getWorkbook());
 		//assertEquals(expResult, result);
 
@@ -103,6 +109,11 @@ public class ExportXMLTest {
 		String tagSpreadSheet = this.spread1.getTitle();
 		String tagRow = "row";
 		String tagColumn = "column";
+		String tagValue = "value";
+		String tagFont = "font";
+		String tagBackground = "background";
+		String tagBorder = "border";
+		String tagComment = "comment";
 		Spreadsheet spreadsheet = this.spread1;
 
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -114,7 +125,7 @@ public class ExportXMLTest {
 			+ "";
 
 		String result = ExportXML.
-			exportSpreadsheet(tagSpreadSheet, tagRow, tagColumn, spreadsheet);
+			exportSpreadsheet(tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, spreadsheet);
 		//assertEquals(expResult, result);
 
 	}

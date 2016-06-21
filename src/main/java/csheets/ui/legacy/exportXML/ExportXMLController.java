@@ -41,10 +41,13 @@ public class ExportXMLController {
 	 */
 	public void exportWorkbook(JFileChooser fileChooser, String tagWorkBook,
 							   String tagSpreadSheet,
-							   String tagRow, String tagColumn) throws IOException {
+							   String tagRow, String tagColumn, String tagValue,
+							   String tagFont,
+							   String tagBackground, String tagBorder,
+							   String tagComment) throws IOException {
 		FileWriter file = new FileWriter(fileChooser.getSelectedFile() + ".xml");
 		String result = ExportXML.
-			exportWorkbook(tagWorkBook, tagSpreadSheet, tagRow, tagColumn, uiController.
+			exportWorkbook(tagWorkBook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, uiController.
 						   getActiveWorkbook());
 		file.write(result);
 		file.close();
@@ -65,10 +68,13 @@ public class ExportXMLController {
 	public void exportSpreadSheet(JFileChooser fileChooser,
 								  String tagSpreadSheet,
 								  String tagRow, String tagColumn,
+								  String tagValue, String tagFont,
+								  String tagBackground,
+								  String tagBorder, String tagComment,
 								  Spreadsheet spreadsheet) throws IOException {
 		FileWriter file = new FileWriter(fileChooser.getSelectedFile() + ".xml");
 		String result = ExportXML.
-			exportSpreadsheet(tagSpreadSheet, tagRow, tagColumn, spreadsheet);
+			exportSpreadsheet(tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, spreadsheet);
 		file.write(result);
 		file.close();
 	}
