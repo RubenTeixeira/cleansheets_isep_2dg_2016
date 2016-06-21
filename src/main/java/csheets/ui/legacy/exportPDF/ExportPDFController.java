@@ -45,9 +45,7 @@ public class ExportPDFController {
 	 */
 	public void exportWorkbook(JFileChooser fileChooser, boolean showList) throws IOException {
 
-		File file = fileChooser.getSelectedFile();
-
-		file = new File(file.toString() + ".pdf");  // append .pdf
+		File file = chooseFile(fileChooser);
 
 		Workbook workbook = uiController.getActiveWorkbook();
 		PDFCodec pdf = new PDFCodec();
@@ -70,8 +68,7 @@ public class ExportPDFController {
 	 */
 	public void exportSpreadSheet(JFileChooser fileChooser,
 								  Spreadsheet spreadSheet) throws IOException {
-		File file = fileChooser.getSelectedFile();
-		file = new File(file.toString() + ".pdf");  // append .pdf
+		File file = chooseFile(fileChooser);
 
 		PDFCodec pdf = new PDFCodec();
 		try {
@@ -93,8 +90,8 @@ public class ExportPDFController {
 	public void exportSelectedCells(JFileChooser fileChooser,
 									UIController uiController
 	) throws IOException {
-		File file = fileChooser.getSelectedFile();
-		file = new File(file.toString() + ".pdf");  // append .pdf
+
+		File file = chooseFile(fileChooser);
 		PDFCodec pdf = new PDFCodec();
 		try {
 			pdf.
@@ -102,6 +99,11 @@ public class ExportPDFController {
 		} catch (IOException ex) {
 			//do nothing
 		}
+	}
+
+	public File chooseFile(JFileChooser fileChooser) {
+		File file = fileChooser.getSelectedFile();
+		return new File(file.toString() + ".pdf");  // append .pdf
 	}
 
 }
