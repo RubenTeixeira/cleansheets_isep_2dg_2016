@@ -25,6 +25,7 @@ import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
+import csheets.ui.FormEditor.ui.FormE;
 import csheets.ui.FormEditor.ui.FormEditor;
 import csheets.ui.ctrl.UIController;
 
@@ -39,8 +40,10 @@ public class Form implements Function {
 	 * The only (but repeatable) parameter: a numeric term
 	 */
 	public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.TEXT, "Expression", true,
-							  "A number to be included in the sum")
+		new FunctionParameter(Value.Type.TEXT, "Name", false,
+							  "A number to be included in the sum"),
+		new FunctionParameter(Value.Type.BOOLEAN, "Modal", false,
+							  "A value to return if the condition was met")
 	};
 
 	/**
@@ -54,8 +57,18 @@ public class Form implements Function {
 	}
 
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-
-		new FormEditor(UIController.getUIController().getActiveCell());
+		String name = arguments[0].evaluate().toText();
+		boolean modal = arguments[1].evaluate().toBoolean();
+		FormE form = UIController.getUIController().getActiveWorkbook().
+			getForm(name);
+		if (form == null) {
+			form = new FormE(name);
+			UIController.getUIController().getActiveWorkbook().
+				addFormE(name, form);
+			form.setEditable(true);
+		}
+		form.setCell(UIController.getUIController().getActiveCell());
+		FormEditor formEditor = new FormEditor(form, modal);
 		return new Value();
 	}
 
