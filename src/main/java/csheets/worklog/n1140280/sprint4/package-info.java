@@ -60,9 +60,32 @@
  *
  * <h3>Design sequence diagram</h3>
  * <p>
+ * Export to database Sequence diagram
+ * <img src="doc-files/design_IPC_4_3_Export.png" alt="image">
  * </p>
- *
- * <h3>5.1. Functional Tests</h3>
+ * <p>
+ * Import to database Sequence diagram
+ * <img src="doc-files/design_IPC_4_3_Import.png" alt="image">
+ * </p>
+ * <h3>5.1. Primary Unit Tests</h3>
+ * Primary -unit testing is to ensure basic functionality
+ * <p>
+ * 1. Try create a test database and vefify that it exist
+ * </p>
+ * <p>
+ * 2. Try dropping a test database and verify it doesn't exist
+ * </p>
+ * <p>
+ * 3. Try inserting a data into a test database and verify that the data
+ * inserted is there
+ * </p>
+ * <p>
+ * 4. Try retreiving a data from a test table than I'm sure exists
+ * </p>
+ * <p>
+ * 5. Try verify if a table I'm sure exists returns true when searched for
+ * </p>
+ * <h3>5.2. Secondary Unit Tests</h3>
  * <p>
  * Unit testing should be mostly be on importing and exporting:
  * <p>
@@ -86,11 +109,11 @@
  * 7. Export to a already exixting table and ensure an error is returning</p>
  * </p>
  *
- * <h3>5.2. UC Realization</h3>
- *
  *
  * <h2>6. Implementation</h2>
- *
+ *  Implemented a Singleton class to deal with database conection, most of the code is based on queries that work 
+ * with the database
+ *  Controller manages interaction between data acess layer and the UI
  *
  *
  * <h2>9. Work Log</h2>
@@ -119,6 +142,9 @@
  * implementation
  * <b>Tuesday</b>
  * <p>
+ * Afternoon: Applied test driven development to implement the DatabaseConnector
+ * had some doubts regarding jdbc and took more time than planned reading about
+ * it
  * </p>
  * <p>
  * Tomorrow:
