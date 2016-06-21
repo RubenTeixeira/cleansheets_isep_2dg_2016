@@ -22,7 +22,7 @@ import java.io.IOException;
 
 /**
  *
- * @author Diog Leite
+ * @author Diogo Leite
  */
 public class PDFCodec {
 
@@ -129,7 +129,6 @@ public class PDFCodec {
 						if (!spreadsheet.getCell(j, i).getValue().
 							toString().isEmpty()) {
 							tableCell = new PdfPCell(new Paragraph(spreadsheet.
-								getCell(j, i).getAddress().toString() + ":" + spreadsheet.
 								getCell(j, i).getValue().
 								toString(), f));
 
@@ -196,7 +195,6 @@ public class PDFCodec {
 					if (!spreadsheet.getCell(j, i).getValue().
 						toString().isEmpty()) {
 						tableCell = new PdfPCell(new Paragraph(spreadsheet.
-							getCell(j, i).getAddress().toString() + ":" + spreadsheet.
 							getCell(j, i).getValue().
 							toString(), f));
 
@@ -250,7 +248,6 @@ public class PDFCodec {
 					if (!cells[i][j].
 						getValue().toString().isEmpty()) {
 						tableCell = new PdfPCell(new Paragraph(cells[i][j].
-							getAddress().toString() + ":" + cells[i][j].
 							getValue().toString(), f));
 
 						table.addCell(tableCell);
@@ -265,4 +262,5 @@ public class PDFCodec {
 		}
 
 	}
+
 }

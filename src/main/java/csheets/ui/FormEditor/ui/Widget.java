@@ -28,4 +28,10 @@ public interface Widget {
 	 */
 	public String getName();
 
+	/**
+	 * Get content of the widget
+	 *
+	 * @return content of the widget
+	 */
+	public String getContent();
 }

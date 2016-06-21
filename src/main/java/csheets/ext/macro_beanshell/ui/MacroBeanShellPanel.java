@@ -100,6 +100,11 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 
         radioGroupScript.add(radioBtnBeanShell);
         radioBtnBeanShell.setText("BeanShell Script");
+        radioBtnBeanShell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioBtnBeanShellActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -232,6 +237,25 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 			this.listnerIsActive = false;
 		}
     }//GEN-LAST:event_txtAreaCodeMouseClicked
+
+    private void radioBtnBeanShellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBtnBeanShellActionPerformed
+		Document document = this.txtAreaCode.getDocument();
+		String text = this.txtAreaCode.getText();
+		try {
+			document.
+				remove(0, document.getLength());
+		} catch (BadLocationException ex) {
+			Logger.getLogger(MacroBeanShellPanel.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
+		SimpleAttributeSet font = new SimpleAttributeSet();
+		StyleConstants.setFontFamily(font, "Tahoma 11 Plain");
+		StyleConstants.setForeground(font, Color.BLACK);
+		try {
+			document.insertString(0, text, font);
+		} catch (Exception ex) {
+		}
+    }//GEN-LAST:event_radioBtnBeanShellActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExecute;

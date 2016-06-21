@@ -89,13 +89,24 @@ public class Battleship {
 
     public Battleship(BoardSize boardSize, BattleshipGameType gameType) {
         this.board = new Boolean[boardSize.size][boardSize.size];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                board[i][j] = false;
+            }
+        }
         this.gameType = gameType;
         this.lstShips = new ArrayList<>();
     }
 
     public Ship addShip(Ship.ShipType shipType, List<Address> positions) {
         Ship newShip = new Ship(shipType);
-        newShip.setLocation(positions);
+        try {
+            newShip.setLocation(positions);
+        } catch (IllegalArgumentException ex) {
+            throw new IllegalArgumentException(ex.getMessage());
+        } catch (NullPointerException ex) {
+            throw new NullPointerException(ex.getMessage());
+        }
         int shipTypeCounter = 0;
         for (Ship ship : lstShips) {
             if (ship.onTopOf(newShip)) {
@@ -105,11 +116,13 @@ public class Battleship {
                 shipTypeCounter++;
             }
         }
-        if(gameType.getMaxShipTypeNum(shipType) >= shipTypeCounter) {
+        if(gameType.getMaxShipTypeNum(shipType) <= shipTypeCounter) {
             throw new VerifyError("Exceded this ShipTypes for the selected game"
                     + " type.");
         }
-        lstShips.add(newShip);
+        if(!lstShips.add(newShip)) {
+            throw new VerifyError("Error adding newShip");
+        }
         return newShip;
     }
     

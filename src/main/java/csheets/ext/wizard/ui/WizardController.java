@@ -89,11 +89,11 @@ public class WizardController {
         }
     }
 
-    public void buildAST(String formula) throws FormulaCompilationException {
-        CommonTree root = new ExcelExpressionCompiler().compileTree(formula);
-        if (root != null) {
-            new WizardTreeFrame(root).setVisible(true);
-            System.out.println("AST: " + root.toStringTree());
+    public void buildAST(String formula, WizardFrame frame) throws FormulaCompilationException {
+        CommonTree ast = new ExcelExpressionCompiler().compileTree(formula);
+        if (ast != null) {
+            new WizardTreeFrame(ast, frame).setVisible(true);
+            System.out.println("AST: " + ast.toStringTree());
         }
     }
 

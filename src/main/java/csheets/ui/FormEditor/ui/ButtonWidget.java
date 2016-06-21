@@ -13,14 +13,29 @@ import javax.swing.JPanel;
  */
 public class ButtonWidget implements Widget {
 
+	/**
+	 * content of the button
+	 */
+	private String content;
+
 	@Override
 	public JPanel getPanel(String content) {
+		this.content = content;
 		return new ButtonPanel(content);
 	}
 
 	@Override
 	public String getName() {
 		return "button";
+	}
+
+	/**
+	 *
+	 * @return content of the button widget
+	 */
+	@Override
+	public String getContent() {
+		return content;
 	}
 
 }
