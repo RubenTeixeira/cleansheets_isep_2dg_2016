@@ -255,24 +255,26 @@ public class EmailDialog extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-		SendingEmailPanel sendingEmailPanel = new SendingEmailPanel();
-		sendingEmailPanel.setVisible(true);
+		SendingEmailPanel send = new SendingEmailPanel();
+		send.setVisible(true);
 		try {
 			this.controller.sendEmail(this.mail, this.destinationCellText.
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
-			sendingEmailPanel.setVisible(false);
+
 			new EmailInstancePanel(this.destinationCellText.getText(), this.subjectCellText.
 								   getText(), this.bodyCellText.getText());
+
+			send.setVisible(false);
 			JOptionPane.
 				showMessageDialog(this, "Message sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (SendFailedException ex) {
-			sendingEmailPanel.setVisible(false);
+			send.setVisible(false);
 			JOptionPane.
 				showMessageDialog(this, "Invalid Address!", "Error", JOptionPane.ERROR_MESSAGE);
 		} catch (MessagingException | HeadlessException ex) {
-			sendingEmailPanel.setVisible(false);
+			send.setVisible(false);
 			JOptionPane.
 				showMessageDialog(this, "There's been an error!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
