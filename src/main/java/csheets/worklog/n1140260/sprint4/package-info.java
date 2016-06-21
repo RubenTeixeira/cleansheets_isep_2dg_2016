@@ -190,7 +190,7 @@
  *
  * <h3>10.3. Technical Documentation: ...</h3>
  *
- * @author Diog Leite
+ * @author Diogo Leite
  */
 package csheets.worklog.n1140260.sprint4;
 

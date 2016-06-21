@@ -60,20 +60,7 @@ public class MacroExpressionComplier {
 		try {
 			// Attempts to match an expression
 			tree = (CommonTree) parser.expression().getTree();
-		} /* catch (MismatchedTokenException e){
-		 //not production-quality code, just forming a useful message
-		 String expected = e.expecting == -1 ? "<EOF>" : parser.tokenNames[e.expecting];
-		 String found = e.getUnexpectedType() == -1 ? "<EOF>" : parser.tokenNames[e.getUnexpectedType()];
-
-		 String message="At ("+e.line+";"+e.charPositionInLine+"): "+"Fatal mismatched token exception: expected " + expected + " but was " + found;
-		 throw new FormulaCompilationException(message);
-		 } catch (NoViableAltException e) {
-		 //String message="Fatal recognition exception " + e.getClass().getName()+ " : " + e;
-		 String message=parser.getErrorMessage(e, parser.tokenNames);
-		 String message2="At ("+e.line+";"+e.charPositionInLine+"): "+message;
-		 throw new FormulaCompilationException(message2);
-		 } */ catch (RecognitionException e) {
-			//String message="Fatal recognition exception " + e.getClass().getName()+ " : " + e;
+		} catch (RecognitionException e) {
 			String message = parser.getErrorMessage(e, parser.tokenNames);
 			throw new FormulaCompilationException("At (" + e.line + ";" + e.charPositionInLine + "): " + message);
 		} catch (Exception e) {

@@ -11,7 +11,6 @@ import csheets.framework.persistence.repositories.impl.immemory.InMemoryReposito
 import csheets.persistence.ListRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 
 /**
  *
@@ -53,15 +52,8 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 
 	@Override
 	public Iterable<List> search(Calendar startdate, Calendar endDate,
-								 String title, String content) {
+								 String text, boolean content) {
 		ArrayList<List> tmp = new ArrayList();
-		if (title != null) {
-			tmp.addAll((Collection) this.searchTitle(startdate, endDate, title));
-		}
-		if (content != null) {
-			tmp.addAll((Collection) this.
-				searchContent(startdate, endDate, content));
-		}
 		return tmp;
 	}
 
@@ -150,4 +142,10 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 		}
 		return results;
 	}
+
+	@Override
+	public Iterable<List> allPrincipal() {
+		return new ArrayList();
+	}
+
 }

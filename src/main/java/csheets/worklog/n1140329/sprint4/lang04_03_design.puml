@@ -34,6 +34,21 @@ actor User
   WizardController -> Formula : Value result = evaluate()
   deactivate WizardController
   WizardFrame -> User : shows the formula's result
+  User -> WizardFrame : Show Tree
+  WizardFrame -> WizardController : buildAST()
+  WizardController -> ExcelExpressionCompiler : CommonTree ast = compileTree(formula)
+  create WizardTreeFrame
+  WizardController -> WizardTreeFrame : new(formula, wizardFrame)
+  WizardTreeFrame -> WizardTreeFrame : fillTree(ast)
+  WizardTreeFrame -> User : shows the structure of the formula expression like an abstract syntax tree
+  alt if the user selects an element in the tree
+  User -> WizardTreeFrame : Selects a tree element
+  activate WizardTreeFrame
+  WizardTreeFrame -> WizardTreeFrame : wizardTreeValueChanged(evt)
+  WizardTreeFrame -> WizardFrame : selectElement(element)
+  deactivate WizardTreeFrame
+  note right of WizardFrame : The window highlights the selected element in the formula text area 
+  end
   end
 
   User -> WizardFrame : Confirms the formula

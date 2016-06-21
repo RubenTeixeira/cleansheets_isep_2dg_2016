@@ -11,15 +11,16 @@ import javax.swing.JMenu;
  */
 public class SortMenu extends JMenu {
 
-	public SortMenu(UIController uiController) {
-		super("Sort");
+    public SortMenu(UIController uiController) {
+        super("Sort");
 
-		setMnemonic(KeyEvent.VK_E);
-		this.setIcon(new ImageIcon(CleanSheets.class.
-			getResource("ext/sort/sort_icon_2.png")));
+        setMnemonic(KeyEvent.VK_E);
+        this.setIcon(new ImageIcon(CleanSheets.class.
+                getResource("ext/sort/sort_icon_2.png")));
 
-		add(new SortAction(uiController));
-                add(new RangedSortAction(uiController));
-	}
+        add(new SortAction(uiController));
+        add(new RangedSortAction(uiController));
+        add(new AutomaticSortAction(uiController));
+    }
 
 }

@@ -70,13 +70,17 @@
  * 
  * <b>Sunday</b>
  * <ul>
- * <li></li>
+ * <li>Finish design.</li>
+ * <li>Starting implementation.</li>
+ * <li>Understanding Area features.</li>
  * </ul>
  * 
  * 
  * <b>Monday</b>
  * <ul>
- * <li></li>
+ * <li>Questioning the PM (Project Manager) about IPC Area UCs.</li>
+ * <li>Helping other team area understanding their UC.</li>
+ * <li>Continuing the UC implementation.</li>
  * </ul>
  *
  *

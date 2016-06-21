@@ -52,7 +52,7 @@ public class FormEditorController {
 	 * @return String
 	 */
 	public String getValue(String content) {
-		Value value = this.cell.getVariable(content);
+		Value value = this.cell.getVariableValue(content, 1); //BE CARE.
 		if (value == null) {
 			return content;
 		}

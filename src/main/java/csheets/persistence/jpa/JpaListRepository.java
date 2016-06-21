@@ -7,10 +7,13 @@ package csheets.persistence.jpa;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
+import csheets.domain.List.ListLine;
+import csheets.domain.Note;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.ListRepository;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 
@@ -49,59 +52,44 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 
 	@Override
 	public Iterable<List> search(Calendar startDate, Calendar endDate,
-								 String title, String content) {
-		Iterable<List> tmp = searchDates(startDate, endDate);
-		Boolean cont = true;
-		if (content == null || content.isEmpty()) {
-			cont = false;
+								 String text, boolean content) {
+		Iterable<List> list = searchDates(startDate, endDate);
+		if (text != null && !text.isEmpty()) {
+			list = this.search(list, text, content);
 		}
-		tmp = this.search(tmp, title, cont);
-		return tmp;
+		return list;
 	}
 
 	public Iterable<List> search(Iterable<List> lists, String expression,
 								 Boolean content) {
-		ArrayList<List> results = new ArrayList();
+		Set<List> results = new HashSet();
 		for (List list : lists) {
-			if (list.getTitle().matches(expression)) {
-				results.add(list);
-			} else if (content && list.getText().matches(expression)) {
-				results.add(list);
-			}
-		}
-		return results;
-	}
-
-	public Iterable<List> searchContent(Iterable<List> lists, String content) {
-		ArrayList<List> results = new ArrayList();
-		for (List list : lists) {
-			if (list.getText().matches(content)) {
-				results.add(list);
-			}
-		}
-		return results;
-	}
-
-	public Iterable<List> searchTitle(Iterable<List> lists, String title) {
-		ArrayList<List> results = new ArrayList();
-		for (List list : lists) {
-			if (list.getTitle().matches(title)) {
-				results.add(list);
+			if (!content) {
+				if (list.getTitle().matches(expression)) {
+					results.add(list);
+				}
+			} else {
+				for (ListLine line : list.getLines()) {
+					if (line.getText().matches(expression)) {
+						results.add(list);
+					}
+				}
 			}
 		}
 		return results;
 	}
 
 	public Iterable<List> searchDates(Calendar startDate, Calendar endDate) {
-		String term = "SELECT l FROM List l where l.version.deleted = false";
-		if (startDate != null && endDate != null) {
-			term = "SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate AND l.version.deleted = false";
-		} else if (startDate != null) {
-			term = "SELECT l FROM List l where l.time > :startDate AND l.version.deleted = false";
-		} else if (endDate != null) {
-			term = "SELECT l FROM List l where l.time < :endDate AND l.version.deleted = false";
+		if (startDate == null && endDate == null) {
+			return this.allPrincipal();
 		}
-		final Query query = entityManager().createQuery(term, List.class);
+		String term = "SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+		if (startDate == null) {
+			term = "SELECT l FROM List l where l.time < :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+		} else if (endDate == null) {
+			term = "SELECT l FROM List l where l.time > :startDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+		}
+		final Query query = entityManager().createQuery(term, Note.class);
 		if (startDate != null) {
 			query.setParameter("startDate", startDate, TemporalType.DATE);
 		}
@@ -109,6 +97,17 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 			query.setParameter("endDate", endDate, TemporalType.DATE);
 		}
 		return (Iterable<List>) query.getResultList();
+	}
+
+	@Override
+	public Iterable<List> allPrincipal() {
+		final Query query = entityManager().
+			createQuery("SELECT l FROM List l "
+				+ "where l.version.deleted = false "
+				+ "and l.version.lastVersion = l.versionNum",
+						List.class);
+		Iterable<List> tmp = query.getResultList();
+		return tmp;
 	}
 
 }

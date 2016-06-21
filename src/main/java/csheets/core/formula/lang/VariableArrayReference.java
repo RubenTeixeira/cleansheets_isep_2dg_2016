@@ -9,14 +9,13 @@ import csheets.core.Cell;
 import csheets.core.Value;
 import csheets.core.formula.Reference;
 import csheets.core.formula.util.ExpressionVisitor;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * This class concerns an Array Variable. All variables can be an Array - Global
- * and Local Variables. Therefore from this class will inherit both
- * VariableLocalReference and VariableGlobalReference.
+ * This class concerns an Array Variable Reference. All variables can be an
+ * Array - Global and Local Variables. Therefore from this class will inherit
+ * both VariableLocalReference and VariableGlobalReference.
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
@@ -33,19 +32,28 @@ public abstract class VariableArrayReference implements Reference {
 	private String variable;
 
 	/**
-	 * Value List of this Variable.
+	 * Current required position to save a Value in the ArrayList.
 	 */
-	private List<Value> values;
+	private int position;
 
 	/**
-	 * Creates a VariableArrayReference.
+	 * Creates a VariableArrayReference. The String received has the position on
+	 * where to save the current Value.
 	 *
 	 * @param cell cell
 	 * @param variable variable
 	 */
 	public VariableArrayReference(Cell cell, String variable) {
 		this.cell = cell;
-		this.variable = variable;
+		if (variable.contains("[")) {
+			String[] temp = variable.split("\\["); //splits the String variable.
+			this.variable = temp[0]; //assigns name.
+			this.position = Integer.parseInt(temp[1].substring(0, 1));
+		} else {
+			this.variable = variable;
+			this.position = 1;
+		}
+
 	}
 
 	/**
@@ -63,6 +71,15 @@ public abstract class VariableArrayReference implements Reference {
 	 */
 	String getVariable() {
 		return this.variable;
+	}
+
+	/**
+	 * Returns the position on where to insert the Value.
+	 *
+	 * @return position.
+	 */
+	public int getPosition() {
+		return position;
 	}
 
 	/**

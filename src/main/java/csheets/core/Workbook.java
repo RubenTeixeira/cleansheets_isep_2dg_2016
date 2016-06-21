@@ -20,7 +20,9 @@
  */
 package csheets.core;
 
+import csheets.core.formula.VariableArray;
 import csheets.ext.macro_beanshell.Code;
+import csheets.ui.FormEditor.ui.FormE;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -183,7 +185,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	}
 
 	/*
- * EVENT HANDLING
+	 * EVENT HANDLING
 	 */
 	/**
 	 * Registers the given listener on the workbook.
@@ -248,7 +250,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	}
 
 	/*
- * GENERAL
+	 * GENERAL
 	 */
 	/**
 	 * Customizes deserialization by recreating the listener list.
@@ -264,20 +266,127 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 		listeners = new ArrayList<WorkbookListener>();
 	}
 
-	private Map<String, Value> variables = new HashMap();
+	/**
+	 * VARIABLES DEDICATED CODE. This code assembles all Variables associated
+	 * operations.
+	 *
+	 * @author Pedro Gomes 1130383@isep.ipp.pt
+	 */
+	private List<VariableArray> variables = new ArrayList<>();
 
+	/**
+	 * Clears all Variables associated with this Workbook.
+	 */
 	public void clearVariables() {
 		this.variables.clear();
 	}
 
-	public Value getVariable(String name) {
-		return this.variables.get(name);
+	/**
+	 * Returns the Variable by providing its name.
+	 *
+	 * @param name variable name.
+	 * @return VariableArray.
+	 */
+	public VariableArray getVariable(String name) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return var;
+			}
+		}
+		return null;
 	}
 
-	public void addVariable(String name, Value value) {
-		this.variables.put(name, value);
+	/**
+	 * Returns a specific Value providing the variables' name and a position.
+	 *
+	 * @param name
+	 * @param position
+	 * @return
+	 */
+	public Value getVariableValue(String name, int position) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return var.getValue(position);
+			}
+		}
+		return null;
 	}
 
+	/**
+	 * Checks if Variable exists by providing its name.
+	 *
+	 * @param name
+	 * @return True if variable exists.
+	 */
+	public boolean variableExist(String name) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new Variable to the Workbook.
+	 *
+	 * @param newVariable new Variable.
+	 */
+	public void addVariable(VariableArray newVariable) {
+		this.variables.add(newVariable);
+	}
+
+	/**
+	 * Updates a Value from the Variable.
+	 *
+	 * @param variable variable.
+	 * @param value value.
+	 * @param position position.
+	 */
+	public void updateValue(String variable, Value value, int position) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(variable)) {
+				var.addValueToVariable(value, position);
+			}
+		}
+	}
+
+	/**
+	 * Map of the FormE
+	 */
+	private Map<String, FormE> lstFormE = new HashMap();
+
+	/**
+	 * Clear all Forms of Workbook
+	 */
+	public void clearForms() {
+		this.lstFormE.clear();
+	}
+
+	/**
+	 *
+	 * @param name
+	 * @return Form Map
+	 */
+	public FormE getForm(String name) {
+		return lstFormE.get(name);
+	}
+
+	/**
+	 * Add FormE to Map
+	 *
+	 * @param name
+	 * @param formE
+	 */
+	public void addFormE(String name, FormE formE) {
+		lstFormE.put(name, formE);
+	}
+
+	/**
+	 * End of Variable associated Code.
+	 */
+	//
+	//
 	/**
 	 * The list of workbook scripts
 	 */

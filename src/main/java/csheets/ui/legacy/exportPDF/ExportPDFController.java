@@ -7,10 +7,11 @@ package csheets.ui.legacy.exportPDF;
 
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
-import csheets.io.PDFCodec;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -39,18 +40,21 @@ public class ExportPDFController {
 	 * export a workbook and write to file
 	 *
 	 * @param fileChooser fileChooser
+	 * @param showList true if user wants to see list of sections,otherwise
+	 * false
 	 * @throws IOException exception
 	 */
-	public void exportWorkbook(JFileChooser fileChooser) throws IOException {
+	public void exportWorkbook(JFileChooser fileChooser, boolean showList) throws IOException {
 
-		File file = fileChooser.getSelectedFile();
+		File file = chooseFile(fileChooser);
 
 		Workbook workbook = uiController.getActiveWorkbook();
-		PDFCodec pdf = new PDFCodec();
+		ExportPDF pdf = new ExportPDF();
 		try {
-			pdf.writeWorkbook(workbook, file);
+			pdf.writeWorkbook(workbook, file, showList);
 		} catch (IOException ex) {
-			//todo
+			Logger.getLogger(ExportPDFController.class.getName()).
+				log(Level.SEVERE, null, ex);
 		}
 
 	}
@@ -66,13 +70,14 @@ public class ExportPDFController {
 	 */
 	public void exportSpreadSheet(JFileChooser fileChooser,
 								  Spreadsheet spreadSheet) throws IOException {
-		File file = fileChooser.getSelectedFile();
+		File file = chooseFile(fileChooser);
 
-		PDFCodec pdf = new PDFCodec();
+		ExportPDF pdf = new ExportPDF();
 		try {
 			pdf.writeSpreadsheet(spreadSheet, file);
 		} catch (IOException ex) {
-			//todo
+			Logger.getLogger(ExportPDFController.class.getName()).
+				log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -87,16 +92,24 @@ public class ExportPDFController {
 	 */
 	public void exportSelectedCells(JFileChooser fileChooser,
 									UIController uiController
-	) throws IOException {
-		File file = fileChooser.getSelectedFile();
+	) {
 
-		PDFCodec pdf = new PDFCodec();
+		File file = chooseFile(fileChooser);
+		ExportPDF pdf = new ExportPDF();
+
 		try {
 			pdf.
 				writeSelectedCells(uiController.focusOwner.getSelectedCells(), file);
 		} catch (IOException ex) {
-			//todo
+			Logger.getLogger(ExportPDFController.class.getName()).
+				log(Level.SEVERE, null, ex);
 		}
+
+	}
+
+	public File chooseFile(JFileChooser fileChooser) {
+		File file = fileChooser.getSelectedFile();
+		return new File(file.toString() + ".pdf");  // append .pdf
 	}
 
 }

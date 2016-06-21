@@ -18,7 +18,7 @@ import org.junit.Test;
 
 /**
  *
- * @author valhalla
+ * @author Marcelo Barroso 1131399
  */
 public class WhileDoTest {
 

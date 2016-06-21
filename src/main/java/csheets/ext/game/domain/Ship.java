@@ -30,13 +30,17 @@ public class Ship {
             this.size = size;
         }
 
-        private boolean isSameType(ShipType st) {
+        public boolean isSameType(ShipType st) {
             if (name.equals(st.name)
-                    && icon.equals(st.icon)
+                    //&& icon.equals(st.icon)
                     && size == st.size) {
                 return true;
             }
             return false;
+        }
+        
+        public int size() {
+            return size;
         }
     }
 
@@ -71,10 +75,14 @@ public class Ship {
     public boolean isShipType(ShipType st) {
         return shipType.isSameType(st);
     }
+    
+    public List<Address> getPositions() {
+        return locations;
+    }
 
     public boolean setLocation(List<Address> positions) {
         if (positions.size() == 0 || positions.size() != shipType.size) {
-            throw new IllegalArgumentException("The ship must have " + shipType.size + "size.");
+            throw new IllegalArgumentException("The ship must have " + shipType.size + " size.");
         }
         if (positions.get(0) == null) {
             throw new NullPointerException("The location cannot contain null.");

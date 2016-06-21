@@ -7,6 +7,7 @@ package csheets.factory;
 
 import csheets.domain.Contact;
 import csheets.domain.Task;
+import java.util.Calendar;
 
 /**
  *
@@ -21,7 +22,7 @@ public class TaskFactory {
 	public static final Task createTask(String taskName, String description,
 										int priority,
 										float percentageofcompletion,
-										Contact contact) {
-		return new Task(taskName, description, priority, percentageofcompletion, contact);
+										Contact contact, Calendar date) {
+		return new Task(taskName, description, priority, percentageofcompletion, contact,date);
 	}
 }
