@@ -79,8 +79,8 @@ fragment DIGIT : '0'..'9' ;
 NUMBER : ( DIGIT )+  ( DOT (DIGIT) (DIGIT)? )?;
 
 /* Currency symbols */
-POUND		: '£' ;
-EURO		: '€' ;
+POUND		: '\u00A3' ;
+EURO		: '\u20AC' ;
 DOLLAR		: '$' ;
 
 /* Arithmetic operators */
