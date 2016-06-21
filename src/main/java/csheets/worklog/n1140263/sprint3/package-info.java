@@ -70,8 +70,9 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * It is not possible to test this feature because this is essentially/totally
- * UI. UI does not have tests.
+ * Test the creation of panel; textfields; button. Test the remove option of one
+ * widget from the form. Testar a associacao do valor da variavel quando escrito
+ * o nome da variavel no form (na criacao de um widget especifico).
  *
  * <h3>5.2. UC Realization</h3>
  * <img src="doc-files/forms_editor_2_design.png" alt="image">

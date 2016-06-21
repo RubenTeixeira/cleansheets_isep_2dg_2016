@@ -41,12 +41,13 @@
  *
  *
  * <h2>4. Analysis</h2>
- * Take advantage of what was done Core 5.1. Add the option to send email to
- * what Rui Bastos have done last week (test email). "It should possible to
- * include in the body of the message the contents of a range of cells." - it is
- * possible to get the content of a range of cells with: this.cells =
- * this.uiController.focusOwner.getSelectedCells(); I need to create a new
- * sidebar to represent the OUTBOX. Add the feature of "double click".
+ * Take advantage of what was done Core 5.1. Add the option to send email. "It
+ * should possible to include in the body of the message the contents of a range
+ * of cells." - it is possible to get the content of a range of cells with:
+ * this.cells = this.uiController.focusOwner.getSelectedCells(); I need to
+ * create a new sidebar to represent the OUTBOX. Add the feature of "double
+ * click" and open a windows (frame) with the info of the double clicked email
+ * of the outbox.
  *
  *
  * <h3>First "analysis" sequence diagram</h3>
@@ -56,16 +57,12 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * It is not possible to test this feature because this is essentially/totally
- * UI. UI does not have tests.
  *
  * <h3>5.2. UC Realization</h3>
  * <img src="doc-files/forms_editor_2_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  *
- * Form; AskContent; ButtonPanel; ButtonWidget; FormEditor; LabelPanel;
- * LabelWidget; SingleLine; TextFieldPanel; TextFieldWidget; (Interface) Widget
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -74,11 +71,7 @@
  *
  * <h2>6. Implementation</h2>
  *
- * Creation of the classes of the three types of widgets: the user interface
- * panel and the class with the "actions" - "NameType"Widget.java Interface:
- * Widget with the methods that the "NameType"Widget.java will use to each type.
- * "NameType"Widget.java - toString with the designation and the constructor
- * with the creation of the "NameType"Panel.java to add to the FormEditor
+ *
  *
  * <h2>7. Integration/Demonstration</h2>
  *
