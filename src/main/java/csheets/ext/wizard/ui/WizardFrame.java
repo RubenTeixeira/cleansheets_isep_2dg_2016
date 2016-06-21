@@ -27,7 +27,7 @@ import javax.swing.event.DocumentListener;
  * @author AB-1140280
  */
 public class WizardFrame extends javax.swing.JFrame {
-
+    
     WizardController controller;
     UIController uiController;
 
@@ -46,33 +46,33 @@ public class WizardFrame extends javax.swing.JFrame {
         loadFunctions();
         setVisible(true);
         setLocationRelativeTo(null);
-
+        
         formulaTextArea.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
-
+            
             @Override
             public void removeUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
-
+            
             @Override
             public void changedUpdate(DocumentEvent de) {
                 updateResultTextBox();
             }
         });
-
+        
         if (!uiController.getActiveCell().getContent().equals("")) {
             formulaTextArea.setText(uiController.getActiveCell().getContent());
         }
     }
-
+    
     private void loadFunctions() {
         FunctionListModel model = controller.getFunctions();
         functionsList.setModel(model);
-
+        
     }
 
     /**
@@ -241,7 +241,7 @@ public class WizardFrame extends javax.swing.JFrame {
         int index = functionsList.getSelectedIndex();
         String info = ((FunctionListModel) functionsList.getModel()).
                 getFunctionInfo(index, controller);
-
+        
         if (evt.getClickCount() == 1) {
             selectedFunctionTextBox.setText(info);
         } else if (evt.getClickCount() > 1) {
@@ -276,9 +276,11 @@ public class WizardFrame extends javax.swing.JFrame {
 
     private void treeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeButtonActionPerformed
         try {
-            controller.buildAST(formulaTextArea.getText());
+            if (!formulaTextArea.getText().isEmpty() && !formulaTextArea.getText().equals("") && !resultTextBox.getText().startsWith("At")) {                
+                controller.buildAST(formulaTextArea.getText());
+            }
         } catch (FormulaCompilationException ex) {
-            Logger.getLogger(WizardFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }//GEN-LAST:event_treeButtonActionPerformed
 

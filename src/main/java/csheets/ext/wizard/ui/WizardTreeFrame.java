@@ -54,11 +54,6 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                         break;
                     }
 
-                    if (parents.size() - 1 == 0) {
-                        root.add(new DefaultMutableTreeNode(parents.get(0)));
-                        break;
-                    }
-                    
                     if (newPrevNode == true) {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
                         newPrevNode = false;
