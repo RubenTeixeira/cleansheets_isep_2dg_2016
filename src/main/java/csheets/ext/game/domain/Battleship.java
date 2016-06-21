@@ -89,6 +89,11 @@ public class Battleship {
 
     public Battleship(BoardSize boardSize, BattleshipGameType gameType) {
         this.board = new Boolean[boardSize.size][boardSize.size];
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[i].length; j++) {
+                board[i][j] = false;
+            }
+        }
         this.gameType = gameType;
         this.lstShips = new ArrayList<>();
     }
