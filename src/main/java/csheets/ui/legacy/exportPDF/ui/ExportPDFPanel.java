@@ -32,6 +32,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 		this.controller = new ExportPDFController(this.uiController);
 		initiateOptions();
 		this.jComboBoxSpreedSheet.setEnabled(false);
+		this.listSectionsCheckBox.setVisible(false);
 	}
 
 	/**
@@ -67,6 +68,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jComboBoxSpreedSheet = new javax.swing.JComboBox<String>();
         jToggleButtonCancel = new javax.swing.JToggleButton();
+        listSectionsCheckBox = new javax.swing.JCheckBox();
 
         checkbox1.setLabel("export selected");
 
@@ -96,6 +98,14 @@ public class ExportPDFPanel extends javax.swing.JFrame {
             }
         });
 
+        listSectionsCheckBox.setText("List of Sections");
+        listSectionsCheckBox.setActionCommand("setSecureConnection");
+        listSectionsCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listSectionsCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -104,13 +114,16 @@ public class ExportPDFPanel extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(listSectionsCheckBox)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBoxType, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonExport)
-                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jButtonExport))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -118,7 +131,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jToggleButtonCancel)
-                                .addGap(24, 24, 24)))))
+                                .addGap(16, 16, 16)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,11 +145,13 @@ public class ExportPDFPanel extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jComboBoxSpreedSheet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(listSectionsCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExport)
                     .addComponent(jToggleButtonCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -156,8 +171,14 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 
 				switch (this.jComboBoxType.getSelectedIndex()) {
 					case 0:
-						this.controller.
-							exportWorkbook(fileChooser);
+						if (listSectionsCheckBox.isSelected()) {
+							this.controller.
+								exportWorkbook(fileChooser, true);
+						} else {
+							this.controller.
+								exportWorkbook(fileChooser, false);
+						}
+
 						break;
 					case 1:
 						this.controller.
@@ -167,7 +188,8 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 												  getSelectedIndex()));
 						break;
 					default:
-						this.controller.exportSelectedCells(fileChooser, uiController);
+						this.controller.
+							exportSelectedCells(fileChooser, uiController);
 						break;
 				}
 				this.dispose();
@@ -189,6 +211,14 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 		}
     }//GEN-LAST:event_jComboBoxTypeActionPerformed
 
+    private void listSectionsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listSectionsCheckBoxActionPerformed
+		if (this.jComboBoxType.getSelectedIndex() == 0) {
+			this.listSectionsCheckBox.setVisible(true);
+		} else {
+			this.listSectionsCheckBox.setVisible(false);
+		}
+    }//GEN-LAST:event_listSectionsCheckBoxActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Checkbox checkbox1;
     private javax.swing.JButton jButtonExport;
@@ -198,6 +228,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JToggleButton jToggleButtonCancel;
+    private javax.swing.JCheckBox listSectionsCheckBox;
     // End of variables declaration//GEN-END:variables
 
 }

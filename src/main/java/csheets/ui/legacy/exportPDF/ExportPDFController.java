@@ -39,16 +39,18 @@ public class ExportPDFController {
 	 * export a workbook and write to file
 	 *
 	 * @param fileChooser fileChooser
+	 * @param showList true if user wants to see list of sections,otherwise
+	 * false
 	 * @throws IOException exception
 	 */
-	public void exportWorkbook(JFileChooser fileChooser) throws IOException {
+	public void exportWorkbook(JFileChooser fileChooser, boolean showList) throws IOException {
 
 		File file = fileChooser.getSelectedFile();
 
 		Workbook workbook = uiController.getActiveWorkbook();
 		PDFCodec pdf = new PDFCodec();
 		try {
-			pdf.writeWorkbook(workbook, file);
+			pdf.writeWorkbook(workbook, file, showList);
 		} catch (IOException ex) {
 			//todo
 		}

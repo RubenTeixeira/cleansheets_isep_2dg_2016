@@ -11,8 +11,9 @@ import csheets.framework.persistence.repositories.impl.immemory.InMemoryReposito
 import csheets.persistence.NoteRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -52,96 +53,34 @@ class InMemoryNoteRepository extends InMemoryRepository<Note, Long>
 	}
 
 	@Override
-	public Iterable<Note> search(Calendar startdate, Calendar endDate,
-								 String title, String content) {
-		ArrayList<Note> tmp = new ArrayList();
-		if (title != null) {
-			tmp.addAll((Collection) this.searchTitle(startdate, endDate, title));
-		}
-		if (content != null) {
-			tmp.addAll((Collection) this.
-				searchContent(startdate, endDate, content));
-		}
-		return tmp;
+	public Iterable<Note> search(Calendar startDate, Calendar endDate,
+								 String text, boolean content) {
+		Iterable<Note> list = searchDates(startDate, endDate);
+		list = this.search(list, text, content);
+		return list;
 	}
 
-	public Iterable<Note> searchContent(Calendar startDate, Calendar endDate,
-										String expression) {
-		ArrayList<Note> tmp = new ArrayList();
-		for (Note note : this.all()) {
-			tmp.add(note);
-		}
-		if (startDate != null && endDate != null) {
-			for (Note note : this.all()) {
-				tmp = new ArrayList();
-				if (note.date().after(startDate) && note.date().before(endDate)) {
-					tmp.add(note);
-				}
-			}
-		} else if (startDate != null) {
-			tmp = new ArrayList();
-			for (Note note : this.all()) {
-				if (note.date().after(startDate)) {
-					tmp.add(note);
-				}
-			}
-		} else if (endDate != null) {
-			tmp = new ArrayList();
-			for (Note note : this.all()) {
-				if (note.date().before(endDate)) {
-					tmp.add(note);
-				}
-			}
-		}
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
-		}
-		ArrayList<Note> results = new ArrayList();
-		for (Note note : tmp) {
-			if (note.getNoteText().matches(expression)) {
-				results.add(note);
-			}
-		}
-		return results;
-	}
-
-	public Iterable<Note> searchTitle(Calendar startDate, Calendar endDate,
-									  String expression) {
-		ArrayList<Note> tmp = new ArrayList();
-		for (Note note : this.all()) {
-			tmp.add(note);
-		}
-		if (startDate != null && endDate != null) {
-			for (Note note : this.all()) {
-				tmp = new ArrayList();
-				if (note.date().after(startDate) && note.date().before(endDate)) {
-					tmp.add(note);
-				}
-			}
-		} else if (startDate != null) {
-			tmp = new ArrayList();
-			for (Note note : this.all()) {
-				if (note.date().after(startDate)) {
-					tmp.add(note);
-				}
-			}
-		} else if (endDate != null) {
-			tmp = new ArrayList();
-			for (Note note : this.all()) {
-				if (note.date().before(endDate)) {
-					tmp.add(note);
-				}
-			}
-		}
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
-		}
-		ArrayList<Note> results = new ArrayList();
-		for (Note note : tmp) {
+	public Iterable<Note> search(Iterable<Note> lists, String expression,
+								 Boolean content) {
+		Set<Note> results = new HashSet();
+		for (Note note : lists) {
 			if (note.getTitle().matches(expression)) {
 				results.add(note);
 			}
+			if (content && note.getNoteText().matches(expression)) {
+				results.add(note);
+			}
 		}
 		return results;
 	}
+
+	public Iterable<Note> searchDates(Calendar startDate, Calendar endDate) {
+		return this.all();
+	}
+
+	@Override
+	public Iterable<Note> allPrincipal() {
+		return this.all();
+	}
+
 }

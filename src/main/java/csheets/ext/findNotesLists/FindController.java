@@ -1,5 +1,7 @@
 package csheets.ext.findNotesLists;
 
+import csheets.core.Cell;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.domain.List;
 import csheets.domain.Note;
 import csheets.ext.findNotesLists.ui.FindPanel;
@@ -35,16 +37,26 @@ public class FindController {
 		this.uiPanel = uiPanel;
 	}
 
-	public Iterable<Note> searchNotes(Calendar startDate, Calendar endDate,
-									  String title, String content) {
-		return PersistenceContext.repositories().notes().
-			search(startDate, endDate, title, content);
+	public Iterable<List> searchLists(Calendar startDate, Calendar endDate,
+									  String text, boolean content) {
+		return PersistenceContext.repositories().lists().
+			search(startDate, endDate, text, content);
 	}
 
-	public Iterable<List> searchLists(Calendar startDate, Calendar endDate,
-									  String title, String content) {
-		return PersistenceContext.repositories().lists().
-			search(startDate, endDate, title, content);
+	public Iterable<Note> searchNotes(Calendar startDate, Calendar endDate,
+									  String text, boolean content) {
+		return PersistenceContext.repositories().notes().
+			search(startDate, endDate, text, content);
+	}
+
+	public void export(Object[] toArray) {
+		Cell[][] cells = this.uiController.focusOwner.getSelectedCells();
+		for (int i = 0; i < toArray.length && i < cells.length; i++) {
+			try {
+				cells[i][0].setContent(toArray[i].toString());
+			} catch (FormulaCompilationException ex) {
+			}
+		}
 	}
 
 }

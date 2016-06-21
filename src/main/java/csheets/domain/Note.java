@@ -7,8 +7,6 @@ package csheets.domain;
 
 import csheets.support.DateTime;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -28,7 +26,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = {"TITLE"})})
+	@UniqueConstraint(columnNames = {"INFO, CONTACT"})})
 public class Note implements Serializable {
 
 	@Id
@@ -40,7 +38,7 @@ public class Note implements Serializable {
 	private List<Note> versions;
 
 	private String title;
-	private String noteText = "";
+	private String noteText;
 	private String info;
 	private boolean versionState;
 
@@ -54,33 +52,24 @@ public class Note implements Serializable {
 	}
 
 	public Note(String noteText, Contact contact, boolean noteState) {
-		this.info = noteText;
-		String s[] = noteText.split("\\r?\\n");
-		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-		title = arrList.get(0);
-		for (int i = 1; i < arrList.size(); i++) {
-			this.noteText += arrList.get(i) + "\n";
-		}
 		this.contact = contact;
 		this.time = DateTime.now();
 		this.versionState = noteState;
+		this.edit(noteText);
 	}
 
-	private void updateNote() {
-		Note n = new Note(this.noteText, this.contact, false);
-		n.timeStamp(DateTime.now());
-		versions.add(n);
-	}
-
-	public void editNote(String textNote) {
-		this.info = noteText;
-		String s[] = noteText.split("\\r?\\n");
-		ArrayList<String> arrList = new ArrayList<>(Arrays.asList(s));
-		title = arrList.get(0);
-		for (int i = 1; i < arrList.size(); i++) {
-			this.noteText += arrList.get(i) + "\n";
+	public void edit(String text) {
+		this.info = text;
+		String lines[] = text.split("\\r?\\n");
+		this.title = lines[0];
+		this.noteText = "";
+		for (int i = 1; i < lines.length; i++) {
+			this.noteText += lines[i] + "\n";
 		}
-		updateNote();
+	}
+
+	public boolean addVersion(Note note) {
+		return this.versions.add(note);
 	}
 
 	public Contact getContact() {

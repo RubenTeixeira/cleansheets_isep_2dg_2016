@@ -13,7 +13,6 @@ import csheets.framework.persistence.repositories.DataIntegrityViolationExceptio
 import csheets.notification.Notification;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -61,7 +60,9 @@ public class NotesListsController {
 	}
 
 	public Note editNote(String noteText, Note note) {
-		note.editNote(noteText);
+		Note version = new Note(note.getInfo(), note.getContact(), false);
+		note.addVersion(version);
+		note.edit(noteText);
 		PersistenceContext.repositories().notes().save(note);
 		Notification.noteInformer().notifyChange(note);
 		return note;
@@ -157,15 +158,4 @@ public class NotesListsController {
 		return PersistenceContext.repositories().lists().save(list);
 	}
 
-	public Iterable<Note> searchNotes(Calendar startDate, Calendar endDate,
-									  String title, String content) {
-		return PersistenceContext.repositories().notes().
-			search(startDate, endDate, title, content);
-	}
-
-	public Iterable<List> searchLists(Calendar startDate, Calendar endDate,
-									  String title, String content) {
-		return PersistenceContext.repositories().lists().
-			search(startDate, endDate, title, content);
-	}
 }
