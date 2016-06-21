@@ -22,6 +22,7 @@ package csheets.core;
 
 import csheets.core.formula.Formula;
 import csheets.core.formula.Reference;
+import csheets.core.formula.VariableArray;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.core.formula.compiler.FormulaCompiler;
 import csheets.core.formula.util.ReferenceTransposer;
@@ -129,7 +130,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * LOCATION
+	 * LOCATION
 	 */
 	public Spreadsheet getSpreadsheet() {
 		return spreadsheet;
@@ -140,26 +141,116 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * VALUE
+	 * VALUE
 	 */
 	public Value getValue() {
 		return value;
 	}
 
-	private Map<String, Value> variables = new HashMap();
+//	/**
+//	 * TODO handle code. Same on workbook.
+//	 */
+//	private Map<String, Value> variables = new HashMap();
+//
+//	public void clearVariables() {
+//		this.variables.clear();
+//	}
+//
+//	public Value getVariable(String name) {
+//		return this.variables.get(name);
+//	}
+//
+//	public void addVariable(String name, Value value) {
+//		this.variables.put(name, value);
+//	}
+	/**
+	 * VARIABLES DEDICATED CODE. This code assembles all Variables associated
+	 * operations.
+	 *
+	 * @author Pedro Gomes 1130383@isep.ipp.pt
+	 */
+	private List<VariableArray> variables = new ArrayList<>();
 
+	/**
+	 * Clears all Variables associated with this Workbook.
+	 */
 	public void clearVariables() {
 		this.variables.clear();
 	}
 
-	public Value getVariable(String name) {
-		return this.variables.get(name);
+	/**
+	 * Returns the Variable by providing its name.
+	 *
+	 * @param name variable name.
+	 * @return VariableArray.
+	 */
+	public VariableArray getVariable(String name) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return var;
+			}
+		}
+		return null;
 	}
 
-	public void addVariable(String name, Value value) {
-		this.variables.put(name, value);
+	/**
+	 * Returns a specific Value providing the variables' name and a position.
+	 *
+	 * @param name
+	 * @param position
+	 * @return
+	 */
+	public Value getVariableValue(String name, int position) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return var.getValue(position);
+			}
+		}
+		return null;
 	}
 
+	/**
+	 * Checks if Variable exists by providing its name.
+	 *
+	 * @param name
+	 * @return True if variable exists.
+	 */
+	public boolean variableExist(String name) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Adds a new Variable to the Workbook.
+	 *
+	 * @param newVariable new Variable.
+	 */
+	public void addVariable(VariableArray newVariable) {
+		this.variables.add(newVariable);
+	}
+
+	/**
+	 * Updates a Value from the Variable.
+	 *
+	 * @param variable variable.
+	 * @param value value.
+	 * @param position position.
+	 */
+	public void updateValue(String variable, Value value, int position) {
+		for (VariableArray var : variables) {
+			if (var.getName().equals(variable)) {
+				var.addValueToVariable(value, position);
+			}
+		}
+	}
+
+	/**
+	 * End of Variable associated Code.
+	 */
 	/**
 	 * Updates the cell's value, and fires an event if it changed.
 	 */
@@ -222,7 +313,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * CONTENT
+	 * CONTENT
 	 */
 	public String getContent() {
 		return content;
@@ -246,7 +337,7 @@ public class CellImpl implements Cell {
 			fireContentChanged();
 			reevaluate(dependence);
 		}
-                Notification.cellInformer().notifyChange(this);
+		Notification.cellInformer().notifyChange(this);
 	}
 
 	public void setContent(String content) throws FormulaCompilationException {
@@ -321,7 +412,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * DEPENDENCIES
+	 * DEPENDENCIES
 	 */
 	public SortedSet<Cell> getPrecedents() {
 		return new TreeSet<Cell>(precedents);
@@ -365,7 +456,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * CLIPBOARD
+	 * CLIPBOARD
 	 */
 	public void copyFrom(Cell source) {
 		// Copies content
@@ -416,7 +507,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * EVENT HANDLING
+	 * EVENT HANDLING
 	 */
 	public void addCellListener(CellListener listener) {
 		listeners.add(listener);
@@ -431,7 +522,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * EXTENSIONS
+	 * EXTENSIONS
 	 */
 	public Cell getExtension(String name) {
 		// Looks for an existing cell extension
@@ -450,7 +541,7 @@ public class CellImpl implements Cell {
 	}
 
 	/*
- * GENERAL
+	 * GENERAL
 	 */
 	/**
 	 * Compares this cell with the specified cell for order, by comparing their

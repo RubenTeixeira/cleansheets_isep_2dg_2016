@@ -49,7 +49,8 @@ public class VariableLocalReference extends VariableArrayReference {
 
 	@Override
 	public Value evaluate() {
-		return ((CellImpl) this.getCell()).getVariable(this.getVariable());
+		return ((CellImpl) this.getCell()).
+			getVariableValue(this.getVariable(), this.getPosition());
 //		return ((CellImpl) cell).getVariable(this.variable);
 	}
 

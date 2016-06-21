@@ -39,16 +39,17 @@ public class PDFCodec {
 	 * @param workbook workbook
 	 * @param file file
 	 * @param showList boolean
-	 * @throws IOException
+	 * @throws IOException exception
 	 */
 	public void writeWorkbook(Workbook workbook, File file, boolean showList) throws IOException {
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A1);
 
 		try {
 
 			PdfWriter writer = PdfWriter.
 				getInstance(document, new FileOutputStream(file));
 			document.open();
+			//add list of sections
 			if (showList) {
 				PdfPTable titleSections = new PdfPTable(1);
 				PdfPCell cellSections;
@@ -101,12 +102,6 @@ public class PDFCodec {
 				PdfPTable table = new PdfPTable(1);
 
 				//added subTitle Spreadsheet to pdf file
-//				cell = new PdfPCell(new Paragraph("Spreadsheet title: " + spreadsheet.
-//					getTitle(), FontFactory.
-//												  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
-//				cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-//				cell.setBorder(Rectangle.NO_BORDER);
-//				subTitle.addCell(cell);
 				Anchor target = new Anchor("Spreadsheet title:" + spreadsheet.
 					getTitle());
 
@@ -158,10 +153,10 @@ public class PDFCodec {
 	 *
 	 * @param spreadsheet Spreadsheet
 	 * @param file file
-	 * @throws IOException
+	 * @throws IOException exception
 	 */
 	public void writeSpreadsheet(Spreadsheet spreadsheet, File file) throws IOException {
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A1);
 
 		try {
 
@@ -223,10 +218,10 @@ public class PDFCodec {
 	 *
 	 * @param cells range of cells
 	 * @param file File
-	 * @throws IOException
+	 * @throws IOException exception
 	 */
 	public void writeSelectedCells(Cell[][] cells, File file) throws IOException {
-		Document document = new Document(PageSize.A4);
+		Document document = new Document(PageSize.A1);
 
 		try {
 

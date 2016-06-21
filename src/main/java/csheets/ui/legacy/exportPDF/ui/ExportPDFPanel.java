@@ -32,7 +32,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 		this.controller = new ExportPDFController(this.uiController);
 		initiateOptions();
 		this.jComboBoxSpreedSheet.setEnabled(false);
-		this.listSectionsCheckBox.setVisible(false);
+		this.listSectionsCheckBox.setEnabled(true);
 	}
 
 	/**
@@ -165,6 +165,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 
 		fileChooser.
 			setFileFilter(new FileNameExtensionFilter("Portable Document Format (*.pdf)", "pdf"));
+
 		int retrival = fileChooser.showSaveDialog(null);
 		if (retrival == JFileChooser.APPROVE_OPTION) {
 			try {
@@ -209,14 +210,15 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 		} else {
 			this.jComboBoxSpreedSheet.setEnabled(false);
 		}
+		if (this.jComboBoxType.getSelectedIndex() == 0) {
+			this.listSectionsCheckBox.setEnabled(true);
+		} else {
+			this.listSectionsCheckBox.setEnabled(false);
+		}
     }//GEN-LAST:event_jComboBoxTypeActionPerformed
 
     private void listSectionsCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listSectionsCheckBoxActionPerformed
-		if (this.jComboBoxType.getSelectedIndex() == 0) {
-			this.listSectionsCheckBox.setVisible(true);
-		} else {
-			this.listSectionsCheckBox.setVisible(false);
-		}
+
     }//GEN-LAST:event_listSectionsCheckBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
