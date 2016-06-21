@@ -55,6 +55,9 @@
               <TreeModel code="Formula"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.TreeSelectionListener" parameters="javax.swing.event.TreeSelectionEvent" handler="wizardTreeValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
