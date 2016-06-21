@@ -1,7 +1,6 @@
 package csheets.ext.networkExplorer;
 
 import csheets.ext.Extension;
-import csheets.ext.events.ui.EventsPanel;
 import csheets.ext.networkExplorer.ui.NetworkExplorerPanel;
 import csheets.ext.simple.ui.ExampleMenu;
 import csheets.ui.ctrl.UIController;
@@ -32,6 +31,8 @@ public class UIExtensionNetworkExplorer extends UIExtension {
 	 * A side bar that provides editing of comments
 	 */
 	private JComponent sideBar;
+        
+        
 
 	/**
 	 * The menu of the extension
