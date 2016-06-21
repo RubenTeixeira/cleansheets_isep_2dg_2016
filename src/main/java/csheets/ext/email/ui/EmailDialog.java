@@ -48,9 +48,12 @@ public class EmailDialog extends javax.swing.JFrame {
 	 * @param controller
 	 * @param uiController
 	 * @param mail
+	 * @throws java.io.IOException
+	 * @throws java.io.FileNotFoundException
+	 * @throws javax.mail.MessagingException
 	 */
 	public EmailDialog(EmailController controller, UIController uiController,
-					   Email mail) {
+					   Email mail) throws IOException, FileNotFoundException, MessagingException {
 		initComponents();
 		this.setVisible(true);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -67,7 +70,6 @@ public class EmailDialog extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(this, "Please start your session!");
 			this.dispose();
 		}
-
 		this.bodyCellText.setEditable(true);
 		this.destinationCellText.setEditable(true);
 		this.subjectCellText.setEditable(true);
@@ -80,11 +82,12 @@ public class EmailDialog extends javax.swing.JFrame {
 	 * @throws IOException
 	 * @throws MessagingException
 	 */
-	private void configure() throws FileNotFoundException, IOException, MessagingException {
+	public void configure() throws FileNotFoundException, IOException, MessagingException {
 		Properties props = new Properties();
 		Reader r = new FileReader("mail.properties");
 		props.load(r);
-		this.mail = this.controller.
+		this.mail
+			= controller.
 			configureEmail(props.getProperty("mail.username"), props.
 						   getProperty("mail.password"), props.
 						   getProperty("mail.smtp.host"));
@@ -258,6 +261,8 @@ public class EmailDialog extends javax.swing.JFrame {
 									  getText(), this.subjectCellText.getText(), this.bodyCellText.
 									  getText());
 			sendingEmailPanel.setVisible(false);
+			new EmailInstancePanel(this.destinationCellText.getText(), this.subjectCellText.
+								   getText());
 			JOptionPane.
 				showMessageDialog(this, "Message sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
 

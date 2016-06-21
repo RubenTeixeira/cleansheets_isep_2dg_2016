@@ -10,6 +10,10 @@ import csheets.ext.email.EmailController;
 import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 
 /**
  *
@@ -35,7 +39,12 @@ class SendAction extends BaseAction {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		EmailDialog emailDialog = new EmailDialog(controller, uiController, email);
+		try {
+			EmailDialog emailDialog = new EmailDialog(controller, uiController, email);
+		} catch (IOException | MessagingException ex) {
+			Logger.getLogger(SendAction.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 	}
 
 }
