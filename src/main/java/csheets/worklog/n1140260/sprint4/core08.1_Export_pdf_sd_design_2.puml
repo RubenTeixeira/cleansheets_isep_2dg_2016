@@ -29,7 +29,7 @@ loop for every cells in spreadsheet
 Spreadsheet -> Cell:cells = spreadsheet.getCell(row, columm).
 Cell -> Value:cells.getValue.toString()
 PdfCell -> PdfCell : cell=new PdfCell(new Paragraph(cells, f)
-PdfPTable -> PdfPTable: table = new PdfPTable(columm + 1);
+PdfPTable -> PdfPTable: table = new PdfPTable(1);
 PdfCell -> PdfPTable : table.add(cell)
 end
 @enduml

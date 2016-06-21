@@ -18,12 +18,18 @@ participant "Workbook" as Workbook
 
 User -> UI: selects option export to pdf
 UI -> UIController: ExportPDFController(UIController uiController)
-UIController -> ExportXMLController: exportWorkbook(JFileChooser fileChooser)
+UIController -> ExportXMLController: exportWorkbook(JFileChooser fileChooser,boolean showList)
 ExportXMLController -> File: file = fileChooser.getSelectedFile();
 PDFCodec <-- JFileChooser: give a Selected File
 ExportPDFController -> UIController: getActiveWorkbook()
 ExportPDFController <-- UIController: returns active workbook
-ExportPDFController -> PDFCodec:writeWorkbook(workbook,file)
+ExportPDFController -> PDFCodec:writeWorkbook(workbook,file,showList)
+alt showList = true
+
+	PdfCell -> PdfCell : cellSections=new PdfCell(new Paragraph(listOfSections, f)
+	PdfPTable -> PdfPTable: titleSections = new PdfPTable(1);
+	PdfCell -> PdfPTable : titleSections.add(cellSections)
+  end
 PdfWriter -> PdfWriter:getInstance(new Document(PageSize.A4), new FileOutputStream(file))
 loop for every spreadsheets in workbook
 Workbook -> Spreadsheet:spreadsheet = workbook.getSpreadsheet(index)
@@ -31,7 +37,7 @@ loop for every cells in spreadsheet
 Spreadsheet -> Cell:cells = spreadsheet.getCell(row, columm).
 Cell -> Value:cells.getValue.toString()
 PdfCell -> PdfCell : cell=new PdfCell(new Paragraph(cells, f)
-PdfPTable -> PdfPTable: table = new PdfPTable(columm + 1);
+PdfPTable -> PdfPTable: table = new PdfPTable(1);
 PdfCell -> PdfPTable : table.add(cell)
 end
 end
