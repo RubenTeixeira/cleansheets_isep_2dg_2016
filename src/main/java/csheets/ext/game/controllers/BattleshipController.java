@@ -330,7 +330,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void verifyPlay(int column, int row) {
-        Cell cell = styleSheet.getCell(column, row);
+        Cell cell = sheet.getCell(column, row);
         int shoot = game.shoot(cell.getAddress());
         String message = column + ";" + row;
         int myColumn = column + marginOwnBoardColumn - marginColumn;
