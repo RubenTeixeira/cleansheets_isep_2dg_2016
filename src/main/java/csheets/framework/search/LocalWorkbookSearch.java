@@ -66,6 +66,10 @@ public class LocalWorkbookSearch {
 		if (baseDirectory.isDirectory()) {
 			search(baseDirectory);
 		}
+                File currentDir = new File(System.getProperty("user.dir") + File.separator);
+                if (currentDir.isDirectory()) {
+			search(currentDir);
+		}
 		/**/
 		if (!this.foundWorkbooks.isEmpty()) {
 			return this.foundWorkbooks;
@@ -82,14 +86,6 @@ public class LocalWorkbookSearch {
 	private void search(File file) {
 
 		if (file.isDirectory()) {
-//			System.out.println("Searching directory ... " + file.
-//				getAbsoluteFile());
-//			File file2 = new File(FileSystemView.getFileSystemView().
-//				getDefaultDirectory().getPath());
-//			System.out.println("Next try will be: " + file.getAbsolutePath());
-//			File file3 = new File(System.getProperty("user.dir") + File.separator + "workspace");
-//			System.out.println("Third try: " + file3.getAbsolutePath());
-
 			//do you have permission to read this directory?
 			if (file.canRead()) {
 				if (file.listFiles() == null) {
@@ -102,10 +98,7 @@ public class LocalWorkbookSearch {
 						toLowerCase().matches(pattern)) {
 						Workbook wb = this.uiController.getCleanSheets().
 							getWorkbook(file);
-						// Test only required if search only covers active Workbooks
-						if (wb != null) {
-							this.foundWorkbooks.add(wb);
-						}
+                                                
 					}
 				}
 

@@ -2,11 +2,13 @@ package csheets.ext.email;
 
 import csheets.ext.Extension;
 import csheets.ext.email.ui.EmailMenu;
+import csheets.ext.email.ui.OutBoxPanel;
 import csheets.ext.simple.ui.ExampleMenu;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 
 /**
@@ -25,8 +27,10 @@ public class UIExtensionEmail extends UIExtension {
 	private Icon icon;
 
 	/**
-	 * A side bar that provides editing of comments
+	 * SideBar to choose email - outbox.
 	 */
+	private JComponent sideBar;
+
 	private EmailMenu menu;
 	private EmailController controller;
 	private Email email;
@@ -71,5 +75,18 @@ public class UIExtensionEmail extends UIExtension {
 			menu = new EmailMenu(uiController, controller, email);
 		}
 		return menu;
+	}
+
+	/**
+	 * Returns a side bar that gives access to extension-specific functionality.
+	 *
+	 * @return a component, or null if the extension does not provide one
+	 */
+	@Override
+	public JComponent getSideBar() {
+		if (this.sideBar == null) {
+			this.sideBar = new OutBoxPanel();
+		}
+		return this.sideBar;
 	}
 }

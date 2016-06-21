@@ -6,11 +6,13 @@
 package csheets.ext.game.controllers;
 
 import csheets.AppSettings;
+import csheets.core.Address;
 import csheets.core.Cell;
 import csheets.core.CellListener;
 import csheets.core.Spreadsheet;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.NetworkManager;
+import csheets.ext.game.GameExtension;
 import csheets.ext.game.domain.Battleship;
 import csheets.ext.game.domain.Ship;
 import csheets.ext.style.StylableCell;
@@ -22,11 +24,15 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import java.awt.Font;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -46,8 +52,10 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private final char START_CHAR = 'A';
     private final char END_CHAR = 'Z';
     private final String TCP_GAME_SERVER_NAME = "ipc.battleship-tcpServer";
+    private final String REQUEST_READY = ":game-ready";
     private final String REQUEST_PLAY = ":game-play";
     private final String REQUEST_RESPONSE = ":game-response";
+    private final String READY_MESSAGE = "ready";
     private final String RESPONSE_WIN = "win";
     private final String RESPONSE_SINK = "sink";
     private final String RESPONSE_HIT = "hit";
@@ -62,8 +70,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private int infoCellColumn = 2, infoCellRow = 1;
     private int marginColumn = 2, marginRow = 4;
     private int columnShipStart = marginColumn + boardsize.size() + 1, rowShipStart = marginRow + 1;
-    private int marginOwnBoardColumn = marginColumn + (boardsize.size() + 1) + 2;
-    private int marginOwnBoardRow = marginRow;
+    private int marginOwnBoardColumn = marginColumn;
+    private int marginOwnBoardRow = marginRow + (boardsize.size() + 1) + 2;
 
     private UIController uiController;
     private TcpServer server;
@@ -73,8 +81,10 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private String connection;
     private Map<Cell, Map.Entry<Ship.ShipType, Integer>> lstShips;
     private Map.Entry<Ship.ShipType, Integer> selectedShip;
+    private Cell shipStartCell;
     private boolean turn;
     private boolean readyToPlay;
+    private boolean opponentReadyToPlay;
 
     public BattleshipController(UIController uiController, boolean startTurn,
             String opponentIP) {
@@ -130,6 +140,13 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
             @Override
             public void run() {
                 server = NetworkManager.tcp();
+                server.expect(REQUEST_READY, new Action() {
+                    @Override
+                    public void run(Request request) {
+                        opponentReadyToPlay = request.message().equals(READY_MESSAGE) ? true : false;
+                        startGame();
+                    }
+                });
                 server.expect(REQUEST_PLAY, new Action() {
                     @Override
                     public void run(Request request) {
@@ -137,22 +154,39 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                         int column = Integer.parseInt(params[0]);
                         int row = Integer.parseInt(params[1]);
                         verifyPlay(column, row);
+                        turn = true;
                     }
                 });
                 server.expect(REQUEST_RESPONSE, new Action() {
                     @Override
                     public void run(Request request) {
-                        switch (request.message()) {
+                        String args[] = request.message().split(";");
+                        int column;
+                        int row;
+                        try {
+                            column = Integer.parseInt(args[0]);
+                            row = Integer.parseInt(args[1]);
+                        } catch (NumberFormatException ex) {
+                            // ignoring
+                            //showMessage("Message Received, has error");
+                            return;
+                        }
+                        String response = args[0];
+                        switch (response) {
                             case RESPONSE_WIN: {
+                                showWin();
                                 break;
                             }
                             case RESPONSE_SINK: {
+                                showSink(column, row);
                                 break;
                             }
                             case RESPONSE_HIT: {
+                                showHit(column, row);
                                 break;
                             }
                             case RESPONSE_WATER: {
+                                showWater(column, row);
                                 break;
                             }
                             default: {
@@ -264,12 +298,17 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void showShips() {
         try {
-            sheet.getCell(columnShipStart, rowShipStart - 1).setContent("SHIPS:");
+            sheet.getCell(columnShipStart, rowShipStart - 1).setContent("SHIPS");
+            sheet.getCell(columnShipStart + 1, rowShipStart - 1).setContent("REMAINING");
+            sheet.getCell(columnShipStart + 2, rowShipStart - 1).setContent("SIZE");
             for (Map.Entry<Cell, Map.Entry<Ship.ShipType, Integer>> entry : lstShips.entrySet()) {
                 entry.getKey().setContent(entry.getValue().getKey().name());
                 sheet.getCell(entry.getKey().getAddress().getColumn() + 1,
                         entry.getKey().getAddress().getRow()).
                         setContent(entry.getValue().getValue().toString());
+                sheet.getCell(entry.getKey().getAddress().getColumn() + 2,
+                        entry.getKey().getAddress().getRow()).
+                        setContent(String.valueOf(entry.getValue().getKey().size()));
             }
         } catch (FormulaCompilationException ex) {
             System.out.println("Cannot write to cell. " + ex.toString());
@@ -291,31 +330,35 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void verifyPlay(int column, int row) {
-        Cell cell = styleSheet.getCell(column, row);
+        Cell cell = sheet.getCell(column, row);
         int shoot = game.shoot(cell.getAddress());
         String message = column + ";" + row;
+        int myColumn = column + marginOwnBoardColumn - marginColumn;
+        int myRow = row + marginOwnBoardRow - marginRow;
         if (shoot == Battleship.SHOOT_SINK) {
             String playMessage = "Opponent sink a boat. ";
             if (game.allShipsDestroyed()) {
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WIN);
-                playMessage += "=( YOU LOST =(";
+                showLose();
             } else {
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_SINK);
+                showSink(myColumn, myRow);
                 playMessage += "Your turn ...";
+                showMessage(playMessage);
             }
             printImage(Battleship.SHOOT_SINK, cell);
-            showMessage(playMessage);
         } else if (shoot == Battleship.SHOOT_HIT) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_HIT);
             printImage(Battleship.SHOOT_HIT, cell);
+            showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
         } else {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WATER);
             printImage(Battleship.SHOOT_FAIL, cell);
+            showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
         }
         //repaintBoard();
-        turn = true;
     }
 
     private void printImage(int shootType, Cell cell) {
@@ -332,42 +375,43 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void showMessage(String message) {
         try {
-            styleSheet.getCell(infoCellColumn, infoCellRow).setContent(message);
-        } catch (FormulaCompilationException ex) {
+            JOptionPane.showMessageDialog(null, message);
+            //styleSheet.getCell(infoCellColumn, infoCellRow).setContent(message);
+        } catch (/*FormulaCompilation*/Exception ex) {
             Logger.getLogger(BattleshipController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
     public void selectionChanged(SelectionEvent event) {
-        if (event.getSpreadsheet().equals(sheet) && turn
-                && !event.getCell().equals(sheet.getCell(0, 0))) {
-            //uiController.setActiveCell(sheet.getCell(0, 0));
-            //uiController.focusOwner.setCellSelectionEnabled(false);
-            Cell cell = event.getCell();
-            if (cell == null) {
-                return;
-            }
-            if (isInsideBoardCell(cell)) {
-                doBoardAction(cell);
-                return;
-            }
-            if (isShip(cell)) {
-                selectShip(cell);
-                return;
-            }
-            if (isReadyCell(cell)) {
-                setReady(cell, true);
-                return;
-            }
+        if (!event.getSpreadsheet().equals(sheet)
+                || event.getCell().equals(sheet.getCell(0, 0))) {
+            return;
+        }
+        //uiController.setActiveCell(sheet.getCell(0, 0));
+        //uiController.focusOwner.setCellSelectionEnabled(false);
+        Cell cell = event.getCell();
+        if (cell.getValue() == null) {
+            return;
+        }
+        if (isInsideBoard(cell)) {
+            doBoardAction(cell);
+            return;
+        }
+        if (isShip(cell)) {
+            selectShip(cell);
+            return;
+        }
+        if (isReadyCell(cell)) {
+            setReadyToPlay(cell);
             return;
         }
     }
 
-    private boolean isInsideBoardCell(Cell cell) {
+    private boolean isInsideBoard(Cell cell) {
         return cell.getAddress().getColumn() >= marginColumn
                 && cell.getAddress().getColumn() <= marginColumn + boardsize.size()
-                && cell.getAddress().getRow() <= marginRow
+                && cell.getAddress().getRow() >= marginRow
                 && cell.getAddress().getRow() <= marginRow + boardsize.size();
     }
 
@@ -382,16 +426,151 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void doBoardAction(Cell cell) {
-        //if () {
-        //    
-        //}
+        if (!readyToPlay && selectedShip != null) {
+            if (shipStartCell == null) {
+                showPossibleEndOfShip(cell);
+                return;
+            }
+            try {
+                List<Address> allSelectedCells = getAddressInLineBetween(shipStartCell, cell);
+                Ship newShip = game.addShip(selectedShip.getKey(), allSelectedCells);
+                selectedShip.setValue(selectedShip.getValue() - 1);
+                removePaintPossibleEndOfShip(cell);
+                paintShipPostions(newShip);
+            } catch (VerifyError ex) {
+                showMessage(ex.getMessage());
+            } catch (IllegalArgumentException ex) {
+                showMessage(ex.getMessage());
+            }
+            shipStartCell = null;
+            removeSelectedShip();
+            return;
+        }
+        if (!readyToPlay) {
+            showMessage("It's required to select the ship to place before choosing the location.");
+            return;
+        }
+        if (turn) {
+            shootOpponent(cell);
+            return;
+        }
+        showMessage("It's not your turn");
+    }
+
+    private void paintShipPostions(Ship ship) {
+        for (Address address : ship.getPositions()) {
+            paintShip((StylableCell) sheet.getCell(address).getExtension(StyleExtension.NAME));
+        }
+    }
+
+    private void paintShip(StylableCell cell) {
+        cell.setBackgroundColor(Color.GRAY);
+    }
+
+    private void removeSelectedShip() {
+        for (Map.Entry<Cell, Map.Entry<Ship.ShipType, Integer>> entry : lstShips.entrySet()) {
+            if (entry.getValue().getKey().isSameType(selectedShip.getKey())) {
+                try {
+                    sheet.getCell(entry.getKey().getAddress().getColumn() + 1,
+                            entry.getKey().getAddress().getRow()).
+                            setContent(entry.getValue().getValue().toString());
+                } catch (FormulaCompilationException ex) {
+                    //Logger.getLogger(BattleshipController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return;
+            }
+        }
+        selectedShip = null;
+    }
+
+    private List<Address> getAddressInLineBetween(Cell startCell, Cell endCell) {
+        int startColumn = startCell.getAddress().getColumn();
+        int endColumn = endCell.getAddress().getColumn();
+        int startRow = startCell.getAddress().getRow();
+        int endRow = endCell.getAddress().getRow();
+        if (startColumn == endColumn) {
+            if (startRow > endRow) {
+                return findAddressBetween(endRow, startRow, startColumn, true);
+            }
+            return findAddressBetween(startRow, endRow, startColumn, true);
+        }
+        if (startRow == endRow) {
+            if (startColumn > endColumn) {
+                return findAddressBetween(endColumn, startColumn, startRow, false);
+            }
+            return findAddressBetween(startColumn, endColumn, startRow, false);
+        }
+        throw new VerifyError("The selected cells must be in line.");
+    }
+
+    private List<Address> findAddressBetween(int start, int end, int fixed, boolean columnFixed) {
+        List<Address> lstAddress = new ArrayList<>();
+        for (int i = start; i <= end; i++) {
+            if (columnFixed) {
+                lstAddress.add(sheet.getCell(fixed, i).getAddress());
+                continue;
+            }
+            lstAddress.add(sheet.getCell(i, fixed).getAddress());
+        }
+        return lstAddress;
+    }
+
+    private void showPossibleEndOfShip(Cell cell) {
+        /*boolean show = false;
+        int column = cell.getAddress().getColumn();
+        int row = cell.getAddress().getRow();
+        Cell topCell = sheet.getCell(column, row - selectedShip.getKey().size());
+        Cell leftCell = sheet.getCell(column - selectedShip.getKey().size(), row);
+        Cell rightCell = sheet.getCell(column + selectedShip.getKey().size(), row);
+        Cell bottomCell = sheet.getCell(column, row + selectedShip.getKey().size());
+        if(isInsideBoard(topCell)){
+            paintPossibleEndOfShip(topCell);
+            show = true;
+        }
+        if(isInsideBoard(leftCell)){
+            paintPossibleEndOfShip(leftCell);
+            show = true;
+        }
+        if(isInsideBoard(rightCell)){
+            paintPossibleEndOfShip(rightCell);
+            show = true;
+        }
+        if(isInsideBoard(bottomCell)){
+            paintPossibleEndOfShip(bottomCell);
+            show = true;
+        }
+        if(!show){
+            showMessage("The selected ship doesn't fit anywhere starting on this location.");
+            return;
+        }*/
+        shipStartCell = cell;
+    }
+
+    private void paintPossibleEndOfShip(Cell c) {
+        StylableCell cell = (StylableCell) sheet.getCell(c.getAddress());
+        cell.setBackgroundColor(Color.BLUE);
+    }
+
+    private void removePaintPossibleEndOfShip(Cell cell) {
+        //StylableCell sCell = (StylableCell)cell;
+        //sCell.setBackgroundColor(Color.BLUE);
+    }
+
+    private void shootOpponent(Cell cell) {
+        try {
+            String message = cell.getAddress().getColumn() + ";" + cell.getAddress().getRow();
+            new TcpClient(0).send(REQUEST_PLAY, connection, message);
+            this.turn = false;
+        } catch (VerifyError ex) {
+            showMessage(ex.getMessage());
+        }
     }
 
     private void selectShip(Cell cell) {
         selectedShip = lstShips.get(cell);
     }
 
-    private void setReady(Cell cell, boolean ready) {
+    private void setReadyToPlay(Cell cell) {
         if (!game.isReadyToPlay()) {
             JOptionPane.showMessageDialog(null, "You are not ready to play. "
                     + "Place the missing ships to start the game.", "CANNOT BE "
@@ -400,45 +579,58 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         }
         try {
             cell.setContent("X");
-            this.readyToPlay = ready;
+            this.readyToPlay = true;
+            // START WATING
+            startGame();
         } catch (FormulaCompilationException ex) {
             System.out.println("Unable to change cell content. " + ex);
         }
     }
 
-    /*@Override
-    public void contentChanged(Cell cell) {
-        if (!cell.getContent().equals("")) {
-            System.out.println("LALALALA");
-            if (!turn) {
-                cell.clear();
-                return;
+    private void startGame() {
+        if (!readyToPlay || !opponentReadyToPlay) {
+            return;
+        }
+        // END WAITING
+        for (Cell cell : sheet.getCells()) {
+            cell.clear();
+        }
+        showBoard(marginColumn, marginRow);
+        showBoard(marginOwnBoardColumn, marginOwnBoardRow);
+        showMyShips(marginOwnBoardColumn - marginColumn, marginOwnBoardRow - marginRow);
+    }
+
+    private void showMyShips(int columnMargin, int rowMargin) {
+        for (Ship ship : game.getShips()) {
+            for (Address address : ship.getPositions()) {
+                paintShip((StylableCell) sheet.getCell(address.getColumn()
+                        + columnMargin, address.getRow()
+                        + rowMargin).getExtension(StyleExtension.NAME));
             }
-            StringBuilder cellInfo = new StringBuilder(cell.getAddress().getColumn()
-                    + ";" + cell.getAddress().getRow());
-            new TcpClient(0).send(REQUEST_PLAY, connection, cellInfo.toString());
-            turn = false;
         }
     }
 
-    @Override
-    public void valueChanged(Cell cell) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void showWin() {
+        showMessage("YOU WON THE GAME");
+        stopGame();
+    }
+    
+    private void showLose() {
+        showMessage("You lost, play again ...");
+        stopGame();
     }
 
-    @Override
-    public void dependentsChanged(Cell cell) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void showSink(int column, int row) {
+        showHit(column, row);
     }
 
-    @Override
-    public void cellCleared(Cell cell) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void showHit(int column, int row) {
+        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
     }
 
-    @Override
-    public void cellCopied(Cell cell, Cell source) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void showWater(int column, int row) {
+        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        cell.setBackgroundColor(Color.BLUE);
     }
-     */
 }

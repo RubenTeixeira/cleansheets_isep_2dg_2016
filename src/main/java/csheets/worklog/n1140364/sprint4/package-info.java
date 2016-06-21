@@ -248,50 +248,34 @@
  *
  *
  * <p>
- * <b>Sunday</b>
- * <p>
- * Yesterday I worked on:
- * <p>
- * 1.</p>
- * <p>
- * Today:
- * <p>
- * 1.</p>
- * <p>
- * Blocking:
- * <p>
- * 1.
- *
- *
- * <p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Analysis and design the problem. Start implementation. Initial UI.</p>
  * <p>
  * Today:
  * <p>
- * 1.</p>
+ * 1. Creation of UI finalized. Exchange each value founded implemented.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Creation of UI finalized. Exchange each value founded implemented.</p>
  * <p>
  * Today:
  * <p>
- * 1.</p>
+ * 1. Replacing to all the matches without asking each time</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <p>
@@ -339,6 +323,13 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/9a320788f6ee5387292a2eb15cc2eb1b1487fef1">Initial
  * UI</a></p>
  *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/94792ed2bfbe986e1049ae7902ed69cadb30c3f5">Creation
+ * of UI finalized. Exchange each value founded.</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/33250b97849ce7107ac62f024ac097d4b6ca34bb">Replacing
+ * to all the matches without asking each time.</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *

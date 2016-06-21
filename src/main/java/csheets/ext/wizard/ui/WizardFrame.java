@@ -6,21 +6,14 @@
 package csheets.ext.wizard.ui;
 
 import csheets.core.IllegalValueTypeException;
-import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /**
  *
@@ -276,9 +269,11 @@ public class WizardFrame extends javax.swing.JFrame {
 
     private void treeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeButtonActionPerformed
         try {
-            controller.buildAST(formulaTextArea.getText());
+            if (!formulaTextArea.getText().isEmpty() && !formulaTextArea.getText().equals("") && !resultTextBox.getText().startsWith("At")) {
+                controller.buildAST(formulaTextArea.getText(), this);
+            }
         } catch (FormulaCompilationException ex) {
-            Logger.getLogger(WizardFrame.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.toString());
         }
     }//GEN-LAST:event_treeButtonActionPerformed
 
@@ -311,6 +306,20 @@ public class WizardFrame extends javax.swing.JFrame {
             } catch (FormulaCompilationException | IllegalValueTypeException |
                     IllegalArgumentException ex) {
                 resultTextBox.setText(ex.getMessage());
+            }
+        }
+    }
+
+    protected void selectElement(String element) throws BadLocationException {
+        String text = formulaTextArea.getText();
+        int index = text.indexOf(element);
+        Highlighter hl = formulaTextArea.getHighlighter();
+        hl.removeAllHighlights();
+        while (index >= 0) {
+            try {
+                hl.addHighlight(index, index + element.length(), DefaultHighlighter.DefaultPainter);
+                index = text.indexOf(element, index + element.length());
+            } catch (BadLocationException ex) {
             }
         }
     }
