@@ -161,10 +161,13 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * For this user story , we can start by coding a unit test to ...
+ * For this user story , we can start by coding a unit test to verify if the
+ * search result matches what we wanted seek. Another test can be see if the
+ * replace is running correctly. Finally and not least will be to test the
+ * option to make the replacing to all the matches.
  *
  * <p>
- * see: <code>#</code>
+ * see: <code>csheets\framework\search\WorkBookSearchTest</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
