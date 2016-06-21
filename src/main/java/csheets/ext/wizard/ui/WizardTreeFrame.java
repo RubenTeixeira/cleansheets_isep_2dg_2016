@@ -14,7 +14,6 @@ import org.antlr.runtime.tree.TreeIterator;
 
 /**
  *
- * @author Rafa
  */
 public class WizardTreeFrame extends javax.swing.JFrame {
 
@@ -65,6 +64,11 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                 case "EOF":
                     break OUTER;
                 default:
+                    if (newPrevNode == true) {
+                        parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
+                        prevNode = node;
+                        break;
+                    }
                     prevNode = node;
                     newPrevNode = true;
                     break;
