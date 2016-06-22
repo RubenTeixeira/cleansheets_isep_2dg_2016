@@ -104,8 +104,35 @@ public class Note implements Serializable {
 		return noteText;
 	}
 
+	public void changeTime(Calendar time) {
+		this.time = time;
+	}
+
 	@Override
 	public String toString() {
 		return this.title;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		Note instance = (Note) obj;
+		return this.equals(instance);
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 29;
+		hashcode = hashcode + 11 + this.contact.hashCode();
+		hashcode = hashcode + 11 + this.info.hashCode();
+		return hashcode;
 	}
 }

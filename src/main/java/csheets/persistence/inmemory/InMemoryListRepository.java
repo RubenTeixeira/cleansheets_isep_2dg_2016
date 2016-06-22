@@ -7,10 +7,14 @@ package csheets.persistence.inmemory;
 
 import csheets.domain.Contact;
 import csheets.domain.List;
+import csheets.domain.List.ListLine;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.ListRepository;
+import csheets.support.DateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -51,101 +55,77 @@ class InMemoryListRepository extends InMemoryRepository<List, Long>
 	}
 
 	@Override
-	public Iterable<List> search(Calendar startdate, Calendar endDate,
+	public Iterable<List> search(Calendar startDate, Calendar endDate,
 								 String text, boolean content) {
-		ArrayList<List> tmp = new ArrayList();
-		return tmp;
+		Iterable<List> list = searchDates(startDate, endDate);
+		if (text != null && !text.isEmpty()) {
+			list = this.search(list, text, content);
+		}
+		return list;
 	}
 
-	public Iterable<List> searchContent(Calendar startDate, Calendar endDate,
-										String expression) {
-		ArrayList<List> tmp = new ArrayList();
-		for (List list : this.all()) {
-			if (!list.isDeleted()) {
-				tmp.add(list);
-			}
-		}
-		if (startDate != null && endDate != null) {
-			for (List list : this.all()) {
-				tmp = new ArrayList();
-				if (list.getTimeCreated().after(startDate) && list.
-					getTimeCreated().before(endDate) && !list.isDeleted()) {
-					tmp.add(list);
+	public Iterable<List> search(Iterable<List> lists, String expression,
+								 Boolean content) {
+		Set<List> results = new HashSet();
+		for (List list : lists) {
+			if (!content) {
+				if (list.getTitle().matches(expression)) {
+					results.add(list);
 				}
-			}
-		} else if (startDate != null) {
-			tmp = new ArrayList();
-			for (List list : this.all()) {
-				if (list.getTimeCreated().after(startDate) && !list.isDeleted()) {
-					tmp.add(list);
+			} else {
+				for (ListLine line : list.getLines()) {
+					if (line.getText().matches(expression)) {
+						results.add(list);
+					}
 				}
-			}
-		} else if (endDate != null) {
-			tmp = new ArrayList();
-			for (List list : this.all()) {
-				if (list.getTimeCreated().before(endDate) && !list.isDeleted()) {
-					tmp.add(list);
-				}
-			}
-		}
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
-		}
-		ArrayList<List> results = new ArrayList();
-		for (List list : tmp) {
-			if (list.getText().matches(expression)) {
-				results.add(list);
 			}
 		}
 		return results;
 	}
 
-	public Iterable<List> searchTitle(Calendar startDate, Calendar endDate,
-									  String expression) {
-		ArrayList<List> tmp = new ArrayList();
-		for (List list : this.all()) {
-			if (!list.isDeleted()) {
-				tmp.add(list);
-			}
+	public Iterable<List> searchDates(Calendar startDate, Calendar endDate) {
+		if (startDate == null && endDate == null) {
+			return this.allPrincipal();
 		}
+		java.util.List<List> lists = new ArrayList<>();
 		if (startDate != null && endDate != null) {
 			for (List list : this.all()) {
-				tmp = new ArrayList();
-				if (list.getTimeCreated().after(startDate) && list.
-					getTimeCreated().before(endDate) && !list.isDeleted()) {
-					tmp.add(list);
+				if (DateTime.isBetweenDates(startDate, endDate, list.
+											getTimeCreated()) && !list.
+					isDeleted() && list.isLatestVersion()) {
+					lists.add(list);
 				}
 			}
-		} else if (startDate != null) {
-			tmp = new ArrayList();
+		}
+		if (startDate == null) {
 			for (List list : this.all()) {
-				if (list.getTimeCreated().after(startDate) && !list.isDeleted()) {
-					tmp.add(list);
+				if (DateTime.isPreviousDate(list.getTimeCreated(), endDate) && !list.
+					isDeleted() && list.isLatestVersion()) {
+					lists.add(list);
 				}
 			}
-		} else if (endDate != null) {
-			tmp = new ArrayList();
+		}
+		if (endDate == null) {
 			for (List list : this.all()) {
-				if (list.getTimeCreated().before(endDate) && !list.isDeleted()) {
-					tmp.add(list);
+				if (DateTime.isFutureDate(list.getTimeCreated(), startDate) && !list.
+					isDeleted() && list.isLatestVersion()) {
+					lists.add(list);
 				}
 			}
 		}
-		if (expression == null || expression.isEmpty()) {
-			return tmp;
-		}
-		ArrayList<List> results = new ArrayList();
-		for (List list : tmp) {
-			if (list.getTitle().matches(expression)) {
-				results.add(list);
-			}
-		}
-		return results;
+		return lists;
 	}
 
 	@Override
 	public Iterable<List> allPrincipal() {
-		return new ArrayList();
+		java.util.List<List> lists = new ArrayList<>();
+		for (List l : this.all()) {
+			if (!l.isDeleted()
+				&& l.isLatestVersion()) {
+				lists.add(l);
+			}
+		}
+		return lists;
 	}
 
 }
