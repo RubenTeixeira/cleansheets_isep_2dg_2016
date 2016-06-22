@@ -13,8 +13,14 @@ import javax.swing.JPanel;
  */
 public class TextFieldWidget implements Widget {
 
+	/**
+	 * content of the textField
+	 */
+	private String content;
+
 	@Override
 	public JPanel getPanel(String content) {
+		this.content = content;
 		return new TextFieldPanel(content);
 	}
 
@@ -23,4 +29,13 @@ public class TextFieldWidget implements Widget {
 		return "textfield";
 	}
 
+	/**
+	 * content of the textField
+	 *
+	 * @return content
+	 */
+	@Override
+	public String getContent() {
+		return content;
+	}
 }

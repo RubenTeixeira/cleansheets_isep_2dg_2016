@@ -5,6 +5,8 @@
  */
 package csheets.ui.FormEditor.ui;
 
+import csheets.core.Cell;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,14 +14,18 @@ import java.util.List;
  *
  * @author Rafael
  */
-public class FormE {
+public class FormE implements Serializable {
 
 	/**
-	 *
+	 * Name of the Form
 	 */
 	private String nameForm;
 
 	private List<Widget> lstWidget;
+
+	private Cell cell;
+
+	private boolean isEditable;
 
 	/**
 	 *
@@ -28,14 +34,31 @@ public class FormE {
 	public FormE(String nameForm) {
 		this.nameForm = nameForm;
 		this.lstWidget = new ArrayList<>();
+		this.isEditable = true;
+	}
+
+	/**
+	 *
+	 * @return name of the Form
+	 */
+	public String getNameForm() {
+		return nameForm;
 	}
 
 	/**
 	 *
 	 * @return list of Widgets
 	 */
-	public List showListWidget() {
+	public List<Widget> showLstWidget() {
 		return lstWidget;
+	}
+
+	/**
+	 *
+	 * @return cell
+	 */
+	public Cell cell() {
+		return cell;
 	}
 
 	/**
@@ -44,5 +67,29 @@ public class FormE {
 	 */
 	public void addWidget(Widget wgt) {
 		this.lstWidget.add(wgt);
+	}
+
+	/**
+	 *
+	 * @param activeCell is active Cell on the workbook
+	 */
+	public void setCell(Cell activeCell) {
+		this.cell = activeCell;
+	}
+
+	/**
+	 *
+	 * @return a boolean to define form editable or not editable
+	 */
+	public boolean isEditable() {
+		return isEditable;
+	}
+
+	/**
+	 *
+	 * @param editable is a boolean to define form editable or not editable
+	 */
+	public void setEditable(boolean editable) {
+		this.isEditable = editable;
 	}
 }

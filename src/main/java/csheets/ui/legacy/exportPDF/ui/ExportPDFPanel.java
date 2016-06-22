@@ -41,7 +41,7 @@ public class ExportPDFPanel extends javax.swing.JFrame {
 	private void initiateOptions() {
 		this.jComboBoxType.removeAll();
 		this.jComboBoxType.addItem("Workbook");
-		this.jComboBoxType.addItem("SpreedSheet");
+		this.jComboBoxType.addItem("SpreadSheet");
 		this.jComboBoxType.addItem("Range of Cells");
 		this.jComboBoxSpreedSheet.removeAll();
 		for (int i = 0; i < this.uiController.getActiveWorkbook().

@@ -337,40 +337,30 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         int myRow = row + marginOwnBoardRow - marginRow;
         if (shoot == Battleship.SHOOT_SINK) {
             String playMessage = "Opponent sink a boat. ";
+            showSink(myColumn, myRow);
             if (game.allShipsDestroyed()) {
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WIN);
                 showLose();
             } else {
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_SINK);
-                showSink(myColumn, myRow);
                 playMessage += "Your turn ...";
                 showMessage(playMessage);
             }
-            printImage(Battleship.SHOOT_SINK, cell);
-        } else if (shoot == Battleship.SHOOT_HIT) {
+            return;
+        }
+        if (shoot == Battleship.SHOOT_HIT) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_HIT);
-            printImage(Battleship.SHOOT_HIT, cell);
             showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
-        } else {
+            return;
+        }
+        if (shoot == Battleship.SHOOT_FAIL) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WATER);
-            printImage(Battleship.SHOOT_FAIL, cell);
             showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
+            return;
         }
         //repaintBoard();
-    }
-
-    private void printImage(int shootType, Cell cell) {
-        switch (shootType) {
-            case Battleship.SHOOT_SINK:
-            case Battleship.SHOOT_HIT: {
-                break;
-            }
-            case Battleship.SHOOT_FAIL: {
-                break;
-            }
-        }
     }
 
     private void showMessage(String message) {
@@ -410,9 +400,9 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private boolean isInsideBoard(Cell cell) {
         return cell.getAddress().getColumn() >= marginColumn
-                && cell.getAddress().getColumn() <= marginColumn + boardsize.size()
+                && cell.getAddress().getColumn() < marginColumn + boardsize.size()
                 && cell.getAddress().getRow() >= marginRow
-                && cell.getAddress().getRow() <= marginRow + boardsize.size();
+                && cell.getAddress().getRow() < marginRow + boardsize.size();
     }
 
     private boolean isShip(Cell cell) {
@@ -580,6 +570,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         try {
             cell.setContent("X");
             this.readyToPlay = true;
+            new TcpClient(0).send(REQUEST_READY, connection, READY_MESSAGE);
             // START WATING
             startGame();
         } catch (FormulaCompilationException ex) {

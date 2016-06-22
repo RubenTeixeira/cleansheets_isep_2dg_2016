@@ -161,10 +161,13 @@
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
- * For this user story , we can start by coding a unit test to ...
+ * For this user story , we can start by coding a unit test to verify if the
+ * search result matches what we wanted seek. Another test can be see if the
+ * replace is running correctly. Finally and not least will be to test the
+ * option to make the replacing to all the matches.
  *
  * <p>
- * see: <code>#</code>
+ * see: <code>csheets\framework\search\WorkBookSearchTest</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
@@ -267,7 +270,8 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Creation of UI finalized. Exchange each value founded implemented.</p>
+ * 1. Creation of UI finalized. Exchange each value founded implemented.
+ * Tests.</p>
  * <p>
  * Today:
  * <p>
@@ -330,6 +334,13 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/33250b97849ce7107ac62f024ac097d4b6ca34bb">Replacing
  * to all the matches without asking each time.</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/0e3ed0976c56a2ff4b1eafb59ab2f8d15715a099">Bug
+ * in replace matches fixed. Search controller with more responsibility.</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/c06dd3e639d0470b213dee30d069063b5248a2bd">Tests.</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *

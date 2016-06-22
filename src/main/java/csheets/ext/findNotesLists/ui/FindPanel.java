@@ -2,12 +2,13 @@ package csheets.ext.findNotesLists.ui;
 
 import csheets.domain.List;
 import csheets.domain.Note;
-import csheets.ext.events.EventsExtension;
 import csheets.ext.findNotesLists.FindController;
+import csheets.ext.findNotesLists.FindNotesListsExtension;
 import csheets.ui.DefaulListModel;
 import csheets.ui.ctrl.UIController;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -20,6 +21,7 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 
 	private FindController controller;
 	private DefaultListModel resultListModel = new DefaulListModel();
+	private ArrayList<Object> listNotesList = new ArrayList();
 
 	/**
 	 * Creates new form EventsPanel
@@ -27,7 +29,7 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 	 * @param uiController The user interface controller.
 	 */
 	public FindPanel(UIController uiController) {
-		this.setName(EventsExtension.NAME);
+		this.setName(FindNotesListsExtension.NAME);
 		this.controller = new FindController(uiController, this);
 		this.initComponents();
 		this.addListener();
@@ -59,17 +61,20 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		this.resultListModel.removeAllElements();
+		this.listNotesList.clear();
 		for (Note note : this.controller.searchNotes(this.jStartDateChooser.
 			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
 													 getText(), this.jCheckBoxContent.
 													 isSelected())) {
 			this.resultListModel.addElement("(Note) " + note);
+			this.listNotesList.add(note);
 		}
 		for (List list : this.controller.searchLists(this.jStartDateChooser.
 			getCalendar(), this.jEndDateChooser.getCalendar(), this.jTextFieldExpression.
 													 getText(), this.jCheckBoxContent.
 													 isSelected())) {
 			this.resultListModel.addElement("(List) " + list);
+			this.listNotesList.add(list);
 		}
 		this.revalidate();
 		this.repaint();
@@ -281,7 +286,7 @@ public class FindPanel extends javax.swing.JPanel implements Observer {
 
     private void jListResultsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListResultsMouseClicked
 		if (evt.getClickCount() == 2) {
-			new Informations(this.resultListModel.get(this.jListResults.
+			new Informations(this.listNotesList.get(this.jListResults.
 				getSelectedIndex()));
 		}
     }//GEN-LAST:event_jListResultsMouseClicked

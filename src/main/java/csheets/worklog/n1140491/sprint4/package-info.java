@@ -82,7 +82,6 @@
  * implement a JDialog. The code of the extension will be in
  * <code>csheets.ext.macro_beanshell</code> package. The following diagrams
  * illustrate core aspects of the design of the solution for this use case.
- * <p>
  *
  * <h3>Use Case Sequence Diagram</h3>
  * The following diagram shows the steps needed for this use case. My colleague
@@ -108,22 +107,15 @@
  *
  * <h2>6. Implementation</h2>
  *
- * To resolve this issue, we decided to create the class Email, assigning all
- * the responsabilities of email functionalities to it.
- *
- * public Email(Session session) { this.session = session; } The class has one
- * attribute(Session), that contains the user authentication and the properties
- * of the email account.
- *
- * We added to methods to this class:
- *
- * public void connect(String server, String email, String password) public void
- * sendMessage(String to, String subject, String body)
- *
- * The method connect tries to authenticate to the email account. if not
- * successfull it throws an exception. The method sendMessage tries to send a
- * message to another email account. If this email is not sent, the method
- * throws an exception.
+ * To resolve this issue, i used the class Macro(already created) and
+ * implemented the necessary methods. I created the class
+ * MacroExpressionCompiler that is really similar to the
+ * FormulaExpressionCompiler but it doesn't work with a referenced cell.
+ * Instead, it works with the Spreadsheet. This class uses all the available
+ * formulas in CleanSheets. To execute all the instructions, i separated all the
+ * instructions by line, compiling them one by one. If it starts with ";", it
+ * ignores the instruction because is a comment. If the instruction is not
+ * compiled, the method returns an error message.
  *
  * <p>
  * see:
@@ -146,11 +138,13 @@
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a5a84fb20c661307b36e92a8ce95d8cdff25c761">Tests</a></p>
  *
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1">Implementation
  * coommit 1</a></p>
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6bcfcf9d8b2ab2dff19158071a4611091fd98dea">Implementation
  * commit 2</a></p>
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/81dcff57e323849e9379020a528136d161c73ebf">Implementation
  * coommit 3</a></p>
  * <p>

@@ -29,7 +29,7 @@
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-378">LPFOURDG-378</a>
  *
- * <h2>3.1 IPC08.1) File Sharing</h2>
+ * <h2>3. IPC08.1) File Sharing</h2>
  *
  * Cleansheets should have a new option to share the files contained in a
  * specific directory. The user should be able to specify the directory to share
@@ -67,7 +67,7 @@
  *
  *
  *
- * <h2>4.2 Analysis - IPC08.1) File Sharing</h2>
+ * <h2>4. Analysis - IPC08.1) File Sharing</h2>
  *
  *
  * The purpose of this use case is to create an extension that allows you to
@@ -113,6 +113,29 @@
  *
  * <h2>6. Implementation</h2>
  *
+ * <b>Sequence Diagrams</b>
+ *
+ * <h3>Extension Setup (runtime)</h3>
+ * The Sequence diagram shows the setup of the share files extension when
+ * cleansheets is runing.
+ * <p>
+ * <img src="doc-files/ipc_file_sharing_extensions.png" alt="image">
+ *
+ * <h3>Setup of the extension</h3>
+ * <p>
+ * The sequence diagram illustrates the creation of the sharefiles extension.
+ * All the extensions are loaded dynamically by the ExtensionManager at
+ * application startup.
+ * <img src="doc-files/ipc_file_sharing_designextension_sd.png" alt="image">
+ *
+ * <p>
+ * The sequence diagram illustrates the creation of the user interface
+ * extension. All the UI extensions are loaded by the UIController at
+ * application startup.
+ * <img src="doc-files/ipc_file_sharing_designextension_sd2.png" alt="image">
+ *
+ *
+ *
  * <p>
  * <b>Use Case 1 - "Inbox files Reception"</b>
  *
@@ -129,12 +152,13 @@
  * <b>Created Classes</b>:
  *
  * <p>
- * TEXT
+ * ShareFilesController, ShareFilesExtension, UIExtensionShareFiles,
+ * ShareFilesPanel;
  *
  * <b>Updated Classes/Files</b>:
  *
  * <p>
- * TEXT
+ * extensions.props
  *
  * <h2>7. Integration/Demonstration</h2>
  *
@@ -179,7 +203,9 @@
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Design - IPC08.1) File Sharing Sequence Diagrams 2. Implementation -
+ * ShareFilesExtension, controller and UI with a list of files for specific path
+ * and information of each file.
  * </p>
  * Blocking:
  * <p>
@@ -190,11 +216,13 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. Design - IPC08.1) File Sharing Sequence Diagrams 2. Implementation -
+ * ShareFilesExtension, controller and UI with a list of files for specific path
+ * and information of each file.
  * </p>
  * Today
  * <p>
- * TEXT Update
+ * TEXT
  * </p>
  * Blocking:
  * <p>
@@ -252,7 +280,10 @@
  * browser to open in new windows) :
  *
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/8fc74cac13484fd526d44ed5dfc08c02950054f2">Implementation</a>
+ * ShareFilesExtension, controller and UI with a list of files for specific path
+ * and information of each file.
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6c66c20da15793c88360abbb44766b1fac0f9ea8">
+ * Implementation</a>
  *
  * <p>
  * TEXT

@@ -34,7 +34,7 @@ public class UdpService extends Notifier {
 	 *
 	 */
 	public void server() {
-		System.out.println("Created UDPServer");
+
 		ThreadManager.create("ipc.distributed-udpServer", new Thread() {
 			@Override
 			public void run() {

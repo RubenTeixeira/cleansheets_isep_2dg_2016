@@ -13,14 +13,30 @@ import javax.swing.JPanel;
  */
 public class LabelWidget implements Widget {
 
+	/**
+	 * content of the label
+	 */
+	private String content;
+
 	@Override
 	public JPanel getPanel(String content) {
+		this.content = content;
 		return new LabelPanel(content);
 	}
 
 	@Override
 	public String getName() {
 		return "label";
+	}
+
+	/**
+	 * content of the label
+	 *
+	 * @return content
+	 */
+	@Override
+	public String getContent() {
+		return content;
 	}
 
 }

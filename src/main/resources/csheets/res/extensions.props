@@ -27,3 +27,5 @@ csheets.ext.advancedWorkbookSearch.AdvancedWorkbookSearchExtension;2.0;Search
 csheets.ext.task.TaskExtension;1.0;Task
 csheets.ext.findNotesLists.FindNotesListsExtension;1.0;Find
 csheets.ext.networkExplorer.NetworkExplorerExtension;1.0;NetworkExplorer
+csheets.ext.shareFiles.ShareFilesExtension;1.0;ShareFiles
+csheets.ext.workbookGlobalVariable.WorkbookGlobalVariableExtension;1.0;Find
