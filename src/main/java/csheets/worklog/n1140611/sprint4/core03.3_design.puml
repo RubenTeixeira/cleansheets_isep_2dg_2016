@@ -1,12 +1,12 @@
-@startuml doc-files/core03.3_analysis.png
+@startuml doc-files/core03.3_design.png
 
 actor User
-participant "<<analysis>>\nUserInterface" as UI
-participant "<<analysis>>\nAutomaticSortAction" as AutomaticSortAction
-participant "<<analysis>>\nUIController" as UIController
-participant "<<analysis>>\n<interface>\nFocusOwner" as FocusOwner
-participant "<<analysis>>\nSortController" as Controller
-participant "<<analysis>>\nSortService" as SortService
+participant "UserInterface" as UI
+participant "AutomaticSortAction" as AutomaticSortAction
+participant "UIController" as UIController
+participant "<interface>FocusOwner" as FocusOwner
+participant "SortController" as Controller
+participant "SortService" as SortService
 
 User->AutomaticSortAction:user selects a range of cells \nand choose automatic sort
 activate AutomaticSortAction
@@ -40,4 +40,3 @@ Controller->SortService:sortRangeOfCells(Cell[][] cells, int column, boolean ord
 deactivate Controller
 deactivate AutomaticSortAction
 @enduml
-
