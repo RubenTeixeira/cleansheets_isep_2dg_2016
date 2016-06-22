@@ -26,6 +26,7 @@ import java.util.logging.Logger;
 import static javax.swing.Action.MNEMONIC_KEY;
 import static javax.swing.Action.SMALL_ICON;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,6 +39,16 @@ public class AutomaticSortAction extends BaseAction implements SelectionListener
     protected UIController uiController;
 
     private Cell[][] selectedCells;
+
+    int[] columns;
+
+    int[] rows;
+
+    boolean orders[];
+
+    int column;
+
+    Spreadsheet ss;
 
     public AutomaticSortAction(UIController uiController) {
         this.uiController = uiController;
@@ -62,25 +73,36 @@ public class AutomaticSortAction extends BaseAction implements SelectionListener
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("cheguei2");
         uiController.addSelectionListener(this);
         selectedCells = uiController.focusOwner.getSelectedCells();
+        columns = uiController.focusOwner.getSelectedColumns();
+        rows = uiController.focusOwner.getSelectedRows();
+        //put background color diferent
         for (int i = 0; i < selectedCells.length; i++) {
             for (int j = 0; j < selectedCells[0].length; j++) {
                 StylableCell cell = (StylableCell) selectedCells[i][j].getExtension(StyleExtension.NAME);
                 cell.setBackgroundColor(Color.yellow);
             }
         }
-        // uiController.removeSelectionListener(AutomaticSortAction.this);
+        column = columns[0];
+        orders = new boolean[columns.length];
+        ss = uiController.getActiveSpreadsheet();
+        uiController.focusOwner.revalidate();
+        uiController.focusOwner.repaint();
     }
 
     @Override
     public void selectionChanged(SelectionEvent event) {
-        if (event.isCellChanged()) {
-            int column = event.getCell().getAddress().getColumn() + 1;
-
-            boolean ascending = true;
-
-            sortByColumn(column, ascending);
+        if (event.getCell().getAddress().getColumn() >= columns[0] && event.getCell().getAddress().getColumn() <= columns[columns.length - 1]) {
+            if (column == event.getCell().getAddress().getColumn()) {
+                sameColumn(event);
+            }
+            if (column != event.getCell().getAddress().getColumn()) {
+                diferentColumn(event);
+            }
+        } else {
+            JOptionPane.showMessageDialog(uiController.getFrame(), "Select a column with a visual indicator", "Column Selection", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -94,12 +116,6 @@ public class AutomaticSortAction extends BaseAction implements SelectionListener
                 sorted[i][j] = cells[i][j].getContent();
             }
         }
-
-        int[] columns = uiController.focusOwner.getSelectedColumns();
-        int[] rows = uiController.focusOwner.getSelectedRows();
-
-        Spreadsheet ss = uiController.getActiveSpreadsheet();
-
         for (int i = 0; i < columns.length; i++) {
             for (int j = 0; j < rows.length; j++) {
                 try {
@@ -111,5 +127,40 @@ public class AutomaticSortAction extends BaseAction implements SelectionListener
         }
         uiController.focusOwner.revalidate();
         uiController.focusOwner.repaint();
+    }
+
+    public void sameColumn(SelectionEvent event) {
+        int atualColumn = column - columns[0];
+        if (orders[atualColumn] == true) {
+            orders[atualColumn] = false;
+            StylableCell prevstylableCell = (StylableCell) ss.getCell(event.getCell().getAddress().getColumn(), rows[0]).getExtension(StyleExtension.NAME);
+            prevstylableCell.setImage(new ImageIcon());
+
+            StylableCell stylableCell = (StylableCell) ss.getCell(event.getCell().getAddress().getColumn(), rows[0]).
+                    getExtension(StyleExtension.NAME);
+            stylableCell.setImage(new ImageIcon(StyleExtension.class.getResource("res/img/seta-para-cima.gif")));
+            sortByColumn(column, orders[atualColumn]);
+        } else {
+            orders[atualColumn] = true;
+            StylableCell prevstylableCell = (StylableCell) event.getPreviousCell().getExtension(StyleExtension.NAME);
+            prevstylableCell.setImage(new ImageIcon());
+
+            StylableCell stylableCell = (StylableCell) ss.getCell(event.getCell().getAddress().getColumn(), rows[0]).
+                    getExtension(StyleExtension.NAME);
+            stylableCell.setImage(new ImageIcon(StyleExtension.class.getResource("res/img/seta-para-baixo.gif")));
+            sortByColumn(column, orders[atualColumn]);
+        }
+    }
+
+    public void diferentColumn(SelectionEvent event) {
+        StylableCell prevstylableCell = (StylableCell) ss.getCell(column, rows[0]).getExtension(StyleExtension.NAME);
+        prevstylableCell.setImage(new ImageIcon());
+
+        column = event.getCell().getAddress().getColumn();
+        StylableCell stylableCell = (StylableCell) ss.getCell(event.getCell().getAddress().getColumn(), rows[0]).
+                getExtension(StyleExtension.NAME);
+        stylableCell.setImage(new ImageIcon(StyleExtension.class.getResource("res/img/seta-para-baixo.gif")));
+
+        sortByColumn(column, true);
     }
 }
