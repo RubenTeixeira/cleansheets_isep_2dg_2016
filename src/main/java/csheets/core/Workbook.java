@@ -299,9 +299,9 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	/**
 	 * Returns a specific Value providing the variables' name and a position.
 	 *
-	 * @param name
-	 * @param position
-	 * @return
+	 * @param name name of variable
+	 * @param position position of variable
+	 * @return value of variable
 	 */
 	public Value getVariableValue(String name, int position) {
 		for (VariableArray var : variables) {
@@ -315,7 +315,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	/**
 	 * Checks if Variable exists by providing its name.
 	 *
-	 * @param name
+	 * @param name name of variable
 	 * @return True if variable exists.
 	 */
 	public boolean variableExist(String name) {
@@ -376,7 +376,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 
 	/**
 	 *
-	 * @param name
+	 * @param name name of form
 	 * @return Form Map
 	 */
 	public FormE getForm(String name) {
@@ -386,8 +386,8 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	/**
 	 * Add FormE to Map
 	 *
-	 * @param name
-	 * @param formE
+	 * @param name name of form
+	 * @param formE the formE
 	 */
 	public void addFormE(String name, FormE formE) {
 		lstFormE.put(name, formE);

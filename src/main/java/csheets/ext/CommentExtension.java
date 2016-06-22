@@ -29,7 +29,7 @@ public abstract class CommentExtension extends Comment {
 	 * @param delegate the delegate of the extension
 	 * @param userName the name of the extension to which the comment extension
 	 * belongs
-	 * @param text
+	 * @param text the text
 	 */
 	public CommentExtension(Comment delegate, String userName, String text) {
 		super(userName, text);

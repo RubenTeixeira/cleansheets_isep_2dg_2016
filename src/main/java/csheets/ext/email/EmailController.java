@@ -42,6 +42,7 @@ public class EmailController {
 		// or use getDefaultInstance instance if desired...
 		Session session = Session.
 			getInstance(props, new Authenticator() {
+						@Override
 						protected PasswordAuthentication getPasswordAuthentication() {
 							return new PasswordAuthentication(props.
 								getProperty("mail.username"), props.
@@ -69,4 +70,7 @@ public class EmailController {
 		props.store(out, "Email data");
 	}
 
+	public void persistSentEmail(InformationEmailSent sentEmail) {
+		//PersistenceContext.repositories().emails
+	}
 }

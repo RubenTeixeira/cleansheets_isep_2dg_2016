@@ -73,7 +73,17 @@ public class ExportXMLTest {
 		String tagFont = "font";
 		String tagBackground = "background";
 		String tagBorder = "border";
+		String tagForeground = "foreground";
+		String tagHorizontal = "horizontal";
+		String tagVertical = "vertical";
 		String tagComment = "comment";
+		String tagAuthor = "author";
+		String tagScripts = "scripts";
+		String tagScript = "script";
+		String tagName = "name";
+		String tagType = "type";
+		String tagContent = "content";
+		String tagSync = "sync";
 
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			+ "<workbook1>\n"
@@ -90,10 +100,11 @@ public class ExportXMLTest {
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "	</sheet>\n"
 			+ "</workbook1>\n";
-
+		/*
 		String result = ExportXML.
-			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, this.workbook.
+			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, tagScripts, tagScript, tagName, tagType, tagContent, tagSync, this.workbook.
 						   getSpreadsheet(0).getWorkbook());
+		 */
 		//assertEquals(expResult, result);
 
 	}
@@ -107,13 +118,19 @@ public class ExportXMLTest {
 		System.out.println("exportSpreadsheet");
 
 		String tagSpreadSheet = this.spread1.getTitle();
+		String tagWorkbook = "workbook1";
 		String tagRow = "row";
 		String tagColumn = "column";
 		String tagValue = "value";
 		String tagFont = "font";
 		String tagBackground = "background";
 		String tagBorder = "border";
+		String tagForeground = "foreground";
+		String tagHorizontal = "horizontal";
+		String tagVertical = "vertical";
 		String tagComment = "comment";
+		String tagAuthor = "author";
+
 		Spreadsheet spreadsheet = this.spread1;
 
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
@@ -125,7 +142,7 @@ public class ExportXMLTest {
 			+ "";
 
 		String result = ExportXML.
-			exportSpreadsheet(tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagComment, spreadsheet);
+			exportSpreadsheet(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, spreadsheet);
 		//assertEquals(expResult, result);
 
 	}

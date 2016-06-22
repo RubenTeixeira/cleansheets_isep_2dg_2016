@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.ext.agenda.ui.CalendarView;
 
 import csheets.ext.agenda.ui.AgendaFrame;
 
 /**
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas 1130303@isep.ipp.pt
  */
 public abstract class AbstractCalendarViewPanel extends javax.swing.JPanel {
 
@@ -18,7 +13,7 @@ public abstract class AbstractCalendarViewPanel extends javax.swing.JPanel {
 	/**
 	 * Creates new form AbstractCalendarViewPanel
 	 *
-	 * @param parent
+	 * @param parent ui parent
 	 */
 	public AbstractCalendarViewPanel(AgendaFrame parent) {
 		this.theParent = parent;

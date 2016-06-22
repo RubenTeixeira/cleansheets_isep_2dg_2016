@@ -25,7 +25,7 @@ import javax.swing.border.LineBorder;
 
 /**
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas 1130303@isep.ipp.pt
  */
 public class ExtendedViewPanel extends AbstractCalendarViewPanel {
 

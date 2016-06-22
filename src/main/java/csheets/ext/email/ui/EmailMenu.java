@@ -22,6 +22,7 @@ public class EmailMenu extends JMenu {
 	 *
 	 * @param uiController the user interface controller
 	 * @param controller The controller.
+	 * @param email the email
 	 */
 	public EmailMenu(UIController uiController, EmailController controller,
 					 Email email) {

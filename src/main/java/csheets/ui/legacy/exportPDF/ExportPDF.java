@@ -1,5 +1,6 @@
 package csheets.ui.legacy.exportPDF;
 
+import csheets.ui.legacy.strategy.export.ExportStrategy;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -27,7 +28,12 @@ import java.util.logging.Logger;
  *
  * @author Diogo Leite
  */
-public class ExportPDF {
+public class ExportPDF implements ExportStrategy {
+
+	/**
+	 * showList
+	 */
+	boolean showList;
 
 	/**
 	 * Creates a new PDF codec.
@@ -35,57 +41,23 @@ public class ExportPDF {
 	public ExportPDF() {
 	}
 
-	/**
-	 * This method writes into the document the list of sections if user select
-	 * that option
-	 *
-	 * @param document Document
-	 * @param writer writer
-	 * @param showList boolean
-	 * @return PdfPTable
-	 */
-	public PdfPTable showListSections(Document document, PdfWriter writer,
-									  boolean showList) {
-		PdfPTable listSections = new PdfPTable(1);
-		//add list of sections
-		if (showList) {
-			PdfPTable titleSections = new PdfPTable(1);
-			PdfPCell cellSections;
-			cellSections = new PdfPCell(new Paragraph("List of Sections", FontFactory.
-													  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-			cellSections.setHorizontalAlignment(Element.ALIGN_CENTER);
-			cellSections.setBorder(Rectangle.NO_BORDER);
-			titleSections.addCell(cellSections);
-			try {
-				document.add(titleSections);
-			} catch (DocumentException ex) {
-				Logger.getLogger(ExportPDF.class.getName()).
-					log(Level.SEVERE, null, ex);
+	@Override
+	public void write(File file, Object args) {
+
+		try {
+
+			if (args instanceof Workbook) {
+
+				writeWorkbook((Workbook) args, file);
+			} else if (args instanceof Spreadsheet) {
+				writeSpreadsheet((Spreadsheet) args, file);
+			} else {
+				writeSelectedCells((Cell[][]) args, file);
 			}
 
-			Workbook workbook = UIController.getUIController().
-				getActiveWorkbook();
-			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
-
-				Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
-				Paragraph linkToSection = new Paragraph();
-				Anchor anchor = new Anchor("Spreadsheet title:" + spreadsheet.
-					getTitle());
-
-				anchor.setReference("#Spreadsheet title:" + spreadsheet.
-					getTitle());
-				linkToSection.add(anchor);
-				listSections.addCell(linkToSection);
-				listSections.setTotalWidth(700);
-				listSections.writeSelectedRows(0, 0, 36, 36, writer.
-											   getDirectContent());
-
-			}
-
-			return listSections;
+		} catch (Exception e) {
 
 		}
-		return listSections;
 	}
 
 	/**
@@ -94,10 +66,9 @@ public class ExportPDF {
 	 *
 	 * @param workbook workbook
 	 * @param file file
-	 * @param showList boolean
 	 * @throws IOException exception
 	 */
-	public void writeWorkbook(Workbook workbook, File file, boolean showList) throws IOException {
+	public void writeWorkbook(Workbook workbook, File file) throws IOException {
 		Document document = new Document(PageSize.A1);
 
 		try {
@@ -105,26 +76,21 @@ public class ExportPDF {
 			PdfWriter writer = PdfWriter.
 				getInstance(document, new FileOutputStream(file));
 			document.open();
-			PdfPTable listSections = showListSections(document, writer, showList);
+
+			PdfPTable listSections = showListSections(document, writer);
 			if (listSections.size() != 0) {
 				document.add(listSections);
 				document.newPage();
 			}
 
-			PdfPCell cell;
-
 			//added title workbook to pdf file
-			PdfPTable title = new PdfPTable(1);
-			cell = new PdfPCell(new Paragraph("Workbook", FontFactory.
-											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			cell.setBorder(Rectangle.NO_BORDER);
-			title.addCell(cell);
+			PdfPTable title = addTitle("Workbook", 18, Element.ALIGN_CENTER);
+
 			title.setSpacingAfter(10);
 			document.add(title);
 
 			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
-				PdfPTable subTitle = new PdfPTable(1);
+
 				Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
 
 				int row = spreadsheet.getRowCount();
@@ -142,14 +108,10 @@ public class ExportPDF {
 				document.add(target);
 
 				//added subTitle Cells to pdf file
-				cell = new PdfPCell(new Paragraph("Cells", FontFactory.
-												  getFont(FontFactory.TIMES_BOLD, 14, Font.BOLD, BaseColor.BLACK)));
-				cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-				cell.setBorder(Rectangle.NO_BORDER);
+				PdfPTable cellTitle = addTitle("Cells", 14, Element.ALIGN_CENTER);
 
-				subTitle.addCell(cell);
-				subTitle.setSpacingAfter(100);
-				document.add(subTitle);
+				cellTitle.setSpacingAfter(100);
+				document.add(cellTitle);
 
 				//put information into table
 				Font f = new Font();
@@ -197,25 +159,15 @@ public class ExportPDF {
 			int columm = spreadsheet.getColumnCount();
 
 			PdfPTable table = new PdfPTable(1);
-			PdfPCell cell;
 
 			//added title Spreadsheet to pdf file
-			PdfPTable title = new PdfPTable(1);
-			cell = new PdfPCell(new Paragraph("Spreadsheet title:" + spreadsheet.
-				getTitle(), FontFactory.
-											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			cell.setBorder(Rectangle.NO_BORDER);
-			title.addCell(cell);
+			PdfPTable spreadSheetTitle = addTitle("Spreadsheet title:", 18, Element.ALIGN_CENTER);
 
+			document.add(spreadSheetTitle);
 			//added subTitle Cells to pdf file
-			cell = new PdfPCell(new Paragraph("Cells", FontFactory.
-											  getFont(FontFactory.TIMES_BOLD, 16, Font.BOLD, BaseColor.BLACK)));
-			cell.setHorizontalAlignment(Element.ALIGN_LEFT);
-			cell.setBorder(Rectangle.NO_BORDER);
-			title.addCell(cell);
+			PdfPTable cellTitle = addTitle("Cells", 16, Element.ALIGN_LEFT);
 
-			document.add(title);
+			document.add(cellTitle);
 
 			//put information into table
 			Font f = new Font();
@@ -258,17 +210,11 @@ public class ExportPDF {
 			document.open();
 
 			PdfPTable table = new PdfPTable(1);
-			PdfPCell cell;
 
 			//added title Cells in pdf file
-			PdfPTable title = new PdfPTable(1);
-			cell = new PdfPCell(new Paragraph("Cells", FontFactory.
-											  getFont(FontFactory.TIMES_BOLD, 18, Font.BOLD, BaseColor.BLACK)));
-			cell.setHorizontalAlignment(Element.ALIGN_CENTER);
-			cell.setBorder(Rectangle.NO_BORDER);
-			title.addCell(cell);
+			PdfPTable cellTitle = addTitle("Cells", 18, Element.ALIGN_CENTER);
 
-			document.add(title);
+			document.add(cellTitle);
 			int row = cells.length;
 			int columm = cells[0].length;
 
@@ -294,6 +240,80 @@ public class ExportPDF {
 			System.err.println(de.getMessage());
 		}
 
+	}
+
+	/**
+	 * This method will add a title or a sbuTitle to the pdf file
+	 *
+	 * @param name title name
+	 * @param size tile size
+	 * @param alignment title alignment
+	 * @return Table with the title
+	 */
+	public PdfPTable addTitle(String name, int size, int alignment) {
+		PdfPCell cell;
+		PdfPTable title = new PdfPTable(1);
+		cell = new PdfPCell(new Paragraph(name, FontFactory.
+										  getFont(FontFactory.TIMES_BOLD, size, Font.BOLD, BaseColor.BLACK)));
+		cell.setHorizontalAlignment(alignment);
+		cell.setBorder(Rectangle.NO_BORDER);
+		title.addCell(cell);
+		return title;
+	}
+
+	/**
+	 * This method writes into the document the list of sections if user select
+	 * that option
+	 *
+	 * @param document Document
+	 * @param writer writer
+	 * @return PdfPTable
+	 */
+	public PdfPTable showListSections(Document document, PdfWriter writer) {
+		PdfPTable listSections = new PdfPTable(1);
+
+		//add list of sections
+		if (showList) {
+			PdfPTable titleSections = addTitle("List of Sections", 18, Element.ALIGN_CENTER);
+
+			try {
+				document.add(titleSections);
+			} catch (DocumentException ex) {
+				Logger.getLogger(ExportPDF.class.getName()).
+					log(Level.SEVERE, null, ex);
+			}
+
+			Workbook workbook = UIController.getUIController().
+				getActiveWorkbook();
+			for (int k = 0; k < workbook.getSpreadsheetCount(); k++) {
+
+				Spreadsheet spreadsheet = workbook.getSpreadsheet(k);
+				Paragraph linkToSection = new Paragraph();
+				Anchor anchor = new Anchor("Spreadsheet title:" + spreadsheet.
+					getTitle());
+
+				anchor.setReference("#Spreadsheet title:" + spreadsheet.
+					getTitle());
+				linkToSection.add(anchor);
+				listSections.addCell(linkToSection);
+				listSections.setTotalWidth(700);
+				listSections.writeSelectedRows(0, 0, 36, 36, writer.
+											   getDirectContent());
+
+			}
+
+			return listSections;
+		}
+		return listSections;
+	}
+
+	/**
+	 * This method return a boolean expression to check
+	 *
+	 * @param showList boolean
+	 */
+	public void applyList(boolean showList) {
+		this.showList = showList;
 	}
 
 }

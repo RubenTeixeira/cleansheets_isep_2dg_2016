@@ -84,6 +84,7 @@ public class SearchPanel extends JPanel {
         jSearchButton = new javax.swing.JButton();
         jStatusLabel = new javax.swing.JLabel();
         jSearchToolsButton = new javax.swing.JButton();
+        btnSearchReplace = new javax.swing.JButton();
         jPanelBottom = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jResultsList = new javax.swing.JList();
@@ -106,6 +107,13 @@ public class SearchPanel extends JPanel {
             }
         });
 
+        btnSearchReplace.setText("Search and Replace");
+        btnSearchReplace.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchReplaceActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
         jPanelTop.setLayout(jPanelTopLayout);
         jPanelTopLayout.setHorizontalGroup(
@@ -113,28 +121,31 @@ public class SearchPanel extends JPanel {
             .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelTopLayout.createSequentialGroup()
-                        .addComponent(jSearchTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSearchButton))
+                    .addComponent(btnSearchReplace, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanelTopLayout.createSequentialGroup()
                         .addComponent(jSearchToolsButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jStatusLabel)))
+                        .addComponent(jStatusLabel))
+                    .addGroup(jPanelTopLayout.createSequentialGroup()
+                        .addComponent(jSearchTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jSearchButton)))
                 .addContainerGap())
         );
         jPanelTopLayout.setVerticalGroup(
             jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelTopLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(btnSearchReplace)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSearchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jStatusLabel)
-                    .addComponent(jSearchToolsButton))
-                .addContainerGap())
+                    .addComponent(jSearchToolsButton)
+                    .addComponent(jStatusLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jSearchTextField.addMouseListener(new MouseAdapter(){
@@ -175,7 +186,10 @@ public class SearchPanel extends JPanel {
         );
         jPanelBottomLayout.setVerticalGroup(
             jPanelBottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+            .addGroup(jPanelBottomLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -232,6 +246,10 @@ public class SearchPanel extends JPanel {
 		searchTools.setLocationRelativeTo(this);
     }//GEN-LAST:event_jSearchToolsButtonActionPerformed
 
+    private void btnSearchReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchReplaceActionPerformed
+		new SearchReplaceUI(uiController).run();
+    }//GEN-LAST:event_btnSearchReplaceActionPerformed
+
 	public void setAdvancedSearch(Map<String, Value.Type> types,
 								  boolean formulas, boolean comments) {
 		this.types = types;
@@ -270,6 +288,7 @@ public class SearchPanel extends JPanel {
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSearchReplace;
     private javax.swing.JPanel jPanelBottom;
     private javax.swing.JPanel jPanelTop;
     private javax.swing.JList jResultsList;

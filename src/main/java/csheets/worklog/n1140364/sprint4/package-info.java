@@ -167,7 +167,7 @@
  * option to make the replacing to all the matches.
  *
  * <p>
- * see: <code>csheets\framework\search\WorkBookSearchTest</code>
+ * see: <code>csheets.framework.search.WorkBookSearchTest</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
@@ -287,15 +287,16 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Creation of UI finalized. Exchange each value founded implemented.
+ * Tests.</p>
  * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Finish the tests. Another adjustments.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  * <p>
  * <b>Thursday</b>
@@ -341,6 +342,10 @@
  *
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/c06dd3e639d0470b213dee30d069063b5248a2bd">Tests.</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b4eeb5c4b32bd886758b8a059ee038004d7ded99">Some
+ * adjustments in UI.</a></p>
  *
  * <h3>10.2. Teamwork:</h3>
  *

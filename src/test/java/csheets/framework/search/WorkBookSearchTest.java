@@ -92,6 +92,46 @@ public class WorkBookSearchTest {
 	}
 
 	@Test
+	public void emptySearch() {
+		String pattern3 = "[0-9]*";
+
+		try {
+			workBook.getSpreadsheet(0).getCell(0, 0).setContent("Empty");
+			workBook.getSpreadsheet(0).getCell(0, 1).setContent("Search");
+
+		} catch (FormulaCompilationException ex) {
+		}
+
+		types.put("numeric", Value.Type.NUMERIC);
+
+		List<SearchResultDTO> results = instance.
+			getMatches(pattern3, types, true, true);
+
+		int expResult = 0;
+		int result = results.size();
+		assertEquals(expResult, result);
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void replaceOnNullSpread() {
+		String pattern3 = "[0-9]*";
+
+		try {
+			workBook.getSpreadsheet(0).getCell(0, 0).setContent("10");
+			workBook.getSpreadsheet(0).getCell(0, 1).setContent("=A1*2");
+
+		} catch (FormulaCompilationException ex) {
+		}
+
+		types.put("numeric", Value.Type.NUMERIC);
+
+		List<SearchResultDTO> results = instance.
+			getMatches(pattern3, types, true, true);
+
+		instance.replaceMatchContent(results.get(0), "travolta", null);
+	}
+
+	@Test
 	public void replaceMatchContent() {
 		String pattern3 = ".*.";
 
@@ -103,8 +143,7 @@ public class WorkBookSearchTest {
 		} catch (FormulaCompilationException ex) {
 		}
 
-		Map<String, Value.Type> types = new HashMap<>();
-		types.put("error", Value.Type.TEXT);
+		types.put("text", Value.Type.TEXT);
 
 		List<SearchResultDTO> results = instance.
 			getMatches(pattern3, types, true, true);

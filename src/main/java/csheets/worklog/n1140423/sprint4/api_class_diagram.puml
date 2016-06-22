@@ -43,6 +43,10 @@ class CleansheetsAPI {
     +getSelectedRow() : int
     +getSelectedRowCount() : int 
     +getSelectedRows() : int[]
+    +getMacros() : List<Code>
+    +getBeanShellScripts() : List<Code>
+    +getMacro(String name) : Code
+    +getBeanShellScript(String name) : Code
 }
 
 CleansheetsAPI <-- CleansheetsAPI 

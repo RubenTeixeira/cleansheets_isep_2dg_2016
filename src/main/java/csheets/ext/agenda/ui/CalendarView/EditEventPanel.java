@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author Rui Freitas <1130303@isep.ipp.pt>
+ * @author Rui Freitas 1130303@isep.ipp.pt
  */
 public class EditEventPanel extends javax.swing.JPanel {
 
@@ -25,6 +25,8 @@ public class EditEventPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form EditEventPanel
+	 *
+	 * @param theEvent event
 	 */
 	public EditEventPanel(Event theEvent) {
 		initComponents();

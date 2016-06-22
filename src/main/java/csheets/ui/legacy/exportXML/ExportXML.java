@@ -13,6 +13,7 @@ import csheets.core.Workbook;
 import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
+import csheets.ext.macro_beanshell.Code;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
@@ -35,6 +36,20 @@ final public class ExportXML {
 	 * @param tagSpreadSheet tagSpreadSheet
 	 * @param tagRow tagRow
 	 * @param tagColumn tagColumn
+	 * @param tagValue tagValue
+	 * @param tagFont tagFont
+	 * @param tagBackground tagBackground
+	 * @param tagBorder tagBorder
+	 * @param tagForeground
+	 * @param tagHorizontal
+	 * @param tagVertical
+	 * @param tagComment tagComment
+	 * @param tagAuthor tagAuthor
+	 * @param tagScript tagScript
+	 * @param tagName tagName
+	 * @param tagType tagType
+	 * @param tagContent tagContent
+	 * @param tagSync tagSync
 	 * @param workbook workbook
 	 * @return toString of workbook
 	 */
@@ -43,7 +58,14 @@ final public class ExportXML {
 		String tagSpreadSheet,
 		String tagRow, String tagColumn, String tagValue, String tagFont,
 		String tagBackground,
-		String tagBorder, String tagComment,
+		String tagBorder, String tagForeground, String tagHorizontal,
+		String tagVertical, String tagComment, String tagAuthor,
+		String tagScripts,
+		String tagScript,
+		String tagName,
+		String tagType,
+		String tagContent,
+		String tagSync,
 		Workbook workbook) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -66,9 +88,6 @@ final public class ExportXML {
 						getCell(k, j).getExtension(
 						CommentsExtension.NAME);
 
-//					Comment comment = (Comment) spreadsheet.getCell(k, j).
-//						getExtension(
-//							CommentsExtension.NAME);
 					if (value.toString().length() > 0) {
 						list.
 							add("\t\t\t<" + tagColumn + " index=\"" + k + "\"" + ">\n");
@@ -78,19 +97,33 @@ final public class ExportXML {
 						//<---Font--->
 						list.
 							add("\t\t\t\t<" + tagFont + ">" + stylableCell.
-								getFont().getFontName() + "</" + tagFont + ">\n");
+								getFont().toString() + "</" + tagFont + ">\n");
 						list.
 							add("\t\t\t\t<" + tagBackground + ">" + stylableCell.
 								getBackgroundColor().getRGB() + "</" + tagBackground + ">\n");
 						list.
 							add("\t\t\t\t<" + tagBorder + ">" + stylableCell.
-								getBorder().toString() + "</" + tagBorder + ">\n");
+								getBorder() + "</" + tagBorder + ">\n");
+						list.
+							add("\t\t\t\t<" + tagForeground + ">" + stylableCell.
+								getForegroundColor().getRGB() + "</" + tagForeground + ">\n");
+						list.
+							add("\t\t\t\t<" + tagHorizontal + ">" + stylableCell.
+								getHorizontalAlignment()
+								+ "</" + tagHorizontal + ">\n");
+						list.
+							add("\t\t\t\t<" + tagVertical + ">" + stylableCell.
+								getVerticalAlignment()
+								+ "</" + tagVertical + ">\n");
 						//<!---Font--->
 
 						//<--Comment-->
 						for (Comment c : cell.getCommentsList()) {
 							list.
 								add("\t\t\t\t<" + tagComment + " index=\"" + k + "\"" + ">\n");
+							list.
+								add("\t\t\t\t\t<" + tagAuthor + ">" + c.
+									userName() + "</" + tagAuthor + ">\n");
 
 							list.add("\t\t\t\t\t<" + tagValue + ">" + c.
 								text().toString() + "</" + tagValue + ">\n");
@@ -103,8 +136,8 @@ final public class ExportXML {
 									getBackgroundColor().getRGB() + "</" + tagBackground + ">\n");
 							list.
 								add("\t\t\t\t\t<" + tagBorder + ">" + c.
-									getBorder().toString() + "</" + tagBorder + ">\n" + "</" + tagComment + ">\n");
-
+									getBorder().toString() + "</" + tagBorder + ">\n");
+							list.add("\t\t\t\t" + "</" + tagComment + ">\n");
 						}
 
 						//<!--Comment-->
@@ -122,25 +155,57 @@ final public class ExportXML {
 			}
 			stringBuilder.append("\t</" + tagSpreadSheet + ">\n");
 		}
+		List<Code> scripts = UIController.getUIController().getActiveWorkbook().
+			getScripts();
+		if (scripts.size() > 0) {
+			stringBuilder.append("<" + tagScripts + ">\n");
+			List<String> lst = new ArrayList();
+			for (Code s : scripts) {
+				stringBuilder.append("<" + tagScript + ">\n");
+				stringBuilder.
+					append("\t<" + tagName + ">" + s.getName().toString() + "</" + tagName + ">\n");
+				stringBuilder.
+					append("\t<" + tagType + ">" + s.getType().toString() + "</" + tagType + ">\n");
+				stringBuilder.append("\t<" + tagContent + ">" + s.getContent().
+					toString() + "</" + tagContent + ">\n");
+				stringBuilder.
+					append("\t<" + tagSync + ">" + s.isSynchronous() + "</" + tagSync + ">\n");
+				stringBuilder.
+					append("</" + tagScript + ">\n");
+			}
+			stringBuilder.append("</" + tagScripts + ">\n");
+		}
 		stringBuilder.append("</" + tagWorkbook + ">\n");
+
 		return stringBuilder.toString();
 	}
 
 	/**
-	 *
 	 * Export the contents of an Spreadsheet to XML file with param tags.
 	 *
+	 * @param tagWorkbook tagWorkbook
 	 * @param tagSpreadSheet tagSpreadSheet
 	 * @param tagRow tagRow
 	 * @param tagColumn tagColumn
-	 * @param spreadsheet tagSpreadSheet
+	 * @param tagValue tagValue
+	 * @param tagFont tagFont
+	 * @param tagBackground tagBackground
+	 * @param tagBorder tagBorder
+	 * @param tagForeground tagForeground
+	 * @param tagHorizontal tagHorizontal
+	 * @param tagVertical tagVertical
+	 * @param tagComment tagComment
+	 * @param tagAuthor tagAuthor
+	 * @param spreadsheet spreadsheet
 	 * @return toString of Spreadsheet
 	 */
 	static public String exportSpreadsheet(
+		String tagWorkbook,
 		String tagSpreadSheet,
 		String tagRow, String tagColumn, String tagValue, String tagFont,
 		String tagBackground,
-		String tagBorder, String tagComment,
+		String tagBorder, String tagForeground, String tagHorizontal,
+		String tagVertical, String tagComment, String tagAuthor,
 		Spreadsheet spreadsheet) {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -160,9 +225,6 @@ final public class ExportXML {
 					getCell(k, j).getExtension(
 					CommentsExtension.NAME);
 
-//					Comment comment = (Comment) spreadsheet.getCell(k, j).
-//						getExtension(
-//							CommentsExtension.NAME);
 				if (value.toString().length() > 0) {
 					list.
 						add("\t\t\t<" + tagColumn + " index=\"" + k + "\"" + ">\n");
@@ -172,19 +234,33 @@ final public class ExportXML {
 					//<---Font--->
 					list.
 						add("\t\t\t\t<" + tagFont + ">" + stylableCell.
-							getFont().getFontName() + "</" + tagFont + ">\n");
+							getFont().toString() + "</" + tagFont + ">\n");
 					list.
 						add("\t\t\t\t<" + tagBackground + ">" + stylableCell.
 							getBackgroundColor().getRGB() + "</" + tagBackground + ">\n");
 					list.
 						add("\t\t\t\t<" + tagBorder + ">" + stylableCell.
-							getBorder().toString() + "</" + tagBorder + ">\n");
+							getBorder() + "</" + tagBorder + ">\n");
+					list.
+						add("\t\t\t\t<" + tagForeground + ">" + stylableCell.
+							getForegroundColor().getRGB() + "</" + tagForeground + ">\n");
+					list.
+						add("\t\t\t\t<" + tagHorizontal + ">" + stylableCell.
+							getHorizontalAlignment()
+							+ "</" + tagHorizontal + ">\n");
+					list.
+						add("\t\t\t\t<" + tagVertical + ">" + stylableCell.
+							getVerticalAlignment()
+							+ "</" + tagVertical + ">\n");
 					//<!---Font--->
 
 					//<--Comment-->
 					for (Comment c : cell.getCommentsList()) {
 						list.
 							add("\t\t\t\t<" + tagComment + " index=\"" + k + "\"" + ">\n");
+						list.
+							add("\t\t\t\t\t<" + tagAuthor + ">" + c.
+								userName() + "</" + tagAuthor + ">\n");
 
 						list.add("\t\t\t\t\t<" + tagValue + ">" + c.
 							text().toString() + "</" + tagValue + ">\n");
@@ -197,8 +273,8 @@ final public class ExportXML {
 								getBackgroundColor().getRGB() + "</" + tagBackground + ">\n");
 						list.
 							add("\t\t\t\t\t<" + tagBorder + ">" + c.
-								getBorder().toString() + "</" + tagBorder + ">\n" + "</" + tagComment + ">\n");
-
+								getBorder().toString() + "</" + tagBorder + ">\n");
+						list.add("\t\t\t\t" + "</" + tagComment + ">\n");
 					}
 
 					//<!--Comment-->
@@ -244,6 +320,7 @@ final public class ExportXML {
 			for (int i = 0; i < cells[0].length; i++) {
 				Value value = cells[j][i].getValue();
 				address = cells[j][i].getAddress();
+
 				if (value.toString().length() > 0) {
 					list.
 						add("\t\t<" + tagColumn + " index=\"" + address.

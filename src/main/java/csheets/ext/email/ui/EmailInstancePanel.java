@@ -25,9 +25,9 @@ public class EmailInstancePanel extends javax.swing.JPanel {
 	/**
 	 * Creates new form EmailInstancePanel
 	 *
-	 * @param destination
-	 * @param subject
-	 * @param body
+	 * @param destination email destination
+	 * @param subject subject of email
+	 * @param body body of email
 	 */
 	public EmailInstancePanel(String destination, String subject, String body) {
 		initComponents();

@@ -29,7 +29,8 @@ public class ProfileUI extends javax.swing.JFrame {
 	/**
 	 * Creates new form ProfileUI
 	 *
-	 * @param chatUser
+	 * @param parent ui parent
+	 * @param chatUser user chat
 	 */
 	public ProfileUI(Component parent, ChatUser chatUser) {
 		initComponents();

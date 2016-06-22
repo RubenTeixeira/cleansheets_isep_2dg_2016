@@ -8,6 +8,7 @@ import csheets.core.Workbook;
 import csheets.core.formula.VariableArray;
 import csheets.ui.FormEditor.ui.FormE;
 import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
@@ -405,10 +406,71 @@ public class CleansheetsAPI {
     }
     
     /**
-     * Macros.
+     * Gets all of the Macros in the active workbook.
+     * 
+     * @return Macros.
      */
-    public void macros()
+    public List<Code> getMacros()
     {
-        throw new UnsupportedOperationException("Macros are not yet implemented in the Cleansheets application.");
+        List<Code> macros = new ArrayList<>();
+        
+        for (Code script : this.getScripts()) {
+            if (script.getType().equals("Macro")) {
+                macros.add(script);
+            }
+        }
+        
+        return macros;
+    }
+    
+    /**
+     * Gets all of the BeanShell scripts in the active workbook.
+     * 
+     * @return BeanShell Scripts.
+     */
+    public List<Code> getBeanShellScripts()
+    {
+        List<Code> beanshell = new ArrayList<>();
+
+        for (Code script : this.getScripts()) {
+            if (script.getType().equals("BeanShell")) {
+                beanshell.add(script);
+            }
+        }
+
+        return beanshell;
+    }
+    
+    /**
+     * Gets a BeanShell script given its name.
+     *
+     * @param name Name of the script.
+     * @return Macro, or throws an exception.
+     */
+    public Code getBeanShellScript(String name) 
+    {
+        for (Code script : this.getBeanShellScripts()) {
+            if (script.getName().equals(name)) {
+                return script;
+            }
+        }
+        
+        throw new IllegalArgumentException("No BeanShell script was found with the given name.");
+    }
+    
+    /**
+     * Gets a macro given its name.
+     * 
+     * @param name Name of the macro.
+     * @return Macro, or throws an exception.
+     */
+    public Code getMacro(String name) {
+        for (Code script : this.getMacros()) {
+            if (script.getName().equals(name)) {
+                return script;
+            }
+        }
+
+        throw new IllegalArgumentException("No macro was found with the given name.");
     }
 }

@@ -60,6 +60,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private final String RESPONSE_SINK = "sink";
     private final String RESPONSE_HIT = "hit";
     private final String RESPONSE_WATER = "water";
+    private final String RESPONSE_FAIL = "fail";
     private final int CELL_WIDTH = 50;
     private final int CELL_HEIGHT = 50;
     private final Border cellBorder = BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -113,14 +114,15 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
      * Remove all playable cells Listenners
      */
     private void removeListeners() {
-        for (int column = 0; column < sheet.getColumnCount(); column++) {
+        uiController.removeSelectionListener(this);
+        /*for (int column = 0; column < sheet.getColumnCount(); column++) {
             for (int row = 0; row < sheet.getRowCount(); row++) {
-                for (CellListener cellListener : uiController.getActiveSpreadsheet().getCellListeners()) {
+                for (CellListener cellListener : sheet.getCellListeners()) {
                     sheet.getCell(column, row).removeCellListener(cellListener);
                     uiController.removeSelectionListener(this);
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -171,9 +173,10 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                             //showMessage("Message Received, has error");
                             return;
                         }
-                        String response = args[0];
+                        String response = args[2];
                         switch (response) {
                             case RESPONSE_WIN: {
+                                showSink(column, row);
                                 showWin();
                                 break;
                             }
@@ -189,8 +192,14 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                                 showWater(column, row);
                                 break;
                             }
+                            case RESPONSE_FAIL: {
+                                repeatPlay(column, row);
+                                break;
+                            }
                             default: {
-                                // ignore
+                                System.out.println("?!?");
+                                repeatPlay(column, row);
+                                break;
                             }
                         }
                     }
@@ -225,7 +234,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         uiController.getActiveWorkbook().addSpreadsheet();
         sheet = uiController.getActiveWorkbook().getSpreadsheet(
                 uiController.getActiveWorkbook().getSpreadsheetCount() - 1);
-        styleSheet = new StyleExtension().extend(sheet);
+        //styleSheet = new StyleExtension().extend(sheet);
+        styleSheet = (StylableSpreadsheet) sheet.getExtension(StyleExtension.NAME);
         //sheet = (StylableSpreadsheet)newSheet;
         styleSheet.setTitle(BattleshipController.GAME_NAME);
     }
@@ -331,31 +341,48 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void verifyPlay(int column, int row) {
         Cell cell = sheet.getCell(column, row);
-        int shoot = game.shoot(cell.getAddress());
         String message = column + ";" + row;
         int myColumn = column + marginOwnBoardColumn - marginColumn;
         int myRow = row + marginOwnBoardRow - marginRow;
+        int shoot;
+        System.out.println("\n\n\n");
+        try {
+            shoot = game.shoot(cell.getAddress(), marginColumn, marginRow);
+        } catch (VerifyError ex) {
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_FAIL);
+            System.out.println("SEND FAIL");
+            System.out.println("\n\n\n");
+            return;
+        }
         if (shoot == Battleship.SHOOT_SINK) {
             String playMessage = "Opponent sink a boat. ";
             showSink(myColumn, myRow);
             if (game.allShipsDestroyed()) {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WIN);
+                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WIN);
+                System.out.println("SEND WIN");
+                System.out.println("\n\n\n");
                 showLose();
-            } else {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_SINK);
-                playMessage += "Your turn ...";
-                showMessage(playMessage);
+                return;
             }
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_SINK);
+            System.out.println("SEND SINK");
+            System.out.println("\n\n\n");
+            playMessage += "Your turn ...";
+            showMessage(playMessage);
             return;
         }
         if (shoot == Battleship.SHOOT_HIT) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_HIT);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_HIT);
+            System.out.println("SEND HIT");
+            System.out.println("\n\n\n");
             showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
             return;
         }
         if (shoot == Battleship.SHOOT_FAIL) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WATER);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WATER);
+            System.out.println("SEND WATER");
+            System.out.println("\n\n\n");
             showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
             return;
@@ -438,6 +465,9 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         }
         if (!readyToPlay) {
             showMessage("It's required to select the ship to place before choosing the location.");
+            return;
+        }
+        if (!opponentReadyToPlay || !readyToPlay) {
             return;
         }
         if (turn) {
@@ -605,7 +635,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         showMessage("YOU WON THE GAME");
         stopGame();
     }
-    
+
     private void showLose() {
         showMessage("You lost, play again ...");
         stopGame();
@@ -616,12 +646,26 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void showHit(int column, int row) {
-        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
-        cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
+        StylableCell scell = (StylableCell) sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        Cell cell = sheet.getCell(column, row);
+        //cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
+        scell.setBackgroundColor(Color.GRAY);
+        try {
+            cell.setContent("X");
+        } catch (FormulaCompilationException ex) {
+            //Logger.getLogger(BattleshipController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void showWater(int column, int row) {
-        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        StylableCell cell = (StylableCell) sheet.getCell(column, row).getExtension(StyleExtension.NAME);
         cell.setBackgroundColor(Color.BLUE);
+    }
+
+    private void repeatPlay(int column, int row) {
+        //verifyPlay(column, row);
+        System.out.println("Column: " + column + "\nRow: " + row);
+        showMessage("Please repeat your play ...");
+        this.turn = true;
     }
 }

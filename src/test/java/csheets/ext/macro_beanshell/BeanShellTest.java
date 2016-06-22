@@ -6,14 +6,19 @@
 package csheets.ext.macro_beanshell;
 
 import csheets.CleanSheets;
+import csheets.core.Spreadsheet;
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.sheet.SpreadsheetTable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 /**
  *
  * @author Rui Bento
@@ -23,7 +28,19 @@ public class BeanShellTest {
     private UIController uiController;
     
     public BeanShellTest() {
-        this.uiController = UIController.getUIController();
+        Workbook wb = new Workbook(1);
+        String[][] content = new String[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                content[i][j] = "";
+            }
+        }
+        wb.addSpreadsheet(content);
+        uiController = new UIController();
+        Spreadsheet s = wb.getSpreadsheet(0);
+        SpreadsheetTable sst = new SpreadsheetTable(s, uiController);
+        uiController.focusOwner = sst;
+        uiController.setActiveSpreadsheet(s);
     }
     
     @BeforeClass
@@ -109,4 +126,24 @@ public class BeanShellTest {
         assertEquals(expResult, result);
     }
     
+    @Test
+    public void test_if_api_is_correctly_invoked() {
+        try {
+            String expResult = "CleansheetsAPI";
+            
+            uiController.getActiveSpreadsheet().getCell(0,0).setContent("CleansheetsAPI");
+            String code = "return api.getCell(0,0).getContent();";
+            
+            BeanShell instance = new BeanShell(uiController);
+            
+            String result = instance.run(code);
+            
+            assertNotNull(result);
+            assertEquals(result, expResult);
+        } catch (FormulaCompilationException ex) {
+            Logger.getLogger(BeanShellTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail("Formula error was found.");
+        }
+        
+    }
 }
