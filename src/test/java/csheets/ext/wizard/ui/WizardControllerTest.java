@@ -5,15 +5,10 @@
  */
 package csheets.ext.wizard.ui;
 
-import csheets.CleanSheets;
-import csheets.core.Cell;
-import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.Function;
 import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.Sum;
-import csheets.ui.ctrl.UIController;
-import csheets.ui.sheet.SpreadsheetTable;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,62 +23,56 @@ import org.junit.BeforeClass;
  */
 public class WizardControllerTest {
 
-    WizardController controller;
-    UIController uiController;
-    Function f1;
+	WizardController controller;
+	Function f1;
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+	@BeforeClass
+	public static void setUpClass() {
+	}
 
-    @AfterClass
-    public static void tearDownClass() {
-    }
+	@AfterClass
+	public static void tearDownClass() {
+	}
 
-    @Before
-    public void setUp() {
-        f1 = new Sum();
-        Workbook wb = new Workbook(1);
-        String[][] content = new String[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                content[i][j] = "";
-            }
-        }
-        wb.addSpreadsheet(content);
-        uiController = new UIController(new CleanSheets());
-        Spreadsheet s = wb.getSpreadsheet(0);
-        SpreadsheetTable sst = new SpreadsheetTable(s, uiController);
-        uiController.focusOwner = sst;
-        uiController.setActiveSpreadsheet(s);
-        controller = new WizardController(uiController);
-    }
+	@Before
+	public void setUp() {
+		f1 = new Sum();
+		Workbook wb = new Workbook(1);
+		String[][] content = new String[10][10];
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				content[i][j] = "";
+			}
+		}
+		wb.addSpreadsheet(content);
+		controller = new WizardController(null);
+	}
 
-    @After
-    public void tearDown() {
-    }
+	@After
+	public void tearDown() {
+	}
 
-    /**
-     * Test of getFunctions method, of class WizardController.
-     */
-    @Test
-    public void testGetFunctions() {
-        ArrayList<Function> list = new ArrayList();
-        for (Function func : Language.getInstance().getFunctions()) {
-            list.add(func);
-        }
-        FunctionListModel expected = new FunctionListModel(list);
-        assertEquals(expected, controller.getFunctions());
-    }
+	/**
+	 * Test of getFunctions method, of class WizardController.
+	 */
+	@Test
+	public void testGetFunctions() {
+		ArrayList<Function> list = new ArrayList();
+		for (Function func : Language.getInstance().getFunctions()) {
+			list.add(func);
+		}
+		FunctionListModel expected = new FunctionListModel(list);
+		assertEquals(expected, controller.getFunctions());
+	}
 
-    /**
-     * Test of getFunctionInfo method, of class WizardController.
-     */
-    @Test
-    public void testGetFunctionInfo() {
-        String expected = "={SUM(NUMERIC)}";
-        assertEquals(expected, controller.getFunctionInfo(f1));
-    }
+	/**
+	 * Test of getFunctionInfo method, of class WizardController.
+	 */
+	@Test
+	public void testGetFunctionInfo() {
+		String expected = "={SUM(NUMERIC)}";
+		assertEquals(expected, controller.getFunctionInfo(f1));
+	}
 
 //    /**
 //     * Test of testExecuteFormula method, of class WizardController.
