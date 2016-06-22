@@ -3,6 +3,7 @@ package csheets.persistence.jpa;
 import csheets.persistence.CalendarRepository;
 import csheets.persistence.ChatUserRepository;
 import csheets.persistence.ContactRepository;
+import csheets.persistence.EmailRepository;
 import csheets.persistence.EventRepository;
 import csheets.persistence.ListRepository;
 import csheets.persistence.NoteRepository;
@@ -53,5 +54,10 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public TaskRepository task() {
 		return new JpaTaskRepository();
+	}
+
+	@Override
+	public EmailRepository emails() {
+		return new JpaEmailRepository();
 	}
 }

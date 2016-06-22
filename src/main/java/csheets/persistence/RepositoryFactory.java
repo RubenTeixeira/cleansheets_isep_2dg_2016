@@ -21,4 +21,6 @@ public interface RepositoryFactory {
 	TaskRepository task();
 
 	ChatUserRepository chatUsers();
+
+	EmailRepository emails();
 }

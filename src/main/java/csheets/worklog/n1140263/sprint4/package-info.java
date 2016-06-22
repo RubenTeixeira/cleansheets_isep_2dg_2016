@@ -57,7 +57,8 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * TODO !!!!!!!!!!!!!!!!!!!!!!!!
+ * Test the email sending - with this im testing authentication, the connection
+ * to the server, email configuration and the email sending functionality.
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -137,11 +138,11 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Design. 2.Tests 3.Implementation
+ * 1. Improvement Design. 2. Implementation. 3.Tests
  * <p>
  * Today
  * <p>
- * 1. Tests. 2. Implementation.
+ * 1. Tests.
  * <p>
  * Blocking:
  * <p>
