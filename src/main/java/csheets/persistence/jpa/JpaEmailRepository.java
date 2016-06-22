@@ -4,19 +4,20 @@
  * and open the template in the editor.
  */
 package csheets.persistence.jpa;
-import csheets.domain.Reminder;
+
+import csheets.ext.email.InformationEmailSent;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
-import csheets.persistence.ReminderRepository;
+import csheets.persistence.EmailRepository;
 
 /**
  *
  * @author Gabriel
  */
-public class JpaReminderRepository  extends JpaRepository<Reminder, Long> implements ReminderRepository{
+public class JpaEmailRepository extends JpaRepository<InformationEmailSent, Long> implements EmailRepository {
 
-    @Override
-    protected String persistenceUnitName() {
-        return PersistenceSettings.PERSISTENCE_UNIT_NAME;
-    }
-    
+	@Override
+	protected String persistenceUnitName() {
+		return PersistenceSettings.PERSISTENCE_UNIT_NAME;
+	}
+
 }

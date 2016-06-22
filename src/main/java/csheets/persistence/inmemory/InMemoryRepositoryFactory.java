@@ -1,14 +1,15 @@
 package csheets.persistence.inmemory;
 
 import csheets.persistence.CalendarRepository;
+import csheets.persistence.ChatUserRepository;
 import csheets.persistence.ContactRepository;
+import csheets.persistence.EmailRepository;
 import csheets.persistence.EventRepository;
 import csheets.persistence.ListRepository;
 import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
 import csheets.persistence.TaskRepository;
-import csheets.persistence.ChatUserRepository;
 
 /**
  *
@@ -24,6 +25,7 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 	private static ListRepository listRepository = null;
 	private static TaskRepository taskRepository = null;
 	private static ChatUserRepository chatUserRepository = null;
+	private static EmailRepository emailRepository = null;
 
 	@Override
 	public ContactRepository contacts() {
@@ -87,5 +89,13 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 			chatUserRepository = new InMemoryChatUserRepository();
 		}
 		return chatUserRepository;
+	}
+
+	@Override
+	public EmailRepository emails() {
+		if (emailRepository == null) {
+			emailRepository = new InMemoryEmailRepository();
+		}
+		return emailRepository;
 	}
 }
