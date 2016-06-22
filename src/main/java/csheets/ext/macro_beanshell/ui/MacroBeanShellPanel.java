@@ -194,7 +194,7 @@ public class MacroBeanShellPanel extends javax.swing.JPanel {
 		String result = controller.executeCode(radioGroupScript.getSelection().
 			getActionCommand(), txtAreaCode.getText());
 		txtAreaResult.setEnabled(true);
-		txtAreaResult.setText(result);
+		txtAreaResult.setText(txtAreaResult.getText() + "\n" + result);
 
 		if (result.startsWith("Error: At")) {
 			String line = result.split(";")[0];
