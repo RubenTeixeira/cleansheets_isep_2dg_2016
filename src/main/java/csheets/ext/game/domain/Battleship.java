@@ -140,7 +140,13 @@ public class Battleship {
     }
 
     public int shoot(Address address) {
-        if (board[address.getColumn()][address.getRow()]) {
+        int column = address.getColumn();
+        int row = address.getRow();
+        if(column >= board.length
+                || row >= board[0].length) {
+            throw new VerifyError("Shoot outside of the board.");
+        }
+        if (board[column][row]) {
             throw new VerifyError("Already shoot that location.");
         }
         board[address.getColumn()][address.getRow()] = true;
