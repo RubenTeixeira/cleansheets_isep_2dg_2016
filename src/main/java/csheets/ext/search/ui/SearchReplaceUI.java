@@ -225,7 +225,7 @@ public class SearchReplaceUI extends javax.swing.JFrame implements Observer {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtReplace.setText("Type a text to replace...");
+        txtReplace.setText("Type new value for the replace...");
 
         txtReplace.addMouseListener(new MouseAdapter(){
             @Override
