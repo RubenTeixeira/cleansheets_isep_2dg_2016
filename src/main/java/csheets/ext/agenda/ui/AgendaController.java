@@ -6,6 +6,7 @@
 package csheets.ext.agenda.ui;
 
 import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Event;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
@@ -39,6 +40,21 @@ public class AgendaController {
 			list.add(contact);
 		}
 		return new ContactListModel(list);
+	}
+
+	/**
+	 * Returns a list model with the calendars of the contacts on the database
+	 *
+	 * @return ContactListModel
+	 */
+	public List<ContactCalendar> getCalendars() {
+		ArrayList<ContactCalendar> list = new ArrayList();
+		for (ContactCalendar calendar : PersistenceContext.repositories().
+			calendars().
+			all()) {
+			list.add(calendar);
+		}
+		return list;
 	}
 
 	/**
