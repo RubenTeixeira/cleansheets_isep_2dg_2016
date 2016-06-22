@@ -29,13 +29,13 @@ actor Actor
   end
   Controller -> Controller : columnNames[] = getHeader(cells)
   Controller -> DatabaseConnector : getInstance()
-  Controller -> DatabaseConnector : testConnection(String Driver,String connection)
-  Controller -> DatabaseConnector : doesTableExist(String Driver,String connection,String tableName)
+  Controller -> DatabaseConnector : setConnection(String Driver,String connection)
+  Controller -> DatabaseConnector : doesTableExist(String tableName)
   alt table already exits
-  Controller -> DatabaseConnector : dropTable(String Driver,String connection,String tableName)
+  Controller -> DatabaseConnector : dropTable(String tableName)
   end
-  Controller -> DatabaseConnector : createTable(String Driver,String connection,String tableName,String[] columnNames)
-  Controller -> DatabaseConnector : saveData(String Driver,String connection,String tableName,String[][] cells)
+  Controller -> DatabaseConnector : createTable(String tableName,String[] headers)
+  Controller -> DatabaseConnector : saveData(String tableName,String[][] cells)
   loop
     DatabaseConnector -> DatabaseConnector : Insert Column in database
   end
