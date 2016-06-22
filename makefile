@@ -12,3 +12,6 @@ console:
 
 antlr:
 	@./scripts/antlr.sh
+
+chat:
+	@./scripts/chat.sh
