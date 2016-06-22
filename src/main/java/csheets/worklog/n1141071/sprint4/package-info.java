@@ -86,19 +86,24 @@
  *
  * <b>Tuesday</b>
  * <ul>
- * <li></li>
+ * <li>Helping other team area understanding their UC.</li>
+ * <li>Continuing the UC implementation.</li>
  * </ul>
  * 
  * 
  * <b>Wednesday</b>
  * <ul>
- * <li></li>
+ * <li>Helping other team area understanding their UC.</li>
+ * <li>Finish UC implementation.</li>
+ * <li>Start UC tests implementation.</li>
  * </ul>
  * 
  * 
  * <b>Thursday</b>
  * <ul>
- * <li></li>
+ * <li>Finish UC tests implementation.</li>
+ * <li>Update javadoc.</li>
+ * <li>Update worklog.</li>
  * </ul>
  * 
  *
@@ -119,7 +124,12 @@
  * 
  * 
  * <h3>10.2. Teamwork:</h3>
- * <p></p>
+ * <p>Helped IPC02_03 analysis</p>
+ * <p>Helped IPC03_03 analysis and design</p>
+ * <p>Helped IPC04_03 analysis and design</p>
+ * <p>Helped IPC05_03 analysis and design</p>
+ * <p>Helped IPC06_03 analysis, design and implementation</p>
+ * <p>Helped IPC08_01 analysis, design and implementation</p>
  * 
  * <h3>10.3. Technical Documentation:</h3>
  * <p></p>
