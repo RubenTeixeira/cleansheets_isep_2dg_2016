@@ -171,7 +171,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                             //showMessage("Message Received, has error");
                             return;
                         }
-                        String response = args[0];
+                        String response = args[2];
                         switch (response) {
                             case RESPONSE_WIN: {
                                 showWin();
@@ -339,23 +339,23 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
             String playMessage = "Opponent sink a boat. ";
             showSink(myColumn, myRow);
             if (game.allShipsDestroyed()) {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WIN);
+                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WIN);
                 showLose();
             } else {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_SINK);
+                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_SINK);
                 playMessage += "Your turn ...";
                 showMessage(playMessage);
             }
             return;
         }
         if (shoot == Battleship.SHOOT_HIT) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_HIT);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_HIT);
             showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
             return;
         }
         if (shoot == Battleship.SHOOT_FAIL) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + RESPONSE_WATER);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_WATER);
             showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
             return;
