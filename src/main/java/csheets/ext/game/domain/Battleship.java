@@ -36,9 +36,9 @@ public class Battleship {
     }
 
     public enum BattleshipGameType {
-        TYPE_1(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+        TYPE_1(new Ship.ShipType[]{/*Ship.ShipType.AircraftCarrier,
             Ship.ShipType.Battleship, Ship.ShipType.Submarine,
-            Ship.ShipType.Destroyer, Ship.ShipType.PatrolBoat}),
+            Ship.ShipType.Destroyer, */Ship.ShipType.PatrolBoat}),
         TYPE_2(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
             Ship.ShipType.Battleship, Ship.ShipType.Submarine,
             Ship.ShipType.Destroyer, Ship.ShipType.SmallDestroyer}),
@@ -142,10 +142,10 @@ public class Battleship {
     public int shoot(Address address, int marginColumn, int marginRow) {
         int column = address.getColumn();
         int row = address.getRow();
-        if (column <= marginColumn
-                || column > board.length + marginColumn
-                || row <= marginRow
-                || row > board[0].length + marginRow) {
+        if (column < marginColumn
+                || column >= board.length + marginColumn
+                || row < marginRow
+                || row >= board[0].length + marginRow) {
             throw new VerifyError("Shoot outside of the board.");
         }
         if (board[column][row]) {
