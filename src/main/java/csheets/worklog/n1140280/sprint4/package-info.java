@@ -10,7 +10,8 @@
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.
+ * -Notes about the week's work. Use case took the whole week Helped in design
+ * options in the 7.3 Tictactoe game
  *
  * <h2>2. Use Case/Feature: IPC04.3</h2>
  *
@@ -42,8 +43,8 @@
  * Should the user be able to specify the database driver?</p>
  * Yes it should
  * <p>
- * Can the user choose a non existent file to export to?</p>
- * No and it should return error
+ * Can the user choose a non existent table to export to?</p>
+ * Yes the table should be created
  * <p>
  * Should JPA be used in the use case?</p>
  * No it is not apropriatte
@@ -51,8 +52,12 @@
  * A class to interact with new tables on different databases should be stored
  * in persistence? No, different package
  * </p>
+ * <p>
+ * What happens when a table already exixts in a database?
+ * It should be dropped and a new table should be created
  * </p>
- * After the questions were solved anylisis is complete and going for design
+ * </p>
+ * After the questions were awnsered design and test started
  * <h3>Analysis sequence diagram</h3>
  * <p>
  * </p>
@@ -69,9 +74,9 @@
  * <img src="doc-files/design_IPC_4_3_Import.png" alt="image">
  * </p>
  * <h3>5.1. Primary Unit Tests</h3>
- * Primary -unit testing is to ensure basic functionality
+ * Primary -unit testing is to ensure basic functionality of database connections
  * <p>
- * 1. Try create a test database and vefify that it exist
+ * 1. Try create a test database and vefify that it exists
  * </p>
  * <p>
  * 2. Try dropping a test database and verify it doesn't exist
@@ -93,11 +98,11 @@
  * 1. Export and import a 4x4 matrix to ensure basic export and import are
  * working </p>
  * <p>
- * 2. Export and import a non selected cell to ensure the returned matriz is
+ * 2. Export and import a non selected cell to ensure the returned matrix is
  * from A1-Z25</p>
  * <p>
  * 3. Export and import a matrix having all cells content to ensure all values
- * are being saved correclty</p>
+ * are being saved correctly</p>
  * <p>
  * 4. Export to a invalid database connection and ensure an error is
  * returning</p>
@@ -107,14 +112,17 @@
  * <p>
  * 6. Import to a non existent table and ensure an error is returning</p>
  * <p>
- * 7. Export to a already exixting table and ensure an error is returning</p>
+ * 7. Export to a already existing table and ensure an error is returning</p>
  * </p>
  *
+ * Some unit tests are not implemented since the method getSelectedCells is required which can
+ * only be called by instation of the full clean sheets instanciation
  *
  * <h2>6. Implementation</h2>
  * Implemented a Singleton class to deal with database conection, most of the
- * code is based on queries that work with the database Controller manages
- * interaction between data acess layer and the UI
+ * code is based on queries that work with the database.
+ * Controller manages interaction between data acess layer and the UI mostly by gettting and
+ * setting the selected cells content
  *
  *
  * <h2>9. Work Log</h2>
@@ -146,17 +154,19 @@
  * Afternoon: Applied test driven development to implement the DatabaseConnector
  * had some doubts regarding jdbc and took more time than planned reading about
  * it
+ * Night: Started conecting UI buttons to DatabaseConnector using controller methods,
+ * testing while implementing
+ * </p>
+ * <p>
+ * Tomorrow: Finish conecting UI buttons to DatabaseConnector
+ * <b>Wednsday</b>
+ * <p>
+ * Morning: Finished conecting UI buttons to DatabaseConnector,functional feature but some refractor and
+ * documentation still needed
+ * Afteroon: Finishing the UC and helped IPC 7.3 Battleship game
  * </p>
  * <p>
  * Tomorrow:
- * <b>Wednsday</b>
- * <p>
- * </p>
- * <p>
- * Tomorrow:
- * </p>
- * <b>Wednsday</b>
- * <p>
  * </p>
  *
  * <h2>10. Self Assessment</h2>
