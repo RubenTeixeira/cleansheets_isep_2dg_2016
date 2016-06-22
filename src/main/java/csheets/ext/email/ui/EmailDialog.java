@@ -45,12 +45,12 @@ public class EmailDialog extends javax.swing.JFrame {
 	/**
 	 * Create a email dialog.
 	 *
-	 * @param controller
-	 * @param uiController
-	 * @param mail
-	 * @throws java.io.IOException
-	 * @throws java.io.FileNotFoundException
-	 * @throws javax.mail.MessagingException
+	 * @param controller the controller
+	 * @param uiController the UI controller
+	 * @param mail the mail
+	 * @throws java.io.IOException io Exception
+	 * @throws java.io.FileNotFoundException file exception
+	 * @throws javax.mail.MessagingException message Exception
 	 */
 	public EmailDialog(EmailController controller, UIController uiController,
 					   Email mail) throws IOException, FileNotFoundException, MessagingException {
@@ -79,9 +79,9 @@ public class EmailDialog extends javax.swing.JFrame {
 	/**
 	 * Configure properties and configure email, update properties.
 	 *
-	 * @throws FileNotFoundException
-	 * @throws IOException
-	 * @throws MessagingException
+	 * @throws FileNotFoundException file exception
+	 * @throws IOException io exception
+	 * @throws MessagingException message exception
 	 */
 	public void configure() throws FileNotFoundException, IOException, MessagingException {
 		Properties props = new Properties();

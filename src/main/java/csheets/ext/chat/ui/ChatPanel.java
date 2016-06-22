@@ -15,6 +15,8 @@ public class ChatPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ChatPanel
+	 *
+	 * @param uiController The UIController
 	 */
 	public ChatPanel(UIController uiController) {
 		this.initComponents();

@@ -38,6 +38,7 @@ public class AgendaFrame extends javax.swing.JFrame {
 	 * Creates new form AgendaFrame
 	 *
 	 * @param uiController UIController
+	 * @param parent ui parent
 	 */
 	public AgendaFrame(UIController uiController, JFrame parent) {
 		controller = new AgendaController(uiController);

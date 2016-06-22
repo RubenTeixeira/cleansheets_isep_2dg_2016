@@ -102,14 +102,13 @@
  * if the script is created , edited properly, eliminated and if runs.
  *
  * <p>
- * see: <code>csheets\core\WorkbookTest</code>
+ * see: <code>csheets.core.WorkbookTest</code>
  * </p>
  * <p>
- * see: <code>csheets\ext\macro_beanshell\CodeTest</code>
+ * see: <code>csheets.ext.macro_beanshell.CodeTest</code>
  * </p>
  * <p>
- * see:
- * <code>csheets\ext\macro_beanshell\MacroBeanShellControllerTest.java</code>
+ * see: <code>csheets.ext.macro_beanshell.MacroBeanShellControllerTest</code>
  * </p>
  *
  * <h3>5.2. UC Realization</h3>
