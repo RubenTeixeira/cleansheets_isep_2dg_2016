@@ -427,9 +427,9 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private boolean isInsideBoard(Cell cell) {
         return cell.getAddress().getColumn() >= marginColumn
-                && cell.getAddress().getColumn() <= marginColumn + boardsize.size()
+                && cell.getAddress().getColumn() < marginColumn + boardsize.size()
                 && cell.getAddress().getRow() >= marginRow
-                && cell.getAddress().getRow() <= marginRow + boardsize.size();
+                && cell.getAddress().getRow() < marginRow + boardsize.size();
     }
 
     private boolean isShip(Cell cell) {
