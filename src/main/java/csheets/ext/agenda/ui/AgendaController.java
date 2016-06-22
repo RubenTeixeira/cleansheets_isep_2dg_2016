@@ -73,6 +73,27 @@ public class AgendaController {
 		return list;
 	}
 
+	/**
+	 * Returns a list of events for a given date, contact and calendar
+	 *
+	 * @param date date
+	 * @param contact contact
+	 * @return list of events
+	 */
+	public List<Event> updateEvents(Calendar date, Contact contact,
+									ContactCalendar calendar) {
+		ArrayList<Event> list = new ArrayList<Event>();
+		for (Event event : PersistenceContext.repositories().events().
+			eventsContactPerDayPerCalendar(contact, date, calendar)) {
+			list.add(event);
+		}
+		return list;
+	}
+
+	public void saveEvent(Event theEvent) {
+		PersistenceContext.repositories().events().save(theEvent);
+	}
+
 	public Calendar nextDay(Calendar calendar) {
 		calendar.add(Calendar.DATE, 1);
 		return calendar;
@@ -81,6 +102,10 @@ public class AgendaController {
 	public Calendar previousDay(Calendar calendar) {
 		calendar.add(Calendar.DATE, -1);
 		return calendar;
+	}
+
+	public void deleteEvent(Event theEvent) {
+		PersistenceContext.repositories().events().delete(theEvent);
 	}
 
 }
