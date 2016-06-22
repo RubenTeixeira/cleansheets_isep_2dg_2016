@@ -97,8 +97,8 @@
  * </p>
  * 
  * <p>
- * <b>Important:<b> This diagram assumes that the interaction with the User was already made (check earlier feature increments), and therefore we are already on the run() method of BeanShell class.
- * <p>
+ * Important: This diagram assumes that the interaction with the User was already made (check earlier feature increments), and therefore we are already on the run() method of BeanShell class.
+ * </p>
  * <p>
  * <img src="doc-files/api_beanshell_connection.png" alt="Associating the API with the BeanShell.">
  * </p>
@@ -167,16 +167,46 @@
  * <h2>10. Self Assessment</h2>
  *
  * <p>
- * Outcome 3 ("Design and Implementation") - ?</p>
+ * Outcome 3 ("Design and Implementation") - 3</p>
  * <p>
- * Outcome 5 ("Teamwork") - ?</p>
+ * Outcome 5 ("Teamwork") - 3</p>
  * <p>
- * Outcome 6 ("Technical Documentation") - ?</p>
+ * Outcome 6 ("Technical Documentation") - 3</p>
  *
  * <h3>10.1. Design and Implementation:</h3>
  *
  * <p>
  * <b>Evidences:</b>
+ * </p>
+ * 
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/c49f1aebee469894b18b580e434e582f82d2586c">Finished working on the analysis.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/9274d5e9d812aa01dd1631f01a5796224e65574b">Hotfix on last commit. (Did not commit the correct changes)</a>
+ * </p>
+ * 
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/07fb7ef5b0a1afa6a726d4803345ea8dfd045529">Finishing design. Still a few fixes to do.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/3ffefa55a29795b6a512f030418e5f321ad2e8e9">Finished design.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/44778b979a3c7359c18058fa53cf5d59ce70b658">Finished design.</a>
+ * </p>
+ * 
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/32078b9467446f790d194d7d6a4e1b71a182f13b">Fixed tests.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/61032575551072186bf3ce15464c054b08f96a46">Added and improved tests.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/0540b08f4390d6050b1ca77189f5ae0dc39bc670">Uncommented tests and added functional test to the worklog.</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/235fa9a0f560a2c8834762e08097fb53bf52da45">Finished the skeleton of the API (and applied changes covered in the design).</a>
  * </p>
  * 
  * 
