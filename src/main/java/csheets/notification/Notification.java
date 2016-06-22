@@ -43,6 +43,8 @@ public class Notification {
 	};
 	private static Notifier filesInformer = new Notifier() {
 	};
+	private static Notifier exploreInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -106,6 +108,10 @@ public class Notification {
 
 	public static Notifier filesInformer() {
 		return Notification.filesInformer;
+	}
+
+	public static Notifier exploreInformer() {
+		return Notification.exploreInformer;
 	}
 
 }

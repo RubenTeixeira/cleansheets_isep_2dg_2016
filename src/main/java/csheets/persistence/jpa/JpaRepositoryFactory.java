@@ -6,10 +6,13 @@ import csheets.persistence.ContactRepository;
 import csheets.persistence.EmailRepository;
 import csheets.persistence.EventRepository;
 import csheets.persistence.ListRepository;
+import csheets.persistence.MessageRepository;
 import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
+import csheets.persistence.RoomRepository;
 import csheets.persistence.TaskRepository;
+import csheets.persistence.UserRepository;
 
 /**
  *
@@ -59,5 +62,20 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public EmailRepository emails() {
 		return new JpaEmailRepository();
+	}
+
+	@Override
+	public RoomRepository rooms() {
+		return new JpaRoomRepository();
+	}
+
+	@Override
+	public UserRepository users() {
+		return new JpaUserRepository();
+	}
+
+	@Override
+	public MessageRepository messages() {
+		return new JpaMessageRepository();
 	}
 }

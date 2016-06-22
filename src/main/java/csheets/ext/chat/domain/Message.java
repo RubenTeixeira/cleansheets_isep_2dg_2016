@@ -13,9 +13,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,28 +32,53 @@ public class Message implements Serializable {
 	@GeneratedValue
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
-	private Room room;
-
-	@ManyToOne(cascade = CascadeType.MERGE)
-	private User user;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar date;
-
-	private String content;
 
 	@OneToOne(cascade = CascadeType.MERGE)
 	private List<Message> answers;
 
+	@Enumerated(EnumType.STRING)
+	private Type type;
+
+	private String host;
+
+	private String name;
+
+	private String content;
+
+	public enum Type {
+		USER, ROOM
+	}
+
 	protected Message() {
 	}
 
-	public Message(Room room, User user, Calendar date, String content) {
-		this.room = room;
-		this.user = user;
+	public Message(User user, Calendar date, String content) {
+		this.host = user.name();
+		this.name = user.nickname();
 		this.date = date;
 		this.content = content;
+		this.type = Type.USER;
+		this.answers = new ArrayList();
+	}
+
+	public Message(Room room, Calendar date, String content) {
+		this.host = room.creator().name();
+		this.name = room.name();
+		this.date = date;
+		this.content = content;
+		this.type = Type.ROOM;
+		this.answers = new ArrayList();
+	}
+
+	public Message(String host, String name, Calendar date, String content,
+				   Type type) {
+		this.host = host;
+		this.name = name;
+		this.date = date;
+		this.content = content;
+		this.type = type;
 		this.answers = new ArrayList();
 	}
 
@@ -65,7 +91,7 @@ public class Message implements Serializable {
 	}
 
 	public Message addAnswers(Calendar date, String content) {
-		Message answer = new Message(this.room, this.user, date, content);
+		Message answer = new Message(this.host, this.name, date, content, this.type);
 		if (this.answers.add(answer)) {
 			return answer;
 		}
@@ -74,16 +100,19 @@ public class Message implements Serializable {
 
 	@Override
 	public String toString() {
-		return DateTime.format(this.date, "YYYY/MM/dd hh:mm (") + this.user + ") " + this.content;
+		String info = DateTime.format(this.date, "YYYY/MM/dd hh:mm (");
+		if (this.type == Type.ROOM) {
+			info += "room";
+		} else {
+			info += "user";
+		}
+		return info + " " + this.name + "(" + this.host + ")" + this.content;
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 29;
-		hash = hash * 11 + Objects.hashCode(this.room);
-		hash = hash * 11 + Objects.hashCode(this.user);
-		hash = hash * 11 + Objects.hashCode(this.date);
-		hash = hash * 11 + Objects.hashCode(this.content);
+		hash = hash * 11 + Objects.hashCode(this.id);
 		return hash;
 	}
 

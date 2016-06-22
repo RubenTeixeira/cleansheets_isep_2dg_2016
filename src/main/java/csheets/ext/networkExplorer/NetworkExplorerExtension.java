@@ -1,5 +1,6 @@
 package csheets.ext.networkExplorer;
 
+import csheets.ext.networkExplorer.ui.UIExtensionNetworkExplorer;
 import csheets.ext.events.*;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;

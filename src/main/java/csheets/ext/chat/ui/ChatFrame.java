@@ -20,7 +20,7 @@ public class ChatFrame extends javax.swing.JFrame {
 		this.initComponents();
 		this.setLocationRelativeTo(null);
 		this.setLayout(new BorderLayout());
-		this.add(new ChatPanel(null), BorderLayout.CENTER);
+		this.add(new UsersPanelRemake(null), BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
 	}

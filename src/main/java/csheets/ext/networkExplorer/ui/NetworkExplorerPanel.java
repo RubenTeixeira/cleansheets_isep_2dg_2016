@@ -8,6 +8,7 @@ import csheets.ext.networkExplorer.domain.SpreadSheetInfo;
 import csheets.ext.networkExplorer.domain.WorkbookInfo;
 import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -18,76 +19,88 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer {
 
-    private final NetworkExplorerController controller;
+	private final NetworkExplorerController controller;
 
-    private final UIController uiController;
-    /**
-     * Hostname
-     */
-    private String host;
+	private final UIController uiController;
+	/**
+	 * Hostname
+	 */
+	private String host;
 
+	/**
+	 * Creates new form NetworkExplorerPanel
+	 *
+	 * @param uiController The user interface controller.
+	 *
+	 */
+	public NetworkExplorerPanel(UIController uiController) {
+		this.uiController = uiController;
+		this.controller = new NetworkExplorerController();
+		this.setName(EventsExtension.NAME);
+		this.initComponents();
+		this.update(null, null);
+		Notification.exploreInformer().addObserver(this);
+	}
 
-    /**
-     * Creates new form NetworkExplorerPanel
-     *
-     * @param uiController The user interface controller.
-     *
-     */
-    public NetworkExplorerPanel(UIController uiController) {
-        this.uiController = uiController;
-        this.controller = new NetworkExplorerController();
-        this.setName(EventsExtension.NAME);
-        this.initComponents();
-        final int defaultSeconds = 3;
-        this.controller.startUdpService(this, defaultSeconds);
-        this.update(null, null);
-        Notification.cellInformer().addObserver(this);
-    }
+	@Override
+	public void update(Observable o, Object arg) {
+		if (arg instanceof Map) {
+			Map<String, String> data = (Map) arg;
+			if (data.get("reference").equals("AppInfo")) {
+				this.controller.
+					appInfo(data.get("ip") + ":" + data.get("port"), data.
+							get("info"));
+			}
+		}
 
-    @Override
-    public void update(Observable o, Object arg) {
-        //instanceList receber lista de hosts. ao receber hots crio um novo tcp service
-        //para cada host da lista, receber a sua cleansheet(for each)
-        controller.receiveCleansheets(host);
-        
-        //cleans the tree
-        this.jTree.removeAll();
-        
-        //puts extensions in JTREE
-        for (AppInfo appInfo : controller.appInfoList()) {
-            DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTree.getModel().getRoot();
-	DefaultMutableTreeNode root = new DefaultMutableTreeNode(appInfo.getName());
-	treeRoot.add(root);
-            //puts workbooks in JTREE
-            for (WorkbookInfo wrk : appInfo.getWorkbooks()) {
-                DefaultMutableTreeNode workbookName = new DefaultMutableTreeNode(wrk.getName());
-                root.add(workbookName);
-                for (SpreadSheetInfo spreadsheet : wrk.getSheetsMap()) {
-                    DefaultMutableTreeNode spreadName = new DefaultMutableTreeNode(spreadsheet.getName());
-                    workbookName.add(spreadName);
-                }
-            }
-            //puts extensions in JTREE
-            for (ExtensionInfo ext : appInfo.getExtensions()) {
-                DefaultMutableTreeNode extName = new DefaultMutableTreeNode(ext.getName());
-                root.add(extName);
-                DefaultMutableTreeNode extActive = new DefaultMutableTreeNode(ext.getName());
-                DefaultMutableTreeNode extVersion = new DefaultMutableTreeNode(ext.getVersion());
-                DefaultMutableTreeNode extDescription = new DefaultMutableTreeNode(ext.getDescription());
-                extName.add(extActive);
-                extName.add(extVersion);
-                extName.add(extDescription);
+		//cleans the tree
+		this.jTree.removeAll();
 
-            }
-        }
-    }
+		//puts extensions in JTREE
+		for (AppInfo appInfo : controller.appInfoList()) {
+			DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTree.
+				getModel().getRoot();
+			DefaultMutableTreeNode root = new DefaultMutableTreeNode(appInfo.
+				getName());
+			treeRoot.add(root);
+			//puts workbooks in JTREE
+			for (WorkbookInfo wrk : appInfo.getWorkbooks()) {
+				DefaultMutableTreeNode workbookName = new DefaultMutableTreeNode(wrk.
+					getName());
+				root.add(workbookName);
+				for (SpreadSheetInfo spreadsheet : wrk.getSheetsMap()) {
+					DefaultMutableTreeNode spreadName = new DefaultMutableTreeNode(spreadsheet.
+						getName());
+					workbookName.add(spreadName);
+				}
+			}
+			//puts extensions in JTREE
+			for (ExtensionInfo ext : appInfo.getExtensions()) {
+				DefaultMutableTreeNode extName = new DefaultMutableTreeNode(ext.
+					getName());
+				root.add(extName);
+				DefaultMutableTreeNode extActive = new DefaultMutableTreeNode(ext.
+					getName());
+				DefaultMutableTreeNode extVersion = new DefaultMutableTreeNode(ext.
+					getVersion());
+				DefaultMutableTreeNode extDescription = new DefaultMutableTreeNode(ext.
+					getDescription());
+				extName.add(extActive);
+				extName.add(extVersion);
+				extName.add(extDescription);
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+			}
+		}
+		this.revalidate();
+		this.repaint();
+	}
+
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -105,23 +118,17 @@ public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 215, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addComponent(jLabel1)
+                .addGap(0, 227, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

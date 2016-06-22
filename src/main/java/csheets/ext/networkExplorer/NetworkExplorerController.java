@@ -5,119 +5,61 @@
  */
 package csheets.ext.networkExplorer;
 
-import csheets.core.Workbook;
-import csheets.ext.Extension;
 import csheets.ext.networkExplorer.domain.AppInfo;
 import csheets.ext.networkExplorer.domain.ExtensionInfo;
 import csheets.ext.networkExplorer.domain.SpreadSheetInfo;
 import csheets.ext.networkExplorer.domain.WorkbookInfo;
-import csheets.ext.networkExplorer.ui.NetworkExplorerPanel;
 import csheets.ui.ctrl.UIController;
-import csheets.ui.ext.UIExtension;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-	
+import java.util.Set;
 
 /**
  *
  * @author Diogo Azevedo
  */
 public class NetworkExplorerController {
-        private Map<String,AppInfo> infoMap;
-        private final String LOCALHOST="localHost";
-        private UIController uiController;
-        /**
+
+	private Map<String, AppInfo> infoMap;
+	private UIController uiController;
+	/**
 	 * The UDP Service.
 	 */
 	private UdpService udpService;
-        
-        public List<AppInfo> appInfoList() {
-            List<AppInfo> list = new ArrayList();
-            AppInfo app = new AppInfo("App");
-            WorkbookInfo w1 = new WorkbookInfo("work.cls");
-            WorkbookInfo w2 = new WorkbookInfo("work.cls");
-            SpreadSheetInfo s1 = new SpreadSheetInfo("folha 1");
-            SpreadSheetInfo s2 = new SpreadSheetInfo("folha 2");
-            SpreadSheetInfo s3 = new SpreadSheetInfo("folha 2");
-            app.addWorkbooks(w1);
-            app.addWorkbooks(w2);
-            w1.addSpreadSheet(s1);
-            w1.addSpreadSheet(s2);
-            w1.addSpreadSheet(s3);
-            w2.addSpreadSheet(s1);
-            w2.addSpreadSheet(s2);
-            w2.addSpreadSheet(s3);
-            app.addExtension(new ExtensionInfo(true,"extension1","3.8","todihss"));
-            list.add(app);
-            return list;
-        }
-        
-    	/**
-	 * Starts the UDP service.
-	 *
-	 * @param seconds The number of seconds to execute each request.
-	 */
-	private void startUdpService(int seconds) {
-		if (seconds <= 0) {
-			throw new IllegalArgumentException("Invalid seconds number given. It's not possible to register negative or zero seconds.");
-		}
 
-		try {
-			this.udpService.server();
-			this.udpService.client(seconds);
-		} catch (IllegalArgumentException e) {
-			this.udpService.stop();
-			throw e;
-		}
-	}
-
-	/**
-	 * Starts the UDP service.
-	 *
-	 * @param panel The user interface.
-	 * @param seconds The number of seconds to execute each request.
-	 */
-	public void startUdpService(NetworkExplorerPanel panel, int seconds) {
-		if (panel == null) {
-			throw new IllegalArgumentException("The user interface cannot be null.");
-		}
-
+	public NetworkExplorerController() {
 		this.udpService = new UdpService();
-		this.startUdpService(seconds);
-		this.udpService.addObserver(panel);
+		this.udpService.server();
+		this.udpService.client(5);
+		this.infoMap = new HashMap();
 	}
-        public void receiveCleansheets(String target){
-            new TcpService().client(target,"receive");
-        }
-        
-        public void infoExplorer(){
-            findExtension(LOCALHOST);
-            findWorkbooks(LOCALHOST);
-        }
 
-    private void findExtension(String id) {
-        for (UIExtension uiExtension : uiController.getExtensions()) {
-            Extension extension = uiExtension.getExtension();
-            //infoMap.get(id).addExtension(extension.getName(),new ExtensionInfo(extension.isEnabled(), extension.getName(), extension.getVersion(), extension.getDescription()));
-        }
-    }
+	public Set<AppInfo> appInfoList() {
+		Set<AppInfo> list = new HashSet();
+		for (AppInfo appInfo : this.infoMap.values()) {
+			list.add(appInfo);
+		}
+		return list;
+	}
 
-    private void findWorkbooks(String id) {
-        for (Workbook workbook : uiController.workbooks()) {
-            int index = uiController.workbooks().indexOf(workbook);
-            //WorkbookInfo newWorkbook = new WorkbookInfo(index);
-            //infoMap.get(id).addWorkbooks(index, newWorkbook);
-            findSpreadSheets(index, workbook);
-        }
-    }
+	public void appInfo(String name, String info) {
+		AppInfo app = new AppInfo(name);
+		WorkbookInfo workbook = null;
+		for (String line : info.split(";")) {
+			String[] data = line.split("-_-");
+			if (data[0].equals("Extension")) {
+				app.
+					addExtension(new ExtensionInfo(data[2].equals("true"), data[1], data[3], data[4]));
+			} else if (data[0].equals("Workbook")) {
+				workbook = new WorkbookInfo(data[1]);
+				app.addWorkbooks(workbook);
+			} else if (data[0].equals("Spreadsheet")) {
+				workbook.addSpreadSheet(new SpreadSheetInfo(data[1]));
+			}
+		}
+		this.infoMap.remove(name);
+		this.infoMap.put(name, app);
+	}
 
-    private void findSpreadSheets(int id, Workbook workbook) {
-        for (int i = 0; i < workbook.getSpreadsheetCount(); i++) {
-            //infoMap.get(id).addSpreadSheets(id, String.valueOf(i), new SpreadSheetInfo(i, workbook.getSpreadsheet(i).getTitle()));
-        }
-    }
 }
-    
-

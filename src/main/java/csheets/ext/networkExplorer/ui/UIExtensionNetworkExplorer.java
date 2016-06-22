@@ -1,4 +1,4 @@
-package csheets.ext.networkExplorer;
+package csheets.ext.networkExplorer.ui;
 
 import csheets.ext.Extension;
 import csheets.ext.networkExplorer.ui.NetworkExplorerPanel;

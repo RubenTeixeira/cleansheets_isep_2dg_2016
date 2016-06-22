@@ -23,4 +23,10 @@ public interface RepositoryFactory {
 	ChatUserRepository chatUsers();
 
 	EmailRepository emails();
+
+	RoomRepository rooms();
+
+	UserRepository users();
+
+	MessageRepository messages();
 }

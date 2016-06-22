@@ -33,11 +33,19 @@ public class User implements Serializable {
 
 	private String nickname;
 
+	private String ip;
+
+	private String port;
+
 	@Lob
 	private byte[] image;
 
 	@Enumerated(EnumType.STRING)
 	private State state;
+
+	public String target() {
+		return this.ip;
+	}
 
 	public enum State {
 		ONLINE, OFFLINE, AWAY
@@ -51,6 +59,16 @@ public class User implements Serializable {
 		this.nickname = nickname;
 		this.image = image;
 		this.state = state;
+	}
+
+	public User(String name, String nickname, byte[] image, State state,
+				String ip, String port) {
+		this.name = name;
+		this.nickname = nickname;
+		this.image = image;
+		this.state = state;
+		this.ip = ip;
+		this.port = port;
 	}
 
 	public String name() {

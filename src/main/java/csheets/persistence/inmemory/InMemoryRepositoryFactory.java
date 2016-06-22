@@ -6,10 +6,13 @@ import csheets.persistence.ContactRepository;
 import csheets.persistence.EmailRepository;
 import csheets.persistence.EventRepository;
 import csheets.persistence.ListRepository;
+import csheets.persistence.MessageRepository;
 import csheets.persistence.NoteRepository;
 import csheets.persistence.ReminderRepository;
 import csheets.persistence.RepositoryFactory;
+import csheets.persistence.RoomRepository;
 import csheets.persistence.TaskRepository;
+import csheets.persistence.UserRepository;
 
 /**
  *
@@ -26,6 +29,9 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 	private static TaskRepository taskRepository = null;
 	private static ChatUserRepository chatUserRepository = null;
 	private static EmailRepository emailRepository = null;
+	private static RoomRepository roomRepository = null;
+	private static UserRepository userRepository = null;
+	private static MessageRepository messageRepository = null;
 
 	@Override
 	public ContactRepository contacts() {
@@ -97,5 +103,29 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 			emailRepository = new InMemoryEmailRepository();
 		}
 		return emailRepository;
+	}
+
+	@Override
+	public RoomRepository rooms() {
+		if (roomRepository == null) {
+			roomRepository = new InMemoryRoomRepository();
+		}
+		return roomRepository;
+	}
+
+	@Override
+	public UserRepository users() {
+		if (userRepository == null) {
+			userRepository = new InMemoryUserRepository();
+		}
+		return userRepository;
+	}
+
+	@Override
+	public MessageRepository messages() {
+		if (messageRepository == null) {
+			messageRepository = new InMemoryMessageRepository();
+		}
+		return messageRepository;
 	}
 }
