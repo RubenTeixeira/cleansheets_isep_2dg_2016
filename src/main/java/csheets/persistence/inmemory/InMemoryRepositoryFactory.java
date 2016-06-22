@@ -1,5 +1,6 @@
 package csheets.persistence.inmemory;
 
+import csheets.persistence.AddressRepository;
 import csheets.persistence.CalendarRepository;
 import csheets.persistence.ChatUserRepository;
 import csheets.persistence.ContactRepository;
@@ -32,6 +33,7 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 	private static RoomRepository roomRepository = null;
 	private static UserRepository userRepository = null;
 	private static MessageRepository messageRepository = null;
+	private static AddressRepository addressRepository = null;
 
 	@Override
 	public ContactRepository contacts() {
@@ -127,5 +129,13 @@ public class InMemoryRepositoryFactory implements RepositoryFactory {
 			messageRepository = new InMemoryMessageRepository();
 		}
 		return messageRepository;
+	}
+
+	@Override
+	public AddressRepository addresses() {
+		if (addressRepository == null) {
+			addressRepository = new InMemoryAddressRepository();
+		}
+		return addressRepository;
 	}
 }

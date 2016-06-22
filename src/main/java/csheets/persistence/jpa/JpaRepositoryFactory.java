@@ -1,5 +1,6 @@
 package csheets.persistence.jpa;
 
+import csheets.persistence.AddressRepository;
 import csheets.persistence.CalendarRepository;
 import csheets.persistence.ChatUserRepository;
 import csheets.persistence.ContactRepository;
@@ -77,5 +78,10 @@ public class JpaRepositoryFactory implements RepositoryFactory {
 	@Override
 	public MessageRepository messages() {
 		return new JpaMessageRepository();
+	}
+
+	@Override
+	public AddressRepository addresses() {
+		return new JpaAddressRepository();
 	}
 }

@@ -6,9 +6,11 @@
 package csheets.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -50,6 +53,12 @@ public abstract class Contact implements Serializable {
 	private byte[] photo = null;
 
 	Set<String> tags;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private Address mainAddress = null;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	private Address secundaryAddress = null;
 
 	/**
 	 *
@@ -144,5 +153,40 @@ public abstract class Contact implements Serializable {
 
 	public void removeTag(String tag) {
 		this.tags.remove(tag);
+	}
+
+	public Address getMainAddress() {
+		return this.mainAddress;
+	}
+
+	public Address getSecundaryAddress() {
+		return this.secundaryAddress;
+	}
+
+	public void setMainAddress(Address mainAddress) {
+		this.mainAddress = mainAddress;
+	}
+
+	public void setSecundaryAddress(Address secundaryAddress) {
+		this.secundaryAddress = secundaryAddress;
+	}
+
+	public void removeAddress(Address address, boolean main) {
+		if (main) {
+			this.mainAddress = null;
+		} else {
+			this.secundaryAddress = null;
+		}
+	}
+
+	public Iterable<Address> contactAddress() {
+		ArrayList<Address> listAddresses = new ArrayList();
+		if (this.mainAddress != null) {
+			listAddresses.add(mainAddress);
+		}
+		if (this.secundaryAddress != null) {
+			listAddresses.add(secundaryAddress);
+		}
+		return listAddresses;
 	}
 }

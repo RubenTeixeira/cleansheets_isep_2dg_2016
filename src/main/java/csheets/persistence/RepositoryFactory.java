@@ -29,4 +29,6 @@ public interface RepositoryFactory {
 	UserRepository users();
 
 	MessageRepository messages();
+
+	AddressRepository addresses();
 }
