@@ -133,6 +133,10 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/bcc4c30632da65ddd628960274ade84c418fdf06">Design
  * commit 1</a></p>
  * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7ad79c9c5e6ce2532e98601ee9e8c5bf2e33b8f0">Design
+ * commit 2</a></p>
+ *
+ * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/06753dfada231475e46d4a1b3c9ff46a90b12e81">Tests</a></p>
  *
  * <p>
@@ -199,14 +203,13 @@
  *
  *
  *
- *
  * <b>Thursday</b>
  *
  * <p>
- * todo
+ * Small changes in worklog,helping others
  *
  * <p>
- * Blocking :
+ * Blocking : nothing
  * </p>
  *
  * <h2>10. Self Assessment</h2>
@@ -217,7 +220,9 @@
  *
  * <p>
  * <b>Evidences:</b>
- * </p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/48088e8d30f04b4322145779368ee96fcce2a2d2">
+ * this commit is related to the implementation of the design pattern
+ * "Strategy"</a></p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
