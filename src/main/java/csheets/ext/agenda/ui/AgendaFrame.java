@@ -5,14 +5,22 @@
  */
 package csheets.ext.agenda.ui;
 
-import com.toedter.calendar.JTextFieldDateEditor;
-import csheets.domain.Event;
+import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
+import csheets.ext.agenda.ui.CalendarView.AbstractCalendarViewPanel;
+import csheets.ext.agenda.ui.CalendarView.ExtendedViewPanel;
+import csheets.ext.agenda.ui.CalendarView.SimpleViewPanel;
 import csheets.ui.ctrl.UIController;
-import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 
 /**
  *
@@ -22,25 +30,67 @@ public class AgendaFrame extends javax.swing.JFrame {
 
 	AgendaController controller;
 
+	private AbstractCalendarViewPanel currentPanel;
+
+	private HashMap activeCalendars;
+
 	/**
 	 * Creates new form AgendaFrame
-         * @param uiController UIController
+	 *
+	 * @param uiController UIController
 	 */
-	public AgendaFrame(UIController uiController) {
+	public AgendaFrame(UIController uiController, JFrame parent) {
 		controller = new AgendaController(uiController);
-		setLocationRelativeTo(this);
+		setLocationRelativeTo(parent);
 		initComponents();
+		initData();
+	}
+
+	private void initData() {
+		activeCalendars = new HashMap<String, ContactCalendar>();
+		/* Current day */
 		jDateChooser1.setCalendar(Calendar.getInstance());
-		JTextFieldDateEditor editor = (JTextFieldDateEditor) jDateChooser1.
-			getDateEditor();
-		editor.setEditable(false);
+		/* Calendar Listener */
 		addListener();
+		/* Loads contact and calendar data and sets the default objects */
+		loadData();
+		/* Default view (simple) */
+		simpleRadioButton.setSelected(true);
+	}
+
+	private void loadData() {
 		loadContacts();
-		contactsComboBox.setSelectedIndex(0);
+		loadContactsCalendars();
+		if (contactsComboBox.getModel().getSize() != 0) {
+			contactsComboBox.setSelectedIndex(0);
+		}
 	}
 
 	private void loadContacts() {
 		contactsComboBox.setModel(controller.getContacts());
+	}
+
+	private void loadContactsCalendars() {
+		for (ContactCalendar cc : controller.getCalendars()) {
+			JCheckBox tmp = new JCheckBox(cc.getName());
+			tmp.addItemListener(new ItemListener() {
+
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					if (e.getStateChange() == ItemEvent.SELECTED) {
+						activeCalendars.put(cc.getName(), cc);
+					} else if (e.getStateChange() == ItemEvent.DESELECTED) {
+						activeCalendars.remove(cc.getName(), cc);
+					}
+					updateViewPanel();
+				}
+			});
+			calendarPanel.add(tmp);
+		}
+		/* Default calendar */
+
+		calendarPanel.revalidate();
+		calendarPanel.repaint();
 	}
 
 	private void addListener() {
@@ -49,42 +99,12 @@ public class AgendaFrame extends javax.swing.JFrame {
 			@Override
 			public void propertyChange(PropertyChangeEvent e) {
 				if ("date".equals(e.getPropertyName())) {
-					updateEvents();
+					if (currentPanel != null) {
+						currentPanel.updateEvents();
+					}
 				}
 			}
 		});
-	}
-
-	private void updateEvents() {
-		clearEventList();
-		Calendar currentDate = jDateChooser1.getCalendar();
-		List<Event> list = controller.
-			updateEvents(currentDate, ((ContactListModel) contactsComboBox.
-						 getModel()).getSelectedContact());
-		for (Event event : list) {
-			EventPanel panel = new EventPanel(event);
-			jPanel1.add(panel);
-			addGridRow();
-		}
-		this.jPanel1.revalidate();
-		this.jPanel1.repaint();
-
-	}
-
-	/*
-    * Deletes all information from event list.
-	 */
-	private void clearEventList() {
-		this.jPanel1.removeAll();
-		((GridLayout) this.jPanel1.getLayout()).setRows(5);
-	}
-
-	/*
-    * Layout specific: add's a row to the panel's layout (to prevent adding a new colummn).
-	 */
-	private void addGridRow() {
-		GridLayout layout = (GridLayout) this.jPanel1.getLayout();
-		layout.setRows(layout.getRows() + 1);
 	}
 
 	/**
@@ -96,7 +116,7 @@ public class AgendaFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         cancelButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         contactsComboBox = new javax.swing.JComboBox<>();
@@ -104,21 +124,20 @@ public class AgendaFrame extends javax.swing.JFrame {
         previousButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        theScrollPanel = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        simpleRadioButton = new javax.swing.JRadioButton();
+        ExtendedRadioButton = new javax.swing.JRadioButton();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        calendarPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Calendar");
+        setMaximumSize(new java.awt.Dimension(500, 633));
+        setMinimumSize(new java.awt.Dimension(500, 633));
+        setResizable(false);
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -155,63 +174,136 @@ public class AgendaFrame extends javax.swing.JFrame {
         jDateChooser1.setToolTipText("");
         jDateChooser1.setDoubleBuffered(false);
 
-        jPanel1.setMinimumSize(new java.awt.Dimension(390, 340));
-        jPanel1.setLayout(new java.awt.GridLayout());
-        jScrollPane1.setViewportView(jPanel1);
+        theScrollPanel.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        theScrollPanel.setMaximumSize(new java.awt.Dimension(490, 340));
+        theScrollPanel.setMinimumSize(new java.awt.Dimension(490, 340));
+        theScrollPanel.setPreferredSize(new java.awt.Dimension(490, 340));
+
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+
+        jLabel4.setText("View:");
+
+        buttonGroup1.add(simpleRadioButton);
+        simpleRadioButton.setText("Simple");
+        simpleRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                simpleRadioButtonItemStateChanged(evt);
+            }
+        });
+
+        buttonGroup1.add(ExtendedRadioButton);
+        ExtendedRadioButton.setSelected(true);
+        ExtendedRadioButton.setText("Extended");
+        ExtendedRadioButton.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ExtendedRadioButtonItemStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                .addComponent(simpleRadioButton)
+                .addGap(18, 18, 18)
+                .addComponent(ExtendedRadioButton)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 3, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(simpleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ExtendedRadioButton)))
+        );
+
+        jLabel3.setText("Calendar");
+
+        calendarPanel.setLayout(new java.awt.GridLayout(5, 1, 1, 1));
+        jScrollPane2.setViewportView(calendarPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(theScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(contactsComboBox, 0, 330, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2))
+                        .addGap(42, 42, 42))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(174, 174, 174)
+                .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(56, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(previousButton)
-                                .addGap(40, 40, 40)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cancelButton)
-                                    .addComponent(contactsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(30, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(54, 54, 54))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nextButton)
                     .addComponent(previousButton))
+                .addGap(9, 9, 9)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(theScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(contactsComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(cancelButton)
-                .addGap(31, 31, 31))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void contactsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactsComboBoxActionPerformed
-		updateEvents();
+		if (currentPanel != null) {
+			currentPanel.updateEvents();
+		}
     }//GEN-LAST:event_contactsComboBoxActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
@@ -228,17 +320,59 @@ public class AgendaFrame extends javax.swing.JFrame {
 		dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+	private void updateViewPanel() {
+		theScrollPanel.setViewportView(this.currentPanel);
+		this.currentPanel.updateEvents();
+	}
+
+    private void simpleRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_simpleRadioButtonItemStateChanged
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			this.currentPanel = new SimpleViewPanel(this);
+			updateViewPanel();
+		}
+    }//GEN-LAST:event_simpleRadioButtonItemStateChanged
+
+    private void ExtendedRadioButtonItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ExtendedRadioButtonItemStateChanged
+		if (evt.getStateChange() == ItemEvent.SELECTED) {
+			this.currentPanel = new ExtendedViewPanel(this);
+			updateViewPanel();
+		}
+    }//GEN-LAST:event_ExtendedRadioButtonItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton ExtendedRadioButton;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JPanel calendarPanel;
     private javax.swing.JButton cancelButton;
     private javax.swing.JComboBox<String> contactsComboBox;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton previousButton;
+    private javax.swing.JRadioButton simpleRadioButton;
+    private javax.swing.JScrollPane theScrollPanel;
     // End of variables declaration//GEN-END:variables
 
+	/* Access methods */
+	public Calendar calendar() {
+		return this.jDateChooser1.getCalendar();
+	}
+
+	public AgendaController controller() {
+		return this.controller;
+	}
+
+	public Contact selectedContact() {
+		return ((ContactListModel) contactsComboBox.getModel()).
+			getSelectedContact();
+	}
+
+	public List<ContactCalendar> selectCalendars() {
+		return new ArrayList<>(this.activeCalendars.values());
+	}
 }

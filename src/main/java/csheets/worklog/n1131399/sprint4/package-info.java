@@ -9,20 +9,31 @@
  * <b>Area Leader: no</b>
  *
  * <h2>1. Notes</h2>
- *
  * <p>
- * This new fucnionalidade is a continuation of what was developed in the third
- * week, will create the concept of rooms, a user creates a public or private
- * room will now be possible, interacting them with users.
+ * All the work was done as planned. Initially it was necessary to do some
+ * refatoring of some use after case, due to the fact they are not fully
+ * functional, affecting the performance of my use case. After being done with
+ * my feature I've helped to implement CRM02.1 Address Edition, CRM06.3 Tasks,
+ * Reminders, Events, IPC 08.1 File Sharing and also discussing Analysis and
+ * Design with my teammates of their respective feature.
+ * </p>
  *
- * <h2>2. Use Case/Feature: IPC05.3</h2>
  *
+ * <h2>2. Use Case/Feature: CRM04.3</h2>
+ *
+ * <b>Issue in Jira:</b>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-65">LPFOURDG-65</a>
+ * <b>Sub-tasks:</b>
  * <p>
- * Issue in Jira:
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-65">LPFOURDG-65
- * IPC05.3- Chat Rooms</a>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-322">LPFOURDG-322</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-323">LPFOURDG-323</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-324">LPFOURDG-324</a></p>
+ * <p>
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-325">LPFOURDG-325</a></p>
  *
- * <h2>3 Requirements</h2>
+ * <h2>3. Requirement</h2>
  * The chat extension should now support the concept of chat room. A chat room
  * can have several participants. Messages in a chat room are broadcasted to all
  * its members. The user that creates a chat room becomes its owner. There are 2
@@ -33,79 +44,179 @@
  * accept or reject the invitation. The sidebar should now display also the chat
  * rooms.
  *
- * <h2>4 Analysis</h2>
- * From sprint3 that the chat system is done (UC: IPC05.2). The hardest part to
- * implement in this UC is how to check if a chat user is online or offline. UDP
- * is going to be used to find new chat users and to check if already known
- * users are offline or online. TCP is going to be only used to send and receive
- * messages. Chat profile and chat history is going to be persisted using the
- * already implemented persistence framework.
+ * <h2>4. Analysis</h2>
+ * Initially I started by analyzing the Volt framework used throughout the
+ * development team and how it would help me in implementing the requested
+ * requirement. I analyzed the code so far produced by my colleagues and
+ * although it complies with the requirements so far solictiados, this new
+ * delivery will not be possible to use, so it is necessary refatoring which
+ * already affects the time it is not much to implement the new requirement.
+ * With regard to my use case does not raise many questions, and so its
+ * implementation after refatoring, more or less quiet. Users can send messages
+ * to the rooms, but for this, they must send a message to the "owner" of this
+ * room and know who is in it, doing so for the message order for all classroom
+ * participants. The "owners of the rooms" will share their public rooms in
+ * broadcast with the network.
+ *
+ * <p>
+ * <b>UIExtensionChat Class: </b>
+ * <p>
+ * Extends UIExtension. The User Interface known by the MenuBar of Find Chat
+ * Extension.
+ * </p>
+ *
+ * <b>ChatExtension Class: </b>
+ * <p>
+ * Therefore, an extension class should be implemented to support chat. The
+ * class will extend, as all already implemented extensions, the: Extension
+ * class (All Inheritance will be available further on this page).
+ * </p>
+ *
+ * <b>ChatFrame Class: </b>
+ * <p>
+ * Class responsible for opening chat outside clean
+ * </p>
+ *
+ * <b>ChatPanel Class: </b>
+ * <p>
+ * Chat panel with online users
+ * </p>
+ *
+ * <b>ChatPanelSingle Class: </b>
+ * <p>
+ * Each user panel
+ * </p>
+ *
+ * <b>RoomManage Class: </b>
+ * <p>
+ * Window responsible for creating room
+ * </p>
+ *
+ * <b>RoomPanel Class: </b>
+ * <p>
+ * SideBar with available rooms
+ * </p>
+ *
+ * <b>RoomPanelSingle Class: </b>
+ * <p>
+ * Panel with information from a room
+ * </p>
+ *
+ * <b>Tcp Service Class: </b>
+ * <p>
+ * Class of Service to ensure TCP connections
+ * </p>
+ *
+ * <b>Udp Service Class: </b>
+ * <p>
+ * Class of Service to ensure UDP connections
+ * </p>
+ *
+ * <b>Chat Controller Class: </b>
+ * <p>
+ * Class used by the user interface, responsible for ensuring support throughout
+ * the use case flow
+ * </p>
+ *
+ * <b>Message: </b>
+ * <p>
+ * Instantiates that keeps track of an incoming message
+ * </p>
+ *
+ * <b>Room: </b>
+ * <p>
+ * Instantiates that is a room with their respective data
+ * </p>
+ *
+ * <b>User: </b>
+ * <p>
+ * Instantiates representing a chat user
+ * </p>
+ *
+ * <b>JpaMessageRepository: </b>
+ * <p>
+ * Repository messages
+ * </p>
+ *
+ * <b>JpaRoomRepository: </b>
+ * <p>
+ * Repository rooms
+ * </p>
+ *
+ * <b>JpaUserRepository: </b>
+ * <p>
+ * Repository users
+ * </p>
  *
  * <h2>5. Design</h2>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.style</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
  *
- * <h3>6. Tests</h3>
+ * <img src="doc-files/crm04_3_design.png" alt="image">
  *
- * <h2>7. Implementation</h2>
- *
- * <h2>8. Integration/Demonstration</h2>
- *
- * <h2>9. Final Remarks</h2>
- *
- * <h2>10. Work Log</h2>
- *
+ * <h3>5.1. Functional Tests</h3>
  * <p>
+ * Tests will be performed for Class FindController to check if the order occurs
+ * as planned.
+ * </p>
+ *
+ * <h2>6. Implementation</h2>
+ * <p>
+ *
+ * </p>
+ *
+ * <h2>7. Commit Evidences</h2>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/1265adc504b711d80ba5264d2a428831176ebc87">Commit
+ * concerning Analysis</a>
+ * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a61dc9568fa13ada67c44bc975cea464a2554f30">Commit
+ * concerning Design</a>
+ * </p>
+ *
+ *
+ * <h2>8. Work Log</h2>
+ *
+ * <b>Sunday</b>
+ * <p>
+ * Analysis of the UC
+ * <p>
+ *
  * <b>Monday</b>
- * </p>
  * <p>
- * ...
- * </p>
+ * Design of the UC
  * <p>
+ * Helping IPC 08.1 File Sharing
+ * <p>
+ *
  * <b>Tuesday</b>
- * </p>
  * <p>
- * ...
- * </p>
+ * Implementation of the UC
  * <p>
+ * <p>
+ * Helping IPC 08.1 File Sharing
+ * <p>
+ *
  * <b>Wednesday</b>
- * </p>
  * <p>
- * ...
- * </p>
+ * Implementation and Testing of the UC
  * <p>
+ *
  * <b>Thursday</b>
- * </p>
  * <p>
- * ...
- * </p>
+ * Presentation to the client
+ *
+ *
+ * <h2>9. Self Assessment</h2>
  * <p>
- * <b>Friday</b>
- * </p>
- * <p>
- * ...
- * </p>
+ * All features worked as expected.
  *
+ * <h3>9.1. Design and Implementation:</h3>
  *
- * <h2>11. Self Assessment</h2>
+ * <h3>9.2. Teamwork: ...</h3>
  *
- * During this sprint, my work was mainly of analysis and study of the
- * application architecture.
+ * <h3>9.3. Technical Documentation: ...</h3>
  *
- * <h3>11.1. Design and Implementation:</h3>
- * <b>Evidences: ...</b>
- *
- * <h3>11.2. Teamwork: ...</h3>
- * ...
- *
- * <h3>11.3. Technical Documentation: ...</h3>
- * ...
- *
- * @author Marcelo Barroso 1131399
+ * @author Marcelo Barroso
  */
 package csheets.worklog.n1131399.sprint4;
 
@@ -113,7 +224,7 @@ package csheets.worklog.n1131399.sprint4;
  * This class is only here so that javadoc includes the documentation about this
  * EMPTY package! Do not remove this class!
  *
- * @author alexandrebraganca
+ * @author Marcelo Barroso
  */
 class _Dummy_ {
 }

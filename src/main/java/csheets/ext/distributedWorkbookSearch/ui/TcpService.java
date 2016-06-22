@@ -37,7 +37,6 @@ public class TcpService extends Notifier {
 	 *
 	 */
 	public void server() {
-		System.out.println("Created TCPServer");
 
 		ThreadManager.create("ipc.distributed-tcpServer", new Thread() {
 			@Override

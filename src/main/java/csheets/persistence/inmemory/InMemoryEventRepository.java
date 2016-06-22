@@ -5,8 +5,8 @@
  */
 package csheets.persistence.inmemory;
 
-import csheets.domain.ContactCalendar;
 import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Event;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.EventRepository;
@@ -21,47 +21,64 @@ import java.util.List;
  * @author Martins
  */
 class InMemoryEventRepository extends InMemoryRepository<Event, Long>
-        implements EventRepository {
+	implements EventRepository {
 
-    long nextID = 1;
+	long nextID = 1;
 
-    @Override
-    protected Long newPK(Event entity) {
-        return ++nextID;
-    }
+	@Override
+	protected Long newPK(Event entity) {
+		return ++nextID;
+	}
 
-    @Override
-    public Iterable<Event> eventsContact(Contact contact) {
-        List<Event> list = new ArrayList();
-        for (ContactCalendar calendar : PersistenceContext.repositories().calendars().
-                calendarsContact(contact)) {
-            for (Event event : this.eventsCalendar(calendar)) {
-                list.add(event);
-            }
-        }
-        return list;
-    }
+	@Override
+	public Iterable<Event> eventsContact(Contact contact) {
+		List<Event> list = new ArrayList();
+		for (ContactCalendar calendar : PersistenceContext.repositories().
+			calendars().
+			calendarsContact(contact)) {
+			for (Event event : this.eventsCalendar(calendar)) {
+				list.add(event);
+			}
+		}
+		return list;
+	}
 
-    @Override
-    public Iterable<Event> eventsCalendar(ContactCalendar calendar) {
-        List<Event> list = new ArrayList();
-        for (Event event : this.all()) {
-            if (event.calendar().equals(calendar)) {
-                list.add(event);
-                                        
-            }
-        }
-        return list;
-    }
+	@Override
+	public Iterable<Event> eventsCalendar(ContactCalendar calendar) {
+		List<Event> list = new ArrayList();
+		for (Event event : this.all()) {
+			if (event.calendar().equals(calendar)) {
+				list.add(event);
 
-    @Override
-    public Iterable<Event> eventsContactPerDay(Contact contact, Calendar date) {
-        List<Event> list = new ArrayList();
-        for (Event event : eventsContact(contact)) {
-            if(DateTime.isBetweenDates(event.startDate(), event.endDate(), date)){
-                list.add(event);
-            }
-        }
-        return list;
-    }
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Iterable<Event> eventsContactPerDay(Contact contact, Calendar date) {
+		List<Event> list = new ArrayList();
+		for (Event event : eventsContact(contact)) {
+			if (DateTime.
+				isBetweenDates(event.startDate(), event.endDate(), date)) {
+				list.add(event);
+			}
+		}
+		return list;
+	}
+
+	@Override
+	public Iterable<Event> eventsContactPerDayPerCalendar(Contact contact,
+														  Calendar date,
+														  ContactCalendar calendar) {
+		List<Event> list = new ArrayList();
+		for (Event event : eventsContact(contact)) {
+			if (DateTime.
+				isBetweenDates(event.startDate(), event.endDate(), date) && event.
+				calendar().equals(calendar)) {
+				list.add(event);
+			}
+		}
+		return list;
+	}
 }

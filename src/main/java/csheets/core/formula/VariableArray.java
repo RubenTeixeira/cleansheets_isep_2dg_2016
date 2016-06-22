@@ -52,7 +52,8 @@ public class VariableArray implements Serializable {
 	 */
 	private void initializeList() {
 		for (int i = 0; i < DEFAULT_SIZE; i++) {
-			array.add(null);
+			Value value = new Value(0);
+			array.add(value);
 		}
 	}
 
@@ -98,5 +99,15 @@ public class VariableArray implements Serializable {
 	 */
 	public List<Value> getArray() {
 		return this.array;
+	}
+
+	/**
+	 * TODO: this could be replaced by DTO or there is no need?
+	 *
+	 * @return Variable Name.
+	 */
+	@Override
+	public String toString() {
+		return this.variable;
 	}
 }

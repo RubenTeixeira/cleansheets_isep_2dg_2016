@@ -147,22 +147,6 @@ public class CellImpl implements Cell {
 		return value;
 	}
 
-//	/**
-//	 * TODO handle code. Same on workbook.
-//	 */
-//	private Map<String, Value> variables = new HashMap();
-//
-//	public void clearVariables() {
-//		this.variables.clear();
-//	}
-//
-//	public Value getVariable(String name) {
-//		return this.variables.get(name);
-//	}
-//
-//	public void addVariable(String name, Value value) {
-//		this.variables.put(name, value);
-//	}
 	/**
 	 * VARIABLES DEDICATED CODE. This code assembles all Variables associated
 	 * operations.
@@ -282,6 +266,10 @@ public class CellImpl implements Cell {
 	 * Updates the cell's value, and fires an event if it changed.
 	 */
 	private void reevaluate() {
+		this.reevaluate(true);
+	}
+
+	public void reevatuate_() {
 		this.reevaluate(true);
 	}
 
