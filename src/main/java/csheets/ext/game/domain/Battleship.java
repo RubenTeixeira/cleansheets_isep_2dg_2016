@@ -52,7 +52,7 @@ public class Battleship {
             Ship.ShipType.Battleship, Ship.ShipType.Cruiser,
             Ship.ShipType.SmallDestroyer, Ship.ShipType.SmallDestroyer,
             Ship.ShipType.SmallSubmarine, Ship.ShipType.SmallSubmarine});
-        
+
         private int totalShipCount;
         private Map<Ship.ShipType, Integer> lstShipTypes;
 
@@ -65,7 +65,7 @@ public class Battleship {
                 totalShipCount++;
             }
         }
-        
+
         private int getMaxShipTypeNum(Ship.ShipType st) {
             return lstShipTypes.get(st);
         }
@@ -82,7 +82,7 @@ public class Battleship {
     public List<Ship> getShips() {
         return lstShips;
     }
-    
+
     public Map<Ship.ShipType, Integer> getShipCount() {
         return gameType.lstShipTypes;
     }
@@ -116,16 +116,16 @@ public class Battleship {
                 shipTypeCounter++;
             }
         }
-        if(gameType.getMaxShipTypeNum(shipType) <= shipTypeCounter) {
+        if (gameType.getMaxShipTypeNum(shipType) <= shipTypeCounter) {
             throw new VerifyError("Exceded this ShipTypes for the selected game"
                     + " type.");
         }
-        if(!lstShips.add(newShip)) {
+        if (!lstShips.add(newShip)) {
             throw new VerifyError("Error adding newShip");
         }
         return newShip;
     }
-    
+
     public boolean isReadyToPlay() {
         return lstShips.size() == gameType.totalShipCount;
     }
@@ -139,11 +139,13 @@ public class Battleship {
         return true;
     }
 
-    public int shoot(Address address) {
+    public int shoot(Address address, int marginColumn, int marginRow) {
         int column = address.getColumn();
         int row = address.getRow();
-        if(column >= board.length
-                || row >= board[0].length) {
+        if (column <= marginColumn
+                || column > board.length + marginColumn
+                || row <= marginRow
+                || row > board[0].length + marginRow) {
             throw new VerifyError("Shoot outside of the board.");
         }
         if (board[column][row]) {

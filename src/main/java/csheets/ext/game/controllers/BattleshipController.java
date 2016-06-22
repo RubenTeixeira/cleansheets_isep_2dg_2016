@@ -176,6 +176,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                         String response = args[2];
                         switch (response) {
                             case RESPONSE_WIN: {
+                                showSink(column, row);
                                 showWin();
                                 break;
                             }
@@ -343,7 +344,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         int myRow = row + marginOwnBoardRow - marginRow;
         int shoot;
         try {
-            shoot = game.shoot(cell.getAddress());
+            shoot = game.shoot(cell.getAddress(), marginColumn, marginRow);
         } catch (VerifyError ex) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_FAIL);
             return;
@@ -647,6 +648,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void repeatPlay(int column, int row) {
         //verifyPlay(column, row);
+        System.out.println("Column: " + column + "\nRow: " + row);
         showMessage("Please repeat your play ...");
         this.turn = true;
     }
