@@ -34,7 +34,7 @@
  * the sorting column should change the sorting order.
  *
  * <h2>4. Analysis</h2>
- * <h3>Import XMLAuto-Sorting</h3>
+ * <h3>Auto-Sorting</h3>
  * The user selects a range of cells. When a user updates the content of the
  * range of cells sould maintain the order.
  *
@@ -46,7 +46,7 @@
  *
  *
  * <h3>Analysis of Core Technical Problem</h3>
- * The core of import data is to made it open to other formats to import
+ * The core of sort automatically is to maintain the order after changes.
  * <p>
  * <img src="doc-files/core_of_lang08.2.png" alt="image">
  *
@@ -67,10 +67,10 @@
  * documentation the elements depicted in these design diagrams exist in the
  * code!
  *
- * <h3>Import XML</h3>
+ * <h3>Auto-Sorting</h3>
  * The following diagram shows how import data from xml format
  * <p>
- * <img src="doc-files/lang08.2_design.png" alt="image">
+ * <img src="doc-files/core03.3_design.png" alt="image">
  *
  * <h3>5.3. Classes</h3>
  * <p>
@@ -78,7 +78,7 @@
  * <p>
  * Global Class Diagram
  * <p>
- * <img src="doc-files/ipc05.1_classdiagram.png" alt="image">
+ * <img src="doc-files/core03.3_classDiagram.png" alt="image">
  * <p>
  * -Document the implementation with class diagrams illustrating the new and the
  * modified classes-

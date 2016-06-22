@@ -158,16 +158,27 @@
  * <p>
  * <img src="http://i.imgur.com/ZZ2FQlV.jpg" alt="Class Diagram Analysis"></p>
  *
- *
  * <h3>Analysis of Core Technical Problem</h3>
  *
  * <h2>5. Design</h2>
+ *
+ * <h3>Class Diagram of Use Case - Array Variable Support.</h3>
+ * <p>
+ * <img src="http://i.imgur.com/y319gjS.jpg" alt="Class Diagram"></p>
  *
  * <h3>Functional Tests</h3>
  * <p>
  * Tests will be performed to test the used Grammar. If it recognizes all tokens
  * and rules associated with an Array Reference. All <code>evaluate()</code>
  * methods should also be tested for their specific behaviour.</p>
+ *
+ * <p>
+ * Tests were added for the Assign to test if the value assigned to a specific
+ * position of the Array works as expected.The tests performed in this Class
+ * also allow to test if the <code>ExcelExpressionCompiler</code> returns the
+ * <code>Reference</code> required to interpret whether if it is a
+ * <code>VariableLocalReference</code> or
+ * <code>VariableGlobalReference</code>.</p>
  *
  * <h3>UC Realization</h3>
  *
@@ -189,9 +200,51 @@
  * <p>
  * Today:
  * <p>
- * 1. Starte Analysis.
+ * 1. Started Analysis.
  * <p>
  * 1. Updated Formula.g file according to new Tokens and Expressions.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Monday</b>
+ * <p>
+ * Yesteday:
+ * <p>
+ * 1. Analysis developed as expected.
+ * <p>
+ * Today:
+ * <p>
+ * 1. First Design Solutions for first Use Case of this feature.
+ * <p>
+ * 2. Test Solutions for first Use Case.
+ * <p>
+ * 3. Implementation of the first Use Case.
+ * <p>
+ * 2. Reunion with Product Owner.
+ * <p>
+ * 2. Reunion with Manager.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Tuesday</b>
+ * <p>
+ * Yesteday:
+ * <p>
+ * 1. All Tasks from yesterday were done as expected.
+ * <p>
+ * Today:
+ * <p>
+ * 1. Updated Diagrams for first Use Case.
+ * <p>
+ * 2. Started Design - Class placement for Second Use Case of this Feature.
+ * <p>
+ * 2. Reunion with Supervisor.
  * <p>
  * Blocking:
  * <p>

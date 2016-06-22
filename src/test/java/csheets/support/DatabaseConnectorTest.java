@@ -24,7 +24,7 @@ import org.junit.runners.MethodSorters;
 public class DatabaseConnectorTest {
 
     String[][] content;
-    String tableName = "TESTESTES";
+    String tableName = "DatabaseConnectorTest";
     DatabaseConnector con;
 
     public DatabaseConnectorTest() {

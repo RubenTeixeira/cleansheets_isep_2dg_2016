@@ -6,6 +6,7 @@
 package csheets.ext.agenda.ui;
 
 import csheets.domain.Contact;
+import csheets.domain.ContactCalendar;
 import csheets.domain.Event;
 import csheets.persistence.PersistenceContext;
 import csheets.ui.ctrl.UIController;
@@ -42,6 +43,21 @@ public class AgendaController {
 	}
 
 	/**
+	 * Returns a list model with the calendars of the contacts on the database
+	 *
+	 * @return ContactListModel
+	 */
+	public List<ContactCalendar> getCalendars() {
+		ArrayList<ContactCalendar> list = new ArrayList();
+		for (ContactCalendar calendar : PersistenceContext.repositories().
+			calendars().
+			all()) {
+			list.add(calendar);
+		}
+		return list;
+	}
+
+	/**
 	 * Returns a list of events for a given date and contact
 	 *
 	 * @param date date
@@ -57,6 +73,27 @@ public class AgendaController {
 		return list;
 	}
 
+	/**
+	 * Returns a list of events for a given date, contact and calendar
+	 *
+	 * @param date date
+	 * @param contact contact
+	 * @return list of events
+	 */
+	public List<Event> updateEvents(Calendar date, Contact contact,
+									ContactCalendar calendar) {
+		ArrayList<Event> list = new ArrayList<Event>();
+		for (Event event : PersistenceContext.repositories().events().
+			eventsContactPerDayPerCalendar(contact, date, calendar)) {
+			list.add(event);
+		}
+		return list;
+	}
+
+	public void saveEvent(Event theEvent) {
+		PersistenceContext.repositories().events().save(theEvent);
+	}
+
 	public Calendar nextDay(Calendar calendar) {
 		calendar.add(Calendar.DATE, 1);
 		return calendar;
@@ -65,6 +102,10 @@ public class AgendaController {
 	public Calendar previousDay(Calendar calendar) {
 		calendar.add(Calendar.DATE, -1);
 		return calendar;
+	}
+
+	public void deleteEvent(Event theEvent) {
+		PersistenceContext.repositories().events().delete(theEvent);
 	}
 
 }

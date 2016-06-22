@@ -26,6 +26,7 @@
  * database column. This feature should be based in jdbc (Java Database
  * Connectivity). The user should specify a database connection to be used and
  * the name of the table.</p>
+ *
  * <h2>3. Requirement</h2>
  * <p>
  * Given a range of cells it should be possible to export those data into a
@@ -111,9 +112,9 @@
  *
  *
  * <h2>6. Implementation</h2>
- *  Implemented a Singleton class to deal with database conection, most of the code is based on queries that work 
- * with the database
- *  Controller manages interaction between data acess layer and the UI
+ * Implemented a Singleton class to deal with database conection, most of the
+ * code is based on queries that work with the database Controller manages
+ * interaction between data acess layer and the UI
  *
  *
  * <h2>9. Work Log</h2>
