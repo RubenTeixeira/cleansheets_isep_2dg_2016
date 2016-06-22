@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1140780) Ruben
- * Teixeira during week2.
+ * Teixeira during week3.
  *
  * <p>
  * <b>Scrum Master:</b> no
@@ -12,7 +12,8 @@
  *
  * <p>
  * I created an extra task concerning the creation of an Installer for the
- * application found in <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-303">LPFOURDG-303</a></p>
+ * application found in
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-303">LPFOURDG-303</a></p>
  * <p>
  * It contains a link to the package in the comments section.</p>
  *
@@ -235,7 +236,8 @@
  * the UDP and TCP services of search targets must be booted upon the extension
  * loading and not only when a new search is performed.</p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d"><b>COMMIT OF THE FIX</b></a>.</p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d"><b>COMMIT
+ * OF THE FIX</b></a>.</p>
  *
  * <p>
  * see:</p>
@@ -264,21 +266,29 @@
  *
  * <b>Implementation:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/248d53b7970d558fdb99edd6f855e86c0b19a588">Commit #1</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/248d53b7970d558fdb99edd6f855e86c0b19a588">Commit
+ * #1</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/2d3b9a701f9c8bb948e29e13a5564e15557e2a04">Commit #2</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/2d3b9a701f9c8bb948e29e13a5564e15557e2a04">Commit
+ * #2</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/1424ad1bbc4eaf8ca425afc7baa7311f3dc1be2c">Commit #3</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/1424ad1bbc4eaf8ca425afc7baa7311f3dc1be2c">Commit
+ * #3</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/46bfdad2be0f73b9b4820313734f56119fabe495">Commit #4</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/46bfdad2be0f73b9b4820313734f56119fabe495">Commit
+ * #4</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/4f9241c071d3abeed96269bc119c034fc5b3f692">Commit #5</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/4f9241c071d3abeed96269bc119c034fc5b3f692">Commit
+ * #5</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/0f30e2ed87d0411b56627ae01acaa0db7bf098ce">Commit #6</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/0f30e2ed87d0411b56627ae01acaa0db7bf098ce">Commit
+ * #6</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d">Commit #7</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d">Commit
+ * #7</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/5ae73818332aff8d92146c2adea216b4ea4403f8">Commit #8</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/5ae73818332aff8d92146c2adea216b4ea4403f8">Commit
+ * #8</a></p>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -292,11 +302,11 @@
  *
  * <p>
  * As previously, my intentions since the start of this sprint was to code while
- * thinking about future iterations. As such, after understanding the code already
- * present (including volt), evaluating its pros and cons, I took manners in
- * changing what i thought could be improved and structure the code (even class
- *  and methods naming) to improve readability and easy access to others,
- * following patterns when I thought it was suited.</p>
+ * thinking about future iterations. As such, after understanding the code
+ * already present (including volt), evaluating its pros and cons, I took
+ * manners in changing what i thought could be improved and structure the code
+ * (even class and methods naming) to improve readability and easy access to
+ * others, following patterns when I thought it was suited.</p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -329,11 +339,10 @@
  * <p>
  * 2. Did most of the implementation.
  * <p>
- * Blocking:
- * - Volt implementation was undergoing change to support the use of a Request
- * object to abstract from the use of an HashMap representation of a message.
- * Although this was a welcomed fix, it delayed implementation and real-world
- * testing, as i also had to rewrite some of my code.
+ * Blocking: - Volt implementation was undergoing change to support the use of a
+ * Request object to abstract from the use of an HashMap representation of a
+ * message. Although this was a welcomed fix, it delayed implementation and
+ * real-world testing, as i also had to rewrite some of my code.
  *
  * <p>
  * <b>Thursday</b>
@@ -357,8 +366,8 @@
  * since this was my first contact with IPC and Volt, my work was doubled.</p>
  * <p>
  * Given this, i found my perfomance this week to be astonishing since I
- * overcame all the issues, learned a lot and ended up with quite a nice
- * feature presentation and execution.
+ * overcame all the issues, learned a lot and ended up with quite a nice feature
+ * presentation and execution.
  *
  * <h3>10.1. Design and Implementation</h3>
  *
@@ -393,8 +402,8 @@
  * <p>
  * <img src="http://i.imgur.com/1I9YFnJ.png" alt="Request on target"></p>
  * <p>
- * Preview the workbook content ( Extra thanks to DTO :) and for the idea i
- * took from Pedro Gomes whom was kind enough to allow me to use):</p>
+ * Preview the workbook content ( Extra thanks to DTO :) and for the idea i took
+ * from Pedro Gomes whom was kind enough to allow me to use):</p>
  * <p>
  * <img src="http://i.imgur.com/JbaW12Y.png" alt="JPanel Final Result"></p>
  *

@@ -121,6 +121,7 @@
  * <h3>5.3. Classes</h3>
  * <p>
  * <b>Class Diagram</b>
+ * <img src="doc-files/lang04_03_class_diagram.png" alt="image">
  * 
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * 
@@ -180,43 +181,53 @@
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. 
+ * 1. Finishing analysis of Lang04.3
+ * <p>
+ * 2. Working on design of Lang04.3
+ * <p>
+ * 3. Working on the implementation of Lang04.3
  * <p>
  * Today
  * <p>
- * 1. 
+ * 1. Planning out tests for the use case.
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. I don't know the best approach to construct an abstract syntax tree. 
  * <p>
  * <b>Monday</b>
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. 
+ * 1. Planning out tests for the use case.
  * <p>
  * Today
  * <p>
- * 1. 
+ * 1. Working on design of Lang04.3
+ * <p>
+ * 2. Working on the implementation of Lang04.3
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. -nothing-
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. 
+ * 1. Working on design of Lang04.3
+ * <p>
+ * 2. Working on the implementation of Lang04.3
  * <p>
  * Today
  * <p>
- * 1. 
+ * 1. Helping other colleagues on their use cases.
+ * <p>
+ * 2. Finishing the implementation of Lang04.3
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. -nothing-
  * <p>
  * <b>Wednesday</b>
  * <p>

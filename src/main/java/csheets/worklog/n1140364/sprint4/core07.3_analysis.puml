@@ -35,12 +35,20 @@
 
 	alt if confirms/next search and replace
 	 User -> SP : confirms
-     SP -> SC : replaceCellContent()
+	 note right of SP : create a new jpanel and do the next
+	 activate SC
+     SP -> SC : getSpreadSheetObject(spreadTitle)
+	 SP <-- SC : spreadsheet object
+	 SP -> SC : replace(result, newstring, spread)
+	activate wbs
+	 SC -> wbs : replaceMatchContent(result, newstring, spread)
 	 User <- SP : shows next result
+	deactivate wbs
+	 deactivate SC
 
     else selects/confirm replace all
 		User -> SP : replace all
-		SP -> SC : replaceAll()
+		note right of SP : same as above but dont create a new jpanel
 	end
 
   end

@@ -112,7 +112,14 @@ public abstract class Extension implements Comparable<Extension> {
 		this.basePropKey = basePropKey + ".ui.";
 		this.enable = state;
 	}
-
+        public final String getVersion(){
+            return version;
+        }
+        
+        public final String getDescription(){
+            return description;
+        }
+        
 	/**
 	 * Returns the name of the extension.
 	 *

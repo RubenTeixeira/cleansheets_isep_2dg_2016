@@ -83,11 +83,11 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 		if (startDate == null && endDate == null) {
 			return this.allPrincipal();
 		}
-		String term = "SELECT l FROM List l where n.time BETWEEN :startDate AND :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+		String term = "SELECT l FROM List l where l.time BETWEEN :startDate AND :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
 		if (startDate == null) {
-			term = "SELECT l FROM List l where n.time < :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+			term = "SELECT l FROM List l where l.time < :endDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
 		} else if (endDate == null) {
-			term = "SELECT l FROM List l where n.time > :startDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
+			term = "SELECT l FROM List l where l.time > :startDate and l.version.deleted = false and l.version.lastVersion = l.versionNum";
 		}
 		final Query query = entityManager().createQuery(term, Note.class);
 		if (startDate != null) {
@@ -102,8 +102,12 @@ public class JpaListRepository extends JpaRepository<List, Long> implements List
 	@Override
 	public Iterable<List> allPrincipal() {
 		final Query query = entityManager().
-			createQuery("SELECT l FROM List l where l.version.deleted = false and l.version.lastVersion = l.versionNum", Note.class);
-		return (Iterable<List>) query.getResultList();
+			createQuery("SELECT l FROM List l "
+				+ "where l.version.deleted = false "
+				+ "and l.version.lastVersion = l.versionNum",
+						List.class);
+		Iterable<List> tmp = query.getResultList();
+		return tmp;
 	}
 
 }
