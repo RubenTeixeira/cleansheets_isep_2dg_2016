@@ -143,9 +143,9 @@ public class Battleship {
         int column = address.getColumn();
         int row = address.getRow();
         if (column < marginColumn
-                || column >= board.length + marginColumn
+                || column > board.length + marginColumn
                 || row < marginRow
-                || row >= board[0].length + marginRow) {
+                || row > board[0].length + marginRow) {
             throw new VerifyError("Shoot outside of the board.");
         }
         if (board[column][row]) {
