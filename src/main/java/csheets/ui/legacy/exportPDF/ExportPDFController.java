@@ -10,8 +10,6 @@ import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -50,12 +48,8 @@ public class ExportPDFController {
 
 		Workbook workbook = uiController.getActiveWorkbook();
 		ExportPDF pdf = new ExportPDF();
-		try {
-			pdf.writeWorkbook(workbook, file, showList);
-		} catch (IOException ex) {
-			Logger.getLogger(ExportPDFController.class.getName()).
-				log(Level.SEVERE, null, ex);
-		}
+		pdf.applyList(showList);
+		pdf.write(file, workbook);
 
 	}
 
@@ -73,12 +67,9 @@ public class ExportPDFController {
 		File file = chooseFile(fileChooser);
 
 		ExportPDF pdf = new ExportPDF();
-		try {
-			pdf.writeSpreadsheet(spreadSheet, file);
-		} catch (IOException ex) {
-			Logger.getLogger(ExportPDFController.class.getName()).
-				log(Level.SEVERE, null, ex);
-		}
+
+		pdf.write(file, spreadSheet);
+
 	}
 
 	/**
@@ -88,7 +79,6 @@ public class ExportPDFController {
 	 *
 	 * @param fileChooser fileChooser
 	 * @param uiController uiController
-	 * @throws IOException exception
 	 */
 	public void exportSelectedCells(JFileChooser fileChooser,
 									UIController uiController
@@ -97,16 +87,16 @@ public class ExportPDFController {
 		File file = chooseFile(fileChooser);
 		ExportPDF pdf = new ExportPDF();
 
-		try {
-			pdf.
-				writeSelectedCells(uiController.focusOwner.getSelectedCells(), file);
-		} catch (IOException ex) {
-			Logger.getLogger(ExportPDFController.class.getName()).
-				log(Level.SEVERE, null, ex);
-		}
+		pdf.write(file, uiController.focusOwner.getSelectedCells());
 
 	}
 
+	/**
+	 * Method to choose a file
+	 *
+	 * @param fileChooser JFileChooser
+	 * @return new File
+	 */
 	public File chooseFile(JFileChooser fileChooser) {
 		File file = fileChooser.getSelectedFile();
 		return new File(file.toString() + ".pdf");  // append .pdf

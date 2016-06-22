@@ -72,11 +72,14 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- *
+ * Basically, for the development and after analysis, we test if the content of
+ * the cells of pdf file it´s correct for each column and row.These tests were
+ * commented because the build in Jenkins faild when I send that commit into the
+ * bitbucket.
  *
  * <h3>5.2. UC Realization</h3>
  *
- * I have to use iText Library .I have create 3 methods on class PdfCodec:
+ * I have to use iText Library .I have create 3 methods on class ExportPDF:
  * writeWorkbook - Export the contents of an Workbook to PDF file;
  * writeSelectedCells - Export range of cells of an worksheet to an PDF file;
  * writeSpreadsheet - Export PDF of Spreadsheet; It´s necessary to create a
@@ -136,7 +139,7 @@
  * <b>Monday</b>
  *
  * <p>
- * Start analysis and design
+ * Start analysis , design and start implementation
  *
  * <p>
  * Blocking :nothing
@@ -146,10 +149,10 @@
  * <b>Tuesday</b>
  *
  * <p>
- * todo
+ * Continue implementation , start unit tests
  *
  * <p>
- * Blocking :
+ * Blocking : nothing
  * </p>
  *
  *
@@ -157,10 +160,10 @@
  * <b>Wednesday</b>
  *
  * <p>
- * todo
+ * Ending unit tests and small refractor in implementation
  *
  * <p>
- * Blocking :
+ * Blocking : nothing
  * </p>
  *
  *
