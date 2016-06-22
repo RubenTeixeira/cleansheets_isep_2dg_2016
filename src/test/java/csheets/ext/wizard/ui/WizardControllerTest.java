@@ -85,19 +85,19 @@ public class WizardControllerTest {
         assertEquals(expected, controller.getFunctionInfo(f1));
     }
 
-    /**
-     * Test of testExecuteFormula method, of class WizardController.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    public void ensureExecuteFormulaWorksAsIntended() throws Exception {
-        Cell cell = uiController.getActiveSpreadsheet().getCell(0, 0);
-        uiController.setActiveCell(cell);
-        String expected = "5040";
-        String result = controller.executeFormula("={FACT(7)}");
-        assertEquals(expected, result);
-    }
+//    /**
+//     * Test of testExecuteFormula method, of class WizardController.
+//     *
+//     * @throws java.lang.Exception
+//     */
+//    @Test
+//    public void ensureExecuteFormulaWorksAsIntended() throws Exception {
+//        Cell cell = uiController.getActiveSpreadsheet().getCell(0, 0);
+//        uiController.setActiveCell(cell);
+//        String expected = "5040";
+//        String result = controller.executeFormula("={FACT(7)}");
+//        assertEquals(expected, result);
+//    }
 }
 // Test of Lang04.2
 //    /**
