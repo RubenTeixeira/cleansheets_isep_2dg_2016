@@ -34,6 +34,7 @@ public class FormEditor extends JDialog implements Observer {
 	FormEditorController controller;
 	private FormE form;
 	private String closeButton;
+//	private String content;
 
 	public FormEditor(Cell cell) {
 		this.controller = new FormEditorController(cell);
@@ -66,14 +67,20 @@ public class FormEditor extends JDialog implements Observer {
 			this.setEnabled(false);
 		}
 		this.closeButton = "";
+//		this.content = "";
 		Notification.formInformer().addObserver(this);
 		super.setAlwaysOnTop(true);
 
-		for (Widget widget : form.showLstWidget()) {
-			addPanel(widget.getPanel(controller.getValue(widget.
-				getContent())));
+		for (Widget widget : this.form.showLstWidget()) {
+			this.createPanel(widget, widget.getContent());
 		}
 
+//		AskContent contentPanel = new AskContent();
+//		Widget widget = controller.getWidget(contentPanel.name());
+////		if (widget != null) {
+////		contentPanel.setContent(widget.getContent());
+//		widget.setContentWidget(contentPanel.content());
+//		}
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -200,9 +207,25 @@ public class FormEditor extends JDialog implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+		updateTextField();
+//		for (Widget wgt : form.showLstWidget()) {
+//			if (wgt instanceof TextFieldWidget) {
+//				wgt.setContentWidget(wgt.getContent());
+//			}
+//		}
 		UIController.getUIController().getActiveWorkbook().addFormE(form.
 			getNameForm(), form);
-		JOptionPane.showMessageDialog(rootPane, evt);
+//		JOptionPane.showMessageDialog(rootPane, evt);
+
+////		if (widget != null) {
+////		contentPanel.setContent(widget.getContent());//contentPanel.content());
+////		System.out.println("Update " + widget.getContent());//contentPanel.content());
+////		}
+//		widget.setContentWidget(contentPanel.content());
+//		AskContent ask = new AskContent();
+//		for (Widget widget : form.showLstWidget()) {
+//			ask.content();
+//		}
 		this.closeButton = "Update Button";
 		try {
 			if (this.isModal()) {
@@ -224,10 +247,9 @@ public class FormEditor extends JDialog implements Observer {
 			//addSingleLine(new SingleLine(contentPanel.name(), contentPanel.content()));
 
 			Widget widget = controller.getWidget(contentPanel.name());
-
+			widget.setContentWidget(contentPanel.content());
 			if (widget != null) {
-				addPanel(widget.getPanel(controller.getValue(contentPanel.
-					content())));
+				this.createPanel(widget, widget.getContent());
 			} else {
 				JOptionPane.showMessageDialog(this, "Widget not found.");
 			}
@@ -258,6 +280,16 @@ public class FormEditor extends JDialog implements Observer {
 		this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+	private void createPanel(Widget wgt, String content) {
+		if (wgt instanceof ButtonWidget) {
+			addPanel(new ButtonPanel(content));
+		} else if (wgt instanceof LabelWidget) {
+			addPanel(new LabelPanel(content));
+		} else {
+			addPanel(new TextFieldPanel(content));
+		}
+	}
+
 	private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
 		panel.setEnabled(isEnabled);
 
@@ -271,6 +303,22 @@ public class FormEditor extends JDialog implements Observer {
 			}
 
 			components[i].setEnabled(isEnabled);
+		}
+	}
+
+	private void updateTextField() {
+
+		Component[] components = mainPanel.getComponents();
+
+		for (int i = 0; i < components.length; i++) {
+			if (components[i] instanceof TextFieldPanel) {
+				for (Widget w : this.form.showLstWidget()) {
+					if (w instanceof TextFieldWidget) {
+						w.setContentWidget(((TextFieldPanel) components[i]).
+							contentText());
+					}
+				}
+			}
 		}
 	}
 

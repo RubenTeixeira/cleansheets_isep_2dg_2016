@@ -16,7 +16,8 @@ public class TextFieldPanel extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form ButtonPanel
-         * @param content Content
+	 *
+	 * @param content Content
 	 */
 	public TextFieldPanel(String content) {
 		initComponents();
@@ -36,6 +37,11 @@ public class TextFieldPanel extends javax.swing.JPanel {
         removeLine = new javax.swing.JButton();
 
         jTextField1.setText("jTextField1");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         removeLine.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/delete.gif"))); // NOI18N
         removeLine.addActionListener(new java.awt.event.ActionListener() {
@@ -73,8 +79,29 @@ public class TextFieldPanel extends javax.swing.JPanel {
 		}
     }//GEN-LAST:event_removeLineActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+		// TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton removeLine;
     // End of variables declaration//GEN-END:variables
+
+	private void refreshUI() {
+		jTextField1.revalidate();
+		jTextField1.repaint();
+	}
+
+//	@Override
+//	public void update(Observable o, Object arg) {
+//		if (arg instanceof TextFieldWidget) {
+//			this.jTextField1.setText(this.jTextField1.getText());
+//
+//			refreshUI();
+//		}
+//	}
+	public String contentText() {
+		return this.jTextField1.getText();
+	}
 }

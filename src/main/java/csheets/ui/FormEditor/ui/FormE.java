@@ -6,6 +6,7 @@
 package csheets.ui.FormEditor.ui;
 
 import csheets.core.Cell;
+import csheets.ui.ctrl.UIController;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,6 @@ public class FormE implements Serializable {
 	private String nameForm;
 
 	private List<Widget> lstWidget;
-
-	private Cell cell;
 
 	private boolean isEditable;
 
@@ -58,7 +57,7 @@ public class FormE implements Serializable {
 	 * @return cell
 	 */
 	public Cell cell() {
-		return cell;
+		return UIController.getUIController().getActiveCell();
 	}
 
 	/**
@@ -69,14 +68,28 @@ public class FormE implements Serializable {
 		this.lstWidget.add(wgt);
 	}
 
+//	/**
+//	 *
+//	 * @param content
+//	 */
+//	public void setContentWidget(String content) {
+//		for (Widget wgt : this.lstWidget) {
+//			wgt.setContentWidget(content);
+//		}
+//	}
+//	public String getContentWidget() {
+//		for (Widget wgt : this.lstWidget) {
+//			return wgt.getContent();
+//		}
+//		return null;
+//	}
 	/**
 	 *
 	 * @param activeCell is active Cell on the workbook
 	 */
-	public void setCell(Cell activeCell) {
+	/*public void setCell(Cell activeCell) {
 		this.cell = activeCell;
-	}
-
+	}*/
 	/**
 	 *
 	 * @return a boolean to define form editable or not editable

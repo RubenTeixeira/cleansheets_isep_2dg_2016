@@ -9,6 +9,7 @@ import csheets.core.Cell;
 import csheets.core.CellImpl;
 import csheets.core.Value;
 import csheets.ui.FormEditor.ui.ButtonWidget;
+import csheets.ui.FormEditor.ui.FormE;
 import csheets.ui.FormEditor.ui.LabelWidget;
 import csheets.ui.FormEditor.ui.TextFieldWidget;
 import csheets.ui.FormEditor.ui.Widget;
@@ -31,6 +32,8 @@ public class FormEditorController {
 	 */
 	private CellImpl cell;
 
+	private FormE content;
+
 	/**
 	 * Form editor controller.
 	 *
@@ -43,6 +46,7 @@ public class FormEditorController {
 		this.widgets.add(new LabelWidget());
 		this.widgets.add(new TextFieldWidget());
 		this.widgets.add(new ButtonWidget());
+
 	}
 
 	/**
@@ -72,5 +76,11 @@ public class FormEditorController {
 			}
 		}
 		return null;
+	}
+
+	public void setContentWidget(String content) {
+		for (Widget wgt : widgets) {
+			wgt.setContentWidget(content);
+		}
 	}
 }
