@@ -75,6 +75,10 @@ public class ButtonPanel extends javax.swing.JPanel {
 		}
     }//GEN-LAST:event_removeLineActionPerformed
 
+	public String getContent() {
+		return this.jButton1.getText();
+	}
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton removeLine;
