@@ -5,11 +5,13 @@
  */
 package csheets.ext.email;
 
+import csheets.persistence.PersistenceContext;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.List;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.MessagingException;
@@ -70,7 +72,22 @@ public class EmailController {
 		props.store(out, "Email data");
 	}
 
+	/**
+	 * Persist the sent email.
+	 *
+	 * @param sentEmail
+	 */
 	public void persistSentEmail(InformationEmailSent sentEmail) {
-		//PersistenceContext.repositories().emails
+		PersistenceContext.repositories().emails().save(sentEmail);
+	}
+
+	/**
+	 * List all emails.
+	 *
+	 * @return all email.
+	 */
+	public List<InformationEmailSent> allSentEmails() {
+		return (List<InformationEmailSent>) PersistenceContext.repositories().
+			emails().all();
 	}
 }

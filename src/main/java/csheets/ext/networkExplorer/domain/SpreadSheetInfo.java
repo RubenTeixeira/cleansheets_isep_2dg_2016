@@ -11,6 +11,10 @@ package csheets.ext.networkExplorer.domain;
  */
 public class SpreadSheetInfo {
     private String name;
+    
+    public SpreadSheetInfo(String name){
+        this.name=name;
+    }
 
     /**
      * @return the name

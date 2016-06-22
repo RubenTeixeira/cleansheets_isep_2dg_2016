@@ -5,6 +5,8 @@
  */
 package csheets.ext.networkExplorer.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,21 +14,15 @@ import java.util.Map;
  * @author Diogo Azevedo
  */
 public class WorkbookInfo {
-    private final int id;
     private String name;
-    private Map<String,SpreadSheetInfo> sheetsMap;
+    private List<SpreadSheetInfo> sheets;
 
-    public WorkbookInfo(int index) {
-       this.id=index;
+    public WorkbookInfo(String name) {
+        this.name = name;
+        this.sheets = new ArrayList();
     }
-
-    /**
-     * @return the id
-     */
-    public int getId() {
-        return id;
-    }
-
+    
+    
     /**
      * @return the name
      */
@@ -37,16 +33,17 @@ public class WorkbookInfo {
     /**
      * @return the sheetsMap
      */
-    public Map<String,SpreadSheetInfo> getSheetsMap() {
-        return sheetsMap;
+    public List<SpreadSheetInfo> getSheetsMap() {
+        return sheets;
     }
     
+    @Override
     public String toString() {
-        return id+";"+name;
+        return name;
     }
 
-    void addSpreadSheet(String sheetId, SpreadSheetInfo newSpreadsheet) {
-       sheetsMap.put(sheetId, newSpreadsheet);
+    public void addSpreadSheet(SpreadSheetInfo spreadsheet) {
+       sheets.add(spreadsheet);
     }
 }
 

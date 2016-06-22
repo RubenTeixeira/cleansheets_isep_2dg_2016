@@ -12,9 +12,10 @@
  *
  * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * Tuesday: In the morning i helped my clleague Carlos Mateus in his use case.
+ * In the afternoon i helped Rafael Vilar in his.
+ * <p>
+ * Wednesday:
  *
  * <h2>2. Use Case/Feature: Lang05.1</h2>
  *
@@ -120,8 +121,8 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/email/package-summary.html">csheets.ext.email</a><p>
- * <a href="../../../../csheets/ext/email/ui/package-summary.html">csheets.ext.email.ui</a>
+ * <a href="../../../../csheets/ext/macro_beanshell/package-summary.html">csheets.ext.macro_beanshell</a><p>
+ * <a href="../../../../csheets/ext/macro_beanshell/ui/package-summary.html">csheets.ext.macro_beanshell.ui</a>
  *
  * <p>
  * Commit Evidences:</p>
@@ -158,9 +159,8 @@
  * <h2>8. Final Remarks</h2>
  *
  * <p>
- * I tried to make a jdialog with a loading bar while the message was being
- * sent. I tried deifferent approaches but i couldn't finish it. So this may be
- * something to do in the future.
+ * The extensions can format comments and errors once it is executed. I couldn't
+ * make a real time formating. I think that's the biggest flaw of this feature.
  *
  *
  * <h2>9. Work Log</h2>
@@ -168,15 +168,17 @@
  * <p>
  * <b>Saturday</b>
  * <p>
- * Understanding JavaMail library.
+ * Studying the problem. Done analysis and started design.
  * <p>
  * <b>Sunday</b>
  * <p>
- * Analisys, design and beggining of user interface implementation
+ * Finished design and started implementations. Most of the funcionalitites are
+ * working.
  * <p>
  * <b>Monday</b>
  * <p>
- * Implementation of controller, more user interfaces and unit tests
+ * Final touches in implementation and ui. Started tests. Checking other team
+ * members UC's and helping them with their problems.
  * <p>
  * Blocking:
  * <p>
@@ -184,8 +186,8 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Checking if all the features are correct. Updated tests using mock javamail
- * and greenmail
+ * Helping colleagues Carlos Mateus in the morning and Rafael Vilar during the
+ * afternoon.
  * <p>
  * Blocking:
  * <p>
@@ -193,7 +195,7 @@
  * <p>
  * Wednesday
  * <p>
- * Helped my co-worker Carlos Mateus in his use case. Made final touches. 1. ...
+ *
  *
  * <h2>10. Self Assessment</h2>
  *
@@ -214,13 +216,13 @@
  *
  * <h3>10.2. Teamwork: ...</h3>
  * <p>
- * We worked well as a team. We were a 4 element team which made our team work
- * easier.
+ * We worked well as a team. We were allways checking if was any team member
+ * blocked and helping each other.
  *
  *
  * <h3>10.3. Technical Documentation: ...</h3>
- * This was my technical documentation on this sprint. I think that, comparing
- * with the last sprint, this part of the work is way better.
+ * This was my technical documentation on this sprint. This was updated daily so
+ * all the documentation reflects what happened during the sprint.
  *
  * @author Rui Bastos
  */

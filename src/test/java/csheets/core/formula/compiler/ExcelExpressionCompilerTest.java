@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Rafa
+ * @author Rafael Rocha
  */
 public class ExcelExpressionCompilerTest {
     

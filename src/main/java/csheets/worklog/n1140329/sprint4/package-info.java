@@ -129,7 +129,8 @@
  * <h2>6. Implementation</h2>
  * 
  * Updated the WizardFrame, WizardController, WizardButton, and Frame 
- * (changed the button's position in the formula bar):
+ * (changed the button's position in the formula bar). Also updated 
+ * ExcelExpressionCompiler and MonetaryExpressionCompiler:
  * 
  * <h2>7. Integration/Demonstration</h2>
  * 
@@ -233,15 +234,19 @@
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. 
+ * 1. Helping other colleagues on their use cases.
+ * <p>
+ * 2. Finishing the implementation of Lang04.3
  * <p>
  * Today
  * <p>
- * 1. 
+ * 1. Finishing tests
+ * <p>
+ * 2. Updating the implementation of Lang04.3
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. -nothing-
  * <p>
  * <b>Thursday</b>
  * <p>

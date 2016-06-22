@@ -76,6 +76,24 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
 		// Converts the expression and returns it
 		return convert(cell, tree);
 	}
+        
+        public CommonTree compileTree(String source) throws FormulaCompilationException {
+		ANTLRStringStream input = new ANTLRStringStream(source);
+		MonetaryExpressionLexer lexer = new MonetaryExpressionLexer(input);
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		MonetaryExpressionParser parser = new MonetaryExpressionParser(tokens);
+		CommonTree tree = null;
+		try {
+			tree = (CommonTree) parser.expression().getTree();
+		} catch (RecognitionException e) {
+			String message = parser.getErrorMessage(e, parser.tokenNames);
+			throw new FormulaCompilationException("At (" + e.line + ";" + e.charPositionInLine + "): " + message);
+		} catch (Exception e) {
+			String message = "Other exception : " + e.getMessage();
+			throw new FormulaCompilationException(message);
+		}
+		return tree;
+	}
 
 	/**
 	 * Converts the given ANTLR AST to an expression.
