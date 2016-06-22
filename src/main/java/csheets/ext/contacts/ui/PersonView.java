@@ -45,6 +45,7 @@ public class PersonView extends javax.swing.JFrame implements Observer {
 		this.jList1.setModel(this.tagsModel);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setVisible(true);
 
 		PersonContact personCont = (PersonContact) this.contact;
 		DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTreePerson.

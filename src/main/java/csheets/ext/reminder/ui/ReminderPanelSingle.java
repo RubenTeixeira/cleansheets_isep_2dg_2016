@@ -2,7 +2,6 @@ package csheets.ext.reminder.ui;
 
 import csheets.domain.Reminder;
 import csheets.ext.reminder.ReminderController;
-import csheets.support.DateTime;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,7 +31,7 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
 		this.labelDescription.setText(this.reminder.description());
 		//this.labelDate.setText(DateTime.
 		//	format(this.reminder.timeOfReminder(), "YYYY/MM/dd hh:mm"));
-                this.labelDate.setText(this.reminder.timeOfRemider());
+		this.labelDate.setText(this.reminder.timeOfRemider());
 	}
 
 	/**
@@ -53,7 +52,6 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
 
-        setBounds(new java.awt.Rectangle(0, 0, 250, 65));
         setMaximumSize(new java.awt.Dimension(250, 65));
         setMinimumSize(new java.awt.Dimension(250, 65));
         setPreferredSize(new java.awt.Dimension(250, 65));
@@ -64,11 +62,15 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
         });
         setLayout(new java.awt.BorderLayout());
 
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
+
         labelName.setFont(new java.awt.Font("Lucida Grande", 0, 12)); // NOI18N
         labelName.setText("name");
         labelName.setAutoscrolls(true);
-        labelName.setIgnoreRepaint(true);
-        labelName.setSize(new java.awt.Dimension(159, 19));
         labelName.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 labelNameMouseClicked(evt);
@@ -172,6 +174,12 @@ public class ReminderPanelSingle extends javax.swing.JPanel {
     private void labelNameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_labelNameMouseClicked
 
     }//GEN-LAST:event_labelNameMouseClicked
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+		if (evt.getClickCount() == 2) {
+			new ReminderView(reminder);
+		}
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

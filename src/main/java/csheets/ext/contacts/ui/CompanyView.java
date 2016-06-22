@@ -43,6 +43,7 @@ public class CompanyView extends javax.swing.JFrame implements Observer {
 		this.jListTags.setModel(this.tagsModel);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setVisible(true);
 
 		CompanyContact companyCont = (CompanyContact) this.contact;
 		DefaultMutableTreeNode treeRoot = (DefaultMutableTreeNode) this.jTreeCompany.

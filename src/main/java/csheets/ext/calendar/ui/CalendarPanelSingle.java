@@ -17,10 +17,12 @@ public class CalendarPanelSingle extends javax.swing.JPanel {
 
 	/**
 	 * Creates new form CalendarPanelSingl
-         * @param controller Calendar Controller
-         * @param calendar Calendar
+	 *
+	 * @param controller Calendar Controller
+	 * @param calendar Calendar
 	 */
-	public CalendarPanelSingle(CalendarController controller, ContactCalendar calendar) {
+	public CalendarPanelSingle(CalendarController controller,
+							   ContactCalendar calendar) {
 		this.controller = controller;
 		this.calendar = calendar;
 		initComponents();
@@ -55,6 +57,11 @@ public class CalendarPanelSingle extends javax.swing.JPanel {
         jPanelColour = new javax.swing.JPanel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Calendar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel1MouseClicked(evt);
+            }
+        });
 
         jButtonRemove.setIcon(new javax.swing.ImageIcon(getClass().getResource("/csheets/res/img/delete.gif"))); // NOI18N
         jButtonRemove.setFocusable(false);
@@ -200,6 +207,12 @@ public class CalendarPanelSingle extends javax.swing.JPanel {
 			calendar.createCalendar();
 		}
     }//GEN-LAST:event_jButtonEditActionPerformed
+
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+		if (evt.getClickCount() == 2) {
+			new CalendarView(controller, calendar);
+		}
+    }//GEN-LAST:event_jPanel1MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonEdit;

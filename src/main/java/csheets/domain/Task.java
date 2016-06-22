@@ -6,10 +6,12 @@
 package csheets.domain;
 
 import java.util.Calendar;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
@@ -20,113 +22,145 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"TASKNAME"})})
+	@UniqueConstraint(columnNames = {"TASKNAME"})})
 public class Task {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    private String taskName;
-    private String description;
-    private int priority;
-    private float percentageofcompletion;
-    /**
-     * The Time of reminder
-     */
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar timeStep;
+	private String taskName;
+	private String description;
+	private int priority;
+	private float percentageofcompletion;
 
-    @ManyToOne
-    private Contact contact;
+	@OneToOne(cascade = CascadeType.MERGE)
+	private Event deadLineEvent = null;
 
-    protected Task() {
-    }
+	@OneToOne(cascade = CascadeType.MERGE)
+	private Reminder deadLineReminder = null;
 
-    public Task(String taskName, String description, int priority,
-            float percentageofcompletion, Contact contact, Calendar date) {
-        if (taskName == null || description == null || percentageofcompletion < 0 || percentageofcompletion > 100 || contact == null || date == null) {
-            throw new IllegalArgumentException("Illegal arguments!");
-        } else if (taskName.isEmpty() || description.isEmpty()) {
-            throw new IllegalArgumentException("Illegal arguments empty");
-        }
-        this.taskName = taskName;
-        this.contact = contact;
-        this.description = description;
-        this.priority = priority;
-        this.percentageofcompletion = percentageofcompletion;
-        this.timeStep = date;
+	/**
+	 * The Time of reminder
+	 */
+	@Temporal(javax.persistence.TemporalType.TIMESTAMP)
+	private Calendar deadLineTime = null;
 
-    }
+	@ManyToOne
+	private Contact contact;
 
-    public void defineTask(String name, String description, int priority,
-            float percentage, Calendar date) {
-        if (name == null || description == null || percentage < 0 || percentage > 100) {
-            throw new IllegalArgumentException("Illegal arguments!");
-        } else if (name.isEmpty() || description.isEmpty()) {
-            throw new IllegalArgumentException("Illegal arguments empty");
-        }
-        this.taskName = name;
-        this.description = description;
-        this.priority = priority;
-        this.percentageofcompletion = percentage;
-        this.timeStep = date;
-    }
+	protected Task() {
+	}
 
-    public String TaskName() {
-        return this.taskName;
-    }
+	public Task(String taskName, String description, int priority,
+				float percentageofcompletion, Contact contact) {
+		if (taskName == null || description == null || percentageofcompletion < 0 || percentageofcompletion > 100 || contact == null) {
+			throw new IllegalArgumentException("Illegal arguments!");
+		} else if (taskName.isEmpty() || description.isEmpty()) {
+			throw new IllegalArgumentException("Illegal arguments empty");
+		}
+		this.taskName = taskName;
+		this.contact = contact;
+		this.description = description;
+		this.priority = priority;
+		this.percentageofcompletion = percentageofcompletion;
+	}
 
-    public String Description() {
-        return this.description;
-    }
+	public Task(String taskName, String description, int priority,
+				float percentage, Contact contact, Calendar date, Event event,
+				Reminder reminder) {
+		this(taskName, description, priority, percentage, contact);
+		this.deadLineTime = date;
+		this.deadLineEvent = event;
+		this.deadLineReminder = reminder;
+	}
 
-    public int Priority() {
-        return this.priority;
-    }
+	public void defineTask(String name, String description, int priority,
+						   float percentage, Object deadLine) {
+		if (name == null || description == null || percentage < 0 || percentage > 100) {
+			throw new IllegalArgumentException("Illegal arguments!");
+		} else if (name.isEmpty() || description.isEmpty()) {
+			throw new IllegalArgumentException("Illegal arguments empty");
+		}
+		this.taskName = name;
+		this.description = description;
+		this.priority = priority;
+		this.percentageofcompletion = percentage;
+		this.deadLineEvent = null;
+		this.deadLineReminder = null;
+		this.deadLineTime = null;
+		if (deadLine instanceof Event) {
+			this.deadLineEvent = (Event) deadLine;
+		} else if (deadLine instanceof Reminder) {
+			this.deadLineReminder = (Reminder) deadLine;
+		} else if (deadLine instanceof Calendar) {
+			this.deadLineTime = (Calendar) deadLine;
+		}
+	}
 
-    public float Percentage() {
-        return this.percentageofcompletion;
-    }
+	public String TaskName() {
+		return this.taskName;
+	}
 
-    public Contact getContact() {
-        return this.contact;
-    }
+	public String Description() {
+		return this.description;
+	}
 
-    public Calendar getDate() {
-        return this.timeStep;
-    }
+	public int Priority() {
+		return this.priority;
+	}
 
-    @Override
-    public String toString() {
-        return this.taskName;
-    }
+	public float Percentage() {
+		return this.percentageofcompletion;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        if (!(obj instanceof Task)) {
-            return false;
-        }
-        Task instance = (Task) obj;
-        return this.hashCode() == instance.hashCode();
-    }
+	public Contact getContact() {
+		return this.contact;
+	}
 
-    @Override
-    public int hashCode() {
-        int hashcode = 21;
-        hashcode += this.taskName.hashCode();
-        hashcode += this.description.hashCode();
-        hashcode += this.contact.hashCode();
-        return hashcode;
-    }
+	public Calendar getDeadLineTime() {
+		return this.deadLineTime;
+	}
 
-    public Calendar timeOfReminder() {
-        return this.timeStep;
-    }
+	public Event getDeadLineEvent() {
+		return deadLineEvent;
+	}
+
+	public Reminder getDeadLineReminder() {
+		return deadLineReminder;
+	}
+
+	@Override
+	public String toString() {
+		return this.taskName;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(obj instanceof Task)) {
+			return false;
+		}
+		Task instance = (Task) obj;
+		return this.hashCode() == instance.hashCode();
+	}
+
+	@Override
+	public int hashCode() {
+		int hashcode = 21;
+		hashcode += this.taskName.hashCode();
+		hashcode += this.description.hashCode();
+		hashcode += this.contact.hashCode();
+		return hashcode;
+	}
+
+	public Calendar timeOfReminder() {
+		return this.deadLineTime;
+	}
+
 }
