@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTree;
 import javax.swing.text.BadLocationException;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.antlr.runtime.tree.CommonTree;
@@ -35,7 +36,12 @@ public class WizardTreeFrame extends javax.swing.JFrame {
         fillTree(ast);
     }
 
-    private void fillTree(CommonTree ast) {
+    /**
+     * Fills the JTree with the correspondent elements of the formula expression.
+     * The method was originally private, but it had to be public so it could be tested.
+     * @param ast Compiled formula expression tree
+     */
+    public void fillTree(CommonTree ast) {
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) wizardTree.getModel().getRoot();
         List<DefaultMutableTreeNode> parents = new ArrayList<>();
         boolean up = false;
@@ -53,6 +59,7 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                     parents.add(new DefaultMutableTreeNode(prevNode.getText()));
                     newPrevNode = false;
                     break;
+                    
                 case "UP":
                     if (up == false) {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
@@ -69,8 +76,10 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                     parents.get(parents.size() - 2).add(parents.get(parents.size() - 1));
                     parents.remove(parents.size() - 1);
                     break;
+                    
                 case "EOF":
                     break OUTER;
+                    
                 default:
                     if (newPrevNode == true) {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
@@ -85,6 +94,14 @@ public class WizardTreeFrame extends javax.swing.JFrame {
         root.add(parents.get(0));
         wizardTree.revalidate();
         wizardTree.repaint();
+    }
+    
+    /**
+     * Method only used for unit tests.
+     * @return Tree representation of a formula
+     */
+    public JTree getTree() {
+        return this.wizardTree;
     }
 
     /**

@@ -6,16 +6,14 @@
 package csheets.ext.wizard.ui;
 
 import csheets.CleanSheets;
-import csheets.core.Address;
 import csheets.core.Cell;
-import csheets.core.CellImpl;
 import csheets.core.Spreadsheet;
-import csheets.core.SpreadsheetImpl;
+import csheets.core.Workbook;
 import csheets.core.formula.Function;
-import csheets.core.formula.lang.And;
 import csheets.core.formula.lang.Language;
 import csheets.core.formula.lang.Sum;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.sheet.SpreadsheetTable;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -31,6 +29,7 @@ import org.junit.BeforeClass;
 public class WizardControllerTest {
 
     WizardController controller;
+    UIController uiController;
     Function f1;
 
     @BeforeClass
@@ -44,7 +43,19 @@ public class WizardControllerTest {
     @Before
     public void setUp() {
         f1 = new Sum();
-        UIController uiController = UIController.getUIController();
+        Workbook wb = new Workbook(1);
+        String[][] content = new String[10][10];
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                content[i][j] = "";
+            }
+        }
+        wb.addSpreadsheet(content);
+        uiController = new UIController(new CleanSheets());
+        Spreadsheet s = wb.getSpreadsheet(0);
+        SpreadsheetTable sst = new SpreadsheetTable(s, uiController);
+        uiController.focusOwner = sst;
+        uiController.setActiveSpreadsheet(s);
         controller = new WizardController(uiController);
     }
 
@@ -73,9 +84,22 @@ public class WizardControllerTest {
         String expected = "={SUM(NUMERIC)}";
         assertEquals(expected, controller.getFunctionInfo(f1));
     }
-    
+
+    /**
+     * Test of testExecuteFormula method, of class WizardController.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void ensureExecuteFormulaWorksAsIntended() throws Exception {
+        Cell cell = uiController.getActiveSpreadsheet().getCell(0, 0);
+        uiController.setActiveCell(cell);
+        String expected = "5040";
+        String result = controller.executeFormula("={FACT(7)}");
+        assertEquals(expected, result);
+    }
 }
-     // Test of Lang04.2
+// Test of Lang04.2
 //    /**
 //     * Test of getFunctionInfo method, of class WizardController.
 //     */
@@ -86,15 +110,3 @@ public class WizardControllerTest {
 //        String result = this.controller.setValuesOnExpression("3;4;5", null, null, null);
 //        assertEquals(expected, result);
 //    }
-
-//    /**
-//     * Hard to test compile method without a valid cell, maybe someone smarter
-//     * can finish this test
-//     * /
-//    @Test
-//    public void testExecuteFormula() throws Exception {
-//        String expected = "5040";
-//        String result = controller.executeFormula("={FACT(7)}");
-//        assertEquals(expected, result);
-//    }
-
