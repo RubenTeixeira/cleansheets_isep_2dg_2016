@@ -132,9 +132,15 @@
  * (changed the button's position in the formula bar). Also updated 
  * ExcelExpressionCompiler and MonetaryExpressionCompiler:
  * 
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4ba4029f88a4b869378dee4ce508e0d3ccf01913</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/018a4216173641a92b5886f87370c6b6dfbd0165</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/df45722bfab3a038b466405917430c3b1a2e8348</p>
+ * 
  * <h2>7. Integration/Demonstration</h2>
  * 
- * -In this section document your contribution and efforts to the integration of your work with the work of the other elements of the team and also your work regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * Updated some tests and added some more:
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/7c5517cfe8e5cd059e098e71013bc2002daf9a44</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e11d593100bba323b7f3b947a9ad5761aa81b130</p>
  * 
  * <h2>8. Final Remarks</h2>
  * 
@@ -244,6 +250,8 @@
  * <p>
  * 2. Updating the implementation of Lang04.3
  * <p>
+ * 3. Helping other colleagues with their use cases (for example, IPC07.3).
+ * <p>
  * Blocking:
  * <p>
  * 1. -nothing-
@@ -252,7 +260,11 @@
  * <p>
  * Yesterday I worked on: 
  * <p>
- * 1. 
+ * 1. Finishing tests
+ * <p>
+ * 2. Updating the implementation of Lang04.3
+ * <p>
+ * 3. Helping other colleagues with their use cases (for example, IPC07.3).
  * <p>
  * Today
  * <p>
@@ -260,17 +272,31 @@
  * <p>
  * Blocking:
  * <p>
- * 1. 
+ * 1. -nothing-
  * 
  * <h2>10. Self Assessment</h2> 
  * 
- * <h3>10.1. Design and Implementation: 3</h3>
+ * <h3>10.1. Design and Implementation: 4</h3>
  * 
  * <b>Evidences:</b>
  * <p>
  * url of commit:  - description: this commit is related to the implementation of the design pattern -
  * 
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4ba4029f88a4b869378dee4ce508e0d3ccf01913 :
+ *  - description: this commit is related to most of the development of the use
+ * case (Analysis, Design, Implementation) -</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/018a4216173641a92b5886f87370c6b6dfbd0165 :
+ *  - description: this commit is related to the construction of the tree representation
+ * of a formula expression -</p>
+ * <p>https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/df45722bfab3a038b466405917430c3b1a2e8348 :
+ *  - description: this commit is related to the feature of highlighting the corresponding text
+ * of a selected element</p>
+ * 
  * <h3>10.2. Teamwork: </h3>
+ * 
+ * Throughout this week I've helped out a lot of my colleagues on the 
+ * implementation of their Use Cases, since I had already finished most of my 
+ * Use Case on the past weekend.
  * 
  * <h3>10.3. Technical Documentation: ...</h3>
  * 
