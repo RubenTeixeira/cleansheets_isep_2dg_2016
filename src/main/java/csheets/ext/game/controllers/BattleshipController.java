@@ -60,6 +60,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private final String RESPONSE_SINK = "sink";
     private final String RESPONSE_HIT = "hit";
     private final String RESPONSE_WATER = "water";
+    private final String RESPONSE_FAIL = "fail";
     private final int CELL_WIDTH = 50;
     private final int CELL_HEIGHT = 50;
     private final Border cellBorder = BorderFactory.createMatteBorder(1, 1, 1, 1,
@@ -190,6 +191,10 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                                 showWater(column, row);
                                 break;
                             }
+                            case RESPONSE_FAIL: {
+                                repeatPlay(column, row);
+                                break;
+                            }
                             default: {
                                 // ignore
                             }
@@ -227,7 +232,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         sheet = uiController.getActiveWorkbook().getSpreadsheet(
                 uiController.getActiveWorkbook().getSpreadsheetCount() - 1);
         //styleSheet = new StyleExtension().extend(sheet);
-        styleSheet = (StylableSpreadsheet)sheet.getExtension(StyleExtension.NAME);
+        styleSheet = (StylableSpreadsheet) sheet.getExtension(StyleExtension.NAME);
         //sheet = (StylableSpreadsheet)newSheet;
         styleSheet.setTitle(BattleshipController.GAME_NAME);
     }
@@ -333,10 +338,16 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void verifyPlay(int column, int row) {
         Cell cell = sheet.getCell(column, row);
-        int shoot = game.shoot(cell.getAddress());
         String message = column + ";" + row;
         int myColumn = column + marginOwnBoardColumn - marginColumn;
         int myRow = row + marginOwnBoardRow - marginRow;
+        int shoot;
+        try {
+            shoot = game.shoot(cell.getAddress());
+        } catch (VerifyError ex) {
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_FAIL);
+            return;
+        }
         if (shoot == Battleship.SHOOT_SINK) {
             String playMessage = "Opponent sink a boat. ";
             showSink(myColumn, myRow);
@@ -344,20 +355,20 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WIN);
                 showLose();
             } else {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_SINK);
+                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_SINK);
                 playMessage += "Your turn ...";
                 showMessage(playMessage);
             }
             return;
         }
         if (shoot == Battleship.SHOOT_HIT) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_HIT);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_HIT);
             showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
             return;
         }
         if (shoot == Battleship.SHOOT_FAIL) {
-            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";"  + RESPONSE_WATER);
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WATER);
             showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
             return;
@@ -607,7 +618,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         showMessage("YOU WON THE GAME");
         stopGame();
     }
-    
+
     private void showLose() {
         showMessage("You lost, play again ...");
         stopGame();
@@ -618,7 +629,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void showHit(int column, int row) {
-        StylableCell scell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        StylableCell scell = (StylableCell) sheet.getCell(column, row).getExtension(StyleExtension.NAME);
         Cell cell = sheet.getCell(column, row);
         //cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
         scell.setBackgroundColor(Color.GRAY);
@@ -630,7 +641,13 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void showWater(int column, int row) {
-        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        StylableCell cell = (StylableCell) sheet.getCell(column, row).getExtension(StyleExtension.NAME);
         cell.setBackgroundColor(Color.BLUE);
+    }
+
+    private void repeatPlay(int column, int row) {
+        //verifyPlay(column, row);
+        showMessage("Please repeat your play ...");
+        this.turn = true;
     }
 }
