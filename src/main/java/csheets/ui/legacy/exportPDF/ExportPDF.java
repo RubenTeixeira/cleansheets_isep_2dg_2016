@@ -1,6 +1,5 @@
 package csheets.ui.legacy.exportPDF;
 
-import csheets.ui.legacy.strategy.export.ExportStrategy;
 import com.itextpdf.text.Anchor;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -18,6 +17,7 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.legacy.strategy.exportStrategy.EncoderStrategy;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  *
  * @author Diogo Leite
  */
-public class ExportPDF implements ExportStrategy {
+public class ExportPDF implements EncoderStrategy {
 
 	/**
 	 * showList
@@ -36,7 +36,7 @@ public class ExportPDF implements ExportStrategy {
 	boolean showList;
 
 	/**
-	 * Creates a new PDF codec.
+	 * Empty Constructor.
 	 */
 	public ExportPDF() {
 	}

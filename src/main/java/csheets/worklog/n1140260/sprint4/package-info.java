@@ -3,9 +3,9 @@
  * Leite during week4.
  *
  * <p>
- * <b>Scrum Master: -(yes/no)- no</b>
+ * <b>Scrum Master: no</b>
  *
- * <b>Area Leader: -(yes/no)- no</b>
+ * <b>Area Leader: no</b>
  * </p>
  *
  *
@@ -78,13 +78,13 @@
  * bitbucket.
  *
  * <h3>5.2. UC Realization</h3>
- *
- * I have to use iText Library .I have create 3 methods on class ExportPDF:
- * writeWorkbook - Export the contents of an Workbook to PDF file;
- * writeSelectedCells - Export range of cells of an worksheet to an PDF file;
- * writeSpreadsheet - Export PDF of Spreadsheet; It´s necessary to create a
- * class ExportPDFAction and ExportPDFController to call all methods to export.
- * Will be using a FileChooser to choose the type of file
+ * To realize this user story i need to creat a strategy so the export data can
+ * be done to pdf and other types of files I have to use iText Library .I have
+ * create 3 methods on class ExportPDF: writeWorkbook - Export the contents of
+ * an Workbook to PDF file; writeSelectedCells - Export range of cells of an
+ * worksheet to an PDF file; writeSpreadsheet - Export PDF of Spreadsheet; It´s
+ * necessary to create a class ExportPDFAction and ExportPDFController to call
+ * all methods to export. Will be using a FileChooser to choose the type of file
  *
  *
  * *
@@ -93,7 +93,7 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * Implemented Patterns: Low Coupling - High Cohesion.
+ * Implemented Patterns: Low Coupling - High Cohesion and Strategy
  *
  * <h2>6. Implementation</h2>
  *
@@ -115,24 +115,55 @@
  * <b>Created Classes</b>:
  *
  * <p>
- * PDFCodec, ExportPDFAction, ExportPDFController, ExportPDFPanel
+ * ExportPDF, ExportPDFAction, ExportPDFController, ExportPDFPanel,
+ * EncoderStrategy
  *
  * <b>Updated Classes/Files</b>:
  *
  * <p>
  * ExportMenu
  *
+ * <p>
+ * Commit Evidences:</p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3c472c472aa65f8bf33c3bc509a998493675da88">Analysis</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/bcc4c30632da65ddd628960274ade84c418fdf06">Design
+ * commit 1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/06753dfada231475e46d4a1b3c9ff46a90b12e81">Tests</a></p>
+ *
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f5277e019dd4bb3fb63a3fcc6f088cb88ffe31ac">Implementation
+ * coommit 1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b82af4582b0d4c8efada2e418d1193a2b4b245f7">Implementation
+ * commit 2</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/8c4ea1516a32e9119b510969af2eafdae7295c30">Implementation
+ * coommit 3</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/37b5a170e25cc8591646fc275032a4dec7889510">Implementation
+ * commit 4</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/12bcf32ae5e3453e38856b85b90c277d87618ea9">Implementation
+ * commit 5</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6a007d20fafaf8eca455515fc6fb5b4374da3885">Implementation
+ * commit 6</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/48088e8d30f04b4322145779368ee96fcce2a2d2">Implementation
+ * commit 7</a></p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * I implemmt a strategy pattern to export data so it can be done into other
+ * types of files
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
  *
  * <h2>9. Work Log</h2>
  *
@@ -180,8 +211,7 @@
  *
  * <h2>10. Self Assessment</h2>
  *
- * During this sprint, my work was mainly of analysis and study of the
- * application architecture.
+ * 4
  *
  * <h3>10.1. Design and Implementation:</h3>
  *

@@ -1,4 +1,4 @@
-package csheets.ui.legacy.strategy.export;
+package csheets.ui.legacy.strategy.exportStrategy;
 
 import java.io.File;
 
@@ -7,7 +7,7 @@ import java.io.File;
  *
  * @author Diogo Leite
  */
-public interface ExportStrategy {
+public interface EncoderStrategy {
 
 	/**
 	 * Writes a Object to the given output stream.
