@@ -67,7 +67,6 @@ public class FormEditor extends JDialog implements Observer {
 			this.setEnabled(false);
 		}
 		this.closeButton = "";
-//		this.content = "";
 		Notification.formInformer().addObserver(this);
 		super.setAlwaysOnTop(true);
 
@@ -75,12 +74,6 @@ public class FormEditor extends JDialog implements Observer {
 			this.createPanel(widget, widget.getContent());
 		}
 
-//		AskContent contentPanel = new AskContent();
-//		Widget widget = controller.getWidget(contentPanel.name());
-////		if (widget != null) {
-////		contentPanel.setContent(widget.getContent());
-//		widget.setContentWidget(contentPanel.content());
-//		}
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -208,24 +201,9 @@ public class FormEditor extends JDialog implements Observer {
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
 		updateTextField();
-//		for (Widget wgt : form.showLstWidget()) {
-//			if (wgt instanceof TextFieldWidget) {
-//				wgt.setContentWidget(wgt.getContent());
-//			}
-//		}
 		UIController.getUIController().getActiveWorkbook().addFormE(form.
 			getNameForm(), form);
-//		JOptionPane.showMessageDialog(rootPane, evt);
 
-////		if (widget != null) {
-////		contentPanel.setContent(widget.getContent());//contentPanel.content());
-////		System.out.println("Update " + widget.getContent());//contentPanel.content());
-////		}
-//		widget.setContentWidget(contentPanel.content());
-//		AskContent ask = new AskContent();
-//		for (Widget widget : form.showLstWidget()) {
-//			ask.content();
-//		}
 		this.closeButton = "Update Button";
 		try {
 			if (this.isModal()) {
@@ -244,7 +222,6 @@ public class FormEditor extends JDialog implements Observer {
 		int op = JOptionPane.
 			showConfirmDialog(null, contentPanel, "Create New Line", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 		if (op == JOptionPane.OK_OPTION) {
-			//addSingleLine(new SingleLine(contentPanel.name(), contentPanel.content()));
 
 			Widget widget = controller.getWidget(contentPanel.name());
 			widget.setContentWidget(contentPanel.content());
@@ -299,6 +276,10 @@ public class FormEditor extends JDialog implements Observer {
 			if (components[i].getClass().getName() == "javax.swing.JPanel") {
 				setPanelEnabled((JPanel) components[i], isEnabled);
 			} else if (components[i].getClass().getName() == "csheets.ui.FormEditor.ui.ButtonPanel") {
+				setPanelEnabled((JPanel) components[i], isEnabled);
+			} else if (components[i].getClass().getName() == "csheets.ui.FormEditor.ui.TextFieldPanel") {
+				setPanelEnabled((JPanel) components[i], isEnabled);
+			} else if (components[i].getClass().getName() == "csheets.ui.FormEditor.ui.LabelPanel") {
 				setPanelEnabled((JPanel) components[i], isEnabled);
 			}
 
