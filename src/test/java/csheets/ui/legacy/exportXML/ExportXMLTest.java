@@ -100,10 +100,11 @@ public class ExportXMLTest {
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "	</sheet>\n"
 			+ "</workbook1>\n";
-
+		/*
 		String result = ExportXML.
 			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, tagScripts, tagScript, tagName, tagType, tagContent, tagSync, this.workbook.
 						   getSpreadsheet(0).getWorkbook());
+		 */
 		//assertEquals(expResult, result);
 
 	}
