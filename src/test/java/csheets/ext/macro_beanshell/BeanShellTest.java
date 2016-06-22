@@ -5,7 +5,13 @@
  */
 package csheets.ext.macro_beanshell;
 
+import csheets.core.Spreadsheet;
+import csheets.core.Workbook;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.sheet.SpreadsheetTable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -22,7 +28,6 @@ public class BeanShellTest {
 	private UIController uiController;
 
 	public BeanShellTest() {
-		/*
 		Workbook wb = new Workbook(1);
 		String[][] content = new String[10][10];
 		for (int i = 0; i < 10; i++) {
@@ -36,7 +41,6 @@ public class BeanShellTest {
 		SpreadsheetTable sst = new SpreadsheetTable(s, uiController);
 		uiController.focusOwner = sst;
 		uiController.setActiveSpreadsheet(s);
-		 */
 	}
 
 	@BeforeClass
@@ -60,7 +64,7 @@ public class BeanShellTest {
 	 */
 	@Test
 	public void testExampleTest() {
-		/*
+		
 		System.out.println("BeanShell-ExampleTest and Run it");
 		BeanShell instance = new BeanShell(uiController);
 		String result = instance.getExample();
@@ -68,14 +72,12 @@ public class BeanShellTest {
 			fail("Example not working");
 		}
 		assertNotNull(result);
-		 */
 		assertEquals(true, true);
 	}
 
 	/**
 	 * Test of run method, of class BeanShell.
 	 */
-	/*
 	@Test
 	public void testRunWithReturn() {
 		System.out.println("BeanShell-Return Test of run");
@@ -89,11 +91,9 @@ public class BeanShellTest {
 		assertNotNull(result);
 		assertEquals(expResult, result);
 	}
-	 */
 	/**
 	 * Test of run method, of class BeanShell.
 	 */
-	/*
 	@Test
 	public void testRunWithReturn2() {
 		System.out.println("BeanShell-Return Test of run");
@@ -108,11 +108,9 @@ public class BeanShellTest {
 		assertNotNull(result);
 		assertEquals(expResult, result);
 	}
-	 */
 	/**
 	 * Test of run method, of class BeanShell.
 	 */
-	/*
 	@Test
 	public void testRunWithoutReturnInfo() {
 		System.out.println("BeanShell-Without Return Test of run");
@@ -127,9 +125,8 @@ public class BeanShellTest {
 		assertNotNull(result);
 		assertEquals(expResult, result);
 	}
-	 */
+	
 
- /*
 	@Test
 	public void test_if_api_is_correctly_invoked() {
 		try {
@@ -152,5 +149,4 @@ public class BeanShellTest {
 		}
 
 	}
-	 */
 }
