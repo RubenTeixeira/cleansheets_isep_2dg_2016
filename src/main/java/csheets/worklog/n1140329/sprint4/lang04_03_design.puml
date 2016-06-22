@@ -36,7 +36,33 @@ actor User
   WizardFrame -> User : shows the formula's result
   User -> WizardFrame : Show Tree
   WizardFrame -> WizardController : buildAST()
+
+  alt if formula.charAt(0) == '='
   WizardController -> ExcelExpressionCompiler : CommonTree ast = compileTree(formula)
+  create ANTLRStringStream 
+  ExcelExpressionCompiler -> ANTLRStringStream : input = new (formula)
+  create FormulaLexer 
+  ExcelExpressionCompiler -> FormulaLexer : lexer = new (input) 
+  create CommonTokenStream 
+  ExcelExpressionCompiler -> CommonTokenStream : tokens = new (lexer)
+  create FormulaParser
+  ExcelExpressionCompiler -> FormulaParser : parser = new (tokens)
+  ExcelExpressionCompiler -> FormulaParser : expression()
+  FormulaParser -> FormulaParser : getTree()
+  else if formula.charAt(0) == '#'
+  WizardController -> MonetaryExpressionCompiler : CommonTree ast = compileTree(formula)
+  create ANTLRStringStream 
+  MonetaryExpressionCompiler -> ANTLRStringStream : input = new (formula)
+  create MonetaryExpressionLexer 
+  MonetaryExpressionCompiler -> MonetaryExpressionLexer : lexer = new (input) 
+  create CommonTokenStream 
+  MonetaryExpressionCompiler -> CommonTokenStream : tokens = new (lexer)
+  create MonetaryExpressionParser
+  MonetaryExpressionCompiler -> MonetaryExpressionParser : parser = new (tokens)
+  MonetaryExpressionCompiler -> MonetaryExpressionParser : expression()
+  MonetaryExpressionParser -> MonetaryExpressionParser : getTree()
+  end
+
   create WizardTreeFrame
   WizardController -> WizardTreeFrame : new(formula, wizardFrame)
   WizardTreeFrame -> WizardTreeFrame : fillTree(ast)

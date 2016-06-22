@@ -8,11 +8,9 @@ package csheets.ext.game.controllers;
 import csheets.AppSettings;
 import csheets.core.Address;
 import csheets.core.Cell;
-import csheets.core.CellListener;
 import csheets.core.Spreadsheet;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.NetworkManager;
-import csheets.ext.game.GameExtension;
 import csheets.ext.game.domain.Battleship;
 import csheets.ext.game.domain.Ship;
 import csheets.ext.style.StylableCell;
@@ -24,7 +22,6 @@ import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import java.awt.Font;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +29,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -61,8 +57,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     private final String RESPONSE_HIT = "hit";
     private final String RESPONSE_WATER = "water";
     private final String RESPONSE_FAIL = "fail";
-    private final int CELL_WIDTH = 50;
-    private final int CELL_HEIGHT = 50;
+    private final int CELL_WIDTH = 30;
+    private final int CELL_HEIGHT = 30;
     private final Border cellBorder = BorderFactory.createMatteBorder(1, 1, 1, 1,
             Color.BLACK);
 
@@ -234,10 +230,12 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         uiController.getActiveWorkbook().addSpreadsheet();
         sheet = uiController.getActiveWorkbook().getSpreadsheet(
                 uiController.getActiveWorkbook().getSpreadsheetCount() - 1);
+        //uiController.setActiveSpreadsheet(sheet);
+        uiController.focusOwner.revalidate();
         //styleSheet = new StyleExtension().extend(sheet);
         styleSheet = (StylableSpreadsheet) sheet.getExtension(StyleExtension.NAME);
         //sheet = (StylableSpreadsheet)newSheet;
-        styleSheet.setTitle(BattleshipController.GAME_NAME);
+        sheet.setTitle(BattleshipController.GAME_NAME);
     }
 
     private void createEditBoard() {
@@ -262,7 +260,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         cell.setBackgroundColor(Color.BLACK);
         //System.out.println(styleSheet.getRowHeight(startRow));
         for (int row = startRow, count = 1; count - 1 < boardsize.size(); row++, count++) {
-            styleSheet.setRowHeight(row, CELL_HEIGHT);
+            //uiController.focusOwner.setRowHeight(row, CELL_HEIGHT);
+            //uiController.focusOwner.setColumnHeight(startColumn - 1, CELL_WIDTH);
             try {
                 cell = (StylableCell) styleSheet.getCell(startColumn - 1, row);
                 addCellConfig(cell, true);
@@ -272,7 +271,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
             }
         }
         for (int column = startColumn, count = 1; count - 1 < boardsize.size(); column++, count++, charTitle++) {
-            styleSheet.setColumnWidth(column, CELL_WIDTH);
+            //uiController.focusOwner.setRowHeight(startRow - 1, CELL_HEIGHT);
+            //uiController.focusOwner.setColumnHeight(column, CELL_WIDTH);
             try {
                 cell = (StylableCell) styleSheet.getCell(column, startRow - 1);
                 addCellConfig(cell, true);
@@ -472,6 +472,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         }
         if (turn) {
             shootOpponent(cell);
+            uiController.focusOwner.revalidate();
             return;
         }
         showMessage("It's not your turn");

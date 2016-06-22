@@ -265,6 +265,11 @@ public class EmailDialog extends javax.swing.JFrame {
 			new EmailInstancePanel(this.destinationCellText.getText(), this.subjectCellText.
 								   getText(), this.bodyCellText.getText());
 
+//			InformationEmailSent sentEmail = new InformationEmailSent(this.destinationCellText.
+//				getText(), this.subjectCellText.
+//																	  getText(), this.bodyCellText.
+//																	  getText());
+//			this.controller.persistSentEmail(sentEmail);
 			send.setVisible(false);
 			JOptionPane.
 				showMessageDialog(this, "Message sent successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);

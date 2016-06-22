@@ -103,7 +103,7 @@ public class SpreadsheetTable extends Grid implements SelectionListener {
         // Stores members
         this.uiController = uiController;
         uiController.addSelectionListener(this);
-        
+
         // Configures cell rendering and editing
         setDefaultRenderer(Cell.class, new CellRenderer(uiController));
         setDefaultEditor(Cell.class, new CellEditor(uiController));
@@ -306,7 +306,7 @@ public class SpreadsheetTable extends Grid implements SelectionListener {
     }
 
     /*
-	 * HEADERS
+     * HEADERS
      */
     /**
      * Sets the height for row to rowHeight, revalidates, and repaints. The
@@ -323,6 +323,25 @@ public class SpreadsheetTable extends Grid implements SelectionListener {
         StylableSpreadsheet styleableSpreadsheet = (StylableSpreadsheet) spreadsheet.
                 getExtension(StyleExtension.NAME);
         styleableSpreadsheet.setRowHeight(row, rowHeight);
+    }
+
+    /**
+     * Sets the width for column to columnWidth, revalidates, and repaints. The
+     * width of the cells in this column will be equal to the column width minus
+     * the column margin.
+     *
+     * @param column - the column whose width is being changed
+     * @param columnWidth - new column width, in pixels
+     * @throws IllegalArgumentException if columnWidth is less than 1
+     */
+    public void setColumnWidth(int column, int columnWidth) {
+        super.getColumnModel().getColumn(column).setWidth(columnWidth);
+        super.getColumnModel().getColumn(column).setPreferredWidth(columnWidth);
+        uiController.setWorkbookModified(spreadsheet.getWorkbook());
+        StylableSpreadsheet styleableSpreadsheet = (StylableSpreadsheet) spreadsheet.
+                getExtension(StyleExtension.NAME);
+        styleableSpreadsheet.setColumnWidth(column, columnWidth);
+        super.resizeAndRepaint();
     }
 
     /**

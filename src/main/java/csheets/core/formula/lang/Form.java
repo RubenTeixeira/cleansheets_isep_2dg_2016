@@ -28,13 +28,14 @@ import csheets.core.formula.FunctionParameter;
 import csheets.ui.FormEditor.ui.FormE;
 import csheets.ui.FormEditor.ui.FormEditor;
 import csheets.ui.ctrl.UIController;
+import java.io.Serializable;
 
 /**
  * A function that returns the numeric sum of its arguments.
  *
  * @author Einar Pehrson
  */
-public class Form implements Function {
+public class Form implements Function, Serializable {
 
 	/**
 	 * The only (but repeatable) parameter: a numeric term
@@ -67,7 +68,7 @@ public class Form implements Function {
 				addFormE(name, form);
 			form.setEditable(true);
 		}
-		form.setCell(UIController.getUIController().getActiveCell());
+		//form.setCell(UIController.getUIController().getActiveCell());
 		FormEditor formEditor = new FormEditor(form, modal);
 		return new Value();
 	}

@@ -120,12 +120,21 @@ public class AskContent extends javax.swing.JPanel {
 	}
 
 	/**
-	 * Get content of textfield contente.
+	 * Get content of textfield content.
 	 *
 	 * @return content
 	 */
 	public String content() {
 		return txtcontent.getText();
+	}
+
+	/**
+	 * Set content of textfield content.
+	 *
+	 * @param newContent
+	 */
+	public void setContent(String newContent) {
+		txtcontent.setText(newContent);
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -3,6 +3,7 @@ package csheets.ext.networkExplorer;
 import csheets.CleanSheets;
 import csheets.core.Workbook;
 import csheets.ext.cellsSharing.ui.*;
+import csheets.ext.networkExplorer.ui.NetworkExplorerPanel;
 import csheets.notification.Notifier;
 import csheets.support.ThreadManager;
 import csheets.ui.ctrl.UIController;
@@ -32,7 +33,7 @@ public class TcpService extends Notifier {
     List<String> connectedInstances;
     Map<String, int[]> targets = new HashMap();
 
-    SharePanel panel;
+    NetworkExplorerPanel panel;
 
     // Empty constructor
     public TcpService() {
@@ -43,7 +44,7 @@ public class TcpService extends Notifier {
      *
      * @param ui User Interface
      */
-    public TcpService(SharePanel ui) {
+    public TcpService(NetworkExplorerPanel ui) {
         connectedInstances = new ArrayList<>();
         this.panel = ui;
     }
@@ -83,11 +84,11 @@ public class TcpService extends Notifier {
      * @param message Message to send to the target.
      */
     public void client(String target, String message) {
-        ThreadManager.create("ipc.share-cells-tcpClient", new Thread() {
+        ThreadManager.create("ipc.network-explorer-tcpClient", new Thread() {
             @Override
             public void run() {
                 new TcpClient(0).
-                        send(":share-cells", target, message);
+                        send(":network-explorer", target, message);
             }
         });
 

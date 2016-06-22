@@ -9,6 +9,7 @@ import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
 
 /**
  * User Interface of Advanced Workbook Search Extension.
@@ -22,6 +23,8 @@ public class AdvancedWorkbookSearchUI extends UIExtension {
 	 */
 	private JComponent sideBar;
 
+	private AdvancedWorkbookMenu advanceMenu;
+
 	/**
 	 * Creates AdvancedWorkbookSearch Panel.
 	 *
@@ -32,17 +35,24 @@ public class AdvancedWorkbookSearchUI extends UIExtension {
 									UIController uiController) {
 		super(extension, uiController);
 	}
+//
+//	/**
+//	 * Extension' side bar.
+//	 *
+//	 * @return JComponent JComponent.
+//	 */
+//	@Override
+//	public JComponent getSideBar() {
+//		if (sideBar == null) {
+//			new AdvancedWorkbookSearchPanel(uiController);
+//		}
+//		return sideBar;
+//	}
 
-	/**
-	 * Extension' side bar.
-	 *
-	 * @return JComponent JComponent.
-	 */
 	@Override
-	public JComponent getSideBar() {
-		if (sideBar == null) {
-			sideBar = new AdvancedWorkbookSearchPanel(uiController);
-		}
-		return sideBar;
+	public JMenu getMenu() {
+		advanceMenu = new AdvancedWorkbookMenu(uiController);
+		return advanceMenu;
 	}
+
 }

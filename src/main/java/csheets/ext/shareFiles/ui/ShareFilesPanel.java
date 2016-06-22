@@ -60,18 +60,30 @@ public class ShareFilesPanel extends JPanel implements Observer {
 				String ip = ((String) data.get("ip"));
 				String port = ((String) data.get("port"));
 				String[] files = ((String) data.get("files")).split(";");
-				this.downloadsModel.removeAllElements();
 				for (int i = 0; i < files.length; i++) {
-					this.downloadsModel.
-						addElement(ip + ":" + port + " " + files[i]);
+
+					if (downloadsModel.
+						contains(ip + ":" + port + " " + files[i] + " downloading...")) {
+						this.downloadsModel.
+							removeElement(ip + ":" + port + " " + files[i] + " downloading...");
+						this.downloadsModel.
+							addElement(ip + ":" + port + " " + files[i] + " up to date");
+					}
+
+					if (!downloadsModel.
+						contains(ip + ":" + port + " " + files[i] + " up to date")) {
+						this.downloadsModel.
+							addElement(ip + ":" + port + " " + files[i] + " up to date");
+					}
 				}
 			}
-		}
-		this.jTextFieldDowloadsPath.setText(this.controller.pathDownloads());
-		this.jTextFieldFilesPath.setText(this.controller.pathFiles());
-		this.filesModel.removeAllElements();
-		for (File file : this.controller.files()) {
-			this.filesModel.addElement(file.getName());
+		} else {
+			this.jTextFieldDowloadsPath.setText(this.controller.pathDownloads());
+			this.jTextFieldFilesPath.setText(this.controller.pathFiles());
+			this.filesModel.removeAllElements();
+			for (File file : this.controller.files()) {
+				this.filesModel.addElement(file.getName());
+			}
 		}
 		this.revalidate();
 		this.repaint();
@@ -113,10 +125,11 @@ public class ShareFilesPanel extends JPanel implements Observer {
         jListDowloads = new javax.swing.JList<>();
         jButtonDowloadPath = new javax.swing.JButton();
         jTextFieldDowloadsPath = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jScrollPane1.setViewportView(jListFiles);
 
-        jButtonFilePath.setText("path");
+        jButtonFilePath.setText("Path");
         jButtonFilePath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonFilePathActionPerformed(evt);
@@ -132,7 +145,7 @@ public class ShareFilesPanel extends JPanel implements Observer {
                 .addComponent(jButtonFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldFilesPath))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
         );
         panelNotes2Layout.setVerticalGroup(
             panelNotes2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,17 +154,24 @@ public class ShareFilesPanel extends JPanel implements Observer {
                     .addComponent(jTextFieldFilesPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonFilePath))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE))
         );
 
         tabPane2.addTab("Files", panelNotes2);
 
         jScrollPane3.setViewportView(jListDowloads);
 
-        jButtonDowloadPath.setText("path");
+        jButtonDowloadPath.setText("Path");
         jButtonDowloadPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDowloadPathActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Download");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -159,12 +179,16 @@ public class ShareFilesPanel extends JPanel implements Observer {
         panelLists.setLayout(panelListsLayout);
         panelListsLayout.setHorizontalGroup(
             panelListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
             .addGroup(panelListsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jButtonDowloadPath, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldDowloadsPath))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelListsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelListsLayout.setVerticalGroup(
             panelListsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +197,9 @@ public class ShareFilesPanel extends JPanel implements Observer {
                     .addComponent(jButtonDowloadPath)
                     .addComponent(jTextFieldDowloadsPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
         );
 
         tabPane2.addTab("Dowloads", panelLists);
@@ -201,14 +227,27 @@ public class ShareFilesPanel extends JPanel implements Observer {
     }//GEN-LAST:event_jButtonFilePathActionPerformed
 
     private void jButtonDowloadPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDowloadPathActionPerformed
-		String path = findPath("Dowloads");
+		String path = findPath("Downloads");
 		if (path != null) {
 			this.controller.pathDownloads(path);
 		}
 		this.update(null, null);
     }//GEN-LAST:event_jButtonDowloadPathActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+		int[] selectedFiles = jListDowloads.getSelectedIndices();
+		for (int i = 0; i < selectedFiles.length; i++) {
+			int selectedFile = selectedFiles[i];
+			String text = (String) downloadsModel.get(selectedFile);
+			String newText = text.replaceAll(" up to date", " downloading...");
+			downloadsModel.setElementAt(newText, selectedFile);
+		}
+		this.revalidate();
+		this.repaint();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonDowloadPath;
     private javax.swing.JButton jButtonFilePath;
     private javax.swing.JList<String> jListDowloads;

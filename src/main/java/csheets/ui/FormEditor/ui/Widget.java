@@ -5,21 +5,13 @@
  */
 package csheets.ui.FormEditor.ui;
 
-import javax.swing.JPanel;
+import java.io.Serializable;
 
 /**
  *
  * @author João Martins
  */
-public interface Widget {
-
-	/**
-	 * Get panel with content.
-	 *
-	 * @param content Content
-	 * @return Panel
-	 */
-	public JPanel getPanel(String content);
+public interface Widget extends Serializable {
 
 	/**
 	 * Get name widget.
@@ -34,4 +26,11 @@ public interface Widget {
 	 * @return content of the widget
 	 */
 	public String getContent();
+
+	/**
+	 * Set content of the widget
+	 *
+	 * @param content
+	 */
+	public void setContentWidget(String content);
 }

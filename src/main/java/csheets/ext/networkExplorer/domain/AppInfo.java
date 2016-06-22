@@ -5,6 +5,8 @@
  */
 package csheets.ext.networkExplorer.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,32 +14,45 @@ import java.util.Map;
  * @author Diogo Azevedo
  */
 public class AppInfo {
-    private Map<String,ExtensionInfo> extensionMap;
-    private Map<Integer,WorkbookInfo> workbookMap;
+    private List<ExtensionInfo> extensions;
+    private List<WorkbookInfo> workbooks;
+    private String name="default";
+
+
+    public AppInfo(String name) {
+        this.name = name;
+        this.extensions = new ArrayList();
+        this.workbooks = new ArrayList();
+    }
+ 
+    
 
     /**
      * @return the extensionMap
      */
-    public Map<String,ExtensionInfo> getExtensionMap() {
-        return extensionMap;
+    public List<ExtensionInfo> getExtensions() {
+        return extensions;
     }
 
     /**
      * @return the workbookMap
      */
-    public Map<Integer,WorkbookInfo> getWorkbookMap() {
-        return workbookMap;
+    public List<WorkbookInfo> getWorkbooks() {
+        return workbooks;
     }
 
-    public void addExtension(String id, ExtensionInfo extesion) {
-        extensionMap.put(id, extesion);
+    public void addExtension(ExtensionInfo extesion) {
+        extensions.add(extesion);
     }
 
-    public void addWorkbooks(int index, WorkbookInfo newWorkbook) {
-        workbookMap.put(index, newWorkbook);
+    public void addWorkbooks(WorkbookInfo newWorkbook) {
+        workbooks.add(newWorkbook);
     }
 
-    public void addSpreadSheets(int workbookIndex, String sheetId, SpreadSheetInfo newSpreadsheet) {
-       workbookMap.get(workbookIndex).addSpreadSheet(sheetId, newSpreadsheet);
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 }
