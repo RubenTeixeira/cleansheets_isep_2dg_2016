@@ -113,14 +113,15 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
      * Remove all playable cells Listenners
      */
     private void removeListeners() {
-        for (int column = 0; column < sheet.getColumnCount(); column++) {
+        uiController.removeSelectionListener(this);
+        /*for (int column = 0; column < sheet.getColumnCount(); column++) {
             for (int row = 0; row < sheet.getRowCount(); row++) {
-                for (CellListener cellListener : uiController.getActiveSpreadsheet().getCellListeners()) {
+                for (CellListener cellListener : sheet.getCellListeners()) {
                     sheet.getCell(column, row).removeCellListener(cellListener);
                     uiController.removeSelectionListener(this);
                 }
             }
-        }
+        }*/
     }
 
     @Override
@@ -225,7 +226,8 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         uiController.getActiveWorkbook().addSpreadsheet();
         sheet = uiController.getActiveWorkbook().getSpreadsheet(
                 uiController.getActiveWorkbook().getSpreadsheetCount() - 1);
-        styleSheet = new StyleExtension().extend(sheet);
+        //styleSheet = new StyleExtension().extend(sheet);
+        styleSheet = (StylableSpreadsheet)sheet.getExtension(StyleExtension.NAME);
         //sheet = (StylableSpreadsheet)newSheet;
         styleSheet.setTitle(BattleshipController.GAME_NAME);
     }
@@ -616,8 +618,15 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
     }
 
     private void showHit(int column, int row) {
-        StylableCell cell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
-        cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
+        StylableCell scell = (StylableCell)sheet.getCell(column, row).getExtension(StyleExtension.NAME);
+        Cell cell = sheet.getCell(column, row);
+        //cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
+        scell.setBackgroundColor(Color.GRAY);
+        try {
+            cell.setContent("X");
+        } catch (FormulaCompilationException ex) {
+            //Logger.getLogger(BattleshipController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void showWater(int column, int row) {
