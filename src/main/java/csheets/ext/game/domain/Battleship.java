@@ -140,18 +140,18 @@ public class Battleship {
     }
 
     public int shoot(Address address, int marginColumn, int marginRow) {
-        int column = address.getColumn();
-        int row = address.getRow();
-        if (column < marginColumn
-                || column > board.length + marginColumn
-                || row < marginRow
-                || row > board[0].length + marginRow) {
+        int column = address.getColumn() - marginColumn;
+        int row = address.getRow() - marginRow;
+        if (column < 0
+                || column >= board.length
+                || row < 0
+                || row >= board[0].length) {
             throw new VerifyError("Shoot outside of the board.");
         }
         if (board[column][row]) {
             throw new VerifyError("Already shoot that location.");
         }
-        board[address.getColumn()][address.getRow()] = true;
+        board[column][row] = true;
         for (Ship ship : lstShips) {
             if (ship.hit(address)) {
                 if (ship.isDestroyed()) {
