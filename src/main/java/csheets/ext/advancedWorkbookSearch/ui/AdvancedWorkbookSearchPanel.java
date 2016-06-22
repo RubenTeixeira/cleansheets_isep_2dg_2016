@@ -385,7 +385,7 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 			jPatternFieldPattern.setEnabled(false);
 			jButtonSearch.setText("Cancel");
 			do {
-				jLabelResult.setText("Searching...");
+				jLabelResult.setText("Searching....");
 				jImagePanel.setVisible(true);
 				cont = 0; //sets counter to 0 on each search.
 				jImagePanel.setVisible(true);
