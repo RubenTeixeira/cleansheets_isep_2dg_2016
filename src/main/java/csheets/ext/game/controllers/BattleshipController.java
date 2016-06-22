@@ -345,10 +345,13 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         int myColumn = column + marginOwnBoardColumn - marginColumn;
         int myRow = row + marginOwnBoardRow - marginRow;
         int shoot;
+        System.out.println("\n\n\n");
         try {
             shoot = game.shoot(cell.getAddress(), marginColumn, marginRow);
         } catch (VerifyError ex) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_FAIL);
+            System.out.println("SEND FAIL");
+            System.out.println("\n\n\n");
             return;
         }
         if (shoot == Battleship.SHOOT_SINK) {
@@ -356,22 +359,30 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
             showSink(myColumn, myRow);
             if (game.allShipsDestroyed()) {
                 new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WIN);
+                System.out.println("SEND WIN");
+                System.out.println("\n\n\n");
                 showLose();
-            } else {
-                new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_SINK);
-                playMessage += "Your turn ...";
-                showMessage(playMessage);
+                return;
             }
+            new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_SINK);
+            System.out.println("SEND SINK");
+            System.out.println("\n\n\n");
+            playMessage += "Your turn ...";
+            showMessage(playMessage);
             return;
         }
         if (shoot == Battleship.SHOOT_HIT) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_HIT);
+            System.out.println("SEND HIT");
+            System.out.println("\n\n\n");
             showHit(myColumn, myRow);
             showMessage("Opponent hit a boat. Your turn ...");
             return;
         }
         if (shoot == Battleship.SHOOT_FAIL) {
             new TcpClient(0).send(REQUEST_RESPONSE, connection, message + ";" + RESPONSE_WATER);
+            System.out.println("SEND WATER");
+            System.out.println("\n\n\n");
             showWater(myColumn, myRow);
             showMessage("Opponent fail, he found water. Your turn ...");
             return;
