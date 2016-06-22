@@ -82,7 +82,7 @@ public class BeanShell implements Script {
             try {
                 Object o = interpreter.eval(instruction);
                 if (o != null) {
-                    result += o.toString() + "\n";
+                    result = o.toString();
                 } else {
                     result = "";
                 }
