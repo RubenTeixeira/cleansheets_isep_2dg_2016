@@ -118,7 +118,13 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
      * The instance of UIController App
      */
     private static UIController uiController;
-
+    
+    public UIController() {
+        // Fetches extensions
+        List<UIExtension> uiExtensions = new LinkedList<>();
+        this.extensions = uiExtensions.toArray(new UIExtension[uiExtensions.size()]);
+    }
+    
     // private Map<Workbook, Spreadsheet> activeSpreadsheets;
     // private Map<Spreadsheet, Cell> activeCells;
     /**
