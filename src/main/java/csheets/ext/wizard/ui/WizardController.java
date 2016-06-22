@@ -12,6 +12,7 @@ import csheets.core.formula.Function;
 import csheets.core.formula.compiler.ExcelExpressionCompiler;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.core.formula.compiler.FormulaCompiler;
+import csheets.core.formula.compiler.MonetaryExpressionCompiler;
 import csheets.core.formula.lang.Language;
 import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
@@ -77,13 +78,20 @@ public class WizardController {
 		}
 	}
 
-	public void buildAST(String formula, WizardFrame frame) throws FormulaCompilationException {
-		CommonTree ast = new ExcelExpressionCompiler().compileTree(formula);
-		if (ast != null) {
-			new WizardTreeFrame(ast, frame).setVisible(true);
-			System.out.println("AST: " + ast.toStringTree());
-		}
-	}
+    public void buildAST(String formula, WizardFrame frame) throws FormulaCompilationException {
+        CommonTree ast = null;
+
+        if (formula.charAt(0) == '=') {
+            ast = new ExcelExpressionCompiler().compileTree(formula);
+        } else if (formula.charAt(0) == '#') {
+            ast = new MonetaryExpressionCompiler().compileTree(formula);
+        }
+
+        if (ast != null) {
+            new WizardTreeFrame(ast, frame).setVisible(true);
+            System.out.println("AST: " + ast.toStringTree());
+        }
+    }
 
 	/* Lang04.2
     public String setValuesOnExpression(String text, String text0, String text1, String text2) {
