@@ -27,13 +27,13 @@ import javax.swing.JOptionPane;
  * @author Bruno
  */
 public class TaskManager extends javax.swing.JPanel implements Observer {
-
+    
     private TaskController controller;
     private EventsController eventsController;
     private ReminderController reminderController;
     private Task task;
     private List<Contact> listContacts = new ArrayList();
-
+    
     private final String[] nameMonth = {"Invalid", "January", "Febraury",
         "March", "April", "May", "June",
         "July", "August", "September",
@@ -55,7 +55,7 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         initDate();
         this.PanelDealiningbyEventRemi.setVisible(false);
         this.PanelDealining.setVisible(false);
-
+        
     }
 
     /**
@@ -82,11 +82,11 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         jLabel4 = new javax.swing.JLabel();
         checkBoxEvent = new javax.swing.JCheckBox();
         CheckBoxReminder = new javax.swing.JCheckBox();
-        lbldata = new javax.swing.JLabel();
         PanelDealiningbyEventRemi = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         lbloption = new javax.swing.JLabel();
         cmbEventsR = new javax.swing.JComboBox<Object>();
+        lbldata = new javax.swing.JLabel();
         PanelDealining = new javax.swing.JPanel();
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
@@ -125,8 +125,6 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             }
         });
 
-        PanelDealiningbyEventRemi.setBackground(new java.awt.Color(153, 153, 153));
-
         jLabel5.setText("Deadline");
 
         lbloption.setText("Events");
@@ -137,6 +135,8 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             }
         });
 
+        lbldata.setText("    ");
+
         javax.swing.GroupLayout PanelDealiningbyEventRemiLayout = new javax.swing.GroupLayout(PanelDealiningbyEventRemi);
         PanelDealiningbyEventRemi.setLayout(PanelDealiningbyEventRemiLayout);
         PanelDealiningbyEventRemiLayout.setHorizontalGroup(
@@ -146,6 +146,8 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                 .addGroup(PanelDealiningbyEventRemiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelDealiningbyEventRemiLayout.createSequentialGroup()
                         .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbldata, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(PanelDealiningbyEventRemiLayout.createSequentialGroup()
                         .addComponent(lbloption, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
@@ -161,11 +163,11 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                     .addComponent(lbloption)
                     .addComponent(cmbEventsR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addGroup(PanelDealiningbyEventRemiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lbldata))
                 .addContainerGap())
         );
-
-        PanelDealining.setBackground(new java.awt.Color(153, 204, 255));
 
         cmbYear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbYear.addActionListener(new java.awt.event.ActionListener() {
@@ -232,8 +234,9 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                             .addComponent(jComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                             .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(6, 6, 6))
                         .addGroup(layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel1)
@@ -252,12 +255,13 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                         .addComponent(checkDeadline))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(PanelDealining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PanelDealiningbyEventRemi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PanelDealining, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PanelDealiningbyEventRemi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(36, 36, 36))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,16 +292,11 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                     .addComponent(checkBoxEvent)
                     .addComponent(CheckBoxReminder)
                     .addComponent(checkDeadline))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(lbldata))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(PanelDealiningbyEventRemi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PanelDealiningbyEventRemi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(PanelDealining, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -315,12 +314,15 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             this.CheckBoxReminder.setSelected(false);
             this.checkDeadline.setSelected(false);
         }
-
-        this.PanelDealiningbyEventRemi.setVisible(true);
-        this.PanelDealining.setVisible(false);
-        this.cmbEventsR.removeAllItems();
-        this.lbloption.setText("Events");
-        loadEvents();
+        if (this.checkBoxEvent.isSelected()) {
+            this.PanelDealiningbyEventRemi.setVisible(true);
+            this.PanelDealining.setVisible(false);
+            this.cmbEventsR.removeAllItems();
+            this.lbloption.setText("Events");
+            loadEvents();
+        } else {
+            this.PanelDealiningbyEventRemi.setVisible(false);
+        }
     }//GEN-LAST:event_checkBoxEventActionPerformed
 
     private void CheckBoxReminderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxReminderActionPerformed
@@ -329,11 +331,15 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             this.checkBoxEvent.setSelected(false);
             this.checkDeadline.setSelected(false);
         }
-        this.PanelDealiningbyEventRemi.setVisible(true);
-        this.PanelDealining.setVisible(false);
-        this.cmbEventsR.removeAllItems();
-        this.lbloption.setText("Reminders");
-        loadReminders();
+        if (this.CheckBoxReminder.isSelected()) {
+            this.PanelDealiningbyEventRemi.setVisible(true);
+            this.PanelDealining.setVisible(false);
+            this.cmbEventsR.removeAllItems();
+            this.lbloption.setText("Reminders");
+            loadReminders();
+        } else {
+            this.PanelDealiningbyEventRemi.setVisible(false);
+        }
     }//GEN-LAST:event_CheckBoxReminderActionPerformed
 
     private void cmbEventsRItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEventsRItemStateChanged
@@ -353,32 +359,35 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         if (this.checkBoxEvent.isSelected() || this.CheckBoxReminder.isSelected()) {
             this.checkBoxEvent.setSelected(false);
             this.CheckBoxReminder.setSelected(false);
-
         }
-        this.PanelDealiningbyEventRemi.setVisible(false);
-        this.PanelDealining.setVisible(true);
-
+        if (this.checkDeadline.isSelected()) {
+            this.PanelDealiningbyEventRemi.setVisible(false);
+            this.PanelDealining.setVisible(true);
+        } else {
+            this.PanelDealining.setVisible(false);
+        }
+        
 
     }//GEN-LAST:event_checkDeadlineActionPerformed
-
+    
     private void initDate() {
         initYear();
         initMonth();
         initDays();
-
+        
     }
-
+    
     private void initYear() {
         Calendar calendar = Calendar.getInstance();
         cmbYear.removeAllItems();
         int currentYear = calendar.get(Calendar.YEAR);
-
+        
         for (int yearCount = currentYear; yearCount <= currentYear + 10; yearCount++) {
             cmbYear.addItem(yearCount);
         }
         cmbYear.setSelectedIndex(0);
     }
-
+    
     private void initMonth() {
         Calendar calendar = Calendar.getInstance();
         cmbMonth.removeAllItems();
@@ -387,15 +396,15 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         }
         cmbMonth.setSelectedIndex(calendar.get(Calendar.MONTH));
     }
-
+    
     private void initDays() {
         Calendar calendar = Calendar.getInstance();
         cmbDay.removeAllItems();
         calendar.set(Calendar.MONTH, cmbMonth.getSelectedIndex());
         calendar.set(Calendar.YEAR, cmbYear.getSelectedIndex());
-
+        
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-
+        
         for (int dayCount = 1; dayCount <= lastDay; dayCount++) {
             cmbDay.addItem(dayCount);
         }
@@ -454,17 +463,17 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                     timeOfReminder()));
             this.cmbDay.setSelectedItem(DateTime.day(this.task.
                     timeOfReminder()));
-
+            
         }
     }
-
+    
     private void initContact() {
         for (Contact contact : this.controller.allContacts()) {
             this.listContacts.add(contact);
             this.jComboBoxContact.addItem(contact.toString());
         }
     }
-
+    
     public void createTask() throws DataIntegrityViolationException {
         //Calendario so tem ano, mes, dia
         Calendar calendar = DateTime.newCalendar((Integer) (this.cmbYear.
@@ -478,7 +487,7 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                                 getSelectedIndex() + 1, Float.
                                 parseFloat(this.jTextFieldPercentage.getText()), (Contact) this.listContacts.
                                 get(this.jComboBoxContact.getSelectedIndex()), calendar);
-
+                
             } else {
                 this.task.
                         defineTask(this.jTextFieldName.getText(), this.jTextFieldDescription.
@@ -510,7 +519,7 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         revalidate();
         repaint();
     }
-
+    
     private void loadReminders() {
         for (Reminder reminder : this.controller.allReminders()) {
             this.cmbEventsR.addItem(reminder);

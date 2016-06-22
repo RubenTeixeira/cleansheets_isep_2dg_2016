@@ -5,8 +5,6 @@
  */
 package csheets.ui.FormEditor.ui;
 
-import javax.swing.JPanel;
-
 /**
  *
  * @author João Martins
@@ -19,14 +17,13 @@ public class LabelWidget implements Widget {
 	private String content;
 
 	@Override
-	public JPanel getPanel(String content) {
-		this.content = content;
-		return new LabelPanel(content);
+	public String getName() {
+		return "label";
 	}
 
 	@Override
-	public String getName() {
-		return "label";
+	public void setContentWidget(String content) {
+		this.content = content;
 	}
 
 	/**

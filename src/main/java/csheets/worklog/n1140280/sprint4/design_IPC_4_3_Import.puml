@@ -20,10 +20,10 @@ actor Actor
   Frame --> Actor : ask Table Name
   Frame -> Controller : saveSelectedCells(String Driver,String connection,String tableName)
   Controller -> DatabaseConnector : getInstance()
-  Controller -> DatabaseConnector : testConnection(String Driver,String connection)
-  Controller -> DatabaseConnector : doesTableExist(String Driver,String connection,String tableName)
+  Controller -> DatabaseConnector : setConnection(String Driver,String connection)
+  Controller -> DatabaseConnector : doesTableExist(String tableName)
   alt table already exits
-  Controller -> DatabaseConnector : data[][] =  getTable(String Driver,String connection,String tableName)
+  Controller -> DatabaseConnector : data[][] =  getTable(String tableName)
   Controller -> UIController : getFocusOwner()
   Controller -> focusOwner : cells[][] = getSelectedCells()
   end

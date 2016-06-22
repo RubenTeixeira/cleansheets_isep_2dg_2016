@@ -1,7 +1,7 @@
 @startuml doc-files/api_class_diagram.png
 
 class CleansheetsAPI {
-    -UIController uiController;
+    -UIController uiController
     +workbooks() : Stack<Workbook>
     +workbook() : Workbook
     +addSpreadsheet() : void
@@ -48,7 +48,5 @@ class CleansheetsAPI {
     +getMacro(String name) : Code
     +getBeanShellScript(String name) : Code
 }
-
-CleansheetsAPI <-- CleansheetsAPI 
 
 @enduml

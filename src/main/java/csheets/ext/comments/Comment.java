@@ -159,6 +159,10 @@ public class Comment implements Serializable {
 		this.font = font;
 	}
 
+	public void setUsername(String username) {
+		this.userName = username;
+	}
+
 	/**
 	 * Sets the background color of the comment.
 	 *

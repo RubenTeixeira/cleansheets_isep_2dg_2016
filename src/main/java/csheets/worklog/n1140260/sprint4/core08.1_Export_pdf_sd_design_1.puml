@@ -5,7 +5,7 @@ participant "UI" as UI
 participant "UIController" as UIController
 participant "ExportPDFController" as ExportPDFController
 
-participant "PDFCodec" as PDFCodec
+participant "ExportPDF" as ExportPDF
 participant "<interface>\nSpreadsheet" as Spreadsheet
 participant "PDFWriter" as PDFWriter
 participant "JFileChooser" as JFileChooser
@@ -18,12 +18,13 @@ participant "Workbook" as Workbook
 
 User -> UI: selects option export to pdf
 UI -> UIController: ExportPDFController(UIController uiController)
-UIController -> ExportXMLController: exportWorkbook(JFileChooser fileChooser,boolean showList)
+UIController -> ExportXMLController: exportWorkbook(JFileChooser fileChoose
 ExportXMLController -> File: file = fileChooser.getSelectedFile();
-PDFCodec <-- JFileChooser: give a Selected File
+ExportPDF <-- JFileChooser: give a Selected File
 ExportPDFController -> UIController: getActiveWorkbook()
 ExportPDFController <-- UIController: returns active workbook
-ExportPDFController -> PDFCodec:writeWorkbook(workbook,file,showList)
+ExportPDFController -> EncoderStrategy: write(file,workbook)
+ExportPDF -> ExportPDF:writeWorkbook(workbook,file)
 alt showList = true
 
 	PdfCell -> PdfCell : cellSections=new PdfCell(new Paragraph(listOfSections, f)
