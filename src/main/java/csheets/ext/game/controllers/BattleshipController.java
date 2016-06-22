@@ -467,6 +467,9 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
             showMessage("It's required to select the ship to place before choosing the location.");
             return;
         }
+        if (!opponentReadyToPlay || !readyToPlay) {
+            return;
+        }
         if (turn) {
             shootOpponent(cell);
             return;
