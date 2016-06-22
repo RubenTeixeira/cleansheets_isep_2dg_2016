@@ -38,7 +38,7 @@ public class Ship {
             }
             return false;
         }
-        
+
         public int size() {
             return size;
         }
@@ -73,9 +73,9 @@ public class Ship {
     }
 
     public boolean isShipType(ShipType st) {
-        return shipType.isSameType(st);
+        return st != null && shipType.isSameType(st);
     }
-    
+
     public List<Address> getPositions() {
         return locations;
     }
@@ -83,9 +83,6 @@ public class Ship {
     public boolean setLocation(List<Address> positions) {
         if (positions.size() == 0 || positions.size() != shipType.size) {
             throw new IllegalArgumentException("The ship must have " + shipType.size + " size.");
-        }
-        if (positions.get(0) == null) {
-            throw new NullPointerException("The location cannot contain null.");
         }
         int column = positions.get(0).getColumn();
         int row = positions.get(0).getRow();
@@ -102,18 +99,18 @@ public class Ship {
             if (position.getRow() == row) {
                 rowCount++;
             }
-            if (columnCount > 1 && rowCount > 1) {
-                locations.clear();
-                throw new IllegalArgumentException("The ship must be in line.");
-            }
+        }
+        if (columnCount > 1 && rowCount > 1
+                || positions.size() > 1 && columnCount <= 1 && rowCount <= 1) {
+            locations.clear();
+            throw new IllegalArgumentException("The ship must be in line.");
         }
         return true;
     }
 
     protected boolean hasLocation() {
         if (locations == null || locations.size() == 0) {
-            throw new VerifyError("Ship has no location. Must be set ship "
-                    + "location before trying to hit it.");
+            return false;
         }
         return true;
     }
