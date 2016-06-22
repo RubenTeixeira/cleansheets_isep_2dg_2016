@@ -221,7 +221,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
 
     private void prepareShipsForEdit() {
         int shipCount = 0;
-        for (Map.Entry<Ship.ShipType, Integer> entry : game.getShipCount().entrySet()) {
+        for (Map.Entry<Ship.ShipType, Integer> entry : game.getShipsType().entrySet()) {
             lstShips.put(sheet.getCell(columnShipStart, rowShipStart + shipCount++), entry);
         }
     }

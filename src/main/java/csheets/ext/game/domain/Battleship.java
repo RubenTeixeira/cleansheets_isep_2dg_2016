@@ -37,8 +37,8 @@ public class Battleship {
 
     public enum BattleshipGameType {
         TYPE_1(new Ship.ShipType[]{/*Ship.ShipType.AircraftCarrier,
-            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
-            Ship.ShipType.Destroyer, */Ship.ShipType.PatrolBoat}),
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,*/
+            Ship.ShipType.Destroyer, Ship.ShipType.PatrolBoat}),
         TYPE_2(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
             Ship.ShipType.Battleship, Ship.ShipType.Submarine,
             Ship.ShipType.Destroyer, Ship.ShipType.SmallDestroyer}),
@@ -83,7 +83,7 @@ public class Battleship {
         return lstShips;
     }
 
-    public Map<Ship.ShipType, Integer> getShipCount() {
+    public Map<Ship.ShipType, Integer> getShipsType() {
         return gameType.lstShipTypes;
     }
 
@@ -100,13 +100,7 @@ public class Battleship {
 
     public Ship addShip(Ship.ShipType shipType, List<Address> positions) {
         Ship newShip = new Ship(shipType);
-        try {
-            newShip.setLocation(positions);
-        } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException(ex.getMessage());
-        } catch (NullPointerException ex) {
-            throw new NullPointerException(ex.getMessage());
-        }
+        newShip.setLocation(positions);
         int shipTypeCounter = 0;
         for (Ship ship : lstShips) {
             if (ship.onTopOf(newShip)) {
