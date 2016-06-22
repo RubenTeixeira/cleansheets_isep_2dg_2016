@@ -8,7 +8,6 @@ package csheets.ext.game.ui;
 import csheets.ext.game.GameExtension;
 import csheets.ext.game.controllers.BattleshipController;
 import csheets.ext.game.controllers.GameController;
-import csheets.ext.game.domain.Battleship;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.ui.DefaulListModel;
@@ -37,147 +36,147 @@ import javax.swing.JPanel;
  */
 public class GamePanel extends JPanel implements SelectionListener, Observer {
 
-	/**
-	 * Username of the system.
-	 */
-	private String username;
+    /**
+     * Username of the system.
+     */
+    private String username;
 
-	/**
-	 * Profile photo.
-	 */
-	private File photoFile;
+    /**
+     * Profile photo.
+     */
+    private File photoFile;
 
-	/**
-	 * UI controller.
-	 */
-	private final UIController uiController;
+    /**
+     * UI controller.
+     */
+    private final UIController uiController;
 
-	/**
-	 * Instance of the controller.
-	 */
-	private GameController gameController;
+    /**
+     * Instance of the controller.
+     */
+    private GameController gameController;
 
-	/**
-	 * Default instance list - instances.
-	 */
-	private DefaultListModel instanceListModel;
+    /**
+     * Default instance list - instances.
+     */
+    private DefaultListModel instanceListModel;
 
-	/**
-	 * Default instance list - list of games.
-	 */
-	private DefaultListModel instanceListModelGames;
+    /**
+     * Default instance list - list of games.
+     */
+    private DefaultListModel instanceListModelGames;
 
-	/**
-	 * Default instance list - list online games.
-	 */
-	private DefaultListModel instanceListModelOnlineGames;
+    /**
+     * Default instance list - list online games.
+     */
+    private DefaultListModel instanceListModelOnlineGames;
 
-	/**
-	 * Opponent.
-	 */
-	private String opponent;
+    /**
+     * Opponent.
+     */
+    private String opponent;
 
-	/**
-	 * Task Manager.
-	 */
-	private final TaskManager manager = new TaskManager();
+    /**
+     * Task Manager.
+     */
+    private final TaskManager manager = new TaskManager();
 
-	/**
-	 * Creates new form GamePanel.
-	 *
-	 * @param uiController uiController
-	 * @param gameController gameController
-	 */
-	public GamePanel(UIController uiController) {
-		this.uiController = uiController;
-		this.gameController = new GameController(uiController);
-		setName(GameExtension.NAME);
+    /**
+     * Creates new form GamePanel.
+     *
+     * @param uiController uiController
+     * @param gameController gameController
+     */
+    public GamePanel(UIController uiController) {
+        this.uiController = uiController;
+        this.gameController = new GameController(uiController);
+        setName(GameExtension.NAME);
 
-		initializeListsModel();
-		initComponents();
+        initializeListsModel();
+        initComponents();
 
-		uiController.addSelectionListener(this);
+        uiController.addSelectionListener(this);
 
-		setModel();
+        setModel();
 
-		updateListOfGames();
-		updateSystemProperty();
+        updateListOfGames();
+        updateSystemProperty();
 
-		updateLocalHostName();
+        updateLocalHostName();
 
-		// @IMPROVEMENT: Needs to get the timer from the configuration.
-		// Maybe get it through a configuration file?
-		final int defaultSeconds = 10;
-		final int defaultPort = 20006;
+        // @IMPROVEMENT: Needs to get the timer from the configuration.
+        // Maybe get it through a configuration file?
+        final int defaultSeconds = 10;
+        final int defaultPort = 20006;
 
-		this.gameController = gameController;
-		this.gameController.startUdpService(this, defaultPort, defaultSeconds);
-		this.gameController.startTcpService(this, defaultPort);
-	}
+        this.gameController = gameController;
+        this.gameController.startUdpService(this, defaultPort, defaultSeconds);
+        this.gameController.startTcpService(this, defaultPort);
+    }
 
-	/**
-	 * Create default lists.
-	 */
-	private void initializeListsModel() {
-		instanceListModel = new DefaultListModel();
-		instanceListModelGames = new DefaulListModel();
-		instanceListModelOnlineGames = new DefaulListModel();
-	}
+    /**
+     * Create default lists.
+     */
+    private void initializeListsModel() {
+        instanceListModel = new DefaultListModel();
+        instanceListModelGames = new DefaulListModel();
+        instanceListModelOnlineGames = new DefaulListModel();
+    }
 
-	/**
-	 * Sets jlist to a model.
-	 */
-	private void setModel() {
-		opponentsList.setModel(instanceListModel);
-		gameList.setModel(instanceListModelGames);
-		gamingOpponents.setModel(instanceListModelOnlineGames);
-	}
+    /**
+     * Sets jlist to a model.
+     */
+    private void setModel() {
+        opponentsList.setModel(instanceListModel);
+        gameList.setModel(instanceListModelGames);
+        gamingOpponents.setModel(instanceListModelOnlineGames);
+    }
 
-	/**
-	 * Update system property designation.
-	 */
-	private void updateSystemProperty() {
-		this.username = System.getProperty("user.name");
-		this.jTextField1.setText(username);
-		this.jTextField1.setEditable(false);
+    /**
+     * Update system property designation.
+     */
+    private void updateSystemProperty() {
+        this.username = System.getProperty("user.name");
+        this.jTextField1.setText(username);
+        this.jTextField1.setEditable(false);
 
-	}
+    }
 
-	/**
-	 * Update the name of the local host.
-	 *
-	 * @throws UnknownHostException
-	 */
-	private void updateLocalHostName() {
-		try {
-			jTextField2.setText(InetAddress.getLocalHost().getHostName());
-			jTextField2.setEditable(false);
-		} catch (UnknownHostException exception) {
-			jTextField2.setText("HostName");
-			jTextField2.setEditable(false);
-		}
+    /**
+     * Update the name of the local host.
+     *
+     * @throws UnknownHostException
+     */
+    private void updateLocalHostName() {
+        try {
+            jTextField2.setText(InetAddress.getLocalHost().getHostName());
+            jTextField2.setEditable(false);
+        } catch (UnknownHostException exception) {
+            jTextField2.setText("HostName");
+            jTextField2.setEditable(false);
+        }
 
-	}
+    }
 
-	/**
-	 * Update the online games between 2 instances.
-	 *
-	 * @param hostGame
-	 */
-	private void updateOnlineOpponentsGame(String hostGame) {
-		if (!instanceListModelOnlineGames.contains(hostGame)) {
-			instanceListModelOnlineGames.addElement(hostGame);
-		}
-		gamingOpponents.setModel(instanceListModelOnlineGames);
-		repaint();
-	}
+    /**
+     * Update the online games between 2 instances.
+     *
+     * @param hostGame
+     */
+    private void updateOnlineOpponentsGame(String hostGame) {
+        if (!instanceListModelOnlineGames.contains(hostGame)) {
+            instanceListModelOnlineGames.addElement(hostGame);
+        }
+        gamingOpponents.setModel(instanceListModelOnlineGames);
+        repaint();
+    }
 
-	/**
-	 * This method is called from within the constructor to initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is always
-	 * regenerated by the Form Editor.
-	 */
-	@SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -439,29 +438,29 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
-		this.opponent = this.opponentsList.getSelectedValue();
+        this.opponent = this.opponentsList.getSelectedValue();
 
-		if (this.opponent != null && this.gameList.getSelectedValue() != null) {
+        if (this.opponent != null && this.gameList.getSelectedValue() != null) {
 
-			this.gameController.setContinuousTarget(this.opponent);
+            this.gameController.setContinuousTarget(this.opponent);
 
-			this.gameController.
-				establishConnection(this.opponent, "::. Receive information .::\n"
-									+ "A host " + this.opponent + " wants to play "
-									+ " with you. \n Game: " + this.gameList.
-									getSelectedValue() + " Do you wish to play with him ?");
-			this.gameController.startTurn();
-		} else {
-			JOptionPane.showMessageDialog(this, "It is impossible to connect");
-		}
+            this.gameController.
+                    establishConnection(this.opponent, "::. Receive information .::\n"
+                            + "A host " + this.opponent + " wants to play "
+                            + " with you. \n Game: " + this.gameList.
+                            getSelectedValue() + " Do you wish to play with him ?");
+            this.gameController.startTurn();
+        } else {
+            JOptionPane.showMessageDialog(this, "It is impossible to connect");
+        }
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void opponentsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_opponentsListValueChanged
-		// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_opponentsListValueChanged
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-		// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -469,93 +468,92 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void photoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_photoLabelMouseClicked
-		//photo upload handler
-		final JFileChooser fc = new JFileChooser();
+        //photo upload handler
+        final JFileChooser fc = new JFileChooser();
 
-		int returnVal = fc.showOpenDialog(fc);
+        int returnVal = fc.showOpenDialog(fc);
 
-		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			photoFile = fc.getSelectedFile();
-			this.photoLabel.setIcon(iconImageFromFile(photoFile));
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            photoFile = fc.getSelectedFile();
+            this.photoLabel.setIcon(iconImageFromFile(photoFile));
 
-		}
+        }
     }//GEN-LAST:event_photoLabelMouseClicked
 
     private void gameListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gameListValueChanged
-		// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_gameListValueChanged
 
     private void gamingOpponentsValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_gamingOpponentsValueChanged
-		// TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_gamingOpponentsValueChanged
 
     private void endButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endButtonActionPerformed
-		if (gamingOpponents.getSelectedValue() != null) {
+        if (gamingOpponents.getSelectedValue() != null) {
 
-			int reply = JOptionPane.
-				showConfirmDialog(this, "::. Disconnect from instance .::\n"
-								  + "Are you sure you want to disconnect?");
+            int reply = JOptionPane.
+                    showConfirmDialog(this, "::. Disconnect from instance .::\n"
+                            + "Are you sure you want to disconnect?");
 
-			if (reply == JOptionPane.YES_OPTION) {
+            if (reply == JOptionPane.YES_OPTION) {
 
-				this.gameController.stopConnection();
-				gameController.stopCurrentGame();
-				instanceListModelOnlineGames.removeElement(gamingOpponents.
-					getSelectedValue());
-			} else if (reply == JOptionPane.NO_OPTION) {
-				// nothing to do
-			}
-		} else {
-			JOptionPane.showMessageDialog(this, "Please choose a game to end.");
-		}
+                this.gameController.stopConnection();
+                gameController.stopCurrentGame();
+                instanceListModelOnlineGames.removeElement(gamingOpponents.
+                        getSelectedValue());
+            } else if (reply == JOptionPane.NO_OPTION) {
+                // nothing to do
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please choose a game to end.");
+        }
     }//GEN-LAST:event_endButtonActionPerformed
 
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
-		// TODO add your handling code here:
-		if (this.gameList.getSelectedValue() != null) {
-			gameController.startGame(this.gameList.getSelectedValue());
-		} else {
-			JOptionPane.showMessageDialog(this, "Selecione o jogo");
-		}
-
+        // TODO add your handling code here:
+        if (this.gameList.getSelectedValue() != null) {
+            gameController.startGame(this.gameList.getSelectedValue());
+        } else {
+            JOptionPane.showMessageDialog(this, "Selecione o jogo");
+        }
     }//GEN-LAST:event_playButtonActionPerformed
 
-	/**
-	 * Fill the list with the available games. Dummy classes.
-	 */
-	private void updateListOfGames() {
-		this.instanceListModelGames.add(0, "TicTacToe");
-		this.instanceListModelGames.add(1, BattleshipController.GAME_NAME);
-		this.gameList.setModel(this.instanceListModelGames);
-	}
+    /**
+     * Fill the list with the available games. Dummy classes.
+     */
+    private void updateListOfGames() {
+        this.instanceListModelGames.add(0, "TicTacToe");
+        this.instanceListModelGames.add(1, BattleshipController.GAME_NAME);
+        this.gameList.setModel(this.instanceListModelGames);
+    }
 
-	/**
-	 * Upload image to user profile.
-	 *
-	 * @param photoFile
-	 * @return
-	 */
-	private ImageIcon iconImageFromFile(File photoFile) {
-		try {
-			BufferedImage img = ImageIO.read(photoFile);
-			return scaledImageIcon(img);
-		} catch (IOException ex) {
-			JOptionPane.
-				showMessageDialog(this, "Error opening file!", "User Photo", JOptionPane.ERROR_MESSAGE);
-			return null;
-		}
-	}
+    /**
+     * Upload image to user profile.
+     *
+     * @param photoFile
+     * @return
+     */
+    private ImageIcon iconImageFromFile(File photoFile) {
+        try {
+            BufferedImage img = ImageIO.read(photoFile);
+            return scaledImageIcon(img);
+        } catch (IOException ex) {
+            JOptionPane.
+                    showMessageDialog(this, "Error opening file!", "User Photo", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
 
-	/**
-	 * Convert image do ImageIcon.
-	 *
-	 * @param theImage
-	 * @return
-	 */
-	private ImageIcon scaledImageIcon(Image theImage) {
-		return new ImageIcon(theImage.getScaledInstance(100, 100,
-														Image.SCALE_SMOOTH));
-	}
+    /**
+     * Convert image do ImageIcon.
+     *
+     * @param theImage
+     * @return
+     */
+    private ImageIcon scaledImageIcon(Image theImage) {
+        return new ImageIcon(theImage.getScaledInstance(100, 100,
+                Image.SCALE_SMOOTH));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
@@ -582,54 +580,54 @@ public class GamePanel extends JPanel implements SelectionListener, Observer {
     private javax.swing.JButton playButton;
     // End of variables declaration//GEN-END:variables
 
-	@Override
-	public void selectionChanged(SelectionEvent event) {
-		//throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public void selectionChanged(SelectionEvent event) {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-	@Override
-	public void update(Observable o, Object object) {
-		if (object instanceof List) {
-			List<String> addresses = (List<String>) object;
-			updateInstanceList(addresses);
-		}
+    @Override
+    public void update(Observable o, Object object) {
+        if (object instanceof List) {
+            List<String> addresses = (List<String>) object;
+            updateInstanceList(addresses);
+        }
 
-		if (object instanceof String) {
+        if (object instanceof String) {
 
-			if (((String) object).compareTo("TRUE") == 0) {
-				JOptionPane.
-					showMessageDialog(this, "Success! Connection establish");
-				updateOnlineOpponentsGame("Opponent: " + opponent + " | Game: " + gameList.
-					getSelectedValue());
-				this.gameController.updateOpponentActiveGames(opponent);
-			} else if (((String) object).compareTo("FALSE") == 0) {
-				JOptionPane.
-					showMessageDialog(this, "Can't establish connection");
+            if (((String) object).compareTo("TRUE") == 0) {
+                JOptionPane.
+                        showMessageDialog(this, "Success! Connection establish");
+                updateOnlineOpponentsGame("Opponent: " + opponent + " | Game: " + gameList.
+                        getSelectedValue());
+                this.gameController.updateOpponentActiveGames(opponent);
+            } else if (((String) object).compareTo("FALSE") == 0) {
+                JOptionPane.
+                        showMessageDialog(this, "Can't establish connection");
 
-			} else if (((String) object).compareTo("update") == 0) {
-				updateOnlineOpponentsGame(opponent);
-			}
-		}
-	}
+            } else if (((String) object).compareTo("update") == 0) {
+                updateOnlineOpponentsGame(opponent);
+            }
+        }
+    }
 
-	/**
-	 * Update Instance list.
-	 *
-	 * @param addresses list of addressess
-	 */
-	public void updateInstanceList(List<String> addresses) {
-		for (String address : addresses) {
-			if (!this.instanceListModel.contains(address)) {
-				this.instanceListModel.addElement(address);
+    /**
+     * Update Instance list.
+     *
+     * @param addresses list of addressess
+     */
+    public void updateInstanceList(List<String> addresses) {
+        for (String address : addresses) {
+            if (!this.instanceListModel.contains(address)) {
+                this.instanceListModel.addElement(address);
 
-				manager.after(20).once(new Task() {
-					@Override
-					public void fire() {
-						instanceListModel.removeElement(address);
-						opponentsList.setModel(instanceListModel);
-					}
-				});
-			}
-		}
-	}
+                manager.after(20).once(new Task() {
+                    @Override
+                    public void fire() {
+                        instanceListModel.removeElement(address);
+                        opponentsList.setModel(instanceListModel);
+                    }
+                });
+            }
+        }
+    }
 }
