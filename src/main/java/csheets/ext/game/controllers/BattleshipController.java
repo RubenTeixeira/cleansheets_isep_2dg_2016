@@ -650,7 +650,7 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
         StylableCell scell = (StylableCell) sheet.getCell(column, row).getExtension(StyleExtension.NAME);
         Cell cell = sheet.getCell(column, row);
         //cell.setImage(new ImageIcon(GameExtension.class.getResource("ext/game/explosion.png")));
-        scell.setBackgroundColor(Color.GRAY);
+        scell.setBackgroundColor(Color.RED);
         try {
             cell.setContent("X");
         } catch (FormulaCompilationException ex) {
