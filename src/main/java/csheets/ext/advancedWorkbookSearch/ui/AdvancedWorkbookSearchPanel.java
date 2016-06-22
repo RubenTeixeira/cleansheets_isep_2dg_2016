@@ -112,47 +112,49 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jTextFieldPath = new javax.swing.JTextField();
+        jButtonPath = new javax.swing.JButton();
+        jButtonSearch = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jResultList = new javax.swing.JList();
-        jPatternField = new javax.swing.JTextField();
+        jPatternFieldPattern = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPreviewTable = new javax.swing.JTable();
         jImagePanel = new javax.swing.JLabel();
+        jCheckBoxActive = new javax.swing.JCheckBox();
+        jLabelResult = new javax.swing.JLabel();
 
         /**
         * Clears Field.
         */
-        jTextField.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        jTextField.setText("insert directory...");
-        jTextField.addMouseListener(new MouseAdapter(){
+        jTextFieldPath.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jTextFieldPath.setText("insert directory...");
+        jTextFieldPath.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
-                jTextField.setText("");
+                jTextFieldPath.setText("");
                 directory = new File("");
             }
         });
-        jTextField.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldActionPerformed(evt);
+                jTextFieldPathActionPerformed(evt);
             }
         });
 
-        jButton1.setText("...");
-        jButton1.setSize(20, 50);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPath.setText("...");
+        jButtonPath.setSize(20, 50);
+        jButtonPath.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonPathActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        jButton2.setText("Search");
-        jButton2.setSize(20, 50);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButtonSearch.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jButtonSearch.setText("Search");
+        jButtonSearch.setSize(20, 50);
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButtonSearchActionPerformed(evt);
             }
         });
 
@@ -166,17 +168,17 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         });
         jScrollPane2.setViewportView(jResultList);
 
-        jPatternField.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        jPatternField.setText("search pattern");
-        jPatternField.addActionListener(new java.awt.event.ActionListener() {
+        jPatternFieldPattern.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jPatternFieldPattern.setText("search pattern");
+        jPatternFieldPattern.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPatternFieldActionPerformed(evt);
+                jPatternFieldPatternActionPerformed(evt);
             }
         });
         /**
         * Pressing Enter after Pattern starts Search Process.
         */
-        jPatternField.addKeyListener(new KeyAdapter() {
+        jPatternFieldPattern.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent evt) {
                 if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -187,9 +189,9 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
         /**
         * Clears Field.
         */
-        jPatternField.addMouseListener(new MouseAdapter(){
+        jPatternFieldPattern.addMouseListener(new MouseAdapter(){
             public void mouseClicked(MouseEvent e){
-                jPatternField.setText("");
+                jPatternFieldPattern.setText("");
                 pattern = "";
             }
         });
@@ -223,22 +225,31 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
             AdvancedWorkbookSearchExtension.class.getResource("res/img/spinning.gif")));
     jImagePanel.setVisible(false); //by default
 
+    jCheckBoxActive.setText("active");
+
+    jLabelResult.setText("Result");
+
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
     this.setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         .addGroup(layout.createSequentialGroup()
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
-                .addComponent(jPatternField, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
+                .addComponent(jTextFieldPath, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE)
+                .addComponent(jPatternFieldPattern, javax.swing.GroupLayout.DEFAULT_SIZE, 83, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButtonSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonPath, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addComponent(jCheckBoxActive)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(jImagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(0, 7, Short.MAX_VALUE))
+        .addComponent(jLabelResult, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,16 +258,20 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jTextFieldPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonPath, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jCheckBoxActive))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jPatternField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPatternFieldPattern, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButtonSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addComponent(jImagePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(2, 2, 2)
+            .addComponent(jLabelResult)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addContainerGap())
     );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -267,8 +282,8 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 *
 	 * @param evt evt.
 	 */
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-		jTextField.setEnabled(false);
+    private void jButtonPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPathActionPerformed
+		jTextFieldPath.setEnabled(false);
 		JFileChooser dir = new JFileChooser();
 		dir.setFileSelectionMode(FileChooser.DIRECTORIES_ONLY);
 		int option = dir.showDialog(null, null);
@@ -276,56 +291,62 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 			File _directory = dir.getSelectedFile();
 			if (validateDirectory(_directory)) { //checks if selected directory is valid.
 				directory = _directory;
-				jTextField.setText(directory.toString());
+				jTextFieldPath.setText(directory.toString());
 			} else {//if dialog was closed/canceled.
 				directory = null;
-				jTextField.setText("Invalid Directory.");
+				jTextFieldPath.setText("Invalid Directory.");
 			}
 		} else if (option == JFileChooser.CANCEL_OPTION) {
 			directory = null;
 		}
-		jTextField.setEnabled(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+		jTextFieldPath.setEnabled(true);
+    }//GEN-LAST:event_jButtonPathActionPerformed
 
 	/**
 	 * The Search directory is displayed on this field.
 	 *
 	 * @param evt evt.
 	 */
-    private void jTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActionPerformed
+    private void jTextFieldPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPathActionPerformed
 
-    }//GEN-LAST:event_jTextFieldActionPerformed
+    }//GEN-LAST:event_jTextFieldPathActionPerformed
 
 	/**
 	 * Begins the Search Process. Search Button.
 	 *
 	 * @param evt evt.
 	 */
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-		jButton2.setEnabled(false);
-		performSearch();
-		jButton2.setEnabled(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+		if (task == null) {
+			jButtonSearch.setEnabled(false);
+			performSearch();
+			jButtonSearch.setEnabled(true);
+		} else {
+			task.active = false;
+		}
+    }//GEN-LAST:event_jButtonSearchActionPerformed
 
 	/**
 	 * Retrieves the Pattern text.
 	 *
 	 * @param evt evt
 	 */
-    private void jPatternFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPatternFieldActionPerformed
+    private void jPatternFieldPatternActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPatternFieldPatternActionPerformed
 
-    }//GEN-LAST:event_jPatternFieldActionPerformed
+    }//GEN-LAST:event_jPatternFieldPatternActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonPath;
+    private javax.swing.JButton jButtonSearch;
+    private javax.swing.JCheckBox jCheckBoxActive;
     private javax.swing.JLabel jImagePanel;
-    private javax.swing.JTextField jPatternField;
+    private javax.swing.JLabel jLabelResult;
+    private javax.swing.JTextField jPatternFieldPattern;
     private javax.swing.JTable jPreviewTable;
     private javax.swing.JList jResultList;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField;
+    private javax.swing.JTextField jTextFieldPath;
     // End of variables declaration//GEN-END:variables
 
 	/**
@@ -334,30 +355,52 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 */
 	private void performSearch() {
 		if (validateDirectory(directory)) { //checks directory.
-			pattern = jPatternField.getText();
+			pattern = jPatternFieldPattern.getText();
 			if (validatePattern()) {//checks pattern.
 				list.clear(); //clears previous results.
-				Runnable newthread = new Runnable() {
-					/**
-					 * Thread Search method.
-					 */
-					@Override
-					public void run() {
-						cont = 0; //sets counter to 0 on each search.
-						jImagePanel.setVisible(true);
-						files = controller.search(directory, pattern);
-						checkDuplicatedFiles(); //sets up a list without duplicated files.
-						postSearchUIOperations(); //required operations after each Search.
-					}
-				};
-				jImagePanel.setVisible(true); //enables search "indicator".
+				TaskRunnable newthread = new TaskRunnable();
+				newthread.active = this.jCheckBoxActive.isSelected();
+				task = newthread;
+				//jImagePanel.setVisible(true); //enables search "indicator".
 				new Thread(newthread).start(); //starts the new Thread.
 			} else { //invalid pattern.
-				jPatternField.setText("Invalid");
+				jPatternFieldPattern.setText("Invalid");
 			}
 		} else {//invalid dir.
-			jTextField.setText("Invalid Directory.");
+			jTextFieldPath.setText("Invalid Directory.");
 		}
+	}
+
+	private TaskRunnable task = null;
+
+	class TaskRunnable implements Runnable {
+
+		public boolean active = false;
+
+		@Override
+		public void run() {
+			jButtonPath.setEnabled(false);
+			jCheckBoxActive.setEnabled(false);
+			jTextFieldPath.setEnabled(false);
+			jPatternFieldPattern.setEnabled(false);
+			jButtonSearch.setText("Cancel");
+			do {
+				jLabelResult.setText("Searching...");
+				jImagePanel.setVisible(true);
+				cont = 0; //sets counter to 0 on each search.
+				jImagePanel.setVisible(true);
+				files = controller.search(directory, pattern);
+				checkDuplicatedFiles(); //sets up a list without duplicated files.
+				postSearchUIOperations(); //required operations after each Search.
+			} while (this.active);
+			jButtonPath.setEnabled(true);
+			jCheckBoxActive.setEnabled(true);
+			jTextFieldPath.setEnabled(true);
+			jPatternFieldPattern.setEnabled(true);
+			jButtonSearch.setText("Search");
+			task = null;
+		}
+
 	}
 
 	/**
@@ -428,15 +471,16 @@ public class AdvancedWorkbookSearchPanel extends JPanel {
 	 * Sets up the UI for next Search.
 	 */
 	private void postSearchUIOperations() {
-		String endSearch = "Search Completed! " + cont + " Results found.";
-		jButton2.setEnabled(true);
-		list.addElement(endSearch);
+		String endSearch = "Search Completed! " + list.getSize() + " Results found.";
+		this.jLabelResult.setText(endSearch);
+		jButtonSearch.setEnabled(true);
+		//list.addElement(endSearch);
 		jResultList.setModel(list);
 		jResultList.
 			setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //Single File Selection.
 		jResultList.setVisible(true);
 		jImagePanel.setVisible(false);
-		jPatternField.setEnabled(true);
+		jPatternFieldPattern.setEnabled(true);
 	}
 
 	/**

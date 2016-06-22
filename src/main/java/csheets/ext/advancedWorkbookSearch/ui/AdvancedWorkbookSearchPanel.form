@@ -16,21 +16,27 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jScrollPane1" alignment="0" min="-2" pref="234" max="-2" attributes="0"/>
           <Component id="jScrollPane2" alignment="1" pref="0" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jTextField" pref="83" max="32767" attributes="0"/>
-                  <Component id="jPatternField" pref="83" max="32767" attributes="0"/>
+                  <Component id="jTextFieldPath" pref="83" max="32767" attributes="0"/>
+                  <Component id="jPatternFieldPattern" pref="83" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="jButton2" max="32767" attributes="0"/>
-                  <Component id="jButton1" max="32767" attributes="0"/>
+                  <Component id="jButtonSearch" max="32767" attributes="0"/>
+                  <Component id="jButtonPath" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jCheckBoxActive" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jImagePanel" max="32767" attributes="0"/>
           </Group>
+          <Group type="102" attributes="0">
+              <Component id="jScrollPane1" min="-2" pref="234" max="-2" attributes="0"/>
+              <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
+          </Group>
+          <Component id="jLabelResult" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -40,26 +46,30 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="jTextFieldPath" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonPath" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="jCheckBoxActive" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jPatternField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="jPatternFieldPattern" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="jButtonSearch" alignment="3" min="-2" pref="18" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jImagePanel" min="-2" pref="50" max="-2" attributes="0"/>
               </Group>
               <Component id="jScrollPane1" min="-2" pref="105" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+              <Component id="jLabelResult" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="350" max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="334" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="jTextField">
+    <Component class="javax.swing.JTextField" name="jTextFieldPath">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
@@ -67,25 +77,25 @@
         <Property name="text" type="java.lang.String" value="insert directory..."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldPathActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextField.addMouseListener(new MouseAdapter(){&#xa;&#x9;public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;jTextField.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;directory = new File(&quot;&quot;);&#x9;&#x9;&#xa;}&#xa;});"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jTextFieldPath.addMouseListener(new MouseAdapter(){&#xa;&#x9;public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;jTextFieldPath.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;directory = new File(&quot;&quot;);&#x9;&#x9;&#xa;}&#xa;});"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="/**&#xa; * Clears Field.&#xa; */"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="jButtonPath">
       <Properties>
         <Property name="text" type="java.lang.String" value="..."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonPathActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButton1.setSize(20, 50);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonPath.setSize(20, 50);"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="jButtonSearch">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
@@ -93,10 +103,10 @@
         <Property name="text" type="java.lang.String" value="Search"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSearchActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButton2.setSize(20, 50);"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="jButtonSearch.setSize(20, 50);"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -124,7 +134,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="jPatternField">
+    <Component class="javax.swing.JTextField" name="jPatternFieldPattern">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="9" style="0"/>
@@ -132,10 +142,10 @@
         <Property name="text" type="java.lang.String" value="search pattern"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPatternFieldActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jPatternFieldPatternActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="/**&#xa; * Pressing Enter after Pattern starts Search Process.&#xa; */&#xa;jPatternField.addKeyListener(new KeyAdapter() {&#xa;&#x9;&#x9;&#x9;@Override&#xa;&#x9;&#x9;&#x9;public void keyReleased(KeyEvent evt) {&#xa;&#x9;&#x9;&#x9;&#x9;if(evt.getKeyCode() == KeyEvent.VK_ENTER) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;performSearch();&#xa;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;});&#xa;/**&#xa; * Clears Field.&#xa; */&#xa;jPatternField.addMouseListener(new MouseAdapter(){&#xa;&#x9;public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;jPatternField.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;pattern = &quot;&quot;;&#x9;&#x9;&#xa;}&#xa;});"/>
+        <AuxValue name="JavaCodeGenerator_ListenersCodePost" type="java.lang.String" value="/**&#xa; * Pressing Enter after Pattern starts Search Process.&#xa; */&#xa;jPatternFieldPattern.addKeyListener(new KeyAdapter() {&#xa;&#x9;&#x9;&#x9;@Override&#xa;&#x9;&#x9;&#x9;public void keyReleased(KeyEvent evt) {&#xa;&#x9;&#x9;&#x9;&#x9;if(evt.getKeyCode() == KeyEvent.VK_ENTER) {&#xa;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;performSearch();&#xa;&#x9;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;&#x9;}&#xa;&#x9;&#x9;});&#xa;/**&#xa; * Clears Field.&#xa; */&#xa;jPatternFieldPattern.addMouseListener(new MouseAdapter(){&#xa;&#x9;public void mouseClicked(MouseEvent e){&#xa;&#x9;&#x9;&#x9;jPatternFieldPattern.setText(&quot;&quot;);&#xa;&#x9;&#x9;&#x9;pattern = &quot;&quot;;&#x9;&#x9;&#xa;}&#xa;});"/>
       </AuxValues>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -198,6 +208,16 @@
         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JLabel()"/>
         <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="//jImagePanel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);&#xa;        jImagePanel.setIcon(new ImageIcon(&#xa;            AdvancedWorkbookSearchExtension.class.getResource(&quot;res/img/spinning.gif&quot;)));&#xa;    jImagePanel.setVisible(false); //by default"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="jCheckBoxActive">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="active"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelResult">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Result"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
