@@ -120,7 +120,7 @@ final public class ExportXML {
 						//<--Comment-->
 						for (Comment c : cell.getCommentsList()) {
 							list.
-								add("\t\t\t\t<" + tagComment + " index=\"" + k + "\"" + ">\n");
+								add("\t\t\t\t<" + tagComment + ">\n");
 							list.
 								add("\t\t\t\t\t<" + tagAuthor + ">" + c.
 									userName() + "</" + tagAuthor + ">\n");
@@ -129,7 +129,7 @@ final public class ExportXML {
 								text().toString() + "</" + tagValue + ">\n");
 							list.
 								add("\t\t\t\t\t<" + tagFont + ">" + c.
-									getFont().getFontName() + "</" + tagFont + ">\n");
+									getFont().toString() + "</" + tagFont + ">\n");
 
 							list.
 								add("\t\t\t\t\t<" + tagBackground + ">" + c.

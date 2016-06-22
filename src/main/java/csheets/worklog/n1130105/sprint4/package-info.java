@@ -62,13 +62,16 @@
  * <h3>Analysis of Core Technical Problem</h3>
  *
  * <h2>5. Design</h2>
- * 
  *
- * <h3>5.1. Functional Tests</h3> 
+ *
+ * <h3>5.1. Functional Tests</h3>
+ *
+ * The tests verifies if the file is export and imports correctly with the all
+ * new tags.
  *
  * <h3>5.2. UC Realization</h3>
  *
- * 
+ *
  * <h5>Import XML</h5>
  * <img src="doc-files/lang08.3_Import_design.png" alt="image">
  *
@@ -120,7 +123,7 @@
  * <p>
  * <b>Sunday</b>
  * <p>
- * Yesterday I worked on: nothing
+ * Yesterday I worked on: nothing</p>
  * <p>
  * <p>
  * Today: nothing
@@ -133,8 +136,9 @@
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on: Today: Analyis and Design
+ * Yesterday I worked on: Today: Analyis and Design</p>
  * <p>
+ * Today: finish Design, start implementation of ExportXML</p>
  * <p>
  * Blocking:
  * <p>
@@ -142,9 +146,11 @@
  *
  * <p>
  * <b>Tuesday</b>
+ * <p>
+ * Yesterday I worked on: finish Design, start implementation of ExportXML</p>
  *
+ * Today: continue of implementation of ExportXML
  *
- * Today:
  * Blocking:
  * <p>
  * 1. Nothing
@@ -153,18 +159,22 @@
  * <p>
  * <b>Wednesday</b>
  * <p>
- * 1.</p>
+ * Yesterday I worked on: continue of implementation of ExportXML</p>
  * <p>
+ * Today: finish of implementation of ExportXML and implementation of ImportXML
+ * and tests with Rui Bastos and Diogo Leite</p>
+ *
  * Blocking:
- * <p>
- * 1.
+ *
  *
  * <p>
  * <b>Thursday</b>
  * <p>
- * 1.</p>
+ * Yesterday I worked on: finish of implementation of ExportXML and
+ * implementation of ImportXML and tests
+ * </p>
  * <p>
- * Today:</p>
+ * Today: finish tests</p>
  * <p>
  * 1.</p>
  * <p>

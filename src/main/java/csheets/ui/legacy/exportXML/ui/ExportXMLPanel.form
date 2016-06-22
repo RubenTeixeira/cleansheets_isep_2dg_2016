@@ -61,7 +61,7 @@
                                   <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace min="41" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="ContentTextField" max="32767" attributes="0"/>
                                   <Component id="SynchronousTextField" max="32767" attributes="0"/>
@@ -481,7 +481,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Sync:"/>
+        <Property name="text" type="java.lang.String" value="Synchronous:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="SynchronousTextField">
