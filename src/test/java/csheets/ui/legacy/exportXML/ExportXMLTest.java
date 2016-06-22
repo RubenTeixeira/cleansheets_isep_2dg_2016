@@ -89,24 +89,55 @@ public class ExportXMLTest {
 			+ "<workbook1>\n"
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "		<row index=\"0\">\n"
-			+ "			<column index=\"0\">2</column>\n"
+			+ "			<column index=\"0\">\n"
+			+ "				<value>carlos</value>\n"
+			+ "				<font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]</font>\n"
+			+ "				<background>-1</background>\n"
+			+ "				<border>javax.swing.border.EmptyBorder@f40822</border>\n"
+			+ "				<foreground>-13421773</foreground>\n"
+			+ "	            <horizontal>2</horizontal>\n"
+			+ "             <Vertical>0</Vertical>\n"
+			+ "				<Comment>\n"
+			+ "					<CommentAuthor>Carlos Mateus</CommentAuthor>\n"
+			+ "					<Value>primeiro</Value>\n"
+			+ "					<Font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]></Font>\n"
+			+ "					<Background>-1</Background>\n"
+			+ "					<Border>javax.swing.border.EmptyBorder@5c900e</Border>\n"
+			+ "			    </Comment>\n"
+			+ "			</column>\n"
 			+ "		</row>\n"
 			+ "	</sheet>\n"
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "		<row index=\"1\">\n"
-			+ "			<column index=\"1\">2</column>\n"
+			+ "			<column index=\"1\">"
+			+ "				<value>Mateus</value>\n"
+			+ "				<font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]</font>\n"
+			+ "				<background>-1</background>\n"
+			+ "				<border>javax.swing.border.EmptyBorder@f40822</border>\n"
+			+ "				<foreground>-13421773</foreground>\n"
+			+ "	            <horizontal>2</horizontal>\n"
+			+ "             <Vertical>0</Vertical>\n"
+			+ "			</column>\n"
 			+ "		</row>\n"
 			+ "	</sheet>\n"
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "	</sheet>\n"
+			+ " <Scripts>\n"
+			+ "  <Script>\n"
+			+ "		<Name>novo</Name>\n"
+			+ "		<Type>Macro</Type>\n"
+			+ "		<Content>;Sets A1 cell content to 1 A1:= 1 ;Sets B1 cell content to 2(1+A1) B1:= {SUM(1;A1)} ;Sets A2 cell content to 3(1+B1) A2:= {SUM(1;B1)} ;Sets B2 cell content to 4(1+A2) B2:= {SUM(1;A2)}\n"
+			+ "		</Content>\n"
+			+ "		<Synchronous>true</Synchronous>\n"
+			+ "	 </Script>\n"
+			+ "	</Scripts>\n"
 			+ "</workbook1>\n";
-		/*
-		String result = ExportXML.
-			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, tagScripts, tagScript, tagName, tagType, tagContent, tagSync, this.workbook.
-						   getSpreadsheet(0).getWorkbook());
-		 */
-		//assertEquals(expResult, result);
 
+//		String result = ExportXML.
+//			exportWorkbook(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, tagScripts, tagScript, tagName, tagType, tagContent, tagSync, this.workbook.
+//						   getSpreadsheet(0).getWorkbook());
+//
+//		assertEquals(expResult, result);
 	}
 
 	/**

@@ -220,7 +220,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("Sync:");
+        jLabel18.setText("Synchronous:");
 
         SynchronousTextField.setText("Synchronous");
         SynchronousTextField.addActionListener(new java.awt.event.ActionListener() {
@@ -282,7 +282,7 @@ public class ExportXMLPanel extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel15)
                                     .addComponent(jLabel18))
-                                .addGap(41, 41, 41)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(ContentTextField)
                                     .addComponent(SynchronousTextField)))
