@@ -33,7 +33,7 @@
  * <p>
  * <b>Use Case "Cleansheets API":</b>
  *
- * The user creates a new script and uses the API object from Cleansheets go gain access to Cleansheets objects in real time.
+ * The user creates a new script and uses the API object from Cleansheets go gain access to Cleansheets objects in run time.
  *
  *
  * <h2>4. Analysis</h2>
@@ -67,13 +67,16 @@
  * <p>
  * Variables
  * </p>
- * 
  * <p>
- * We should test if the API returns the correct values for every field. 
+ * And a few other data types.
  * </p>
  * 
  * <p>
- * Since BeanShell executes an interpreter, all we need is to provide that interpreter an instance of the API in order to have access to it in run-time.
+ * The API consists of being a small Facade object in which creates a layer of abstraction between Cleansheets classes and Beanshell. 
+ * </p>
+ * 
+ * <p>
+ * Since BeanShell executes an interpreter, all we need is to provide that interpreter an instance of the API in order to have access to it in run time.
  * </p>
  * 
  * <h4>Analysis diagram:</h4>
@@ -81,21 +84,24 @@
  * <img src="doc-files/analysis.png" alt="Analysis">
  *
  * <h2>5. Design</h2>
- *
+ *  
  * <p>
- * Initial design:
+ * API Class Diagram
  * </p>
  * 
  * <p>
- * <img src="doc-files/initial_design.png" alt="Initial design.">
+ * <img src="doc-files/api_class_diagram.png" alt="API Class Diagram.">
  * </p>
  * 
  * <p>
- * Final design:
+ * Associating the API with the BeanShell.
  * </p>
  * 
  * <p>
- * <img src="doc-files/final_design.png" alt="Final design">
+ * <b>Important:<b> This diagram assumes that the interaction with the User was already made (check earlier feature increments), and therefore we are already on the run() method of BeanShell class.
+ * <p>
+ * <p>
+ * <img src="doc-files/api_beanshell_connection.png" alt="Associating the API with the BeanShell.">
  * </p>
  * 
  * <h3>Tests:</h3>
