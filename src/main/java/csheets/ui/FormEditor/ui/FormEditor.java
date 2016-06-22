@@ -383,8 +383,22 @@ public class FormEditor extends JDialog implements Observer {
 
 	@Override
 	public void update(Observable o, Object o1) {
+		String c = "";
 		if (o1 instanceof JPanel) {
 			removePanel((JPanel) o1);
+			if (o1 instanceof LabelPanel) {
+				c = ((LabelPanel) o1).getContent();
+			} else if (o1 instanceof ButtonPanel) {
+				c = ((ButtonPanel) o1).getContent();
+			} else {
+				c = ((TextFieldPanel) o1).contentText();
+			}
+			for (Widget w : this.form.showLstWidget()) {
+				if (w.getContent().equals(c)) {
+					this.form.showLstWidget().remove(w);
+					break;
+				}
+			}
 			refreshUI();
 		}
 	}
