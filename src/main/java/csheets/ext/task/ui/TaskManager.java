@@ -6,7 +6,11 @@
 package csheets.ext.task.ui;
 
 import csheets.domain.Contact;
+import csheets.domain.Event;
+import csheets.domain.Reminder;
 import csheets.domain.Task;
+import csheets.ext.events.EventsController;
+import csheets.ext.reminder.ReminderController;
 import csheets.ext.task.TaskController;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
 import csheets.support.DateTime;
@@ -15,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,6 +29,8 @@ import javax.swing.JOptionPane;
 public class TaskManager extends javax.swing.JPanel implements Observer {
 
     private TaskController controller;
+    private EventsController eventsController;
+    private ReminderController reminderController;
     private Task task;
     private List<Contact> listContacts = new ArrayList();
 
@@ -46,6 +53,7 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         initContact();
         this.update(null, task);
         initDate();
+
     }
 
     /**
@@ -73,6 +81,13 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         cmbYear = new javax.swing.JComboBox();
         cmbMonth = new javax.swing.JComboBox();
         cmbDay = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        checkBoxEvent = new javax.swing.JCheckBox();
+        CheckBoxReminder = new javax.swing.JCheckBox();
+        lbloption = new javax.swing.JLabel();
+        cmbEventsR = new javax.swing.JComboBox<Object>();
+        jLabel5 = new javax.swing.JLabel();
+        lbldata = new javax.swing.JLabel();
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
@@ -108,6 +123,32 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
 
         cmbDay.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel4.setText("Connect To: ");
+
+        checkBoxEvent.setText("Event");
+        checkBoxEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkBoxEventActionPerformed(evt);
+            }
+        });
+
+        CheckBoxReminder.setText("Reminder");
+        CheckBoxReminder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckBoxReminderActionPerformed(evt);
+            }
+        });
+
+        lbloption.setText("Events");
+
+        cmbEventsR.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbEventsRItemStateChanged(evt);
+            }
+        });
+
+        jLabel5.setText("Deadline");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,35 +156,51 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelPercentage)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel3))
+                                .addGap(15, 15, 15)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboBoxContact, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabelPercentage)
+                            .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextFieldPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabelPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(checkBoxEvent)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jComboBoxPriority, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jTextFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(CheckBoxReminder))
                         .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lbloption, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbldate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel3))
-                            .addGap(15, 15, 15)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBoxContact, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbldate, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(lbldata, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(cmbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cmbEventsR, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel5))
                 .addGap(0, 8, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -171,11 +228,25 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                     .addComponent(jTextFieldPercentage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbldate)
-                    .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbYear, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(jLabel4)
+                    .addComponent(checkBoxEvent)
+                    .addComponent(CheckBoxReminder))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbloption)
+                    .addComponent(cmbEventsR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lbldata))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbYear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbldate)
+                        .addComponent(cmbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -186,6 +257,36 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
     private void cmbMonthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMonthActionPerformed
         initDays();
     }//GEN-LAST:event_cmbMonthActionPerformed
+
+    private void checkBoxEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkBoxEventActionPerformed
+        if (this.CheckBoxReminder.isSelected()) {
+            this.CheckBoxReminder.setSelected(false);
+        }
+        this.cmbEventsR.removeAllItems();
+        this.lbloption.setText("Events");
+        loadEvents();
+    }//GEN-LAST:event_checkBoxEventActionPerformed
+
+    private void CheckBoxReminderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBoxReminderActionPerformed
+        if (this.checkBoxEvent.isSelected()) {
+            this.checkBoxEvent.setSelected(false);
+        }
+        this.cmbEventsR.removeAllItems();
+        this.lbloption.setText("Reminders");
+        loadReminders();
+    }//GEN-LAST:event_CheckBoxReminderActionPerformed
+
+    private void cmbEventsRItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbEventsRItemStateChanged
+        if (cmbEventsR.getSelectedItem() != null) {
+            if(this.cmbEventsR.getSelectedItem() instanceof Event) {
+            Event event = (Event) this.cmbEventsR.getSelectedItem();
+            this.lbldata.setText(DateTime.format(event.endDate()));
+        } else {
+            Reminder reminder = (Reminder) this.cmbEventsR.getSelectedItem();
+            this.lbldata.setText(DateTime.format(reminder.timeOfReminder()));
+        }
+        }
+    }//GEN-LAST:event_cmbEventsRItemStateChanged
 
     private void initDate() {
         initYear();
@@ -219,7 +320,7 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
         cmbDay.removeAllItems();
         calendar.set(Calendar.MONTH, cmbMonth.getSelectedIndex());
         calendar.set(Calendar.YEAR, cmbYear.getSelectedIndex());
-        
+
         int lastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for (int dayCount = 1; dayCount <= lastDay; dayCount++) {
@@ -238,7 +339,10 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckBoxReminder;
+    private javax.swing.JCheckBox checkBoxEvent;
     private javax.swing.JComboBox cmbDay;
+    private javax.swing.JComboBox<Object> cmbEventsR;
     private javax.swing.JComboBox cmbMonth;
     private javax.swing.JComboBox cmbYear;
     private javax.swing.JComboBox<String> jComboBoxContact;
@@ -246,6 +350,8 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelPercentage;
     private javax.swing.JLabel jLabelPriority;
     private javax.swing.JScrollPane jScrollPane1;
@@ -253,7 +359,9 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
     private javax.swing.JTextField jTextFieldDescription;
     private javax.swing.JTextField jTextFieldName;
     private javax.swing.JTextField jTextFieldPercentage;
+    private javax.swing.JLabel lbldata;
     private javax.swing.JLabel lbldate;
+    private javax.swing.JLabel lbloption;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -294,14 +402,14 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
                                 getText(), this.jComboBoxPriority.
                                 getSelectedIndex() + 1, Float.
                                 parseFloat(this.jTextFieldPercentage.getText()), (Contact) this.listContacts.
-                                get(this.jComboBoxContact.getSelectedIndex()),calendar);
+                                get(this.jComboBoxContact.getSelectedIndex()), calendar);
 
             } else {
                 this.task.
                         defineTask(this.jTextFieldName.getText(), this.jTextFieldDescription.
                                 getText(), this.jComboBoxPriority.
                                 getSelectedIndex() + 1, Float.
-                                parseFloat(this.jTextFieldPercentage.getText()),calendar);
+                                parseFloat(this.jTextFieldPercentage.getText()), calendar);
                 this.controller.editTask(this.task);
             }
         } catch (DataIntegrityViolationException ex) {
@@ -311,5 +419,28 @@ public class TaskManager extends javax.swing.JPanel implements Observer {
             JOptionPane.
                     showMessageDialog(null, "Illegal arguments", "Create/Edit Task", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+//    private void loadEvents() {
+//       this.cmbEvents.setModel(this.eventsController.get);
+//    }
+//      private void loadReminders() {
+//        this.cmbEvents.setModel(this.reminderController.getReminders());
+//
+//    }
+    private void loadEvents() {
+        for (Event event : this.controller.allEvents()) {
+            this.cmbEventsR.addItem(event);
+        }
+        revalidate();
+        repaint();
+    }
+
+    private void loadReminders() {
+        for (Reminder reminder : this.controller.allReminders()) {
+            this.cmbEventsR.addItem(reminder);
+        }
+        revalidate();
+        repaint();
     }
 }

@@ -6,6 +6,8 @@
 package csheets.ext.task;
 
 import csheets.domain.Contact;
+import csheets.domain.Event;
+import csheets.domain.Reminder;
 import csheets.domain.Task;
 import csheets.factory.TaskFactory;
 import csheets.framework.persistence.repositories.DataIntegrityViolationException;
@@ -26,6 +28,7 @@ public class TaskController {
      * The user interface controller
      */
     private final UIController uiController;
+    public Iterable<Reminder> allReminders;
 
     /**
      * Creates a new comment controller.
@@ -94,5 +97,13 @@ public class TaskController {
     public Iterable<Contact> allContacts() {
         return PersistenceContext.repositories().contacts().
                 all();
+    }
+
+    public Iterable<Event> allEvents() {
+       return PersistenceContext.repositories().events().all();
+    }
+
+    public Iterable<Reminder> allReminders() {
+        return PersistenceContext.repositories().reminders().all();
     }
 }
