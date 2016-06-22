@@ -180,9 +180,9 @@ public class CellImpl implements Cell {
 	/**
 	 * Returns a specific Value providing the variables' name and a position.
 	 *
-	 * @param name
-	 * @param position
-	 * @return
+	 * @param name name of variable
+	 * @param position position of variable
+	 * @return value of variable
 	 */
 	public Value getVariableValue(String name, int position) {
 		for (VariableArray var : variables) {
@@ -196,7 +196,7 @@ public class CellImpl implements Cell {
 	/**
 	 * Checks if Variable exists by providing its name.
 	 *
-	 * @param name
+	 * @param name name of variable
 	 * @return True if variable exists.
 	 */
 	public boolean variableExist(String name) {

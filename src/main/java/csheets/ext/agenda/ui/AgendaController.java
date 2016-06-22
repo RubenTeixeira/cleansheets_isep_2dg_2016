@@ -78,6 +78,7 @@ public class AgendaController {
 	 *
 	 * @param date date
 	 * @param contact contact
+	 * @param calendar the calendar
 	 * @return list of events
 	 */
 	public List<Event> updateEvents(Calendar date, Contact contact,

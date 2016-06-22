@@ -31,6 +31,9 @@ public class CreateChatUserProfileUI extends javax.swing.JDialog {
 
 	/**
 	 * Creates new form CreateChatUserProfilePanel
+	 *
+	 * @param parent ui parent
+	 * @param theController chat controller
 	 */
 	public CreateChatUserProfileUI(JFrame parent,
 								   ChatAppController theController) {
