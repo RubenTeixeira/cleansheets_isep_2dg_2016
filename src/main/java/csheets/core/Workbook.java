@@ -352,6 +352,17 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	}
 
 	/**
+	 *
+	 * @return all Variables from Workbook.
+	 */
+	public List<VariableArray> getAllVariables() {
+		return this.variables;
+	}
+
+	/**
+	 * End of Variables related code.
+	 */
+	/**
 	 * Map of the FormE
 	 */
 	private Map<String, FormE> lstFormE = new HashMap();
