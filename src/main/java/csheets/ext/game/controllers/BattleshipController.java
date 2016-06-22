@@ -197,7 +197,9 @@ public class BattleshipController implements SelectionListener, SpecificGameCont
                                 break;
                             }
                             default: {
-                                // ignore
+                                System.out.println("?!?");
+                                repeatPlay(column, row);
+                                break;
                             }
                         }
                     }
