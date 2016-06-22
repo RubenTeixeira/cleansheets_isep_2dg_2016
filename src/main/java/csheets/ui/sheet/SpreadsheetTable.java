@@ -324,6 +324,25 @@ public class SpreadsheetTable extends Grid implements SelectionListener {
 			getExtension(StyleExtension.NAME);
 		styleableSpreadsheet.setRowHeight(row, rowHeight);
 	}
+        
+	/**
+	 * Sets the width for column to columnWidth, revalidates, and repaints. The
+	 * width of the cells in this column will be equal to the column width minus the
+	 * column margin.
+	 *
+	 * @param column - the column whose width is being changed
+	 * @param columnWidth - new column width, in pixels
+	 * @throws IllegalArgumentException if columnWidth is less than 1
+	 */
+	public void setColumnHeight(int column, int columnWidth) {
+		super.getColumnModel().getColumn(column).setWidth(columnWidth);
+		super.getColumnModel().getColumn(column).setPreferredWidth(columnWidth);
+		uiController.setWorkbookModified(spreadsheet.getWorkbook());
+		StylableSpreadsheet styleableSpreadsheet = (StylableSpreadsheet) spreadsheet.
+			getExtension(StyleExtension.NAME);
+		styleableSpreadsheet.setColumnWidth(column, columnWidth);
+                super.resizeAndRepaint();
+	}
 
 	/**
 	 * A listener that forwards column width changes to the style extension.
