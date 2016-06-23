@@ -48,29 +48,43 @@ public class ImportXMLTest {
 	@Test
 	public void testGetFileData() throws Exception {
 		System.out.println("getFileData");
-		String path = "file_workbook_test.xml";
+		String path = "EXPORT.xml";
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 			+ "<WorkBook>"
 			+ "<SpreadSheet name=\"Sheet  1\" >"
 			+ "<Row index=\"0\">"
-			+ "<Column index=\"0\">ola</Column>"
-			+ "<Column index=\"1\">tudo bem</Column>"
-			+ "</Row>"
-			+ "<Row index=\"4\">"
-			+ "<Column index=\"1\">lapr4</Column>"
-			+ "</Row>"
-			+ "<Row index=\"8\">"
-			+ "<Column index=\"0\">lindo</Column>"
+			+ "<Column index=\"0\">"
+			+ "<Value>1</Value>"
+			+ "<Font>java.awt.Font[family=Dialog,name=Dialog,style=bold,size=12]</Font>"
+			+ "<Background>-1</Background>"
+			+ "<Border>javax.swing.border.EmptyBorder@c95c11</Border>"
+			+ "<Foreground>-13421773</Foreground>"
+			+ "<Horizontal>4</Horizontal>"
+			+ "<Vertical>0</Vertical>"
+			+ "<Comment>"
+			+ "<CommentAuthor>Carlos Mateus</CommentAuthor>"
+			+ "<Value>primeiro</Value>"
+			+ "<Font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]</Font>"
+			+ "<Background>-1</Background>"
+			+ "<Border>javax.swing.border.EmptyBorder@b5464d</Border>"
+			+ "</Comment>"
+			+ "</Column>"
 			+ "</Row>"
 			+ "</SpreadSheet>"
 			+ "<SpreadSheet name=\"Sheet  2\" >"
-			+ "<Row index=\"3\">"
-			+ "<Column index=\"0\">aeae</Column>"
-			+ "</Row>"
 			+ "</SpreadSheet>"
 			+ "<SpreadSheet name=\"Sheet  3\" >"
 			+ "</SpreadSheet>"
+			+ "<Scripts>"
+			+ "<Script>"
+			+ "<Name>novo</Name>"
+			+ "<Type>Macro</Type>"
+			+ "<Content>A1:= 1</Content>"
+			+ "<Synchronous>true</Synchronous>"
+			+ "</Script>"
+			+ "</Scripts>"
 			+ "</WorkBook>";
+
 		String result = ImportXML.getFileData(path);
 		assertEquals(expResult, result);
 
@@ -82,17 +96,34 @@ public class ImportXMLTest {
 	@Test
 	public void testImportWorkbook() throws Exception {
 		System.out.println("importWorkbook");
-		String path = "file_workbook_test.xml";
+		String path = "EXPORT.xml";
 		String tagWorkbook = "WorkBook";
 		String tagSpreadSheet = "SpreadSheet";
 		String tagRow = "Row";
 		String tagColumn = "Column";
+		String tagValue = "Value";
+		String tagFont = "Font";
+		String tagBackground = "Background";
+		String tagBorder = "Border";
+		String tagForeground = "Foreground";
+		String tagHorizontal = "Horizontal";
+		String tagVertical = "Vertical";
+		String tagComment = "Comment";
+		String tagAuthor = "CommentAuthor";
+		String tagScripts = "Scripts";
+		String tagScript = "Script";
+		String tagName = "Name";
+		String tagType = "Type";
+		String tagContent = "Content";
+		String tagSync = "Synchronous";
 		Workbook workbook = new Workbook(3);
-		String expResult = "ola";
-//		ImportXML.
-//			importWorkbook(path, tagWorkbook, tagSpreadSheet, tagRow, tagColumn, workbook);
-//		String result = workbook.getSpreadsheet(0).getCell(0, 0).getContent();
-//		assertEquals(expResult, result);
+		String expResult = "1";
+
+		ImportXML.
+			importWorkbook(path, tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, tagScripts, tagScript, tagName, tagType, tagContent, tagSync, workbook);
+		String result = workbook.getSpreadsheet(0).getCell(0, 0).getValue().
+			toString();
+		assertEquals(expResult, result);
 	}
 
 	/**

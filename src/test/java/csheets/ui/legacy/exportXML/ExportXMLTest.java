@@ -9,6 +9,10 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
+import csheets.ext.comments.CommentableCell;
+import csheets.ext.comments.CommentsExtension;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,6 +45,16 @@ public class ExportXMLTest {
 		this.spread2.getCell(1, 1).setContent("={B2:=2}");
 		this.spread3.getCell(3, 3).setContent("={D4:=10}");
 
+		StylableCell stylableCell = (StylableCell) spread1.
+			getCell(0, 0).getExtension(
+			StyleExtension.NAME);
+
+		CommentableCell cell = (CommentableCell) spread1.
+			getCell(0, 0).getExtension(
+			CommentsExtension.NAME);
+
+//		stylableCell.setFont(new Font(stylableCell.getFont()));
+//		setFont("javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]");
 	}
 
 	@BeforeClass
@@ -87,7 +101,7 @@ public class ExportXMLTest {
 
 		String expResult = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			+ "<workbook1>\n"
-			+ "	<sheet name=\"sheet\" >\n"
+			+ "	<sheet name=\"sheet\">\n"
 			+ "		<row index=\"0\">\n"
 			+ "			<column index=\"0\">\n"
 			+ "				<value>carlos</value>\n"
@@ -96,19 +110,19 @@ public class ExportXMLTest {
 			+ "				<border>javax.swing.border.EmptyBorder@f40822</border>\n"
 			+ "				<foreground>-13421773</foreground>\n"
 			+ "	            <horizontal>2</horizontal>\n"
-			+ "             <Vertical>0</Vertical>\n"
-			+ "				<Comment>\n"
-			+ "					<CommentAuthor>Carlos Mateus</CommentAuthor>\n"
-			+ "					<Value>primeiro</Value>\n"
-			+ "					<Font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]></Font>\n"
-			+ "					<Background>-1</Background>\n"
-			+ "					<Border>javax.swing.border.EmptyBorder@5c900e</Border>\n"
-			+ "			    </Comment>\n"
+			+ "             <vertical>0</vertical>\n"
+			+ "				<comment>\n"
+			+ "					<author>Carlos Mateus</author>\n"
+			+ "					<value>primeiro</value>\n"
+			+ "					<font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]</font>\n"
+			+ "					<background>-1</background>\n"
+			+ "					<border>javax.swing.border.EmptyBorder@5c900e</border>\n"
+			+ "			    </comment>\n"
 			+ "			</column>\n"
 			+ "		</row>\n"
 			+ "	</sheet>\n"
-			+ "	<sheet name=\"sheet\" >\n"
-			+ "		<row index=\"1\">\n"
+			+ "	<sheet name=\"sheet\">\n"
+			+ "		<she<row index=\"1\">\n"
 			+ "			<column index=\"1\">"
 			+ "				<value>Mateus</value>\n"
 			+ "				<font>javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]</font>\n"
@@ -116,21 +130,21 @@ public class ExportXMLTest {
 			+ "				<border>javax.swing.border.EmptyBorder@f40822</border>\n"
 			+ "				<foreground>-13421773</foreground>\n"
 			+ "	            <horizontal>2</horizontal>\n"
-			+ "             <Vertical>0</Vertical>\n"
+			+ "             <vertical>0</vertical>\n"
 			+ "			</column>\n"
 			+ "		</row>\n"
 			+ "	</sheet>\n"
 			+ "	<sheet name=\"sheet\" >\n"
 			+ "	</sheet>\n"
-			+ " <Scripts>\n"
-			+ "  <Script>\n"
-			+ "		<Name>novo</Name>\n"
-			+ "		<Type>Macro</Type>\n"
-			+ "		<Content>;Sets A1 cell content to 1 A1:= 1 ;Sets B1 cell content to 2(1+A1) B1:= {SUM(1;A1)} ;Sets A2 cell content to 3(1+B1) A2:= {SUM(1;B1)} ;Sets B2 cell content to 4(1+A2) B2:= {SUM(1;A2)}\n"
-			+ "		</Content>\n"
-			+ "		<Synchronous>true</Synchronous>\n"
-			+ "	 </Script>\n"
-			+ "	</Scripts>\n"
+			+ " <scripts>\n"
+			+ "  <script>\n"
+			+ "		<name>novo</name>\n"
+			+ "		<type>Macro</type>\n"
+			+ "		<content>;Sets A1 cell content to 1 A1:= 1 ;Sets B1 cell content to 2(1+A1) B1:= {SUM(1;A1)} ;Sets A2 cell content to 3(1+B1) A2:= {SUM(1;B1)} ;Sets B2 cell content to 4(1+A2) B2:= {SUM(1;A2)}\n"
+			+ "		</content>\n"
+			+ "		<sync>true</sync>\n"
+			+ "	 </script>\n"
+			+ "	</scripts>\n"
 			+ "</workbook1>\n";
 
 //		String result = ExportXML.
@@ -171,9 +185,9 @@ public class ExportXMLTest {
 			+ "	</row>\n"
 			+ "</sheet>\n"
 			+ "";
-
-		String result = ExportXML.
-			exportSpreadsheet(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, spreadsheet);
+//
+//		String result = ExportXML.
+//			exportSpreadsheet(tagWorkbook, tagSpreadSheet, tagRow, tagColumn, tagValue, tagFont, tagBackground, tagBorder, tagForeground, tagHorizontal, tagVertical, tagComment, tagAuthor, spreadsheet);
 		//assertEquals(expResult, result);
 
 	}
