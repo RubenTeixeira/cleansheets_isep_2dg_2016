@@ -23,6 +23,11 @@ public class TableTest {
 
 	private final SpreadsheetWithTables sheet;
 
+	private Cell[][] cells;
+	private Cell[] headers;
+	private Cell[] row;
+	private Cell[] row2;
+
 	public TableTest() {
 		this.sheet = (SpreadsheetWithTables) new Workbook(1).getSpreadsheet(0).
 			getExtension(TableFiltersExtension.NAME);
@@ -54,6 +59,23 @@ public class TableTest {
 
 		} catch (FormulaCompilationException ex) {
 		}
+
+		headers = new Cell[3];
+		headers[0] = sheet.getCell(0, 0);
+		headers[1] = sheet.getCell(1, 0);
+		headers[2] = sheet.getCell(2, 0);
+
+		row = new Cell[3];
+		row[0] = sheet.getCell(0, 1);
+		row[1] = sheet.getCell(1, 1);
+		row[2] = sheet.getCell(2, 1);
+
+		row2 = new Cell[3];
+
+		cells = new Cell[3][3];
+		cells[0] = headers;
+		cells[1] = row;
+		cells[2] = row2;
 	}
 
 	@After
@@ -68,23 +90,6 @@ public class TableTest {
 		System.out.println("testReplaceRelativeReferences");
 		String expression = "=or(_col[\"idade\"]>10;_col[3]<123)";
 
-		Cell[] headers = new Cell[3];
-		headers[0] = sheet.getCell(0, 0);
-		headers[1] = sheet.getCell(1, 0);
-		headers[2] = sheet.getCell(2, 0);
-
-		Cell[] row = new Cell[3];
-		row[0] = sheet.getCell(0, 1);
-		row[1] = sheet.getCell(1, 1);
-		row[2] = sheet.getCell(2, 1);
-
-		Cell[] row2 = new Cell[3];
-
-		Cell[][] cells = new Cell[3][3];
-		cells[0] = headers;
-		cells[1] = row;
-		cells[2] = row2;
-
 		Table instance = new Table(sheet, cells, expression);
 
 		String expected = "=OR(B2>10;C2<123)";
@@ -92,6 +97,36 @@ public class TableTest {
 			replaceRelativeReferences(expression, headers, row);
 
 		Assert.assertTrue(result.equalsIgnoreCase(expected));
+	}
+
+	/**
+	 * Ensure invalid creation of table fails.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testInValidSizeTableCreation() throws Exception {
+		System.out.println("testInValidSizeTableCreation");
+
+		Cell[][] invalid = new Cell[2][3];
+		invalid[0] = headers;
+		invalid[1] = row;
+
+		Table instance = new Table(sheet, invalid, "test");
+
+	}
+
+	/**
+	 * Ensure invalid creation of table fails.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testEmptyHeadersTableCreation() throws Exception {
+		System.out.println("testEmptyHeadersTableCreation");
+
+		cells[0][0].setContent("");
+		cells[0][1].setContent("");
+		cells[0][2].setContent("");
+
+		Table instance = new Table(sheet, cells, "test");
+
 	}
 
 }
