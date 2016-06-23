@@ -2,11 +2,6 @@
  * Technical documentation regarding the work of the team member (1130980)
  * Rafael Vilar during week4.
  *
- * * <p>
- * <b>-Note: this is a template/example of the individual documentation that
- * each team member must produce each week/sprint. Suggestions on how to build
- * this documentation will appear between '-' like this one. You should remove
- * these suggestions in your own technical documentation-</b>
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
@@ -17,7 +12,9 @@
  *
  * -Notes about the week's work.-
  * <p>
- * This week will be developed the Advanced Forms.
+ * This week will be developed the Advanced Forms. </p>
+ * <p>
+ * - Problem discussion with Rui Bastos - Design and Implementation.</p>
  *
  * <h2>2. Use Case/Feature: IPC07.2</h2>
  *
@@ -78,63 +75,74 @@
  * </p>
  * <p>
  * To create a new form will have to write the following in a cell:
- * <h3>=FORM(nameForm)</h3></p>
+ * <h3>=FORM("nameForm";TRUE())</h3><br>
+ * <h3>=FORM("nameForm";FALSE())</h3>
+ * <p>
+ * This TRUE() or FALSE() is an option from Modal form or not Modal</p>
  * <p>
  * The form name is passed as parameter, and a check is made to see if there is
- * some form of the same name, and if it exists, is asked to you a new name.
+ * some form of the same name, and if it exists, show the existent form.
  * </p>
  * When we show a form should be possible to define whether it is read-only or
  * write.
  * <p>
- * If writing, only when you click the update button is that the new values are
- * assigned to corresponding variables.
+ * To change the text of any textfield form , being editable, changes , and to
+ * save click update
  * </p>
- * <p>
- * </p>
- * <p>
- *
- *
- *
- * <h3>Domain Model</h3>
- *
- *
  *
  * <h2>5. Design</h2>
  * <p>
- * <img src="doc-files/ipc07_2_Design.png" alt="image">
+ * <img src="doc-files/lang06_3_Design_addWidgets.png" alt="image">
+ * </p>
+ * <p>
+ * <img src="doc-files/lang06_3_Design.png" alt="image">
  * </p>
  * <h3>5.1. Functional Tests</h3>
  *
+ * Test the creation of panel; textfields; button, labels. Test the remove
+ * option of one widget from the form. Test the persistence forms on workbook.
+ * Test the readonly or writable form. Test the Modal or not Modal form.
  *
  *
  * <h3>5.2. UC Realization</h3>
  *
- * <p>
- * <b>Note:</b> It is very important that in the final version of this technical
- * documentation the elements depicted in these design diagrams exist in the
- * code!
+ * <h3>5.3. Classes</h3>
+ *
+ * Form; AskContent; ButtonPanel; ButtonWidget; FormEditor; LabelPanel;
+ * LabelWidget; SingleLine; TextFieldPanel; TextFieldWidget; (Interface) Widget;
+ * FormE; Workbook;
  *
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
- * -Describe new or existing design patterns used in the issue-
- * <p>
- * -You can also add other artifacts to document the design, for instance,
- * database models or updates to the domain model-
- * </p>
+ * Observer Pattern - is used for removing widgets from the form
+ *
  * <h2>6. Implementation</h2>
  *
- * <code>csheets.ext.game.controllers.GameController</code>
- * <code>csheets.ext.game.controllers.SpecificGameController</code>
- * <code>csheets.ext.game.controllers.TicTacToeController</code>
- * <code>csheets.ext.game.domain.TicTacToe</code>
- * <code>csheets.ext.game.ui.GamePanel</code>
- * <code>csheets.ext.game.ui.TcpService</code>
- * <code>csheets.ext.game.ui.UdpService</code>
- * <code>csheets.ext.game.ui.ListOpponents</code>
- * <code>csheets.ext.game.ui.ProfileOpponent</code>
- * <code>csheets.ext.game.ui.UIGameExtension</code>
- * <code>csheets.ext.game.GameExtension</code>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.AskContent</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.ButtonPanel</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.ButtonWidget</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.FormE</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.FormEditor</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.LabelPanel</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.LabelWidget</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.SingleLine</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.TextFieldPanel</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.TextFieldWidget</code></p>
+ * <p>
+ * <code>csheets.ui.FormEditor.ui.Widget</code></p>
+ * <p>
+ * <code>csheets.core.Workbook</code></p>
  *
  * <p>
  * -Also refer all other artifacts that are related to the implementation and
@@ -143,14 +151,13 @@
  * </p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/game/package-summary.html">csheets.ext.comments</a>
+ * <a href="../../../../csheets/ui/FormEditor/ui/package-summary.html">csheets.ui.FormEditor.ui</a>
  * </p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * This week my feature was to implement the tictactoe game. This feature
- * belongs to IPC07.2 area and need to implement network communication so that
- * it can be played on two machines over the network.
+ * This week my feature was to implement the Advanced Forms. This feature
+ * belongs to LANG06.3 area and need to persist Forms on Workbook
  *
  * <h2>8. Final Remarks</h2>
  *
@@ -189,35 +196,7 @@
  *
  * <p>
  * <b>Evidences:</b>
- * </p>
- * <p>
- * <h3>Step 1 - </h3>User Profile<br/><br/>
- * <img src="http://imgur.com/KjMAiPP.png" alt="connect">
- * </p>
- * <p>
- * <h3>Step 2 - </h3>Choose Opponent<br/><br/>
- * <img src="http://imgur.com/lU1DKyc.png" alt="connect2">
- * </p>
- * <p>
- * <h3>Step 3 - </h3>Choose TicTacToe Game<br/><br/>
- * <img src="http://imgur.com/JORXj49.png" alt="choose game">
- * </p>
- * <p>
- * <h3>Step 4 - </h3>Connect Opponent<br/><br/>
- * <img src="http://imgur.com/QRBRgbW.png" alt="connect">
- * </p>
- * <p>
- * <h3>Step 5 - </h3>Received invitation from opponent<br/><br/>
- * <img src="http://imgur.com/ThgR6uB.png" alt="connect established">
- * </p>
- * <p>
- * <h3>Step 6 - </h3>Start Game<br/><br/>
- * <img src="http://imgur.com/4xdMVMv.png" alt="play">
- * </p>
- * <p>
- * <h3>Step 7 - </h3>"O" is ever the first move<br/><br/>
- * <img src="http://imgur.com/SatOArC.png" alt="game">
- * </p>
+ *
  *
  * <h3>10.2. Teamwork: ...</h3>
  *

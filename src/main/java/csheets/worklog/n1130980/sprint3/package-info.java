@@ -179,35 +179,27 @@
  *
  * <p>
  * <b>Evidences:</b>
- * </p>
- * <p>
- * <h3>Step 1 - </h3>User Profile<br/><br/>
+ *
+ * <h3>Step 1 - </h3>User Profile<br><br>
  * <img src="http://imgur.com/KjMAiPP.png" alt="connect">
- * </p>
- * <p>
- * <h3>Step 2 - </h3>Choose Opponent<br/><br/>
+ *
+ * <h3>Step 2 - </h3>Choose Opponent<br><br>
  * <img src="http://imgur.com/lU1DKyc.png" alt="connect2">
- * </p>
- * <p>
- * <h3>Step 3 - </h3>Choose TicTacToe Game<br/><br/>
+ *
+ * <h3>Step 3 - </h3>Choose TicTacToe Game<br><br>
  * <img src="http://imgur.com/JORXj49.png" alt="choose game">
- * </p>
- * <p>
- * <h3>Step 4 - </h3>Connect Opponent<br/><br/>
+ *
+ * <h3>Step 4 - </h3>Connect Opponent<br><br>
  * <img src="http://imgur.com/QRBRgbW.png" alt="connect">
- * </p>
- * <p>
- * <h3>Step 5 - </h3>Received invitation from opponent<br/><br/>
+ *
+ * <h3>Step 5 - </h3>Received invitation from opponent<br><br>
  * <img src="http://imgur.com/ThgR6uB.png" alt="connect established">
- * </p>
- * <p>
- * <h3>Step 6 - </h3>Start Game<br/><br/>
+ *
+ * <h3>Step 6 - </h3>Start Game<br><br>
  * <img src="http://imgur.com/4xdMVMv.png" alt="play">
- * </p>
- * <p>
- * <h3>Step 7 - </h3>"O" is ever the first move<br/><br/>
+ *
+ * <h3>Step 7 - </h3>"O" is ever the first move<br><br>
  * <img src="http://imgur.com/SatOArC.png" alt="game">
- * </p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
