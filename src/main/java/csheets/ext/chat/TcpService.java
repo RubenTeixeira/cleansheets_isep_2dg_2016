@@ -10,8 +10,6 @@ import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
 import csheets.support.ThreadManager;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import vendor.volt.Action;
 import vendor.volt.Request;
 import vendor.volt.protocols.tcp.TcpClient;
@@ -38,37 +36,27 @@ public class TcpService {
 							 public void run() {
 								 server = NetworkManager.tcp();
 
-								 server.expect(":chat-tcp", new Action() {
-											   @Override
-											   public void run(Request request) {
-
-												   String[] data = request.
-													   message().split(";");
-												   Map<String, String> mapMessage = new LinkedHashMap<>();
-												   if (true) {
-
-												   }
-												   mapMessage.
-													   put("reference", "chatMessage");
-												   mapMessage.
-													   put("nickname", request.
-														   message().split(";")[0]);
-												   mapMessage.
-													   put("from", request.
-														   from());
-												   mapMessage.
-													   put("message", request.
-														   message().split(";")[1]);
-
-												   Notification.
-													   chatMessageInformer().
-													   notifyChange(mapMessage);
-											   }
-										   });
+								 server.
+									 expect(":chatSendMessage", new Action() {
+											@Override
+											public void run(Request request) {
+												if (request.same()) {
+													return;
+												}
+												Notification.
+													chatMessageInformer().
+													notifyChange(request.
+														message());
+											}
+										});
 							 }
 						 });
 
 		ThreadManager.run("ipc.chat2-tcpServer");
+	}
+
+	void sendMessage(String target, String message) {
+		new TcpClient().send(":chatSendMessage", target, message);
 	}
 
 	/**
@@ -93,10 +81,9 @@ public class TcpService {
 		ThreadManager.create("ipc.chatSendMessageRoom", new Thread() {
 							 @Override
 							 public void run() {
-								 String data = "chatSendMessageRoom|" + room.
-									 name() + "|" + message;
+								 String data = "messageRoom;" + room.name() + ";" + message;
 								 new TcpClient(0).
-									 send(":reference|:room|:message", room.
+									 send(":chatTCP", room.
 										  creator().target(), data);
 							 }
 						 });
@@ -107,8 +94,10 @@ public class TcpService {
 		ThreadManager.create("ipc.chatSendMessageUser", new Thread() {
 							 @Override
 							 public void run() {
+								 String data = "messageUser;" + user.name() + ";" + message;
+								 System.out.println("ENVIEI1 = " + data);
 								 new TcpClient(0).
-									 send(":chatSendMessageUser", user.target(), message);
+									 send(":chatSendMessageUser", user.target(), data);
 							 }
 						 });
 		ThreadManager.run("ipc.chatSendMessageUser");

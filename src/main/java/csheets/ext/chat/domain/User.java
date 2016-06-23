@@ -37,15 +37,13 @@ public class User implements Serializable {
 
 	private String port;
 
+	private String target;
+
 	@Lob
 	private byte[] image;
 
 	@Enumerated(EnumType.STRING)
 	private State state;
-
-	public String target() {
-		return this.ip;
-	}
 
 	public enum State {
 		ONLINE, OFFLINE, AWAY
@@ -97,6 +95,14 @@ public class User implements Serializable {
 
 	public void state(State state) {
 		this.state = state;
+	}
+
+	public String target() {
+		return this.target;
+	}
+
+	public void target(String target) {
+		this.target = target;
 	}
 
 	@Override

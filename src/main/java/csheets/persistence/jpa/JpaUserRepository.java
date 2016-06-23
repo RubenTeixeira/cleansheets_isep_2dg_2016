@@ -23,13 +23,10 @@ public class JpaUserRepository extends JpaRepository<User, Long> implements User
 	@Override
 	public User findName(String name) {
 		for (User user : this.all()) {
-			System.out.println("REPOSY '" + user.name() + "' = '" + name + "'");
 			if (user.name().equals(name)) {
-				System.out.println("YES");
 				return user;
 			}
 		}
-		System.out.println("NO");
 		return null;
 	}
 

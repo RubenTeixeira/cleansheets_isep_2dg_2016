@@ -5,6 +5,7 @@
  */
 package csheets.ext.chat;
 
+import csheets.AppSettings;
 import csheets.ext.chat.domain.Message;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
@@ -38,6 +39,7 @@ public class ChatController {
 		this.udpService.client(5);
 		this.udpService.server();
 		this.tcpService = new TcpService();
+		this.tcpService.server();
 	}
 
 	public Color stateColor(User.State state) {
@@ -89,6 +91,8 @@ public class ChatController {
 	}
 
 	public void saveUser() {
+		this.user.
+			target("192.168.2.5:" + AppSettings.instance().get("TCP_PORT"));
 		this.user = PersistenceContext.repositories().users().save(this.user);
 		this.udpService.user(this.user);
 		Notification.chatMessageInformer().notifyChange(this.user);
@@ -97,7 +101,16 @@ public class ChatController {
 		}
 	}
 
-	public User addUser(String name, String nick, String status, String image) {
+	public Iterable<User> users() {
+		return PersistenceContext.repositories().users().all();
+	}
+
+	public Iterable<Room> rooms() {
+		return PersistenceContext.repositories().rooms().all();
+	}
+
+	public User addUser(String name, String nick, String status, String image,
+						String target) {
 		if (name.equals(this.user.name())) {
 			return this.user;
 		}
@@ -120,17 +133,10 @@ public class ChatController {
 		user.nickname(nick);
 		user.state(stts);
 		user.image(img);
+		user.target(target);
 		user = PersistenceContext.repositories().users().save(user);
 		Notification.chatMessageInformer().notifyChange(user);
 		return user;
-	}
-
-	public Iterable<User> users() {
-		return PersistenceContext.repositories().users().all();
-	}
-
-	public Iterable<Room> rooms() {
-		return PersistenceContext.repositories().rooms().all();
 	}
 
 	public Room addRoom(String name, String creator, boolean isPrivate) {
@@ -176,6 +182,17 @@ public class ChatController {
 				this.tcpService.sendMessage(room, message);
 			}
 		}
+	}
+
+	public void sendMessage(User user, String message) {
+		this.tcpService.sendMessage(user.target(), "sendMessageUser;" + user.
+									name() + ";" + message);
+	}
+
+	public void sendMessage(Room room, String message) {
+		this.tcpService.
+			sendMessage(room.creator().target(), "sendMessageRoom;" + room.
+						name() + ";" + room.creator().name() + ";" + message);
 	}
 
 }

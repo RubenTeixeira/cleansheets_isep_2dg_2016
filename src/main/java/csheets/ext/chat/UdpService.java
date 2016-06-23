@@ -10,6 +10,7 @@ import csheets.ext.NetworkManager;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
+import csheets.persistence.PersistenceContext;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
@@ -62,11 +63,9 @@ public class UdpService {
 								 server.expect(":chat2broadcast", new Action() {
 											   @Override
 											   public void run(Request request) {
-												   /*
 												   if (request.same()) {
 													   return;
 												   }
-												    */
 												   // Destination = Target's IP and Port
 												   String destination = server.
 													   target(request.from());
@@ -81,8 +80,9 @@ public class UdpService {
 												   server.
 													   send(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", destination, message);
 
-												   for (Room room : rooms.
-													   values()) {
+												   for (Room room : PersistenceContext.
+													   repositories().rooms().
+													   all()) {
 													   if (room.creator().
 														   equals(user) && room.
 														   type() == Room.Type.PUBLIC) {
@@ -103,11 +103,9 @@ public class UdpService {
 									 expect(":chat-publicRoom|:chat-name|:chat-creator", new Action() {
 											@Override
 											public void run(Request request) {
-												/*
 												if (request.same()) {
 													return;
 												}
-												 */
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", request.
@@ -125,6 +123,9 @@ public class UdpService {
 													put("creator", request.
 														get("chat-creator").
 														get(0));
+												hostInformations.
+													put("target", request.
+														target());
 												Notification.
 													chatMessageInformer().
 													notifyChange(hostInformations);
@@ -135,11 +136,9 @@ public class UdpService {
 									 expect(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", new Action() {
 											@Override
 											public void run(Request request) {
-												/*
 												if (request.same()) {
 													return;
 												}
-												 */
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", "user");
@@ -164,9 +163,25 @@ public class UdpService {
 												hostInformations.
 													put("image", request.
 														get("chat-image").get(0));
+												hostInformations.
+													put("target", request.
+														target());
 												Notification.
 													chatMessageInformer().
 													notifyChange(hostInformations);
+											}
+										});
+
+								 server.
+									 expect(":chatMessageRoom", new Action() {
+											@Override
+											public void run(Request request) {
+												if (request.same()) {
+													return;
+												}
+												System.out.
+													println("RECEBI = " + request.
+														message());
 											}
 										});
 
@@ -202,6 +217,30 @@ public class UdpService {
 							 }
 						 });
 		ThreadManager.run("ipc.chat2-udpClient");
+	}
+
+	public void mensagem(Room room, String message) {
+		ThreadManager.create("ipc.chat2-udpClientmsgRoom", new Thread() {
+							 @Override
+							 public void run() {
+								 client = new UdpClient(0);
+
+								 Task broadcast = new Task() {
+									 @Override
+									 public void fire() {
+										 String data = "chatMessageRoom;" + room.
+											 name() + ";" + room.creator().
+											 name() + ";" + message;
+										 client.
+											 send(":chatMessageRoom", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), data);
+									 }
+								 };
+								 TaskManager manager = new TaskManager();
+								 manager.once(broadcast);
+							 }
+						 });
+		ThreadManager.run("ipc.chat2-udpClientmsgRoom");
 	}
 
 	/**

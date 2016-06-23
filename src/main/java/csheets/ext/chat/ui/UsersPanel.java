@@ -50,7 +50,8 @@ public class UsersPanel extends javax.swing.JPanel implements Observer {
 			if (data.get("reference").equals("user")) {
 				this.controller.
 					addUser(data.get("name"), data.get("nick"), data.
-							get("status"), data.get("image"));
+							get("status"), data.get("image"), data.get("ip") + ":" + data.
+							get("port"));
 			}
 
 			/*
