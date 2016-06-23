@@ -55,11 +55,22 @@ public class AutomaticSortService implements SelectionListener, MouseListener {
         orders = new boolean[columns.length];
     }
 
+    public AutomaticSortService(UIController uiController, Cell[][] rangeOfCells, int[] columns, int[] rows,Spreadsheet ss) {
+        this.uiController = uiController;
+        this.controller = new SortController(uiController);
+        this.selectedCells = rangeOfCells;
+        this.columns = columns;
+        this.rows = rows;
+        this.ss = ss;
+        column = columns[0];
+        orders = new boolean[columns.length];
+    }
+
     @Override
     public void selectionChanged(SelectionEvent event) {
         if (event.getCell().getAddress().getColumn() >= columns[0] && event.getCell().getAddress().getColumn() <= columns[columns.length - 1]) {
             if (column != event.getCell().getAddress().getColumn()) {
-                diferentColumn(event);
+                diferentColumn(event.getCell());
             }
             if (column == event.getCell().getAddress().getColumn()) {
                 sameColumn(event.getCell());
@@ -144,14 +155,14 @@ public class AutomaticSortService implements SelectionListener, MouseListener {
         }
     }
 
-    public void diferentColumn(SelectionEvent event) {
+    public void diferentColumn(Cell cell) {
         int atualColumn = column - columns[0];
         orders[atualColumn] = true;
         StylableCell prevstylableCell = (StylableCell) ss.getCell(column, rows[0]).getExtension(StyleExtension.NAME);
         prevstylableCell.setImage(new ImageIcon());
 
-        column = event.getCell().getAddress().getColumn();
-        StylableCell stylableCell = (StylableCell) ss.getCell(event.getCell().getAddress().getColumn(), rows[0]).
+        column = cell.getAddress().getColumn();
+        StylableCell stylableCell = (StylableCell) ss.getCell(cell.getAddress().getColumn(), rows[0]).
                 getExtension(StyleExtension.NAME);
         stylableCell.setImage(new ImageIcon(StyleExtension.class.getResource("res/img/seta-para-baixo.gif")));
 
