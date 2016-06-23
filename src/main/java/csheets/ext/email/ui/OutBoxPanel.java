@@ -5,6 +5,7 @@
  */
 package csheets.ext.email.ui;
 
+import csheets.ext.email.EmailExtension;
 import csheets.notification.Notification;
 import java.awt.GridLayout;
 import java.util.Observable;
@@ -21,6 +22,7 @@ public class OutBoxPanel extends javax.swing.JPanel implements Observer {
 	 * Creates new form OutBoxPanel
 	 */
 	public OutBoxPanel() {
+		this.setName(EmailExtension.NAME);
 		initComponents();
 		defaultGridRow();
 		Notification.emailInformer().addObserver(this);
