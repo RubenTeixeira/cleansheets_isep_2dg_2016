@@ -36,6 +36,7 @@ public interface Repository<T, K> {
      *
      * @return Returns all entities from the reposioty.
      */
+    
     Iterable<T> all();
 
     /**

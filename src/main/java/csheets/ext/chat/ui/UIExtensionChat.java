@@ -42,7 +42,7 @@ public class UIExtensionChat extends UIExtension {
 	@Override
 	public JComponent getSideBar() {
 		if (sideBar == null) {
-			sideBar = new UsersPanel(uiController);
+			sideBar = new UsersPanelRemake(uiController);
 		}
 		return sideBar;
 	}

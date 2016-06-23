@@ -6,6 +6,8 @@
 package csheets.ext.shareFiles;
 
 import csheets.support.ThreadManager;
+import java.io.File;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -72,28 +74,21 @@ public class ShareFilesControllerTest {
 
 	}
 
-//	/**
-//	 * Test of files method, of class ShareFilesController.
-//	 */
-//	@Test
-//	public void testFiles() {
-//		System.out.println("files");
-//		ShareFilesController instance = new ShareFilesController();
-//		List<File> list = new ArrayList();
-//
-//		File folder = new File(AppSettings.instance().get(keyPathFiles));
-//
-//		File[] listOfFiles = folder.listFiles();
-//		for (File file : listOfFiles) {
-//			if (file.isFile()) {
-//				list.add(file);
-//			}
-//		}
-//		List<File> result = instance.files();
-//
-//		assertEquals(result.size(), 1);
-//
-//	}
+	/**
+	 * Test of files method, of class ShareFilesController.
+	 */
+	@Test
+	public void testFiles() {
+		System.out.println("files");
+		ShareFilesController instance = new ShareFilesController();
+
+		instance.pathFiles("files");
+
+		List<File> list = instance.files();
+		assertEquals(list.size(), 2);
+
+	}
+
 	/**
 	 * Test of server method, of class ShareFilesController.
 	 */

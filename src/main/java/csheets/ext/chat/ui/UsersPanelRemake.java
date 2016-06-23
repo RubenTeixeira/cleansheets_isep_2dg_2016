@@ -44,9 +44,9 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 		//this.jScrollPane = new JScrollPane(this.jTabbedPaneUsers);
 		//this.jScrollPane = new JScrollPane(this.jTabbedPaneRooms);
 		this.jTabbedPaneUsers.setLayout(new GridLayout(1, 1));
-		this.jTabbedPaneUsers.add(new UsersPanel(uiController));
+		this.jTabbedPaneUsers.add(new UsersPanel(this.controller));
 		this.jTabbedPaneRooms.setLayout(new GridLayout(1, 1));
-		this.jTabbedPaneRooms.add(new RoomsPanel(uiController));
+		this.jTabbedPaneRooms.add(new RoomsPanel(this.controller));
 		this.userUpdate();
 		//Notification.chatMessageInformer().addObserver(this);
 	}

@@ -8,7 +8,6 @@ package csheets.ext.chat.ui;
 import csheets.ext.chat.ChatController;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
-import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
 import java.util.Map;
 import java.util.Observable;
@@ -27,8 +26,8 @@ public class UsersPanel extends javax.swing.JPanel implements Observer {
 	/**
 	 * Creates new form ChatPanel
 	 */
-	public UsersPanel(UIController uiController) {
-		this.controller = new ChatController(uiController);
+	public UsersPanel(ChatController controller) {
+		this.controller = controller;
 		this.initComponents();
 		this.jScrollPane = new JScrollPane(this.jPanelUsers);
 		this.update(null, null);

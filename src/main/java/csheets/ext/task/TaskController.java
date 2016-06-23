@@ -65,11 +65,19 @@ public class TaskController {
 	}
 
 	public List<Task> allTasksContact(Contact contact) {
-		return PersistenceContext.repositories().task().task(contact);
+            List<Task> list = new ArrayList();
+            for (Task task : PersistenceContext.repositories().task().task(contact)) {
+                list.add(task);
+            }
+		return list;
 	}
 
 	public List<Task> allTasks() {
-		return (List<Task>) PersistenceContext.repositories().task().all();
+            List<Task> list = new ArrayList();
+            for (Task task : PersistenceContext.repositories().task().all()) {
+                list.add(task);
+            }
+		return list;
 	}
 
 	public List<Task> allTasks(String left, String right) {

@@ -207,6 +207,12 @@
  * - url of commit: - description: this commit is related to the implementation
  * of the design pattern-</p>
  *
+ * Implementation commit
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/56f6a74b1a0f5a2025581afee9a1f6053af75979
+ *
+ * Test commits
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f0217dca2df007c4975d92e8f6a3c9205796dd29
+ *
  * <h3>10.2. Teamwork: ...</h3>
  *
  * <h3>10.3. Technical Documentation: ...</h3>

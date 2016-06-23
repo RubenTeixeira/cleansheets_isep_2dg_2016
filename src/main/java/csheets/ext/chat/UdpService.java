@@ -32,19 +32,14 @@ public class UdpService {
 	private UdpServer server;
 	private UdpClient client;
 	private User user;
-	private Map<String, User> users;
-	private Map<String, Room> rooms;
+	private ChatController controller;
 
 	public void user(User user) {
 		this.user = user;
 	}
 
-	void users(Map<String, User> users) {
-		this.users = users;
-	}
-
-	void rooms(Map<String, Room> rooms) {
-		this.rooms = rooms;
+	void controller(ChatController controller) {
+		this.controller = controller;
 	}
 
 	/**
@@ -72,27 +67,25 @@ public class UdpService {
 
 												   String message = AppSettings.
 													   instance().
-													   get("TCP_PORT") + "|" + user.
-													   name() + "|" + user.
-													   nickname() + "|" + user.
-													   state() + "|" + user.
+													   get("TCP_PORT") + "|" + controller.
+													   name() + "|" + controller.
+													   nickname() + "|" + controller.
+													   state() + "|" + controller.
 													   image();
 												   server.
 													   send(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", destination, message);
 
-												   for (Room room : rooms.
-													   values()) {
-													   if (room.creator().
-														   equals(user) && room.
-														   type() == Room.Type.PUBLIC) {
-														   message = "publicRoom|" + room.
-															   name() + "|" + room.
-															   creator().name();
-														   System.out.
-															   println("MENSAGEM = " + message);
-														   server.
-															   send(":chat-publicRoom|:chat-name|:chat-creator", destination, message);
-													   }
+												   for (Room room : controller.
+													   rooms()) {
+													   System.out.
+														   println("ROOM = " + room);
+													   //if (room.creator().name().equals(user.name()) && room.type() == Room.Type.PUBLIC) {
+													   message = "publicRoom|" + room.
+														   name() + "|" + room.
+														   creator().name();
+													   server.
+														   send(":chat-publicRoom|:chat-name|:chat-creator", destination, message);
+													   //}
 												   }
 
 											   }
@@ -107,6 +100,9 @@ public class UdpService {
 													return;
 												}
 												 */
+												System.out.
+													println("REC =" + request.
+														message());
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", request.
@@ -142,6 +138,9 @@ public class UdpService {
 													return;
 												}
 												 */
+												System.out.
+													println("MEN = " + request.
+														message());
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", "user");

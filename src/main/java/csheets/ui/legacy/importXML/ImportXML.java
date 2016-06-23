@@ -113,13 +113,13 @@ public class ImportXML {
 								getCell(columnIndex, rowIndex).
 								getExtension(StyleExtension.NAME)).
 								setBackgroundColor(new Color(Integer.
-										parseInt(background)));
+									parseInt(background)));
 
 							((StylableCell) uiSpreadsheet.
 								getCell(columnIndex, rowIndex).
 								getExtension(StyleExtension.NAME)).
 								setForegroundColor(new Color(Integer.
-										parseInt(foreground)));
+									parseInt(foreground)));
 
 							((StylableCell) uiSpreadsheet.
 								getCell(columnIndex, rowIndex).
@@ -174,7 +174,7 @@ public class ImportXML {
 				split(",")[0];
 			String cSize = font.split("size=")[1].split("]")[0];
 
-			Font CFonts = new Font(commentfont, 1, Integer.
+			Font CFonts = new Font(cName, 1, Integer.
 								   parseInt(cSize.trim()));
 
 			String commentBackground = comment.
@@ -183,8 +183,8 @@ public class ImportXML {
 			((CommentableCell) uiSpreadsheet.
 				getCell(columnIndex, rowIndex).
 				getExtension(CommentsExtension.NAME)).
-				addComment(cName, commentValue, CFonts, new Color(Integer.
-							   parseInt(commentBackground)), new EmptyBorder(1, 1, 1, 1));
+				addComment(author, commentValue, CFonts, new Color(Integer.
+						   parseInt(commentBackground)), new EmptyBorder(1, 1, 1, 1));
 			//<--Comment-->
 		}
 	}
