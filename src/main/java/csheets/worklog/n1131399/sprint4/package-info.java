@@ -57,6 +57,23 @@
  * room and know who is in it, doing so for the message order for all classroom
  * participants. The "owners of the rooms" will share their public rooms in
  * broadcast with the network.
+ * <h4>Send Message proposal analysis</h4>
+ * <p>
+ * <img src="doc-files/chat_app_analysis_send.png" alt="image">
+ *
+ * <h4>Receive Message proposal analysis</h4>
+ * <p>
+ * <img src="doc-files/chat_app_analysis_receive.png" alt="image">
+ *
+ * From the previous diagram we see that we need to add a thread for each
+ * conversation. Using a thread manager we can disable a thread when it´s
+ * necessary.
+ *
+ * <h3>Analysis of Core Technical Problem</h3>
+ * The core of communication is expected to communicate in udp and tcp protocols
+ * connections.
+ * <p>
+ * <img src="doc-files/ipc05.2_chat_analysis.png" alt="image">
  *
  * <p>
  * <b>UIExtensionChat Class: </b>
@@ -150,18 +167,39 @@
  *
  * <h2>5. Design</h2>
  *
- * <img src="doc-files/crm04_3_design.png" alt="image">
- *
  * <h3>5.1. Functional Tests</h3>
+ * Since this feature uses the network framework already implemented any tests
+ * needed to be done are done on that level. For the realization of this use
+ * case I only use/call this framework methods.
+ *
+ * <h3>5.2. UC Realization</h3>
+ * To realize this user story we will need to create a subclass of Extension. We
+ * will also need to create a subclass of UIExtension. For the sidebar we need
+ * to implement a JPanel. In the code of the extension
+ * <code>csheets.ext.chatApp</code> we can find examples that illustrate how to
+ * implement these technical requirements. The following diagrams illustrate
+ * core aspects of the design of the solution for this use case.
+ *
+ * <h3>Chat send Message</h3>
+ * The following diagram shows the setup of the local connection when
+ * cleansheets's user select share.
  * <p>
- * Tests will be performed for Class FindController to check if the order occurs
- * as planned.
- * </p>
+ * <img src="doc-files/ipc05.2_udp_design.png" alt="image">
+ *
+ *
+ * <h3>Receive Message</h3>
+ * The following diagram illustrates what happens when a instance of cleansheet
+ * receive message.
+ * <p>
+ * <img src="doc-files/ipc05.2_received_design.png" alt="image">
  *
  * <h2>6. Implementation</h2>
  * <p>
- *
- * </p>
+ * see:
+ * <p>
+ * <a href="../../../../csheets/ext/chat/package-summary.html">csheets.ext.chat</a><p>
+ * <a href="../../../../csheets/ext/chat/domain/package-summary.html">csheets.ext.chat.domain</a><p>
+ * <a href="../../../../csheets/ext/chat/ui/package-summary.html">csheets.ext.chat.ui</a><p>
  *
  * <h2>7. Commit Evidences</h2>
  * <p>
