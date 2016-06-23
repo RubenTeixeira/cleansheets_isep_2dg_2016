@@ -9,6 +9,7 @@ import csheets.domain.Contact;
 import csheets.domain.Task;
 import csheets.framework.persistence.repositories.impl.immemory.InMemoryRepository;
 import csheets.persistence.TaskRepository;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,14 +26,13 @@ class InMemoryTaskRepository extends InMemoryRepository<Task, Long> implements T
 	}
 
 	public List<Task> task(Contact contact) {
-
-		List<Task> task = null;
-		for (Task t : this.all()) {
-			if (t.getContact().equals(contact)) {
-				task.add(t);
+List<Task> list = new ArrayList();
+		for (Task task : this.all()) {
+			if (task.getContact().equals(contact)) {
+				list.add(task);
 			}
 		}
-		return task;
+		return list;
 	}
 
 }
