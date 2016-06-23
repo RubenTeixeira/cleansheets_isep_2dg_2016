@@ -5,7 +5,6 @@
  */
 package csheets.ext.distributedWorkbookSearch.ui;
 
-import csheets.core.Cell;
 import csheets.ext.distributedWorkbookSearch.NetworkWorkbookSearchExtension;
 import csheets.ext.distributedWorkbookSearch.WorkBookDTO;
 import csheets.ext.distributedWorkbookSearch.ui.NetworkWorkbookSearchPanel.InstanceResult;
@@ -30,7 +29,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
@@ -53,7 +51,7 @@ public class NetworkWorkbookSearchPanel extends JPanel implements Observer {
 	/**
 	 * Workbook name search pattern
 	 */
-	private String searchPattern;
+	private String[] searchPattern;
 
 	/**
 	 * Task Manager
@@ -344,10 +342,9 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-	
-            startSearch();
-        
-        
+
+		startSearch();
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void jSearchPatternKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jSearchPatternKeyReleased
@@ -384,20 +381,25 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
     // End of variables declaration//GEN-END:variables
 
 	private void startSearch() {
-		this.searchPattern = this.jSearchPattern.getText().trim();
-		if (!this.searchPattern.isEmpty()) {
-			this.jStatusLabel.setForeground(Color.BLACK);
-			this.jStatusLabel.setText("Search in progress...");
-			this.listModel.clear();
-			switchToSpinnerView();
-			this.cancelButton.setEnabled(true);
-			this.searchButton.setEnabled(false);
+		String wordToSearch = this.jSearchPattern.getText();
 
-			this.controller.restartUdpService(this, defaultSeconds);
-			this.controller.discoverInstances(defaultSeconds);
-			this.controller.restartTcpService(this);
+		wordToSearch = this.jSearchPattern.getText();
+		this.searchPattern = wordToSearch.split(";");
+		for (int i = 0; i < searchPattern.length; i++) {
+			if (!this.searchPattern[i].isEmpty()) {
+				this.jStatusLabel.setForeground(Color.BLACK);
+				this.jStatusLabel.setText("Search in progress...");
+				this.listModel.clear();
+				switchToSpinnerView();
+				this.cancelButton.setEnabled(true);
+				this.searchButton.setEnabled(false);
 
-			manager.after(SEARCH_TIMEOUT).once(stopTask);
+				this.controller.restartUdpService(this, defaultSeconds);
+				this.controller.discoverInstances(defaultSeconds);
+				this.controller.restartTcpService(this);
+
+				manager.after(SEARCH_TIMEOUT).once(stopTask);
+			}
 		}
 	}
 
@@ -460,10 +462,13 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 
 		if (arg instanceof String) { // Permission response received
 
-			String target = (String) arg;
-			System.out.
-				println("Resquesting search from " + target + " for '" + this.searchPattern + "'");
-			this.controller.initiateSearch(target, this.searchPattern);
+			for (int i = 0; i < this.searchPattern.length; i++) {
+				String target = (String) arg;
+				System.out.
+					println("Resquesting search from " + target + " for '" + this.searchPattern + "'");
+				this.controller.initiateSearch(target, this.searchPattern[0]);
+				System.out.println(searchPattern[0]);
+			}
 
 		} else if (arg instanceof Map) { // New search Result
 
