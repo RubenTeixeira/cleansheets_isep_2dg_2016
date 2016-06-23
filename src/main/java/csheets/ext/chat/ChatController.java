@@ -43,8 +43,7 @@ public class ChatController {
 		this.udpService.user(this.user);
 		this.udpService.client(5);
 		this.udpService.server();
-		this.udpService.users(users);
-		this.udpService.rooms(rooms);
+		this.udpService.controller(this);
 		this.tcpService = new TcpService();
 		this.tcpService.server();
 	}
@@ -115,9 +114,11 @@ public class ChatController {
 
 	public User addUser(String name, String nick, String status, String image,
 						String target) {
+		/*
 		if (name.equals(this.user.name())) {
 			return this.user;
 		}
+		 */
 		User user = this.users.get(name); //PersistenceContext.repositories().users().findName(name);
 		byte[] img = null;
 		if (image != null && !image.isEmpty()) {
@@ -145,10 +146,12 @@ public class ChatController {
 	}
 
 	public Room addRoom(String name, String creator, boolean isPrivate) {
+		/*
 		Room room = this.rooms.get(name + creator); //PersistenceContext.repositories().rooms().findName(name);
 		if (room != null && room.name().equals(name)) {
 			return room;
 		}
+		 */
 		Room.Type type = Room.Type.PUBLIC;
 		if (isPrivate) {
 			type = Room.Type.PRIVATE;
@@ -162,9 +165,9 @@ public class ChatController {
 		if (user == null) {
 			return null;
 		}
-		room = new Room(name, user, type);
+		Room room = new Room(name, user, type);
 		//PersistenceContext.repositories().rooms().save(room);
-		this.rooms.put(name + creator, room);
+		this.rooms.put(name, room);
 		Notification.chatMessageInformer().notifyChange(room);
 		return room;
 	}
