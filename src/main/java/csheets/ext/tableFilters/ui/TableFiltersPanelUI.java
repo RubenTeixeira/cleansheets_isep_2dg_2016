@@ -5,6 +5,9 @@
  */
 package csheets.ext.tableFilters.ui;
 
+import csheets.core.Cell;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import csheets.ext.tableFilters.SpreadsheetWithTables;
 import csheets.ext.tableFilters.Table;
 import csheets.ext.tableFilters.Table.Filter;
@@ -14,6 +17,7 @@ import csheets.notification.Notification;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -450,6 +454,7 @@ public class TableFiltersPanelUI extends JPanel implements Observer, SelectionLi
 		List<Table> tableList = this.activeSpreadsheet.tables(this);
 		for (Table table : tableList) {
 			this.tables.addElement(table);
+			enhanceTable(table);
 		}
 		updateFilters(null);
 	}
@@ -552,6 +557,25 @@ public class TableFiltersPanelUI extends JPanel implements Observer, SelectionLi
 		redrawSpreadSheet();
 	}
 
+	private void enhanceTable(Table table) {
+		Cell[][] cells = table.cells();
+		for (int i = 0; i < cells.length; i++) {
+			for (int j = 0; j < cells[0].length; j++) {
+				StylableCell style = (StylableCell) cells[i][j].
+					getExtension(StyleExtension.NAME);
+				if (i == 0) { // Header
+					style.setBackgroundColor(Color.GRAY);
+				} else {
+					style.setBackgroundColor(Color.LIGHT_GRAY);
+				}
+			}
+		}
+		//
+	}
+
+	/**
+	 * The inner class used for filtering out hidden rows
+	 */
 	class TableRowFilter extends RowFilter {
 
 		@Override

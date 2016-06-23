@@ -7,6 +7,7 @@ package csheets.ext.tableFilters;
 
 import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
+import csheets.core.Spreadsheet;
 import csheets.core.formula.Expression;
 import csheets.core.formula.compiler.ExcelExpressionCompiler;
 import csheets.core.formula.compiler.FormulaCompilationException;
@@ -130,6 +131,14 @@ public class Table extends Notifier implements Serializable {
 	public void removeFilter(Filter filter) {
 		this.filters.remove(filter);
 		notifyChange(filter);
+	}
+
+	public Cell[][] cells() {
+		return this.cells;
+	}
+
+	public Spreadsheet spreadsheet() {
+		return this.spreadsheet;
 	}
 
 	/**
