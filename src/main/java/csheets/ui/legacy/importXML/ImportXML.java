@@ -11,6 +11,7 @@ import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
+import csheets.ext.macro_beanshell.Code;
 import csheets.ext.style.StylableCell;
 import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
@@ -136,62 +137,76 @@ public class ImportXML {
 							String[] comments = column.
 								split("<" + tagComment + ">|</" + tagComment + ">");
 
-							CommentableCell cell = (CommentableCell) uiSpreadsheet.
-								getCell(columnIndex, rowIndex).getExtension(
-									CommentsExtension.NAME);
-//							for (int m = 1; m < comments.length; m++) {
-							for (int n = 1; n < comments.length; n = n + 2) {
-
-								String comment = comments[n];
-
-								String author = comment.
-									split("<" + tagAuthor + ">|</" + tagAuthor + ">")[1];
-								String commentValue = comment.
-									split("<" + tagValue + ">|</" + tagValue + ">")[1];
-
-								String commentfont = comment.
-									split("<" + tagFont + ">|</" + tagFont + ">")[1];
-								String cName = font.split("name=")[1].split(",")[0];
-								String cStyle = font.split("style=")[1].
-									split(",")[0];
-								String cSize = font.split("size=")[1].split("]")[0];
-
-								Font CFonts = new Font(commentfont, 1, Integer.
-													   parseInt(cSize.trim()));
-
-								String commentBackground = comment.
-									split("<" + tagBackground + ">|</" + tagBackground + ">")[1];
-
-								((CommentableCell) uiSpreadsheet.
-									getCell(columnIndex, rowIndex).
-									getExtension(CommentsExtension.NAME)).
-									addComment(cName, commentValue, CFonts, new Color(Integer.
-												   parseInt(commentBackground)), new EmptyBorder(1, 1, 1, 1));
-								//<--Comment-->
-							}
+							addComments(comments, tagAuthor, tagValue, tagFont, font, tagBackground, uiSpreadsheet, columnIndex, rowIndex);
 
 						}
 					}
 				}
 
-//				String[] scripts = workbook1.split("<" + tagScripts + ">");
-//				for (int o = 1; o < scripts.length(); o++) {
-//					String scripts1 = scripts[o];
-//					String[] script = scripts1.
-//						split("<" + tagScript + "");
-//
-//					for (int p = 1; p < script.length; p++) {
-//
-//						String column = columns[l];
-//						String[] value = column.split(">|<");
-//
-//					}
-//
-//				}
+				String[] scripts = workbook1.
+					split("<" + tagScripts + ">|</" + tagScripts + ">");
+				addScripts(scripts, tagScript, tagType, tagName, tagContent, tagSync, workbook);
 			}
 
 		} else {
 			throw new IOException("Ficheiro XML Woorkbook Invalido");
+		}
+	}
+
+	private static void addComments(String[] comments, String tagAuthor,
+									String tagValue, String tagFont, String font,
+									String tagBackground,
+									Spreadsheet uiSpreadsheet, int columnIndex,
+									int rowIndex) throws IllegalArgumentException {
+		for (int n = 1; n < comments.length; n = n + 2) {
+
+			String comment = comments[n];
+
+			String author = comment.
+				split("<" + tagAuthor + ">|</" + tagAuthor + ">")[1];
+			String commentValue = comment.
+				split("<" + tagValue + ">|</" + tagValue + ">")[1];
+
+			String commentfont = comment.
+				split("<" + tagFont + ">|</" + tagFont + ">")[1];
+			String cName = font.split("name=")[1].split(",")[0];
+			String cStyle = font.split("style=")[1].
+				split(",")[0];
+			String cSize = font.split("size=")[1].split("]")[0];
+
+			Font CFonts = new Font(commentfont, 1, Integer.
+								   parseInt(cSize.trim()));
+
+			String commentBackground = comment.
+				split("<" + tagBackground + ">|</" + tagBackground + ">")[1];
+
+			((CommentableCell) uiSpreadsheet.
+				getCell(columnIndex, rowIndex).
+				getExtension(CommentsExtension.NAME)).
+				addComment(cName, commentValue, CFonts, new Color(Integer.
+							   parseInt(commentBackground)), new EmptyBorder(1, 1, 1, 1));
+			//<--Comment-->
+		}
+	}
+
+	private static void addScripts(String[] scripts, String tagScript,
+								   String tagType, String tagName,
+								   String tagContent, String tagSync,
+								   Workbook workbook) {
+		String[] script = scripts[1].
+			split("<" + tagScript + ">|</" + tagScript + ">");
+		for (int o = 1; o < script.length; o = o + 2) {
+			String s = scripts[o];
+			String type = s.
+				split("<" + tagType + ">|</" + tagType + ">")[1];
+			String name = s.
+				split("<" + tagName + ">|</" + tagName + ">")[1];
+			String content = s.
+				split("<" + tagContent + ">|</" + tagContent + ">")[1];
+			String sync = s.
+				split("<" + tagSync + ">|</" + tagSync + ">")[1];
+			workbook.addScript(new Code(name, type, content, sync.
+										equals("true")));
 		}
 	}
 
