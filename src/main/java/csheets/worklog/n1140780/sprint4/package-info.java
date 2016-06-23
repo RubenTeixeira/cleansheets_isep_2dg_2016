@@ -103,17 +103,18 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * <p>
- * Currently, there aren't any acceptable tests for the feature. Since testing
- * against network packet trading can be a cumbersome and fail prone task, the
- * plan is to test the code performed by each side of the communication, so the
- * goal is to write down tests for <code>WorkbookDTOAssemblerTest</code> to
- * ensure valid DTO's are created and <code>ObjectSerializationTest</code> for
- * obvious reasons. <code>LocalWorkbookSearchTest</code> was initially intended
- * too but as it depends on active Workbooks being in the FileSystem i've chosen
- * not to implement it as of this sprint until a proper yet simple way to test
- * it comes to mind.</p>
+ * Currently, the plan is to develop test for the expression substitution/
+ * evaluation:</p>
+ * <p>
+ * For instance '_col[2]' being evaluated on the second row should map to
+ * B2.</p>
+ * <p>
+ * Tests for table creation are also in order:</p>
+ * <p>
+ * After creating a table one should verify if saved cells and spreadsheet are
+ * correct.</p>
  *
- *
+ * -------TODO--------
  * <p>
  * <b>ObjectSerializationtest:</b></p>
  * A simple approach is to create an object, clone it and save the original.
@@ -136,39 +137,41 @@
  * <p>
  * <a href="../../../../../test/csheets/ext/distributedWorkbook/WorkBookDTOAssemblerTest.java">test.csheets.ext.distributedWorkbook.WorkBookDTOAssemblerTest</a></p>
  *
+ * ---------ENDOFTODO------------
+ *
  * <h3>5.2. UC Realization</h3>
  *
  * <p>
  * The following Diagrams are useful to understand the UC Realization:</p>
  *
  * <p>
- * <b>Main Flow:</b></p>
+ * <b>Create Table SD:</b></p>
  * <p>
- * <img src="doc-files/ipc_03.2_sequence_diagram.png" alt="Sequence Diagram Design"></p>
+ * <img src="doc-files/lang_03.3_create_table_sd.png" alt="Sequence Diagram Design"></p>
  *
  * <p>
- * <b>UDPService:</b></p>
+ * <b>Add filter to Table SD:</b></p>
  * <p>
- * <img src="doc-files/ipc_03.2_udp.png" alt="Sequence Diagram UDP"></p>
+ * <img src="doc-files/lang_03.3_create_filter_sd.png" alt="Sequence Diagram"></p>
  *
- * <p>
- * <b>TCPService:</b></p>
- * <p>
- * <img src="doc-files/ipc_03.2_tcp.png" alt="Sequence Diagram TCP"></p>
+ *
  *
  * <h3>5.3. Extension Setup</h3>
  * <p>
- * The Search Extention is loaded as per the following:</p>
+ * The TableFilters Extention is loaded as per the following:</p>
  * <p>
- * <img src="doc-files/ipc03.2_extension_load_sd.png" alt="Extension Load"></p>
+ * <img src="doc-files/lang03.3_extension_load.png" alt="Extension Load"></p>
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
  * Singleton Pattern implemented by ExtensionManager.</p>
  * <p>
- * Data Transfer Object implemented by WorkbookDTO.</p>
- * <p>
  * Low Cowpling - High Cohesion.</p>
+ * <p>
+ * Observer - Implemented on Table & UI.</p>
+ *
+ *
+ * -----------TODO----------
  *
  * <h2>6. Implementation</h2>
  *
@@ -347,6 +350,9 @@
  * from Pedro Gomes whom was kind enough to allow me to use):</p>
  * <p>
  * <img src="http://i.imgur.com/JbaW12Y.png" alt="JPanel Final Result"></p>
+ *
+ *
+ * -----------ENDOFTODO----------
  *
  * @author Ruben Teixeira 1140780@isep.ipp.pt
  */
