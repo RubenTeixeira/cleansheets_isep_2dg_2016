@@ -206,9 +206,9 @@ public class ImportExportToDatabaseFrame extends javax.swing.JFrame {
                                 getText(),
                                 usernameTextField.getText(), passwordTextField.
                                 getText(), tableNameTextField.getText());
-                JOptionPane.showMessageDialog(this, "Foi exportado com sucesso");
+                JOptionPane.showMessageDialog(this, "Sucess!!");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro: " + e);
+                JOptionPane.showMessageDialog(this, "An error has ocurred: " + e);
             }
         }
         if (((ExportImportOption) optionComboBox.getSelectedItem()) == ExportImportOption.IMPORT) {
@@ -218,9 +218,9 @@ public class ImportExportToDatabaseFrame extends javax.swing.JFrame {
                                 getText(),
                                 usernameTextField.getText(), passwordTextField.
                                 getText(), tableNameTextField.getText());
-                JOptionPane.showMessageDialog(this, "Foi importado com sucesso");
+                JOptionPane.showMessageDialog(this, "Sucess!!");
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Ocorreu um erro: " + e);
+                JOptionPane.showMessageDialog(this, "An error has ocurred: " + e);
             }
         }
     }//GEN-LAST:event_confirmButtonActionPerformed

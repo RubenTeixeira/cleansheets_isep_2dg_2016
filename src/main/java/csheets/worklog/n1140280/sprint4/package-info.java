@@ -91,15 +91,11 @@
  * <p>
  * 5. Try verify if a table I'm sure exists returns true when searched for
  * </p>
- * <h3>5.2. Secondary Unit Tests</h3>
  * <p>
  * Unit testing should be mostly be on importing and exporting:
  * <p>
  * 1. Export and import a 4x4 matrix to ensure basic export and import are
  * working </p>
- * <p>
- * 2. Export and import a non selected cell to ensure the returned matrix is
- * from A1-Z25</p>
  * <p>
  * 3. Export and import a matrix having all cells content to ensure all values
  * are being saved correctly</p>
