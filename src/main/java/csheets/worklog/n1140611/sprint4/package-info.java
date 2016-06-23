@@ -1,6 +1,6 @@
 /**
  * Technical documentation regarding the work of the team member (1140611)
- * Carlos Santos during week3.
+ * Carlos Santos during week4.
  *
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
@@ -41,23 +41,20 @@
  * <h3>First "analysis" sequence diagram</h3>
  *
  * <h4>Auto-Sorting</h4>
- * <p>
- * <img src="doc-files/core03.3_analysis.png" alt="image">
  *
- *
- * <h3>Analysis of Core Technical Problem</h3>
+ * <h4>Analysis of Core Technical Problem</h4>
  * The core of sort automatically is to maintain the order after changes.
  * <p>
- * <img src="doc-files/core_of_lang08.2.png" alt="image">
- *
+ * <img src="doc-files/core03.3_analysis.png" alt="image">
  *
  * <h2>5. Design</h2>
  *
  * <h3>5.1. Functional Tests</h3>
  * Basically, from requirements and also analysis, we see that the core
- * functionality of this use case is to be able to send and receive messages.
+ * functionality of this use case is to change order by clicking in a column,
+ * and change order by clicking in same column and change order.
  * <p>
- * see: <code>csheets</code>
+ * see: <code>TestPackages.csheets.ext.sort</code>
  *
  * <h3>5.2. UC Realization</h3>
  * The following diagrams illustrate core aspects of the design of the solution
@@ -98,7 +95,7 @@
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ui/legacy/importXML/package-summary.html">csheets.ui.legacy.importXML</a>
+ * <a href="../../../../csheets/ext/sort/package-summary.html">csheets.ext.sort</a>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
@@ -108,8 +105,8 @@
  * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
  *
  * <p>
- * Test of import XML are presented on the next package
- * <a href="../../../TestPackages/csheets/ui/legacy/importXML/package-summary.html">csheets.ui.legacy.importXML</a>
+ * Test of auto-sorting are presented on the next package
+ * <a href="../../../TestPackages/csheets/ext/sort/package-summary.html">TestPackages.csheets.ext.sortL</a>
  *
  * <h2>8. Final Remarks</h2>
  *
@@ -176,55 +173,57 @@
  * <p>
  * Today
  * <p>
- * 1. Start analysis of feature lang08.2 importXML
+ * 1. Start analysis of feature core03.3 auto-sorting
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing to report at moment-
+ * 1. don't understand what i have to do
  * <p>
  * <b>Tuesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Start analysis of feature lang08.2 importXML
+ * 1. Start analysis of feature core03.3 auto-sorting
  * <p>
  * Today
  * <p>
- * 1. finish analysis and start design lang08.2 importXML and start
- * implementation
+ * 1. finish analysis and start design of core03.3 auto-sorting and start
+ * implementation and test implementation
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing to report at moment-
+ * 1. clickEvent in a cell
  * <p>
  * <b>Wednesday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. finish analysis and start design lang08.2 importXML and start
- * implementation
+ * 1. finish analysis and start design of core03.3 auto-sorting and start
+ * implementation and test implementation
  * <p>
  * Today
  * <p>
- * 1. lang08.2 importXML implementation
+ * 1. finish implementation and test implementation of core03.3 auto-sorting and
+ * helped on ipc08.1
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. -nothing-
  * <p>
  * <b>Thursday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.
+ * 1. finish implementation and test implementation of core03.3 auto-sorting and
+ * helped on ipc08.1
  * <p>
  * Today
  * <p>
- * 1.
+ * 1. update worklog and heldped expand automaticaly jtree in lang04.3 and prepare apresentation
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1.-nothing-
  * <h2>10. Self Assessment</h2>
  *
  * -Insert here your self-assessment of the work during this sprint.-
@@ -236,9 +235,12 @@
  * <b>Evidences:</b>
  * <p>
  * - url of commit:
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/5c3fe0ac7503f741b43d3b12971e0bc23fafceca">commit
- * 5c3fe0a</a>- description: this commit is related to th tests and
- * implementation
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b4e7a0a9b9b0c67ddf1278dac8c68b107649b928">commit
+ * a632501</a>- description: this commit is related to  testsimplementation
+ * 
+ * - url of commit:
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e8c690d19b1e113cafa1815c067d8505a3223233">commit
+ * e8c690d</a>- description: this commit is related to the implementation
  *
  * <p>
  * The option to test was to test at first moment the import of data. After i
