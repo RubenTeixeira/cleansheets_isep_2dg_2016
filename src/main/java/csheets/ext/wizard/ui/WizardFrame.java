@@ -270,9 +270,11 @@ public class WizardFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
-		String help = ((FunctionListModel) functionsList.getModel()).
+	if (functionsList.getSelectedIndex() != -1) {
+            String help = ((FunctionListModel) functionsList.getModel()).
 			getHelp(functionsList.getSelectedIndex());
 		JOptionPane.showMessageDialog(this, help);
+        }
     }//GEN-LAST:event_helpButtonActionPerformed
 
     private void treeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeButtonActionPerformed
