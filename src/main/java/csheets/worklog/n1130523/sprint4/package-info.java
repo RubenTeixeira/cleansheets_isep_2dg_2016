@@ -95,13 +95,23 @@
  *
  * <h3>5.1. Functional Tests</h3>
  *
- * TEXT
+ * I have to do tests for this specific use case of class ShareFilesController.
+ * Have the specific method pathDownloads(), pathFiles(), files(). I test if a
+ * method stop(), stops all the UDP services, if JtextField in UI shows default
+ * path in the seperator files and downloads and if returns a list with all
+ * files for a specific path.
  *
  *
  *
  * <h3>5.2. UC Realization</h3>
  *
- * TEXT
+ * For the devolopment I need to create a subclass of Extension and a subclass
+ * of UIExtension. For the sidebar I need implement a JPanel. Will need a button
+ * to set the directory with the files that you want to transfer and tab
+ * downloads with the list of files received by broadcast You also need a button
+ * to download only certain user- selected files. I used some methods of the
+ * package Volt Request class to get some file information such as the IP of who
+ * sent the files, the port, the size of each file and the file name.
  *
  *
  * <h3>5.3. Classes</h3>
@@ -109,7 +119,8 @@
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  * <p>
- * TEXT
+ * Observer: This Pattern is used to notify ShareFilesPanel with new instances
+ * in local network.
  *
  * <h2>6. Implementation</h2>
  *
@@ -137,24 +148,18 @@
  *
  *
  * <p>
- * <b>Use Case 1 - "Inbox files Reception"</b>
- *
- * TEXT
+ * <b>SD - Share files Reception</b>
+ * <p>
+ * The sequence diagram illustrates how Share Files UC works
+ * <img src="doc-files/ipc_file_sharing_design_sd3.png" alt="image">
  *
  * <p>
- * <b>Use Case 2 - "Outbox files Share":</b>
- *
- * TEXT
- *
- * <p>
- *
- *
  * <b>Created Classes</b>:
  *
  * <p>
  * ShareFilesController, ShareFilesExtension, UIExtensionShareFiles,
  * ShareFilesPanel;
- *
+ * <p>
  * <b>Updated Classes/Files</b>:
  *
  * <p>
@@ -222,7 +227,8 @@
  * </p>
  * Today
  * <p>
- * TEXT
+ * 1. Design Completetion - IPC08.1) File Sharing Sequence Diagrams 2.
+ * Implementation - Some corrections in UI. 3. Unit Tests.
  * </p>
  * Blocking:
  * <p>
@@ -233,7 +239,8 @@
  * </p>
  * Yesterday I worked on:
  * <p>
- * TEXT
+ * 1. Design Completetion - IPC08.1) File Sharing Sequence Diagrams 2.
+ * Implementation - Some corrections in UI. 3. Unit Tests.
  * </p>
  * Today
  * <p>
@@ -266,10 +273,7 @@
  *
  * <h3>10.1. Design and Implementation:</h3>
  *
- * 3- bom: os testes cobrem uma parte significativa das funcionalidades (ex:
- * mais de 50%) e apresentam código que para além de não ir contra a arquitetura
- * do cleansheets segue ainda as boas práticas da área técnica (ex:
- * sincronização, padrões de eapli, etc.)
+ * TEXT
  * <p>
  * <b>Evidences:</b>
  * </p>
@@ -285,8 +289,11 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6c66c20da15793c88360abbb44766b1fac0f9ea8">
  * Implementation</a>
  *
+ *
  * <p>
- * TEXT
+ * Some corrections in UI
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f816b0a2c37292a720207ebe07dbdfd822d4b3d1">
+ * Implementation Corrections</a>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
