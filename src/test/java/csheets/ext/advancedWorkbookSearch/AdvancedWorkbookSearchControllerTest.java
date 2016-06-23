@@ -26,12 +26,8 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 /**
- * Tests for AdvancedWorkbookSearchController. This class allows to perform
- * tests to all methods that handle searching features. By providing a temporary
- * folder and a specific pattern - Default pattern in this test - the controller
- * is able to search all files in the giving directory.
  *
- * @author Pedro Gomes 1130383@isep.ipp.pt
+ * @author Eduardo
  */
 public class AdvancedWorkbookSearchControllerTest {
 
@@ -99,16 +95,16 @@ public class AdvancedWorkbookSearchControllerTest {
 	}
 
 	/**
-	 * Test if content is loaded for Preview. It is necessary to have a workbook
-	 * with content. The first For Loop starts with 0 which will add content to
-	 * the very first cell of the Workbook. The WorkbookPreview uses the Address
-	 * of the first non-empty Cell. This means that the Preview for this
-	 * Workbook will be composed by a 5*5 matrix of the {A,B,C,D,E} columns. The
-	 * second For Loop guarantees that no other value exists in the Preview. If
-	 * it reaches the last condition the test fails.
+	 *	 * Test if content is loaded for Preview. It is necessary to have a
+	 * workbook with content. The first For Loop starts with 0 which will add
+	 * content to the very first cell of the Workbook. The WorkbookPreview uses
+	 * the Address of the first non-empty Cell. This means that the Preview for
+	 * this Workbook will be composed by a 5*5 matrix of the {A,B,C,D,E}
+	 * columns. The second For Loop guarantees that no other value exists in the
+	 * Preview. If it reaches the last condition the test fails.
 	 */
 	@Test
-	public void setUpWorkbookPreview() {
+	public void testSetUpWorkbookPreview() {
 		boolean result = true;
 		Workbook wb = new Workbook(2);
 		Spreadsheet ss = wb.getSpreadsheet(1);
