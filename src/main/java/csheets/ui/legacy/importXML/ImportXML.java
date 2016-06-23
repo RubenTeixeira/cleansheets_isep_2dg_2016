@@ -9,7 +9,6 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.core.Workbook;
 import csheets.core.formula.compiler.FormulaCompilationException;
-import csheets.ext.comments.Comment;
 import csheets.ext.comments.CommentableCell;
 import csheets.ext.comments.CommentsExtension;
 import csheets.ext.style.StylableCell;
@@ -21,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -112,13 +112,13 @@ public class ImportXML {
 								getCell(columnIndex, rowIndex).
 								getExtension(StyleExtension.NAME)).
 								setBackgroundColor(new Color(Integer.
-									parseInt(background)));
+										parseInt(background)));
 
 							((StylableCell) uiSpreadsheet.
 								getCell(columnIndex, rowIndex).
 								getExtension(StyleExtension.NAME)).
 								setForegroundColor(new Color(Integer.
-									parseInt(foreground)));
+										parseInt(foreground)));
 
 							((StylableCell) uiSpreadsheet.
 								getCell(columnIndex, rowIndex).
@@ -138,11 +138,11 @@ public class ImportXML {
 
 							CommentableCell cell = (CommentableCell) uiSpreadsheet.
 								getCell(columnIndex, rowIndex).getExtension(
-								CommentsExtension.NAME);
+									CommentsExtension.NAME);
 //							for (int m = 1; m < comments.length; m++) {
-							for (Comment c : cell.getCommentsList()) {
+							for (int n = 1; n < comments.length; n = n + 2) {
 
-								String comment = comments[1];
+								String comment = comments[n];
 
 								String author = comment.
 									split("<" + tagAuthor + ">|</" + tagAuthor + ">")[1];
@@ -156,38 +156,17 @@ public class ImportXML {
 									split(",")[0];
 								String cSize = font.split("size=")[1].split("]")[0];
 
-								Font CFonts = new Font(cName, 1, Integer.
+								Font CFonts = new Font(commentfont, 1, Integer.
 													   parseInt(cSize.trim()));
 
 								String commentBackground = comment.
 									split("<" + tagBackground + ">|</" + tagBackground + ">")[1];
-								//commantableCell para ir buscar comment
 
-//								((Comment) uiSpreadsheet.
-//									getCell(columnIndex, rowIndex).
-//									getExtension(CommentsExtension.NAME)).
-//									setUsername(author);
-								c.setUsername(author);
-
-//								((Comment) uiSpreadsheet.
-//									getCell(columnIndex, rowIndex).
-//									getExtension(CommentsExtension.NAME)).
-//									setText(commentValue);
-								c.setText(commentValue);
-//								((Comment) uiSpreadsheet.
-//									getCell(columnIndex, rowIndex).
-//									getExtension(CommentsExtension.NAME)).
-//									setFont(CFonts);
-								c.setFont(CFonts);
-
-								c.setBackgroundColor(new Color(Integer.
-									parseInt(commentBackground)));
-
-//								((Comment) uiSpreadsheet.
-//									getCell(columnIndex, rowIndex).
-//									getExtension(StyleExtension.NAME)).
-//									setBackgroundColor(new Color(Integer.
-//										parseInt(commentBackground)));
+								((CommentableCell) uiSpreadsheet.
+									getCell(columnIndex, rowIndex).
+									getExtension(CommentsExtension.NAME)).
+									addComment(cName, commentValue, CFonts, new Color(Integer.
+												   parseInt(commentBackground)), new EmptyBorder(1, 1, 1, 1));
 								//<--Comment-->
 							}
 
