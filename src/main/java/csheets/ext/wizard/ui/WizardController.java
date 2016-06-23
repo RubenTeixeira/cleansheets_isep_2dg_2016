@@ -84,7 +84,7 @@ public class WizardController {
 
         if (ast != null) {
             new WizardTreeFrame(ast, frame).setVisible(true);
-            System.out.println("AST: " + ast.toStringTree());
+            //System.out.println("AST: " + ast.toStringTree());
         }
     }
 

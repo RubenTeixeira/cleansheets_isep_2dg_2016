@@ -106,9 +106,9 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
 	 */
 	protected Expression convert(Cell cell, Tree node) throws FormulaCompilationException {
 
-		System.out.
-			println("Converting node '" + node.getText() + "' of tree '" + node.
-				toStringTree() + "' with " + node.getChildCount() + " children.");
+//		System.out.
+//			println("Converting node '" + node.getText() + "' of tree '" + node.
+//				toStringTree() + "' with " + node.getChildCount() + " children.");
 		if (node.getChildCount() == 0) {
 			try {
 				switch (node.getType()) {

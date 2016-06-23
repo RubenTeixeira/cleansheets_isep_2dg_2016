@@ -92,8 +92,8 @@ public class Console {
 					//String message="Fatal recognition exception " + e.getClass().getName()+ " : " + e;
 					String message = parser.
 						getErrorMessage(e, parser.tokenNames);
-					printer.
-						println("At (" + e.line + ";" + e.charPositionInLine + "): " + message);
+					//printer.
+						//println("At (" + e.line + ";" + e.charPositionInLine + "): " + message);
 				} catch (Exception e) {
 					// System.err.println(e);
 					e.printStackTrace();
