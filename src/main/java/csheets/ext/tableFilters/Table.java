@@ -190,8 +190,8 @@ public class Table extends Notifier implements Serializable {
 	 * @param expression the expression containing references
 	 * @param row the row to take the true cell columnReference from
 	 */
-	private String replaceRelativeReferences(String expression, Cell[] headers,
-											 Cell[] row)
+	public String replaceRelativeReferences(String expression, Cell[] headers,
+											Cell[] row)
 		throws PatternSyntaxException {
 		boolean isString;
 		if (!expression.matches(".*_col.*")) {

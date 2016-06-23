@@ -55,8 +55,10 @@ public class FormEditor extends JDialog implements Observer {
 		initComponents();
 		this.setModal(modal);
 		this.form = form;
+		this.setTitle("Form " + this.form.getNameForm());
 		this.controller = new FormEditorController(form.cell());
-		this.jCheckBox1.setSelected(form.isEditable());
+		this.jCheckBox1.
+			setSelected(true);
 		if (this.jCheckBox1.isSelected()) {
 			this.form.setEditable(true);
 			this.updateButton.setVisible(true);
@@ -89,7 +91,6 @@ public class FormEditor extends JDialog implements Observer {
 				e.getWindow().dispose();
 			}
 		});
-
 		refreshUI();
 		setVisible(true);
 	}
