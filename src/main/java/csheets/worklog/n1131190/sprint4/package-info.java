@@ -99,8 +99,54 @@
  *
  * <h3>5.1. Functional Tests</h3>
  * <p>
- * Tests will be performed for Class FindController to check if the order occurs
- * as planned.
+ * Several tests were made to the Controller in order to be possible to conclude
+ * that all the functionality was implemented correctly.
+ *
+ * <p>
+ * Tests with search based on dates such as:
+ *
+ * <p>
+ * public void testSearchListsByStartDate() {
+ * System.out.println("testSearchListsByStartDate"); Calendar startDate =
+ * DateTime.dateToCalendar(new Date(116, 05, 01)); java.util.List<List> lists =
+ * new ArrayList<>(); lists = (java.util.List<List>) this.findController.
+ * searchLists(startDate, null, null, false); assertEquals(lists.size(), 3);
+ * //All elements must be in the list startDate = DateTime.newCalendar(2016, 6,
+ * 21); lists = (java.util.List<List>) this.findController.
+ * searchLists(startDate, null, null, false); assertEquals(lists.size(), 2); //2
+ * elements must be in the list }
+ *
+ * <p>
+ * Testing research based on content such as:
+ *
+ * <p>
+ * public void testSearchListsByContent() {
+ * System.out.println("testSearchListsByContent"); String expression =
+ * ".*primeira lista.*"; Set<List> listLists = new HashSet(); listLists =
+ * (Set<List>) this.findController. searchLists(null, null, expression, true);
+ * assertEquals(listLists.size(), 1); //1 element must be in the list expression
+ * = ".*segunda lista.*"; listLists = (Set<List>) this.findController.
+ * searchLists(null, null, expression, true); assertEquals(listLists.size(), 1);
+ * //1 element must be in the list }
+ *
+ * <p>
+ * Tests with search based on title such as:
+ *
+ * <p>
+ * public void testSearchNotesByTitle() {
+ * System.out.println("testSearchNotesByTitle"); String expression = "Nota 1";
+ * Set<Note> listLists = new HashSet(); listLists = (Set<Note>)
+ * this.findController. searchNotes(null, null, expression, false);
+ * assertEquals(listLists.size(), 1); //1 element must be in the list expression
+ * = "Nota 2"; listLists = (Set<Note>) this.findController. searchNotes(null,
+ * null, expression, false); assertEquals(listLists.size(), 1); //1 element must
+ * be in the list expression = "Nota 3"; listLists = (Set<Note>)
+ * this.findController. searchNotes(null, null, expression, false);
+ * assertEquals(listLists.size(), 1); //1 element must be in the list }
+ *
+ * <p>
+ * In total 11 tests were made, thus covering a wide range of possible errors
+ * and bugs that may exist ...
  * </p>
  *
  * <h2>6. Implementation</h2>
@@ -142,6 +188,11 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b49f70f297fee8a8dd9b5e125554c1196af52624">Commit
  * implementation done</a>
  * </p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6bc3d63ffd39684a51d2a319df21ce076193d956">Commit
+ * Tests done</a>
+ * </p>
+ *
  *
  * <h2>8. Work Log</h2>
  *
