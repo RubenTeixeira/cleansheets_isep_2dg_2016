@@ -1,7 +1,0 @@
-@startuml
-User->NetworkExplorerPanel: initiates the networkExplorer use case
-NetworkExplorerPanel->networkExplorerController:create();
-networkExplorerController->UdpService:createUdpServer(networkExplorerPanel,int secondsUpdate);
-
-
-@enduml

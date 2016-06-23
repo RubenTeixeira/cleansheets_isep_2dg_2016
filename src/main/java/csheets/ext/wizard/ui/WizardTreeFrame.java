@@ -156,7 +156,6 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                 frame.selectElement((String) node.getUserObject());
             }
         } catch (BadLocationException ex) {
-            Logger.getLogger(WizardTreeFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_wizardTreeValueChanged
 

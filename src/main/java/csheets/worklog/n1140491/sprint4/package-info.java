@@ -12,10 +12,10 @@
  *
  * -Notes about the week's work.-
  * <p>
- * Tuesday: In the morning i helped my clleague Carlos Mateus in his use case.
+ * Tuesday: In the morning i helped my colleague Carlos Mateus in his use case.
  * In the afternoon i helped Rafael Vilar in his.
  * <p>
- * Wednesday:
+ * Wednesday: Helped Carlos Mateus and Rafael Vilar in their use cases.
  *
  * <h2>2. Use Case/Feature: Lang05.1</h2>
  *
@@ -128,25 +128,25 @@
  * Commit Evidences:</p>
  *
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/fbe15de453facc60bd0b7e78dc0830755bc013cc">Analysis</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3962a9dcccc41f04659771ea19604026ef7a722c">Analysis</a></p>
  *
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e0022d44168c7e9246e949aa18bf945685e6c962#chg-src/main/java/csheets/worklog/n1140491/sprint3/email_configuration_extension_class_diagram.puml">Design
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/ad15cada8349484a8b43f0141edacc485a727c4c">Design
  * commit 1</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e0022d44168c7e9246e949aa18bf945685e6c962#chg-src/main/java/csheets/worklog/n1140491/sprint3/email_configuration_extension_design.puml">Design
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/876a2c550c5885d66271aed681de68bdd91e2ae0">Design
  * commit 2</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a5a84fb20c661307b36e92a8ce95d8cdff25c761">Tests</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b8cc9bc1697ecbcf0e834bb76362fcb03b836d0a">Tests</a></p>
  *
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1">Implementation
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/375f6c79d9c0d5b285b8ad6f520c44b1fbf2febb">Implementation
  * coommit 1</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/6bcfcf9d8b2ab2dff19158071a4611091fd98dea">Implementation
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/f6f3de2e7754305e42d095c3b0e0e6ed2ed0bb22">Implementation
  * commit 2</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/81dcff57e323849e9379020a528136d161c73ebf">Implementation
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b8cc9bc1697ecbcf0e834bb76362fcb03b836d0a">Implementation
  * coommit 3</a></p>
  * <p>
  * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/45bccc3dd48e13996c717027464e2dc6b9fd5992">Implementation
@@ -195,12 +195,13 @@
  * <p>
  * Wednesday
  * <p>
- *
+ * Helped Carlos Mateus and Rafael Vilar in their use cases.
  *
  * <h2>10. Self Assessment</h2>
  *
  * -I think i worked well during the week. I worked on it during the weekend
- * and, because of that, i was able to finish it earlier..-
+ * and, because of that, i was able to finish it earlier and help other
+ * colleagues..-
  *
  * <h3>10.1. Design and Implementation:3</h3>
  * To resolve this use case, we're using patterns learned in the courses of
@@ -210,7 +211,7 @@
  * <b>Evidences:</b>
  * <p>
  * -
- * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/a6ec0a830a2170c64503703d8206c0f3214377e1
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/375f6c79d9c0d5b285b8ad6f520c44b1fbf2febb
  * - description: this commit is related to the implementation of the design
  * pattern ...-
  *

@@ -96,7 +96,7 @@ public class ContactsController {
 		}
 		PersonContact contact = new PersonContact(firstName, lastName, profession, company, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
-		Notification.contactInformer().notifyChange();
+		Notification.contactInformer().notifyChange(contact);
 		return PersistenceContext.repositories().contacts().getByName(contact.
 			name());
 	}
@@ -115,7 +115,7 @@ public class ContactsController {
 		}
 		CompanyContact contact = new CompanyContact(name, thePhoto);
 		PersistenceContext.repositories().contacts().add(contact);
-		Notification.contactInformer().notifyChange();
+		Notification.contactInformer().notifyChange(contact);
 		return PersistenceContext.repositories().contacts().getByName(contact.
 			name());
 	}

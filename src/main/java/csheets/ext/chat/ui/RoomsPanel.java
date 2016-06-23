@@ -11,7 +11,6 @@ import csheets.notification.Notification;
 import csheets.ui.ctrl.UIController;
 import java.awt.GridLayout;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JPanel;
@@ -42,11 +41,13 @@ public class RoomsPanel extends javax.swing.JPanel implements Observer {
 		if (arg instanceof Map) {
 
 			Map<String, String> data = (Map) arg;
+			/*
 			for (Entry entry : data.entrySet()) {
 				System.out.
 					println("update - key: " + entry.getKey() + " - value: " + entry.
 						getValue());
 			}
+			 */
 			if (data.get("reference").equals("publicRoom")) {
 				this.controller.
 					addRoom(data.get("name"), data.get("creator"), false);

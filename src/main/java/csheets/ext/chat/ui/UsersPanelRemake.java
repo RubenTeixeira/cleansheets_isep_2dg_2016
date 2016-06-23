@@ -7,7 +7,6 @@ package csheets.ext.chat.ui;
 
 import csheets.ext.chat.ChatController;
 import csheets.ext.chat.domain.User;
-import csheets.notification.Notification;
 import csheets.support.CirclePanel;
 import csheets.support.Converter;
 import csheets.ui.ctrl.UIController;
@@ -17,15 +16,12 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Observable;
 import java.util.Observer;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 /**
  *
@@ -35,7 +31,6 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 
 	private ChatController controller;
 	private JPanel jPanelColor;
-	private JScrollPane jScrollPane;
 
 	/**
 	 * Creates new form ChatPanel
@@ -53,54 +48,12 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 		this.jTabbedPaneRooms.setLayout(new GridLayout(1, 1));
 		this.jTabbedPaneRooms.add(new RoomsPanel(uiController));
 		this.userUpdate();
-		Notification.chatMessageInformer().addObserver(this);
+		//Notification.chatMessageInformer().addObserver(this);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Map) {
 
-			Map<String, String> data = (Map) arg;
-			for (Entry entry : data.entrySet()) {
-				System.out.
-					println("update - key: " + entry.getKey() + " - value: " + entry.
-						getValue());
-			}
-			if (data.get("reference").equals("user")) {
-				this.controller.
-					addUser(data.get("name"), data.get("nick"), data.
-							get("status"), data.get("image"));
-			}
-
-			/*
-			if (data.get("reference").equals("chatMessage")) {
-				((Map) messageData).remove("reference");
-				String message = (String) ((Map) messageData).get("message");
-				String fromIP = ((String) ((Map) messageData).get("nickname")).
-					split(":")[0];
-				String chatMessage = "Received from " + fromIP + ": " + message;
-				new TimedPopupMessageDialog(null, chatMessage);
-				receivedMessage(fromIP, message);
-				this.chatAppController.
-					addMessage(message, fromIP, ChatMessage.MessageType.RECEIVED);
-			}
-			 */
- /*
-			this.jTabbedPaneUsers.removeAll();
-			this.jTabbedPaneUsers.setLayout(new GridLayout(5, 1));
-			for (User user : this.controller.users()) {
-				//if (!addUser.equals(this.controller.name())) {
-				UsersPanelSingle panel = new UsersPanelSingle(this.controller, user);
-				this.jTabbedPaneUsers.add(panel);
-				GridLayout layout = (GridLayout) this.jTabbedPaneUsers.
-					getLayout();
-				layout.setRows(layout.getRows() + 1);
-				//}
-			}
-			this.jTabbedPaneRoot.revalidate();
-			this.jTabbedPaneRoot.repaint();
-			 */
-		}
 	}
 
 	public void userUpdate() {

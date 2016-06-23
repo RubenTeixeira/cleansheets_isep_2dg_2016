@@ -11,7 +11,7 @@ import csheets.ext.chat.domain.Message;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
-import java.util.Map;
+import csheets.support.DateTime;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -51,31 +51,48 @@ public class InteractionFrame extends javax.swing.JFrame implements Observer {
 
 	public InteractionFrame(ChatController controller, Room room) {
 		this(controller, room.creator().name(), room.name(), Message.Type.ROOM);
+		this.room = room;
 	}
 
 	public InteractionFrame(ChatController controller, User user) {
 		this(controller, user.name(), user.nickname(), Message.Type.USER);
+		this.user = user;
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		if (arg instanceof Map) {
-			Map<String, String> data = (Map) arg;
+		if (arg instanceof String) {
+			System.out.println(((String) arg));
+			String[] data = ((String) arg).split(";");
+			if (this.room != null && data[0].equals("sendMessageRoom") && data[1].
+				equals(this.room.name()) && data[2].equals(this.room.creator().
+				name())) {
+				Message message = new Message(this.room, DateTime.now(), data[3]);
+				this.model.addElement(message);
+			} else if (this.user != null && data[0].equals("sendMessageUser") && data[1].
+				equals(this.user.name())) {
+				Message message = new Message(this.user, DateTime.now(), data[3]);
+				this.model.addElement(message);
+			}
+			/*
 			for (Map.Entry entry : data.entrySet()) {
 				System.out.
 					println("update - key: " + entry.getKey() + " - value: " + entry.
 						getValue());
 			}
-			if (data.get("reference").equals("message") && data.get("host").
-				equals(this.host) && data.get("name").equals(this.name) && data.
-				get("type").equals(this.type)) {
-				//this.controller;
-			}
+			 */
 		}
 	}
 
 	public void sendMessage(String message) {
-		this.controller.sendMessage(this.host, this.name, this.type, message);
+		if (this.user != null) {
+			this.controller.sendMessage(this.user, message);
+		} else if (this.room != null) {
+			this.controller.sendMessage(this.room, message);
+		} else {
+			this.controller.
+				sendMessage(this.host, this.name, this.type, message);
+		}
 	}
 
 	/**

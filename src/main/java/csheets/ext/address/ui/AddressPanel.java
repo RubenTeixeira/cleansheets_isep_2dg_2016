@@ -36,6 +36,7 @@ public class AddressPanel extends javax.swing.JPanel implements Observer {
 		this.controller = new AddressController(uiController, this);
 		initContacts();
 		Notification.addressInformer().addObserver(this);
+		Notification.contactInformer().addObserver(this);
 		this.update(null, null);
 	}
 
@@ -87,6 +88,8 @@ public class AddressPanel extends javax.swing.JPanel implements Observer {
 																	  getSelectedIndex()), address);
 				addAddressPanel(panel);
 			}
+		} else if (arg instanceof Contact) {
+			initContacts();
 		}
 		this.jPanelAddresses.revalidate();
 		this.jPanelAddresses.repaint();

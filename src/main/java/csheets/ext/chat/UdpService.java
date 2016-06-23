@@ -67,7 +67,6 @@ public class UdpService {
 													   return;
 												   }
 												    */
-												   // Destination = Target's IP and Port
 												   String destination = server.
 													   target(request.from());
 
@@ -125,6 +124,9 @@ public class UdpService {
 													put("creator", request.
 														get("chat-creator").
 														get(0));
+												hostInformations.
+													put("target", request.
+														target());
 												Notification.
 													chatMessageInformer().
 													notifyChange(hostInformations);
@@ -164,9 +166,25 @@ public class UdpService {
 												hostInformations.
 													put("image", request.
 														get("chat-image").get(0));
+												hostInformations.
+													put("target", request.
+														target());
 												Notification.
 													chatMessageInformer().
 													notifyChange(hostInformations);
+											}
+										});
+
+								 server.
+									 expect(":chatMessageRoom", new Action() {
+											@Override
+											public void run(Request request) {
+												if (request.same()) {
+													return;
+												}
+												System.out.
+													println("RECEBI = " + request.
+														message());
 											}
 										});
 
@@ -202,6 +220,30 @@ public class UdpService {
 							 }
 						 });
 		ThreadManager.run("ipc.chat2-udpClient");
+	}
+
+	public void mensagem(Room room, String message) {
+		ThreadManager.create("ipc.chat2-udpClientmsgRoom", new Thread() {
+							 @Override
+							 public void run() {
+								 client = new UdpClient(0);
+
+								 Task broadcast = new Task() {
+									 @Override
+									 public void fire() {
+										 String data = "chatMessageRoom;" + room.
+											 name() + ";" + room.creator().
+											 name() + ";" + message;
+										 client.
+											 send(":chatMessageRoom", "all:" + AppSettings.
+												  instance().get("UDP_PORT"), data);
+									 }
+								 };
+								 TaskManager manager = new TaskManager();
+								 manager.once(broadcast);
+							 }
+						 });
+		ThreadManager.run("ipc.chat2-udpClientmsgRoom");
 	}
 
 	/**
