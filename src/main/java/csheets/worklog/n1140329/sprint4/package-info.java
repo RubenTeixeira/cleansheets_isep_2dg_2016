@@ -84,6 +84,19 @@
  * This class represents a formula and returns an evaluation of its formula 
  * expression.</p>
  * 
+ * <b>ExcelExpressionCompiler Class:</b>
+ * <p>
+ * This class consists of a compiler that generates formulas from strings. In
+ * this case, the method compileTree() will be useful to get a tree 
+ * representation of a given formula.</p>
+ * 
+ * <b>MonetaryExpressionCompiler Class:</b>
+ * <p>
+ * This class consists of A compiler that generates Monetary-style formulas
+ * from strings. Like the ExcelExpressionCompiler Class, the method 
+ * compileTree() will be useful to get a tree representation of a given formula.
+ * </p>
+ * 
  * <h3>First "analysis" sequence diagram</h3>
  * The following diagram depicts a proposal for the realization of the 
  * previously described use case. We call this diagram an "analysis" use case
@@ -144,8 +157,8 @@
  * 
  * <h2>8. Final Remarks</h2>
  * 
- * -In this section present your views regarding alternatives, extra work and future work on the issue.-
- * 
+ * The method fillTree in WizardTreeFrame is a bit sloppy and could be better
+ * implemented, since it is easy to get lost in the code logic.
  * 
  * <h2>9. Work Log</h2> 
  * <b>Friday</b>
@@ -268,7 +281,7 @@
  * <p>
  * Today
  * <p>
- * 1. 
+ * 1. Fixing some UI issues.
  * <p>
  * Blocking:
  * <p>
