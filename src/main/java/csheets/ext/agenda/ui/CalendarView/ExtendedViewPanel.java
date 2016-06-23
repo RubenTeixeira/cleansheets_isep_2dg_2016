@@ -37,17 +37,27 @@ public class ExtendedViewPanel extends AbstractCalendarViewPanel {
 
 	@Override
 	public void updateEvents() {
+		boolean isHead = false;
+
 		clearEventList();
 		Calendar currentDate = theParent.calendar();
 		for (ContactCalendar cc : theParent.selectCalendars()) {
 			List<Event> list = theParent.controller().
 				updateEvents(currentDate, theParent.selectedContact(), cc);
-			for (Event event : list) {
-				((HourPanel) getComponent(DateTime.hour(event.startDate()))).
-					addEvent(event);
+			for (int i = 0; i <= 23; i++) {
+				for (Event event : list) {
+					if (i >= DateTime.hour(event.startDate()) && i <= DateTime.
+						hour(event.endDate())) {
+						isHead = (i == DateTime.hour(event.startDate()));
+						((HourPanel) getComponent(i)).
+							addEvent(event, isHead);
+					} else {
+						((HourPanel) getComponent(i)).
+							addEvent(null, isHead);
+					}
+				}
 			}
 		}
-
 		revalidate();
 		repaint();
 	}
@@ -74,7 +84,7 @@ public class ExtendedViewPanel extends AbstractCalendarViewPanel {
 	private void initComponents() {
 
 		clearEventList();
-		for (int i = 1; i <= 24; i++) {
+		for (int i = 0; i <= 23; i++) {
 			HourPanel tmp = new HourPanel(i, this);
 			add(tmp);
 			addGridRow();
@@ -88,10 +98,10 @@ public class ExtendedViewPanel extends AbstractCalendarViewPanel {
 class HourPanel extends JPanel {
 
 	private static final Dimension DEFAULT_DIMENSION = new Dimension(400, 50);
-	private ArrayList<Event> theEvents;
+	private final ArrayList<Event> theEvents;
 	private JPanel eventsPanel;
 	private JPanel hourPanel;
-	private ExtendedViewPanel parent;
+	private final ExtendedViewPanel parent;
 
 	public HourPanel(int hour, ExtendedViewPanel aThis) {
 		initComponents(hour);
@@ -119,18 +129,29 @@ class HourPanel extends JPanel {
 		repaint();
 	}
 
-	protected void addEvent(Event theEvent) {
+	protected void addEvent(Event theEvent, boolean isHead) {
 
 		JPanel tmp = new JPanel();
 
-		tmp.setBackground(theEvent.calendar().getColor());
-		tmp.add(new JLabel(theEvent.description()));
+		if (theEvent != null) {
+			tmp.setBackground(theEvent.calendar().getColor());
+			if (isHead) {
+				tmp.add(new JLabel(theEvent.description()));
+			}
+		}
+
 		tmp.setPreferredSize(DEFAULT_DIMENSION);
+
+		theEvents.add(theEvent);
+		eventsPanel.add(tmp);
+
+		GridLayout layout = (GridLayout) eventsPanel.getLayout();
+		layout.setColumns(layout.getColumns() + 1);
 
 		tmp.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
+				if (e.getClickCount() == 2 && theEvent != null) {
 					EditEventPanel event = new EditEventPanel(theEvent);
 					int eventOption = JOptionPane.
 						showConfirmDialog(HourPanel.this, event, "Edit Event", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -141,13 +162,6 @@ class HourPanel extends JPanel {
 				}
 			}
 		});
-
-		eventsPanel.add(tmp);
-
-		GridLayout layout = (GridLayout) eventsPanel.getLayout();
-		layout.setColumns(layout.getColumns() + 1);
-
-		theEvents.add(theEvent);
 
 		revalidate();
 		repaint();
