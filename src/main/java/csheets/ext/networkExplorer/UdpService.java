@@ -57,9 +57,9 @@ public class UdpService {
 									 expect(":networkExplorer-broadcast", new Action() {
 											@Override
 											public void run(Request request) {
-												if (request.same()) {
+												/*if (request.same()) {
 													return;
-												}
+												}*/
 												String destination = server.
 													target(request.from());
 												UIController uiController = UIController.
@@ -104,9 +104,9 @@ public class UdpService {
 									 expect(":networkExplorer-port|:networkExplorer-info", new Action() {
 											@Override
 											public void run(Request request) {
-												if (request.same()) {
+												/*if (request.same()) {
 													return;
-												}
+												}*/
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", "AppInfo");
