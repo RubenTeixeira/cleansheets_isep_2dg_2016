@@ -15,7 +15,7 @@ import javax.swing.JPanel;
  *
  * @author valhalla
  */
-public class RoomPanelSingle extends javax.swing.JPanel implements Observer {
+public class RoomsPanelSingle extends javax.swing.JPanel implements Observer {
 
 	private ChatController controller;
 	private Room room;
@@ -24,7 +24,7 @@ public class RoomPanelSingle extends javax.swing.JPanel implements Observer {
 	/**
 	 * Creates new form ChatPanelUser
 	 */
-	public RoomPanelSingle(ChatController controller, Room room) {
+	public RoomsPanelSingle(ChatController controller, Room room) {
 		this.controller = controller;
 		this.room = room;
 		this.initComponents();

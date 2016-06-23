@@ -86,6 +86,22 @@ public class Message implements Serializable {
 		return this.date;
 	}
 
+	public String host() {
+		return host;
+	}
+
+	public String name() {
+		return name;
+	}
+
+	public Type type() {
+		return type;
+	}
+
+	public String content() {
+		return content;
+	}
+
 	public List<Message> answers() {
 		return this.answers;
 	}

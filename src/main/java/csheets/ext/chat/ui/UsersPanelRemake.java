@@ -48,6 +48,10 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 		this.jComboBoxStatus.addItem(User.State.OFFLINE.toString());
 		//this.jScrollPane = new JScrollPane(this.jTabbedPaneUsers);
 		//this.jScrollPane = new JScrollPane(this.jTabbedPaneRooms);
+		this.jTabbedPaneUsers.setLayout(new GridLayout(1, 1));
+		this.jTabbedPaneUsers.add(new UsersPanel(uiController));
+		this.jTabbedPaneRooms.setLayout(new GridLayout(1, 1));
+		this.jTabbedPaneRooms.add(new RoomsPanel(uiController));
 		this.userUpdate();
 		Notification.chatMessageInformer().addObserver(this);
 	}
@@ -81,6 +85,7 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 					addMessage(message, fromIP, ChatMessage.MessageType.RECEIVED);
 			}
 			 */
+ /*
 			this.jTabbedPaneUsers.removeAll();
 			this.jTabbedPaneUsers.setLayout(new GridLayout(5, 1));
 			for (User user : this.controller.users()) {
@@ -92,8 +97,9 @@ public class UsersPanelRemake extends javax.swing.JPanel implements Observer {
 				layout.setRows(layout.getRows() + 1);
 				//}
 			}
-			this.jTabbedPaneUsers.revalidate();
-			this.jTabbedPaneUsers.repaint();
+			this.jTabbedPaneRoot.revalidate();
+			this.jTabbedPaneRoot.repaint();
+			 */
 		}
 	}
 

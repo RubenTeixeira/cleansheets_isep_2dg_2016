@@ -5,6 +5,7 @@
  */
 package csheets.ext.chat;
 
+import csheets.ext.chat.domain.Message;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
@@ -20,13 +21,10 @@ public class ChatController {
 
 	private UIController uiController;
 	private UdpService udpService;
-	//private TcpService tcpService;
+	private TcpService tcpService;
 	private User user;
 
 	public ChatController(UIController uiController) {
-		for (User user : PersistenceContext.repositories().users().all()) {
-			System.out.println("MORE -> " + user);
-		}
 		String name = System.getProperty("user.name");
 		this.user = PersistenceContext.repositories().users().findName(name);
 		if (this.user == null) {
@@ -39,6 +37,7 @@ public class ChatController {
 		this.udpService.user(this.user);
 		this.udpService.client(5);
 		this.udpService.server();
+		this.tcpService = new TcpService();
 	}
 
 	public Color stateColor(User.State state) {
@@ -158,12 +157,25 @@ public class ChatController {
 		return room;
 	}
 
-	public void sendMessage(Room room, String message) {
-
+	public Iterable<Message> getMessages(String host, String name,
+										 Message.Type type) {
+		return PersistenceContext.repositories().messages().
+			messages(host, name, type);
 	}
 
-	public void sendMessage(User user, String message) {
-
+	public void sendMessage(String host, String name, Message.Type type,
+							String message) {
+		if (type == Message.Type.USER) {
+			User user = PersistenceContext.repositories().users().findName(host);
+			if (user != null) {
+				this.tcpService.sendMessage(user, message);
+			}
+		} else if (type == Message.Type.ROOM) {
+			Room room = PersistenceContext.repositories().rooms().findName(host);
+			if (room != null) {
+				this.tcpService.sendMessage(room, message);
+			}
+		}
 	}
 
 }

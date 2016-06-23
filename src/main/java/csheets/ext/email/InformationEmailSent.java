@@ -37,6 +37,9 @@ public class InformationEmailSent implements Serializable {
 		this.body = body;
 	}
 
+	protected InformationEmailSent() {
+	}
+
 	/**
 	 * @return the id
 	 */

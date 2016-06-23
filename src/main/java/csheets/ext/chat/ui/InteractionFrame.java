@@ -7,12 +7,14 @@ package csheets.ext.chat.ui;
 
 import com.sun.glass.events.KeyEvent;
 import csheets.ext.chat.ChatController;
+import csheets.ext.chat.domain.Message;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -23,46 +25,57 @@ public class InteractionFrame extends javax.swing.JFrame implements Observer {
 	private ChatController controller;
 	private User user = null;
 	private Room room = null;
+	private String host;
+	private String name;
+	private Message.Type type;
+	private DefaultListModel<Message> model;
 
-	/**
-	 * Creates new form InteractionFrame
-	 */
-	public InteractionFrame(ChatController controller, Room room) {
+	public InteractionFrame(ChatController controller, String host, String name,
+							Message.Type type) {
 		this.controller = controller;
-		this.room = room;
+		this.host = host;
+		this.name = name;
+		this.type = type;
 		this.initComponents();
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.model = new DefaultListModel();
+		this.jList1.setModel(model);
+		for (Message message : this.controller.
+			getMessages(this.host, this.name, this.type)) {
+			this.model.addElement(message);
+		}
 		this.update(null, null);
+		this.setVisible(true);
 		Notification.chatMessageInformer().addObserver(this);
 	}
 
+	public InteractionFrame(ChatController controller, Room room) {
+		this(controller, room.creator().name(), room.name(), Message.Type.ROOM);
+	}
+
 	public InteractionFrame(ChatController controller, User user) {
-		this.controller = controller;
-		this.user = user;
-		this.initComponents();
-		this.update(null, null);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		Notification.chatMessageInformer().addObserver(this);
+		this(controller, user.name(), user.nickname(), Message.Type.USER);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof Map) {
 			Map<String, String> data = (Map) arg;
+			for (Map.Entry entry : data.entrySet()) {
+				System.out.
+					println("update - key: " + entry.getKey() + " - value: " + entry.
+						getValue());
+			}
 			if (data.get("reference").equals("message") && data.get("host").
-				equals("") && data.get("name").equals("") && data.get("for").
-				equals("room")) {
+				equals(this.host) && data.get("name").equals(this.name) && data.
+				get("type").equals(this.type)) {
 				//this.controller;
 			}
 		}
 	}
 
 	public void sendMessage(String message) {
-		if (this.room != null) {
-			this.controller.sendMessage(this.room, message);
-		} else if (this.user != null) {
-			this.controller.sendMessage(this.user, message);
-		}
+		this.controller.sendMessage(this.host, this.name, this.type, message);
 	}
 
 	/**
@@ -148,7 +161,7 @@ public class InteractionFrame extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<Message> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

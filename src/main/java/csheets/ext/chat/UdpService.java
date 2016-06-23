@@ -10,7 +10,6 @@ import csheets.ext.NetworkManager;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
-import csheets.persistence.PersistenceContext;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
@@ -33,9 +32,19 @@ public class UdpService {
 	private UdpServer server;
 	private UdpClient client;
 	private User user;
+	private Map<String, User> users;
+	private Map<String, Room> rooms;
 
 	public void user(User user) {
 		this.user = user;
+	}
+
+	void users(Map<String, User> users) {
+		this.users = users;
+	}
+
+	void rooms(Map<String, Room> rooms) {
+		this.rooms = rooms;
 	}
 
 	/**
@@ -72,16 +81,19 @@ public class UdpService {
 												   server.
 													   send(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", destination, message);
 
-												   for (Room room : PersistenceContext.
-													   repositories().rooms().
-													   rooms(user)) {
-													   message = "publicRoom|" + room.
-														   name() + "|" + room.
-														   creator().name();
-													   System.out.
-														   println("MENSAGEM = " + message);
-													   server.
-														   send(":chat-publicRoom|:chat-name|:chat-creator", destination, message);
+												   for (Room room : rooms.
+													   values()) {
+													   if (room.creator().
+														   equals(user) && room.
+														   type() == Room.Type.PUBLIC) {
+														   message = "publicRoom|" + room.
+															   name() + "|" + room.
+															   creator().name();
+														   System.out.
+															   println("MENSAGEM = " + message);
+														   server.
+															   send(":chat-publicRoom|:chat-name|:chat-creator", destination, message);
+													   }
 												   }
 
 											   }

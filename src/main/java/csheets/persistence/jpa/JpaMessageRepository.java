@@ -6,6 +6,7 @@
 package csheets.persistence.jpa;
 
 import csheets.ext.chat.domain.Message;
+import csheets.ext.chat.domain.Message.Type;
 import csheets.framework.persistence.repositories.impl.jpa.JpaRepository;
 import csheets.persistence.MessageRepository;
 import java.util.ArrayList;
@@ -41,6 +42,18 @@ public class JpaMessageRepository extends JpaRepository<Message, Long> implement
 						 });
 		}
 		return roots;
+	}
+
+	@Override
+	public Iterable<Message> messages(String host, String name, Type type) {
+		List<Message> list = new ArrayList();
+		for (Message message : this.all()) {
+			if (message.type() == type && message.host().equals(host) && message.
+				name().equals(name)) {
+				list.add(message);
+			}
+		}
+		return list;
 	}
 
 }

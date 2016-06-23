@@ -45,4 +45,17 @@ public class InMemoryMessageRepository extends InMemoryRepository<Message, Long>
 		return roots;
 	}
 
+	@Override
+	public Iterable<Message> messages(String host, String name,
+									  Message.Type type) {
+		List<Message> list = new ArrayList();
+		for (Message message : this.all()) {
+			if (message.type() == type && message.host().equals(host) && message.
+				name().equals(name)) {
+				list.add(message);
+			}
+		}
+		return list;
+	}
+
 }

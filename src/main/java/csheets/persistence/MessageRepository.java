@@ -16,6 +16,8 @@ import java.util.List;
 public interface MessageRepository extends Repository<Message, Long> {
 
 	public Iterable<Message> roots(List<Message> messages);
-	//public Iterable<Message> messages(User user);
-	//public Iterable<Message> messages(Room room);
+
+	public Iterable<Message> messages(String host, String name,
+									  Message.Type type);
+
 }

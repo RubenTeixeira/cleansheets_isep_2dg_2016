@@ -21,7 +21,7 @@ import javax.swing.JScrollPane;
  *
  * @author Marcelo Barroso 1131399
  */
-public class RoomPanel extends javax.swing.JPanel implements Observer {
+public class RoomsPanel extends javax.swing.JPanel implements Observer {
 
 	private ChatController controller;
 	private JPanel jPanelColor;
@@ -30,7 +30,7 @@ public class RoomPanel extends javax.swing.JPanel implements Observer {
 	/**
 	 * Creates new form ChatPanel
 	 */
-	public RoomPanel(UIController uiController) {
+	public RoomsPanel(UIController uiController) {
 		this.controller = new ChatController(uiController);
 		this.initComponents();
 		this.jScrollPane = new JScrollPane(this.jPanelRooms);
@@ -69,7 +69,7 @@ public class RoomPanel extends javax.swing.JPanel implements Observer {
 			this.jPanelRooms.setLayout(new GridLayout(5, 1));
 			for (Room room : this.controller.rooms()) {
 				//if (!addUser.equals(this.controller.name())) {
-				RoomPanelSingle panel = new RoomPanelSingle(this.controller, room);
+				RoomsPanelSingle panel = new RoomsPanelSingle(this.controller, room);
 				this.jPanelRooms.add(panel);
 				GridLayout layout = (GridLayout) this.jPanelRooms.
 					getLayout();
