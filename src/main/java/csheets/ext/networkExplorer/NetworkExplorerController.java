@@ -31,7 +31,7 @@ public class NetworkExplorerController {
 	public NetworkExplorerController() {
 		this.udpService = new UdpService();
 		this.udpService.server();
-		this.udpService.client(5);
+		this.udpService.client(15);
 		this.infoMap = new HashMap();
 	}
 

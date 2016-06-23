@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -54,7 +55,11 @@ public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer
 		}
 
 		//cleans the tree
-		this.jTree.removeAll();
+		this.jTree.setModel(null);
+
+		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("root");
+		DefaultTreeModel treeModel = new DefaultTreeModel(rootNode);
+		this.jTree.setModel(treeModel);
 
 		//puts extensions in JTREE
 		for (AppInfo appInfo : controller.appInfoList()) {
@@ -63,8 +68,8 @@ public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer
 			DefaultMutableTreeNode root = new DefaultMutableTreeNode(appInfo.
 				getName());
 			treeRoot.add(root);
-                        DefaultMutableTreeNode workbookTitle=new DefaultMutableTreeNode("Workbooks");
-                        root.add(workbookTitle);
+			DefaultMutableTreeNode workbookTitle = new DefaultMutableTreeNode("Workbooks");
+			root.add(workbookTitle);
 			//puts workbooks in JTREE
 			for (WorkbookInfo wrk : appInfo.getWorkbooks()) {
 				DefaultMutableTreeNode workbookName = new DefaultMutableTreeNode(wrk.
@@ -76,9 +81,9 @@ public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer
 					workbookName.add(spreadName);
 				}
 			}
-                        
-                        DefaultMutableTreeNode extensionTitle=new DefaultMutableTreeNode("Extensions");
-                        root.add(extensionTitle);
+
+			DefaultMutableTreeNode extensionTitle = new DefaultMutableTreeNode("Extensions");
+			root.add(extensionTitle);
 			//puts extensions in JTREE
 			for (ExtensionInfo ext : appInfo.getExtensions()) {
 				DefaultMutableTreeNode extName = new DefaultMutableTreeNode(ext.
