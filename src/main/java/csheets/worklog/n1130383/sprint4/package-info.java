@@ -245,9 +245,10 @@
  *
  * <p>
  * The Classes listed below where added for Use Case 2 of this Feature<ul>
- * <li><b>WorkbookGlobalVariableUI.</b></li>
- * <li><b>WorkbookGlobalVariableExtension.</b></li>
- * <li><b>WorkbookGlobalVariableController.</b></li>
+ * <li><b>WorkbookGlobalVariableUI.</b>Extends UIExtension.</li>
+ * <li><b>WorkbookGlobalVariableExtension.</b> Class read by
+ * "Extensions.props".</li>
+ * <li><b>WorkbookGlobalVariableController.</b> SideBar Controller.</li>
  * <li><b>WorkbookGlobalVariablePanel</b>: Provides the main interaction with
  * the user.</li>
  * <li><b>WorkbookGlobalVariableEditDialog:</b>Provides Edit Value of variable
@@ -262,14 +263,69 @@
  * <p>
  * Low Cowpling - High Cohesion.</p>
  * <p>
- * Observer Pattern.</p>
- *
+ * Observer Pattern - This implementation was required automatically update the
+ * Global Variables List once another Workbbook is opened to the current
+ * Workspace.</p>
  *
  * <h2>6. Implementation</h2>
+ * <p>
+ * The Analysis and Design provide the big picture on what and how the
+ * implementation was proceeded.</p>
+ *
+ * <h3> The Side Bar </h3>
+ * <p>
+ * This feature side bar provides the major interaction with the user and access
+ * to its functionalities.The user is able to not only initialize global
+ * variables from the Spreadsheet but also from the side bar. It was implemented
+ * along side 2 others Dialog Windows:</p>
+ * <p>
+ * <b>WorkbookGlobalVariablePanel</b>: Has 4 components associated with it: 2
+ * jButton and 2 jList.<ul>
+ * <li><b>"Refresh" button</b>: This button allows to refresh all variables and
+ * its values from the Workbook opened. Only required when a value or variable
+ * is updated on the Spreadsheet itself. If the changes occurs on the side bar
+ * side, the Workbook is updated automatically by reevaluating all cells from
+ * it.</li>
+ * <li><b>"Add new Variable" button</b> - This button allows to initialize new
+ * variables from the side bar as well as update the current values in any
+ * specific position by providing the name of the existing value.</li>
+ * <li><b>Varible List</b> - (DefaultListModel). This list contains the global
+ * variables of a Workbook. It's associated with a mouse interaction
+ * (MouseEvent). By pressing one time the correspondent values and positions are
+ * presented to the user. This lead us to the second list:</li>
+ * <li><b>Values List</b> - (DefaultListModel). This list also has implemented a
+ * mouse interaction (MouseEvent). By pressing twice on a value a Dialog Window
+ * appears where the user can update it. When updating through the side Bar, all
+ * cell dependencies are automatically updated.</li>
+ * </ul>
+ *
+ * <p>
+ * <b>WorkbookGlobalVariableEditDialog </b>: Has the essential functions to
+ * retrieve the new value data.</p>
+ * <p>
+ * <b>WorkbookGlobalVariableAddDialog </b>: Has the essential functions to
+ * retrieve the new variable data.</p>
+ *
+ * <h3>Final Version of the Side Bar Panel</h3>
+ *
+ * <p>
+ * <img src="http://i.imgur.com/IelReTR.png" alt="Side Bar"></p>
+ * <p>
+ * <img src="http://i.imgur.com/gGDquRf.png" alt="Edit Window"></p>
+ * <p>
+ * <img src="http://i.imgur.com/DUHEeUL.png" alt="Add new Variable Window"></p>
+ *
  *
  * <h2>7. Integration/Demonstration</h2>
+ * <p>
+ * During this week I focused more on my individual feature. Also did pair
+ * programming with my colleague Rúben Teixeira in his feature as well in mine
+ * when needed.</p>
  *
  * <h2>8. Final Remarks</h2>
+ * <p>
+ * The feature was implemented will all necessary requirements and a bonus one,
+ * the ability to add a new global variable from the side bar.</p>
  *
  * <h2>9. Work Log</h2>
  * <p>
@@ -343,6 +399,23 @@
  * 2. Performed Tests.
  * <p>
  * 2. Reunion with Supervisor.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Thursday</b>
+ * <p>
+ * Yesteday:
+ * <p>
+ * 1. All Tasks from yesterday were done as expected.
+ * <p>
+ * Today:
+ * <p>
+ * 1. Worklog and Javadoc Updates.
+ * <p>
+ * 2. Demonstration.
  * <p>
  * Blocking:
  * <p>

@@ -26,12 +26,10 @@ import csheets.core.Value;
 /**
  * A reference to a cell in a spreadsheet.
  *
- * @author Einar Pehrson
+ * @author Pedro Gomes 1130383@isep.ipp.pt
  */
 public class VariableGlobalReference extends VariableArrayReference {
 
-//	private Cell cell;
-//	private String variable;
 	/**
 	 * Creates a new cell reference to the given address. By default, relative
 	 * addressing is used.
@@ -41,44 +39,17 @@ public class VariableGlobalReference extends VariableArrayReference {
 	 */
 	public VariableGlobalReference(Cell cell, String variable) {
 		super(cell, variable);
-//		this.cell = cell;
-//		this.variable = variable;
 	}
 
 	/**
+	 * Evaluate method.
 	 *
-	 * @return Value.
+	 * @return Value evaluated.
 	 */
 	@Override
 	public Value evaluate() {
 		return this.getCell().getSpreadsheet().getWorkbook().
 			getVariableValue(this.getVariable(), this.getPosition());
-//		return this.getCell().getSpreadsheet().getWorkbook().
-//			getVariable(this.variable);
+
 	}
-//
-//	public Cell getCell() {
-//		return cell;
-//	}
-//
-//	String getVariable() {
-//		return this.variable;
-//	}
-//
-//	@Override
-//	public SortedSet<Cell> getCells() {
-//		SortedSet<Cell> cells = new TreeSet();
-//		cells.add(this.cell);
-//		return cells;
-//	}
-//
-//	@Override
-//	public int compareTo(Reference reference) {
-//		return reference.getCells().first().compareTo(this.cell);
-//	}
-//
-//	@Override
-//	public Object accept(ExpressionVisitor visitor) {
-//		return null;
-//	}
 }

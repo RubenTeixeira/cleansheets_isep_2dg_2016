@@ -267,7 +267,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	}
 
 	/**
-	 * VARIABLES DEDICATED CODE. This code assembles all Variables associated
+	 * Variables dedicated code. This code assembles all Variables associated
 	 * operations.
 	 *
 	 * @author Pedro Gomes 1130383@isep.ipp.pt

@@ -41,7 +41,6 @@ public class VariableArray implements Serializable {
 	 */
 	public VariableArray(String variable, Value value, int position) {
 		initializeList();
-		//this.array = new ArrayList<>(DEFAULT_SIZE);
 		this.variable = variable;
 		this.array.add(position, value);
 
@@ -102,7 +101,7 @@ public class VariableArray implements Serializable {
 	}
 
 	/**
-	 * TODO: this could be replaced by DTO or there is no need?
+	 * To String.
 	 *
 	 * @return Variable Name.
 	 */
