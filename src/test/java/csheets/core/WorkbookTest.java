@@ -1,10 +1,14 @@
 package csheets.core;
 
+import csheets.core.formula.VariableArray;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ext.macro_beanshell.BeanShell;
 import csheets.ext.macro_beanshell.Code;
 import csheets.ext.macro_beanshell.Macro;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -16,9 +20,24 @@ public class WorkbookTest {
 	private Workbook workbook;
 	private final Code code1;
 	private final Code code2;
+	private List<VariableArray> variables;
+	private Spreadsheet spreadsheet;
+	private Cell A1;
+	private Cell B1;
 
 	public WorkbookTest() {
 		this.workbook = new Workbook(2);
+		this.spreadsheet = this.workbook.getSpreadsheet(0);
+		this.A1 = this.spreadsheet.getCell(0, 0);
+		this.B1 = this.spreadsheet.getCell(1, 0);
+
+		try {
+			this.A1.setContent("=@global:=10"); // Adds value to first Position.
+			this.B1.setContent("=@global[2]:=20"); //Adds value to second Position.
+		} catch (FormulaCompilationException ex) {
+			Logger.getLogger(WorkbookTest.class.getName()).
+				log(Level.SEVERE, null, ex);
+		}
 
 		scripts = new ArrayList<>();
 		code1 = new Code("test1", BeanShell.NAME, "Hello world", true);
@@ -80,6 +99,41 @@ public class WorkbookTest {
 
 		assertTrue(secondSize < firstSize);
 		assertEquals("Size", 0, workbook.getScripts().size());
+	}
+
+	/**
+	 * Test for updateVariable method in Workbook class. Adds a new Value to an
+	 * already occupied position.
+	 */
+	@Test
+	public void testUpdateValue() {
+		Value value = new Value(30);
+		this.workbook.updateValue("@global", value, 2); //position already being used. previous result is this position was 20.
+		String expResult = "30";
+		String result = workbook.getVariableValue("@global", 2).toString();
+		assertEquals(expResult, result);
+	}
+
+	/**
+	 * Test for addVariable method in Workbook Class. Adds a new Variable to the
+	 * workbook and verifies if the Variables exist.
+	 */
+	@Test
+	public void testAddVariable() {
+		boolean flag = true;
+		Value value = new Value(20);
+		Value value2 = new Value("test");
+		VariableArray var = new VariableArray("@test", value, 4);
+		VariableArray var2 = new VariableArray("@test2", value2, 10);
+		this.workbook.addVariable(var);
+		this.workbook.addVariable(var2);
+		if (!workbook.variableExist("@test")) {
+			flag = false;
+		}
+		if (!workbook.variableExist("@test2")) {
+			flag = false;
+		}
+		assertEquals(true, flag);
 	}
 
 }
