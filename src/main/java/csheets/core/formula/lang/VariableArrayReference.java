@@ -21,6 +21,7 @@ import java.util.TreeSet;
  */
 public abstract class VariableArrayReference implements Reference {
 
+	String ole;
 	/**
 	 * The Cell to where the variable is initialized.
 	 */
@@ -41,19 +42,28 @@ public abstract class VariableArrayReference implements Reference {
 	 * where to save the current Value.
 	 *
 	 * @param cell cell
-	 * @param variable variable
+	 * @param var var
 	 */
-	public VariableArrayReference(Cell cell, String variable) {
+	public VariableArrayReference(Cell cell, String var) {
 		this.cell = cell;
-		if (variable.contains("[")) {
-			String[] temp = variable.split("\\["); //splits the String variable.
+		parse(var);
+	}
+
+	/**
+	 * Parses the given String
+	 *
+	 * @param var cell cont
+	 */
+	private void parse(String var) {
+		if (var.contains("[")) {
+			String[] temp = var.split("\\["); //splits the String var.
 			this.variable = temp[0]; //assigns name.
-			this.position = Integer.parseInt(temp[1].substring(0, 1));
+			String[] temp2 = temp[1].split("\\]");
+			this.position = Integer.parseInt(temp2[0]);
 		} else {
-			this.variable = variable;
+			this.variable = var;
 			this.position = 1;
 		}
-
 	}
 
 	/**
@@ -111,7 +121,7 @@ public abstract class VariableArrayReference implements Reference {
 	 */
 	@Override
 	public int compareTo(Reference reference) {
-		return reference.getCells().first().compareTo(this.cell); //Only comparing the first Cell of the TreeSet.
+		return reference.getCells().first().compareTo(this.cell);
 	}
 
 	/**

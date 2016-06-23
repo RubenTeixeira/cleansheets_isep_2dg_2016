@@ -11,25 +11,26 @@ import javax.swing.JOptionPane;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
+ * This is the Dialog to retrieves the new Value. This Class concerns the Dialog
+ * that enables the Value edition of selected Variable.
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
+public class WorkbookGlobalVariableEditDialog extends javax.swing.JDialog {
 
+	/**
+	 * Value.
+	 */
 	private String value;
 
 	/**
-	 * Creates new form WorkbookGlobalVariableDialog
+	 * Creates new form WorkbookGlobalVariableDialog.
 	 *
 	 */
-	public WorkbookGlobalVariableDialog() {
+	public WorkbookGlobalVariableEditDialog() {
 		setModal(true);
-		//setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		pack();
 		setLocationRelativeTo(null);
-		//setPreferredSize(null);
-//		setVisible(true);
-//		setEnabled(true);
 		initComponents();
 	}
 
@@ -52,6 +53,7 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
         jLabelTitle.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabelTitle.setText("Setting up a new Value.");
 
+        jConfirmButton.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jConfirmButton.setText("Confirm");
         jConfirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +61,7 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
             }
         });
 
+        jCancelButton.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
         jCancelButton.setText("Cancel");
         jCancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -88,13 +91,13 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelTitle)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jValueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(jConfirmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jCancelButton))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -122,21 +125,22 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_jConfirmButtonActionPerformed
 
     private void jCancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCancelButtonActionPerformed
-
 		this.dispose();
     }//GEN-LAST:event_jCancelButtonActionPerformed
 
+	/**
+	 * This method retrieves the Value inserted.
+	 */
 	private void retrieveValue() {
 		jConfirmButton.setEnabled(false); //false while this operations occurs.
 		String text = jValueTextField.getText();
 		if (text == null || text.isEmpty()) {
 			showMessageDialog(null, "Please insert a valid Value", "Error", JOptionPane.ERROR_MESSAGE);
-			this.value = "0";
 		} else {
 			this.value = jValueTextField.getText();
+			dispose();
 		}
 		jConfirmButton.setEnabled(true);
-		dispose();
 	}
 
 	/**
@@ -158,27 +162,28 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
 			}
 		} catch (ClassNotFoundException ex) {
 			java.util.logging.Logger.
-				getLogger(WorkbookGlobalVariableDialog.class.getName()).
+				getLogger(WorkbookGlobalVariableEditDialog.class.getName()).
 				log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
 			java.util.logging.Logger.
-				getLogger(WorkbookGlobalVariableDialog.class.getName()).
+				getLogger(WorkbookGlobalVariableEditDialog.class.getName()).
 				log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
 			java.util.logging.Logger.
-				getLogger(WorkbookGlobalVariableDialog.class.getName()).
+				getLogger(WorkbookGlobalVariableEditDialog.class.getName()).
 				log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.
-				getLogger(WorkbookGlobalVariableDialog.class.getName()).
+				getLogger(WorkbookGlobalVariableEditDialog.class.getName()).
 				log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
 		//</editor-fold>
 
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				WorkbookGlobalVariableDialog dialog = new WorkbookGlobalVariableDialog();
+				WorkbookGlobalVariableEditDialog dialog = new WorkbookGlobalVariableEditDialog();
 				dialog.addWindowListener(new java.awt.event.WindowAdapter() {
 					@Override
 					public void windowClosing(java.awt.event.WindowEvent e) {
@@ -191,6 +196,7 @@ public class WorkbookGlobalVariableDialog extends javax.swing.JDialog {
 	}
 
 	/**
+	 * Returns the Inserted Value.
 	 *
 	 * @return the inserted Value.
 	 */

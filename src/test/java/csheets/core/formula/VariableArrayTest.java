@@ -12,7 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * This Test Class concerns VariableArray Operations.
+ * This Test Class concerns VariableArray Operations. This test verify if the
+ * given position changes its current Value.
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
@@ -51,7 +52,5 @@ public class VariableArrayTest {
 		instance.addValueToVariable(this.value, position);
 		Assert.assertEquals(variable.getValue(position).toString(), instance.
 							getValue(position).toString());
-
 	}
-
 }

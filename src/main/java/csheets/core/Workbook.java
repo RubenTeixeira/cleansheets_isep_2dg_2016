@@ -333,7 +333,20 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
 	 * @param newVariable new Variable.
 	 */
 	public void addVariable(VariableArray newVariable) {
-		this.variables.add(newVariable);
+		if (!variableExist(newVariable.getName())) {
+			this.variables.add(newVariable);
+		} else {
+		}
+
+	}
+
+	public void addVariableByName(String name, Value value, int position) {
+		if (!variableExist(name)) {
+			VariableArray newVar = new VariableArray(name, value, position);
+			this.variables.add(newVar);
+		} else {
+			getVariable(name).addValueToVariable(value, position);
+		}
 	}
 
 	/**

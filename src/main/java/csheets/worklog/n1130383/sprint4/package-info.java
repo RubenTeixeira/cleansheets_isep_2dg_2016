@@ -10,11 +10,13 @@
  *
  * <h2>1. Notes</h2>
  *
- * -Notes about the week's work.-
  * <p>
- * -In this section you should register important notes regarding your work
- * during the week. For instance, if you spend significant time helping a
- * colleague or if you work in more than a feature.-
+ * During this week I’ve spent a significant amount of time with this feature.
+ * Although it wasn’t hard, it was definitely extensive to perform all the
+ * required analysis and design for both Use Cases. The feature was implemented
+ * with the necessary requirements and some additional functionalities.
+ * Alongside this implementation I’ve paired up with my colleague Rúben Teixeira
+ * – 1140780 to solve difficulties from my part as from his.</p>
  *
  * <h2>2. Use Case/Feature: Lang02.3</h2>
  *
@@ -112,6 +114,14 @@
  * <code>FormulaLexer.ARRAY_REF</code> when, in the Left Operant, there are
  * Straight Brackets '[]' and one or more digits inside [{0,1,2,3,4,5,6,7,8,9}].
  * This requires adding code to <code>FormulaLexer.java</code>.</p>
+ * <p>
+ * Update on this Subject:</p>
+ * <p>
+ * It wasn't necessary to take this approach since both variables reference are
+ * now inherited from <code>VariableArrayReference</code> as seen in the Class
+ * Diagram of this Use Case. The class <code>ExcelExpressionCompiler</code>
+ * still differs one local variable from a global variable as said before. The
+ * way it was implemented, it's guaranteed the increase of cohesion.</p>
  *
  * <p>
  * It’s also necessary to edit the grammar rules, <code>Formula.g</code> and add
@@ -158,13 +168,19 @@
  * <p>
  * <img src="http://i.imgur.com/ZZ2FQlV.jpg" alt="Class Diagram Analysis"></p>
  *
- * <h3>Analysis of Core Technical Problem</h3>
- *
  * <h2>5. Design</h2>
  *
  * <h3>Class Diagram of Use Case - Array Variable Support.</h3>
  * <p>
  * <img src="http://i.imgur.com/y319gjS.jpg" alt="Class Diagram"></p>
+ *
+ * <h3>Class Diagram of Use Case - Edit Variable SideBar.</h3>
+ * <p>
+ * <img src="doc-files/lang02.3_class_diagram.png" alt="Class Diagram"></p>
+ *
+ * <h3>Sequence Diagram of Use Case - Edit Variable SideBar.</h3>
+ * <p>
+ * <img src="doc-files/lang02.3_sequence_diagram.png" alt="Sequence Diagram"></p>
  *
  * <h3>Functional Tests</h3>
  * <p>
@@ -181,10 +197,64 @@
  * <code>VariableGlobalReference</code>.</p>
  *
  * <h3>UC Realization</h3>
- *
- * <h3>Extension Setup</h3>
+ * <p>
+ * This feature was divided into two Use Caso due to the extensive amount of
+ * work required. The separation provided a better Analysis to set the paths on
+ * how to implement.</p>
  *
  * <h3>Classes</h3>
+ * <p>
+ * The list above has sorted information to help understand what classes were
+ * added, what classes were updated and what operations they provide:<ul>
+ * <li><b>Formula.g</b>:Added two new tokens and two new rules so the
+ * application is able to recognize an VariableArray, as explained above in the
+ * analysis.<ul>
+ * <li>LSBRA: '[' ;</li>
+ * <li>RSBRA: ']' ;</li>
+ * <li>VART_REF : UNDR ( LETTER | DIGIT )+ (LSBRA DIGIT+ RSBRA)?;</li>
+ * <li>VARG_REF : ARRB ( LETTER | DIGIT )+ (LSBRA DIGIT+ RSBRA)?;</li></ul>
+ *
+ * <li><b>VaribleGlobalReference</b>: Updated. This class now extends
+ * VariableArrayReference since all Variables must be an array. This
+ * implementation is better described in the Class Diagram provided above.</li>
+ *
+ * <li><b>VaribleLocalReference</b>: Updated. This class now extends
+ * VariableArrayReference as well.</li>
+ *
+ * <li><b>VariableArrayReference</b>: Created. This class provides the necessary
+ * operations for the creation of a VariableArray.</li>
+ *
+ * <li><b>CellImpl</b>: Updated. This class was updated according to the design,
+ * it uses the concept of VariableArray and saves its variables in a ArrayList.
+ * The methods implemented operate directly with this ArrayList whether to add
+ * new values to one specific variable, add a new variable or search for a
+ * specific variable of value.</li>
+ *
+ * <li><b>Workbook</b>: Updated. This class got similar updates as CellImpl
+ * except for some bonus methods to work alongside the sidebar required to
+ * implement.</li>
+ *
+ * <li><b>Assign</b>: Updated. Among the most important Class to look at when
+ * analysing this feature. The Assign is responsible for creating a new
+ * variable, assign it the given value and add it to the Workbook, in case of a
+ * global variable, or to a Cell, in case of local variable.</li>
+ *
+ * <li><b>VariableArray</b>: Created. A new concept for variable was
+ * implemented. Both Cell and Workbook work with objects from this Class. For
+ * this use case its all.</li></ul>
+ *
+ * <p>
+ * The Classes listed below where added for Use Case 2 of this Feature<ul>
+ * <li><b>WorkbookGlobalVariableUI.</b></li>
+ * <li><b>WorkbookGlobalVariableExtension.</b></li>
+ * <li><b>WorkbookGlobalVariableController.</b></li>
+ * <li><b>WorkbookGlobalVariablePanel</b>: Provides the main interaction with
+ * the user.</li>
+ * <li><b>WorkbookGlobalVariableEditDialog:</b>Provides Edit Value of variable
+ * interaction with the user.</li>
+ * <li><b>WorkbookGlobalVariableAddDialog.</b>Provides Add Value of variable
+ * interaction with the user.</li></ul>
+ *
  *
  * <h3>Design Patterns and Best Practices</h3>
  *
@@ -243,6 +313,27 @@
  * 1. Updated Diagrams for first Use Case.
  * <p>
  * 2. Started Design - Class placement for Second Use Case of this Feature.
+ * <p>
+ * 2. Reunion with Supervisor.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. nothing.
+ *
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesteday:
+ * <p>
+ * 1. All Tasks from yesterday were done as expected.
+ * <p>
+ * Today:
+ * <p>
+ * 1. Finished Implementation from second Use Case from this feature.
+ * <p>
+ * 2. Finished Design from second Use Case.
+ * <p>
+ * 2. Performed Tests.
  * <p>
  * 2. Reunion with Supervisor.
  * <p>

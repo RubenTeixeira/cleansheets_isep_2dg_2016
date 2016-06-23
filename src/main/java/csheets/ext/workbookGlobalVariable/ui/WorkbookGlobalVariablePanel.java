@@ -5,6 +5,8 @@
  */
 package csheets.ext.workbookGlobalVariable.ui;
 
+import csheets.SpreadsheetAppEvent;
+import csheets.SpreadsheetAppListener;
 import csheets.core.Cell;
 import csheets.core.CellImpl;
 import csheets.core.Spreadsheet;
@@ -22,11 +24,11 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 
 /**
- * This is the Side Bar Panel.
+ * Side Bar Panel.
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
-public class WorkbookGlobalVariablePanel extends JPanel {
+public class WorkbookGlobalVariablePanel extends JPanel implements SpreadsheetAppListener {
 
 	/**
 	 * UIController. Useful to get the current Workbook.
@@ -38,23 +40,34 @@ public class WorkbookGlobalVariablePanel extends JPanel {
 	 */
 	private WorkbookGlobalVariableController thecontroller;
 
+	/**
+	 * Updated value.
+	 */
 	private String newValue;
 
-	private List<Integer> index_values = new ArrayList<>();
 	/**
-	 * Results.
+	 * List of indexes used.
 	 */
-	//private List<VariableArrayDTO> results = new ArrayList<>();
-	//private List<Value> results = new ArrayList<>();
+	private List<Integer> index_values = new ArrayList<>();
+
+	/**
+	 * Values List.
+	 */
 	private List<String> values = new ArrayList<>();
 
+	/**
+	 * Variable List.
+	 */
 	private List<VariableArray> variables = new ArrayList<>();
 
 	/**
-	 * Results list.
+	 * Variables Model List.
 	 */
 	private DefaulListModel variables_list = new DefaulListModel();
 
+	/**
+	 * Value Model List.
+	 */
 	private DefaulListModel values_list = new DefaulListModel();
 
 	/**
@@ -68,8 +81,9 @@ public class WorkbookGlobalVariablePanel extends JPanel {
 		thecontroller = new WorkbookGlobalVariableController(uicontroller);
 		jVariableList = new JList(variables_list);
 		jValueList = new JList(values_list);
+		jVariableList.setEnabled(false);
 		initComponents();
-		//run(); //TODO: SET UP NEW THREAD.
+		addListener();
 	}
 
 	/**
@@ -86,7 +100,10 @@ public class WorkbookGlobalVariablePanel extends JPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         jValueList = new javax.swing.JList();
         jgetVariablesButton = new javax.swing.JButton();
+        jAddVariableButton = new javax.swing.JButton();
+        jInfoText = new javax.swing.JLabel();
 
+        jVariableList.setEnabled(false);
         jVariableList.setModel(new DefaulListModel());
 
         jVariableList.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -105,12 +122,22 @@ public class WorkbookGlobalVariablePanel extends JPanel {
         });
         jScrollPane2.setViewportView(jValueList);
 
-        jgetVariablesButton.setText("Get Variables");
+        jgetVariablesButton.setText("Refresh ");
         jgetVariablesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jgetVariablesButtonActionPerformed(evt);
             }
         });
+
+        jAddVariableButton.setText("Add new Variable");
+        jAddVariableButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddVariableButtonActionPerformed(evt);
+            }
+        });
+
+        jInfoText.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        jInfoText.setText("<html><div style='text-align: center;'> double-tap to edit value</html>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -120,134 +147,173 @@ public class WorkbookGlobalVariablePanel extends JPanel {
             .addComponent(jScrollPane2)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jgetVariablesButton)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jAddVariableButton))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addComponent(jInfoText)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jgetVariablesButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jgetVariablesButton)
+                    .addComponent(jAddVariableButton))
                 .addGap(8, 8, 8)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
+                .addComponent(jInfoText)
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+	/**
+	 * Refresh Button. This method concerns the action associated with pressing
+	 * the Button.
+	 *
+	 * @param evt event.
+	 */
     private void jgetVariablesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jgetVariablesButtonActionPerformed
+		/**
+		 * Clearing - Refreshing Variables.
+		 */
 		values_list.clear();
 		variables_list.clear();
-//		variables.clear();
 		values.clear();
 		index_values.clear();
 		newValue = null;
-		run();
-
+		buildVariableList();
+		updatesCellContent();
     }//GEN-LAST:event_jgetVariablesButtonActionPerformed
+
+    private void jAddVariableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddVariableButtonActionPerformed
+		interactAddDialogPanel();
+    }//GEN-LAST:event_jAddVariableButtonActionPerformed
+
+	/**
+	 * Add this Class as listener to the Cleansheets App.
+	 */
+	private void addListener() {
+		this.uicontroller.getCleanSheets().addSpreadsheetAppListener(this);
+	}
+
+	/**
+	 * This method retrieves the current Variables from the Workbook. The
+	 * Workbook provides the access to its variables. This variales will fill
+	 * the jVariableList component and from that point access will be granted
+	 * for each Value of each position of the Variable.
+	 */
+	private void buildVariableList() {
+		variables_list.clear();
+		variables = thecontroller.getCurrentVariables(); //controller operation.
+		/**
+		 * Building Variale List.
+		 */
+		for (int i = 0; i < variables.size(); i++) {
+			variables_list.addElement(variables.get(i)); //adds all variables to the list.
+		}
+		jVariableList.setModel(variables_list); //sets up the list component.
+		jVariableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //single selection.
+		jVariableList.setEnabled(true);
+		jVariableList.setVisible(true);
+	}
 
 	/**
 	 * This method handles different behaviour associated with mouse
-	 * interaction. For one-click over the Variable a second List appears and
-	 * shows the correspondent Value of that Variable in each position.
+	 * interaction. For one-click over the Variable a second List appears
+	 * showing the correspondent Values of that Variable in each position.
 	 *
 	 * @param evt mouse event.
 	 */
 	private void jVariableListMouseClicked(MouseEvent evt) {
 		if (evt.getClickCount() == 1) { //if clicked once.
+			values.clear();
+			index_values.clear();
 			VariableArray var = (VariableArray) jVariableList.getSelectedValue(); //Retrieves Variable.
 			for (int i = 1; i < var.getArray().size(); i++) { //iterates through Variable.
-				if (!var.getValue(i).toString().equals("0")) { // checks if the Value is not 0.
-					index_values.add(i); //adds the position to the integer array.
-					values.add("Position: " + i + ": " + var.getValue(i).
+				if (!var.getValue(i).toString().equals("0")) { // checks if the Value on each position is not 0.
+					index_values.add(i); //saves the position user in the variable.
+					values.add("[" + i + "] = " + var.getValue(i).
 						toString()); // adds the correspondent Value to list container.
 				}
 			}
 		}
-		buildValueList();
-
+		buildValueList(); //Builds Value List.
 	}
 
 	/**
-	 * This method handles behaviour associated with mouse interaction. Runs
-	 * after buildValueList.
+	 * This method builds the Value List. The Value List associated with each
+	 * Variable is only shown when the user one-click over a specific Variable.
+	 */
+	private void buildValueList() {
+		values_list.clear();
+		for (int i = 0; i < values.size(); i++) {
+			values_list.addElement(values.get(i));
+		}
+		jValueList.setModel(values_list);
+		jValueList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//single selection.
+		jValueList.setEnabled(true);
+		jValueList.setVisible(true);
+	}
+
+	/**
+	 * This method handles behaviour associated with mouse interaction. By
+	 * clicking twice over a specific Value of a Variable the user is able to
+	 * edit its Value.
 	 *
-	 *
-	 * @param e
+	 * @param e mouse event.
 	 */
 	private void jValueListMouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 2) { // if clicked twice.
-			Value value = new Value();
-			createDialogPanel(); //DIALOG.
-			value = parseValue();
+			interactEditDialogPanel(); //opens Dialog.
+			Value value = thecontroller.parseValue(newValue); //parse Value.
 			int index = jValueList.getSelectedIndex(); //the index selected.
-			VariableArray var = (VariableArray) jVariableList.getSelectedValue(); //just to check the name.
+			VariableArray var = (VariableArray) jVariableList.getSelectedValue(); //gets selected Variable.
 			for (VariableArray variable : variables) { //go through all variables in the workbook to find the one to change
-				if (variable.getName().equalsIgnoreCase(var.getName())) { // when founded
-					variable.addValueToVariable(value, index_values.get(index)); //yep
+				if (variable.getName().equalsIgnoreCase(var.getName())) { // find variable by name.
+					variable.addValueToVariable(value, index_values.get(index)); //update Values.
 					break;
 				}
 			}
 		}
 		updatesCellContent();
-		//refresh();
+		refreshValueList();
 	}
 
 	/**
-	 * This method retrieves the current Workbook using the UIController. The
-	 * Workbook provides the access to its variables. This variales will fill
-	 * the jVariableList component and from that point access will be granted
-	 * for each Value of each position of the Variable.
+	 * Creates a Dialog to set up the new Variable Value.
 	 */
-	private void run() {
-		variables = this.uicontroller.getActiveWorkbook().getAllVariables();
-		String count = "There are " + variables.size() + " in the Workbook";
-		for (int i = 0; i < variables.size(); i++) {
-			variables_list.addElement(variables.get(i)); //adds all variables to the list.
-		}
-		variables_list.addElement(count); //adds final line to the current list.
-		jVariableList.setModel(variables_list); //sets up the list component.
-		jVariableList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); //single Variable Array Selection.
-		jVariableList.setEnabled(true);//sets enabled component.
-		jVariableList.setVisible(true);//sets enabled component.
-
-	}
-
-	private void buildValueList() {
-		for (int i = 0; i < values.size(); i++) {
-			values_list.addElement(values.get(i));
-		}
-		jValueList.setModel(values_list);
-		jValueList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		jValueList.setEnabled(true);
-		jValueList.setVisible(true);
-	}
-
-	private void createDialogPanel() {
-		WorkbookGlobalVariableDialog dialog = new WorkbookGlobalVariableDialog();
+	private void interactEditDialogPanel() {
+		WorkbookGlobalVariableEditDialog dialog = new WorkbookGlobalVariableEditDialog();
 		dialog.setVisible(true);
-
 		newValue = dialog.getValue(); //Retrieves the new value.
-//		JPanel panel = new JPanel();
-//		panel.setLayout(new FlowLayout());
-//		panel.add(new JLabel("Set Up new Value"));
-//		JTextField text
-
 	}
 
-	private Value parseValue() {
-		String p = newValue;
-		if (newValue.contains("\"")) { //will this work?
-			String temp = newValue.substring(1, newValue.length() - 1);
-			return new Value(temp);
-		} else if (newValue.equals("TRUE")) {
-			return new Value(Boolean.TRUE);
-		} else if (newValue.equals("FALSE")) {
-			return new Value(Boolean.FALSE);
-		} else { //its a number;
-			double n = Double.parseDouble(newValue);
-			return new Value(n);
-		}
+	/**
+	 * Creates a Dialog to set up a complete new Variable.
+	 */
+	private void interactAddDialogPanel() {
+		WorkbookGlobalVariableAddDialog dialog = new WorkbookGlobalVariableAddDialog();
+		dialog.setVisible(true);
+		/**
+		 * Retrieving Values.
+		 */
+		String value = dialog.getValue();
+		String name = dialog.getVarName(); //assuming it has already @.
+		String position = dialog.getPosition();
+		Value _value = thecontroller.parseValue(value);
+		int pos = Integer.parseInt(position);
+		this.uicontroller.getActiveWorkbook().
+			addVariableByName(name, _value, pos);
+		buildVariableList();
+		buildValueList();
+		updatesCellContent();
 	}
 
+	/**
+	 * Reevaluate the entire Workbook.
+	 */
 	private void updatesCellContent() {
 		for (Spreadsheet ss : this.uicontroller.getActiveWorkbook()) {
 			for (Cell c : ss) {
@@ -257,22 +323,54 @@ public class WorkbookGlobalVariablePanel extends JPanel {
 		}
 	}
 
-	private void refresh() {
-		values_list.clear();
-		variables_list.clear();
-//		variables.clear();
-		values.clear();
-		index_values.clear();
+	/**
+	 * Updates current Value List.
+	 */
+	private void refreshValueList() {
+		values_list.clear(); //going to be updated.
 		newValue = null;
-		run();
-
+		values.clear();
+		VariableArray var = (VariableArray) jVariableList.getSelectedValue(); //Retrieves Variable.
+		for (int i = 1; i < var.getArray().size(); i++) { //iterates through Variable.
+			if (!var.getValue(i).toString().equals("0")) { // checks if the Value on each position is not 0.
+				index_values.add(i); //saves the position user in the variable.
+				values.add("[" + i + "] = " + var.getValue(i).
+					toString()); // adds the correspondent Value to list container.
+			}
+		}
+		buildValueList(); //builds updated Value List.
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jAddVariableButton;
+    private javax.swing.JLabel jInfoText;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList jValueList;
     private javax.swing.JList jVariableList;
     private javax.swing.JButton jgetVariablesButton;
     // End of variables declaration//GEN-END:variables
+
+	@Override
+	public void workbookCreated(SpreadsheetAppEvent event) {
+		//buildVariableList();
+	}
+
+	/**
+	 * This method runs on notification when a new Workbook is openned.
+	 *
+	 * @param event event.
+	 */
+	@Override
+	public void workbookLoaded(SpreadsheetAppEvent event) {
+		buildVariableList();
+	}
+
+	@Override
+	public void workbookUnloaded(SpreadsheetAppEvent event) {
+	}
+
+	@Override
+	public void workbookSaved(SpreadsheetAppEvent event) {
+	}
 }

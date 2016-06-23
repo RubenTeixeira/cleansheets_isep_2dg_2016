@@ -5,7 +5,10 @@
  */
 package csheets.ext.workbookGlobalVariable;
 
+import csheets.core.Value;
+import csheets.core.formula.VariableArray;
 import csheets.ui.ctrl.UIController;
+import java.util.List;
 
 /**
  * This Controller concerns all operations of WorkbookGlobalVariable.
@@ -15,7 +18,7 @@ import csheets.ui.ctrl.UIController;
 public class WorkbookGlobalVariableController {
 
 	/**
-	 *
+	 * UIcontroller.
 	 */
 	private UIController uicontroller;
 
@@ -25,7 +28,36 @@ public class WorkbookGlobalVariableController {
 	 */
 	public WorkbookGlobalVariableController(UIController uicontroller) {
 		this.uicontroller = uicontroller;
+	}
 
+	/**
+	 * Parses the Value.
+	 *
+	 * @param newValue value to update.
+	 * @return Value parsed.
+	 */
+	public Value parseValue(String newValue) {
+
+		if (newValue.contains("\"")) { //String
+			String temp = newValue.substring(1, newValue.length() - 1);
+			return new Value(temp);
+		} else if (newValue.equals("TRUE")) {
+			return new Value(Boolean.TRUE);
+		} else if (newValue.equals("FALSE")) {
+			return new Value(Boolean.FALSE);
+		} else { //number.
+			double n = Double.parseDouble(newValue);
+			return new Value(n);
+		}
+	}
+
+	/**
+	 * Get all Variables in the current Workbook.
+	 *
+	 * @return List of Variable Array.
+	 */
+	public List<VariableArray> getCurrentVariables() {
+		return uicontroller.getActiveWorkbook().getAllVariables();
 	}
 
 }
