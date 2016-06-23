@@ -18,8 +18,8 @@
  * <h2>2. Use Case/Feature: Ipc02.3</h2>
  *
  * <b>Issue in Jira:</b>
- * <p>
- * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-56">LPFOURDG-55</a></p>
+ *
+ * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-56">LPFOURDG-55</a>
  * <b>Sub-tasks:</b><ul>
  * <li>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-391">LPFOURDG-244</a></li>
@@ -32,14 +32,6 @@
  * </ul>
  *
  * <h2>3. Requirement</h2>
- * <p>
- * It should now be possible to have several search windows. Each search window
- * should have an option, for instance a check button, to indicate if the search
- * is an active search. An active search will be a search that keeps updating
- * the contents of the list that displays the results. The preview for each ﬁle
- * should now be cached so that Cleansheets only produces the preview the ﬁrst
- * time the user request it or when the contents of the ﬁle change.</p>
- *
  * <p>
  * <b>Use Case - Workbook Search:</b> The user indicates a pattern and a
  * directory to search for workbooks that resembles the pattern. The search
@@ -121,7 +113,6 @@
  *
  * <h2>6. Implementation</h2>
  *
- * <p>
  * This feature window provides the major interaction with the user and access
  * to its functionalities.The user is able to specify a directory to perform the
  * search and a pattern on how the search is based on. Two <b>Text Labels</b>
@@ -142,33 +133,28 @@
  * <li>Also a <b>List</b> - (DefaultListModel) that will contain all Files found
  * from the Search</li>
  * </ul>
- *
- *
  * <h2>7. Integration/Demonstration</h2>
  *
  *
  * <h2>8. Final Remarks</h2>
  *
- * <p>
- *
- * </p>
  * <h2>9. Work Log</h2>
  * <p>
  * <b>Sunday</b>
- * <p>
+ * </p>
  * Today:
  * <p>
  * 1. Analysis.
- * <p>
+ * </p>
  * 2. Design
  * <p>
  * Blocking:
- * <p>
+ * </p>
  * 1. nothing.
  *
  * <p>
  * <b>Monday</b>
- * <p>
+ * </p>
  * Yesteday:
  * <p>
  * 1. Analysis and Design developed as expected.</p>
@@ -192,7 +178,9 @@
  * A more viable TDD approach was used and all tests made cover 100% of the code
  * outside UI.</p>
  *
- * <b>Evidences:</b><ul>
+ * <b>Evidences:</b>
+ *
+ *
  * <h3>10.2. Teamwork</h3>
  *
  * <h3>10.3. Technical Documentation</h3>
