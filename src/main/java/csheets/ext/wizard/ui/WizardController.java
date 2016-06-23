@@ -28,55 +28,50 @@ import org.antlr.runtime.tree.CommonTree;
  */
 public class WizardController {
 
-	UIController uicontroller;
-	//FunctionParameter[] parameters;
-	//String formulaSelected;
-	int i = 0;
+    UIController uicontroller;
+    //FunctionParameter[] parameters;
+    //String formulaSelected;
+    int i = 0;
 
-	public WizardController(UIController uicontroller) {
-		this.uicontroller = uicontroller;
-	}
+    public WizardController(UIController uicontroller) {
+        this.uicontroller = uicontroller;
+    }
 
-	public FunctionListModel getFunctions() {
-		ArrayList<Function> list = new ArrayList();
-		for (Function func : Language.getInstance().getFunctions()) {
-			list.add(func);
-		}
-		return new FunctionListModel(list);
-	}
+    public FunctionListModel getFunctions() {
+        ArrayList<Function> list = new ArrayList();
+        for (Function func : Language.getInstance().getFunctions()) {
+            list.add(func);
+        }
+        return new FunctionListModel(list);
+    }
 
-	public String getFunctionInfo(Function func) {
-		//parameters = func.getParameters();
-		//this.formulaSelected = func.getTemplate();
-		return func.getTemplate();
-	}
+    public String getFunctionInfo(Function func) {
+        //parameters = func.getParameters();
+        //this.formulaSelected = func.getTemplate();
+        return func.getTemplate();
+    }
 
-	/*
+    /*
     public FunctionParameter[] getParametersOfFunctionSelected() {
         return this.parameters;
     }*/
-	public String executeFormula(String text) throws FormulaCompilationException, IllegalValueTypeException {
-		Value result = null;
-		try {
-			Formula formula = FormulaCompiler.getInstance().
-				compile(uicontroller.getActiveCell(), text);
-			result = formula.evaluate();
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException("Invalid function");
-		}
-		return result.toString();
-	}
+    public String executeFormula(String text) throws FormulaCompilationException, IllegalValueTypeException {
+        Value result = null;
+        try {
+            Formula formula = FormulaCompiler.getInstance().
+                    compile(uicontroller.getActiveCell(), text);
+            result = formula.evaluate();
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Invalid function");
+        }
+        return result.toString();
+    }
 
-	public void setCellsFormula(String formula) {
-		if (uicontroller != null) {
-			try {
-				uicontroller.getActiveCell().setContent(formula);
-			} catch (FormulaCompilationException ex) {
-				Logger.getLogger(WizardFrame.class.getName()).
-					log(Level.SEVERE, null, ex);
-			}
-		}
-	}
+    public void setCellsFormula(String formula) throws FormulaCompilationException {
+        if (uicontroller != null) {
+            uicontroller.getActiveCell().setContent(formula);
+        }
+    }
 
     public void buildAST(String formula, WizardFrame frame) throws FormulaCompilationException {
         CommonTree ast = null;
@@ -93,7 +88,7 @@ public class WizardController {
         }
     }
 
-	/* Lang04.2
+    /* Lang04.2
     public String setValuesOnExpression(String text, String text0, String text1, String text2) {
         String s = this.formulaSelected;
         String replaced;

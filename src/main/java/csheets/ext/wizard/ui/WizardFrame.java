@@ -259,8 +259,13 @@ public class WizardFrame extends javax.swing.JFrame {
 	 * @param evt
 	 */
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
-		controller.setCellsFormula(formulaTextArea.getText());
-		this.dispose();
+	try {
+            controller.setCellsFormula(formulaTextArea.getText());
+        } catch (FormulaCompilationException ex) {
+            JOptionPane.showMessageDialog(this, "Unable to set the cell's content because of the invalid formula.");
+            return;
+        }
+        this.dispose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
