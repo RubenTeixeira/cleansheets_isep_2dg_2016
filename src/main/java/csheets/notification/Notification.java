@@ -47,6 +47,8 @@ public class Notification {
 	};
 	private static Notifier addressInformer = new Notifier() {
 	};
+	private static Notifier tablesInformer = new Notifier() {
+	};
 
 	public static Notifier contactInformer() {
 		return Notification.contactInformer;
@@ -120,4 +122,7 @@ public class Notification {
 		return Notification.addressInformer;
 	}
 
+	public static Notifier tablesInformer() {
+		return Notification.tablesInformer;
+	}
 }

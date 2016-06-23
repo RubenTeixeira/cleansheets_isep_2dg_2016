@@ -30,3 +30,4 @@ csheets.ext.networkExplorer.NetworkExplorerExtension;1.0;NetworkExplorer
 csheets.ext.shareFiles.ShareFilesExtension;1.0;ShareFiles
 csheets.ext.workbookGlobalVariable.WorkbookGlobalVariableExtension;1.0;Find
 csheets.ext.address.AddressExtension;1.0;Address
+csheets.ext.tableFilters.TableFiltersExtension;1.0;Tables_and_Filters_support

@@ -3,15 +3,13 @@
 actor User
 participant "<<analysis>>\nTablesFiltersUI" as UI
 participant "<<analysis>>\nTablesFiltersController" as Control
-participant "<analysis>>\nUIController" as UIC
-participant "<<analysis>>\nSpreadsheetImpl" as ss
 participant "<<analysis>>\nTable" as table
 participant "<<analysis>>\nExpression" as expr
 
-User->UI: applyFilter(params)
+User->UI: applyFilter(table,expression)
 activate Control
-UI->Control: applyFilter(params)
-
+UI->Control: applyFilter(table,expression)
+Control->table: applyFilter(expression)
 activate table
 loop forEach row : rows()
 	loop forEach cell : cell()
