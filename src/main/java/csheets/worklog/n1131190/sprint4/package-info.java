@@ -23,6 +23,7 @@
  *
  * <b>Issue in Jira:</b>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-86">LPFOURDG-86</a>
+ * <p>
  * <b>Sub-tasks:</b>
  * <p>
  * <a href="http://jira.dei.isep.ipp.pt:8080/browse/LPFOURDG-351">LPFOURDG-351</a></p>
