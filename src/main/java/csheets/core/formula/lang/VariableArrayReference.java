@@ -21,7 +21,6 @@ import java.util.TreeSet;
  */
 public abstract class VariableArrayReference implements Reference {
 
-	String ole;
 	/**
 	 * The Cell to where the variable is initialized.
 	 */

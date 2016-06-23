@@ -353,7 +353,6 @@ public class WorkbookGlobalVariablePanel extends JPanel implements SpreadsheetAp
 
 	@Override
 	public void workbookCreated(SpreadsheetAppEvent event) {
-		//buildVariableList();
 	}
 
 	/**

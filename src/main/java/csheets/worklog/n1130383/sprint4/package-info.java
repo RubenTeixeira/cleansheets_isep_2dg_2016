@@ -257,6 +257,13 @@
  *
  *
  * <h3>Design Patterns and Best Practices</h3>
+ * <p>
+ * Singleton Pattern implemented by ExtensionManager.</p>
+ * <p>
+ * Low Cowpling - High Cohesion.</p>
+ * <p>
+ * Observer Pattern.</p>
+ *
  *
  * <h2>6. Implementation</h2>
  *

@@ -23,6 +23,7 @@ public class WorkbookGlobalVariableController {
 	private UIController uicontroller;
 
 	/**
+	 * Creates WorkbookGlobalVariableController.
 	 *
 	 * @param uicontroller uicontroller.
 	 */
@@ -31,7 +32,7 @@ public class WorkbookGlobalVariableController {
 	}
 
 	/**
-	 * Parses the Value.
+	 * Parses the String Value.
 	 *
 	 * @param newValue value to update.
 	 * @return Value parsed.
@@ -59,5 +60,4 @@ public class WorkbookGlobalVariableController {
 	public List<VariableArray> getCurrentVariables() {
 		return uicontroller.getActiveWorkbook().getAllVariables();
 	}
-
 }
