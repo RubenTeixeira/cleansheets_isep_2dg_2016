@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package csheets.core.formula.compiler;
 
 import csheets.core.Value;
@@ -36,15 +31,30 @@ import org.antlr.runtime.tree.Tree;
  */
 public class MacroExpressionComplier {
 
+	/**
+	 * uiController to be used
+	 */
 	UIController uiController;
 
+	/**
+	 * Creates a Macro expression compiler.
+	 *
+	 * @param uiController uiController
+	 */
 	public MacroExpressionComplier(UIController uiController) {
 		this.uiController = uiController;
 	}
 
+	/**
+	 * Compiles a formula of the macro
+	 *
+	 * @param source the formula to compile
+	 * @return the expression result
+	 * @throws FormulaCompilationException when the sintax is not correct
+	 */
 	public Expression compile(String source) throws FormulaCompilationException {
 
-		source = "= " + source;
+		source = "= " + source;//In macros the formulas don't hava "=", so i added them here, so i can use the gramar already created
 
 		// Creates the lexer and parser
 		ANTLRStringStream input = new ANTLRStringStream(source);

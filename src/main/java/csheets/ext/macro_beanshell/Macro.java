@@ -12,14 +12,30 @@ import csheets.ui.ctrl.UIController;
  */
 public class Macro implements Script {
 
+	/**
+	 * Identification of the script
+	 */
 	public final static String NAME = "Macro";
 
+	/**
+	 * UICOntroller associated to the macro
+	 */
 	private UIController uiController;
 
+	/**
+	 * Constructor with uiController
+	 *
+	 * @param uiController uiController to be associated to the macro
+	 */
 	public Macro(UIController uiController) {
 		this.uiController = uiController;
 	}
 
+	/**
+	 * Returns an example of a macro
+	 *
+	 * @return example of a macro
+	 */
 	@Override
 	public String getExample() {
 		return ";Sets A1 cell content to 1\n"
@@ -32,6 +48,12 @@ public class Macro implements Script {
 			+ "B2:= {SUM(1;A2)}";
 	}
 
+	/**
+	 * Runs the code received as parameter
+	 *
+	 * @param code code to run
+	 * @return the result of the macro
+	 */
 	@Override
 	public String run(String code) {
 		Value result = null;
@@ -62,6 +84,12 @@ public class Macro implements Script {
 		}
 	}
 
+	/**
+	 * Creates an errormessage given the error received as parameter
+	 *
+	 * @param error the error given
+	 * @return the error message
+	 */
 	private String createErrorMessage(String error) {
 		return String.format("Error: %s\n", error);
 	}

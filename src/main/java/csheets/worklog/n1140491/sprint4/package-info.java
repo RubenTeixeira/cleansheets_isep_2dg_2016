@@ -154,7 +154,10 @@
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * On this sprint i demonstrated my own feature individuall.
+ * On this sprint i demonstrated my own feature individuall. The demonstration
+ * went well with no flaws. Most of the members of the area presented the
+ * feature with no problems, but there were two who had some problems during the
+ * presantation.
  *
  * <h2>8. Final Remarks</h2>
  *
