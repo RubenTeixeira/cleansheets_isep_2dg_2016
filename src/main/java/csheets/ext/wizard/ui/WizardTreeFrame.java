@@ -22,7 +22,7 @@ import org.antlr.runtime.tree.TreeIterator;
 public class WizardTreeFrame extends javax.swing.JFrame {
 
     private WizardFrame frame;
-    
+
     /**
      * Creates new form WizardTreeFrame
      *
@@ -34,11 +34,16 @@ public class WizardTreeFrame extends javax.swing.JFrame {
         setLocationRelativeTo(frame);
         initComponents();
         fillTree(ast);
+        for (int i = 0; i < wizardTree.getRowCount(); i++) {
+            wizardTree.expandRow(i);
+        }
     }
 
     /**
-     * Fills the JTree with the correspondent elements of the formula expression.
-     * The method was originally private, but it had to be public so it could be tested.
+     * Fills the JTree with the correspondent elements of the formula
+     * expression. The method was originally private, but it had to be public so
+     * it could be tested.
+     *
      * @param ast Compiled formula expression tree
      */
     public void fillTree(CommonTree ast) {
@@ -59,7 +64,7 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                     parents.add(new DefaultMutableTreeNode(prevNode.getText()));
                     newPrevNode = false;
                     break;
-                    
+
                 case "UP":
                     if (up == false) {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
@@ -72,14 +77,14 @@ public class WizardTreeFrame extends javax.swing.JFrame {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
                         newPrevNode = false;
                     }
-                    
+
                     parents.get(parents.size() - 2).add(parents.get(parents.size() - 1));
                     parents.remove(parents.size() - 1);
                     break;
-                    
+
                 case "EOF":
                     break OUTER;
-                    
+
                 default:
                     if (newPrevNode == true) {
                         parents.get(parents.size() - 1).add(new DefaultMutableTreeNode(prevNode.getText()));
@@ -95,9 +100,10 @@ public class WizardTreeFrame extends javax.swing.JFrame {
         wizardTree.revalidate();
         wizardTree.repaint();
     }
-    
+
     /**
      * Method only used for unit tests.
+     *
      * @return Tree representation of a formula
      */
     public JTree getTree() {
@@ -151,8 +157,8 @@ public class WizardTreeFrame extends javax.swing.JFrame {
     private void wizardTreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_wizardTreeValueChanged
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) wizardTree.getLastSelectedPathComponent();
         try {
-            if (!((String) node.getUserObject()).equals("Formula") &&
-                    !((String) node.getUserObject()).equals("{")) {
+            if (!((String) node.getUserObject()).equals("Formula")
+                    && !((String) node.getUserObject()).equals("{")) {
                 frame.selectElement((String) node.getUserObject());
             }
         } catch (BadLocationException ex) {
