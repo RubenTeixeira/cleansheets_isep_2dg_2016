@@ -63,22 +63,27 @@ public class NetworkExplorerPanel extends javax.swing.JPanel implements Observer
 			DefaultMutableTreeNode root = new DefaultMutableTreeNode(appInfo.
 				getName());
 			treeRoot.add(root);
+                        DefaultMutableTreeNode workbookTitle=new DefaultMutableTreeNode("Workbooks");
+                        root.add(workbookTitle);
 			//puts workbooks in JTREE
 			for (WorkbookInfo wrk : appInfo.getWorkbooks()) {
 				DefaultMutableTreeNode workbookName = new DefaultMutableTreeNode(wrk.
 					getName());
-				root.add(workbookName);
+				workbookTitle.add(workbookName);
 				for (SpreadSheetInfo spreadsheet : wrk.getSheetsMap()) {
 					DefaultMutableTreeNode spreadName = new DefaultMutableTreeNode(spreadsheet.
 						getName());
 					workbookName.add(spreadName);
 				}
 			}
+                        
+                        DefaultMutableTreeNode extensionTitle=new DefaultMutableTreeNode("Extensions");
+                        root.add(extensionTitle);
 			//puts extensions in JTREE
 			for (ExtensionInfo ext : appInfo.getExtensions()) {
 				DefaultMutableTreeNode extName = new DefaultMutableTreeNode(ext.
 					getName());
-				root.add(extName);
+				extensionTitle.add(extName);
 				DefaultMutableTreeNode extActive = new DefaultMutableTreeNode(ext.
 					getName());
 				DefaultMutableTreeNode extVersion = new DefaultMutableTreeNode(ext.
