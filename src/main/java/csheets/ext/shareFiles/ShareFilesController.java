@@ -44,6 +44,11 @@ public class ShareFilesController {
 		AppSettings.instance().set(keyPathFiles, path);
 	}
 
+	/**
+	 * Method to add files from the specific path
+	 *
+	 * @return a list with all files from the specific path
+	 */
 	public List<File> files() {
 		List<File> list = new ArrayList();
 		File folder = new File(AppSettings.instance().get(keyPathFiles));
@@ -63,6 +68,11 @@ public class ShareFilesController {
 		return list;
 	}
 
+	/**
+	 * Initializes a server following the UDP protocol.
+	 *
+	 *
+	 */
 	public void server() {
 		ThreadManager.create("ipc.shereFiles-UDPServer", new Thread() {
 							 @Override
@@ -184,6 +194,11 @@ public class ShareFilesController {
 		ThreadManager.destroy("ipc.shereFiles-UDPClient");
 	}
 
+	/**
+	 * Method to return default path in JTextField on the separator Files
+	 *
+	 * @return path
+	 */
 	public String pathDownloads() {
 		String path = AppSettings.instance().get(keyPathDownloads);
 		if (path == null || path.isEmpty()) {
@@ -193,6 +208,11 @@ public class ShareFilesController {
 		return path;
 	}
 
+	/**
+	 * Method to return default path in JTextField on the separator Downloads
+	 *
+	 * @return path
+	 */
 	public String pathFiles() {
 		String path = AppSettings.instance().get(keyPathFiles);
 		if (path == null || path.isEmpty()) {
