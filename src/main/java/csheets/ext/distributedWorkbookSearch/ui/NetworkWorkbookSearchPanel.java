@@ -382,8 +382,6 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 
 	private void startSearch() {
 		String wordToSearch = this.jSearchPattern.getText();
-
-		wordToSearch = this.jSearchPattern.getText();
 		this.searchPattern = wordToSearch.split(";");
 		for (int i = 0; i < searchPattern.length; i++) {
 			if (!this.searchPattern[i].isEmpty()) {
@@ -465,9 +463,9 @@ add(imgPanel, java.awt.BorderLayout.CENTER);
 			for (int i = 0; i < this.searchPattern.length; i++) {
 				String target = (String) arg;
 				System.out.
-					println("Resquesting search from " + target + " for '" + this.searchPattern + "'");
-				this.controller.initiateSearch(target, this.searchPattern[0]);
-				System.out.println(searchPattern[0]);
+					println("Resquesting search from " + target + " for '" + this.searchPattern[i] + "'");
+				this.controller.initiateSearch(target, this.searchPattern[i]);
+				System.out.println(searchPattern[i]);
 			}
 
 		} else if (arg instanceof Map) { // New search Result
