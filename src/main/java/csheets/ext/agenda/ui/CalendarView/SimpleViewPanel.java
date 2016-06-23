@@ -5,6 +5,7 @@
  */
 package csheets.ext.agenda.ui.CalendarView;
 
+import csheets.domain.ContactCalendar;
 import csheets.domain.Event;
 import csheets.ext.agenda.ui.AgendaFrame;
 import java.awt.GridLayout;
@@ -26,12 +27,15 @@ public class SimpleViewPanel extends AbstractCalendarViewPanel {
 	public void updateEvents() {
 		clearEventList();
 		Calendar currentDate = theParent.calendar();
-		List<Event> list = theParent.controller().
-			updateEvents(currentDate, theParent.selectedContact());
-		for (Event event : list) {
-			add(new EventPanel(event));
-			addGridRow();
+		for (ContactCalendar cc : theParent.selectCalendars()) {
+			List<Event> list = theParent.controller().
+				updateEvents(currentDate, theParent.selectedContact(), cc);
+			for (Event event : list) {
+				add(new EventPanel(event));
+				addGridRow();
+			}
 		}
+
 		revalidate();
 		repaint();
 	}

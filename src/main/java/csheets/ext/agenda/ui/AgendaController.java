@@ -58,22 +58,6 @@ public class AgendaController {
 	}
 
 	/**
-	 * Returns a list of events for a given date and contact
-	 *
-	 * @param date date
-	 * @param contact contact
-	 * @return list of events
-	 */
-	public List<Event> updateEvents(Calendar date, Contact contact) {
-		ArrayList<Event> list = new ArrayList<Event>();
-		for (Event event : PersistenceContext.repositories().events().
-			eventsContactPerDay(contact, date)) {
-			list.add(event);
-		}
-		return list;
-	}
-
-	/**
 	 * Returns a list of events for a given date, contact and calendar
 	 *
 	 * @param date date
