@@ -10,7 +10,6 @@ import csheets.ext.NetworkManager;
 import csheets.ext.chat.domain.Room;
 import csheets.ext.chat.domain.User;
 import csheets.notification.Notification;
-import csheets.persistence.PersistenceContext;
 import csheets.support.Task;
 import csheets.support.TaskManager;
 import csheets.support.ThreadManager;
@@ -63,10 +62,11 @@ public class UdpService {
 								 server.expect(":chat2broadcast", new Action() {
 											   @Override
 											   public void run(Request request) {
+												   /*
 												   if (request.same()) {
 													   return;
 												   }
-												   // Destination = Target's IP and Port
+												    */
 												   String destination = server.
 													   target(request.from());
 
@@ -80,9 +80,8 @@ public class UdpService {
 												   server.
 													   send(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", destination, message);
 
-												   for (Room room : PersistenceContext.
-													   repositories().rooms().
-													   all()) {
+												   for (Room room : rooms.
+													   values()) {
 													   if (room.creator().
 														   equals(user) && room.
 														   type() == Room.Type.PUBLIC) {
@@ -103,9 +102,11 @@ public class UdpService {
 									 expect(":chat-publicRoom|:chat-name|:chat-creator", new Action() {
 											@Override
 											public void run(Request request) {
+												/*
 												if (request.same()) {
 													return;
 												}
+												 */
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", request.
@@ -136,9 +137,11 @@ public class UdpService {
 									 expect(":chat-port|:chat-name|:chat-nick|:chat-status|:chat-image", new Action() {
 											@Override
 											public void run(Request request) {
+												/*
 												if (request.same()) {
 													return;
 												}
+												 */
 												Map<String, String> hostInformations = new LinkedHashMap<>();
 												hostInformations.
 													put("reference", "user");

@@ -62,6 +62,7 @@ public class InteractionFrame extends javax.swing.JFrame implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (arg instanceof String) {
+			System.out.println(((String) arg));
 			String[] data = ((String) arg).split(";");
 			if (this.room != null && data[0].equals("sendMessageRoom") && data[1].
 				equals(this.room.name()) && data[2].equals(this.room.creator().
