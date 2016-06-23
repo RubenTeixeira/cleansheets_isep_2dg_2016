@@ -16,7 +16,8 @@ import org.jvnet.mock_javamail.Mailbox;
 
 /**
  *
- * @author Rui Bastos, Joao Martins
+ * @author Rui Bastos
+ * @author Joao Martins
  */
 public class EmailControllerTest {
 
