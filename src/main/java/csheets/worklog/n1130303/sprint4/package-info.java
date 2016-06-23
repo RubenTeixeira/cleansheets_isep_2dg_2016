@@ -25,87 +25,68 @@
  *
  * <p>
  * <b>Use Case "Advanced Agenda Window":</b>
- *
+ * The user selects the extended view of the calendar and one or more calendars.
+ * The system displays the events that match the contact, day and calendar(s)
+ * selected in a hour separated UI. The user does a double click on an event.
+ * The system shows an edit event window. The user edits event information. The
+ * system update the event information.
  *
  * <h2>4. Analysis</h2>
- *
- *
- * <h3>First "analysis" sequence diagram</h3>
- * The following diagram depicts a proposal for the realization of the
- * previously described use case. We call this diagram an "analysis" use case
- * realization because it functions like a draft that we can do during analysis
- * or early design in order to get a previous approach to the design. For that
- * reason we mark the elements of the diagram with the stereotype "analysis"
- * that states that the element is not a design element and, therefore, does not
- * exists as such in the code of the application (at least at the moment that
- * this diagram was created).
- * <h4>Send Message proposal analysis</h4>
  * <p>
- * <img src="doc-files/chat_app_analysis_send.png" alt="image">
+ * Since it's the third iteration over this feature, my job was mostly to
+ * understand how my colleagues implemented the previous functionalities. I
+ * added a new type of events view and some more options on the main window. The
+ * rest of code is mostly done. The hardest part is handle with Swing in order
+ * to create the required UI.
+ * </p>
  *
- * <h4>Receive Message proposal analysis</h4>
+ * <h3>Analysis sequence diagram</h3>
  * <p>
- * <img src="doc-files/chat_app_analysis_receive.png" alt="image">
- *
- * <h3>Analysis of Core Technical Problem</h3>
- * The core of communication is expected to communicate in udp and tcp protocols
- * connections.
- * <p>
- * <img src="doc-files/ipc05.2_chat_analysis.png" alt="image">
+ * <img src="doc-files/analysis_CRM_5_3.png" alt="image">
+ * </p>
  *
  * <h2>5. Design</h2>
  *
+ * <h3>Design sequence diagram</h3>
+ * <p>
+ * <img src="doc-files/design_CRM_5_3.png" alt="image">
+ * <p>
+ *
  * <h3>5.1. Functional Tests</h3>
- * Since this feature uses the network framework already implemented any tests
- * needed to be done are done on that level. For the realization of this use
- * case I only use/call this framework methods.
+ * Since this use case is mostly done with Swing, the only thing we need to test
+ * is if the controller methods that load data from the persistence and working
+ * correctly. Since this tests were already done, I didn't have to create new.
  *
  * <h3>5.2. UC Realization</h3>
- * To realize this user story we will need to create a subclass of Extension. We
- * will also need to create a subclass of UIExtension. For the sidebar we need
- * to implement a JPanel. In the code of the extension
- * <code>csheets.ext.chatApp</code> we can find examples that illustrate how to
- * implement these technical requirements. The following diagrams illustrate
- * core aspects of the design of the solution for this use case.
- *
- * <h3>Chat send Message</h3>
- * The following diagram shows the setup of the local connection when
- * cleansheets's user select share.
- * <p>
- * <img src="doc-files/ipc05.2_udp_design.png" alt="image">
- *
- *
- * <h3>Receive Message</h3>
- * The following diagram illustrates what happens when a instance of cleansheet
- * receive message.
- * <p>
- * <img src="doc-files/ipc05.2_received_design.png" alt="image">
- *
- * <h3>5.3. Classes</h3>
- * <p>
- * <b>Class Diagram</b>
- * <p>
- * Global Class Diagram
- * <p>
- * <img src="doc-files/ipc05.2_classdiagram.png" alt="image">
+ * I need to a new Events view UI and since the simple one and this new one
+ * share behavior I implemented a strategy pattern. I need to make sure I
+ * fulfill this sprint requirements but not damaging the previous state of this
+ * UC. Business layer and logic layer don't have to be changed.
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
- * Used "Service" classes instead of having the controller directly controlling
- * networking related operations.
+ * I extracted the JPanel that was displaying the events until now for a new
+ * class <code>SimpleViewPanel</code>. Since the new extended view share
+ * behavior with this part of the UI, I implemented a StrategyPattern
+ * <code>AbstractCalendarViewPanel</code>. This approach avoids duplicated code
+ * and makes things easier implementing the view change done by the user in the
+ * main window.
  *
  * <h2>6. Implementation</h2>
  *
  * <p>
  * see:
  * <p>
- * <a href="../../../../csheets/ext/chatApp/application/package-summary.html">csheets.ext.chatApp.application</a><p>
- * <a href="../../../../csheets/ext/chatApp/ui/package-summary.html">csheets.ext.chatApp.ui</a><p>
+ * <a href="../../../../csheets/ext/agenda/ui/package-summary.html">csheets.ext.agenda.ui</a><p>
+ * <a href="../../../../csheets/ext/agenda/ui/CalendarView/package-summary.html">csheets.ext.agenda.ui.CalendarView</a><p>
  *
  * <h2>7. Integration/Demonstration</h2>
- *
+ * To demonstrate this iteration of the UC, the user should create more than an
+ * event with more than one hour associated with different calendars.
  *
  * <h2>8. Final Remarks</h2>
- *
+ * Since most of the work was already done, I only need to work with UI
+ * components. Swing doesn't make things easy and was on that part that I spend
+ * most of the time.
  *
  * <h2>9. Work Log</h2>
  * <p>
@@ -113,8 +94,8 @@
  * <p>
  * Today
  * <p>
- * 1. Analysis of the UC and started asking some explanations to the previous
- * colleague.
+ * 1.	Analysis of the UC and started asking some explanations to the previous
+ * colleague. Started design.
  * <p>
  * Blocking:
  * <p>
@@ -124,7 +105,7 @@
  * <p>
  * Today
  * <p>
- * 1. Started design and testing.
+ * 1.	Started implementation.
  * <p>
  * Blocking:
  * <p>
@@ -134,17 +115,17 @@
  * <p>
  * Today
  * <p>
- * 1.
+ * 1.	Continued implementation
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1.	Working with Swing.
  * <p>
  * <b>Thursday</b>
  * <p>
  * Today
  * <p>
- * 1.
+ * 1. Finished the implementation. Presentation to the client.
  * <p>
  * Blocking:
  * <p>
@@ -153,12 +134,15 @@
  * <h2>10. Self Assessment</h2>
  *
  * <h3>10.1. Design and Implementation:3</h3>
- *
+ * Overall was I good sprint in terms of work. Since the previous iteration was
+ * done correctly my job was facilitated. The most problematic part was dealing
+ * with Swing and creating (design) the new UI.
  * <p>
  * <b>Evidences:</b>
  *
  * <h3>10.2. Teamwork: ...</h3>
- *
+ * I think I have a good team spirit and mentality. I'm always looking for
+ * colleagues with problems and offer my help.
  * <h3>10.3. Technical Documentation: ...</h3>
  *
  * @author Rui Freitas <1130303@isep.ipp.pt>
