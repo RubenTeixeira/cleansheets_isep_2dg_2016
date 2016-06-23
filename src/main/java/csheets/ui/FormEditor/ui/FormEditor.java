@@ -58,11 +58,11 @@ public class FormEditor extends JDialog implements Observer {
 		this.controller = new FormEditorController(form.cell());
 		this.jCheckBox1.setSelected(form.isEditable());
 		if (this.jCheckBox1.isSelected()) {
-			form.setEditable(true);
+			this.form.setEditable(true);
 			this.updateButton.setVisible(true);
 			this.setEnabled(true);
 		} else {
-			form.setEditable(false);
+			this.form.setEditable(false);
 			this.updateButton.setVisible(false);
 			this.setEnabled(false);
 		}
