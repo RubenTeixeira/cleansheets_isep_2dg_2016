@@ -22,7 +22,7 @@ public class Battleship {
         GIANT(15),
         BIG(12),
         NORMAL(10),
-        SMALL(7);
+        SMALL(8);
 
         private final int size;   // line count (square board)
 
@@ -36,8 +36,8 @@ public class Battleship {
     }
 
     public enum BattleshipGameType {
-        TYPE_1(new Ship.ShipType[]{/*Ship.ShipType.AircraftCarrier,
-            Ship.ShipType.Battleship, Ship.ShipType.Submarine,*/
+        TYPE_1(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
+            Ship.ShipType.Battleship, Ship.ShipType.Submarine,
             Ship.ShipType.Destroyer, Ship.ShipType.PatrolBoat}),
         TYPE_2(new Ship.ShipType[]{Ship.ShipType.AircraftCarrier,
             Ship.ShipType.Battleship, Ship.ShipType.Submarine,
