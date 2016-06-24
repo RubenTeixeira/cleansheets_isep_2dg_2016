@@ -20,50 +20,50 @@ import java.util.List;
  */
 public class JpaTaskRepository extends JpaRepository<Task, Long> implements TaskRepository {
 
-	@Override
-	protected String persistenceUnitName() {
-		return PersistenceSettings.PERSISTENCE_UNIT_NAME;
-	}
+    @Override
+    protected String persistenceUnitName() {
+        return PersistenceSettings.PERSISTENCE_UNIT_NAME;
+    }
 
-	@Override
-	public List<Task> task(Contact contact) {
-		/*
-		 final Query query = entityManager().
-		 createQuery("task = :contact", Task.class);
-		 query.setParameter("contact", contact.id());
-		 List<Task> tmp = query.getResultList();
-		 return tmp;
-		 */
-		List<Task> list = new ArrayList();
-		for (Task task : this.all()) {
-			if (task.getContact().equals(contact)) {
-				list.add(task);
-			}
-		}
-		return list;
-	}
+    @Override
+    public List<Task> task(Contact contact) {
+        /*
+         final Query query = entityManager().
+         createQuery("task = :contact", Task.class);
+         query.setParameter("contact", contact.id());
+         List<Task> tmp = query.getResultList();
+         return tmp;
+         */
+        List<Task> list = new ArrayList();
+        for (Task task : this.all()) {
+            if (task.getContact().equals(contact)) {
+                list.add(task);
+            }
+        }
+        return list;
+    }
 
-	@Override
-	public void delete(Task entity) {
-		for (Task task : this.all()) {
-			if (task.TaskName().equalsIgnoreCase(entity.TaskName())) {
-				super.delete(entity);
-			}
-		}
-	}
+    @Override
+    public void delete(Task entity) {
+        for (Task task : this.all()) {
+            if (task.TaskName().equalsIgnoreCase(entity.TaskName())) {
+                super.delete(entity);
+            }
+        }
+    }
 
-	@Override
-	public List<Task> all() {
-		List<Task> list = super.all();
-		Collections.sort(list, new Comparator<Task>() {
-						 @Override
-						 public int compare(Task e1, Task e2) {
-							 return ((Integer) e1.Priority()).
-								 compareTo((Integer) e2.Priority());
-						 }
-					 }
-		);
-		return list;
-	}
+    @Override
+    public List<Task> all() {
+        List<Task> list = super.all();
+        Collections.sort(list, new Comparator<Task>() {
+            @Override
+            public int compare(Task e1, Task e2) {
+                return ((Integer) e1.Priority()).
+                        compareTo((Integer) e2.Priority());
+            }
+        }
+        );
+        return list;
+    }
 
 }
