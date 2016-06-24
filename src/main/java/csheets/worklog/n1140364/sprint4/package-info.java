@@ -216,25 +216,36 @@
  * Data Transfer Object implemented by SearchResultDTO.</p>
  * <p>
  * Low Cowpling - High Cohesion.</p>
+ * <p>
+ * Observer implemented by SearchReplaceUI</p>
  *
  * <h2>6. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
+ * Created the SearchReplaceUI and the SearchResultsPanel. Also updated the
+ * SearchPanel (shortcut for search replace), SearchController and
+ * WorkbookSearch.
+ *
  * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-</p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/9a320788f6ee5387292a2eb15cc2eb1b1487fef1</p>
+ * <p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/33250b97849ce7107ac62f024ac097d4b6ca34bb</p>
+ * <p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b4eeb5c4b32bd886758b8a059ee038004d7ded99</p>
+ * <p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/0e3ed0976c56a2ff4b1eafb59ab2f8d15715a099</p>
  *
  * <h2>7. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * Updated some tests and added some more:
+ * <p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/c06dd3e639d0470b213dee30d069063b5248a2bd</p>
+ * <p>
+ * https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/5b41a5fb28c54a066a7cc88d7adb5d71a0a60595</p>
  *
  * <h2>8. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * The function "replace all" although be very well could be adjusted / modified
+ * with the creation a unique method for this case.
  *
  * <h2>9. Work Log</h2>
  *
@@ -303,15 +314,15 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1.</p>
+ * 1. Finish the tests. Another adjustments.</p>
  * <p>
  * Today:</p>
  * <p>
- * 1.</p>
+ * 1. Presentation to client.</p>
  * <p>
  * Blocking:
  * <p>
- * 1.
+ * 1. Nothing
  *
  *
  * <h2>10. Self Assessment</h2>
