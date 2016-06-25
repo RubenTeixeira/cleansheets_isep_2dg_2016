@@ -147,21 +147,20 @@
  * <p>
  * From the previous Features two classes are important
  * <code>VariableLocalReference</code> and <code>VariableGlobalReference</code>.
- * Both classes create a reference from where(Cell) the variable was initialized
- * and its name. An object of <code>VariableLocalReference</code> is linked to a
- * Cell, with no Serialization, which means that, at close-up, the variables and
- * their correspondent Value would not be saved. However, an object of
- * <code>VariableGlobalReference</code> is linked to a Workbook and saved with
- * it. For as long as that Workbook prevails the variable and its correspondent
- * value should also exist, the user should also be able to delete it.
+ * Both classes create a reference from where(Cell) the variable is initialized.
+ * An object of <code>VariableLocalReference</code> is linked to a Cell, with no
+ * Serialization, which means that, at close-up, the variables and their
+ * correspondent Value would not be saved, also, a Local Variable is only known
+ * inside that Cell, without the possibility to use it outside of it. However,
+ * an object of <code>VariableGlobalReference</code> is linked to a Workbook and
+ * saved with it. For as long as that Workbook prevails the variable and its
+ * correspondent values should also exist.
  * <p>
  * A possible Solution would be to add at both this classes an ArrayList of
- * Values to store the assign Values. This would led to a change in both Classes
- * <code>Workbook.java</code> and <code>CellImpl.java</code> that are currently
- * using an HashMap(String,Value) to assign to a variable (String) one and only
- * one Value (Value). This solution would probably over-complicate the situation
- * and promote Low cohesion among this classes. This will be the current
- * solution.</p>
+ * Variables to store the assign Values. This would led to a change in both
+ * Classes <code>Workbook.java</code> and <code>CellImpl.java</code> that are
+ * currently using an HashMap(String,Value) to assign to a variable (String) one
+ * and only one Value (Value).</p>
  *
  * <h3>First Analysis Diagram</h3>
  *
@@ -184,21 +183,36 @@
  *
  * <h3>Functional Tests</h3>
  * <p>
- * Tests will be performed to test the used Grammar. If it recognizes all tokens
- * and rules associated with an Array Reference. All <code>evaluate()</code>
- * methods should also be tested for their specific behaviour.</p>
+ * Tests will be performed to test the updated Grammar to check if it recognizes
+ * all tokens and rules associated with Array Reference. All
+ * <code>evaluate()</code> methods should also be tested for their specific
+ * behaviour.</p>
+ * <p>
+ * Grammar works as expected and is now identifying the new tokens and
+ * rules.</p>
  *
  * <p>
- * Tests were added for the Assign to test if the value assigned to a specific
- * position of the Array works as expected.The tests performed in this Class
- * also allow to test if the <code>ExcelExpressionCompiler</code> returns the
- * <code>Reference</code> required to interpret whether if it is a
- * <code>VariableLocalReference</code> or
- * <code>VariableGlobalReference</code>.</p>
+ * Tests were added for the <code>AssignTest</code> to test if the value
+ * assigned to a specific position of the Array works as expected.The tests
+ * performed in this Class also allow to test if the
+ * <code>ExcelExpressionCompiler</code> returns the <code>Reference</code>
+ * required to interpret whether if it is a <code>VariableLocalReference</code>
+ * or <code>VariableGlobalReference</code>.</p>
+ *
+ * <p>
+ * Workbook Test Class also got updated. It's now testing methods regarding the
+ * variables update and variables duplication.</p>
+ *
+ * <p>
+ * Finally Tests were added to the Controller Extension to test the parse method
+ * and it's also working as expected.</p>
+ *
+ *
+ *
  *
  * <h3>UC Realization</h3>
  * <p>
- * This feature was divided into two Use Caso due to the extensive amount of
+ * This feature was divided into two Use Case due to the extensive amount of
  * work required. The separation provided a better Analysis to set the paths on
  * how to implement.</p>
  *
@@ -263,8 +277,8 @@
  * <p>
  * Low Cowpling - High Cohesion.</p>
  * <p>
- * Observer Pattern - This implementation was required automatically update the
- * Global Variables List once another Workbbook is opened to the current
+ * Observer Pattern - This implementation was required to automatically update
+ * the Global Variables List once another Workbbook is opened to the current
  * Workspace.</p>
  *
  * <h2>6. Implementation</h2>
@@ -322,10 +336,38 @@
  * programming with my colleague Rúben Teixeira in his feature as well in mine
  * when needed.</p>
  *
+ * <h2>Work Evidences</h2>
+ * <p>
+ * <ul>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/610d2a844e6f8eb2b426505c55d431e42be7b5be">First
+ * Analysis and Formula.g File update.</a></li>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/df3ac738e560927f6f8146c258c569262ef94fe5">Second
+ * Analysis, First spets into Design and Implementation.</a></li>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/4e40ff5137f6bb96a3a1514bb1c2c43608a59339">First
+ * Tests Solutions accompanied by Implementation according to the
+ * Design.</a></li>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/e2d4849c0e57e4bb8fb15608b93511b171a8ca3e">Started
+ * and mostly finished Implementation of this Feature Side Bar</a></li>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/1b363d0899b523d78bf187b4ae251e695a57e599">Fundamental
+ * Updates to Design; new Tests Solutions and Feature deployment (fully
+ * available). </a></li>
+ * <li>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/b36c013dad1cb26ba646f67b62b5287352420c89">Final
+ * Testing</a></li>
+ * </ul>
+ *
  * <h2>8. Final Remarks</h2>
  * <p>
  * The feature was implemented will all necessary requirements and a bonus one,
  * the ability to add a new global variable from the side bar.</p>
+ * <p>
+ * TDD approach was used alongside the implementation due to this feature
+ * approach. All tests made cover 100% of the code outside UI.</p>
  *
  * <h2>9. Work Log</h2>
  * <p>
@@ -335,7 +377,7 @@
  * <p>
  * 1. Started Analysis.
  * <p>
- * 1. Updated Formula.g file according to new Tokens and Expressions.
+ * 2. Updated Formula.g file according to new Tokens and Expressions.
  * <p>
  * Blocking:
  * <p>
@@ -356,13 +398,13 @@
  * <p>
  * 3. Implementation of the first Use Case.
  * <p>
- * 2. Reunion with Product Owner.
+ * 4. Reunion with Product Owner.</p>
  * <p>
- * 2. Reunion with Manager.
+ * 5. Reunion with Manager.</p>
  * <p>
- * Blocking:
+ * Blocking:</p>
  * <p>
- * 1. nothing.
+ * 1. nothing.</p>
  *
  * <p>
  * <b>Tuesday</b>
@@ -377,7 +419,7 @@
  * <p>
  * 2. Started Design - Class placement for Second Use Case of this Feature.
  * <p>
- * 2. Reunion with Supervisor.
+ * 3. Reunion with Supervisor.
  * <p>
  * Blocking:
  * <p>
@@ -396,9 +438,9 @@
  * <p>
  * 2. Finished Design from second Use Case.
  * <p>
- * 2. Performed Tests.
+ * 3. Performed Tests.
  * <p>
- * 2. Reunion with Supervisor.
+ * 4. Reunion with Supervisor.
  * <p>
  * Blocking:
  * <p>
@@ -424,10 +466,16 @@
  * <h2>10. Self Assessment</h2>
  *
  * <h3>Design and Implementation:</h3>
+ * <p>
+ * 4</p>
  *
  * <h3>Teamwork:</h3>
+ * <p>
+ * 4</p>
  *
  * <h3>Technical Documentation:</h3>
+ * <p>
+ * 4</p>
  *
  * @author Pedro Gomes 1130383@isep.ipp.pt
  */
