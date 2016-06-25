@@ -68,21 +68,6 @@ public class FormE implements Serializable {
 		this.lstWidget.add(wgt);
 	}
 
-//	/**
-//	 *
-//	 * @param content
-//	 */
-//	public void setContentWidget(String content) {
-//		for (Widget wgt : this.lstWidget) {
-//			wgt.setContentWidget(content);
-//		}
-//	}
-//	public String getContentWidget() {
-//		for (Widget wgt : this.lstWidget) {
-//			return wgt.getContent();
-//		}
-//		return null;
-//	}
 	/**
 	 *
 	 * @param activeCell is active Cell on the workbook

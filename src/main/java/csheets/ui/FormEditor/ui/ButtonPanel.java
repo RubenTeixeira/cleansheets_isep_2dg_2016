@@ -75,6 +75,10 @@ public class ButtonPanel extends javax.swing.JPanel {
 		}
     }//GEN-LAST:event_removeLineActionPerformed
 
+	/**
+	 *
+	 * @return content of button
+	 */
 	public String getContent() {
 		return this.jButton1.getText();
 	}

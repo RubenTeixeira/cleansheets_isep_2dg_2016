@@ -258,6 +258,12 @@ public class FormEditor extends JDialog implements Observer {
 		this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+	/**
+	 * Create Panel with widget
+	 *
+	 * @param wgt
+	 * @param content
+	 */
 	private void createPanel(Widget wgt, String content) {
 		if (wgt instanceof ButtonWidget) {
 			addPanel(new ButtonPanel(content));
@@ -268,6 +274,12 @@ public class FormEditor extends JDialog implements Observer {
 		}
 	}
 
+	/**
+	 * Enable or disable Form Editor
+	 *
+	 * @param panel
+	 * @param isEnabled
+	 */
 	private void setPanelEnabled(JPanel panel, Boolean isEnabled) {
 		panel.setEnabled(isEnabled);
 
@@ -288,6 +300,9 @@ public class FormEditor extends JDialog implements Observer {
 		}
 	}
 
+	/**
+	 * Click on Update Button and save changes on textfield
+	 */
 	private void updateTextField() {
 
 		Component[] components = mainPanel.getComponents();
@@ -358,11 +373,19 @@ public class FormEditor extends JDialog implements Observer {
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 
+	/**
+	 * refresh Form Editor
+	 */
 	private void refreshUI() {
 		mainPanel.revalidate();
 		mainPanel.repaint();
 	}
 
+	/**
+	 *
+	 * @param o is Observable
+	 * @param o1 is widget
+	 */
 	@Override
 	public void update(Observable o, Object o1) {
 		String c = "";
@@ -385,6 +408,10 @@ public class FormEditor extends JDialog implements Observer {
 		}
 	}
 
+	/**
+	 *
+	 * @return name of button to close Form Editor
+	 */
 	public String closeButton() {
 		return this.closeButton;
 	}

@@ -73,6 +73,10 @@ public class LabelPanel extends javax.swing.JPanel {
 		}
     }//GEN-LAST:event_removeLineActionPerformed
 
+	/**
+	 *
+	 * @return content of label
+	 */
 	public String getContent() {
 		return this.jLabel1.getText();
 	}

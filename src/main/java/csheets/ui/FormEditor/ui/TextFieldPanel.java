@@ -88,19 +88,18 @@ public class TextFieldPanel extends javax.swing.JPanel {
     private javax.swing.JButton removeLine;
     // End of variables declaration//GEN-END:variables
 
+	/**
+	 * refresh textfield
+	 */
 	private void refreshUI() {
 		jTextField1.revalidate();
 		jTextField1.repaint();
 	}
 
-//	@Override
-//	public void update(Observable o, Object arg) {
-//		if (arg instanceof TextFieldWidget) {
-//			this.jTextField1.setText(this.jTextField1.getText());
-//
-//			refreshUI();
-//		}
-//	}
+	/**
+	 *
+	 * @return content of textField
+	 */
 	public String contentText() {
 		return this.jTextField1.getText();
 	}

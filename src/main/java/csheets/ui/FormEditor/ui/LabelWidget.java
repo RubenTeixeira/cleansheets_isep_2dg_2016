@@ -16,11 +16,20 @@ public class LabelWidget implements Widget {
 	 */
 	private String content;
 
+	/**
+	 *
+	 * @return name of Widget
+	 */
 	@Override
 	public String getName() {
 		return "label";
 	}
 
+	/**
+	 * Set content of the textField
+	 *
+	 * @param content
+	 */
 	@Override
 	public void setContentWidget(String content) {
 		this.content = content;
