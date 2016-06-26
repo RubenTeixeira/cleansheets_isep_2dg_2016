@@ -27,10 +27,10 @@ import javax.swing.JOptionPane;
  */
 public class TaskManager extends javax.swing.JPanel implements Observer {
 
-    private TaskController controller;
+    private final TaskController controller;
     private EventsController eventsController;
     private ReminderController reminderController;
-    private Task task;
+    private final Task task;
     private List<Contact> listContacts = new ArrayList();
 
     private final String[] nameMonth = {"Invalid", "January", "Febraury",

@@ -33,11 +33,11 @@
  *
  * <h2>4. Analysis</h2>
  * A task will have an end date.
- * A TASK may have one or more reminders.
  * The reminder must have end date before the end date of the task.
  * Create an event in the calendar of the contact to dial the deadline for a task.
  * Contact trough has access to events, the events have to show the tasks, and each task has to show their reminder.
- * <a href="../../../../overview-summary.html#arranque_da_aplicacao">Application
+ * <a href="../../../../overview-summary.html#arranque_da_aplicacao">
+ * Application
  * Startup</a> tells us that extensions must be a subclass of the Extension
  * abstract class and need to be registered in special files. The Extension
  * class has a method called getUIExtension that should be implemented and
@@ -49,7 +49,7 @@
  *
  * After understanding how extensions are created, we proceded to our use case
  * analysis. We decided that our sidebar will cover all the possible features
- * for the user (create/edit/remove contacts and events).
+ * for the user (create/edit/remove tasks).
  *
  *
  * We control the use case flow by enable or disable sidebar's components and
@@ -75,96 +75,80 @@
  *
  *
  *
- * <h3>Create Contact</h3>
+ * <h3>Create,Edit and Remove Task</h3>
  *
+ * <img src="doc-files/crm06_03_design_create_task.png" alt="image">
+
+ * <h2>7 Integration Demonstration</h2>
+ * <h2>7.1 Integration </h2>
  *
+ * My job this week was a continuation of previous work of my colleagues.
+ * I was able to integrate and understand the operation of the use case,
+ * in a simple way. I made some changes in their code. 
  *
- * <img src="doc-files/crm01_02_design_add_contact.png" alt="image">
- *
- *
- *
- * <h3>Edit Contact</h3>
- *
- *
- *
- * <img src="doc-files/crm01_02_design_edit_contact.png" alt="image">
- *
- *
- *
- * <h3>Remove Contact</h3>
- *
- *
- *
- * <img src="doc-files/crm01_02_design_remove_contact.png" alt="image">
- *
- *
- *
- * <h3>Diagram Class</h3>
- *
- *
- *
- * <img src="doc-files/crm01_02_design_diagram_class.png" alt="image">
- *
- *
- *
- * <h2>7. Integration/Demonstration</h2>
- *
- *
- *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
- *
- *
- *
+  <h2>7.2  Demonstration</h2>
+  * <img src="doc-files/pri.png" alt="image">
+  * <p>activate the extension of the tasks.</p>
+  * <img src="doc-files/seg.png" alt="image">
+  * <p>before starting to create a user tasknecessarily have to create a contact 
+  * a calendar a reminder, and finally an event.</p>
+  * <img src="doc-files/ter.png" alt="image">
+  * <p>after filling in the data (name, description and set the priority and percentage),
+  * the task may or may not be associated with the end date of an event or a reminder, 
+  * a date set by the user, or create without deadline.</p>
+  * <img src="doc-files/qua.png" alt="image">
+  * <p>after creation one task, the user has the possibility to edit or delete a created task.</p> 
+  * 
  * <h2>8. Final Remarks</h2>
- *
- *
- *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- *
- *
- *
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
+ * This use case, it is not difficult to accomplish, but at first was confused understand the requisites.
+ * After a conversation with Professor Miguel Losa, I concluded that I realized the evil requisites, 
+ * and explained to me what we need to do, and soon started implementation.
  *
  * <h2>9. Work Log</h2>
  *
- *
  * <b>Monday</b>
- *
- *
- * Cloning of the project, its compilation and first analysis.
- *
- *
+ * <p>
+ * Yesterday I worked on:
+ * </p>
+ * 1. -nothing-
+ * <p>
+ * Today
+ * </p>
+ * 1. Analysis and Design of the Network Explorer
+ * <p>
+ * Blocking:
+ * </p>
+ * 1. -nothing-
+ * <p>
  * <b>Tuesday</b>
- *
- *
- * Development of scripts and thinking in design.
- *
- *
+ * </p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis and Design of the Network Explorer
+ * </p>
+ * Today
+ * <p>
+ * 1. implementation, and controller 
+ * </p>
+ * Blocking:
+ * <p>
+ * 1. nothing
+ * </p>
+ * <p>
  * <b>Wednesday</b>
- *
- *
- * Integration of the notification system and adaptation of grammar.
- *
- *
- * <b>Thursday</b>
- *
- *
- * Fine corrections in the cycle is functional and presentation.
- *
- *
- * <b>Friday</b>
- *
- *
- * Reload Worklog, global planning and finalizing some other obligations of the
- * ScrumMaster as review and finish sprint to start a new one.
- *
- *
- *
+ * </p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Implementation continuation
+ * </p>
+ * Today
+ * <p>
+ * 1. finishing the implementation and testing
+ * </p>
+ * Blocking:
+ * <p>
+ * 1. nothing
+ * </p>
  * <h2>10. Self Assessment</h2>
  *
  * During this sprint, my work was mainly of analysis and study of the
