@@ -19,10 +19,7 @@ alt remove
 FormFrame->SingleLine: remove()
 SingleLine->FormFrame: showConfirmDialog()
 FormFrame->SingleLine: answer()
-SingleLine->Notification:formInformer() 
-Notification->Notifier: notifyChange(Object object)
-
-Notifier->FormFrame: notifyChange(this)
+SingleLine->FormFrame: removeSingleLine()
 FormFrame->FormFrame: refresh()
 end
 

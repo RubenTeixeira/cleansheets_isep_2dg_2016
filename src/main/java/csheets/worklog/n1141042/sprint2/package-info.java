@@ -75,7 +75,7 @@
  *
  * <h2>5.1. Functional Tests</h3>
  * <p>
- * Tests were performed for Class AskContent, FormEdir anda Single Line to check if the search works as
+ * Tests were performed for Class AskContent, FormEdir and Single Line to check if the search works as
  * intended and for SearchResultAssembler to ensure the proper information was
  * being gathered and displayed.</p>
  *

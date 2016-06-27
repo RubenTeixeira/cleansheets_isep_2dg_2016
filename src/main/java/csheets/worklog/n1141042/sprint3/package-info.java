@@ -51,7 +51,7 @@
  * 
  * <h4>Deseble link to File proposal analysis</h4>
  * <p>
- * <img src="doc-files/desableLink_analysis.png" alt="image">
+ * <img src="doc-files/EnabledesableLink_analysis.png" alt="image">
  *
  * <h3>Analysis of Core Technical Problem</h3>
  *
