@@ -114,30 +114,26 @@
  * After creating a table one should verify if saved cells and spreadsheet are
  * correct.</p>
  *
- * -------TODO--------
+ *
  * <p>
- * <b>ObjectSerializationtest:</b></p>
- * A simple approach is to create an object, clone it and save the original.
- * Then serialize and de-serialize the clone and make sure it matches the
- * original object.
+ * <b>TableTest:</b></p>
+ *
+ *
  * <p>
  * see:</p>
  * <p>
- * <a href="../../../../../test/csheets/framework/ObjectSerializationTest.java">test.csheets.framework.ObjectSerializationTest</a></p>
+ * <a href="../../../../../test/ext/tableFilters/TableTest">test.csheets.ext.tableFilters.TableTest</a></p>
  *
- * <p>
- * <b>WorkBookDTOAssemblerTest:</b></p>
- * Setup a basic workbook with just 4 cells filled with formulas/values. Create
- * a DTO from that workbook, then instead of testing everything it may test the
- * name of one of the spreadsheets, the resulting <code>value.toString()</code>
- * of two of the cells aswell as make sure the count of the spreadsheets is
- * correct.
- * <p>
- * see:</p>
- * <p>
- * <a href="../../../../../test/csheets/ext/distributedWorkbook/WorkBookDTOAssemblerTest.java">test.csheets.ext.distributedWorkbook.WorkBookDTOAssemblerTest</a></p>
+ * <ul>
+ *	<li><code>testReplaceRelativeReferences()</code>: Tests if '_col[]'
+ * references are correctly replaced by matching the result of the method with
+ * the expected result.</li>
+ *	<li><code>testInValidSizeTableCreation()</code>: Tests if invalid table sizes
+ * throws exception as expected.</li>
+ *	<li><code>testEmptyHeadersTableCreation()</code>: Tests if table creation
+ * with empty headers fails. This ensures there will be no undefined behaviour
+ * due to string column references as in '_col["header"]'.</li>
  *
- * ---------ENDOFTODO------------
  *
  * <h3>5.2. UC Realization</h3>
  *
@@ -171,86 +167,66 @@
  * Observer - Implemented on Table & UI.</p>
  *
  *
- * -----------TODO----------
  *
  * <h2>6. Implementation</h2>
  *
  * <p>
- * Upon implementation, the flow control was changed a little bit as obviously,
- * the UDP and TCP services of search targets must be booted upon the extension
- * loading and not only when a new search is performed.</p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/commits/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d"><b>COMMIT
- * OF THE FIX</b></a>.</p>
+ * Implementation was performed mainly as designed. The hidding of the rows
+ * was accomplished through a 'TableFilter' composed of a 'RowFilter', which
+ * for lack of time aren't properly documented but information about what they
+ * do can be searched on <a href="http://stackoverflow.com/questions/17854854/jtable-rowfilter-and-rowfilter-entry">here</a> and
+ * <a href="http://stackoverflow.com/questions/17854854/jtable-rowfilter-and-rowfilter-entry">here</a>.</p>
  *
  * <p>
  * see:</p>
  * <p>
- * <a href="../../../../csheets/ext/distributedWorkbookSearch/package-summary.html">csheets.ext.distributedWorkbookSearch</a></p>
+ * <a href="../../../../csheets/ext/tableFilters/package-summary.html">csheets.ext.tableFilters</a></p>
  * <p>
- * <a href="../../../../csheets/ext/distributedWorkbookSearch/ui/package-summary.html">csheets.ext.distributedWorkbookSearch.ui</a></p>
+ * <a href="../../../../csheets/ext/tableFilters/ui/package-summary.html">csheets.ext.tableFilters.ui</a></p>
  *
  * <p>
  * Commit Evidences:</p>
  *
  * <b>Analysis:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/e0d90e5e6eae50f2d858b73217c70878ef0a0a20">Commit
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/64ef5cec13d278f43c040b96781e481667053242">Commit
  * concerning Analysis</a></p>
  *
  * <b>Design:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/5907acc36783ed3b2107159614cf6a2ac08cd6bc">Commit
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/20e225cdec9de5e5a71d42b45ee035c988bf5671">Commit
  * concerning Design</a></p>
  *
  * <b>Tests:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/b8f2705b08c33b9fa2f83a1937ff21cfd71f7981">Commit
- * concerning Tests</a></p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/ef42c927e89d6391c5e1ceac10ebe2fad740c5a8">Commit
+ * concerning Tests #1</a></p>
+ * <p>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/d122506211f96a22aa95aecaf7162cc487abf004">Commit
+ * concerning Tests #2</a></p>
  *
  * <b>Implementation:</b>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/248d53b7970d558fdb99edd6f855e86c0b19a588">Commit
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/b5e1fcb30035710a6f5ede5b2648fd4ffd7db5e3">Commit
  * #1</a></p>
  * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/2d3b9a701f9c8bb948e29e13a5564e15557e2a04">Commit
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/90b0def964a697f36d7021b60de21b9e7160ce52">Commit
  * #2</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/1424ad1bbc4eaf8ca425afc7baa7311f3dc1be2c">Commit
- * #3</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/46bfdad2be0f73b9b4820313734f56119fabe495">Commit
- * #4</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/4f9241c071d3abeed96269bc119c034fc5b3f692">Commit
- * #5</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/0f30e2ed87d0411b56627ae01acaa0db7bf098ce">Commit
- * #6</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/3d800e058ae429b0ec9c8888ef15a1dcbdd9548d">Commit
- * #7</a></p>
- * <p>
- * <a href="https://bitbucket.org/lei-isep/lapr4-2016-2dg/changeset/5ae73818332aff8d92146c2adea216b4ea4403f8">Commit
- * #8</a></p>
  *
  *
  * <h2>7. Integration/Demonstration</h2>
  *
  * <p>
- * On this sprint i demonstrated my own feature individually with great success
- * even thou network related demos can be quite dramatic if the supporting
- * structure does not collaborate. Nevertheless it went perfectly.
+ * On this sprint i demonstrated my own feature individually with great success.
  *
  * <h2>8. Final Remarks</h2>
  *
  * <p>
  * As previously, my intentions since the start of this sprint was to code while
- * thinking about future iterations. As such, after understanding the code
- * already present (including volt), evaluating its pros and cons, I took
- * manners in changing what i thought could be improved and structure the code
- * (even class and methods naming) to improve readability and easy access to
- * others, following patterns when I thought it was suited.</p>
+ * thinking about future iterations. It was the most difficult feature i got but
+ *  I believe my implementation was quite good taking into account that it was
+ * accomplished without any changes to the core implementation and architecture
+ * leaving no dependencies if disabled/removed.</p>
  *
  * <h2>9. Work Log</h2>
  *
@@ -281,21 +257,14 @@
  * <p>
  * 1. Finished Tests and design.</p>
  * <p>
- * 2. Did most of the implementation.
- * <p>
- * Blocking: - Volt implementation was undergoing change to support the use of a
- * Request object to abstract from the use of an HashMap representation of a
- * message. Although this was a welcomed fix, it delayed implementation and
- * real-world testing, as i also had to rewrite some of my code.
+ * 2. Finished implementation.
  *
  * <p>
  * <b>Thursday</b>
  * <p>
- * 1. Fixed a few glitches concerning the GUI</p>
+ * 1. Improved the feature by colouring the created or existing tables.</p>
  * <p>
- * 2. Improved TCP/UDP services start-up logic.</p>
- * <p>
- * 3. Demonstrated my Feature increment.</p>
+ * 2. Demonstrated my Feature increment.</p>
  *
  * <p>
  * <b>Friday</b>
@@ -304,55 +273,42 @@
  *
  * <h2>10. Self Assessment</h2>
  *
- * <p>
- * This sprint I had a lot more difficulties as this time I had to continue work
- * of another colleague. Lack of proper documentation wasn't helping either and
- * since this was my first contact with IPC and Volt, my work was doubled.</p>
- * <p>
- * Given this, i found my perfomance this week to be astonishing since I
- * overcame all the issues, learned a lot and ended up with quite a nice feature
- * presentation and execution.
  *
  * <h3>10.1. Design and Implementation</h3>
  *
- * I believe the code structure could be improved quite a lot. I disagree with
- * the current Volt implementation supporting solely String messaging. This is
- * Object Oriented Programming, String is an object in its own way, so why can
- * it not support generic Object's? Either way I found my design and
- * implementation quite satisfactory given these issues.
+ * I believe this feature design and implementation was quite good as it is
+ * accomplished without messing with core code or architecture.
  *
  * <h3>10.2. Teamwork:</h3>
  *
- * Teamwork this sprint was very limited due to time constraints. All of the
- * colleagues working on IPC were overwhelmed with work, although I realized
- * that some people from other areas with easier features helped others.
- * Resumably my work as teammate was limited to answering quick questions,
- * handing out some ideas to solve problems/present data on GUI etc.
+ * A lot of information exchange between me and my colleague Pedro Gomes. Some
+ * pair programming aswell. This was invaluable this sprint.
  *
  * <h3>10.3. Technical Documentation:</h3>
  *
  * <p>
- * I worked relentlessly to keep my worklog updated with rich information,
- * taking into account that this feature was quite hard for me to correctly
- * re-structure and present. I'm quite satisfied with it.</p>
- * <p>
  * This is the final result of this sprint's feature:</p>
+ *
  * <p>
- * New Search:</p>
- * <p>
- * <img src="http://i.imgur.com/6VaHlNW.png" alt="JPanel Final Result"></p>
- * <p>
- * Request for search on target PC:</p>
- * <p>
- * <img src="http://i.imgur.com/1I9YFnJ.png" alt="Request on target"></p>
- * <p>
- * Preview the workbook content ( Extra thanks to DTO :) and for the idea i took
- * from Pedro Gomes whom was kind enough to allow me to use):</p>
- * <p>
- * <img src="http://i.imgur.com/JbaW12Y.png" alt="JPanel Final Result"></p>
+ * <img src="http://i.imgur.com/xEtJWAE.jpg" alt="JPanel Final Result"></p>
  *
  *
- * -----------ENDOFTODO----------
+ * <p>
+ * <img src="http://i.imgur.com/KYPcJh3.jpg" alt="Request on target"></p>
+ *
+ *
+ * <p>
+ * <img src="http://i.imgur.com/S5ltr2X.jpg" alt="JPanel Final Result"></p>
+ *
+ *
+ * <p>
+ * <img src="http://i.imgur.com/nfzrxTi.jpg" alt="JPanel Final Result"></p>
+ *
+ *
+ * <p>
+ * <img src="http://i.imgur.com/jydiDP4.jpg" alt="JPanel Final Result"></p>
+ *
+ *
  *
  * @author Ruben Teixeira 1140780@isep.ipp.pt
  */
