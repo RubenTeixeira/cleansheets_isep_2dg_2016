@@ -10,7 +10,7 @@
  * <h2>1. Notes</h2>
  *
  * -Notes about the week's work.-
- * <p>
+ *
  *
  * <h2>2. Core05.2- Send Email and Outbox</h2>
  *
@@ -50,7 +50,7 @@
  * of the outbox.
  *
  * <h3> SSD </h3>
- * <img src="doc-files/analysisProblem.png" alt="SD">
+ * <img src="doc-files/analysis.png" alt="SD">
  *
  *
  * <h2>5. Design</h2>
@@ -63,11 +63,11 @@
  * <h3>5.2. UC Realization</h3>
  *
  * <h3>Sequence diagram - basic send email</h3>
- * <img src="doc-files/doc-files/sendEmail.png" alt="SD">
+ * <img src="doc-files/sendEmail.png" alt="SD">
  *
  * <h3>5.3. Classes</h3>
  * Email, EmailController, EmailExtension, SendAction, EmailInstancePanel,
- * EmailDialog, Mail, OutBoxPanel, PreviewSentEmailFram
+ * EmailDialog, Mail, OutBoxPanel, PreviewSentEmailFrame
  *
  * <h3>5.4. Design Patterns and Best Practices</h3>
  *
@@ -157,7 +157,6 @@
  *
  * <p>
  * <b>Evidences:</b>
- * <p>
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
