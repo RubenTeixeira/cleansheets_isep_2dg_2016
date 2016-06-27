@@ -128,7 +128,7 @@ public class AskContent extends javax.swing.JPanel {
 	/**
 	 * Set content of textfield content.
 	 *
-	 * @param newContent
+	 * @param newContent for widget
 	 */
 	public void setContent(String newContent) {
 		txtcontent.setText(newContent);

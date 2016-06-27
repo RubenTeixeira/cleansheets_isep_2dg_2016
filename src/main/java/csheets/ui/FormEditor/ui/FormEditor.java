@@ -48,8 +48,8 @@ public class FormEditor extends JDialog implements Observer {
 	/**
 	 * Constructor of the FormEditor
 	 *
-	 * @param form
-	 * @param modal
+	 * @param form is form
+	 * @param modal is boolean
 	 */
 	public FormEditor(FormE form, boolean modal) {
 		initComponents();

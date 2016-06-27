@@ -30,7 +30,7 @@ public interface Widget extends Serializable {
 	/**
 	 * Set content of the widget
 	 *
-	 * @param content
+	 * @param content is a new content of widget
 	 */
 	public void setContentWidget(String content);
 }

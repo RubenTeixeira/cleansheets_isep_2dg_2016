@@ -223,6 +223,11 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	/**
 	 * Stops all the TCP services.
+	 *
+	 * @param row that was edited
+	 * @param column that was edited
+	 * @param content is a symbol
+	 * @return true if player win or false if not win
 	 */
 	public boolean winningPlay(int row, int column, String content) {
 		if (!tictactoe.validateWin(symbol)) {
@@ -237,6 +242,11 @@ public class TicTacToeController implements CellListener, SpecificGameController
 
 	/**
 	 * Stops all the TCP services.
+	 *
+	 * @param row that was edited
+	 * @param column that was edited
+	 * @param content is a symbol
+	 * @return boolean
 	 */
 	public boolean draw(int row, int column, String content) {
 		if (!tictactoe.isDraw()) {

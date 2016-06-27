@@ -28,7 +28,7 @@ public class TextFieldWidget implements Widget {
 	/**
 	 * Set content of the textField
 	 *
-	 * @param content
+	 * @param content is a new content of textfield
 	 */
 	@Override
 	public void setContentWidget(String content) {
