@@ -197,6 +197,51 @@
  * <p>
  * <b>Evidences:</b>
  *
+ * <h3>Step 1</h3><br><br>
+ * <img src="http://imgur.com/oDMW9Yf.png" alt="image1">
+ *
+ * <h3>Step 2</h3><br><br>
+ * <img src="http://imgur.com/nMLqP6e.png" alt="image2">
+ *
+ * <h3>Step 3</h3><br><br>
+ * <img src="http://imgur.com/fzrgLbH.png" alt="image3">
+ *
+ * <h3>Step 4</h3><br><br>
+ * <img src="http://imgur.com/PJ8mUsY.png" alt="image4">
+ *
+ * <h3>Step 5</h3><br><br>
+ * <img src="http://imgur.com/t7KziyR.png" alt="image5">
+ *
+ * <h3>Step 6</h3><br><br>
+ * <img src="http://imgur.com/A8wANfA.png" alt="image6">
+ *
+ * <h3>Step 7</h3><br><br>
+ * <img src="http://imgur.com/8UBcfX7.png" alt="image7">
+ *
+ * <h3>Step 8</h3><br><br>
+ * <img src="http://imgur.com/yAbNGAT.png" alt="image8">
+ *
+ * <h3>Step 9</h3><br><br>
+ * <img src="http://imgur.com/ZlLUmLy.png" alt="image9">
+ *
+ * <h3>Step 10</h3><br><br>
+ * <img src="http://imgur.com/qvTLloA.png" alt="image10">
+ *
+ * <h3>Step 11</h3><br><br>
+ * <img src="http://imgur.com/hnymioM.png" alt="image11">
+ *
+ * <h3>Step 12</h3><br><br>
+ * <img src="http://imgur.com/gDM7yuA.png" alt="image12">
+ *
+ * <h3>Step 13</h3><br><br>
+ * <img src="http://imgur.com/2WtTU8y.png" alt="image13">
+ *
+ * <h3>Step 14</h3><br><br>
+ * <img src="http://imgur.com/xHwwKvn.png" alt="image14">
+ *
+ * <h3>Step 15</h3><br><br>
+ * <img src="http://imgur.com/1uxJ7Sv.png" alt="image15">
+ *
  *
  * <h3>10.2. Teamwork: ...</h3>
  *
