@@ -1,7 +1,7 @@
 
-![ScreenShot1](./clean1.png)
+![ScreenShot1](./clean1.jpg)
 
-![ScreenShot2](./clean2.png)
+![ScreenShot2](./clean2.jpg)
 
 ![ScreenShot3](./clean3.png)
 
